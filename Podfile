@@ -1,0 +1,1 @@
+pod 'RKXMLReaderSerialization', :git => 'https://github.com/RestKit/RKXMLReaderSerialization.git', :branch => 'master'

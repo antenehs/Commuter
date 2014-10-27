@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[SearchController setUpStopSearch]:SearchController.m">
+      </ContextState>
+      <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "firstSearchBar.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__62-[HSLCommunication searchRouteForCoordinates:andToCoordinate:]_block_invoke:HSLCommunication.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

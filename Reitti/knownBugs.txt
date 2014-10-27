@@ -1,0 +1,4 @@
+- 25, 26 hour
+- crashed when there are no departures
+- train line numbers 
+- Check if locations is disabled

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>AikatauluWidget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
+		<key>Commuter - Reittiopas.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>Reitti.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>661721F519CE0F5000E3CD6E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>666437B219E1478400B82BE5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>66947CB118830ED500642EE1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>66947CD518830ED500642EE1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

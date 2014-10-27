@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="14A329f" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BusStop" representedClassName="BusStop" syncable="YES">
+        <attribute name="accessibility" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="address_fi" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="address_sv" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city_fi" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city_sv" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="code" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="code_short" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coords" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="departures" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="lines" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="name_fi" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name_sv" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="omatlahdot_link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timetable_link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wgs_coords" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="CookieEntity" representedClassName="CookieEntity" syncable="YES">
+        <attribute name="appOpenCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastMapPosition" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="searchHistory" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="HistoryEntity" representedClassName="HistoryEntity" syncable="YES">
+        <attribute name="busStopCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopCode" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="busStopCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopShortCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="RouteEntity" representedClassName="RouteEntity" syncable="YES">
+        <attribute name="fromLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromLocationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeUniqueName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="RouteHistoryEntity" representedClassName="RouteHistoryEntity" syncable="YES">
+        <attribute name="fromLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromLocationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="routeUniqueName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="StopEntity" representedClassName="StopEntity" syncable="YES">
+        <attribute name="busStopCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopCode" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="busStopCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopShortCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stopLines" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BusStop" positionX="0" positionY="0" width="128" height="270"/>
+        <element name="CookieEntity" positionX="27" positionY="135" width="128" height="105"/>
+        <element name="HistoryEntity" positionX="9" positionY="126" width="128" height="150"/>
+        <element name="RouteEntity" positionX="18" positionY="117" width="128" height="118"/>
+        <element name="RouteHistoryEntity" positionX="27" positionY="126" width="128" height="133"/>
+        <element name="StopEntity" positionX="0" positionY="117" width="128" height="150"/>
+    </elements>
+</model>
