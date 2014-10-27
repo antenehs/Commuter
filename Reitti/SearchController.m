@@ -4,7 +4,6 @@
 //
 //  Created by Anteneh Sahledengel on 15/1/14.
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
-//
 
 #import "SearchController.h"
 #import <QuartzCore/QuartzCore.h>

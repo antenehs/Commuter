@@ -156,6 +156,9 @@
 		66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28019FAE4000089A6F9 /* CustomBadge.m */; };
 		66CEE28419FAF2400089A6F9 /* warningIconRounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE28319FAF2400089A6F9 /* warningIconRounded.png */; };
 		66CEE28619FBB0260089A6F9 /* exchangeAddresses.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE28519FBB0260089A6F9 /* exchangeAddresses.png */; };
+		66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */; };
+		66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
+		66CEE29619FED9810089A6F9 /* JPSThumnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumnail.m */; };
 		66D06A7719A40EFB00424A4A /* map_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D06A7619A40EFB00424A4A /* map_background.png */; };
 		66D0BA4618BE470A002DDC7B /* bus3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4518BE470A002DDC7B /* bus3.png */; };
 		66D0BA4918BE4840002DDC7B /* nearby_2_20120.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */; };
@@ -479,6 +482,12 @@
 		66CEE28019FAE4000089A6F9 /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		66CEE28319FAF2400089A6F9 /* warningIconRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warningIconRounded.png; sourceTree = "<group>"; };
 		66CEE28519FBB0260089A6F9 /* exchangeAddresses.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exchangeAddresses.png; sourceTree = "<group>"; };
+		66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotationView.m; sourceTree = "<group>"; };
+		66CEE28F19FED9810089A6F9 /* JPSThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnail.h; sourceTree = "<group>"; };
+		66CEE29019FED9810089A6F9 /* JPSThumbnailAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotation.h; sourceTree = "<group>"; };
+		66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotation.m; sourceTree = "<group>"; };
+		66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotationView.h; sourceTree = "<group>"; };
+		66CEE29319FED9810089A6F9 /* JPSThumnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumnail.m; sourceTree = "<group>"; };
 		66D06A7619A40EFB00424A4A /* map_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map_background.png; path = "Pictures/New Version 2.0/map_background.png"; sourceTree = "<group>"; };
 		66D0BA4518BE470A002DDC7B /* bus3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bus3.png; path = Pictures/Flaticon_PNGFiles/bus3.png; sourceTree = "<group>"; };
 		66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nearby_2_20120.png; path = Pictures/nearby_2_20120.png; sourceTree = "<group>"; };
@@ -620,6 +629,7 @@
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
 				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
 				66C1254319CF5BD400099AFF /* AMBlurView.m */,
 				66C1254419CF5BD400099AFF /* AMBlurView.h */,
@@ -1037,6 +1047,19 @@
 			name = "New Version 2.2";
 			sourceTree = "<group>";
 		};
+		66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */ = {
+			isa = PBXGroup;
+			children = (
+				66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */,
+				66CEE28F19FED9810089A6F9 /* JPSThumbnail.h */,
+				66CEE29019FED9810089A6F9 /* JPSThumbnailAnnotation.h */,
+				66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */,
+				66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */,
+				66CEE29319FED9810089A6F9 /* JPSThumnail.m */,
+			);
+			name = JPSThumbnailAnnotation;
+			sourceTree = "<group>";
+		};
 		66D0BA5118BF2DFA002DDC7B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -1433,6 +1456,7 @@
 				661FAF25189BA5EB00042074 /* HSLCommunication.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
+				66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */,
 				66A7A9E218CF300300AC9E94 /* LineInfo.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
 				66CB961118EEE46100E95CE5 /* SWCellScrollView.m in Sources */,
@@ -1455,6 +1479,7 @@
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
+				66CEE29619FED9810089A6F9 /* JPSThumnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
 				66DAE1EE19C398430039081D /* RouteLocation.m in Sources */,
 				669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */,
@@ -1464,6 +1489,7 @@
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
+				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
 			);
