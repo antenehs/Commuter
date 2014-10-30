@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewState) {
 
 @interface JPSThumbnailAnnotationView : MKAnnotationView <JPSThumbnailAnnotationViewProtocol>
 
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation;
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier;
 
 - (void)updateWithThumbnail:(JPSThumbnail *)thumbnail;
 

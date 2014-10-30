@@ -12,6 +12,7 @@
 #import "MyFixedLayoutGuide.h"
 #import "RouteSearchViewController.h"
 #import "InfoViewController.h"
+#import "JPSThumbnailAnnotation.h"
 #import <Social/Social.h>
 
 @interface SearchController ()
@@ -80,6 +81,7 @@
     prevSelectedStopLongCode = nil;
     annotationSelectionChanged = YES;
     lastSelectionDismissed = NO;
+    ignoreRegionChange = NO;
     retryCount = 0;
     annotationAnimCounter = 0;
     
@@ -232,6 +234,12 @@
         }
     }
     
+    if (self.darkMode) {
+        mainSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
+    }else{
+        mainSearchBar.keyboardAppearance = UIKeyboardAppearanceDefault;
+    }
+    
 }
 
 -(int)searchViewLowerBound{
@@ -332,6 +340,18 @@
         prevSelectedStopLongCode = selectedStopLongCode;
     }
     
+}
+
+#pragma mark - Annotation helpers
+-(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
+    selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
+    selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
+    [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+}
+
+-(void)openStopViewForCode:(NSNumber *)code{
+    selectedStopCode = [NSString stringWithFormat:@"%d", [code intValue]];
+    [self performSegueWithIdentifier:@"openStopView" sender:nil];
 }
 
 #pragma - mark Notification methods
@@ -954,33 +974,91 @@
     return YES;
 }
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    self.currentUserLocation = [locations lastObject];
+    if (centerMap) {
+        [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
+        centerMap = NO;
+    }
+}
+
+- (NSMutableArray *)collectStopCodes:(NSArray *)stopList
+{
+    
+    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+    for (BusStopShort *stop in stopList) {
+        [codeList addObject:stop.code];
+    }
+    return codeList;
+}
+
+- (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList
+{
+    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.code",codeList ]];
+////    NSMutableArray *collectedList = [[NSMutableArray alloc] init];
+////    for (BusStopShort *stop in stopList) {
+////        if ([codeList containsObject:stop.code]) {
+////            [collectedList addObject:stop];
+////        }
+////    }
+//    return collectedList;
+}
+
 -(void)plotStopAnnotations:(NSArray *)stopList{
+    NSMutableArray *codeList;
+    codeList = [self collectStopCodes:stopList];
+    
+    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+    
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[StopAnnotation class]]) {
-            [mapView removeAnnotation:annotation];
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+            
+            if (![codeList containsObject:annot.code]) {
+                if (annot.annotationType == NearByStopType) {
+                    [annotToRemove addObject:annotation];
+                }
+            }else{
+                [codeList removeObject:annot.code];
+            }
         }
     }
+    [mapView removeAnnotations:annotToRemove];
     
-    for (BusStopShort *stop in stopList) {
+    NSArray *newStops = [self collectStopsForCodes:codeList fromStops:stopList];
+    
+    UIImage *stopImage = [UIImage imageNamed:@"stopAnnotation.png"];
+    
+    for (BusStopShort *stop in newStops) {
         
         CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
         NSString * name = stop.name;
         NSString * codeShort = [NSString stringWithFormat:@"%@", stop.codeShort];
         
-        StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:codeShort andSubtitle:name andCoordinate:coordinate];
-        newAnnotation.code = stop.code;
-        newAnnotation.isSelected = NO;
-        //newAnnotation.image = [UIImage imageNamed:@"bus_stop_hsl.png"];
+        JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
+        stopAnT.image = stopImage;
+        stopAnT.code = stop.code;
+        stopAnT.title = name;
+        stopAnT.subtitle = codeShort;
+        stopAnT.coordinate = coordinate;
+        stopAnT.annotationType = NearByStopType;
+        stopAnT.reuseIdentifier = @"NearByStopAnnotation";
+        stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
+        stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code];};
         
-        [mapView addAnnotation:newAnnotation];
+        [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
     }
 }
 
 -(void)plotStopAnnotation:(BusStopShort *)stop withSelect:(bool)select{
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[StopAnnotation class]]) {
-            StopAnnotation *sAnnotation = (StopAnnotation *)annotation;
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
             if ([sAnnotation.code intValue] == [stop.code intValue]) {
+                [mapView removeAnnotation:annotation];
+            }
+            
+            if (sAnnotation.annotationType == SearchedStopType) {
                 [mapView removeAnnotation:annotation];
             }
         }
@@ -991,22 +1069,38 @@
     NSString * name = stop.name;
     NSString * shortCode = stop.codeShort;
     
-    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:coordinate];
-    newAnnotation.code = stop.code;
-    newAnnotation.isSelected = select;
+    JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
+    stopAnT.image = [UIImage imageNamed:@"stopAnnotation.png"];
+    stopAnT.code = stop.code;
+    stopAnT.title = name;
+    stopAnT.subtitle = shortCode;
+    stopAnT.coordinate = coordinate;
+    stopAnT.annotationType = SearchedStopType;
+    stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
+    stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
+    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code];};
+    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:stopAnT];
+    [mapView addAnnotation:annot];
     
-    [mapView addAnnotation:newAnnotation];
+//    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:coordinate];
+//    newAnnotation.code = stop.code;
+//    newAnnotation.isSelected = select;
+//    
+//    [mapView addAnnotation:newAnnotation];
     
     if (select) {
-        [self openAnnotation:newAnnotation];
+        [mapView selectAnnotation:annot animated:YES];
     }
 }
 
 -(void)plotGeoCodeAnnotation:(GeoCode *)geoCode{
     
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
-            [mapView removeAnnotation:annotation];
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
+            if (sAnnotation.annotationType == SearchedStopType) {
+                [mapView removeAnnotation:annotation];
+            }
         }
     }
         
@@ -1024,66 +1118,78 @@
         //[self plotStopAnnotation:<#(StopEntity *)#> forCoordinate:<#(NSString *)#>]
     }
     
-    GeoCodeAnnotation *newAnnotation = [[GeoCodeAnnotation alloc] initWithTitle:name andSubtitle:city coordinate:coordinate andLocationType:geoCode.getLocationType];
+    JPSThumbnail *geoAnT = [[JPSThumbnail alloc] init];
+    geoAnT.image = [UIImage imageNamed:@"geoCodeAnnotation.png"];
+    geoAnT.title = name;
+    geoAnT.subtitle = city;
+    geoAnT.coordinate = coordinate;
+    geoAnT.annotationType = GeoCodeType;
+    geoAnT.reuseIdentifier = @"geoLocationAnnotation";
+    geoAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
+    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:geoAnT];
+    [mapView addAnnotation:annot];
     
-    [mapView addAnnotation:newAnnotation];
+    [mapView selectAnnotation:annot animated:YES];
+
+    
+//    GeoCodeAnnotation *newAnnotation = [[GeoCodeAnnotation alloc] initWithTitle:name andSubtitle:city coordinate:coordinate andLocationType:geoCode.getLocationType];
+    
+//    [mapView addAnnotation:newAnnotation];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    self.currentUserLocation = [locations lastObject];
-    if (centerMap) {
-        [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
-        centerMap = NO;
-    }
-}
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    static NSString *identifier = @"otherLocations";
-    static NSString *selectedIdentifier = @"selectedLocation";
+//    static NSString *identifier = @"otherLocations";
+//    static NSString *selectedIdentifier = @"selectedLocation";
     static NSString *poiIdentifier = @"poiIdentifier";
-    if ([annotation isKindOfClass:[StopAnnotation class]]) {
-        StopAnnotation *sAnnotation = (StopAnnotation *)annotation;
-        if([sAnnotation.code intValue] == [selectedStopLongCode intValue]){
-//        if(sAnnotation.isSelected){
-            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
-            if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
-                annotationView.enabled = YES;
-                //annotationView.canShowCallout = YES;
-                annotationView.image = [UIImage imageNamed:@"busStopAnnotation.png"];
-                [annotationView setFrame:CGRectMake(0, 0, bigAnnotationWidth, bigAnnotationHeight)];
-                annotationView.centerOffset = CGPointMake(0,-48);
-                
-                annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bus_stop_hsl_orig.png"]];
-            } else {
-                annotationView.annotation = annotation;
-            }
-            StopAnnotation *sAnnotation = (StopAnnotation *)annotationView.annotation;
-            if (lastSelectedAnnotation != nil)
-                annotationSelectionChanged = ([lastSelectedAnnotation.code intValue] != [sAnnotation.code intValue]);
-            lastSelectedAnnotation = annotationView.annotation;
-            return annotationView;
-        }else{
-            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-            if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-                annotationView.enabled = YES;
-                
-                annotationView.image = [UIImage imageNamed:@"busStopAnnotation-small-blue.png"];
-                [annotationView setFrame:CGRectMake(0, 0, smallAnnotationWidth, smallAnnotationHeight)];
-                annotationView.centerOffset = CGPointMake(0,-13);
-                
-                annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bus_stop_hsl_orig.png"]];
-            } else {
-                annotationView.annotation = annotation;
-            }
-            
-            return annotationView;
-        }
-        
-    }else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
+    
+//    if ([annotation isKindOfClass:[StopAnnotation class]]) {
+//        StopAnnotation *sAnnotation = (StopAnnotation *)annotation;
+//        if([sAnnotation.code intValue] == [selectedStopLongCode intValue]){
+////        if(sAnnotation.isSelected){
+//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
+//            if (annotationView == nil) {
+//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
+//                annotationView.enabled = YES;
+//                //annotationView.canShowCallout = YES;
+//                annotationView.image = [UIImage imageNamed:@"busStopAnnotation.png"];
+//                [annotationView setFrame:CGRectMake(0, 0, bigAnnotationWidth, bigAnnotationHeight)];
+//                annotationView.centerOffset = CGPointMake(0,-48);
+//                
+//                annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//                annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bus_stop_hsl_orig.png"]];
+//            } else {
+//                annotationView.annotation = annotation;
+//            }
+//            StopAnnotation *sAnnotation = (StopAnnotation *)annotationView.annotation;
+//            if (lastSelectedAnnotation != nil)
+//                annotationSelectionChanged = ([lastSelectedAnnotation.code intValue] != [sAnnotation.code intValue]);
+//            lastSelectedAnnotation = annotationView.annotation;
+//            return annotationView;
+//        }else{
+//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+//            if (annotationView == nil) {
+//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+//                annotationView.enabled = YES;
+//                
+//                annotationView.image = [UIImage imageNamed:@"busStopAnnotation-small-blue.png"];
+//                [annotationView setFrame:CGRectMake(0, 0, smallAnnotationWidth, smallAnnotationHeight)];
+//                annotationView.centerOffset = CGPointMake(0,-13);
+//                
+//                annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//                annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bus_stop_hsl_orig.png"]];
+//            } else {
+//                annotationView.annotation = annotation;
+//            }
+//            
+//            return annotationView;
+//        }
+//        
+//    }
+    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
+        return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+    }
+    else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:poiIdentifier];
         if (annotationView == nil) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:poiIdentifier];
@@ -1109,62 +1215,68 @@
 }
 
 - (void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
-    if ([view.annotation isKindOfClass:[StopAnnotation class]]) {
-        if (![self isCommandViewHidden])
-            [self hideCommandView:YES animated:NO];
-        [self setUpCommandViewForAnnotation:view.annotation];
-        
-        [self hideCommandView:NO animated:YES];
-        
-        StopAnnotation *sAnnotation = (StopAnnotation *)view.annotation;
-        sAnnotation.isSelected = YES;
-        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:sAnnotation reuseIdentifier:@"selectedLocation"];
-        @try{
-            [affectedMapView removeAnnotation:view.annotation];
-        }@catch(id anException){
-            //do nothing, obviously it wasn't attached because an exception was thrown
-        }
-        
-        [affectedMapView addAnnotation:annotationView.annotation];
-        
-        if (lastSelectedAnnotation != nil && (lastSelectedAnnotation.code != sAnnotation.code) && !lastSelectionDismissed) {
-            
-//            [self mapView:mapView deselectStopAnnotation:lastSelectedAnnotation];
-            
-//            lastSelectionDismissed = true;
-            
-            StopAnnotation *lastSAnnotation = (StopAnnotation *)lastSelectedAnnotation;
-            
-            lastSAnnotation.isSelected = NO;
-
-            MKAnnotationView *prevAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:lastSAnnotation reuseIdentifier:@"otherLocations"];
-            @try{
-                [affectedMapView removeAnnotation:lastSelectedAnnotation];
-                [affectedMapView addAnnotation:prevAnnotationView.annotation];
-                lastSelectionDismissed = true;
-            }@catch(id anException){
-                //do nothing, obviously it wasn't attached because an exception was thrown
-            }
-        }
-        
-        //lastSelectedAnnotation = annotationView.annotation;
+//    if ([view.annotation isKindOfClass:[StopAnnotation class]]) {
+//        if (![self isCommandViewHidden])
+//            [self hideCommandView:YES animated:NO];
+//        [self setUpCommandViewForAnnotation:view.annotation];
+//        
+//        [self hideCommandView:NO animated:YES];
+//        
+//        StopAnnotation *sAnnotation = (StopAnnotation *)view.annotation;
+//        sAnnotation.isSelected = YES;
+//        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:sAnnotation reuseIdentifier:@"selectedLocation"];
+//        @try{
+//            [affectedMapView removeAnnotation:view.annotation];
+//        }@catch(id anException){
+//            //do nothing, obviously it wasn't attached because an exception was thrown
+//        }
+//        
+//        [affectedMapView addAnnotation:annotationView.annotation];
+//        
+//        if (lastSelectedAnnotation != nil && (lastSelectedAnnotation.code != sAnnotation.code) && !lastSelectionDismissed) {
+//            
+////            [self mapView:mapView deselectStopAnnotation:lastSelectedAnnotation];
+//            
+////            lastSelectionDismissed = true;
+//            
+//            StopAnnotation *lastSAnnotation = (StopAnnotation *)lastSelectedAnnotation;
+//            
+//            lastSAnnotation.isSelected = NO;
+//
+//            MKAnnotationView *prevAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:lastSAnnotation reuseIdentifier:@"otherLocations"];
+//            @try{
+//                [affectedMapView removeAnnotation:lastSelectedAnnotation];
+//                [affectedMapView addAnnotation:prevAnnotationView.annotation];
+//                lastSelectionDismissed = true;
+//            }@catch(id anException){
+//                //do nothing, obviously it wasn't attached because an exception was thrown
+//            }
+//        }
+//        
+//        //lastSelectedAnnotation = annotationView.annotation;
+//    }
+//    if ([view.annotation isKindOfClass:[GeoCodeAnnotation class]]){
+//        if (![self isCommandViewHidden])
+//            [self hideCommandView:YES animated:NO];
+//        [self setUpCommandViewForAnnotation:view.annotation];
+//        
+//        [self hideCommandView:NO animated:YES];
+//        
+//        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:view.annotation reuseIdentifier:@"selectedLocation"];
+//        @try{
+//            [affectedMapView removeAnnotation:view.annotation];
+//        }@catch(id anException){
+//            //do nothing, obviously it wasn't attached because an exception was thrown
+//        }
+//        
+//        [affectedMapView addAnnotation:annotationView.annotation];
+//    }
+    
+    if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+        ignoreRegionChange = YES;
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
     }
-    if ([view.annotation isKindOfClass:[GeoCodeAnnotation class]]){
-        if (![self isCommandViewHidden])
-            [self hideCommandView:YES animated:NO];
-        [self setUpCommandViewForAnnotation:view.annotation];
-        
-        [self hideCommandView:NO animated:YES];
-        
-        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:view.annotation reuseIdentifier:@"selectedLocation"];
-        @try{
-            [affectedMapView removeAnnotation:view.annotation];
-        }@catch(id anException){
-            //do nothing, obviously it wasn't attached because an exception was thrown
-        }
-        
-        [affectedMapView addAnnotation:annotationView.annotation];
-    }
+    
 }
 
 - (void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
@@ -1176,6 +1288,10 @@
 //        //do nothing, obviously it wasn't attached because an exception was thrown
 //    }
 //    [self hideCommandView:NO animated:YES];
+    
+    if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapViewToUse deselectStopAnnotation:(StopAnnotation *)annotation{
@@ -1263,8 +1379,13 @@
 }
 
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
-    [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
+    if (!ignoreRegionChange) {
+        
+    }else{
+        ignoreRegionChange = NO;
+    }
     
+    [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
     currentLocationButton.alpha = 1;
     sendEmailButton.alpha = 1;
     listNearbyStops.alpha = 1;

@@ -218,7 +218,7 @@
     //    qstr = [qstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
     //epsg_in=4326 - WGS84
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stops_area&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&limit=100&center_coordinate=%@&diameter=%d", centerString, diameter];
+    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stops_area&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&limit=60&center_coordinate=%@&diameter=%d", centerString, diameter];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     

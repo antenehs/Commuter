@@ -143,6 +143,7 @@ typedef enum
     bool annotationSelectionChanged;
     int annotationAnimCounter;
     bool lastSelectionDismissed;
+    bool ignoreRegionChange;
     CGRect searchBarFrame;
     
     NSIndexPath * departuresTableIndex;

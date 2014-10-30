@@ -986,7 +986,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blured-background-dark.png" id="e0e-3R-ImO">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blured-background-dark.png" id="e0e-3R-ImO">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -2907,8 +2907,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ma3-DP-8s2"/>
+        <segue reference="iOF-iX-KAc"/>
+        <segue reference="rKx-HE-awi"/>
         <segue reference="pbg-8L-TD1"/>
-        <segue reference="y7Z-EO-EpP"/>
     </inferredMetricsTieBreakers>
 </document>

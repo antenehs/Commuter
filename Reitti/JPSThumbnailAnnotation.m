@@ -25,7 +25,9 @@
     self = [super init];
     if (self) {
         _coordinate = thumbnail.coordinate;
+        _code = thumbnail.code;
         _thumbnail = thumbnail;
+        _annotationType = thumbnail.annotationType;
     }
     return self;
 }
@@ -33,11 +35,18 @@
 - (MKAnnotationView *)annotationViewInMap:(MKMapView *)mapView {
     if (!self.view) {
         self.view = (JPSThumbnailAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:kJPSThumbnailAnnotationViewReuseID];
-        if (!self.view) self.view = [[JPSThumbnailAnnotationView alloc] initWithAnnotation:self];
+        if (!self.view) self.view = [[JPSThumbnailAnnotationView alloc] initWithAnnotation:self reuseIdentifier:self.thumbnail.reuseIdentifier];
     } else {
         self.view.annotation = self;
     }
     [self updateThumbnail:self.thumbnail animated:NO];
+    
+//    if (self.thumbnail.selected) {
+//        [self.view didSelectAnnotationViewInMap:mapView];
+//        [self.view setSelected:YES];
+//        [mapView selectAnnotation:self animated:YES];
+//    }
+    
     return self.view;
 }
 
@@ -52,5 +61,6 @@
     
     [self.view updateWithThumbnail:thumbnail];
 }
+
 
 @end

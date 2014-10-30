@@ -158,7 +158,11 @@
 		66CEE28619FBB0260089A6F9 /* exchangeAddresses.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE28519FBB0260089A6F9 /* exchangeAddresses.png */; };
 		66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */; };
 		66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
-		66CEE29619FED9810089A6F9 /* JPSThumnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumnail.m */; };
+		66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumbnail.m */; };
+		66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */; };
+		66CEE29C1A01AF650089A6F9 /* annotationFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29B1A01AF650089A6F9 /* annotationFrame.png */; };
+		66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */; };
+		66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */; };
 		66D06A7719A40EFB00424A4A /* map_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D06A7619A40EFB00424A4A /* map_background.png */; };
 		66D0BA4618BE470A002DDC7B /* bus3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4518BE470A002DDC7B /* bus3.png */; };
 		66D0BA4918BE4840002DDC7B /* nearby_2_20120.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */; };
@@ -487,7 +491,11 @@
 		66CEE29019FED9810089A6F9 /* JPSThumbnailAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotation.h; sourceTree = "<group>"; };
 		66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotation.m; sourceTree = "<group>"; };
 		66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotationView.h; sourceTree = "<group>"; };
-		66CEE29319FED9810089A6F9 /* JPSThumnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumnail.m; sourceTree = "<group>"; };
+		66CEE29319FED9810089A6F9 /* JPSThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnail.m; sourceTree = "<group>"; };
+		66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Finland_road_sign_532.svg.png; sourceTree = "<group>"; };
+		66CEE29B1A01AF650089A6F9 /* annotationFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = annotationFrame.png; path = "Pictures/Version 2.2/annotationFrame.png"; sourceTree = "<group>"; };
+		66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopAnnotation.png; path = "Pictures/Version 2.2/stopAnnotation.png"; sourceTree = "<group>"; };
+		66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = geoCodeAnnotation.png; path = "Pictures/Version 2.2/geoCodeAnnotation.png"; sourceTree = "<group>"; };
 		66D06A7619A40EFB00424A4A /* map_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map_background.png; path = "Pictures/New Version 2.0/map_background.png"; sourceTree = "<group>"; };
 		66D0BA4518BE470A002DDC7B /* bus3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bus3.png; path = Pictures/Flaticon_PNGFiles/bus3.png; sourceTree = "<group>"; };
 		66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nearby_2_20120.png; path = Pictures/nearby_2_20120.png; sourceTree = "<group>"; };
@@ -1041,6 +1049,10 @@
 		66CEE28219FAF22B0089A6F9 /* New Version 2.2 */ = {
 			isa = PBXGroup;
 			children = (
+				66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */,
+				66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */,
+				66CEE29B1A01AF650089A6F9 /* annotationFrame.png */,
+				66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */,
 				66CEE28519FBB0260089A6F9 /* exchangeAddresses.png */,
 				66CEE28319FAF2400089A6F9 /* warningIconRounded.png */,
 			);
@@ -1050,12 +1062,12 @@
 		66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */ = {
 			isa = PBXGroup;
 			children = (
+				66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */,
 				66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */,
 				66CEE28F19FED9810089A6F9 /* JPSThumbnail.h */,
+				66CEE29319FED9810089A6F9 /* JPSThumbnail.m */,
 				66CEE29019FED9810089A6F9 /* JPSThumbnailAnnotation.h */,
 				66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */,
-				66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */,
-				66CEE29319FED9810089A6F9 /* JPSThumnail.m */,
 			);
 			name = JPSThumbnailAnnotation;
 			sourceTree = "<group>";
@@ -1250,6 +1262,7 @@
 				66CC93CA18DC3F3300644281 /* stack_128_t.png in Resources */,
 				66A7A9DF18C9DE6500AC9E94 /* reload_64_t.png in Resources */,
 				66CB961718EEECBA00E95CE5 /* alarmClock_1.png in Resources */,
+				66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */,
 				66A73FD818B6558700405043 /* Picture1.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
 				66CC940718DF7D6000644281 /* addBookmark.png in Resources */,
@@ -1260,6 +1273,7 @@
 				661ABBFD199D5EC600F93894 /* bus-green-100.png in Resources */,
 				66A7A9CF18C9D8DF00AC9E94 /* backward_64.png in Resources */,
 				66CC93F318DE50ED00644281 /* upshadow.png in Resources */,
+				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
 				66CC93F718DF35CD00644281 /* download_V.png in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,
@@ -1268,6 +1282,7 @@
 				66DAE1F119C42F590039081D /* up-arrow-50.png in Resources */,
 				664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */,
 				66CC93ED18DE4C5F00644281 /* rectangle_noshadow.png in Resources */,
+				66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */,
 				66CB95EE18E5880F00E95CE5 /* stop_annotation1.png in Resources */,
 				66CC93CB18DC3F3300644281 /* stack_256_t.png in Resources */,
 				66CEE28619FBB0260089A6F9 /* exchangeAddresses.png in Resources */,
@@ -1387,6 +1402,7 @@
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
 				666437CD19E1887600B82BE5 /* bookmark-50.png in Resources */,
 				664ADFF01992740F000B4F18 /* search-75.png in Resources */,
+				66CEE29C1A01AF650089A6F9 /* annotationFrame.png in Resources */,
 				666437C919E1852E00B82BE5 /* calendar-50.png in Resources */,
 				66F1384B1997897700B52B6B /* walking-100.png in Resources */,
 				66CC93D718DC450400644281 /* forward_256.png in Resources */,
@@ -1479,7 +1495,7 @@
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
-				66CEE29619FED9810089A6F9 /* JPSThumnail.m in Sources */,
+				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
 				66DAE1EE19C398430039081D /* RouteLocation.m in Sources */,
 				669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */,

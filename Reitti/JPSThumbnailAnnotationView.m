@@ -15,7 +15,7 @@ NSString * const kJPSThumbnailAnnotationViewReuseID = @"JPSThumbnailAnnotationVi
 //static CGFloat const kJPSThumbnailAnnotationViewStandardWidth     = 75.0f;
 static CGFloat const kJPSThumbnailAnnotationViewStandardWidth     = 35.0f;
 //static CGFloat const kJPSThumbnailAnnotationViewStandardHeight    = 87.0f;
-static CGFloat const kJPSThumbnailAnnotationViewStandardHeight    = 42.0f;
+static CGFloat const kJPSThumbnailAnnotationViewStandardHeight    = 43.0f;
 static CGFloat const kJPSThumbnailAnnotationViewExpandOffset      = 265.0f;
 static CGFloat const kJPSThumbnailAnnotationViewExpandHeightOffset= 20.0f;
 static CGFloat const kJPSThumbnailAnnotationViewVerticalOffset    = 21.0f;
@@ -24,9 +24,11 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 @interface JPSThumbnailAnnotationView ()
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
+@property (nonatomic, strong) NSNumber *code;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;
+//@property (nonatomic) bool selected;
 @property (nonatomic, strong) ActionBlock disclosureBlock;
 @property (nonatomic, strong) ActionBlock primaryButtonBlock;
 @property (nonatomic, strong) ActionBlock secondaryButtonBlock;
@@ -41,10 +43,12 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 @implementation JPSThumbnailAnnotationView
 
+#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
+
 #pragma mark - Setup
 
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation {
-    self = [super initWithAnnotation:annotation reuseIdentifier:kJPSThumbnailAnnotationViewReuseID];
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     
     if (self) {
         self.canShowCallout = NO;
@@ -72,18 +76,18 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupImageView {
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(3.0f, 3.0f, 29.0f, 29.0f)];
-    _imageView.layer.cornerRadius = 4.0f;
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-4.0f, 1.0f, 43.0f, 46.0f)];
+    _imageView.layer.cornerRadius = 14.5f;
     _imageView.layer.masksToBounds = YES;
-    _imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    _imageView.layer.borderWidth = 0.5f;
+//    _imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//    _imageView.layer.borderWidth = 0.5f;
     [self addSubview:_imageView];
 }
 
 - (void)setupTitleLabel {
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-120.0f, -12.0f, 175.0f, 20.0f)];
-    _titleLabel.textColor = [UIColor darkTextColor];
-    _titleLabel.font = [UIFont boldSystemFontOfSize:17];
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
     _titleLabel.minimumScaleFactor = 0.7f;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_titleLabel];
@@ -91,7 +95,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)setupSubtitleLabel {
     _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-120.0f, 8.0f, 168.0f, 20.0f)];
-    _subtitleLabel.textColor = [UIColor grayColor];
+    _subtitleLabel.textColor = [UIColor lightGrayColor];
     _subtitleLabel.font = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_subtitleLabel];
 }
@@ -100,7 +104,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     _primaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
     UIImage *image = [UIImage imageNamed:@"bus-green-50.png"];
     [_primaryButton setImage:image forState:UIControlStateNormal];
-    _primaryButton.tintColor = [UIColor grayColor];
+    _primaryButton.tintColor = SYSTEM_GREEN_COLOR;
     
     _primaryButton.frame = CGRectMake(125.0f, -10.0f, 35.0f, 35.0f);
     [self addSubview:_primaryButton];
@@ -112,7 +116,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     _secondaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
     UIImage *image = [UIImage imageNamed:@"calendar-50.png"];
     [_secondaryButton setImage:image forState:UIControlStateNormal];
-    _secondaryButton.tintColor = [UIColor grayColor];
+    _secondaryButton.tintColor = SYSTEM_GREEN_COLOR;
     
     _secondaryButton.frame = CGRectMake(75.0f, -10.0f, 32.0f, 35.0f);
     [self addSubview:_secondaryButton];
@@ -138,10 +142,10 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)setLayerProperties {
     _bgLayer = [CAShapeLayer layer];
-    CGPathRef path = [self newBubbleWithRect:self.bounds];
-    _bgLayer.path = path;
-    CFRelease(path);
-    _bgLayer.fillColor = [UIColor whiteColor].CGColor;
+//    CGPathRef path = [self newBubbleWithRect:self.bounds];
+//    _bgLayer.path = path;
+//    CFRelease(path);
+    _bgLayer.fillColor = [UIColor darkGrayColor].CGColor;
     
     _bgLayer.shadowColor = [UIColor blackColor].CGColor;
     _bgLayer.shadowOffset = CGSizeMake(0.0f, 2.0f);
@@ -157,12 +161,24 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)updateWithThumbnail:(JPSThumbnail *)thumbnail {
     self.coordinate = thumbnail.coordinate;
+    self.code = thumbnail.code;
     self.titleLabel.text = thumbnail.title;
     self.subtitleLabel.text = thumbnail.subtitle;
+//    self.selected = thumbnail.selected;
     self.imageView.image = thumbnail.image;
     self.disclosureBlock = thumbnail.disclosureBlock;
     self.primaryButtonBlock = thumbnail.primaryButtonBlock;
     self.secondaryButtonBlock = thumbnail.secondaryButtonBlock;
+    
+    if (!self.primaryButtonBlock)
+        self.primaryButton.hidden = YES;
+    else
+        self.primaryButton.hidden = NO;
+    if (!self.secondaryButtonBlock)
+        self.secondaryButton.hidden = YES;
+    else
+        self.secondaryButton.hidden = NO;
+    
 }
 
 #pragma mark - JPSThumbnailAnnotationViewProtocol
@@ -181,9 +197,11 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (CGPathRef)newBubbleWithRect:(CGRect)rect {
     CGFloat stroke = 1.0f;
-	CGFloat radius = 7.0f;
+	CGFloat radius = 17.5f;
 	CGMutablePathRef path = CGPathCreateMutable();
 	CGFloat parentX = rect.origin.x + rect.size.width/2.0f;
+    
+    CGPoint curveTouchPoint;
 	
 	// Determine Size
 	rect.size.width -= stroke;
@@ -195,12 +213,29 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 	// Create Callout Bubble Path
 	CGPathMoveToPoint(path, NULL, rect.origin.x, rect.origin.y + radius);
 	CGPathAddLineToPoint(path, NULL, rect.origin.x, rect.origin.y + rect.size.height - radius);
-	CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius, radius, M_PI, M_PI_2, 1);
-	CGPathAddLineToPoint(path, NULL, parentX - 7.0f, rect.origin.y + rect.size.height);
+    if ((rect.size.width - 2*radius > 7.0f)) {
+        CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius, radius, M_PI, M_PI_2, 1);
+        CGPathAddLineToPoint(path, NULL, parentX - 7.0f, rect.origin.y + rect.size.height);
+    }else{
+        CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius, radius, M_PI, M_PI_2 + M_PI_4, 1);
+        curveTouchPoint = CGPathGetCurrentPoint(path);
+        
+        
+    }
+	
 	CGPathAddLineToPoint(path, NULL, parentX, rect.origin.y + rect.size.height + 7.0f);
-	CGPathAddLineToPoint(path, NULL, parentX + 7.0f, rect.origin.y + rect.size.height);
-	CGPathAddLineToPoint(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height);
-	CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height - radius, radius, M_PI_2, 0.0f, 1.0f);
+    
+    if ((rect.size.width - 2*radius > 7.0f)) {
+        CGPathAddLineToPoint(path, NULL, parentX + 7.0f, rect.origin.y + rect.size.height);
+        CGPathAddLineToPoint(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height);
+        CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height - radius, radius, M_PI_2, 0.0f, 1.0f);
+    }else{
+        CGFloat x = rect.size.width - curveTouchPoint.x + 1;
+        
+        CGPathAddLineToPoint(path, NULL, x, curveTouchPoint.y);
+        CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height - radius, radius, M_PI_2 - M_PI_4, 0.0f, 1.0f);
+    }
+	
 	CGPathAddLineToPoint(path, NULL, rect.origin.x + rect.size.width, rect.origin.y + radius);
 	CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + radius, radius, 0.0f, -M_PI_2, 1.0f);
 	CGPathAddLineToPoint(path, NULL, rect.origin.x + radius, rect.origin.y);
@@ -312,11 +347,11 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)didTapPrimaryButton {
-    if (self.disclosureBlock) self.primaryButtonBlock();
+    if (self.primaryButtonBlock) self.primaryButtonBlock();
 }
 
 - (void)didTapSecondaryButton {
-    if (self.disclosureBlock) self.secondaryButtonBlock();
+    if (self.secondaryButtonBlock) self.secondaryButtonBlock();
 }
 
 + (UIImage *)disclosureButtonImage {
