@@ -197,6 +197,16 @@
 		66D989F1199FFC5300E0B74B /* ferry-colored-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D989EC199FFC5300E0B74B /* ferry-colored-75.png */; };
 		66D989F2199FFC5300E0B74B /* train-colored-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D989ED199FFC5300E0B74B /* train-colored-75.png */; };
 		66D989F3199FFC5300E0B74B /* metro-colored-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D989EE199FFC5300E0B74B /* metro-colored-75.png */; };
+		66DAC7CE1A025ED90002BE16 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
+		66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7D31A025ED90002BE16 /* TodayViewController.m */; };
+		66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */; };
+		66DAC7D91A025ED90002BE16 /* Commuter - Departures.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		66DAC7E01A0276690002BE16 /* HSLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7DF1A0276690002BE16 /* HSLAPI.m */; };
+		66DAC7E31A0277780002BE16 /* BusStopE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E21A0277780002BE16 /* BusStopE.m */; };
+		66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */; };
+		66DAC7E91A03F4FB0002BE16 /* bookmark-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7E71A03F4FB0002BE16 /* bookmark-green-50.png */; };
+		66DAC7EA1A03F4FB0002BE16 /* search-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7E81A03F4FB0002BE16 /* search-green-50.png */; };
+		66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7EB1A04000D0002BE16 /* stopIcon.png */; };
 		66DAE1EE19C398430039081D /* RouteLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE1ED19C398430039081D /* RouteLocation.m */; };
 		66DAE1F119C42F590039081D /* up-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE1EF19C42F590039081D /* up-arrow-50.png */; };
 		66DAE1F219C42F590039081D /* down-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE1F019C42F590039081D /* down-arrow-50.png */; };
@@ -253,6 +263,13 @@
 			remoteGlobalIDString = 66947CB118830ED500642EE1;
 			remoteInfo = Reitti;
 		};
+		66DAC7D71A025ED90002BE16 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66947CAA18830ED500642EE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 66DAC7CC1A025ED90002BE16;
+			remoteInfo = "Commuter - Departures";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -262,6 +279,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				66DAC7D91A025ED90002BE16 /* Commuter - Departures.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,6 +549,21 @@
 		66D989EC199FFC5300E0B74B /* ferry-colored-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ferry-colored-75.png"; path = "Pictures/New Version 2.0/Search View/ferry-colored-75.png"; sourceTree = "<group>"; };
 		66D989ED199FFC5300E0B74B /* train-colored-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train-colored-75.png"; path = "Pictures/New Version 2.0/Search View/train-colored-75.png"; sourceTree = "<group>"; };
 		66D989EE199FFC5300E0B74B /* metro-colored-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "metro-colored-75.png"; path = "Pictures/New Version 2.0/Search View/metro-colored-75.png"; sourceTree = "<group>"; };
+		66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Commuter - Departures.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66DAC7D11A025ED90002BE16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66DAC7D21A025ED90002BE16 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		66DAC7D31A025ED90002BE16 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		66DAC7DD1A025EFF0002BE16 /* Commuter - Departures.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Commuter - Departures.entitlements"; sourceTree = "<group>"; };
+		66DAC7DE1A0276690002BE16 /* HSLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLAPI.h; sourceTree = "<group>"; };
+		66DAC7DF1A0276690002BE16 /* HSLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLAPI.m; sourceTree = "<group>"; };
+		66DAC7E11A0277780002BE16 /* BusStopE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopE.h; sourceTree = "<group>"; };
+		66DAC7E21A0277780002BE16 /* BusStopE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopE.m; sourceTree = "<group>"; };
+		66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiStringFormatterE.m; sourceTree = "<group>"; };
+		66DAC7E51A0292470002BE16 /* ReittiStringFormatterE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiStringFormatterE.h; sourceTree = "<group>"; };
+		66DAC7E71A03F4FB0002BE16 /* bookmark-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-green-50.png"; sourceTree = "<group>"; };
+		66DAC7E81A03F4FB0002BE16 /* search-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-green-50.png"; sourceTree = "<group>"; };
+		66DAC7EB1A04000D0002BE16 /* stopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopIcon.png; sourceTree = "<group>"; };
 		66DAE1EC19C398430039081D /* RouteLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLocation.h; sourceTree = "<group>"; };
 		66DAE1ED19C398430039081D /* RouteLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLocation.m; sourceTree = "<group>"; };
 		66DAE1EF19C42F590039081D /* up-arrow-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "up-arrow-50.png"; path = "Pictures/New Version 2.0/up-arrow-50.png"; sourceTree = "<group>"; };
@@ -597,6 +630,14 @@
 				66947CD818830ED500642EE1 /* XCTest.framework in Frameworks */,
 				66947CDA18830ED500642EE1 /* UIKit.framework in Frameworks */,
 				66947CD918830ED500642EE1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66DAC7CA1A025ED90002BE16 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66DAC7CE1A025ED90002BE16 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +855,7 @@
 				66947CDD18830ED500642EE1 /* ReittiTests */,
 				661721F919CE0F5000E3CD6E /* AikatauluWidget */,
 				666437B519E1478400B82BE5 /* Commuter - Reittiopas */,
+				66DAC7CF1A025ED90002BE16 /* Commuter - Departures */,
 				66947CB418830ED500642EE1 /* Frameworks */,
 				66947CB318830ED500642EE1 /* Products */,
 				3D9D736429697CD54C57D60E /* Pods */,
@@ -825,6 +867,7 @@
 			children = (
 				66947CB218830ED500642EE1 /* Reitti.app */,
 				66947CD618830ED500642EE1 /* ReittiTests.xctest */,
+				66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1137,6 +1180,35 @@
 			name = "New Version 2.0";
 			sourceTree = "<group>";
 		};
+		66DAC7CF1A025ED90002BE16 /* Commuter - Departures */ = {
+			isa = PBXGroup;
+			children = (
+				66DAC7EB1A04000D0002BE16 /* stopIcon.png */,
+				66DAC7E71A03F4FB0002BE16 /* bookmark-green-50.png */,
+				66DAC7E81A03F4FB0002BE16 /* search-green-50.png */,
+				66DAC7DD1A025EFF0002BE16 /* Commuter - Departures.entitlements */,
+				66DAC7D21A025ED90002BE16 /* TodayViewController.h */,
+				66DAC7D31A025ED90002BE16 /* TodayViewController.m */,
+				66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */,
+				66DAC7D01A025ED90002BE16 /* Supporting Files */,
+			);
+			path = "Commuter - Departures";
+			sourceTree = "<group>";
+		};
+		66DAC7D01A025ED90002BE16 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */,
+				66DAC7E51A0292470002BE16 /* ReittiStringFormatterE.h */,
+				66DAC7E11A0277780002BE16 /* BusStopE.h */,
+				66DAC7E21A0277780002BE16 /* BusStopE.m */,
+				66DAC7DE1A0276690002BE16 /* HSLAPI.h */,
+				66DAC7DF1A0276690002BE16 /* HSLAPI.m */,
+				66DAC7D11A025ED90002BE16 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		66F138411997873D00B52B6B /* RouteSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1176,6 +1248,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				66DAC7D81A025ED90002BE16 /* PBXTargetDependency */,
 			);
 			name = Reitti;
 			productName = Reitti;
@@ -1202,6 +1275,23 @@
 			productReference = 66947CD618830ED500642EE1 /* ReittiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		66DAC7CC1A025ED90002BE16 /* Commuter - Departures */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66DAC7DC1A025ED90002BE16 /* Build configuration list for PBXNativeTarget "Commuter - Departures" */;
+			buildPhases = (
+				66DAC7C91A025ED90002BE16 /* Sources */,
+				66DAC7CA1A025ED90002BE16 /* Frameworks */,
+				66DAC7CB1A025ED90002BE16 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Commuter - Departures";
+			productName = "Commuter - Departures";
+			productReference = 66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1222,6 +1312,15 @@
 					66947CD518830ED500642EE1 = {
 						TestTargetID = 66947CB118830ED500642EE1;
 					};
+					66DAC7CC1A025ED90002BE16 = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = FGEKQ9U6E7;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 				};
 			};
 			buildConfigurationList = 66947CAD18830ED500642EE1 /* Build configuration list for PBXProject "Reitti" */;
@@ -1239,6 +1338,7 @@
 			targets = (
 				66947CB118830ED500642EE1 /* Reitti */,
 				66947CD518830ED500642EE1 /* ReittiTests */,
+				66DAC7CC1A025ED90002BE16 /* Commuter - Departures */,
 			);
 		};
 /* End PBXProject section */
@@ -1418,6 +1518,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		66DAC7CB1A025ED90002BE16 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */,
+				66DAC7EA1A03F4FB0002BE16 /* search-green-50.png in Resources */,
+				66DAC7E91A03F4FB0002BE16 /* bookmark-green-50.png in Resources */,
+				66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1519,6 +1630,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		66DAC7C91A025ED90002BE16 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */,
+				66DAC7E31A0277780002BE16 /* BusStopE.m in Sources */,
+				66DAC7E01A0276690002BE16 /* HSLAPI.m in Sources */,
+				66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1536,6 +1658,11 @@
 			isa = PBXTargetDependency;
 			target = 66947CB118830ED500642EE1 /* Reitti */;
 			targetProxy = 66947CDB18830ED500642EE1 /* PBXContainerItemProxy */;
+		};
+		66DAC7D81A025ED90002BE16 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 66DAC7CC1A025ED90002BE16 /* Commuter - Departures */;
+			targetProxy = 66DAC7D71A025ED90002BE16 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1724,6 +1851,48 @@
 			};
 			name = Release;
 		};
+		66DAC7DA1A025ED90002BE16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "Commuter - Departures/Commuter - Departures.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Commuter - Departures/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		66DAC7DB1A025ED90002BE16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "Commuter - Departures/Commuter - Departures.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Commuter - Departures/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1753,6 +1922,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		66DAC7DC1A025ED90002BE16 /* Build configuration list for PBXNativeTarget "Commuter - Departures" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66DAC7DA1A025ED90002BE16 /* Debug */,
+				66DAC7DB1A025ED90002BE16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

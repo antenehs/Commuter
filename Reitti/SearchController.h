@@ -20,6 +20,7 @@
 #import "BusStopShort.h"
 #import "MBProgressHUD.h"
 #import "BusStop.h"
+#import "StopEntity.h"
 #import "ReittiStringFormatter.h"
 #import "BookmarksViewController.h"
 #import "WebViewController.h"
@@ -156,6 +157,7 @@ typedef enum
 -(void)setUpStopViewForBusStop:(BusStop *)busStop;
 -(void)openRouteSearchView;
 -(void)openBookmarksView;
+-(void)openStopViewForCode:(NSNumber *)code;
 
 @property (strong, nonatomic) IBOutlet AMBlurView *StopView;
 @property (strong, nonatomic) IBOutlet AMBlurView *searchResultsView;

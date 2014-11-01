@@ -6,13 +6,22 @@
 	<dict>
 		<key>AikatauluWidget.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>1</integer>
+		</dict>
+		<key>Commuter - Departures.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
 		</dict>
 		<key>Commuter - Reittiopas.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>2</integer>
 		</dict>
 		<key>Reitti.xcscheme</key>
 		<dict>
@@ -38,6 +47,11 @@
 			<true/>
 		</dict>
 		<key>66947CD518830ED500642EE1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>66DAC7CC1A025ED90002BE16</key>
 		<dict>
 			<key>primary</key>
 			<true/>

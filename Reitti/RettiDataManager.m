@@ -190,6 +190,28 @@
     return [allSavedStopCodes containsObject:stop.code];
 }
 
+-(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
+
+    NSString *codes = [[NSString alloc] init];
+    
+    BOOL firstElement = YES;
+    for (StopEntity *stop in savedStops) {
+        if (firstElement) {
+            codes = [NSString stringWithFormat:@"%d",[stop.busStopCode intValue]];
+            firstElement = NO;
+        }else{
+            codes = [NSString stringWithFormat:@"%@,%d",codes, [stop.busStopCode intValue]];
+        }
+    }
+    
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    
+//    NSDictionary *defaults = @{@"StopCodes" : codes, };
+    
+    [sharedDefaults setObject:codes forKey:@"StopCodes"];
+    [sharedDefaults synchronize];
+}
+
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
@@ -306,6 +328,7 @@
     }
     
     [allSavedStopCodes addObject:stop.code];
+    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
 }
 
 -(void)deleteSavedStopForCode:(NSNumber *)code{
@@ -321,6 +344,7 @@
     }
     
     [allSavedStopCodes removeObject:code];
+    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
 }
 
 -(void)deleteAllSavedStop{
@@ -338,6 +362,7 @@
     }
     
     [allSavedStopCodes removeAllObjects];
+    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
 }
 
 //Return array of set dictionaries

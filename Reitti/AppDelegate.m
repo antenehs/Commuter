@@ -27,6 +27,14 @@
 //    NSLog(@"%@", [ReittiStringFormatter parseBusNumFromLineCode:@"1034 2"]);
     // Override point for customization after application launch.
     
+//        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+//    
+////        NSDictionary *defaults = @{@"StopCodes" : @"2222222",};
+//    
+//        [sharedDefaults setObject:@"222222" forKey:@"StopCodes"];
+//    
+//        NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
+    
     return YES;
 }
 
@@ -50,6 +58,13 @@
     
     if ([[url query] isEqualToString:@"routeSearch"]) {
         [controller openRouteSearchView];
+    }
+    
+    if ([[url query] containsString:@"openStop"]) {
+        NSArray *parts = [[url query] componentsSeparatedByString:@"-"];
+        if (parts.count == 2) {
+            [controller openStopViewForCode:parts[1]];
+        }
     }
     
 //    [self.window.rootViewController presentViewController: controller animated:YES completion:nil];

@@ -165,6 +165,7 @@
     [self hideCommandView:YES];
     [self initializeMapView];
     [self initDisruptionFetching];
+    [self setBookmarkedStopsToDefaults];
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
     
@@ -244,6 +245,16 @@
 
 -(int)searchViewLowerBound{
     return blurView.frame.origin.y + blurView.frame.size.height;
+}
+
+#pragma mark - extension methods
+- (void)setBookmarkedStopsToDefaults{
+    
+    NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+    [self.reittiDataManager updateSavedStopsDefaultValueForStops:savedStops];
+    //test
+    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 
 #pragma - mark Command view methods

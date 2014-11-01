@@ -66,6 +66,7 @@ typedef enum
 -(void)deleteSavedStopForCode:(NSNumber *)code;
 -(void)deleteAllSavedStop;
 -(NSArray *)fetchAllSavedStopsFromCoreData;
+-(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops;
 
 -(BOOL)saveHistoryToCoreDataStop:(BusStop *)stop;
 -(void)deleteHistoryStopForCode:(NSNumber *)code;
