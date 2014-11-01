@@ -52,15 +52,27 @@
 - (void)updateContentSizeForTableRows:(int)row{
     CGRect tableF = departuresTable.frame;
     departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  [departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight);
-    self.preferredContentSize = CGSizeMake(320, departuresTable.frame.size.height + ([departuresTable numberOfRowsInSection:0] == 0 ? 100 : 50));
+    self.preferredContentSize = CGSizeMake(320, departuresTable.frame.size.height + ([departuresTable numberOfRowsInSection:0] == 0 ? 90 : 50));
+    
+    routeButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
+    bookmarkButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
+    
+//    CGRect routeFrame = routesButton.frame;
+//    routeFrame.origin.y = [departuresTable numberOfRowsInSection:0] == 0 ? 55 : departuresTable.frame.size.height + 10;
+//    routesButton.frame = routeFrame;
+//    
+//    CGRect bookmarksFrame = bookmarksButton.frame;
+//    bookmarksFrame.origin.y = [departuresTable numberOfRowsInSection:0] == 0 ? 55 : departuresTable.frame.size.height + 10;
+//    bookmarksButton.frame = bookmarksFrame;
     
 }
 
 - (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins
 {
-    margins.bottom = 5.0;
+    margins.bottom = 0.0;
     margins.left = 10.0;
     margins.right = 0.0;
+    margins.top = 10.0;
     return margins;
 }
 #pragma mark - ibactions
@@ -261,7 +273,7 @@
                 completionHandler(NCUpdateResultNewData);
             }else{
                 completionHandler(NCUpdateResultNoData);
-                infoLabel.text = @"Fetching stops failed. Try again";
+                infoLabel.text = @"Fetching stops failed.";
             }
         }];
         

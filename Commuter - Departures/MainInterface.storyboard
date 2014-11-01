@@ -102,7 +102,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reloading departures ..." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdT-ih-tjO">
-                                <rect key="frame" x="24" y="10" width="257" height="40"/>
+                                <rect key="frame" x="24" y="0.0" width="257" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="257" id="Bpu-s9-LZx"/>
                                     <constraint firstAttribute="height" constant="40" id="jN6-aA-ITd"/>
@@ -117,7 +117,7 @@
                                     <constraint firstAttribute="width" constant="135" id="45f-Sx-dft"/>
                                     <constraint firstAttribute="height" constant="30" id="qVj-F6-xJe"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Bookmarks">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -148,12 +148,12 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Jh-sk-2oQ">
-                                <rect key="frame" x="5.5" y="267" width="135" height="30"/>
+                                <rect key="frame" x="15.5" y="267" width="135" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Rgs-pk-3U8"/>
                                     <constraint firstAttribute="width" constant="135" id="yrS-4G-VLR"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <state key="normal" title="Routes">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -167,16 +167,16 @@
                             <constraint firstAttribute="centerX" secondItem="9IA-hE-4D5" secondAttribute="centerX" constant="118" id="22c-Ei-VEa"/>
                             <constraint firstAttribute="centerX" secondItem="Yp4-0O-l1l" secondAttribute="centerX" constant="-20" id="3cm-pm-gkI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fC0-Aa-J6L" secondAttribute="trailing" constant="-16" id="9rq-kO-h9i"/>
+                            <constraint firstItem="DbB-1r-1gF" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="267" id="GYb-bw-6Ub"/>
                             <constraint firstItem="fC0-Aa-J6L" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" constant="-16" id="Mac-Nt-RWw"/>
-                            <constraint firstAttribute="centerX" secondItem="0Jh-sk-2oQ" secondAttribute="centerX" constant="87" id="Uf1-zl-k9b"/>
+                            <constraint firstItem="0Jh-sk-2oQ" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="267" id="NzC-9w-3o4"/>
+                            <constraint firstAttribute="centerX" secondItem="0Jh-sk-2oQ" secondAttribute="centerX" constant="77" id="Uf1-zl-k9b"/>
                             <constraint firstAttribute="width" secondItem="fC0-Aa-J6L" secondAttribute="width" id="Vj5-Xt-3Cb"/>
-                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="0Jh-sk-2oQ" secondAttribute="bottom" constant="3" id="Zda-ax-eds"/>
                             <constraint firstAttribute="centerX" secondItem="DbB-1r-1gF" secondAttribute="centerX" constant="-68.5" id="adR-oI-stN"/>
                             <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="Yp4-0O-l1l" secondAttribute="bottom" constant="19" id="fap-kZ-QMD"/>
-                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="DbB-1r-1gF" secondAttribute="bottom" constant="3" id="gdT-GP-F4l"/>
                             <constraint firstItem="fC0-Aa-J6L" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="hE6-ly-hkx"/>
                             <constraint firstAttribute="centerX" secondItem="sdT-ih-tjO" secondAttribute="centerX" constant="7.5" id="iSr-LQ-9Vt"/>
-                            <constraint firstItem="sdT-ih-tjO" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="10" id="vgd-Pu-e0K"/>
+                            <constraint firstItem="sdT-ih-tjO" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" id="vgd-Pu-e0K"/>
                             <constraint firstAttribute="centerX" secondItem="oDA-1T-ao0" secondAttribute="centerX" constant="7" id="vjL-XV-DqX"/>
                             <constraint firstAttribute="bottomMargin" secondItem="oDA-1T-ao0" secondAttribute="bottom" constant="15" id="zsB-Eu-Ffm"/>
                         </constraints>
@@ -188,9 +188,11 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="300"/>
                     <connections>
+                        <outlet property="bookmarkButtonTopConstraint" destination="GYb-bw-6Ub" id="MOD-gi-i9o"/>
                         <outlet property="bookmarksButton" destination="DbB-1r-1gF" id="ccb-aL-acy"/>
                         <outlet property="departuresTable" destination="fC0-Aa-J6L" id="js7-J0-ZdO"/>
                         <outlet property="infoLabel" destination="sdT-ih-tjO" id="g5w-1T-013"/>
+                        <outlet property="routeButtonTopConstraint" destination="NzC-9w-3o4" id="2U7-sp-m2u"/>
                         <outlet property="routesButton" destination="0Jh-sk-2oQ" id="yM2-IH-rPl"/>
                     </connections>
                 </viewController>

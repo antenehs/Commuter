@@ -14,6 +14,10 @@
     IBOutlet UIButton *bookmarksButton;
     IBOutlet UILabel *infoLabel;
     IBOutlet UITableView *departuresTable;
+    
+    IBOutlet NSLayoutConstraint *routeButtonTopConstraint;
+    IBOutlet NSLayoutConstraint *bookmarkButtonTopConstraint;
+    
 }
 
 @end
