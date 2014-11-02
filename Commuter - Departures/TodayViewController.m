@@ -16,6 +16,9 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) NSMutableArray *stopList;
+@property (nonatomic) NSInteger totalNumberOfStops;
+@property (nonatomic) BOOL thereIsMore;
+@property (nonatomic) BOOL cachedMode;
 
 @end
 
@@ -23,17 +26,31 @@
 
 @synthesize label;
 @synthesize stopList;
+@synthesize totalNumberOfStops, thereIsMore, cachedMode;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//    self.stopList = [self getStopsFromCache];
-    self.stopList = [@[] mutableCopy];
+    NSLog(@"UPDATED 2");
+    self.stopList = [self getStopsFromCache];
+    
+    if (self.stopList.count != 0) {
+        //TODO - Check cache is not very old
+        cachedMode = YES;
+        infoLabel.hidden = YES;
+    }else{
+        cachedMode = NO;
+    }
+    
+//    self.stopList = [@[] mutableCopy];
+    thereIsMore = NO;
+//    cachedMode = YES;
     if (stopList.count != 0) {
         [departuresTable reloadData];
         infoLabel.hidden = YES;
     }
     departuresTable.backgroundColor = [UIColor clearColor];
+//    departuresTable.sectionFooterHeight = 44;
     routesButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     routesButton.layer.borderWidth = 0.5;
     routesButton.layer.cornerRadius = 5;
@@ -43,6 +60,12 @@
     bookmarksButton.layer.cornerRadius = 5;
 //    infoLabel.hidden = YES;
     [self updateContentSizeForTableRows:0];
+    
+    moreButton = [[UIButton alloc] init];
+    [moreButton setTitle:@"more..." forState:UIControlStateNormal];
+    [moreButton addTarget:self action:@selector(openWidgetSettings) forControlEvents:UIControlEventTouchUpInside];
+    moreButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    
 }
 
 //- (void)viewWillAppear:(BOOL)animated{
@@ -51,8 +74,10 @@
 
 - (void)updateContentSizeForTableRows:(int)row{
     CGRect tableF = departuresTable.frame;
-    departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  [departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight);
+    departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  ([departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight) + (thereIsMore || cachedMode ? 44 : 0));
     self.preferredContentSize = CGSizeMake(320, departuresTable.frame.size.height + ([departuresTable numberOfRowsInSection:0] == 0 ? 90 : 50));
+    CGRect tableF2 = departuresTable.frame;
+    CGSize contexsize = self.preferredContentSize;
     
     routeButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
     bookmarkButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
@@ -62,6 +87,7 @@
 //    routesButton.frame = routeFrame;
 //    
 //    CGRect bookmarksFrame = bookmarksButton.frame;
+    
 //    bookmarksFrame.origin.y = [departuresTable numberOfRowsInSection:0] == 0 ? 55 : departuresTable.frame.size.height + 10;
 //    bookmarksButton.frame = bookmarksFrame;
     
@@ -70,8 +96,8 @@
 - (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins
 {
     margins.bottom = 0.0;
-    margins.left = 10.0;
-    margins.right = 0.0;
+    margins.left = 0.0;
+    margins.right = 5.0;
     margins.top = 10.0;
     return margins;
 }
@@ -84,6 +110,11 @@
 - (IBAction)openBookmarksButtonClicked:(id)sender {
     // Open the main app
     NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?bookmarks"];
+    [self.extensionContext openURL:url completionHandler:nil];
+}
+- (IBAction)openWidgetSettings {
+    // Open the main app
+    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?widgetSettings"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
@@ -120,6 +151,7 @@
                 nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];
                 
                 UILabel *departuresLabel = (UILabel *)[cell viewWithTag:1002];
+                departuresLabel.text = @"No departures in the next 6 hours";
                 
                 NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:[UIColor orangeColor] forKey:NSForegroundColorAttributeName];
                 [busNumberDict setObject:[UIFont systemFontOfSize:18.0] forKey:NSFontAttributeName];
@@ -127,32 +159,36 @@
                 
                 NSMutableAttributedString *departuresString = [[NSMutableAttributedString alloc] initWithString:@"" attributes: busNumberDict];
                 NSMutableAttributedString *tempStr = [NSMutableAttributedString alloc];
-                for (NSDictionary *departure in stop.departures) {
-                    NSString *notParsedCode = [departure objectForKey:@"code"];
-                    tempStr = [[NSMutableAttributedString alloc] initWithString:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode] attributes:busNumberDict];
-                    [departuresString appendAttributedString:tempStr];
+                if (stop.departures.count != 0) {
+                    for (NSDictionary *departure in stop.departures) {
+                        NSString *notParsedCode = [departure objectForKey:@"code"];
+                        tempStr = [[NSMutableAttributedString alloc] initWithString:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode] attributes:busNumberDict];
+                        [departuresString appendAttributedString:tempStr];
+                        
+                        NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+                        
+                        tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   "
+                                                                                     ,[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]] attributes:timeDict];
+                        
+                        [departuresString appendAttributedString:tempStr];
+                    }
                     
-                    NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+                    NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+                    [paragrahStyle setLineSpacing:5];
+                    [departuresString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [departuresString length])];
                     
-                    tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   "
-                                                                                 ,[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]] attributes:timeDict];
                     
-                    [departuresString appendAttributedString:tempStr];
+                    departuresLabel.attributedText = departuresString;
                 }
-                
-                NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
-                [paragrahStyle setLineSpacing:5];
-                [departuresString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [departuresString length])];
-                
-                
-                departuresLabel.attributedText = departuresString;
                 
             }
             @catch (NSException *exception) {
-                if (self.stopList.count == 0) {
-                    UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"emptyCell"];
-                    infoCell.backgroundColor = [UIColor clearColor];
-                    return infoCell;
+                if (self.stopList.count != 0) {
+//                    UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"emptyCell"];
+//                    infoCell.backgroundColor = [UIColor clearColor];
+//                    return infoCell;
+//                    UILabel *departuresLabel = (UILabel *)[cell viewWithTag:1002];
+                    
                 }
             }
             @finally {
@@ -172,9 +208,30 @@
     
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    if (cachedMode) {
+        [moreButton setTitle:@"reloading departures..." forState:UIControlStateNormal];
+        moreButton.enabled = NO;
+        return moreButton;
+    }else if (thereIsMore ) {
+        [moreButton setTitle:@"more..." forState:UIControlStateNormal];
+        moreButton.enabled = YES;
+        return moreButton;
+    }else
+        return nil;
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (thereIsMore || cachedMode) {
+        return 44;
+    }else
+        return 0;
+}
+
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self updateContentSizeForTableRows:indexPath.row + 1];
+    [self updateContentSizeForTableRows:3];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -231,8 +288,23 @@
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
     // Perform any setup necessary in order to update the view.
+//    self.stopList = [self getStopsFromCache];
+//    [departuresTable reloadData];
+//    if (self.stopList != nil) {
+//        //TODO - Check cache is not very old
+//        cachedMode = YES;
+//        infoLabel.hidden = YES;
+//    }else{
+//        cachedMode = NO;
+//    }
+    
+    
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    NSString *stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
+
+    NSString *stopCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
+    if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
+        stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
+    }
     
     [sharedDefaults synchronize];
     
@@ -240,6 +312,7 @@
     
     if ([stopCodes isEqualToString:@""] || stopCodes == nil) {
         infoLabel.text = @"No stops bookmarked";
+        completionHandler(NCUpdateResultNewData);
 //        infoLabel.hidden = NO;
     }else{
         infoLabel.text = @"Reloading departures...";
@@ -248,8 +321,17 @@
     
     HSLAPI *hslAPI = [[HSLAPI alloc] init];
     
+    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
+    
     NSArray *stopCodeList = [self arrayFromCommaSeparatedString:stopCodes];
-    if (stopCodeList.count != 0) {
+    
+    thereIsMore = totalNumberOfStops > stopCodeList.count;
+    
+    if (stopCodeList.count != 0 ) {
+        if ([[stopCodeList firstObject] isEqualToString:@""]) {
+            return;
+        }
+        
         if (self.stopList.count != stopCodeList.count) {
             self.stopList = [@[] mutableCopy];
         }
@@ -263,8 +345,7 @@
 //                    [self.stopList replaceObjectAtIndex:idx withObject:resultStop];
                 
                 self.stopList = resultList;
-                departuresTable.delegate = self;
-                departuresTable.dataSource = self;
+                cachedMode = NO;
                 [departuresTable reloadData];
                 infoLabel.hidden = YES;
                 //                [self updateContentSize];
@@ -278,6 +359,7 @@
         }];
         
     }
+     
     
     // If an error is encountered, use NCUpdateResultFailed
     // If there's no update required, use NCUpdateResultNoData

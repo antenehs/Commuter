@@ -185,7 +185,11 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)didSelectAnnotationViewInMap:(MKMapView *)mapView {
     // Center map at annotation point
-    [mapView setCenterCoordinate:self.coordinate animated:YES];
+    MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
+    MKCoordinateRegion region = {self.coordinate, span};
+    
+    [mapView setRegion:region animated:YES];
+//    [mapView setCenterCoordinate:self.coordinate animated:YES];
     [self expand];
 }
 

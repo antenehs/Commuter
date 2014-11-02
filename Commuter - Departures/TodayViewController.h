@@ -15,6 +15,9 @@
     IBOutlet UILabel *infoLabel;
     IBOutlet UITableView *departuresTable;
     
+    UIButton *moreButton;
+    IBOutlet UILabel *loadingLabel;
+    
     IBOutlet NSLayoutConstraint *routeButtonTopConstraint;
     IBOutlet NSLayoutConstraint *bookmarkButtonTopConstraint;
     
