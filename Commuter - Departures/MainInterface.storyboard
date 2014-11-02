@@ -31,7 +31,7 @@
                                                     <rect key="frame" x="13" y="2" width="306" height="88"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu - 2039" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000027" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu - 2039" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.75000000000000022" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
                                                     <rect key="frame" x="48" y="14" width="264" height="20"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,7 +43,7 @@
                                                         <constraint firstAttribute="height" constant="56" id="cUU-dc-sum"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <color key="textColor" red="0.0" green="0.51822916666666663" blue="0.066066576089999871" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.71736299820000005" blue="0.066066576089999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="L7K-uk-WCQ">
@@ -86,7 +86,7 @@
                                                         <constraint firstAttribute="width" constant="257" id="Wds-8z-VSh"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
-                                                    <color key="textColor" red="0.0" green="0.51822916669999997" blue="0.066066576089999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.71736299820000005" blue="0.066066576089999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -100,6 +100,10 @@
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="M4Y-Lb-cyx" id="Wk8-Ot-WSp"/>
+                                    <outlet property="delegate" destination="M4Y-Lb-cyx" id="KbT-zr-xd8"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reloading departures ..." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdT-ih-tjO">
                                 <rect key="frame" x="24" y="0.0" width="257" height="40"/>
@@ -192,10 +196,21 @@
                         <outlet property="bookmarksButton" destination="DbB-1r-1gF" id="ccb-aL-acy"/>
                         <outlet property="departuresTable" destination="fC0-Aa-J6L" id="js7-J0-ZdO"/>
                         <outlet property="infoLabel" destination="sdT-ih-tjO" id="g5w-1T-013"/>
+                        <outlet property="loadingLabel" destination="3cF-Up-Xdg" id="MG6-Xc-JTC"/>
                         <outlet property="routeButtonTopConstraint" destination="NzC-9w-3o4" id="2U7-sp-m2u"/>
                         <outlet property="routesButton" destination="0Jh-sk-2oQ" id="yM2-IH-rPl"/>
                     </connections>
                 </viewController>
+                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reloading departures ..." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3cF-Up-Xdg">
+                    <rect key="frame" x="0.0" y="0.0" width="257" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="257" id="0jW-fi-1ST"/>
+                        <constraint firstAttribute="height" constant="40" id="tQo-N2-qhm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <color key="textColor" red="0.0" green="0.71736299820000005" blue="0.066066576089999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="417" y="261"/>
