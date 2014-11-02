@@ -157,6 +157,7 @@ typedef enum
 -(void)setUpStopViewForBusStop:(BusStop *)busStop;
 -(void)openRouteSearchView;
 -(void)openBookmarksView;
+-(void)openWidgetSettingsView;
 -(void)openStopViewForCode:(NSNumber *)code;
 
 @property (strong, nonatomic) IBOutlet AMBlurView *StopView;

@@ -110,6 +110,7 @@
                                         </state>
                                         <connections>
                                             <action selector="searchResultViewGestureDetected:" destination="139-RC-VnC" eventType="touchUpInside" id="x59-ra-qvB"/>
+                                            <segue destination="5Ru-VG-2eO" kind="modal" identifier="openWidgetSettingFromHome" id="UCl-M8-RbU"/>
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" id="dIy-Zh-BEc">
@@ -630,7 +631,7 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bus_station-50.png" id="LhL-xm-0fk">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopIcon-dark.png" id="LhL-xm-0fk">
                                             <rect key="frame" x="13" y="19" width="24" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -741,6 +742,16 @@
                             <outlet property="delegate" destination="LeF-Fg-lgm" id="UG1-kT-OIl"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="8sW-j3-AyC"/>
+                        <barButtonItem title="Departures Widget Setting" id="MGS-b9-kqd">
+                            <color key="tintColor" red="0.0" green="0.51822916669999997" blue="0.066066576089999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <segue destination="5Ru-VG-2eO" kind="modal" identifier="editSelectionForWidget" id="Mzx-K7-CDf"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="aiZ-ym-VvW"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="JcP-h3-Bvc">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="7rO-nW-Evl">
@@ -803,6 +814,105 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E4Z-qg-hpw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1527" y="-368"/>
+        </scene>
+        <!--Departures Widget-->
+        <scene sceneID="LPh-SV-mCz">
+            <objects>
+                <viewController id="4TO-H0-BeX" customClass="WidgetSettingsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RU3-5D-PZz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="urz-Ou-KfM">
+                                <rect key="frame" x="0.0" y="-6" width="320" height="580"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map_background.png" id="zJ2-LZ-gLZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="580"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" id="aF8-VW-2Qa" customClass="AMBlurView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="580"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" id="h4N-Mz-zAu">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Selected Stops ( max 3 )" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cb4-4q-go9">
+                                    <rect key="frame" x="0.0" y="-21" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="savedStopCell" rowHeight="56" id="S1O-8h-e12">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="S1O-8h-e12" id="DBT-ho-qz0">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="LlG-ho-CWp">
+                                                    <rect key="frame" x="34" y="1" width="243" height="30.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E2034 - Helsinki" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="PJ0-4O-4Vu">
+                                                    <rect key="frame" x="37" y="27.5" width="240" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nia-VH-WWl">
+                                                    <rect key="frame" x="280" y="13" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="addIcon-green.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="addRemoveButtonPressed:" destination="4TO-H0-BeX" eventType="touchUpInside" id="6cf-Lt-aen"/>
+                                                    </connections>
+                                                </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopIcon-dark.png" id="YcQ-Ep-nYm">
+                                                    <rect key="frame" x="3" y="16.5" width="24" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.95569378396739135" green="0.95569378396739135" blue="0.95569378396739135" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="4TO-H0-BeX" id="eI8-fK-5QK"/>
+                                    <outlet property="delegate" destination="4TO-H0-BeX" id="M1F-og-Gtg"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Departures Widget" id="c9y-HO-EvK">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="buB-P6-dT5">
+                            <color key="tintColor" red="0.0" green="0.51822916669999997" blue="0.066066576089999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="doneButtonSelected:" destination="4TO-H0-BeX" id="874-xJ-XON"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bluredBackView" destination="urz-Ou-KfM" id="YVj-fA-XcN"/>
+                        <outlet property="tableView" destination="h4N-Mz-zAu" id="KHe-dG-JLe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OOz-hI-odt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2490" y="-368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="c7Q-F3-gyP">
@@ -1272,7 +1382,7 @@
         <!--Navigation Controller-->
         <scene sceneID="guk-ve-hBr">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Oiv-6M-ej1" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Oiv-6M-ej1" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gwk-VO-EKk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1607,7 +1717,7 @@
                                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bus_station-50.png" id="bgR-hb-HNB">
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stopIcon-dark.png" id="bgR-hb-HNB">
                                                                             <rect key="frame" x="13" y="13" width="24" height="24"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         </imageView>
@@ -2378,7 +2488,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="train-colored-75.png" id="j9W-LJ-ouK">
-                                                            <rect key="frame" x="6" y="9" width="3545" height="503"/>
+                                                            <rect key="frame" x="6" y="9" width="3865" height="546.5"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13:31" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000000000000009" id="yoM-eG-Rtf">
@@ -2494,7 +2604,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bus-colored-75.png" id="tUA-Tr-UrB">
-                                                            <rect key="frame" x="20" y="9" width="345" height="79.5"/>
+                                                            <rect key="frame" x="20" y="9" width="665" height="134"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13:53" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XR6-7x-iKv">
@@ -2536,7 +2646,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="metro-colored-75.png" id="efH-SN-4QS">
-                                                            <rect key="frame" x="20" y="9" width="345" height="68.5"/>
+                                                            <rect key="frame" x="20" y="9" width="665" height="112"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14:07" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rGD-mJ-A1f">
@@ -2557,7 +2667,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walking-black-75.png" id="uag-1g-C1j">
-                                                            <rect key="frame" x="20" y="9" width="345" height="68.5"/>
+                                                            <rect key="frame" x="20" y="9" width="665" height="112"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14:51" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZhY-EF-luU">
@@ -2856,10 +2966,30 @@
             </objects>
             <point key="canvasLocation" x="2393" y="1058"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ggw-cg-Gps">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5Ru-VG-2eO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="kgI-Fk-dtJ"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="N6e-pF-uoZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4TO-H0-BeX" kind="relationship" relationship="rootViewController" id="1EI-TO-7cE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ta8-JE-EP8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2064" y="-368"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Flaticon_8783.png" width="242" height="242"/>
         <image name="addBookmark.png" width="505" height="504"/>
+        <image name="addIcon-green.png" width="295" height="295"/>
         <image name="appIconRounded.png" width="364" height="368"/>
         <image name="arrow1.png" width="79" height="34"/>
         <image name="blured-background-dark.png" width="710" height="1292"/>
@@ -2868,7 +2998,6 @@
         <image name="bus-colored-75.png" width="75" height="75"/>
         <image name="bus-green-50.png" width="50" height="50"/>
         <image name="bus.png" width="24" height="24"/>
-        <image name="bus_station-50.png" width="50" height="50"/>
         <image name="calendar-50.png" width="50" height="50"/>
         <image name="clock-75.png" width="75" height="75"/>
         <image name="clock-grey-100.png" width="100" height="100"/>
@@ -2896,6 +3025,7 @@
         <image name="star-128.png" width="128" height="128"/>
         <image name="star-75.png" width="75" height="75"/>
         <image name="star-gray-75.png" width="75" height="75"/>
+        <image name="stopIcon-dark.png" width="255" height="257"/>
         <image name="train-colored-75.png" width="75" height="75"/>
         <image name="up-arrow-50.png" width="50" height="50"/>
         <image name="walking-black-75.png" width="75" height="75"/>
@@ -2907,8 +3037,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="iOF-iX-KAc"/>
-        <segue reference="rKx-HE-awi"/>
         <segue reference="pbg-8L-TD1"/>
+        <segue reference="Mzx-K7-CDf"/>
+        <segue reference="hbM-hu-B2u"/>
+        <segue reference="7N6-ng-Po6"/>
     </inferredMetricsTieBreakers>
 </document>

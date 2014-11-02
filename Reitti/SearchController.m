@@ -13,6 +13,7 @@
 #import "RouteSearchViewController.h"
 #import "InfoViewController.h"
 #import "JPSThumbnailAnnotation.h"
+#import "WidgetSettingsViewController.h"
 #import <Social/Social.h>
 
 @interface SearchController ()
@@ -1472,6 +1473,10 @@
     [self performSegueWithIdentifier: @"switchToRouteSearch" sender: self];
 }
 
+-(void)openWidgetSettingsView{
+    [self performSegueWithIdentifier:@"openWidgetSettingFromHome" sender:self];
+}
+
 #pragma mark - helper methods
 - (void)sendEmailWithSubject:(NSString *)subject{
     // Email Subject
@@ -2009,6 +2014,13 @@
         
         infoViewController.disruptionsList = self.disruptionList;
         infoViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    }
+    
+    if ([segue.identifier isEqualToString:@"openWidgetSettingFromHome"]) {
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
+        
+        controller.savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
     }
 }
 

@@ -212,6 +212,48 @@
     [sharedDefaults synchronize];
 }
 
+-(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    NSString *selectedCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
+    
+    if (allStops == nil) {
+        [sharedDefaults setObject:@"" forKey:@"SelectedStopCodes"];
+        return;
+    }
+    
+    if (stopCode == 0) {
+        return;
+    }
+    
+    NSRange strRange = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", stopCode]];
+    if (strRange.location != NSNotFound) {
+        StopEntity *new;
+        for (StopEntity *stop in allStops) {
+            
+            if ([stop.busStopCode intValue] != stopCode) {
+                NSRange range = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", [stop.busStopCode intValue]]];
+                if (range.location == NSNotFound) {
+                    new = stop;
+                }
+            }
+        }
+        
+        if (allStops != nil && new != nil) {
+            
+            NSString *newEntry = [NSString stringWithFormat:@"%@", [new busStopCode]];
+            NSString *newStr = [selectedCodes stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%d", stopCode] withString:newEntry ];
+            [sharedDefaults setObject:newStr forKey:@"SelectedStopCodes"];
+            [sharedDefaults synchronize];
+        }else{
+            NSString *newStr = [selectedCodes stringByReplacingCharactersInRange:strRange withString:@""];
+            newStr = [newStr stringByReplacingOccurrencesOfString:@",," withString:@","];
+            newStr = [newStr stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
+            [sharedDefaults setObject:newStr forKey:@"SelectedStopCodes"];
+            [sharedDefaults synchronize];
+        }
+    }
+}
+
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
@@ -344,7 +386,9 @@
     }
     
     [allSavedStopCodes removeObject:code];
-    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
+    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
+    [self updateSavedStopsDefaultValueForStops:savedSt];
+    [self updateSelectedStopListForDeletedStop:[code intValue] andAllStops:savedSt];
 }
 
 -(void)deleteAllSavedStop{
@@ -362,7 +406,9 @@
     }
     
     [allSavedStopCodes removeAllObjects];
-    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
+    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
+    [self updateSavedStopsDefaultValueForStops:savedSt];
+    [self updateSelectedStopListForDeletedStop:0 andAllStops:savedSt];
 }
 
 //Return array of set dictionaries

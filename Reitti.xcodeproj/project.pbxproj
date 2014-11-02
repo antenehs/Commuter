@@ -39,6 +39,10 @@
 		664ADFF81992B124000B4F18 /* bus-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFF71992B124000B4F18 /* bus-75.png */; };
 		664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
 		664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664FA7EE198EBC5E00C6A5B0 /* CommandView.m */; };
+		665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E781A0558C300797ABA /* removeIcon-red.png */; };
+		665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E791A0558C300797ABA /* addIcon-green.png */; };
+		665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */; };
+		665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E7F1A05791E00797ABA /* stopIcon-dark.png */; };
 		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		666437C919E1852E00B82BE5 /* calendar-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C719E1852E00B82BE5 /* calendar-50.png */; };
 		666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
@@ -336,6 +340,11 @@
 		664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoutePreviewView.xib; sourceTree = "<group>"; };
 		664FA7ED198EBC5E00C6A5B0 /* CommandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandView.h; sourceTree = "<group>"; };
 		664FA7EE198EBC5E00C6A5B0 /* CommandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandView.m; sourceTree = "<group>"; };
+		665A1E781A0558C300797ABA /* removeIcon-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "removeIcon-red.png"; path = "Pictures/Version 2.2/removeIcon-red.png"; sourceTree = "<group>"; };
+		665A1E791A0558C300797ABA /* addIcon-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "addIcon-green.png"; path = "Pictures/Version 2.2/addIcon-green.png"; sourceTree = "<group>"; };
+		665A1E7C1A055D8200797ABA /* WidgetSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetSettingsViewController.h; sourceTree = "<group>"; };
+		665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetSettingsViewController.m; sourceTree = "<group>"; };
+		665A1E7F1A05791E00797ABA /* stopIcon-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stopIcon-dark.png"; path = "Pictures/Version 2.2/stopIcon-dark.png"; sourceTree = "<group>"; };
 		665EFFF619E18F5600367839 /* search-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-green-50.png"; sourceTree = "<group>"; };
 		665EFFF819E190A600367839 /* bookmark-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-green-50.png"; sourceTree = "<group>"; };
 		6662CF7C18F719C7001CD5C1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Reitti/Default@2x.png"; sourceTree = "<group>"; };
@@ -729,6 +738,8 @@
 				66CC940918E190D300644281 /* WebViewController.m */,
 				661721ED19CDA78000E3CD6E /* InfoViewController.h */,
 				661721EE19CDA78000E3CD6E /* InfoViewController.m */,
+				665A1E7C1A055D8200797ABA /* WidgetSettingsViewController.h */,
+				665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1092,6 +1103,9 @@
 		66CEE28219FAF22B0089A6F9 /* New Version 2.2 */ = {
 			isa = PBXGroup;
 			children = (
+				665A1E7F1A05791E00797ABA /* stopIcon-dark.png */,
+				665A1E781A0558C300797ABA /* removeIcon-red.png */,
+				665A1E791A0558C300797ABA /* addIcon-green.png */,
 				66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */,
 				66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */,
 				66CEE29B1A01AF650089A6F9 /* annotationFrame.png */,
@@ -1352,6 +1366,7 @@
 				66D989F3199FFC5300E0B74B /* metro-colored-75.png in Resources */,
 				66D426A9199148D10080F21E /* schedule-128.png in Resources */,
 				66CB95F218E5BED300E95CE5 /* Info_notification.png in Resources */,
+				665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */,
 				66CB95F818E8CBE300E95CE5 /* error_notification.png in Resources */,
 				666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */,
 				66D0BA6218BF717F002DDC7B /* currentLocation.png in Resources */,
@@ -1365,6 +1380,7 @@
 				66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */,
 				66A73FD818B6558700405043 /* Picture1.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
+				665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */,
 				66CC940718DF7D6000644281 /* addBookmark.png in Resources */,
 				66F138491997897700B52B6B /* tram-100.png in Resources */,
 				667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */,
@@ -1472,6 +1488,7 @@
 				66F13838199651F200B52B6B /* export-128.png in Resources */,
 				66CC93F218DE50ED00644281 /* downshadow.png in Resources */,
 				66D0BA4E18BE4892002DDC7B /* nearby_3_20120.png in Resources */,
+				665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */,
 				66A7A9D418C9D96B00AC9E94 /* bookmark_64.png in Resources */,
 				66F1383C19976C6E00B52B6B /* app-icon-v-2.png in Resources */,
 				66CC93EB18DE47B100644281 /* stopBackground_rounded.png in Resources */,
@@ -1576,6 +1593,7 @@
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
 				66CC93DB18DDC3E900644281 /* SVProgressHUD.m in Sources */,
+				665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */,
 				66CB961018EEE46100E95CE5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				66CEE27719FA96380089A6F9 /* Disruption.m in Sources */,
 				66CC941C18E34C6300644281 /* CookieEntity.m in Sources */,
@@ -1930,6 +1948,7 @@
 				66DAC7DB1A025ED90002BE16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

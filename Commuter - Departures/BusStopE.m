@@ -25,7 +25,7 @@
 @synthesize address_sv;
 
 -(id)initWithDictionary:(NSDictionary *)dict{
-    self.code = dict[@"code"];
+    self.code = [NSNumber numberWithInt:[dict[@"code"] intValue]];
     self.code_short = dict[@"code_short"];
     self.name_fi = dict[@"name_fi"];
     self.name_sv = dict[@"name_sv"];

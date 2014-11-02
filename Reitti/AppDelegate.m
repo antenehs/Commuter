@@ -67,6 +67,10 @@
         }
     }
     
+    if ([[url query] isEqualToString:@"widgetSettings"]) {
+        [controller openWidgetSettingsView];
+    }
+    
 //    [self.window.rootViewController presentViewController: controller animated:YES completion:nil];
     
     return YES;

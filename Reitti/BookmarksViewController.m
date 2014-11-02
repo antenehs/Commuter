@@ -13,6 +13,7 @@
 #import "RouteHistoryEntity.h"
 #import "StopViewController.h"
 #import "RouteSearchViewController.h"
+#import "WidgetSettingsViewController.h"
 
 @interface BookmarksViewController ()
 
@@ -108,12 +109,26 @@
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:savedStops];
         [dataToLoad addObjectsFromArray:savedRoutes];
+        if (self.savedStops != nil) {
+             {
+                 if (self.savedStops.count < 1) {
+                     self.navigationController.toolbar.hidden = YES;
+                 }else{
+                     self.navigationController.toolbar.hidden = NO;
+                 }
+            }
+        }else{
+            self.navigationController.toolbar.hidden = YES;
+        }
+        
     }else{
         self.title = @"Recents";
         self._tintColor = SYSTEM_ORANGE_COLOR;
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:recentStops];
         [dataToLoad addObjectsFromArray:recentRoutes];
+        
+        self.navigationController.toolbar.hidden = YES;
     }
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.tableView reloadData];
@@ -300,6 +315,11 @@
         }
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (![self.reittiDataManager fetchAllSavedStopsFromCoreData]) {
+            self.navigationController.toolbar.hidden = YES;
+        }else{
+            self.navigationController.toolbar.hidden = NO;
+        }
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -413,6 +433,12 @@
                 routeSearchViewController.reittiDataManager = self.reittiDataManager;
             }
         }
+    }else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
+        
+        controller.savedStops = self.savedStops;
+        
     }
 }
 
