@@ -76,8 +76,6 @@
     CGRect tableF = departuresTable.frame;
     departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  ([departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight) + (thereIsMore || cachedMode ? 44 : 0));
     self.preferredContentSize = CGSizeMake(320, departuresTable.frame.size.height + ([departuresTable numberOfRowsInSection:0] == 0 ? 90 : 50));
-    CGRect tableF2 = departuresTable.frame;
-    CGSize contexsize = self.preferredContentSize;
     
     routeButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
     bookmarkButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
@@ -115,6 +113,12 @@
 - (IBAction)openWidgetSettings {
     // Open the main app
     NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?widgetSettings"];
+    [self.extensionContext openURL:url completionHandler:nil];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 

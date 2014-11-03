@@ -79,7 +79,7 @@
                                     <outlet property="delegate" destination="M4Y-Lb-cyx" id="KbT-zr-xd8"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reloading departures ..." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdT-ih-tjO">
+                            <label opaque="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reloading departures ..." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdT-ih-tjO">
                                 <rect key="frame" x="24" y="0.0" width="257" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="257" id="Bpu-s9-LZx"/>
