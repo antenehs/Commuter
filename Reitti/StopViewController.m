@@ -76,7 +76,8 @@
 #pragma mark - View methods
 - (void)selectSystemColors{
     if (self.darkMode) {
-        systemBackgroundColor = [UIColor clearColor];
+//        systemBackgroundColor = [UIColor clearColor];
+        systemBackgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
         systemTextColor = SYSTEM_GREEN_COLOR;
         systemSubTextColor = [UIColor lightGrayColor];
     }else{
@@ -106,7 +107,9 @@
     
     [stopView setBlurTintColor:systemBackgroundColor];
     [topBarView setBlurTintColor:systemBackgroundColor];
+    topBarView.alpha = 0.95;
     [bottomBarView setBlurTintColor:systemBackgroundColor];
+    bottomBarView.alpha = 0.95;
     topBarView.layer.borderWidth = 0.5;
     topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
     bottomBarView.layer.borderWidth = 0.5;

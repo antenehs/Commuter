@@ -88,7 +88,7 @@
 #pragma mark - view methods
 
 -(void)setUpMainView{
-    [topBarView setBlurTintColor:[UIColor clearColor]];
+    [topBarView setBlurTintColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1]];
     topBarView.layer.borderWidth = 1;
     topBarView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     

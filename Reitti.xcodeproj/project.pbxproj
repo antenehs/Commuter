@@ -170,6 +170,9 @@
 		66CF81961A0ED8E30034C9AB /* finish_flag-light-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF81941A0ED8E30034C9AB /* finish_flag-light-50.png */; };
 		66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF81951A0ED8E30034C9AB /* circle-light-50.png */; };
 		66CF81991A0ED9EE0034C9AB /* location-light-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF81981A0ED9EE0034C9AB /* location-light-25.png */; };
+		66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */; };
+		66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */; };
+		66CF81A51A0EF4F90034C9AB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF81A41A0EF4F90034C9AB /* Accelerate.framework */; };
 		66D06A7719A40EFB00424A4A /* map_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D06A7619A40EFB00424A4A /* map_background.png */; };
 		66D0BA4618BE470A002DDC7B /* bus3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4518BE470A002DDC7B /* bus3.png */; };
 		66D0BA4918BE4840002DDC7B /* nearby_2_20120.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */; };
@@ -529,6 +532,11 @@
 		66CF81941A0ED8E30034C9AB /* finish_flag-light-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "finish_flag-light-50.png"; path = "Pictures/Version 2.2/finish_flag-light-50.png"; sourceTree = "<group>"; };
 		66CF81951A0ED8E30034C9AB /* circle-light-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "circle-light-50.png"; path = "Pictures/Version 2.2/circle-light-50.png"; sourceTree = "<group>"; };
 		66CF81981A0ED9EE0034C9AB /* location-light-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location-light-25.png"; path = "Pictures/Version 2.2/location-light-25.png"; sourceTree = "<group>"; };
+		66CF819E1A0EF4800034C9AB /* UIERealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIERealTimeBlurView.h; sourceTree = "<group>"; };
+		66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIERealTimeBlurView.m; sourceTree = "<group>"; };
+		66CF81A11A0EF4C70034C9AB /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
+		66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
+		66CF81A41A0EF4F90034C9AB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		66D06A7619A40EFB00424A4A /* map_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map_background.png; path = "Pictures/New Version 2.0/map_background.png"; sourceTree = "<group>"; };
 		66D0BA4518BE470A002DDC7B /* bus3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bus3.png; path = Pictures/Flaticon_PNGFiles/bus3.png; sourceTree = "<group>"; };
 		66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nearby_2_20120.png; path = Pictures/nearby_2_20120.png; sourceTree = "<group>"; };
@@ -627,6 +635,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66CF81A51A0EF4F90034C9AB /* Accelerate.framework in Frameworks */,
 				66CB961D18F16ACB00E95CE5 /* EventKit.framework in Frameworks */,
 				66CB961B18F08B8500E95CE5 /* MessageUI.framework in Frameworks */,
 				66947CFD188C56D400642EE1 /* QuartzCore.framework in Frameworks */,
@@ -693,10 +702,9 @@
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
 				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
-				66C1254319CF5BD400099AFF /* AMBlurView.m */,
-				66C1254419CF5BD400099AFF /* AMBlurView.h */,
 				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
 				66A73FDB18BA3CED00405043 /* RettiDataManager.h */,
 				66A73FDC18BA3CED00405043 /* RettiDataManager.m */,
@@ -892,6 +900,7 @@
 		66947CB418830ED500642EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66CF81A41A0EF4F90034C9AB /* Accelerate.framework */,
 				66CB961C18F16ACB00E95CE5 /* EventKit.framework */,
 				66CB961A18F08B8500E95CE5 /* MessageUI.framework */,
 				66947CFC188C56D400642EE1 /* QuartzCore.framework */,
@@ -1136,6 +1145,19 @@
 				66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */,
 			);
 			name = JPSThumbnailAnnotation;
+			sourceTree = "<group>";
+		};
+		66CF819A1A0EEF3F0034C9AB /* TranslucentViews */ = {
+			isa = PBXGroup;
+			children = (
+				66CF81A11A0EF4C70034C9AB /* UIImage+BoxBlur.h */,
+				66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */,
+				66CF819E1A0EF4800034C9AB /* UIERealTimeBlurView.h */,
+				66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */,
+				66C1254319CF5BD400099AFF /* AMBlurView.m */,
+				66C1254419CF5BD400099AFF /* AMBlurView.h */,
+			);
+			name = TranslucentViews;
 			sourceTree = "<group>";
 		};
 		66D0BA5118BF2DFA002DDC7B /* Resource */ = {
@@ -1625,8 +1647,10 @@
 				66CC941618E2304600644281 /* HistoryEntity.m in Sources */,
 				66947D00188C58C400642EE1 /* StopViewController.m in Sources */,
 				66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */,
+				66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
+				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
 				66A7A9BF18C5FD4200AC9E94 /* StopAnnotation.m in Sources */,
