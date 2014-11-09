@@ -51,7 +51,7 @@
     [self setUpMainView];
 }
 
--(void)viewWillAppear:(BOOL)animated{
+//-(void)viewWillAppear:(BOOL)animated{
     //this is to get the blue color
 //    if ([fromSearchBar.text isEqualToString:currentLocationText]) {
 //        [self setTextToSearchBar:fromSearchBar text:currentLocationText currentLocation:YES];
@@ -59,7 +59,7 @@
 //    if ([toSearchBar.text isEqualToString:currentLocationText]) {
 //        [self setTextToSearchBar:toSearchBar text:currentLocationText currentLocation:YES];
 //    }
-}
+//}
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     if (darkMode) {
