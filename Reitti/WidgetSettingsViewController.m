@@ -182,6 +182,7 @@
     UILabel *subtitleLabel = (UILabel *)[cell viewWithTag:1002];
     subtitleLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.busStopShortCode, stop.busStopCity];
     
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 

@@ -166,6 +166,7 @@
 //            [delegate deletedAllSavedStops];
             [self.reittiDataManager deleteAllSavedStop];
             [self.reittiDataManager deleteAllSavedroutes];
+            self.navigationController.toolbar.hidden = YES;
         }else{
 //            [delegate deletedAllHistoryStops];
             [self.reittiDataManager deleteAllHistoryStop];

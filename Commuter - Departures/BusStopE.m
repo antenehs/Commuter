@@ -61,7 +61,10 @@
 -(NSArray *)departuretoPlist:(NSArray *)dipartures{
     
     @try {
-        if (dipartures == nil || dipartures.count < 1)
+        if (dipartures == nil || [dipartures isEqual:[NSNull null]])
+            return @[];
+        
+        if (dipartures.count < 1)
             return @[];
         
         NSMutableArray *array = [@[] mutableCopy];

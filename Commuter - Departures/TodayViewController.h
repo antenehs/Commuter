@@ -21,6 +21,16 @@
     IBOutlet NSLayoutConstraint *routeButtonTopConstraint;
     IBOutlet NSLayoutConstraint *bookmarkButtonTopConstraint;
     
+    IBOutlet UIView *firstStopView;
+    IBOutlet UIView *secondStopView;
+    IBOutlet UIView *thirdStopView;
+    
+    IBOutlet UIButton *firstViewButton;
+    IBOutlet UIButton *secondViewButton;
+    IBOutlet UIButton *thirdViewButton;
+    
+    
+    IBOutlet UIButton *footerButton;
 }
 
 @end

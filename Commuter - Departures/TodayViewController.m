@@ -16,9 +16,12 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) NSMutableArray *stopList;
+@property (strong, nonatomic) NSString *stopCodes;
+@property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (nonatomic) NSInteger totalNumberOfStops;
 @property (nonatomic) BOOL thereIsMore;
 @property (nonatomic) BOOL cachedMode;
+@property (nonatomic) BOOL enoughCatchedDepartures;
 
 @end
 
@@ -26,68 +29,75 @@
 
 @synthesize label;
 @synthesize stopList;
-@synthesize totalNumberOfStops, thereIsMore, cachedMode;
+@synthesize totalNumberOfStops, thereIsMore, cachedMode, enoughCatchedDepartures;
+@synthesize stopCodes;
+@synthesize sharedDefaults;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSLog(@"UPDATED 2");
-    self.stopList = [self getStopsFromCache];
+    thereIsMore = NO;
     
-    if (self.stopList.count != 0) {
-        //TODO - Check cache is not very old
-        cachedMode = YES;
+    self.enoughCatchedDepartures = NO;
+    [self setUpView];
+    
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    [self fetchSavedStopsFromDefaults];
+    
+    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
+    
+    NSArray *stopCodeList = [self arrayFromCommaSeparatedString:self.stopCodes];
+    
+    thereIsMore = totalNumberOfStops > stopCodeList.count;
+    
+    self.stopList = [self getStopsFromCacheAfterTime:[NSDate date] andStops:self.stopCodes];
+    if (cachedMode) {
         infoLabel.hidden = YES;
     }else{
-        cachedMode = NO;
+        if (!self.enoughCatchedDepartures) {
+            infoLabel.hidden = NO;
+        }else{
+            infoLabel.hidden = YES;
+        }
     }
     
-//    self.stopList = [@[] mutableCopy];
-    thereIsMore = NO;
-//    cachedMode = YES;
-    if (stopList.count != 0) {
-        [departuresTable reloadData];
-        infoLabel.hidden = YES;
-    }
+    //    self.stopList = [@[] mutableCopy];
+    [self setUpStopViewsForStops:self.stopList];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self fetchStops];
+}
+
+- (void)setUpView{
     departuresTable.backgroundColor = [UIColor clearColor];
-//    departuresTable.sectionFooterHeight = 44;
-    routesButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    //    departuresTable.sectionFooterHeight = 44;
+    routesButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     routesButton.layer.borderWidth = 0.5;
     routesButton.layer.cornerRadius = 5;
     
-    bookmarksButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    bookmarksButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     bookmarksButton.layer.borderWidth = 0.5;
     bookmarksButton.layer.cornerRadius = 5;
-//    infoLabel.hidden = YES;
-    [self updateContentSizeForTableRows:0];
+    //    infoLabel.hidden = YES;
+    //    [self updateContentSizeForTableRows:0];
     
     moreButton = [[UIButton alloc] init];
     [moreButton setTitle:@"more..." forState:UIControlStateNormal];
     [moreButton addTarget:self action:@selector(openWidgetSettings) forControlEvents:UIControlEventTouchUpInside];
     moreButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    
 }
 
-//- (void)viewWillAppear:(BOOL)animated{
-//    
-//}
-
 - (void)updateContentSizeForTableRows:(int)row{
-    CGRect tableF = departuresTable.frame;
-    departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  ([departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight) + (thereIsMore || cachedMode ? 44 : 0));
-    self.preferredContentSize = CGSizeMake(320, departuresTable.frame.size.height + ([departuresTable numberOfRowsInSection:0] == 0 ? 90 : 50));
+//    CGRect tableF = departuresTable.frame;
+//    departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  ([departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight) + (thereIsMore || cachedMode ? 44 : 0));
+    self.preferredContentSize = CGSizeMake(320, (self.stopList.count*100) + (self.stopList.count == 0 ? 90 : 50) + (thereIsMore || cachedMode || (thereIsMore && enoughCatchedDepartures) ? 44 : 0));
     
-    routeButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
-    bookmarkButtonTopConstraint.constant = [departuresTable numberOfRowsInSection:0] == 0 ? 55 :departuresTable.frame.size.height + 10;
-    
-//    CGRect routeFrame = routesButton.frame;
-//    routeFrame.origin.y = [departuresTable numberOfRowsInSection:0] == 0 ? 55 : departuresTable.frame.size.height + 10;
-//    routesButton.frame = routeFrame;
-//    
-//    CGRect bookmarksFrame = bookmarksButton.frame;
-    
-//    bookmarksFrame.origin.y = [departuresTable numberOfRowsInSection:0] == 0 ? 55 : departuresTable.frame.size.height + 10;
-//    bookmarksButton.frame = bookmarksFrame;
+    routeButtonTopConstraint.constant = self.stopList.count == 0 ? 55 : (self.stopList.count * 100) + (thereIsMore || cachedMode || (thereIsMore && enoughCatchedDepartures) ? 44 : 0) + 10;
+    bookmarkButtonTopConstraint.constant = self.stopList.count == 0 ? 55 : (self.stopList.count * 100) + (thereIsMore || cachedMode || (thereIsMore && enoughCatchedDepartures) ? 44 : 0) + 10;
     
 }
 
@@ -95,10 +105,79 @@
 {
     margins.bottom = 0.0;
     margins.left = 0.0;
-    margins.right = 5.0;
-    margins.top = 10.0;
+    margins.right = 0.0;
+    margins.top = 5.0;
     return margins;
 }
+
+#pragma mark - main method
+
+-(void)fetchSavedStopsFromDefaults{
+    
+    self.stopCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
+    if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
+        stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
+    }
+    
+    [sharedDefaults synchronize];
+    
+    NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
+}
+
+-(void)fetchStops{
+    
+    if ([self.stopCodes isEqualToString:@""] || self.stopCodes == nil) {
+        infoLabel.text = @"No stops bookmarked";
+        [self storeStopsToCache:nil];
+        self.stopList = nil;
+        cachedMode = NO;
+        [self setUpStopViewsForStops:self.stopList];
+        infoLabel.hidden = NO;
+        
+        return;
+    }else{
+        if (!cachedMode && !enoughCatchedDepartures) {
+            infoLabel.text = @"loading saved stops...";
+            infoLabel.hidden = NO;
+        }else{
+            infoLabel.hidden = YES;
+        }
+        
+    }
+    
+    HSLAPI *hslAPI = [[HSLAPI alloc] init];
+    
+    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
+    
+    NSArray *stopCodeList = [self arrayFromCommaSeparatedString:self.stopCodes];
+    
+    thereIsMore = totalNumberOfStops > stopCodeList.count;
+    
+    if (stopCodeList.count != 0 ) {
+        if ([[stopCodeList firstObject] isEqualToString:@""]) {
+            return;
+        }
+        
+        if (self.stopList.count != stopCodeList.count) {
+            self.stopList = [@[] mutableCopy];
+        }
+        
+        [hslAPI searchStopForCodes:stopCodeList completionBlock:^(NSMutableArray *resultList, NSError *error) {
+            if (!error && resultList != nil) {
+                self.stopList = resultList;
+                cachedMode = NO;
+                [self setUpStopViewsForStops:self.stopList];
+                infoLabel.hidden = YES;
+                [self storeStopsToCache:self.stopList];
+                
+            }else{
+                infoLabel.text = @"Fetching stops failed.";
+            }
+        }];
+        
+    }
+}
+
 #pragma mark - ibactions
 - (IBAction)searchRouteButtonClicked:(id)sender {
     // Open the main app
@@ -118,8 +197,11 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://"];
-    [self.extensionContext openURL:url completionHandler:nil];
+    UITouch *touch = [touches anyObject];
+    if (touch.view == infoLabel) {
+        NSURL *url = [NSURL URLWithString:@"CommuterMainApp://"];
+        [self.extensionContext openURL:url completionHandler:nil];
+    }
 }
 
 #pragma mark - Table view delegate methods
@@ -217,7 +299,7 @@
         [moreButton setTitle:@"reloading departures..." forState:UIControlStateNormal];
         moreButton.enabled = NO;
         return moreButton;
-    }else if (thereIsMore ) {
+    }else if (thereIsMore || enoughCatchedDepartures ) {
         [moreButton setTitle:@"more..." forState:UIControlStateNormal];
         moreButton.enabled = YES;
         return moreButton;
@@ -241,9 +323,124 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     // Open stop in main app
     BusStopE *selected = [self.stopList objectAtIndex:indexPath.row];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"CommuterMainApp://?openStop-%d",[selected.code intValue]]];
+    [self openBusStop:selected];
+}
+
+-(void)openBusStop:(BusStopE *)stop{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"CommuterMainApp://?openStop-%d",[stop.code intValue]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
+
+-(void)setUpStopViewsForStops:(NSArray *)stops{
+    [[[firstStopView viewWithTag:1000] layer] setCornerRadius: 5.0];
+    [[[secondStopView viewWithTag:1000] layer] setCornerRadius: 5.0];
+    [[[thirdStopView viewWithTag:1000] layer] setCornerRadius: 5.0];
+    
+    firstStopView.hidden = YES;
+    secondStopView.hidden = YES;
+    thirdStopView.hidden = YES;
+    
+    [self setUpFooterButton];
+    
+    NSArray *stopViews = @[firstStopView,secondStopView,thirdStopView,];
+    
+    if ([self.stopList count] != 0) {
+        
+        for (int i=0; i<stops.count && i < 3; i++) {
+            BusStopE *stop = [self.stopList objectAtIndex:i];
+            UIView *stopView = [stopViews objectAtIndex:i];
+            stopView.hidden = YES;
+            if (stop) {
+                stopView.hidden = NO;
+                UIView *backView = [stopView viewWithTag:1000];
+                backView.layer.cornerRadius = 5.0;
+                
+                UILabel *nameLabel = (UILabel *)[stopView viewWithTag:1001];
+                nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];
+                
+                UILabel *departuresLabel = (UILabel *)[stopView viewWithTag:1002];
+                departuresLabel.text = @"No departures in the next 6 hours";
+                
+                NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:[UIColor orangeColor] forKey:NSForegroundColorAttributeName];
+                [busNumberDict setObject:[UIFont systemFontOfSize:18.0] forKey:NSFontAttributeName];
+                NSDictionary *timeDict = [NSDictionary dictionaryWithObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+                
+                NSMutableAttributedString *departuresString = [[NSMutableAttributedString alloc] initWithString:@"" attributes: busNumberDict];
+                NSMutableAttributedString *tempStr = [NSMutableAttributedString alloc];
+                
+                if (![stop.departures isEqual:[NSNull null]]) {
+                    if (stop.departures.count != 0){
+                        for (NSDictionary *departure in stop.departures) {
+                            NSString *notParsedCode = [departure objectForKey:@"code"];
+                            tempStr = [[NSMutableAttributedString alloc] initWithString:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode] attributes:busNumberDict];
+                            [departuresString appendAttributedString:tempStr];
+                            
+                            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+                            
+                            tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   "
+                                                                                         ,[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]] attributes:timeDict];
+                            
+                            [departuresString appendAttributedString:tempStr];
+                        }
+                        
+                        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+                        [paragrahStyle setLineSpacing:5];
+                        [departuresString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [departuresString length])];
+                        
+                        
+                        departuresLabel.attributedText = departuresString;
+                    }
+                    
+                }
+                
+                UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[stopView viewWithTag:1003];
+                [indicator stopAnimating];
+            }else{
+                stopView.hidden = YES;
+            }
+        }
+
+    }
+    
+    [self updateContentSizeForTableRows:0];
+//    for (int i=0; i<stopViews.count; i++) {
+//        i < stops.count ? [[stopViews objectAtIndex:i] setHidden:NO] : [[stopViews objectAtIndex:i] setHidden:YES];
+//    }
+    
+}
+
+-(void)setUpFooterButton{
+    if (cachedMode) {
+        [footerButton setTitle:@"reloading departures..." forState:UIControlStateNormal];
+        footerButton.enabled = NO;
+        footerButton.hidden = NO;
+    }else if (thereIsMore && enoughCatchedDepartures) {
+        [footerButton setTitle:@"more..." forState:UIControlStateNormal];
+        footerButton.enabled = YES;
+        footerButton.hidden = NO;
+    }else{
+        footerButton.hidden = YES;
+    }
+}
+
+- (IBAction)stopViewSelected:(id)sender {
+    UIButton *viewButton = (UIButton *)sender;
+    if (viewButton) {
+        BusStopE *selected;
+        if (viewButton == firstViewButton) {
+            selected = [self.stopList objectAtIndex:0];
+        }else if (viewButton == secondViewButton) {
+            selected = [self.stopList objectAtIndex:1];
+        }else if (viewButton == thirdViewButton) {
+            selected = [self.stopList objectAtIndex:2];
+        }else{
+            
+        }
+        
+        [self openBusStop:selected];
+    }
+}
+
 
 #pragma mark - Helpers
 
@@ -265,20 +462,58 @@
     }
 }
 
--(NSMutableArray *)getStopsFromCache{
+-(NSMutableArray *)getStopsFromCacheAfterTime:(NSDate *)date andStops:(NSString *)stringStopCodes{
+    
+    if ([stringStopCodes isEqualToString:@""] || stringStopCodes == nil)
+        return [@[] mutableCopy];
+    
     NSDictionary * myDictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"previousStops"];
+    
+    BOOL enoughDepartures = YES;
     
     if (myDictionary != nil) {
         NSArray * dictArray = [myDictionary objectForKey:@"stops"];
         
         NSMutableArray *stops = [@[] mutableCopy];
         
+        NSInteger sinceDate = [[ReittiStringFormatterE formatHSLDateFromDate:date] integerValue];
+        NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:date] integerValue];
+        
         for (NSDictionary *dict in dictArray) {
             BusStopE *newStop = [[BusStopE alloc] initWithDictionary:dict];
-            [stops addObject:newStop];
+            
+            if (![stringStopCodes containsString:[NSString stringWithFormat:@"%@",newStop.code]])
+                continue;
+            
+            NSMutableArray *fDepartures = [@[] mutableCopy];
+            for (NSDictionary *dept in newStop.departures) {
+                NSLog(@"%@",dept);
+                if ([dept[@"date"] integerValue] >= sinceDate || ([dept[@"date"] integerValue] == sinceDate - 1 && sinceTime < 400)) {
+                    if ([dept[@"time"] integerValue] >= sinceTime) {
+                        [fDepartures addObject:dept];
+                    }
+                }
+            }
+            if (fDepartures.count > 0) {
+                newStop.departures = fDepartures;
+                [stops addObject:newStop];
+                if (enoughDepartures) {
+                    enoughDepartures = fDepartures.count > 3 ? YES : NO;
+                }
+            }
+            
+        }
+        if (stops.count > 0) {
+            self.enoughCatchedDepartures = enoughDepartures;
+            if (enoughDepartures)
+                cachedMode = NO;
+            else
+                cachedMode = YES;
+            return stops;
+        }else{
+            cachedMode = NO;
         }
         
-        return stops;
     }
     
     return [@[] mutableCopy];
@@ -290,84 +525,92 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-    // Perform any setup necessary in order to update the view.
-//    self.stopList = [self getStopsFromCache];
-//    [departuresTable reloadData];
-//    if (self.stopList != nil) {
-//        //TODO - Check cache is not very old
-//        cachedMode = YES;
-//        infoLabel.hidden = YES;
-//    }else{
+//- (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
+
+//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+//
+//    NSString *stopCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
+//    if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
+//        stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
+//    }
+//    
+//    [sharedDefaults synchronize];
+//    
+//    NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
+//    
+//    if ([stopCodes isEqualToString:@""] || stopCodes == nil) {
+//        infoLabel.text = @"No stops bookmarked";
+//        [self storeStopsToCache:nil];
+//        self.stopList = nil;
 //        cachedMode = NO;
+//        [self setUpStopViewsForStops:self.stopList];
+//        infoLabel.hidden = NO;
+//        completionHandler(NCUpdateResultNoData);
+//        
+//        return;
+//    }else{
+//        if (!cachedMode) {
+//            infoLabel.text = @"loading saved stops...";
+//            infoLabel.hidden = NO;
+//        }else{
+//            infoLabel.hidden = YES;
+//        }
+//        
+//    }
+//    
+//    HSLAPI *hslAPI = [[HSLAPI alloc] init];
+//    
+//    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
+//    
+//    NSArray *stopCodeList = [self arrayFromCommaSeparatedString:stopCodes];
+//    
+//    thereIsMore = totalNumberOfStops > stopCodeList.count;
+//    
+//    if (stopCodeList.count != 0 ) {
+//        if ([[stopCodeList firstObject] isEqualToString:@""]) {
+//            completionHandler(NCUpdateResultNoData);
+//            return;
+//        }
+//        
+//        if (self.stopList.count != stopCodeList.count) {
+//            self.stopList = [@[] mutableCopy];
+//        }
+//        
+//        completionHandler(NCUpdateResultNoData);
+//        
+//        [hslAPI searchStopForCodes:stopCodeList completionBlock:^(NSMutableArray *resultList, NSError *error) {
+//            if (!error && resultList != nil) {
+////                NSUInteger idx = [self.stopList indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
+////                    return [[(BusStopE *)obj code] intValue] == [resultStop.code intValue];
+////                }];
+////                if (idx != NSNotFound)
+////                    [self.stopList replaceObjectAtIndex:idx withObject:resultStop];
+//                
+//                self.stopList = resultList;
+//                cachedMode = NO;
+////                [departuresTable reloadData];
+//                [self setUpStopViewsForStops:self.stopList];
+//                infoLabel.hidden = YES;
+//                //                [self updateContentSize];
+//                //            [self widgetPerformUpdateWithCompletionHandler:nil];
+//                [self storeStopsToCache:self.stopList];
+//                completionHandler(NCUpdateResultNewData);
+//                
+//            }else{
+//                infoLabel.text = @"Fetching stops failed.";
+//                completionHandler(NCUpdateResultNoData);
+//            }
+//        }];
+//        
+//    }else{
+//        completionHandler(NCUpdateResultNoData);
 //    }
     
-    
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+//    completionHandler(NCUpdateResultNewData);
 
-    NSString *stopCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
-    if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
-        stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
-    }
-    
-    [sharedDefaults synchronize];
-    
-    NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
-    
-    if ([stopCodes isEqualToString:@""] || stopCodes == nil) {
-        infoLabel.text = @"No stops bookmarked";
-        completionHandler(NCUpdateResultNewData);
-//        infoLabel.hidden = NO;
-    }else{
-        infoLabel.text = @"Reloading departures...";
-//        infoLabel.hidden = NO;
-    }
-    
-    HSLAPI *hslAPI = [[HSLAPI alloc] init];
-    
-    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
-    
-    NSArray *stopCodeList = [self arrayFromCommaSeparatedString:stopCodes];
-    
-    thereIsMore = totalNumberOfStops > stopCodeList.count;
-    
-    if (stopCodeList.count != 0 ) {
-        if ([[stopCodeList firstObject] isEqualToString:@""]) {
-            return;
-        }
-        
-        if (self.stopList.count != stopCodeList.count) {
-            self.stopList = [@[] mutableCopy];
-        }
-        
-        [hslAPI searchStopForCodes:stopCodeList completionBlock:^(NSMutableArray *resultList, NSError *error) {
-            if (!error && resultList != nil) {
-//                NSUInteger idx = [self.stopList indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
-//                    return [[(BusStopE *)obj code] intValue] == [resultStop.code intValue];
-//                }];
-//                if (idx != NSNotFound)
-//                    [self.stopList replaceObjectAtIndex:idx withObject:resultStop];
-                
-                self.stopList = resultList;
-                cachedMode = NO;
-                [departuresTable reloadData];
-                infoLabel.hidden = YES;
-                //                [self updateContentSize];
-                //            [self widgetPerformUpdateWithCompletionHandler:nil];
-                [self storeStopsToCache:self.stopList];
-                completionHandler(NCUpdateResultNewData);
-            }else{
-                completionHandler(NCUpdateResultNoData);
-                infoLabel.text = @"Fetching stops failed.";
-            }
-        }];
-        
-    }
-     
-    
     // If an error is encountered, use NCUpdateResultFailed
     // If there's no update required, use NCUpdateResultNoData
     // If there's an update, use NCUpdateResultNewData
-}
+//}
 
 @end

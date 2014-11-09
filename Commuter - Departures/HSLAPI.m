@@ -13,18 +13,44 @@
 
 - (void)searchStopForCodes:(NSArray *)codes completionBlock:(DeparturesSearchCompletionBlock)completionBlock{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableArray *resultArray = [@[]mutableCopy];
+        NSMutableArray *resultArray = [@[] mutableCopy];
         
         for (int i = 0; i < codes.count ; i++) {
-            [self searchStopForCode:[codes objectAtIndex:i] completionBlock:^(BusStopE *result, NSError *error) {
+            [self searchStopForCode:[codes objectAtIndex:i] index:i completionBlock:^(BusStopE *result, int index, NSError *error) {
                 if (!error && result != nil) {
-                    [resultArray addObject:result];
+                    if (index < resultArray.count) {
+                        [resultArray removeObjectAtIndex:index];
+                        [resultArray insertObject:result atIndex:index];
+                    }else
+                        [resultArray addObject:result];
                 }else{
                     completionBlock(nil, error);
                 }
                 
                 if (resultArray.count == codes.count ) {
-                    completionBlock(resultArray, nil);
+                    NSMutableArray *sortedResultArray = [@[] mutableCopy];
+                    for (BusStopE *stop in resultArray) {
+                        if ([codes indexOfObject:[NSString stringWithFormat:@"%d",[stop.code intValue]]] == 0) {
+                            [sortedResultArray addObject:stop];
+                            break;
+                        }
+                    }
+                    
+                    for (BusStopE *stop in resultArray) {
+                        if ([codes indexOfObject:[NSString stringWithFormat:@"%d",[stop.code intValue]]] == 1) {
+                            [sortedResultArray addObject:stop];
+                            break;
+                        }
+                    }
+                    
+                    for (BusStopE *stop in resultArray) {
+                        if ([codes indexOfObject:[NSString stringWithFormat:@"%d",[stop.code intValue]]] == 2) {
+                            [sortedResultArray addObject:stop];
+                            break;
+                        }
+                    }
+                    completionBlock(sortedResultArray, nil);
+                    
                 }
             }];
         }
@@ -32,7 +58,7 @@
 
 }
 
-- (void)searchStopForCode:(NSString *)code completionBlock:(StopSearchCompletionBlock)completionBlock{
+- (void)searchStopForCode:(NSString *)code index:(int)index completionBlock:(StopSearchCompletionBlock)completionBlock{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stop&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
         NSError *error = nil;
@@ -40,7 +66,7 @@
                                                                 encoding:NSUTF8StringEncoding
                                                                    error:&error];
         if (error != nil) {
-            completionBlock(nil, error);
+            completionBlock(nil,index, error);
         } else {
             // Parse the JSON Response
             NSData *jsonData = [searchResultString dataUsingEncoding:NSUTF8StringEncoding];
@@ -48,10 +74,10 @@
                                                                           options:kNilOptions
                                                                             error:&error];
             if (error != nil) {
-                completionBlock(nil, error);
+                completionBlock(nil,index, error);
             } else {
                 if (/* DISABLES CODE */ (NO)) {
-                    completionBlock(nil, error);
+                    completionBlock(nil,index, error);
                 } else {
                     BusStopE *busStop = [BusStopE new];
                     
@@ -67,7 +93,7 @@
                     busStop.departures = busStopDict[@"departures"];
                     busStop.address_fi = busStopDict[@"address_fi"];
                     
-                    completionBlock(busStop, nil);
+                    completionBlock(busStop,index, nil);
                 }
             }
         }

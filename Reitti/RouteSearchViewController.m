@@ -199,6 +199,8 @@
         }
     }
     
+    [fromSearchBar setImage:[UIImage imageNamed:@"location-light-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    
     for (UIView *firstSubView in toSearchBar.subviews)
     {
         for (UIView *subview in firstSubView.subviews) {
@@ -222,8 +224,11 @@
         }
     }
     
+    [toSearchBar setImage:[UIImage imageNamed:@"finish_flag-light-50.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    
     [self setBookmarkButtonStatus];
 }
+
 - (IBAction)swipeToAndFromSelections:(id)sender {
     NSString * curToText = toSearchBar.text;
     toString = fromString;

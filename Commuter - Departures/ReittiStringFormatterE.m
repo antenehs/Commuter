@@ -84,6 +84,20 @@
     return [formatter stringFromDate:date];
 }
 
++(NSString *)formatHSLHourFromDate:(NSDate *)date{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HHmm"];
+    
+    return [formatter stringFromDate:date];
+}
+
++(NSString *)formatHSLDateFromDate:(NSDate *)date{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYYMMdd"];
+    
+    return [formatter stringFromDate:date];
+}
+
 //Expected format is XXXXXXXX of numbers
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData{
     if (hslData.length != 8 || [hslData intValue] == 0) {

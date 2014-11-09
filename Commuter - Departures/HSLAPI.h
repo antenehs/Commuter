@@ -11,7 +11,7 @@
 @class BusStopE;
 
 typedef void (^DeparturesSearchCompletionBlock)(NSMutableArray *results, NSError *error);
-typedef void (^StopSearchCompletionBlock)(BusStopE *result, NSError *error);
+typedef void (^StopSearchCompletionBlock)(BusStopE *result, int index, NSError *error);
 
 @interface HSLAPI : NSObject
 

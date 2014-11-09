@@ -15,6 +15,8 @@
 +(NSString *)formatHSLAPITimeToHumanTime:(NSString *)hslTime;
 +(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
 +(NSString *)formatHourStringFromDate:(NSDate *)date;
++(NSString *)formatHSLHourFromDate:(NSDate *)date;
++(NSString *)formatHSLDateFromDate:(NSDate *)date;
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
 +(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString;

@@ -167,6 +167,9 @@
 		66CEE29C1A01AF650089A6F9 /* annotationFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29B1A01AF650089A6F9 /* annotationFrame.png */; };
 		66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */; };
 		66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */; };
+		66CF81961A0ED8E30034C9AB /* finish_flag-light-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF81941A0ED8E30034C9AB /* finish_flag-light-50.png */; };
+		66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF81951A0ED8E30034C9AB /* circle-light-50.png */; };
+		66CF81991A0ED9EE0034C9AB /* location-light-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF81981A0ED9EE0034C9AB /* location-light-25.png */; };
 		66D06A7719A40EFB00424A4A /* map_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D06A7619A40EFB00424A4A /* map_background.png */; };
 		66D0BA4618BE470A002DDC7B /* bus3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4518BE470A002DDC7B /* bus3.png */; };
 		66D0BA4918BE4840002DDC7B /* nearby_2_20120.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */; };
@@ -523,6 +526,9 @@
 		66CEE29B1A01AF650089A6F9 /* annotationFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = annotationFrame.png; path = "Pictures/Version 2.2/annotationFrame.png"; sourceTree = "<group>"; };
 		66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopAnnotation.png; path = "Pictures/Version 2.2/stopAnnotation.png"; sourceTree = "<group>"; };
 		66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = geoCodeAnnotation.png; path = "Pictures/Version 2.2/geoCodeAnnotation.png"; sourceTree = "<group>"; };
+		66CF81941A0ED8E30034C9AB /* finish_flag-light-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "finish_flag-light-50.png"; path = "Pictures/Version 2.2/finish_flag-light-50.png"; sourceTree = "<group>"; };
+		66CF81951A0ED8E30034C9AB /* circle-light-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "circle-light-50.png"; path = "Pictures/Version 2.2/circle-light-50.png"; sourceTree = "<group>"; };
+		66CF81981A0ED9EE0034C9AB /* location-light-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location-light-25.png"; path = "Pictures/Version 2.2/location-light-25.png"; sourceTree = "<group>"; };
 		66D06A7619A40EFB00424A4A /* map_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map_background.png; path = "Pictures/New Version 2.0/map_background.png"; sourceTree = "<group>"; };
 		66D0BA4518BE470A002DDC7B /* bus3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bus3.png; path = Pictures/Flaticon_PNGFiles/bus3.png; sourceTree = "<group>"; };
 		66D0BA4718BE4840002DDC7B /* nearby_2_20120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nearby_2_20120.png; path = Pictures/nearby_2_20120.png; sourceTree = "<group>"; };
@@ -1103,6 +1109,9 @@
 		66CEE28219FAF22B0089A6F9 /* New Version 2.2 */ = {
 			isa = PBXGroup;
 			children = (
+				66CF81981A0ED9EE0034C9AB /* location-light-25.png */,
+				66CF81941A0ED8E30034C9AB /* finish_flag-light-50.png */,
+				66CF81951A0ED8E30034C9AB /* circle-light-50.png */,
 				665A1E7F1A05791E00797ABA /* stopIcon-dark.png */,
 				665A1E781A0558C300797ABA /* removeIcon-red.png */,
 				665A1E791A0558C300797ABA /* addIcon-green.png */,
@@ -1365,6 +1374,7 @@
 				661721EA19CD999500E3CD6E /* blured-background-dark.png in Resources */,
 				66D989F3199FFC5300E0B74B /* metro-colored-75.png in Resources */,
 				66D426A9199148D10080F21E /* schedule-128.png in Resources */,
+				66CF81961A0ED8E30034C9AB /* finish_flag-light-50.png in Resources */,
 				66CB95F218E5BED300E95CE5 /* Info_notification.png in Resources */,
 				665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */,
 				66CB95F818E8CBE300E95CE5 /* error_notification.png in Resources */,
@@ -1392,6 +1402,7 @@
 				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
 				66CC93F718DF35CD00644281 /* download_V.png in Resources */,
+				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,
 				66DAE1FB19C6112A0039081D /* ferryAnnotationSmall.png in Resources */,
 				66C1254719D3491A00099AFF /* data_in_both_directions-48.png in Resources */,
@@ -1496,6 +1507,7 @@
 				661FAF1F1895D3F000042074 /* rectangle.png in Resources */,
 				66D989F2199FFC5300E0B74B /* train-colored-75.png in Resources */,
 				66F1384C1997897700B52B6B /* ferry-100.png in Resources */,
+				66CF81991A0ED9EE0034C9AB /* location-light-25.png in Resources */,
 				66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */,
 				66A7A9D518C9D96B00AC9E94 /* reload_64.png in Resources */,
 				66947CC018830ED500642EE1 /* InfoPlist.strings in Resources */,
