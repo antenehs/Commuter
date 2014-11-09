@@ -73,10 +73,10 @@
     
     self.tableView.backgroundView = bluredBackView;
     
-    listSegmentControl.tintColor = systemSubTextColor;
+    listSegmentControl.tintColor = [UIColor darkGrayColor];
     
     
-    self.navigationController.navigationBar.barTintColor = systemBackgroundColor;
+//    self.navigationController.navigationBar.barTintColor = systemBackgroundColor;
     
     self.tableView.rowHeight = 60;
     

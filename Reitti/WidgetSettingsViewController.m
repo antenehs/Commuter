@@ -23,7 +23,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.toolbar.hidden = YES;
-    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
+//    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
     
     [bluredBackView setFrame:self.tableView.frame];
     self.tableView.backgroundView = bluredBackView;

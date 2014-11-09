@@ -128,14 +128,14 @@
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="109T" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Ke6-LR-kbk">
                                                             <rect key="frame" x="12" y="7" width="74" height="39"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="nKr-w1-lfe">
                                                             <rect key="frame" x="119" y="6" width="181" height="26"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -197,7 +197,7 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bookmark added successfully" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="nhr-4v-U1s">
                                         <rect key="frame" x="33" y="8" width="258" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                         <color key="textColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -359,7 +359,7 @@
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vbG-y6-Zwh">
                                                 <rect key="frame" x="30" y="39" width="266" height="195"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <string key="text">Commuter is an app made to provide an easy way to plan public transport journeys and get stop time tables, and most importantly for free. It uses HSL's Open API for all the data. The route search feature is still in beta and there will be more improvements and new features in the future. Feel free to contact me about feature requests. Last but not least, it is almost mandatory that you write a review in the App store or share on Facebook/Twitter. If not there will be 1000 years of darkness. Seriously.</string>
+                                                <mutableString key="text">Commuter is an app made to provide an easy way to plan public transport journeys and get stop time tables. It uses HSL's Open API for all the data. It supports public transport in the capital city region and more cities will be supported soon. There will also be more improvements and new features regularly. Feel free to contact me about feature requests. Last but not least, it is almost mandatory that you write a review in the App store or share on Facebook/Twitter to spread the love. If not there will be 1000 years of darkness. Seriously.</mutableString>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -754,7 +754,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="JcP-h3-Bvc">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="7rO-nW-Evl">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="7rO-nW-Evl">
                             <connections>
                                 <action selector="CancelButtonPressed:" destination="LeF-Fg-lgm" id="5Ms-rO-9km"/>
                             </connections>
@@ -770,7 +770,7 @@
                                 <action selector="segmentControlValueChanged:" destination="LeF-Fg-lgm" eventType="valueChanged" id="ccd-Zb-ce7"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" title="Clear" id="nRI-7E-qtX">
+                        <barButtonItem key="rightBarButtonItem" title="Clear" style="done" id="nRI-7E-qtX">
                             <connections>
                                 <action selector="clearAllButtonPressed:" destination="LeF-Fg-lgm" id="pXG-jq-ami"/>
                             </connections>
@@ -1295,7 +1295,6 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
                             </view>
@@ -1943,16 +1942,16 @@
                                             <action selector="cancelButtonPressed:" destination="EPj-p9-zap" eventType="touchUpInside" id="hMC-x3-Nau"/>
                                         </connections>
                                     </button>
-                                    <view hidden="YES" contentMode="scaleToFill" id="HLc-0u-gdx">
-                                        <rect key="frame" x="60" y="62" width="219" height="30"/>
+                                    <view contentMode="scaleToFill" id="HLc-0u-gdx">
+                                        <rect key="frame" x="10" y="62" width="269" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </view>
-                                    <view hidden="YES" contentMode="scaleToFill" id="AGF-Ax-j3B">
-                                        <rect key="frame" x="60" y="100" width="219" height="30"/>
+                                    <view contentMode="scaleToFill" id="AGF-Ax-j3B">
+                                        <rect key="frame" x="10" y="100" width="269" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </view>
                                     <searchBar tag="1001" contentMode="redraw" searchBarStyle="minimal" id="Evv-Ap-AFo">
-                                        <rect key="frame" x="11" y="55" width="263" height="44"/>
+                                        <rect key="frame" x="8" y="55" width="266" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -1960,7 +1959,7 @@
                                         </connections>
                                     </searchBar>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" id="prP-pT-jCT">
-                                        <rect key="frame" x="11" y="93" width="263" height="44"/>
+                                        <rect key="frame" x="10" y="93" width="264" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -2290,7 +2289,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <view alpha="0.59999999999999964" contentMode="scaleToFill" id="uZN-YC-Dia">
+                                    <view hidden="YES" alpha="0.59999999999999964" contentMode="scaleToFill" id="uZN-YC-Dia">
                                         <rect key="frame" x="50" y="95" width="220" height="1"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -3011,7 +3010,7 @@
         <image name="clock-75.png" width="75" height="75"/>
         <image name="clock-grey-100.png" width="100" height="100"/>
         <image name="currentLocation-black.png" width="64" height="83"/>
-        <image name="currentLocation3.png" width="294" height="293"/>
+        <image name="currentLocation3.png" width="285" height="284"/>
         <image name="disruption-info-128.png" width="128" height="128"/>
         <image name="done_notification.png" width="128" height="128"/>
         <image name="dotted-brown-line.png" width="7" height="118"/>
@@ -3019,7 +3018,7 @@
         <image name="down_256.png" width="93" height="57"/>
         <image name="exchangeAddresses.png" width="160" height="201"/>
         <image name="idea-75.png" width="75" height="75"/>
-        <image name="list_nearBy.png" width="294" height="294"/>
+        <image name="list_nearBy.png" width="284" height="284"/>
         <image name="location-75.png" width="75" height="75"/>
         <image name="map-orange-50.png" width="50" height="50"/>
         <image name="map_background.png" width="640" height="939"/>
@@ -3047,8 +3046,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="UCl-M8-RbU"/>
+        <segue reference="pbg-8L-TD1"/>
         <segue reference="y7Z-EO-EpP"/>
         <segue reference="ma3-DP-8s2"/>
-        <segue reference="e2V-qU-oq6"/>
     </inferredMetricsTieBreakers>
 </document>
