@@ -18,11 +18,11 @@
         for (int i = 0; i < codes.count ; i++) {
             [self searchStopForCode:[codes objectAtIndex:i] index:i completionBlock:^(BusStopE *result, int index, NSError *error) {
                 if (!error && result != nil) {
-                    if (index < resultArray.count) {
-                        [resultArray removeObjectAtIndex:index];
-                        [resultArray insertObject:result atIndex:index];
-                    }else
-                        [resultArray addObject:result];
+//                    if (index < resultArray.count) {
+//                        [resultArray removeObjectAtIndex:index];
+//                        [resultArray insertObject:result atIndex:index];
+//                    }else
+                    [resultArray addObject:result];
                 }else{
                     completionBlock(nil, error);
                 }

@@ -166,15 +166,19 @@
             if (!error && resultList != nil) {
                 self.stopList = resultList;
                 cachedMode = NO;
-                [self setUpStopViewsForStops:self.stopList];
-                infoLabel.hidden = YES;
+//                infoLabel.hidden = YES;
                 [self storeStopsToCache:self.stopList];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self setUpStopViewsForStops:resultList];
+                    infoLabel.hidden = YES;
+                });
                 
             }else{
-                infoLabel.text = @"Fetching stops failed.";
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    infoLabel.text = @"Fetching stops failed.";
+                });
             }
         }];
-        
     }
 }
 
