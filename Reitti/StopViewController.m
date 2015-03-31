@@ -47,6 +47,9 @@
     departuresTableIndex = nil;
     pressTime = 0;
     
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setToolbarHidden:YES animated:NO];
+    
     [self setNeedsStatusBarAppearanceUpdate];
     self.reittiDataManager.delegate = self;
     [self selectSystemColors];
@@ -104,14 +107,20 @@
 }
 
 - (void)setStopViewApearance{
+//    UIImage * bgImage = [[UIImage imageNamed:@"location-filled-green-32.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+//    [showLocationBarButtonItem setBackgroundImage:bgImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//    showLocationBarButtonItem.width = 25.0;
+//    showLocationButton.frame = CGRectMake(200, self.view.frame.size.height - 40, 30, 30);
+//    [showLocationBarButtonItem setCustomView:showLocationButton];
     
+    /*
     [stopView setBlurTintColor:systemBackgroundColor];
-    [topBarView setBlurTintColor:systemBackgroundColor];
-    topBarView.alpha = 0.95;
+//    [topBarView setBlurTintColor:systemBackgroundColor];
+//    topBarView.alpha = 0.95;
     [bottomBarView setBlurTintColor:systemBackgroundColor];
     bottomBarView.alpha = 0.95;
-    topBarView.layer.borderWidth = 0.5;
-    topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
+//    topBarView.layer.borderWidth = 0.5;
+//    topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
     bottomBarView.layer.borderWidth = 0.5;
     bottomBarView.layer.borderColor = [[UIColor blackColor] CGColor];
     if (backButtonText != nil) {
@@ -132,6 +141,7 @@
     CGRect botomFrame = bottomBarView.frame;
     
     bottomBarView.frame = CGRectMake(0, self.view.bounds.size.height - botomFrame.size.height, botomFrame.size.width, botomFrame.size.height);
+     */
 }
 
 - (void)initNotifications{
@@ -179,7 +189,12 @@
 }
 
 - (IBAction)showMapViewButtonPressed:(id)sender {
-    departuresTableViewContainer.hidden = YES;
+    departuresTableViewContainer.hidden = !departuresTableViewContainer.hidden;
+    if (departuresTableViewContainer.hidden) {
+        [showLocationBarButtonItem setTitle:@"Show departures"];
+    }else{
+        [showLocationBarButtonItem setTitle:@"Show on map"];
+    }
     [self startTimer];
 }
 
@@ -348,12 +363,12 @@
 }
 
 - (void)setStopBookmarkedState{
-    [bookmarkButton setImage:[UIImage imageNamed:@"star-orange-128.png"] forState:UIControlStateNormal];
+    [bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
     stopBookmarked = YES;
 }
 
 - (void)setStopNotBookmarkedState{
-    [bookmarkButton setImage:[UIImage imageNamed:@"star-128.png"] forState:UIControlStateNormal];
+    [bookmarkButton setImage:[UIImage imageNamed:@"star-line-white-100.png"] forState:UIControlStateNormal];
     stopBookmarked = NO;
 }
 
@@ -374,7 +389,7 @@
 //    departuresTableViewContainer.layer.borderWidth = 2;
     //  departuresTable.layer.cornerRadius = 10;
 //    departuresTableViewContainer    .layer.borderColor = [[UIColor darkGrayColor] CGColor];
-    
+
     self.departures = busStop.departures;
     self._busStop = busStop;
     self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
@@ -389,6 +404,9 @@
     
     [self setUpMainView];
     [self initMapViewForBusStop:busStop];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 - (IBAction)reloadButtonPressed:(id)sender{

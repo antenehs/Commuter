@@ -62,9 +62,9 @@
 }
 
 - (void)setUpTopBarApearance{
-    topBarView.layer.borderWidth = 0.5;
-    topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
-    [topBarView setBlurTintColor:systemBackgroundColor];
+//    topBarView.layer.borderWidth = 0.5;
+//    topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
+//    [topBarView setBlurTintColor:systemBackgroundColor];
     
     if (_pageTitle != nil) {
         titleLabel.text = _pageTitle;

@@ -12,7 +12,7 @@
 @interface WebViewController : UIViewController<UIWebViewDelegate>{
     
     IBOutlet UILabel *titleLabel;
-    IBOutlet AMBlurView *topBarView;
+    IBOutlet UIView *topBarView;
     IBOutlet UIProgressView *loadProgressView;
     
     BOOL doneLoading;

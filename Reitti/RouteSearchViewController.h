@@ -15,6 +15,8 @@
 #import "StopEntity.h"
 #import "HistoryEntity.h"
 #import "AddressSearchViewController.h"
+#import "RouteSearchOptions.h"
+#import "RouteOptionsTableViewController.h"
 
 @class RouteSearchViewController;
 
@@ -22,14 +24,7 @@
 - (void)routeModified;
 @end
 
-typedef enum
-{
-    SelectedTimeNow = 0,
-    SelectedTimeDeparture = 1,
-    SelectedTimeArrival = 2
-} SelectedTimeType;
-
-@interface RouteSearchViewController : UIViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate, RettiRouteSearchDelegate,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate>{
+@interface RouteSearchViewController : UIViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate, RettiRouteSearchDelegate,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate, RouteOptionSelectionDelegate>{
     
     IBOutlet UISearchBar *fromSearchBar;
     IBOutlet UISearchBar *toSearchBar;
@@ -72,6 +67,7 @@ typedef enum
     NSString *currentLocationText;
     
     SelectedTimeType selectedTimeType;
+    NSDate *selectedTime;
     NSString *selectedTimeString;
     NSString *selectedDateString;
     

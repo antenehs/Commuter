@@ -45,10 +45,10 @@
     NSLog(@"URL scheme:%@", [url scheme]);
     NSLog(@"URL query: %@", [url query]);
     
-//    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
 //    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main.storyboard" bundle: nil];
     
-    SearchController *controller = (SearchController *)self.window.rootViewController;
+    SearchController *controller = (SearchController *)[[navigationController viewControllers] lastObject];
     
     NSLog(@"Search controller is : %@",controller);
     [controller dismissViewControllerAnimated:YES completion:nil];

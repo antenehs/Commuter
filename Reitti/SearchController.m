@@ -125,10 +125,10 @@
                                 }];
     
 	// Do any additional setup after loading the view.
-    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureDetected:)];
-    tapGestureRecognizer.delegate = self;
+//    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureDetected:)];
+//    tapGestureRecognizer.delegate = self;
     
-    [mapView addGestureRecognizer:tapGestureRecognizer];
+//    [mapView addGestureRecognizer:tapGestureRecognizer];
     
     blurViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blurViewGestureDetected:)];
     
@@ -157,13 +157,11 @@
 //    [searchResultsView addGestureRecognizer:searchResultsViewGestureRecognizer];
     
     [self setNeedsStatusBarAppearanceUpdate];
-    [self setBlurViewApearance];
-    [self setCommandViewApearance];
+    [self setNavBarApearance];
+//    [self setCommandViewApearance];
     
-    [self initNotificationView];
-    [self hideStopView:YES animated:NO];
     [self hideSearchResultView:YES animated:NO];
-    [self hideCommandView:YES];
+//    [self hideCommandView:YES];
     [self initializeMapView];
     [self initDisruptionFetching];
     [self setBookmarkedStopsToDefaults];
@@ -175,11 +173,47 @@
 //    
 //    [sharedDefaults setInteger:9 forKey:@"MyNumberKey"];
 //    [sharedDefaults synchronize];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+    for (UIView *subView in mainSearchBar.subviews)
+    {
+        for (UIView *secondLevelSubview in subView.subviews){
+            if ([secondLevelSubview isKindOfClass:[UITextField class]])
+            {
+                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+                
+                //set font color here
+                searchBarTextField.textColor = [UIColor whiteColor];
+                
+                break;
+            }
+        }
+    }
     [self initDisruptionFetching];   
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+//    [super viewDidAppear:animated];
+//    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+    
+    for (UIView *subView in mainSearchBar.subviews)
+    {
+        for (UIView *secondLevelSubview in subView.subviews){
+            if ([secondLevelSubview isKindOfClass:[UITextField class]])
+            {
+                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+                
+                //set font color here
+                searchBarTextField.textColor = [UIColor whiteColor];
+                
+                break;
+            }
+        }
+    }
+    
+    [mainSearchBar setPlaceholder:@"address, stop or poi"];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -211,8 +245,13 @@
         systemSubTextColor = [UIColor darkGrayColor];
     }
 }
-- (void)setBlurViewApearance{
+- (void)setNavBarApearance{
 //    appTitileLable.font = CUSTOME_FONT_BOLD(30.0f);
+    CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
+    UIView *titleView = self.navigationItem.titleView;
+    CGRect titleViewFrame = titleView.frame;
+    titleViewFrame.size.width = navigationBarSize.width;
+    self.navigationItem.titleView.frame = titleViewFrame;
     
     [blurView setBlurTintColor:systemBackgroundColor];
     //blurView.alpha = 0.97;
@@ -220,7 +259,7 @@
     blurView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     //searchBarFrame = mainSearchBar.frame;
-    
+//    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     //Set search bar text color
     for (UIView *subView in mainSearchBar.subviews)
     {
@@ -230,12 +269,14 @@
                 UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
                 
                 //set font color here
-                searchBarTextField.textColor = systemSubTextColor;
+                searchBarTextField.textColor = [UIColor whiteColor];
                 
                 break;
             }
         }
     }
+    
+    [mainSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     
     if (self.darkMode) {
         mainSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
@@ -261,6 +302,7 @@
 
 #pragma - mark Command view methods
 
+/*
 - (void)setCommandViewApearance{
 //    selectedStopLabel.font = CUSTOME_FONT_BOLD(30.0f);
     
@@ -354,7 +396,7 @@
     }
     
 }
-
+*/
 #pragma mark - Annotation helpers
 -(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
     selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
@@ -367,98 +409,6 @@
     [self performSegueWithIdentifier:@"openStopView" sender:nil];
 }
 
-#pragma - mark Notification methods
--(void)initNotificationView{
-    notificationView.layer.borderWidth = 1;
-    notificationView.layer.borderColor = [SYSTEM_GRAY_COLOR CGColor];
-    [notificationView setBlurTintColor:SYSTEM_GRAY_COLOR];
-//    notificationMessageLabel.font = CUSTOME_FONT_BOLD(17.0f);
-    [self hideNotificationView:YES animated:NO];
-}
--(void)hideNotificationView:(BOOL)hidden{
-    CGRect viewFrame = notificationView.frame;
-    
-    if (hidden) {
-        viewFrame.origin.y = [self searchViewLowerBound] - viewFrame.size.height;
-        notificationView.frame = viewFrame;
-        //notificationView.hidden = YES;
-    }else{
-        [self setNotificationViewVerticalPosition];
-        notificationView.hidden = NO;
-    }
-}
-
--(void)hideNotificationView:(BOOL)hidden animated:(BOOL)anim{
-    
-    //[self setNotificationViewVerticalPosition];
-    
-    if (!hidden) {
-        [self hideNotificationView:YES];
-    }
-    if (anim) {
-        [UIView transitionWithView:notificationView duration:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            
-            [self hideNotificationView:hidden];
-            
-        } completion:^(BOOL finished) {
-            if (hidden) {
-                notificationView.hidden = YES;
-            }
-        }];
-    }else{
-        [self hideNotificationView:hidden];
-        if (hidden) {
-            notificationView.hidden = YES;
-        }
-    }
-}
-
--(void)setNotificationViewVerticalPosition{
-    CGRect viewFrame = notificationView.frame;
-    viewFrame.origin.y = [self searchViewLowerBound] + 5;
-    notificationView.frame = viewFrame;
-}
-
--(void)showNotificationWithMessage:(NSString *)message messageType:(RNotificationType)type forSeconds:(int)seconds keppingSearchView:(BOOL)keepSearchView{
-    [notificationTimer invalidate];
-    notificationImageView.hidden = NO;
-    switch (type) {
-        case RNotificationTypeInfo:
-            notificationImageView.hidden = YES;
-            break;
-            
-        case RNotificationTypeConfirmation:
-            [notificationImageView setImage:[UIImage imageNamed:@"done_notification.png"]];
-            break;
-            
-        case RNotificationTypeWarning:
-            [notificationImageView setImage:[UIImage imageNamed:@"warning_notification.png"]];
-            break;
-            
-        case RNotificationTypeError:
-            [notificationImageView setImage:[UIImage imageNamed:@"error_notification.png"]];
-            break;
-            
-        default:
-            break;
-    }
-    notificationMessageLabel.text = message;
-    if (isStopViewDisplayed || isSearchResultsViewDisplayed) {
-    }
-    
-    [self hideNotificationView:NO animated:YES];
-    
-    self.notificationTimer = [NSTimer scheduledTimerWithTimeInterval:seconds target:self selector:@selector(notificationTimerCallback) userInfo:nil repeats:YES];
-}
-
--(void)notificationTimerCallback {
-    [self hideNotificationView:YES animated:YES];
-    if (isStopViewDisplayed || isSearchResultsViewDisplayed) {
-    
-    }
-    [self.notificationTimer invalidate];
-    self.notificationTimer = nil;
-}
 
 #pragma - mark StopView methods
 
@@ -477,121 +427,9 @@
 }
 
 
-- (void)displayStopView:(NSArray *)stopList{
-    
-    @try {
-        if (stopList.count > 1) {
-            [self displaySearchResults:stopList];
-        }else{
-            if (searchedStopList.count == 1) {
-                [self hideSearchResultView:YES animated:YES];
-            }
-            [self setUpStopViewForBusStop:[stopList objectAtIndex:0]];
-            if ([self.reittiDataManager saveHistoryToCoreDataStop:self._busStop]) {
-                if (justReloading) {
-                    [self hideStopView:NO animated:NO];
-                }else{
-                    [self hideStopView:NO animated:YES];
-                }
-                justReloading = NO;
-                
-            }else{
-                [self showNotificationWithMessage:@"Uh-oh! Displaying stop failed. Must be a corrupted data." messageType:RNotificationTypeError forSeconds:5 keppingSearchView:YES];
-            }
-        }
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Saving history info failed");
-        [self showNotificationWithMessage:@"Uh-oh! Displaying stop failed. Might be a corupted data." messageType:RNotificationTypeError forSeconds:5 keppingSearchView:YES];
-    }
-}
-
--(void)setUpStopViewForBusStop:(BusStop *)busStop{
-    //set the state of add bookmark button
-    if ([reittiDataManager isBusStopSaved:busStop]) {
-        addBookmarkButton.hidden = YES;
-    }else{
-        addBookmarkButton.hidden = NO;
-    }
-//    StopView.layer.cornerRadius = 10;
-    StopView.layer.borderWidth = 1;
-    StopView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    departuresTable.layer.borderWidth = 0.5;
-//  departuresTable.layer.cornerRadius = 10;
-    departuresTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    
-    self.departures = busStop.departures;
-    self._busStop = busStop;
-    self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
-    [self.refreshControl endRefreshing];
-    [self initRefreshControl];
-//    departuresTable.backgroundColor = [UIColor clearColor];
-    [departuresTable reloadData];
-    [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-    
-    [stopCodeLabel setText:[busStop code_short]];
-//    stopCodeLabel.font = CUSTOME_FONT_BOLD(42.0f);
-    [stopNameLabel setText:[busStop name_fi]];
-//    stopNameLabel.font = CUSTOME_FONT_BOLD(19.0f);
-    [cityNameLabel setText:[busStop city_fi]];
-//    cityNameLabel.font = CUSTOME_FONT(40.0f);
-}
-
--(void)hideStopView:(BOOL)hidden animated:(BOOL)anim{
-    if (!hidden) {
-        //[self hideStopView:YES];
-        StopView.hidden = NO;
-    }
-    if (anim) {
-        [UIView transitionWithView:blurView duration:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            
-            [self hideStopView:hidden];
-            
-        } completion:^(BOOL finished) {
-            if (hidden) {
-                StopView.hidden = YES;
-            }
-        }];
-    }else{
-        [self hideStopView:hidden];
-        if (hidden) {
-            StopView.hidden = YES;
-        }
-    }
-}
-
-- (void)hideStopView:(BOOL)hidden{
-    CGRect stopFrame = StopView.frame;
-    
-    if (hidden) {
-        stopFrame.origin.y = self.view.bounds.size.height + 5;
-        reloadBarButtonItem.enabled = NO;
-        isStopViewDisplayed = NO;
-    }else{
-        stopFrame.origin.y = 105;
-        reloadBarButtonItem.enabled = YES;
-        isStopViewDisplayed = YES;
-    }
-    
-    StopView.frame = stopFrame;
-}
-
-- (void)moveStopViewByPoint:(CGPoint)displacement animated:(BOOL)anim{
-    [UIView transitionWithView:StopView duration:0.15 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        
-        CGRect stopFrame = StopView.frame;
-        stopFrame.origin.y = stopFrame.origin.y + displacement.y;
-        StopView.frame = stopFrame;
-        
-    } completion:^(BOOL finished) {
-        [self hideStopView:NO animated:YES];
-    }];
-}
-
 #pragma - mark searchResultsView methods
 -(void)displaySearchResults:(NSArray *)result{
     [self setupSearchResultViewForSearchResult:result];
-    [self hideStopView:YES animated:YES];
     [self hideSearchResultView:NO animated:YES];
 }
 -(void)setupSearchResultViewForSearchResult:(NSArray *)result{
@@ -605,7 +443,6 @@
 }
 -(void)displayNearByStopsList:(NSArray *)nearByStops{
     [self setupSearchResultViewForNearByStops:nearByStops];
-    [self hideStopView:YES animated:YES];
     [self hideSearchResultView:NO animated:YES];
 }
 -(void)setupSearchResultViewForNearByStops:(NSArray *)result{
@@ -1360,8 +1197,8 @@
                     annotationAnimCounter++;
             }
         }else if([aV.annotation isKindOfClass:[GeoCodeAnnotation class]]){
-            [self setUpCommandViewForAnnotation:aV.annotation];
-            [self hideCommandView:NO animated:YES];
+//            [self setUpCommandViewForAnnotation:aV.annotation];
+//            [self hideCommandView:NO animated:YES];
             
             CGRect endFrame = aV.frame;
             aV.frame = CGRectMake(aV.frame.origin.x + aV.frame.size.width/2,
@@ -1431,7 +1268,7 @@
         
         [customBadge addGestureRecognizer:tapGesture];
         
-        [self.view addSubview:customBadge];
+        [rightNavButtonsView addSubview:customBadge];
     }else{
         customBadge.hidden = !show;
     }
@@ -1528,7 +1365,7 @@
     
     if (status == EKAuthorizationStatusAuthorized) {
         if ([self createEKReminderWithMinOffset:minute andHourString:timeString]) {
-            [self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
+//            [self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
         }
         
     }else{
@@ -1606,13 +1443,14 @@
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
     [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
 }
+/*
 - (IBAction)sendFeedBackButtonPressed:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Your feedbacks and opinions are highly valued." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share on Facebook", @"Send Feature Request",@"Send FeedBack",@"Rate In AppStore", nil];
     //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
     actionSheet.tag = 1001;
     [actionSheet showInView:self.view];
 }
-
+*/
 - (IBAction)listNearbyStopsPressed:(id)sender {
     if (searchResultsView.hidden) {
         [self listNearByStops];
@@ -1684,7 +1522,7 @@
     }    
 }
 
-
+/*
 -(IBAction)tapGestureDetected:(UIGestureRecognizer *)sender{
     [self.view endEditing:YES];
     if ([self isCommandViewHidden]) {
@@ -1707,6 +1545,8 @@
     }
     
 }
+ 
+ */
 
 -(IBAction)blurViewGestureDetected:(UIGestureRecognizer *)sender{
     self.searchViewHidden = NO;
@@ -1714,7 +1554,6 @@
 
 -(IBAction)stopViewGestureDetected:(id)sender{
     [self.view endEditing:YES];
-    [self moveStopViewByPoint:CGPointMake(0, 20) animated:YES];
 }
 
 -(IBAction)searchResultViewGestureDetected:(id)sender{
@@ -1738,13 +1577,13 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         if (recognizer.view.frame.origin.y > ([self searchViewLowerBound] + (recognizer.view.frame.size.height / 3)) && stopViewDragedDown) {
             if (recognizer.view.tag == 0) {
-                [self hideStopView:YES animated:YES];
+//                [self hideStopView:YES animated:YES];
             }else{
                 [self hideSearchResultView:YES animated:YES];
             }
         }else{
             if (recognizer.view.tag == 0) {
-                [self hideStopView:NO animated:YES];
+//                [self hideStopView:NO animated:YES];
             }else{
                 [self hideSearchResultView:NO animated:YES];
             }
@@ -1777,7 +1616,7 @@
 }
 
 - (IBAction)closeStopViewButtonPressed:(id)sender {
-    [self hideStopView:YES animated:YES];
+//    [self hideStopView:YES animated:YES];
 }
 - (IBAction)hideSearchResultViewPressed:(id)sender {
     [self hideSearchResultView:YES animated:YES];
@@ -1793,9 +1632,9 @@
 -(void)stopFetchDidComplete:(NSArray *)stopList{
     if (stopList != nil) {
         self.searchedStopList = stopList;
-        [self displayStopView:self.searchedStopList];
+//        [self displayStopView:self.searchedStopList];
     }else{
-        [self showNotificationWithMessage:@"Sorry. No stop found by that search term." messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
+//        [self showNotificationWithMessage:@"Sorry. No stop found by that search term." messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
     }
     
     
@@ -1804,7 +1643,7 @@
 }
 
 -(void)stopFetchDidFail:(NSString *)error{
-    [self showNotificationWithMessage:error messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
+//    [self showNotificationWithMessage:error messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
     //[MBProgressHUD hideHUDForView:self.view animated:YES];
     [SVProgressHUD dismiss];
     [self.refreshControl endRefreshing];
@@ -1827,7 +1666,7 @@
                 retryCount++;
             }
             
-            [self showNotificationWithMessage:error messageType:RNotificationTypeInfo forSeconds:5 keppingSearchView:YES];
+//            [self showNotificationWithMessage:error messageType:RNotificationTypeInfo forSeconds:5 keppingSearchView:YES];
         }
         
         requestedForListing = NO;
@@ -1882,7 +1721,7 @@
 
 - (void)savedStopSelected:(NSNumber *)code fromMode:(int)mode{
     bookmarkViewMode = mode;
-    [self hideStopView:YES animated:NO];
+//    [self hideStopView:YES animated:NO];
     [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [code intValue]]];
     [self showProgressHUD];
 }

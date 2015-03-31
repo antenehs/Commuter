@@ -29,6 +29,8 @@
     IBOutlet AMBlurView *selectorView;
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIView *bluredBackView;
+    IBOutlet UIBarButtonItem *addBookmarkButton;
+    IBOutlet UIBarButtonItem *widgetSettingButton;
     
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;

@@ -90,6 +90,8 @@
         routeSearchButton.hidden = NO;
     }
     
+    [addressSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    
     //Set search bar text color
     for (UIView *subView in addressSearchBar.subviews)
     {
@@ -99,7 +101,7 @@
                 UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
                 
                 //set font color here
-                searchBarTextField.textColor = systemSubTextColor;
+                searchBarTextField.textColor = [UIColor whiteColor];
                 
                 break;
             }

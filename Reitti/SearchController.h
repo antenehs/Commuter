@@ -63,6 +63,7 @@ typedef enum
     IBOutlet UILabel *appTitileLable;
     IBOutlet UIButton *bookmarksButton;
     IBOutlet UIButton *infoAndAboutButton;
+    IBOutlet UIView *rightNavButtonsView;    
     IBOutlet UIButton *sendEmailButton;
     IBOutlet UIButton *listNearbyStops;
     
@@ -154,7 +155,6 @@ typedef enum
     NSTimer *refreshTimer;
 }
 
--(void)setUpStopViewForBusStop:(BusStop *)busStop;
 -(void)openRouteSearchView;
 -(void)openBookmarksView;
 -(void)openWidgetSettingsView;

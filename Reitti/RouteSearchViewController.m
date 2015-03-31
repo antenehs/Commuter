@@ -11,6 +11,7 @@
 #import "Transport.h"
 #import "RouteDetailViewController.h"
 
+
 @interface RouteSearchViewController ()
 
 @end
@@ -34,6 +35,7 @@
     
     currentLocationText = @"Current location";
     selectedTimeType = SelectedTimeNow;
+    selectedTime = [NSDate date];
     selectedSearchOption = RouteSearchOptionFastest;
     refreshingRouteTable = NO;
     nextRoutesRequested = NO;
@@ -90,11 +92,11 @@
     //searchBarsView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     fromFieldBackView.layer.borderWidth = 0.5;
-    fromFieldBackView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    fromFieldBackView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     fromFieldBackView.layer.cornerRadius = 5;
     
     toFieldBackView.layer.borderWidth = 0.5;
-    toFieldBackView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    toFieldBackView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     toFieldBackView.layer.cornerRadius = 5;
     
     [timeSelectionView setBlurTintColor:[UIColor whiteColor]];
@@ -184,6 +186,7 @@
                 [subview removeFromSuperview];
             }
             
+            
             // Remove the rounded corners
             if ([subview isKindOfClass:NSClassFromString(@"UITextField")]) {
                 UITextField *textField = (UITextField *)subview;
@@ -196,6 +199,7 @@
                     }
                 }
             }
+             
         }
     }
     
@@ -205,6 +209,7 @@
     {
         for (UIView *subview in firstSubView.subviews) {
             // Remove the default background
+            
             if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
                 [subview removeFromSuperview];
             }
@@ -268,7 +273,7 @@
                     UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
                     
                     //set font color here
-                    searchBarTextField.textColor = systemSubTextColor;
+                    searchBarTextField.textColor = [UIColor whiteColor];
                     
                     break;
                 }
@@ -432,12 +437,12 @@
 }
 
 - (void)setRouteBookmarkedState{
-    [bookmarkRouteButton setImage:[UIImage imageNamed:@"star-orange-128.png"] forState:UIControlStateNormal];
+    [bookmarkRouteButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
     routeBookmarked = YES;
 }
 
 - (void)setRouteNotBookmarkedState{
-    [bookmarkRouteButton setImage:[UIImage imageNamed:@"star-128.png"] forState:UIControlStateNormal];
+    [bookmarkRouteButton setImage:[UIImage imageNamed:@"star-line-white-100.png"] forState:UIControlStateNormal];
     routeBookmarked = NO;
 }
 
@@ -457,6 +462,7 @@
 }
 
 - (IBAction)timeSelectionIsDone:(id)sender {
+    /*
     [self hideTimeSelectionView:YES animated:YES];
     NSDate *currentTime = [NSDate date];
     NSDate *myDate;
@@ -499,7 +505,7 @@
     }
     
     [self searchRouteIfPossible];
-    
+    */
 }
 
 - (IBAction)timeTypeChanged:(id)sender {
@@ -802,6 +808,52 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }
+}
+#pragma mark - routeSearchOptionSelection
+-(void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions{
+    selectedTimeType = routeOptions.selectedTimeType;
+    selectedSearchOption = routeOptions.routeSearchOption;
+    
+    NSDate *currentTime = [NSDate date];
+    
+    if(selectedTimeType == SelectedTimeNow){
+        selectedTime = currentTime;
+    }else{
+        selectedTime = routeOptions.date;
+    }
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"HHmm"];
+    NSString *time = [dateFormat stringFromDate:selectedTime];
+    selectedTimeString = time;
+    
+    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+    [dateFormat2 setDateFormat:@"YYYYMMdd"];
+    NSString *date = [dateFormat2 stringFromDate:selectedTime];
+    selectedDateString = date;
+    
+    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
+    [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+    NSString *prettyVersion = [dateFormat3 stringFromDate:selectedTime];
+    
+    switch (selectedTimeType) {
+        case SelectedTimeNow:
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+            break;
+            
+        case SelectedTimeDeparture:
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+            break;
+            
+        case SelectedTimeArrival:
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self searchRouteIfPossible];
 }
 
 #pragma mark - TableViewMethods
@@ -1124,6 +1176,17 @@
 //            stopViewController.backButtonText = self.title;
 //            stopViewController.delegate = self;
         }
+    }
+    
+    if ([segue.identifier isEqualToString:@"showSearchOptions"]) {
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        RouteOptionsTableViewController *routeOptionsTableViewController = [[navigationController viewControllers] lastObject];
+        
+        routeOptionsTableViewController.selectedDate = selectedTime;
+        routeOptionsTableViewController.selectedTimeType = selectedTimeType;
+        routeOptionsTableViewController.selectedSearchOption = selectedSearchOption;
+        
+        routeOptionsTableViewController.routeOptionSelectionDelegate = self;
     }
     
 }

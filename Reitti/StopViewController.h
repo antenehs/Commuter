@@ -28,7 +28,7 @@
 @interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate>{
     
     IBOutlet AMBlurView *stopView;
-    IBOutlet AMBlurView *topBarView;
+    IBOutlet UIView *topBarView;
     IBOutlet AMBlurView *bottomBarView;
     
     UIColor *systemBackgroundColor;
@@ -47,8 +47,10 @@
     IBOutlet UILabel *stopViewSubTitle;
     IBOutlet UIButton *bookmarkButton;
     IBOutlet UIButton *seeFullTimeTableButton;
+    IBOutlet UIButton *showLocationButton;
     IBOutlet UIActivityIndicatorView *activityView;
     IBOutlet UILabel *pressingInfoLabel;
+    IBOutlet UIBarButtonItem *showLocationBarButtonItem;
     
     EKEventStore * _eventStore;
     

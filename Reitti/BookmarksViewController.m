@@ -73,7 +73,7 @@
     
     self.tableView.backgroundView = bluredBackView;
     
-    listSegmentControl.tintColor = [UIColor darkGrayColor];
+//    listSegmentControl.tintColor = [UIColor darkGrayColor];
     
     
 //    self.navigationController.navigationBar.barTintColor = systemBackgroundColor;
@@ -106,7 +106,7 @@
 - (void)setUpViewForTheSelectedMode{
     if (listSegmentControl.selectedSegmentIndex == 0) {
         self.title = @"Bookmarked";
-        self._tintColor = SYSTEM_GREEN_COLOR;
+//        self._tintColor = SYSTEM_GREEN_COLOR;
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:savedStops];
         [dataToLoad addObjectsFromArray:savedRoutes];
@@ -124,7 +124,7 @@
         
     }else{
         self.title = @"Recents";
-        self._tintColor = SYSTEM_ORANGE_COLOR;
+//        self._tintColor = SYSTEM_ORANGE_COLOR;
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:recentStops];
         [dataToLoad addObjectsFromArray:recentRoutes];
@@ -134,7 +134,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.tableView reloadData];
     
-    self.navigationController.navigationBar.tintColor = self._tintColor;
+//    self.navigationController.navigationBar.tintColor = self._tintColor;
     //selectorView.tintColor = self._tintColor;
 }
 

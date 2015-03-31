@@ -10,6 +10,7 @@
 #import "HSLCommunication.h"
 #import "ReittiStringFormatter.h"
 #import "BusStop.h"
+#include "RouteSearchOptions.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -39,12 +40,7 @@
 - (void)disruptionFetchDidFail:(NSString *)error;
 @end
 
-typedef enum
-{
-    RouteSearchOptionFastest = 0,
-    RouteSearchOptionLeastTransfer = 1,
-    RouteSearchOptionLeastWalking = 2
-} RouteSearchOption;
+
 
 @interface RettiDataManager : NSObject<HSLCommunicationDelegate>{
     int nextObjectLID;
