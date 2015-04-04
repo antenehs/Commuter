@@ -28,6 +28,7 @@
 #import "CustomeTableViewCell.h"
 #import "CommandView.h"
 #import "CustomBadge.h"
+#import "JPSThumbnailAnnotation.h"
 
 typedef enum
 {
@@ -43,7 +44,7 @@ typedef enum
     RSearchResultViewModeNearByStops = 2
 } RSearchResultViewMode;
 
-@interface SearchController : UIViewController<RettiDataManagerDelegate, ReittiDisruptionFetchDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
+@interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, ReittiDisruptionFetchDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
     IBOutlet AMBlurView *blurView;
     IBOutlet AMBlurView *commandView;
     IBOutlet MKMapView *mapView;
@@ -66,6 +67,7 @@ typedef enum
     IBOutlet UIView *rightNavButtonsView;    
     IBOutlet UIButton *sendEmailButton;
     IBOutlet UIButton *listNearbyStops;
+    IBOutlet NSLayoutConstraint *nearByStopsViewTopSpacing;
     
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
@@ -119,6 +121,8 @@ typedef enum
     
     CLLocationManager *locationManager;
     EKEventStore * _eventStore;
+    
+    NSObject<JPSThumbnailAnnotationViewProtocol> *selectedAnnotationView;
 
     //NSTimer *notificationTimer;
     

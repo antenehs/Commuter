@@ -15,9 +15,11 @@
 +(NSString *)formatHSLAPITimeToHumanTime:(NSString *)hslTime;
 +(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
 +(NSString *)formatHourStringFromDate:(NSDate *)date;
++(NSString *)formatDurationString:(NSInteger)seconds;
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
 +(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString;
++(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 

@@ -14,6 +14,7 @@
 #include "RouteEntity.h"
 #include "RouteHistoryEntity.h"
 #import "GeoCode.h"
+//#import "RouteSearchViewController.h"
 
 @class AddressSearchViewController;
 
@@ -22,18 +23,19 @@
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode;
 - (void)searchResultSelectedCurrentLocation;
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm;
+- (void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm;
 @end
 
 @interface AddressSearchViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UISearchBarDelegate, RettiGeocodeSearchDelegate>{
     
     IBOutlet UISearchBar *addressSearchBar;
     IBOutlet UIButton *cancelButton;
-    IBOutlet UIButton *routeSearchButton;
+    IBOutlet UIButton *leftNavBarButton;
     IBOutlet UITableView *searchResultTableView;
     IBOutlet UIView *searchResultTableViewContainer;
     IBOutlet UIImageView *tableViewBackgroundImageView;
     IBOutlet AMBlurView *tableViewBackGroundBlurView;
-    IBOutlet AMBlurView *backView;
+    IBOutlet UIView *backView;
     
     IBOutlet UIView *currentLocationContainerView;    
     

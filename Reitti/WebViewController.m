@@ -122,6 +122,15 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     doneLoading = true;
+    
+    CGSize contentSize = webView.scrollView.contentSize;
+    CGSize viewSize = self.view.bounds.size;
+    
+    float rw = viewSize.width / contentSize.width;
+    
+    webView.scrollView.minimumZoomScale = rw;
+    webView.scrollView.maximumZoomScale = rw;
+    [webView.scrollView setZoomScale:rw animated:YES];
 }
 
 /*

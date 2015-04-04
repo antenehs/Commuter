@@ -466,7 +466,19 @@
         @try {
             UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
             NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-            timeLabel.text = [ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime];
+            NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+            NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+            
+            if ([date timeIntervalSinceNow] < 300) {
+                timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:[ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime]
+                                                                                           substring:[ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime]
+                                                                                      withNormalFont:timeLabel.font];
+                ;
+            }else{
+                timeLabel.text = [ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime];
+            }
+            
+            
             //cell.cellTimeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
             //timeLabel.font = CUSTOME_FONT_BOLD(25.0f);
             

@@ -24,6 +24,10 @@
 - (void)routeModified;
 @end
 
+@protocol RouteSearchViewControllerViewCycleDelegate <NSObject>
+- (void)routeSearchViewControllerDismissed;
+@end
+
 @interface RouteSearchViewController : UIViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate, RettiRouteSearchDelegate,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate, RouteOptionSelectionDelegate>{
     
     IBOutlet UISearchBar *fromSearchBar;
@@ -79,6 +83,8 @@
     BOOL nextRoutesRequested;
     BOOL prevRoutesRequested;
     
+    BOOL toolBarIsShowing;
+    
 }
 
 @property (strong, nonatomic) NSMutableArray * savedStops;
@@ -101,5 +107,6 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (nonatomic, weak) id <RouteSearchViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <RouteSearchViewControllerViewCycleDelegate> viewCycledelegate;
 
 @end

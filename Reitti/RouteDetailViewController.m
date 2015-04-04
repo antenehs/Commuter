@@ -11,6 +11,9 @@
 #import "StopAnnotation.h"
 #import "LocationsAnnotation.h"
 #import "MyFixedLayoutGuide.h"
+#import "StopViewController.h"
+#import "ASPolylineRenderer.h"
+#import "ASPolylineView.h"
 
 @interface RouteDetailViewController ()
 
@@ -30,11 +33,13 @@
 @synthesize darkMode;
 @synthesize routeLocationList;
 @synthesize toLocation, fromLocation, currentUserLocation;
+@synthesize reittiDataManager;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     //init vars
     darkMode = YES;
+    isShowingStopView = NO;
     CLLocationCoordinate2D _upper = {.latitude =  -90.0, .longitude =  0.0};
     upperBound = _upper;
     CLLocationCoordinate2D _lower = {.latitude =  90.0, .longitude =  0.0};
@@ -54,6 +59,18 @@
     [self initMapViewForRoute:_route];
     [self hideRouteListView:YES animated:NO];
 
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    if (!isShowingStopView){
+        isShowingStopView = NO;
+        [self hideRouteListView:YES animated:NO];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self hideRouteListView:![self isRouteListViewVisible] animated:NO];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -88,9 +105,11 @@
 #pragma mark - view methods
 
 -(void)setUpMainView{
-    [topBarView setBlurTintColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1]];
-    topBarView.layer.borderWidth = 1;
-    topBarView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//    [topBarView setBlurTintColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1]];
+//    topBarView.layer.borderWidth = 1;
+//    topBarView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    
+    [self.navigationController setToolbarHidden:YES];
     
     [routeListView setBlurTintColor:nil];
     //    routeListView.layer.borderWidth = 1;
@@ -103,6 +122,10 @@
     
     [toLabel setText:[NSString stringWithFormat:@"%@",toLocation]];
     [fromLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
+    
+    UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
+    topLine.backgroundColor = [UIColor lightGrayColor];
+    [routeListView addSubview:topLine];
 }
 
 -(void)hideRouteListView:(BOOL)hidden animated:(BOOL)animated{
@@ -118,36 +141,36 @@
 }
 
 -(void)hideRouteListView:(BOOL)hidden{
-    CGRect viewFrame = routeListView.frame;
+//    CGRect viewFrame = routeListView.frame;
     if (hidden) {
-        [routeListView setBlurTintColor:[UIColor clearColor]];
-        routeListView.frame = CGRectMake(viewFrame.origin.x, self.view.bounds.size.height - 56, viewFrame.size.width, self.view.bounds.size.height - 59);
+//        [routeListView setBlurTintColor:[UIColor clearColor]];
+//        routeListView.frame = CGRectMake(viewFrame.origin.x, self.view.bounds.size.height - routeListTableView.frame.origin.y, viewFrame.size.width, viewFrame.size.height);
+        routeLIstViewVerticalSpacing.constant = self.view.bounds.size.height - routeListTableView.frame.origin.y;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
-        [toLabel setTextColor:[UIColor lightGrayColor]];
-        [toLabel setTextColor:[UIColor lightGrayColor]];
+//        [toLabel setTextColor:[UIColor lightGrayColor]];
+//        [toLabel setTextColor:[UIColor lightGrayColor]];
         
-        separatorView.backgroundColor = [UIColor darkGrayColor];
+//        separatorView.backgroundColor = [UIColor darkGrayColor];
         
     }else{
-        routeListView.frame = CGRectMake(viewFrame.origin.x, topBarView.bounds.size.height - 1, viewFrame.size.width, self.view.bounds.size.height - 59);
-        [routeListView setBlurTintColor:nil];
+//        routeListView.frame = CGRectMake(viewFrame.origin.x, 0, viewFrame.size.width, viewFrame.size.height);
+//        [routeListView setBlurTintColor:nil];
+        routeLIstViewVerticalSpacing.constant = 0;
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
         
-        [toLabel setTextColor:[UIColor darkGrayColor]];
-        [toLabel setTextColor:[UIColor darkGrayColor]];
+//        [toLabel setTextColor:[UIColor darkGrayColor]];
+//        [toLabel setTextColor:[UIColor darkGrayColor]];
         
-        separatorView.backgroundColor = [UIColor lightGrayColor];
+//        separatorView.backgroundColor = [UIColor lightGrayColor];
     }
+    [self.view layoutIfNeeded];
+//    [self.navigationController setNavigationBarHidden:!hidden animated:YES];
     
-    routeListTableView.frame = CGRectMake(viewFrame.origin.x, 56, viewFrame.size.width, viewFrame.size.height - 56);
+//    routeListTableView.frame = CGRectMake(viewFrame.origin.x, 56, viewFrame.size.width, viewFrame.size.height - 56);
 }
 
 -(BOOL)isRouteListViewVisible{
-    if (routeListView.frame.origin.y <= self.view.bounds.size.height/2) {
-        return YES;
-    }else{
-        return NO;
-    }
+    return (routeListView.frame.origin.y <= self.view.bounds.size.height/4);
 }
 
 #pragma mark - map view methods
@@ -192,8 +215,8 @@
     
     CLLocationCoordinate2D centerCoord = {.latitude =  (upperBound.latitude + lowerBound.latitude)/2, .longitude =  (leftBound.longitude + rightBound.longitude)/2};
     MKCoordinateSpan span = {.latitudeDelta =  upperBound.latitude - lowerBound.latitude, .longitudeDelta =  rightBound.longitude - leftBound.longitude };
-    span.latitudeDelta += 0.3 * span.latitudeDelta;
-    span.longitudeDelta += 0.3 * span.longitudeDelta;
+    span.latitudeDelta += 0.7 * span.latitudeDelta;
+    span.longitudeDelta += 0.7 * span.longitudeDelta;
     MKCoordinateRegion region = {centerCoord, span};
     
     [routeMapView setRegion:region animated:YES];
@@ -237,6 +260,7 @@
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
     // create an MKPolylineView and add it to the map view
+    /*
     if ([overlay isKindOfClass:MKPolyline.class]) {
         MKPolylineRenderer *lineView = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
         lineView.lineWidth = 6;
@@ -258,8 +282,39 @@
         
         return lineView;
     }
+     
     
     return nil;
+     */
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
+        polylineRenderer.strokeColor  = [UIColor yellowColor];
+        polylineRenderer.borderColor = [UIColor darkGrayColor];
+        polylineRenderer.borderMultiplier = 1.8;
+        polylineRenderer.lineWidth	  = 7.0f;
+        polylineRenderer.lineJoin	  = kCGLineJoinRound;
+        polylineRenderer.lineCap	  = kCGLineCapRound;
+        
+        polylineRenderer.alpha = 0.8;
+        if (currentLeg.legType == LegTypeWalk) {
+            polylineRenderer.strokeColor = SYSTEM_BROWN_COLOR;
+            polylineRenderer.lineDashPattern = @[@4, @10];
+        }else if (currentLeg.legType == LegTypeBus){
+            polylineRenderer.strokeColor = SYSTEM_BLUE_COLOR;
+        }else if (currentLeg.legType == LegTypeTrain) {
+            polylineRenderer.strokeColor = SYSTEM_RED_COLOR;
+        }else if (currentLeg.legType == LegTypeTram) {
+            polylineRenderer.strokeColor = SYSTEM_GREEN_COLOR;
+        }else if (currentLeg.legType == LegTypeMetro) {
+            polylineRenderer.strokeColor = SYSTEM_ORANGE_COLOR;
+        }else if (currentLeg.legType == LegTypeFerry) {
+            polylineRenderer.strokeColor = SYSTEM_CYAN_COLOR;
+        }
+        
+        return polylineRenderer;
+    } else {
+        return nil;
+    }
 }
 
 -(void)plotTransferAnnotation:(RouteLegLocation *)loc{
@@ -279,6 +334,8 @@
     
     StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:name andSubtitle:shortCode
                                                             andCoordinate:coordinate];
+    newAnnotation.code = [NSNumber numberWithInteger:[loc.stopCode integerValue]];
+    
     switch (loc.locationLegType) {
         case LegTypeWalk:
             newAnnotation.imageNameForView = @"";
@@ -353,7 +410,7 @@
                 if (leg.legType != LegTypeWalk && locCount != 0 && locCount != leg.legLocations.count - 1) {
                     if (loc.shortCode != nil) {
                         LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
-                        
+                        newAnnotation.code = [NSNumber numberWithInteger:[loc.stopCode integerValue]];
                         switch (loc.locationLegType) {
                             case LegTypeWalk:
                                 newAnnotation.imageNameForView = @"";
@@ -413,6 +470,9 @@
             annotationView.enabled = YES;
             
             annotationView.canShowCallout = YES;
+            if (stopAnnotation.code != nil && stopAnnotation.code != (id)[NSNull null]) {
+                annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            }
         } else {
             annotationView.annotation = annotation;
         }
@@ -472,6 +532,9 @@
                 annotationView.enabled = YES;
                 
                 annotationView.canShowCallout = YES;
+                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
+                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                }
                 
             } else {
                 annotationView.annotation = annotation;
@@ -483,10 +546,32 @@
             
             return annotationView;
         }
-        
     }
     
     return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    id <MKAnnotation> annotation = [view annotation];
+    NSNumber *stopCode;
+    if ([annotation isKindOfClass:[StopAnnotation class]])
+    {
+        StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
+        stopCode = stopAnnotation.code;
+    }else if ([annotation isKindOfClass:[LocationsAnnotation class]])
+    {
+        LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
+        stopCode = locAnnotation.code;
+    }else{
+        return;
+    }
+    
+    if (stopCode != nil && stopCode != (id)[NSNull null]) {
+        selectedAnnotionStopCode = stopCode;
+        [self performSegueWithIdentifier:@"showStopFromRoute" sender:self];
+    }
+    
 }
 
 -(void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
@@ -595,14 +680,14 @@
             lineNumberLabel.text = @"";
         }
         
-        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(50, 49, 320 - 50, 0.5)];
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(50, 49.5, self.view.frame.size.width - 50, 0.5)];
         line.backgroundColor = [UIColor lightGrayColor];
         
         if (indexPath.row == self.routeLocationList.count - 1) {
             locNameLabel.text = self.toLocation;
             [legTypeImage setImage:[UIImage imageNamed:@"finish_flag-50.png"]];
             detailIndicatorImage.hidden = YES;
-            line.frame = CGRectMake(0, 49, 320, 0.5);
+            line.frame = CGRectMake(0, 49.5, self.view.frame.size.width, 0.5);
             
         }else if (indexPath.row == 0) {
             locNameLabel.text = @"Start location";
@@ -611,7 +696,6 @@
             locNameLabel.text = loc.name;
             detailIndicatorImage.hidden = NO;
         }
-        
         
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
         startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
@@ -632,7 +716,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"legstopLocationCell"];
         }
         
-         UIView *typeLine = (UIView *)[cell viewWithTag:2001];
+        UIView *typeLine = (UIView *)[cell viewWithTag:2001];
         
         switch (loc.locationLegType) {
             case LegTypeWalk:
@@ -666,9 +750,12 @@
             locNameLabel.text = loc.name;
         }
         
-        
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:2003];
         startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
+        
+        if (loc.stopCode == nil || loc.stopCode == (id)[NSNull null]){
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
@@ -792,14 +879,38 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"showStopFromRoute"]) {
+        
+        NSString *stopCode;
+        if ([sender isKindOfClass:[self class]]) {
+            stopCode = [NSString stringWithFormat:@"%ld", (long)[selectedAnnotionStopCode integerValue]];
+        }else{
+            NSIndexPath *selectedRowIndexPath = [routeListTableView indexPathForSelectedRow];
+            RouteLocation * selected = [self.routeLocationList objectAtIndex:selectedRowIndexPath.row];
+            stopCode = selected.stopCode;
+        }
+        
+        if (stopCode != nil && ![stopCode isEqualToString:@""]) {
+            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+            
+            StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
+            stopViewController.stopCode = stopCode;
+            stopViewController.stopEntity = nil;
+            stopViewController.darkMode = self.darkMode;
+            stopViewController.reittiDataManager = self.reittiDataManager;
+            stopViewController.delegate = nil;
+            
+            isShowingStopView = YES;
+        }
+    }
 }
-*/
+
 
 @end

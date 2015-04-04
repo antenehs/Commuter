@@ -33,6 +33,12 @@
     }
     return noneWalkLegs;
 }
+-(float)getLengthRatioInRoute:(RouteLeg *)leg{
+    float legDuration = [leg.legDurationInSeconds floatValue];
+    
+    return legDuration/[self.routeDurationInSeconds floatValue];
+}
+
 -(bool)isOnlyWalkingRoute{
     int walkLegs = 0;
     for (RouteLeg *leg in self.routeLegs) {

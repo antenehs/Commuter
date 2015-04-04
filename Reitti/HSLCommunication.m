@@ -24,7 +24,7 @@
     return self;
 }
 
--(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize{
+-(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize numberOfResults:(int)numOfResults{
     //Do the API call
     NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
@@ -48,7 +48,7 @@
     toCoordinate = [toCoordinate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     toCoordinate = [toCoordinate stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=route&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&detail=full&from=%@&to=%@&date=%@&time=%@&timetype=%@&optimize=%@&show=5", fromCoordinate,toCoordinate,date,time,timeType,optimize];
+    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=route&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&detail=full&from=%@&to=%@&date=%@&time=%@&timetype=%@&optimize=%@&show=%d", fromCoordinate,toCoordinate,date,time,timeType,optimize,numOfResults];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     

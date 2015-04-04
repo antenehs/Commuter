@@ -11,6 +11,6 @@
 
 @interface Transport : UIView
 
--(id)initWithRouteLeg:(RouteLeg *)routeLeg;
+-(id)initWithRouteLeg:(RouteLeg *)routeLeg andWidth:(float)width;
 
 @end

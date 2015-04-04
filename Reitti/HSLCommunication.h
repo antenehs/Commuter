@@ -38,7 +38,7 @@
 @interface HSLCommunication : NSObject
 
 -(id)init;
--(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize;
+-(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize numberOfResults:(int)numOfResults;
 -(void)searchGeocodeForKey:(NSString *)key;
 -(void)getStopInfoForCode:(NSString *)code;
 -(void)getStopsInArea:(CLLocationCoordinate2D)center forDiameter:(int)diameter;

@@ -47,7 +47,26 @@
 		666437CE19E1887600B82BE5 /* search-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437CC19E1887600B82BE5 /* search-50.png */; };
 		667334A519CEDFF700CCD351 /* app-icon-v-2.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 667334A419CEDFF700CCD351 /* app-icon-v-2.4.png */; };
 		667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 667334A619CEFCDC00CCD351 /* appIconRounded.png */; };
+		6673774B1ACC9B0A003581B5 /* shoe-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774A1ACC9B0A003581B5 /* shoe-white-100.png */; };
+		6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */; };
+		6673774F1ACC9FB2003581B5 /* bus-filled-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774E1ACC9FB2003581B5 /* bus-filled-light-100.png */; };
+		667377511ACCA042003581B5 /* boat-filled-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377501ACCA042003581B5 /* boat-filled-light-100.png */; };
+		667377531ACCBE60003581B5 /* metro-logo-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377521ACCBE60003581B5 /* metro-logo-orange.png */; };
+		667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377541ACCCD09003581B5 /* service-bus-filled-purple.png */; };
+		667377591ACCCD09003581B5 /* tram-filled-green-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377551ACCCD09003581B5 /* tram-filled-green-64.png */; };
+		6673775A1ACCCD09003581B5 /* bus-filled-blue-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377561ACCCD09003581B5 /* bus-filled-blue-100.png */; };
+		6673775B1ACCCD09003581B5 /* train-filled-red-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377571ACCCD09003581B5 /* train-filled-red-64.png */; };
+		6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673775C1ACCCE9E003581B5 /* train-filled-light-64.png */; };
+		6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673775D1ACCCE9E003581B5 /* tram-filled-light-64.png */; };
 		6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
+		6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */; };
+		6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */; };
+		6682D2491ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */; };
+		6682D24A1ACE34B900F6DDF7 /* next-green-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2461ACE34B900F6DDF7 /* next-green-64.png */; };
+		6682D24B1ACE34B900F6DDF7 /* previous-green-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2471ACE34B900F6DDF7 /* previous-green-64.png */; };
+		6682D24E1ACE39F500F6DDF7 /* next-gray-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D24C1ACE39F500F6DDF7 /* next-gray-64.png */; };
+		6682D24F1ACE39F500F6DDF7 /* previous-gray-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D24D1ACE39F500F6DDF7 /* previous-gray-64.png */; };
+		6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2501ACF67A200F6DDF7 /* bus-filled-gray-100.png */; };
 		66947CB618830ED500642EE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CB518830ED500642EE1 /* Foundation.framework */; };
 		66947CB818830ED500642EE1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CB718830ED500642EE1 /* CoreGraphics.framework */; };
 		66947CBA18830ED500642EE1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CB918830ED500642EE1 /* UIKit.framework */; };
@@ -178,6 +197,10 @@
 		66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EE1ACA89ED008E045D /* close-button-white.png */; };
 		66EC18F21ACA8BED008E045D /* trash-filled-green-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18F01ACA8BED008E045D /* trash-filled-green-32.png */; };
 		66EC18F31ACA8BED008E045D /* add-button-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18F11ACA8BED008E045D /* add-button-white.png */; };
+		66EC18F51ACAC1F7008E045D /* current-location-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18F41ACAC1F7008E045D /* current-location-100.png */; };
+		66EC18FA1ACB3D07008E045D /* ASPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EC18F71ACB3D07008E045D /* ASPolylineRenderer.m */; };
+		66EC18FB1ACB3D07008E045D /* ASPolylineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EC18F91ACB3D07008E045D /* ASPolylineView.m */; };
+		66EC18FD1ACB58D4008E045D /* collapse-arrow-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18FC1ACB58D4008E045D /* collapse-arrow-100.png */; };
 		66F1382B1992F54000B52B6B /* busStopAnnotation-small-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */; };
 		66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382C1992FBD500B52B6B /* star-orange-128.png */; };
 		66F1382F19938A3000B52B6B /* idea-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382E19938A3000B52B6B /* idea-75.png */; };
@@ -325,8 +348,27 @@
 		666437CC19E1887600B82BE5 /* search-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-50.png"; path = "../Reitti/Pictures/Commuter 2.1/search-50.png"; sourceTree = "<group>"; };
 		667334A419CEDFF700CCD351 /* app-icon-v-2.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-v-2.4.png"; path = "Reitti/Images.xcassets/AppIcon v-2.appiconset/app-icon-v-2.4.png"; sourceTree = "<group>"; };
 		667334A619CEFCDC00CCD351 /* appIconRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appIconRounded.png; path = "Pictures/New Version 2.0/appIconRounded.png"; sourceTree = "<group>"; };
+		6673774A1ACC9B0A003581B5 /* shoe-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-white-100.png"; path = "Pictures/Version 2.3/shoe-white-100.png"; sourceTree = "<group>"; };
+		6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-gray-100.png"; path = "Pictures/Version 2.3/shoe-gray-100.png"; sourceTree = "<group>"; };
+		6673774E1ACC9FB2003581B5 /* bus-filled-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus-filled-light-100.png"; path = "Pictures/Version 2.3/bus-filled-light-100.png"; sourceTree = "<group>"; };
+		667377501ACCA042003581B5 /* boat-filled-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "boat-filled-light-100.png"; path = "Pictures/Version 2.3/boat-filled-light-100.png"; sourceTree = "<group>"; };
+		667377521ACCBE60003581B5 /* metro-logo-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "metro-logo-orange.png"; path = "Pictures/Version 2.3/metro-logo-orange.png"; sourceTree = "<group>"; };
+		667377541ACCCD09003581B5 /* service-bus-filled-purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "service-bus-filled-purple.png"; path = "Pictures/Version 2.3/service-bus-filled-purple.png"; sourceTree = "<group>"; };
+		667377551ACCCD09003581B5 /* tram-filled-green-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tram-filled-green-64.png"; path = "Pictures/Version 2.3/tram-filled-green-64.png"; sourceTree = "<group>"; };
+		667377561ACCCD09003581B5 /* bus-filled-blue-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus-filled-blue-100.png"; path = "Pictures/Version 2.3/bus-filled-blue-100.png"; sourceTree = "<group>"; };
+		667377571ACCCD09003581B5 /* train-filled-red-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train-filled-red-64.png"; path = "Pictures/Version 2.3/train-filled-red-64.png"; sourceTree = "<group>"; };
+		6673775C1ACCCE9E003581B5 /* train-filled-light-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train-filled-light-64.png"; path = "Pictures/Version 2.3/train-filled-light-64.png"; sourceTree = "<group>"; };
+		6673775D1ACCCE9E003581B5 /* tram-filled-light-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tram-filled-light-64.png"; path = "Pictures/Version 2.3/tram-filled-light-64.png"; sourceTree = "<group>"; };
 		6679ADC619C1CA3700DD38DD /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
+		6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sitting-filled-grey-64.png"; path = "Pictures/Version 2.3/sitting-filled-grey-64.png"; sourceTree = "<group>"; };
+		6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white2-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white2-100.png"; sourceTree = "<group>"; };
+		6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white-100.png"; sourceTree = "<group>"; };
+		6682D2461ACE34B900F6DDF7 /* next-green-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-green-64.png"; path = "Pictures/Version 2.3/next-green-64.png"; sourceTree = "<group>"; };
+		6682D2471ACE34B900F6DDF7 /* previous-green-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-green-64.png"; path = "Pictures/Version 2.3/previous-green-64.png"; sourceTree = "<group>"; };
+		6682D24C1ACE39F500F6DDF7 /* next-gray-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-gray-64.png"; path = "Pictures/Version 2.3/next-gray-64.png"; sourceTree = "<group>"; };
+		6682D24D1ACE39F500F6DDF7 /* previous-gray-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-gray-64.png"; path = "Pictures/Version 2.3/previous-gray-64.png"; sourceTree = "<group>"; };
+		6682D2501ACF67A200F6DDF7 /* bus-filled-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus-filled-gray-100.png"; path = "Pictures/Version 2.3/bus-filled-gray-100.png"; sourceTree = "<group>"; };
 		66947CB218830ED500642EE1 /* Reitti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reitti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66947CB518830ED500642EE1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66947CB718830ED500642EE1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -514,6 +556,12 @@
 		66EC18EE1ACA89ED008E045D /* close-button-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "close-button-white.png"; path = "Pictures/Version 2.3/close-button-white.png"; sourceTree = "<group>"; };
 		66EC18F01ACA8BED008E045D /* trash-filled-green-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "trash-filled-green-32.png"; path = "Pictures/Version 2.3/trash-filled-green-32.png"; sourceTree = "<group>"; };
 		66EC18F11ACA8BED008E045D /* add-button-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add-button-white.png"; path = "Pictures/Version 2.3/add-button-white.png"; sourceTree = "<group>"; };
+		66EC18F41ACAC1F7008E045D /* current-location-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "current-location-100.png"; path = "Pictures/Version 2.3/current-location-100.png"; sourceTree = "<group>"; };
+		66EC18F61ACB3D07008E045D /* ASPolylineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPolylineRenderer.h; sourceTree = "<group>"; };
+		66EC18F71ACB3D07008E045D /* ASPolylineRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPolylineRenderer.m; sourceTree = "<group>"; };
+		66EC18F81ACB3D07008E045D /* ASPolylineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPolylineView.h; sourceTree = "<group>"; };
+		66EC18F91ACB3D07008E045D /* ASPolylineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPolylineView.m; sourceTree = "<group>"; };
+		66EC18FC1ACB58D4008E045D /* collapse-arrow-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "collapse-arrow-100.png"; path = "Pictures/Version 2.3/collapse-arrow-100.png"; sourceTree = "<group>"; };
 		66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "busStopAnnotation-small-blue.png"; path = "Pictures/New Version 2.0/busStopAnnotation-small-blue.png"; sourceTree = "<group>"; };
 		66F1382C1992FBD500B52B6B /* star-orange-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-orange-128.png"; path = "Pictures/New Version 2.0/star-orange-128.png"; sourceTree = "<group>"; };
 		66F1382E19938A3000B52B6B /* idea-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "idea-75.png"; path = "Pictures/New Version 2.0/Search View/idea-75.png"; sourceTree = "<group>"; };
@@ -630,6 +678,10 @@
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				66EC18F61ACB3D07008E045D /* ASPolylineRenderer.h */,
+				66EC18F71ACB3D07008E045D /* ASPolylineRenderer.m */,
+				66EC18F81ACB3D07008E045D /* ASPolylineView.h */,
+				66EC18F91ACB3D07008E045D /* ASPolylineView.m */,
 				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
 				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
@@ -1158,6 +1210,27 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				6682D2501ACF67A200F6DDF7 /* bus-filled-gray-100.png */,
+				6682D24C1ACE39F500F6DDF7 /* next-gray-64.png */,
+				6682D24D1ACE39F500F6DDF7 /* previous-gray-64.png */,
+				6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */,
+				6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */,
+				6682D2461ACE34B900F6DDF7 /* next-green-64.png */,
+				6682D2471ACE34B900F6DDF7 /* previous-green-64.png */,
+				6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */,
+				6673775C1ACCCE9E003581B5 /* train-filled-light-64.png */,
+				6673775D1ACCCE9E003581B5 /* tram-filled-light-64.png */,
+				667377541ACCCD09003581B5 /* service-bus-filled-purple.png */,
+				667377551ACCCD09003581B5 /* tram-filled-green-64.png */,
+				667377561ACCCD09003581B5 /* bus-filled-blue-100.png */,
+				667377571ACCCD09003581B5 /* train-filled-red-64.png */,
+				667377521ACCBE60003581B5 /* metro-logo-orange.png */,
+				667377501ACCA042003581B5 /* boat-filled-light-100.png */,
+				6673774E1ACC9FB2003581B5 /* bus-filled-light-100.png */,
+				6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */,
+				6673774A1ACC9B0A003581B5 /* shoe-white-100.png */,
+				66EC18FC1ACB58D4008E045D /* collapse-arrow-100.png */,
+				66EC18F41ACAC1F7008E045D /* current-location-100.png */,
 				66EC18F01ACA8BED008E045D /* trash-filled-green-32.png */,
 				66EC18F11ACA8BED008E045D /* add-button-white.png */,
 				66EC18EE1ACA89ED008E045D /* close-button-white.png */,
@@ -1302,19 +1375,24 @@
 				665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */,
 				66F3B12D1AC861620038BA78 /* back-arrow-white-100.png in Resources */,
 				66CB95F818E8CBE300E95CE5 /* error_notification.png in Resources */,
+				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
 				666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */,
 				66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */,
+				667377591ACCCD09003581B5 /* tram-filled-green-64.png in Resources */,
 				66F138361993DEDB00B52B6B /* locationAnnotation.png in Resources */,
 				66F3B1301AC861ED0038BA78 /* star-filled-white-100.png in Resources */,
+				66EC18F51ACAC1F7008E045D /* current-location-100.png in Resources */,
 				66CB961718EEECBA00E95CE5 /* alarmClock_1.png in Resources */,
 				66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
 				665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */,
+				6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */,
 				66F3B13A1AC886FE0038BA78 /* search-icon-25.png in Resources */,
 				66F138491997897700B52B6B /* tram-100.png in Resources */,
 				667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */,
 				66F1384A1997897700B52B6B /* bus-100.png in Resources */,
 				661ABBFD199D5EC600F93894 /* bus-green-100.png in Resources */,
+				6682D24F1ACE39F500F6DDF7 /* previous-gray-64.png in Resources */,
 				66F3B1271AC8592A0038BA78 /* up-right-arrow-32.png in Resources */,
 				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
@@ -1330,6 +1408,7 @@
 				66D0BA5B18BF3785002DDC7B /* Aspergit.otf in Resources */,
 				66F1382B1992F54000B52B6B /* busStopAnnotation-small-blue.png in Resources */,
 				66F3B1311AC861ED0038BA78 /* star-line-white-100.png in Resources */,
+				6682D2491ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png in Resources */,
 				66F1383A19976A5800B52B6B /* Images-2.xcassets in Resources */,
 				66DAE1FD19C6112A0039081D /* metroAnnotationSmall.png in Resources */,
 				66F1382F19938A3000B52B6B /* idea-75.png in Resources */,
@@ -1343,6 +1422,7 @@
 				66CEE28419FAF2400089A6F9 /* warningIconRounded.png in Resources */,
 				66D0BA4918BE4840002DDC7B /* nearby_2_20120.png in Resources */,
 				66947CD118830ED500642EE1 /* Images.xcassets in Resources */,
+				6673774F1ACC9FB2003581B5 /* bus-filled-light-100.png in Resources */,
 				66EC18ED1AC9D706008E045D /* location-filled-green-32.png in Resources */,
 				66C59DA519993CC300E7AC7A /* Transport.xib in Resources */,
 				66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */,
@@ -1351,10 +1431,12 @@
 				664ADFF21992740F000B4F18 /* star-75.png in Resources */,
 				66DAE1F619C5D1E00039081D /* dotted-brown-line.png in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
+				6673775A1ACCCD09003581B5 /* bus-filled-blue-100.png in Resources */,
 				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
 				66228CF619CB31C300A2C47F /* previous-48.png in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
+				6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */,
 				66CC93F918DF475500644281 /* humberger.png in Resources */,
 				66D989F0199FFC5300E0B74B /* bus-colored-75.png in Resources */,
 				66D0BA5018BE4992002DDC7B /* recent_1_13435.png in Resources */,
@@ -1370,10 +1452,13 @@
 				66F138481997897700B52B6B /* metro-100.png in Resources */,
 				661ABC03199D694100F93894 /* clock-grey-100.png in Resources */,
 				667334A519CEDFF700CCD351 /* app-icon-v-2.4.png in Resources */,
+				667377511ACCA042003581B5 /* boat-filled-light-100.png in Resources */,
+				6673775B1ACCCD09003581B5 /* train-filled-red-64.png in Resources */,
 				66DAE20319C624E90039081D /* white-dot-16.png in Resources */,
 				66F1384D1997897700B52B6B /* train-100.png in Resources */,
 				66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */,
 				66D6EDB619A0A5F100FEB9FD /* finish_flag-50.png in Resources */,
+				6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */,
 				66D426A8199148D10080F21E /* polyline-128.png in Resources */,
 				660F2E6919C8D35800A75987 /* bus_station-50.png in Resources */,
 				66CB961918EEF45F00E95CE5 /* alarmClock_small.png in Resources */,
@@ -1382,6 +1467,7 @@
 				66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */,
 				66F1384019977E6300B52B6B /* watch-100.png in Resources */,
 				66D989F1199FFC5300E0B74B /* ferry-colored-75.png in Resources */,
+				6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */,
 				66D42695198FBB0F0080F21E /* Message-Warning-128.png in Resources */,
 				66D426A31990F7020080F21E /* busStopAnnotation.png in Resources */,
 				66F3B1371AC8749F0038BA78 /* exchange-arrows-white.png in Resources */,
@@ -1389,9 +1475,11 @@
 				66A7A9C618C65FA900AC9E94 /* bus_stop_hsl_orig.png in Resources */,
 				66F13838199651F200B52B6B /* export-128.png in Resources */,
 				66D0BA4E18BE4892002DDC7B /* nearby_3_20120.png in Resources */,
+				6682D24B1ACE34B900F6DDF7 /* previous-green-64.png in Resources */,
 				665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */,
 				66F1383C19976C6E00B52B6B /* app-icon-v-2.png in Resources */,
 				66D989EF199FFC5300E0B74B /* tram-colored-75.png in Resources */,
+				6673774B1ACC9B0A003581B5 /* shoe-white-100.png in Resources */,
 				66D989F2199FFC5300E0B74B /* train-colored-75.png in Resources */,
 				66F3B1381AC8749F0038BA78 /* settings-white-100.png in Resources */,
 				66F1384C1997897700B52B6B /* ferry-100.png in Resources */,
@@ -1399,6 +1487,7 @@
 				66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */,
 				66947CC018830ED500642EE1 /* InfoPlist.strings in Resources */,
 				66DAE1FC19C6112A0039081D /* tramAnnotationSmall.png in Resources */,
+				667377531ACCBE60003581B5 /* metro-logo-orange.png in Resources */,
 				66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */,
 				661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */,
 				66228CF419CAC76E00A2C47F /* currentLocation-black.png in Resources */,
@@ -1407,16 +1496,21 @@
 				66D426A51991012E0080F21E /* busStopAnnotation-small.png in Resources */,
 				66CB95FA18E8CBE300E95CE5 /* warning_notification.png in Resources */,
 				66D0BA4A18BE4840002DDC7B /* nearby_1_20120.png in Resources */,
+				6682D24A1ACE34B900F6DDF7 /* next-green-64.png in Resources */,
+				6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */,
+				66EC18FD1ACB58D4008E045D /* collapse-arrow-100.png in Resources */,
 				66D06A7719A40EFB00424A4A /* map_background.png in Resources */,
 				66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */,
 				66D4269B198FC0000080F21E /* disruption-info-128.png in Resources */,
 				66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */,
+				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
 				661ABBFB199D5DB500F93894 /* bus-orange-128.png in Resources */,
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
 				666437CD19E1887600B82BE5 /* bookmark-50.png in Resources */,
 				664ADFF01992740F000B4F18 /* search-75.png in Resources */,
 				66CEE29C1A01AF650089A6F9 /* annotationFrame.png in Resources */,
 				66F3B12B1AC85A0F0038BA78 /* Info-filled-white-32.png in Resources */,
+				6682D24E1ACE39F500F6DDF7 /* next-gray-64.png in Resources */,
 				666437C919E1852E00B82BE5 /* calendar-50.png in Resources */,
 				66F1384B1997897700B52B6B /* walking-100.png in Resources */,
 				66F3B13E1AC89FC60038BA78 /* ewketapps-logo.png in Resources */,
@@ -1488,6 +1582,7 @@
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
+				66EC18FA1ACB3D07008E045D /* ASPolylineRenderer.m in Sources */,
 				66CC93DB18DDC3E900644281 /* SVProgressHUD.m in Sources */,
 				665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */,
 				66CB961018EEE46100E95CE5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
@@ -1526,6 +1621,7 @@
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
 				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
+				66EC18FB1ACB3D07008E045D /* ASPolylineView.m in Sources */,
 				66DAE1EE19C398430039081D /* RouteLocation.m in Sources */,
 				669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */,
 				66A7A9B818C5DB9400AC9E94 /* BusStopShort.m in Sources */,

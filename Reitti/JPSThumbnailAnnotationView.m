@@ -36,14 +36,18 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 @property (nonatomic, strong) CAShapeLayer *bgLayer;
 @property (nonatomic, strong) UIButton *disclosureButton;
 @property (nonatomic, strong) UIButton *primaryButton;
+@property (nonatomic, strong) UIButton *primaryButtonSmall;
+@property (nonatomic, strong) UILabel *primaryButtonLabel;
 @property (nonatomic, strong) UIButton *secondaryButton;
 @property (nonatomic, assign) JPSThumbnailAnnotationViewState state;
+
+@property (nonatomic, strong) UIColor *systemGreenColor;
 
 @end
 
 @implementation JPSThumbnailAnnotationView
 
-#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
+#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0];
 
 #pragma mark - Setup
 
@@ -57,7 +61,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
         self.centerOffset = CGPointMake(0, -kJPSThumbnailAnnotationViewVerticalOffset);
         
         _state = JPSThumbnailAnnotationViewStateCollapsed;
-        
+        _systemGreenColor = [UIColor colorWithRed:51/256 green:153/256 blue:102/256 alpha:1];
         [self setupView];
     }
     
@@ -68,7 +72,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     [self setupImageView];
     [self setupTitleLabel];
     [self setupSubtitleLabel];
-//    [self setupDisclosureButton];
+    [self setupDisclosureButton];
     [self setupPrimaryButton];
     [self setupSecondaryButton];
     [self setLayerProperties];
@@ -85,7 +89,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupTitleLabel {
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-120.0f, -12.0f, 175.0f, 20.0f)];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -12.0f, 175.0f, 20.0f)];
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
     _titleLabel.minimumScaleFactor = 0.7f;
@@ -94,31 +98,54 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupSubtitleLabel {
-    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-120.0f, 8.0f, 168.0f, 20.0f)];
+    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, 8.0f, 168.0f, 20.0f)];
     _subtitleLabel.textColor = [UIColor lightGrayColor];
     _subtitleLabel.font = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_subtitleLabel];
 }
 
+//It is the button on the left side with route
 - (void)setupPrimaryButton {
     _primaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    UIImage *image = [UIImage imageNamed:@"bus-green-50.png"];
-    [_primaryButton setImage:image forState:UIControlStateNormal];
     _primaryButton.tintColor = SYSTEM_GREEN_COLOR;
+    _primaryButton.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     
-    _primaryButton.frame = CGRectMake(125.0f, -10.0f, 35.0f, 35.0f);
-    [self addSubview:_primaryButton];
+    _primaryButton.frame = CGRectMake(0, 0, 55.0f, 55.5f);
+    
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(-132.0f, -19.5f, 72.0f, 55.0f)];
+    containerView.clipsToBounds = YES;
+    containerView.layer.cornerRadius = 17.5;
+    
+    _primaryButtonSmall = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIImage *image = [UIImage imageNamed:@"bus-filled-gray-100.png"];
+    [_primaryButtonSmall setImage:image forState:UIControlStateNormal];
+    _primaryButtonSmall.tintColor = SYSTEM_GREEN_COLOR;
+    _primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
+    
+    _primaryButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake(8.0f, 32.0f, 40.0f, 20.0f)];
+    _primaryButtonLabel.textColor = SYSTEM_GREEN_COLOR;
+    _primaryButtonLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0f];
+    _primaryButtonLabel.textAlignment = NSTextAlignmentCenter;
+    _primaryButtonLabel.adjustsFontSizeToFitWidth = YES;
+    
+    [containerView addSubview:_primaryButton];
+    [containerView addSubview:_primaryButtonSmall];
+    [containerView addSubview:_primaryButtonLabel];
+    
+    [self addSubview:containerView];
     
     [_primaryButton addTarget:self action:@selector(didTapPrimaryButton) forControlEvents:UIControlEventTouchDown];
+    [_primaryButtonSmall addTarget:self action:@selector(didTapPrimaryButton) forControlEvents:UIControlEventTouchDown];
 }
 
+//it is going to cover the whole anotation
 - (void)setupSecondaryButton {
     _secondaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    UIImage *image = [UIImage imageNamed:@"calendar-50.png"];
-    [_secondaryButton setImage:image forState:UIControlStateNormal];
+//    UIImage *image = [UIImage imageNamed:@"calendar-50.png"];
+//    [_secondaryButton setImage:image forState:UIControlStateNormal];
     _secondaryButton.tintColor = SYSTEM_GREEN_COLOR;
-    
-    _secondaryButton.frame = CGRectMake(75.0f, -10.0f, 32.0f, 35.0f);
+//    _secondaryButton.backgroundColor = [UIColor greenColor];
+    _secondaryButton.frame = CGRectMake(-70.0f, -19.5f, 205.0f, 55.0f);
     [self addSubview:_secondaryButton];
     
     [_secondaryButton addTarget:self action:@selector(didTapSecondaryButton) forControlEvents:UIControlEventTouchDown];
@@ -131,8 +158,8 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     _disclosureButton.tintColor = [UIColor grayColor];
     UIImage *disclosureIndicatorImage = [JPSThumbnailAnnotationView disclosureButtonImage];
     [_disclosureButton setImage:disclosureIndicatorImage forState:UIControlStateNormal];
-    _disclosureButton.frame = CGRectMake(kJPSThumbnailAnnotationViewExpandOffset/2.0f + self.frame.size.width/2.0f + 8.0f,
-                                         26.5f,
+    _disclosureButton.frame = CGRectMake(kJPSThumbnailAnnotationViewExpandOffset/2.0f + self.frame.size.width/2.0f - 8.0f,
+                                         -1.0f,
                                          disclosureIndicatorImage.size.width,
                                          disclosureIndicatorImage.size.height);
     
@@ -157,6 +184,30 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     [self.layer insertSublayer:_bgLayer atIndex:0];
 }
 
+
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    
+    // Convert the point to the target view's coordinate system.
+    // The target view isn't necessarily the immediate subview
+    CGPoint pointForTargetView = [self.primaryButton convertPoint:point fromView:self];
+    
+    if (CGRectContainsPoint(self.primaryButton.bounds, pointForTargetView)) {
+        
+        // The target view may have its view hierarchy,
+        // so call its hitTest method to return the right hit-test view
+        return [self.primaryButton hitTest:pointForTargetView withEvent:event];
+    }
+    
+    CGPoint pointForSTargetView = [self.secondaryButton convertPoint:point fromView:self];
+    
+    if (CGRectContainsPoint(self.secondaryButton.bounds, pointForSTargetView)) {
+        
+        return [self.secondaryButton hitTest:pointForTargetView withEvent:event];
+    }
+    
+    return [super hitTest:point withEvent:event];
+}
+
 #pragma mark - Updating
 
 - (void)updateWithThumbnail:(JPSThumbnail *)thumbnail {
@@ -169,6 +220,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.disclosureBlock = thumbnail.disclosureBlock;
     self.primaryButtonBlock = thumbnail.primaryButtonBlock;
     self.secondaryButtonBlock = thumbnail.secondaryButtonBlock;
+    self.disclosureBlock = thumbnail.disclosureBlock;
     
     if (!self.primaryButtonBlock)
         self.primaryButton.hidden = YES;
@@ -195,6 +247,21 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)didDeselectAnnotationViewInMap:(MKMapView *)mapView {
     [self shrink];
+    //Return small primary button to position if it was moved
+    self.primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
+}
+
+- (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString {
+    CGRect buttonFrame = self.primaryButtonSmall.frame;
+    
+    [UIView transitionWithView:self duration:0.2 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        
+        self.primaryButtonSmall.frame = CGRectMake(buttonFrame.origin.x, buttonFrame.origin.y - 7, buttonFrame.size.width, buttonFrame.size.height);
+        
+    } completion:^(BOOL finished) {
+        [self.primaryButtonLabel setText:durationString];
+    }];
+    
 }
 
 #pragma mark - Geometry
@@ -255,6 +322,8 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.titleLabel.alpha = alpha;
     self.subtitleLabel.alpha = alpha;
     self.primaryButton.alpha = alpha;
+    self.primaryButtonSmall.alpha = alpha;
+    self.primaryButtonLabel.alpha = alpha;
     self.secondaryButton.alpha = alpha;
 }
 

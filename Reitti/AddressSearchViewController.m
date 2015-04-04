@@ -71,7 +71,7 @@
 
 -(void)setUpMainView{
     //self.view.backgroundColor = [UIColor whiteColor];
-    [backView setBlurTintColor:systemBackgroundColor];
+//    [backView setBlurTintColor:systemBackgroundColor];
     if (self.darkMode) {
         addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
     }else{
@@ -83,11 +83,11 @@
     if (routeSearchMode) {
         //width 257 & x = 0
         addressSearchBar.frame = CGRectMake(0, searchBarFrame.origin.y, 257, searchBarFrame.size.height);
-        routeSearchButton.hidden = YES;
+        [leftNavBarButton setImage:[UIImage imageNamed:@"current-location-100.png"] forState:UIControlStateNormal];
     }else{
         //width = 219 & x = 38
         addressSearchBar.frame = CGRectMake(38, searchBarFrame.origin.y, 219, searchBarFrame.size.height);
-        routeSearchButton.hidden = NO;
+        [leftNavBarButton setImage:[UIImage imageNamed:@"up-right-arrow-32.png"] forState:UIControlStateNormal];
     }
     
     [addressSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
@@ -108,8 +108,13 @@
         }
     }
     
-    searchResultTableView.backgroundColor = [UIColor clearColor];
-    currentLocationContainerView.hidden = !routeSearchMode;
+    if (routeSearchMode) {
+        searchResultTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }else{
+        searchResultTableView.backgroundColor = [UIColor clearColor];
+    }
+    
+//    currentLocationContainerView.hidden = !routeSearchMode;
 }
 
 //When there is no search term and displays bookmarks
@@ -153,12 +158,14 @@
     if (up) {
         [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, topBoundary, tableContainerFrame.size.width, self.view.bounds.size.height - topBoundary - 5)];
     }else{
-        [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, 100, tableContainerFrame.size.width, self.view.bounds.size.height - 100 - 5)];
+        [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, topBoundary + listSegmentControl.frame.size.height + 10, tableContainerFrame.size.width, self.view.bounds.size.height - 100 - 5)];
     }
     
     tableFrame.size.height = searchResultTableViewContainer.frame.size.height;
     searchResultTableView.frame = tableFrame;
     tableViewBackGroundBlurView.frame = tableFrame;
+    
+    [self.view layoutSubviews];
 }
 
 -(void)moveTableViewDown:(BOOL)down{
@@ -185,13 +192,16 @@
 //            currentLocationContainerView.hidden = !hidden;
         }
         [UIView transitionWithView:backView duration:0.3 options:UIViewAnimationOptionTransitionNone animations:^{
-            if (routeSearchMode) {
+            
+            /*
+             if (routeSearchMode) {
                 [self moveTableViewDown:hidden];
                 currentLocationContainerView.hidden = !hidden;
             }else{
                 [self moveTableViewUp:hidden];
             }
-            
+            */
+            [self moveTableViewUp:hidden];
         } completion:^(BOOL finished) {
             if (!hidden){
                 listSegmentControl.hidden = hidden;
@@ -199,13 +209,15 @@
             }
         }];
     }else{
+        /*
         if (routeSearchMode) {
             [self moveTableViewDown:hidden];
             currentLocationContainerView.hidden = !hidden;
         }else{
             [self moveTableViewUp:hidden];
         }
-        
+        */
+        [self moveTableViewUp:hidden];
         listSegmentControl.hidden = hidden;
         
     }
@@ -229,6 +241,17 @@
         NSLog(@"Dismiss completed");
         [delegate searchResultSelectedCurrentLocation];
     }];
+}
+
+- (IBAction)leftNavBarButtonPressed:(id)sender{
+    if (!routeSearchMode) {
+//        [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+        [self dismissViewControllerAnimated:NO completion:^{
+            [self.delegate searchViewControllerDismissedToRouteSearch:addressSearchBar.text];
+        }];
+    }else{
+        [self currentLocationButtonPressed:sender];
+    }
 }
 
 #pragma mark - search bar methods
@@ -331,9 +354,9 @@
 }
 
 #pragma mark - route Search view controller delegate
-//- (void)routeSearchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-//    
-//}
+- (void)routeSearchViewControllerDismissed {
+    [self cancelButtonPressed:self];
+}
 
 #pragma mark - TableViewMethods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -369,8 +392,8 @@
         UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
-        title.text = stopEntity.busStopName;
-        subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+        title.attributedText = [ReittiStringFormatter highlightSubstringInString:stopEntity.busStopName substring:addressSearchBar.text withNormalFont:title.font];
+        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity] substring:addressSearchBar.text withNormalFont:title.font];
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
@@ -389,8 +412,8 @@
         UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
-        title.text = routeEntity.toLocationName;
-        subTitle.text = [NSString stringWithFormat:@"%@", routeEntity.fromLocationName];
+        title.attributedText = [ReittiStringFormatter highlightSubstringInString: routeEntity.toLocationName substring:addressSearchBar.text withNormalFont:title.font];
+        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", routeEntity.fromLocationName] substring:addressSearchBar.text withNormalFont:title.font];
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
@@ -402,24 +425,25 @@
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
-            title.text = geoCode.name;
-            subTitle.text = [NSString stringWithFormat:@"%@", geoCode.city];
+            title.attributedText = [ReittiStringFormatter highlightSubstringInString:geoCode.name substring:addressSearchBar.text withNormalFont:title.font];
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:title.font];
         }else if (geoCode.getLocationType  == LocationTypeAddress) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"addressLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
-            title.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
-            subTitle.text = [NSString stringWithFormat:@"%@", geoCode.city];
+            title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] substring:addressSearchBar.text withNormalFont:title.font] ;
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:title.font] ;
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"stopLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
-            title.text = [NSString stringWithFormat:@"%@ (%@)", geoCode.name, geoCode.getStopShortCode];
-            subTitle.text = [NSString stringWithFormat:@"%@, %@", geoCode.getAddress ,geoCode.city];
+            title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ (%@)", geoCode.name, geoCode.getStopShortCode] substring:addressSearchBar.text withNormalFont:title.font];
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", geoCode.getAddress ,geoCode.city] substring:addressSearchBar.text withNormalFont:title.font];
+    
         }
         
         cell.backgroundColor = [UIColor clearColor];
@@ -519,7 +543,7 @@
         routeSearchViewController.recentStops = self.recentStops;
         routeSearchViewController.prevToLocation = addressSearchBar.text;
         routeSearchViewController.darkMode = self.darkMode;
-        //routeSearchViewController.delegate = self;
+//        routeSearchViewController.viewCycledelegate = self;
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
     

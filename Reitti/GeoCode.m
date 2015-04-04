@@ -81,4 +81,12 @@
         return LocationTypeAddress;
 }
 
+-(NSString *)FullAddressString{
+    return [NSString stringWithFormat:@"%@, %@",
+            [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]],
+            self.city
+            ];
+    
+}
+
 @end

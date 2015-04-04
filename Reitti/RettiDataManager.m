@@ -74,7 +74,20 @@
         optimizeString = @"default";
     }
     
-    [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString];
+    [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+}
+
+-(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"HHmm"];
+    NSString *time = [dateFormat stringFromDate:[NSDate date]];
+    
+    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+    [dateFormat2 setDateFormat:@"YYYYMMdd"];
+    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
+    
+    [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:@"departure" andOptimize:@"fastest" numberOfResults:1];
 }
 
 -(void)searchAddressesForKey:(NSString *)key{

@@ -37,6 +37,7 @@
 
 @property (nonatomic, retain) NSNumber * legLength;
 @property (nonatomic, retain) NSNumber * legDurationInSeconds;
+@property (nonatomic) NSInteger waitingTimeInSeconds;
 @property (nonatomic) LegTransportType legType;
 @property (nonatomic, retain) NSString * legSpecificType;
 @property (nonatomic, retain) NSString * lineCode;

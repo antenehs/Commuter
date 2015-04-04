@@ -20,7 +20,7 @@
 
 @synthesize savedStops, recentStops, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation;
 @synthesize reittiDataManager;
-@synthesize delegate;
+@synthesize delegate,viewCycledelegate;
 @synthesize darkMode;
 @synthesize locationManager, currentUserLocation;
 @synthesize refreshControl;
@@ -46,22 +46,24 @@
     
     [timeSelectionViewShadeView addGestureRecognizer:timeSelectionShadeTapGestureRecognizer];
     
+    reittiDataManager.routeSearchdelegate = self;
+    
+    [self hideToolBar:YES animated:NO];
     [self setNeedsStatusBarAppearanceUpdate];
     [self initLocationManager];
-    reittiDataManager.routeSearchdelegate = self;
     [self selectSystemColors];
     [self setUpMainView];
 }
 
-//-(void)viewWillAppear:(BOOL)animated{
-    //this is to get the blue color
-//    if ([fromSearchBar.text isEqualToString:currentLocationText]) {
-//        [self setTextToSearchBar:fromSearchBar text:currentLocationText currentLocation:YES];
-//    }
-//    if ([toSearchBar.text isEqualToString:currentLocationText]) {
-//        [self setTextToSearchBar:toSearchBar text:currentLocationText currentLocation:YES];
-//    }
-//}
+-(void)viewWillAppear:(BOOL)animated{
+    //Update list of saved stopes in case a new one is saved in the detail view
+    if (self.reittiDataManager != nil) {
+        NSArray * savedArray = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+        self.savedStops = [NSMutableArray arrayWithArray:savedArray];
+    }
+    
+    [self setUpToolBar];
+}
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     if (darkMode) {
@@ -69,6 +71,11 @@
     }else{
         return UIStatusBarStyleDefault;
     }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [routeResultsTableView reloadData];
 }
 
 #pragma mark - initializations
@@ -86,10 +93,6 @@
 }
 
 -(void)setUpMainView{
-    //self.view.backgroundColor = [UIColor whiteColor];
-//    [searchBarsView setBlurTintColor:systemBackgroundColor];
-    //searchBarsView.layer.borderWidth = 0.5;
-    //searchBarsView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     fromFieldBackView.layer.borderWidth = 0.5;
     fromFieldBackView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
@@ -120,7 +123,7 @@
     selectedDateString = date;
     
     NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+    [dateFormat3 setDateFormat:@"HH:mm"];
     NSString *prettyVersion = [dateFormat3 stringFromDate:[NSDate date]];
     
     selectedTimeLabel.text = [NSString stringWithFormat:@"Departes at: %@", prettyVersion];
@@ -234,6 +237,55 @@
     [self setBookmarkButtonStatus];
 }
 
+-(void)setUpToolBar{
+    UIImage *image1 = [UIImage imageNamed:@"previous-gray-64.png"];
+    CGRect frame = CGRectMake(0, 0, 25, 25);
+    
+    UIButton* prevButton = [[UIButton alloc] initWithFrame:frame];
+    [prevButton setBackgroundImage:image1 forState:UIControlStateNormal];
+    
+    [prevButton addTarget:self action:@selector(previousRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* prevBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:prevButton];
+    
+    
+    UIBarButtonItem *firstSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    firstSpace.width = 30;
+    
+    UIBarButtonItem *nowBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStyleDone target:self action:@selector(currentTimeRoutesButtonPressed:)];
+    
+    UIBarButtonItem *secondSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    secondSpace.width = 30;
+    
+    UIImage *image2 = [UIImage imageNamed:@"next-gray-64.png"];
+    
+    UIButton* nextButton = [[UIButton alloc] initWithFrame:frame];
+    [nextButton setBackgroundImage:image2 forState:UIControlStateNormal];
+    
+    [nextButton addTarget:self action:@selector(nextRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* nextBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:nextButton];
+    
+    UIBarButtonItem *flexiSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleDone target:self action:@selector(clearSearchButtonPressed:)];
+    
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    [items addObject:prevBarButtonItem];
+    [items addObject:firstSpace];
+    [items addObject:nextBarButtonItem];
+    [items addObject:secondSpace];
+    [items addObject:nowBarButtonItem];
+    [items addObject:flexiSpace];
+    [items addObject:clearBarButtonItem];
+    self.toolbarItems = items;
+}
+
+-(void)hideToolBar:(BOOL)hidden animated:(BOOL)animated{
+    [self.navigationController setToolbarHidden:hidden animated:animated];
+    toolBarIsShowing = !hidden;
+}
+
 - (IBAction)swipeToAndFromSelections:(id)sender {
     NSString * curToText = toSearchBar.text;
     toString = fromString;
@@ -283,6 +335,11 @@
     
     searchBar.text = text;
     
+}
+
+-(void)clearSearchTexts{
+    [fromSearchBar setText:@""];
+    [toSearchBar setText:@""];
 }
 
 -(void)setCurrentLocationIfAvailableToFromSearchBar{
@@ -450,7 +507,9 @@
 - (IBAction)cancelButtonPressed:(id)sender {
 //    [toSearchBar resignFirstResponder];
 //    [fromSearchBar resignFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil ];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.viewCycledelegate routeSearchViewControllerDismissed];
+    }];
 }
 
 - (IBAction)timeSElectionButtonClicked:(id)sender {
@@ -543,6 +602,9 @@
     NSDate *lastTime;
     if(selectedTimeType == SelectedTimeArrival){
         lastRoute = [self.routeList objectAtIndex:0];
+        if (lastRoute == nil)
+            return;
+        
         selectedTimeType = SelectedTimeDeparture;
         nextRoutesRequested = YES;
         
@@ -550,11 +612,10 @@
         
     }else{
         lastRoute = [self.routeList lastObject];
-        
+        if (lastRoute == nil)
+            return;
         lastTime = lastRoute.getStartingTimeOfRoute;
     }
-    
-    
     
     datePicker.date = lastTime;
     
@@ -569,7 +630,7 @@
     selectedDateString = date;
     
     NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
     NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
     
     if (selectedTimeType == SelectedTimeArrival) {
@@ -598,10 +659,13 @@
     NSDate *lastTime;
     if(selectedTimeType == SelectedTimeArrival){
         lastRoute = [self.routeList lastObject];
-        
+        if (lastRoute == nil)
+            return;
         lastTime = lastRoute.getEndingTimeOfRoute;
     }else{
         lastRoute = [self.routeList objectAtIndex:0];
+        if (lastRoute == nil)
+            return;
         selectedTimeType = SelectedTimeArrival;
         prevRoutesRequested = YES;
         
@@ -622,7 +686,7 @@
     selectedDateString = date;
     
     NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
     NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
     
     if (selectedTimeType == SelectedTimeArrival) {
@@ -632,6 +696,16 @@
     }
     
     [self searchRouteIfPossible];
+}
+
+- (IBAction)clearSearchButtonPressed:(id)sender {
+    [self clearSearchTexts];
+    
+    [self.routeList removeAllObjects];
+    [routeResultsTableView reloadData];
+    
+    //TODO: display saved stops
+    [self hideToolBar:YES animated:YES];
 }
 
 - (IBAction)bookmarkRouteButtonClicked:(id)sender {
@@ -665,6 +739,7 @@
         }
     }
 }
+
 
 #pragma mark - search bar methods
 
@@ -733,7 +808,7 @@
             [self setSelectedTimesForDate:secondRoute.getEndingTimeOfRoute];
             
             NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-            [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+            [self isSameDateAsToday:secondRoute.getEndingTimeOfRoute] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
             NSString *prettyVersion = [dateFormat3 stringFromDate:secondRoute.getEndingTimeOfRoute];
             
             selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
@@ -758,7 +833,7 @@
             [self setSelectedTimesForDate:secondRoute.getStartingTimeOfRoute];
             
             NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-            [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+            [self isSameDateAsToday:secondRoute.getStartingTimeOfRoute] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
             NSString *prettyVersion = [dateFormat3 stringFromDate:secondRoute.getStartingTimeOfRoute];
             
             selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
@@ -808,6 +883,8 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }
+    
+    [self hideToolBar:YES animated:NO];
 }
 #pragma mark - routeSearchOptionSelection
 -(void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions{
@@ -833,7 +910,7 @@
     selectedDateString = date;
     
     NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+    [self isSameDateAsToday:selectedTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
     NSString *prettyVersion = [dateFormat3 stringFromDate:selectedTime];
     
     switch (selectedTimeType) {
@@ -877,12 +954,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"%@",self.routeList);
-    if (self.routeList.count > 0) {
-        return self.routeList.count + 1;
-    }else{
-        return self.routeList.count;
-    }
+//    NSLog(@"%@",self.routeList);
+    return self.routeList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -893,63 +966,152 @@
         
         Route *route = [self.routeList objectAtIndex:indexPath.row];
         
-        UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:2000];
-        startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute];
+        UILabel *timeIntervalLabel = (UILabel *)[cell viewWithTag:2000];
         
-        UILabel *endTimeLabel = (UILabel *)[cell viewWithTag:2001];
-        [endTimeLabel setText:[ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+        if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < 300) {
+            timeIntervalLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@",
+                                                                                                  [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute],
+                                                                                                  [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]]
+                                                                                       substring:[ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]
+                                                                                  withNormalFont:timeIntervalLabel.font];
+            ;
+        }else{
+            timeIntervalLabel.text = [NSString stringWithFormat:@"%@ - %@",
+             [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute],
+             [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+        }
+        
+        
+        
+//        UILabel *endTimeLabel = (UILabel *)[cell viewWithTag:2001];
+//        [endTimeLabel setText:];
         
         //durations
-        UILabel *durationLabel = (UILabel *)[cell viewWithTag:2002];
-        durationLabel.text = [NSString stringWithFormat:@"%d min", (int)([route.routeDurationInSeconds intValue]/60)];
+        UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
+        durationLabel.text = [NSString stringWithFormat:@"%@", [ReittiStringFormatter formatDurationString:[route.routeDurationInSeconds integerValue]]];
         
-        UILabel *walkLengthLabel = (UILabel *)[cell viewWithTag:2003];
-        walkLengthLabel.text = [NSString stringWithFormat:@"%dm", (int)route.getTotalWalkLength];
+        UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
+        //TODO: Identigy if it only walking route with no stops
+        moreInfoLebel.text = [NSString stringWithFormat:@"%dm walking ",
+                              /*[ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute],*/
+                              (int)route.getTotalWalkLength];
         
-        UIView *transportsContainer = (UIView *)[cell viewWithTag:2004];
+        UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2003];
         
-        UIImageView *walkingView = (UIImageView *)[cell viewWithTag:2005];
+//        UIView *transportsContainer = (UIView *)[cell viewWithTag:2004];
         
-        for (UIView * view in transportsContainer.subviews) {
-            [view removeFromSuperview];
-        }
+//        UIImageView *walkingView = (UIImageView *)[cell viewWithTag:2005];
         
-        if (route.isOnlyWalkingRoute) {
-            transportsContainer.hidden = YES;
-            walkingView.hidden = NO;
-        }else{
-            transportsContainer.hidden = NO;
-            walkingView.hidden = YES;
-        }
+//
+//        if (route.isOnlyWalkingRoute) {
+//            transportsContainer.hidden = YES;
+////            walkingView.hidden = NO;
+//        }else{
+//            transportsContainer.hidden = NO;
+////            walkingView.hidden = YES;
+//        }
         
-        int totalLegsToShow = route.getNumberOfNoneWalkLegs;
-        float tWidth = 45;
-        float space = 11;
-        float total;
-        do{
-            space--;
-            total = (totalLegsToShow * tWidth) + ((totalLegsToShow -1) * space);
-        }while (total < transportsContainer.frame.size.width && space > 0);
+        [cell layoutSubviews];
         
-        float x = (transportsContainer.frame.size.width - total)/2;
-        //TODO: Check when there is only walking
-        for (RouteLeg *leg in route.routeLegs) {
-            if (leg.legType != LegTypeWalk) {
-                Transport *transportView = [[Transport alloc] initWithRouteLeg:leg];
-                CGRect frame = transportView.frame;
-                transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
-                [transportsContainer addSubview:transportView];
-                x += frame.size.width + space;
+        for (UIView * view in transportsScrollView.subviews) {
+            if (view.tag == 1987) {
+                [view removeFromSuperview];
             }
         }
-    }else{
-        cell = [tableView dequeueReusableCellWithIdentifier:@"nextAndPrevCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+        
+        UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, self.view.frame.size.width - 40, 36)];
+        transportsContainer.clipsToBounds = YES;
+        transportsContainer.tag = 1987;
+//        transportsContainer.layer.borderWidth = 0.5;
+//        transportsContainer.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        transportsContainer.layer.cornerRadius = 4;
+        
+//        int totalLegsToShow = route.getNumberOfNoneWalkLegs;
+        float tWidth = 70;
+//        float space = 11;
+//        float total = 0;
+        
+//        do{
+//            space--;
+//            total = (totalLegsToShow * tWidth) + ((totalLegsToShow -1) * space);
+//        }while (total < transportsContainer.frame.size.width && space > 0);
+        
+        //get longest route duration
+        double longestDuration = 0;
+        for (Route *route in self.routeList) {
+            if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
+                longestDuration = [route.routeDurationInSeconds doubleValue];
+            }
+        }
+        
+        float x = 0;
+        //TODO: Check when there is only walking
+        for (RouteLeg *leg in route.routeLegs) {
+            tWidth = (self.view.frame.size.width - 40) * ([leg.legDurationInSeconds floatValue]/longestDuration);
+            Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
+            CGRect frame = transportView.frame;
+            transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
+            transportView.clipsToBounds = YES;
+            [transportsContainer addSubview:transportView];
+            x += frame.size.width;
+            
+            //Append waiting view if exists
+            if (leg.waitingTimeInSeconds > 0) {
+                float waitingWidth = (self.view.frame.size.width - 40) * (leg.waitingTimeInSeconds/longestDuration);
+                UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
+                waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+                waitingView.clipsToBounds = YES;
+                if (waitingWidth > 22) {
+                    UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
+                    waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
+                    [waitingView addSubview:waitingImageView];
+                }
+                [transportsContainer addSubview:waitingView];
+                x += waitingWidth;
+            }
+        }
+        
+        transportsContainer.frame = CGRectMake(transportsContainer.frame.origin.x, transportsContainer.frame.origin.y, x, transportsContainer.frame.size.height);
+        [transportsScrollView addSubview:transportsContainer];
+        transportsScrollView.contentSize = CGSizeMake(transportsContainer.frame.size.width + 24, transportsScrollView.frame.size.height);
+        
+        transportsScrollView.userInteractionEnabled = NO;
+        [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
+//        [cell addSubview:transportsContainer];
+     }
+//    else{
+//        cell = [tableView dequeueReusableCellWithIdentifier:@"nextAndPrevCell"];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
     
     cell.backgroundColor = [UIColor clearColor];
     
     return cell;
+}
+
+-(float)evaluateNeededScalingForRouteList{
+    float maxScalling = 0.0;
+    double longestDuration = 0;
+    for (Route *route in self.routeList) {
+        if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
+            longestDuration = [route.routeDurationInSeconds doubleValue];
+        }
+    }
+    for (Route *route  in self.routeList) {
+        for (RouteLeg *leg in route.routeLegs) {
+            float tWidth = (self.view.frame.size.width - 20) * ([leg.legDurationInSeconds floatValue]/longestDuration);
+            float scale = 0.0;
+            if (leg.legType == LegTypeWalk && tWidth < 38) {
+                scale = 38/tWidth;
+            }else if(tWidth < 50){
+                scale = 50/tWidth;
+            }
+            if (scale > maxScalling) {
+                maxScalling = scale;
+            }
+        }
+    }
+    return maxScalling;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -994,16 +1156,22 @@
     if (indexPath.row == self.routeList.count) {
         return 60;
     }else{
-        return 95;
+        return 120;
     }
 }
 
 #pragma mark - scroll view delegates
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    if(scrollView == searchSuggestionsTableView)
-//        [fromSearchBar resignFirstResponder];
-//        [toSearchBar resignFirstResponder];
-//}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (routeList.count < 1)
+        return;
+    
+    if (scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height - 100) {
+        [self hideToolBar:NO animated:YES];
+    }
+    if (scrollView.contentOffset.y + scrollView.frame.size.height < scrollView.contentSize.height - 150) {
+        [self hideToolBar:YES animated:YES];
+    }
+}
 
 #pragma mark - address search view controller
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
@@ -1020,13 +1188,13 @@
     [self searchRouteIfPossible];
 }
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
-    [self setTextToSearchBar:activeSearchBar text:[[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    [self setTextToSearchBar:activeSearchBar text:geoCode.FullAddressString];
     
     if (activeSearchBar == fromSearchBar) {
-        fromString = [[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        fromString = geoCode.FullAddressString;
         fromCoords = geoCode.coords;
     }else if (activeSearchBar == toSearchBar) {
-        toString = [[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        toString = geoCode.FullAddressString;
         toCoords = geoCode.coords;
     }
     
@@ -1068,6 +1236,7 @@
         //Remove previous search result from table
         if (!nextRoutesRequested && !prevRoutesRequested) {
             self.routeList = nil;
+//            [self.view layoutSubviews];
             [routeResultsTableView reloadData];
         }
         
@@ -1102,7 +1271,7 @@
         [self setSelectedTimesForDate:currentTime];
         
         NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-        [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+        [self isSameDateAsToday:myDate] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
         NSString *prettyVersion = [dateFormat3 stringFromDate:myDate];
         
         selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
@@ -1125,9 +1294,23 @@
     datePicker.date = date;
 }
 
+-(BOOL)isSameDateAsToday:(NSDate *)date1{
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date1];
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    return ([today day] == [otherDay day] &&
+            [today month] == [otherDay month] &&
+            [today year] == [otherDay year] &&
+            [today era] == [otherDay era]);
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - guesture recognizer
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 #pragma mark - Navigation
@@ -1171,10 +1354,7 @@
             destinationViewController.route = selectedRoute;
             destinationViewController.toLocation = toString;
             destinationViewController.fromLocation = fromString;
-//            stopViewController.darkMode = self.darkMode;
-//            stopViewController.reittiDataManager = self.reittiDataManager;
-//            stopViewController.backButtonText = self.title;
-//            stopViewController.delegate = self;
+            destinationViewController.reittiDataManager = self.reittiDataManager;
         }
     }
     

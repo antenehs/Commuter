@@ -40,8 +40,6 @@
 - (void)disruptionFetchDidFail:(NSString *)error;
 @end
 
-
-
 @interface RettiDataManager : NSObject<HSLCommunicationDelegate>{
     int nextObjectLID;
 }
@@ -49,6 +47,7 @@
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andSearchOption:(RouteSearchOption)searchOption;
+-(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)searchAddressesForKey:(NSString *)key;
 -(void)fetchStopsForCode:(NSString *)code;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion;

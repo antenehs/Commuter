@@ -71,7 +71,7 @@
         if (selectedSearchOption == RouteSearchOptionFastest) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             checkedIndexPath = indexPath;
-            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.textColor = [UIColor blackColor];
         }else{
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.textColor = [UIColor grayColor];
@@ -83,19 +83,19 @@
         if (selectedSearchOption == RouteSearchOptionLeastTransfer) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             checkedIndexPath = indexPath;
-            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.textColor = [UIColor blackColor];
         }else{
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.textColor = [UIColor grayColor];
         }
     }else if (indexPath.row == 4) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"SearchOptionCell"];
-        line.frame = CGRectMake(0.0, cell.frame.size.height - 0.5, cell.frame.size.width, 0);
+        line.frame = CGRectMake(0.0, cell.frame.size.height - 0.5, cell.frame.size.width, 0.5);
         cell.textLabel.text = @"    Least walking";
         if (selectedSearchOption == RouteSearchOptionLeastWalking) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             checkedIndexPath = indexPath;
-            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.textColor = [UIColor blackColor];
         }else{
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.textColor = [UIColor grayColor];
@@ -134,7 +134,7 @@
         {
             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.textColor = [UIColor blackColor];
             self.checkedIndexPath = indexPath;
             if (indexPath.row == 2) {
                 selectedSearchOption = RouteSearchOptionFastest;

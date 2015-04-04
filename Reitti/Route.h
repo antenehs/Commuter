@@ -41,6 +41,7 @@
 
 -(double)getTotalWalkLength;
 -(int)getNumberOfNoneWalkLegs;
+-(float)getLengthRatioInRoute:(RouteLeg *)leg;
 -(bool)isOnlyWalkingRoute;
 -(NSDate *)getStartingTimeOfRoute;
 -(NSDate *)getEndingTimeOfRoute;

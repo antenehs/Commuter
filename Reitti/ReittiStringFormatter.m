@@ -84,6 +84,17 @@
     return [formatter stringFromDate:date];
 }
 
++(NSString *)formatDurationString:(NSInteger)seconds{
+    int minutes = (int)(seconds/60);
+    
+    if (minutes > 59) {
+        return [NSString stringWithFormat:@"%dh %dmin", (int)(minutes/60), minutes % 60];
+    }else{
+        return [NSString stringWithFormat:@"%dmin", minutes];
+    }
+    
+}
+
 //Expected format is XXXXXXXX of numbers
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData{
     if (hslData.length != 8 || [hslData intValue] == 0) {
@@ -107,6 +118,14 @@
     NSArray *codes = [lineCode componentsSeparatedByString:@" "];
     NSString *code = [codes objectAtIndex:0];
     
+    //Can be assumed a train line
+    if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
+        NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
+        if (trainLineCode != nil && trainLineCode.length > 0) {
+            return trainLineCode;
+        }
+    }
+    
     NSRange second = NSMakeRange(1, 1);
     
     NSString *checkString = [code substringWithRange:second];
@@ -123,6 +142,31 @@
     NSArray *segments = [lineInfoString componentsSeparatedByString:@":"];
     
     return [segments objectAtIndex:0];
+}
+
++(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
+//    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
+    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[UIColor orangeColor] forKey:NSForegroundColorAttributeName];
+    [subStringDict setObject:font forKey:NSFontAttributeName];
+    
+    NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+    
+    if ([text rangeOfString:substring].location == NSNotFound)
+        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+    
+    NSRange location = [text rangeOfString:substring];
+    
+    NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
+    
+    NSMutableAttributedString *notHightlighted1 = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
+    
+    NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:[text substringFromIndex:location.location + location.length ] attributes:restStringDict];
+    
+    [notHightlighted1 appendAttributedString:highlighted];
+    [notHightlighted1 appendAttributedString:notHightlighted2];
+    
+    return notHightlighted1;
+    
 }
 
 //Expected format longitude,latitude

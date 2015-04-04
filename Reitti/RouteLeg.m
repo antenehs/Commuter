@@ -29,6 +29,7 @@
 
 @synthesize legLength;
 @synthesize legDurationInSeconds;
+@synthesize waitingTimeInSeconds;
 //@synthesize legType;
 @synthesize lineCode;
 @synthesize legLocations;
@@ -52,6 +53,17 @@
             loc.locationLegType = self.legType;
             [locsArray addObject:loc];
         }
+        
+        if (locsArray.count > 0) {
+            RouteLegLocation *lastLoc = [locsArray lastObject];
+            if (lastLoc != nil) {
+                waitingTimeInSeconds = [lastLoc.depTime timeIntervalSinceDate:lastLoc.arrTime];
+            }
+        }else{
+            waitingTimeInSeconds = 0;
+        }
+        
+        
         self.legShapeDictionaries = legDict[@"shape"];
         
         NSMutableArray *shapeArray = [[NSMutableArray alloc] init];

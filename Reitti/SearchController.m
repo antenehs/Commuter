@@ -12,7 +12,6 @@
 #import "MyFixedLayoutGuide.h"
 #import "RouteSearchViewController.h"
 #import "InfoViewController.h"
-#import "JPSThumbnailAnnotation.h"
 #import "WidgetSettingsViewController.h"
 #import <Social/Social.h>
 
@@ -93,6 +92,7 @@
     
     RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
     dataManger.delegate = self;
+    dataManger.routeSearchdelegate = self;
     dataManger.disruptionFetchDelegate = self;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
@@ -213,6 +213,7 @@
         }
     }
     
+    [self setNavBarSize];
     [mainSearchBar setPlaceholder:@"address, stop or poi"];
 }
 
@@ -245,13 +246,22 @@
         systemSubTextColor = [UIColor darkGrayColor];
     }
 }
-- (void)setNavBarApearance{
-//    appTitileLable.font = CUSTOME_FONT_BOLD(30.0f);
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setNavBarSize];
+}
+
+- (void)setNavBarSize {
     CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
     UIView *titleView = self.navigationItem.titleView;
     CGRect titleViewFrame = titleView.frame;
     titleViewFrame.size.width = navigationBarSize.width;
     self.navigationItem.titleView.frame = titleViewFrame;
+}
+
+- (void)setNavBarApearance{
+    [self setNavBarSize];
     
     [blurView setBlurTintColor:systemBackgroundColor];
     //blurView.alpha = 0.97;
@@ -287,7 +297,7 @@
 }
 
 -(int)searchViewLowerBound{
-    return blurView.frame.origin.y + blurView.frame.size.height;
+    return self.view.bounds.origin.y;
 }
 
 #pragma mark - extension methods
@@ -486,33 +496,39 @@
 }
 
 - (void)hideSearchResultView:(BOOL)hidden{
-    CGRect frame = searchResultsView.frame;
-    CGRect tableFrame = searchResultsTable.frame;
+//    CGRect frame = searchResultsView.frame;
+//    CGRect tableFrame = searchResultsTable.frame;
     
     if (hidden) {
-        frame.origin.y = self.view.bounds.size.height + 5;
+//        frame.origin.y = self.view.bounds.size.height + 5;
+        nearByStopsViewTopSpacing.constant = self.view.bounds.size.height;
         isSearchResultsViewDisplayed = NO;
         [listNearbyStops setImage:[UIImage imageNamed:@"list_nearBy.png"] forState:UIControlStateNormal];
     }else{
-        frame.origin.y = blurView.frame.size.height;
-        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
-        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
+//        frame.origin.y = blurView.frame.size.height;
+//        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
+//        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
+        nearByStopsViewTopSpacing.constant = 0;
         isSearchResultsViewDisplayed = YES;
         
         [listNearbyStops setImage:[UIImage imageNamed:@"showMap-icon.png"] forState:UIControlStateNormal];
     }
-    searchResultsView.frame = frame;
-    tableFrame.size.height = frame.size.height;
-    searchResultsTable.frame = tableFrame;
+    [self.view layoutSubviews];
+//    searchResultsView.frame = frame;
+//    tableFrame.size.height = frame.size.height;
+//    searchResultsTable.frame = tableFrame;
     requestedForListing = NO;
 }
 
 - (void)moveSearchResultViewByPoint:(CGPoint)displacement animated:(BOOL)anim{
     [UIView transitionWithView:searchResultsView duration:0.15 options:UIViewAnimationOptionCurveEaseIn animations:^{
         
-        CGRect stopFrame = searchResultsView.frame;
-        stopFrame.origin.y = stopFrame.origin.y + displacement.y;
-        searchResultsView.frame = stopFrame;
+//        CGRect stopFrame = searchResultsView.frame;
+//        stopFrame.origin.y = stopFrame.origin.y + displacement.y;
+//        searchResultsView.frame = stopFrame;
+        
+        nearByStopsViewTopSpacing.constant += displacement.y;
+        [self.view layoutSubviews];
         
     } completion:^(BOOL finished) {
         [self hideSearchResultView:NO animated:YES];
@@ -895,6 +911,7 @@
         stopAnT.reuseIdentifier = @"NearByStopAnnotation";
         stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
         stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code];};
+        stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code];};
         
         [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
     }
@@ -993,49 +1010,6 @@
 //    static NSString *selectedIdentifier = @"selectedLocation";
     static NSString *poiIdentifier = @"poiIdentifier";
     
-//    if ([annotation isKindOfClass:[StopAnnotation class]]) {
-//        StopAnnotation *sAnnotation = (StopAnnotation *)annotation;
-//        if([sAnnotation.code intValue] == [selectedStopLongCode intValue]){
-////        if(sAnnotation.isSelected){
-//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
-//            if (annotationView == nil) {
-//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
-//                annotationView.enabled = YES;
-//                //annotationView.canShowCallout = YES;
-//                annotationView.image = [UIImage imageNamed:@"busStopAnnotation.png"];
-//                [annotationView setFrame:CGRectMake(0, 0, bigAnnotationWidth, bigAnnotationHeight)];
-//                annotationView.centerOffset = CGPointMake(0,-48);
-//                
-//                annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-//                annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bus_stop_hsl_orig.png"]];
-//            } else {
-//                annotationView.annotation = annotation;
-//            }
-//            StopAnnotation *sAnnotation = (StopAnnotation *)annotationView.annotation;
-//            if (lastSelectedAnnotation != nil)
-//                annotationSelectionChanged = ([lastSelectedAnnotation.code intValue] != [sAnnotation.code intValue]);
-//            lastSelectedAnnotation = annotationView.annotation;
-//            return annotationView;
-//        }else{
-//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-//            if (annotationView == nil) {
-//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-//                annotationView.enabled = YES;
-//                
-//                annotationView.image = [UIImage imageNamed:@"busStopAnnotation-small-blue.png"];
-//                [annotationView setFrame:CGRectMake(0, 0, smallAnnotationWidth, smallAnnotationHeight)];
-//                annotationView.centerOffset = CGPointMake(0,-13);
-//                
-//                annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-//                annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bus_stop_hsl_orig.png"]];
-//            } else {
-//                annotationView.annotation = annotation;
-//            }
-//            
-//            return annotationView;
-//        }
-//        
-//    }
     if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
         return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }
@@ -1125,8 +1099,17 @@
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
+        selectedAnnotationView = (NSObject<JPSThumbnailAnnotationViewProtocol> *)view;
+        id<MKAnnotation> ann = [mapView.selectedAnnotations objectAtIndex:0];
+        CLLocationCoordinate2D coord = ann.coordinate;
+        NSLog(@"lat = %f, lon = %f", coord.latitude, coord.longitude);
+        
+        NSString *fromCoordsString = [NSString stringWithFormat:@"%f,%f", self.currentUserLocation.coordinate.longitude, self.currentUserLocation.coordinate.latitude];
+        
+        NSString *toCoordsString = [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
+        
+        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString];
     }
-    
 }
 
 - (void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
@@ -1141,6 +1124,7 @@
     
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+        selectedAnnotationView = nil;
     }
 }
 
@@ -1564,9 +1548,10 @@
 -(IBAction)dragStopView:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint translation = [recognizer translationInView:self.view];
-    if ((recognizer.view.frame.origin.y + translation.y) > ([self searchViewLowerBound] - 20)  ) {
-        recognizer.view.center = CGPointMake(recognizer.view.center.x,
-                                             recognizer.view.center.y + translation.y);
+    if ((recognizer.view.frame.origin.y + translation.y) > ([self searchViewLowerBound])  ) {
+//        recognizer.view.center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y + translation.y);
+        nearByStopsViewTopSpacing.constant += translation.y;
+        [self.view layoutSubviews];
     }
     if (recognizer.state != UIGestureRecognizerStateEnded){
         stopViewDragedDown = translation.y > 0;
@@ -1675,6 +1660,17 @@
     [SVProgressHUD dismiss];
 }
 
+- (void)routeSearchDidComplete:(NSArray *)routeList{
+    if (routeList != nil && routeList.count > 0) {
+        Route *route = [routeList firstObject];
+        NSInteger durationInSeconds = [route.routeDurationInSeconds integerValue];
+        [selectedAnnotationView setGoToHereDurationString:nil duration:[NSString stringWithFormat:@"%d min", (int)durationInSeconds/60]];
+    }
+}
+- (void)routeSearchDidFail:(NSString *)error{
+    
+}
+
 #pragma mark - Disruptions delegate
 - (void)disruptionFetchDidComplete:(NSArray *)disList{
     self.disruptionList = disList;
@@ -1709,12 +1705,19 @@
     }else{
         [self plotGeoCodeAnnotation:geoCode];
     }
+    
+    mainSearchBar.text = geoCode.FullAddressString;
 }
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-    mainSearchBar.text = prevSearchTerm;
+//    mainSearchBar.text = prevSearchTerm;
 }
 - (void)searchResultSelectedCurrentLocation{
     
+}
+
+-(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
+    mainSearchBar.text = prevSearchTerm;
+    [self performSegueWithIdentifier:@"switchToRouteSearch" sender:nil];
 }
 
 #pragma mark - Bookmarks view delegate
@@ -1836,6 +1839,7 @@
         routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
         routeSearchViewController.darkMode = self.darkMode;
+        routeSearchViewController.prevToLocation = mainSearchBar.text;
         
         if ([segue.identifier isEqualToString:@"routeSearchController"]) {
             routeSearchViewController.prevToLocation = selectedAnnotationUniqeName;

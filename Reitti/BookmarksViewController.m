@@ -113,15 +113,15 @@
         if (self.savedStops != nil) {
              {
                  if (self.savedStops.count < 1) {
-                     self.navigationController.toolbar.hidden = YES;
+                     [self hideWidgetSettingsButton:YES];
                  }else{
-                     self.navigationController.toolbar.hidden = NO;
+                     [self hideWidgetSettingsButton:NO];
                  }
             }
         }else{
-            self.navigationController.toolbar.hidden = YES;
+            [self hideWidgetSettingsButton:YES];
         }
-        
+        self.navigationItem.rightBarButtonItem = addBookmarkButton;
     }else{
         self.title = @"Recents";
 //        self._tintColor = SYSTEM_ORANGE_COLOR;
@@ -129,7 +129,8 @@
         dataToLoad = [[NSMutableArray alloc] initWithArray:recentStops];
         [dataToLoad addObjectsFromArray:recentRoutes];
         
-        self.navigationController.toolbar.hidden = YES;
+        [self hideWidgetSettingsButton:YES];
+        self.navigationItem.rightBarButtonItem = nil;
     }
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.tableView reloadData];
@@ -138,6 +139,29 @@
     //selectorView.tintColor = self._tintColor;
 }
 
+- (void)setUpToolbar
+{
+    UIToolbar* toolbar = [[UIToolbar alloc] init];
+    toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44);
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePhoto:)];
+    NSArray *buttonItems = [NSArray arrayWithObjects:shareButton,nil];
+    [toolbar setItems:buttonItems];
+    
+}
+
+-(void)hideWidgetSettingsButton:(BOOL)hidden{
+    NSMutableArray *toolBarButtons = [self.navigationController.toolbar.items mutableCopy];
+    if (hidden) {
+        [toolBarButtons removeObject:widgetSettingButton];
+        [self.navigationController.toolbar setItems:toolBarButtons animated:YES];
+    }else{
+        if (![toolBarButtons containsObject:widgetSettingButton])
+            [toolBarButtons addObject:widgetSettingButton];
+        [self.navigationController.toolbar setItems:toolBarButtons animated:YES];
+    }
+    
+}
+#pragma mark - ibactions
 - (IBAction)CancelButtonPressed:(id)sender {
     [delegate viewControllerWillBeDismissed:self.mode];
     [self dismissViewControllerAnimated:YES completion:nil ];
@@ -167,7 +191,7 @@
 //            [delegate deletedAllSavedStops];
             [self.reittiDataManager deleteAllSavedStop];
             [self.reittiDataManager deleteAllSavedroutes];
-            self.navigationController.toolbar.hidden = YES;
+            [self hideWidgetSettingsButton:YES];
         }else{
 //            [delegate deletedAllHistoryStops];
             [self.reittiDataManager deleteAllHistoryStop];
@@ -318,9 +342,9 @@
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         if (![self.reittiDataManager fetchAllSavedStopsFromCoreData]) {
-            self.navigationController.toolbar.hidden = YES;
+            [self hideWidgetSettingsButton:YES];
         }else{
-            self.navigationController.toolbar.hidden = NO;
+            [self hideWidgetSettingsButton:NO];
         }
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
