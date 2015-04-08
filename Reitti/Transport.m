@@ -53,7 +53,9 @@
 }
 
 -(void)setUpViewForRoute:(RouteLeg *)routeLeg andWidth:(float)width{
-    
+    if (width < 30) {
+        width = 30;
+    }
     UILabel *lineNumberLabel = (UILabel *)[self viewWithTag:9003];
     UIImageView *imageView = (UIImageView *)[self viewWithTag:9002];
     
@@ -157,7 +159,8 @@
             self.backgroundColor = [UIColor colorWithWhite:0.28 alpha:1];
         }
     }else{
-        lineNumberLabel.hidden = YES;
+//        lineNumberLabel.hidden = YES;
+        
         switch (routeLeg.legType) {
             case LegTypeWalk:
                 self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];

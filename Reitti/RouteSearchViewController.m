@@ -41,6 +41,9 @@
     nextRoutesRequested = NO;
     prevRoutesRequested = NO;
     
+    tableReloadAnimatedMode = NO;
+    tableRowNumberForAnimation = 0;
+    
     timeSelectionShadeTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureDetectedOnShade:)];
     timeSelectionShadeTapGestureRecognizer.delegate = self;
     
@@ -63,6 +66,15 @@
     }
     
     [self setUpToolBar];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    //update time to now and reload route.
+    if ([[[self.routeList firstObject] getStartingTimeOfRoute] timeIntervalSinceNow] < -300) {
+        selectedTime = [NSDate date];
+        [self setSelectedTimesForDate:selectedTime];
+        [self searchRouteIfPossible];
+    }
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -853,7 +865,8 @@
 
     }
     
-    [routeResultsTableView reloadData];
+//    [routeResultsTableView reloadData];
+    [self reloadTableViewAnimatedWithInteralSeconds:0.2];
     [searchActivityIndicator stopAnimating];
     
     [routeResultsTableView setContentOffset:CGPointZero animated:YES];
@@ -981,35 +994,23 @@
              [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
         }
         
-        
-        
-//        UILabel *endTimeLabel = (UILabel *)[cell viewWithTag:2001];
-//        [endTimeLabel setText:];
-        
         //durations
         UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
         durationLabel.text = [NSString stringWithFormat:@"%@", [ReittiStringFormatter formatDurationString:[route.routeDurationInSeconds integerValue]]];
         
         UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
         //TODO: Identigy if it only walking route with no stops
-        moreInfoLebel.text = [NSString stringWithFormat:@"%dm walking ",
-                              /*[ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute],*/
-                              (int)route.getTotalWalkLength];
+        if(route.getTimeAtTheFirstStop != nil){
+            moreInfoLebel.text = [NSString stringWithFormat:@"%@ at first stop | %dm walking ",
+                                  [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop],
+                                  (int)route.getTotalWalkLength];
+        }else{
+            moreInfoLebel.text = [NSString stringWithFormat:@"%dm walking ",
+                                  (int)route.getTotalWalkLength];
+        }
+        
         
         UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2003];
-        
-//        UIView *transportsContainer = (UIView *)[cell viewWithTag:2004];
-        
-//        UIImageView *walkingView = (UIImageView *)[cell viewWithTag:2005];
-        
-//
-//        if (route.isOnlyWalkingRoute) {
-//            transportsContainer.hidden = YES;
-////            walkingView.hidden = NO;
-//        }else{
-//            transportsContainer.hidden = NO;
-////            walkingView.hidden = YES;
-//        }
         
         [cell layoutSubviews];
         
@@ -1022,27 +1023,26 @@
         UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, self.view.frame.size.width - 40, 36)];
         transportsContainer.clipsToBounds = YES;
         transportsContainer.tag = 1987;
-//        transportsContainer.layer.borderWidth = 0.5;
-//        transportsContainer.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         transportsContainer.layer.cornerRadius = 4;
         
-//        int totalLegsToShow = route.getNumberOfNoneWalkLegs;
         float tWidth = 70;
-//        float space = 11;
-//        float total = 0;
-        
-//        do{
-//            space--;
-//            total = (totalLegsToShow * tWidth) + ((totalLegsToShow -1) * space);
-//        }while (total < transportsContainer.frame.size.width && space > 0);
         
         //get longest route duration
         double longestDuration = 0;
-        for (Route *route in self.routeList) {
-            if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
-                longestDuration = [route.routeDurationInSeconds doubleValue];
+        if (routeListCopy != nil && routeListCopy.count > routeList.count) {
+            for (Route *route in routeListCopy) {
+                if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
+                    longestDuration = [route.routeDurationInSeconds doubleValue];
+                }
+            }
+        }else{
+            for (Route *route in self.routeList) {
+                if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
+                    longestDuration = [route.routeDurationInSeconds doubleValue];
+                }
             }
         }
+        
         
         float x = 0;
         //TODO: Check when there is only walking
@@ -1077,12 +1077,7 @@
         
         transportsScrollView.userInteractionEnabled = NO;
         [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
-//        [cell addSubview:transportsContainer];
      }
-//    else{
-//        cell = [tableView dequeueReusableCellWithIdentifier:@"nextAndPrevCell"];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
     
     cell.backgroundColor = [UIColor clearColor];
     
@@ -1256,7 +1251,7 @@
 }
 
 -(void)tableViewRefreshing{
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Reloading Routes..."];
+//    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Reloading Routes..."];
     refreshingRouteTable = YES;
     [self reloadCurrentSearch];
 }
@@ -1301,6 +1296,28 @@
             [today month] == [otherDay month] &&
             [today year] == [otherDay year] &&
             [today era] == [otherDay era]);
+}
+
+-(void)reloadTableViewAnimatedWithInteralSeconds:(CGFloat)intervalSec{
+//    tableReloadAnimatedMode = YES;
+//    tableRowNumberForAnimation = 0;
+    routeListCopy = [self.routeList mutableCopy];
+    [self.routeList removeAllObjects];
+    [routeResultsTableView reloadData];
+    timerCallCount = 0;
+    tableLoadTimer = [NSTimer scheduledTimerWithTimeInterval:intervalSec target:self selector:@selector(timerCallback) userInfo:nil repeats:YES];
+}
+
+-(void)timerCallback {
+    if (timerCallCount < routeListCopy.count) {
+        [self.routeList addObject:[routeListCopy objectAtIndex:timerCallCount]];
+        [routeResultsTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:timerCallCount inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+//        [routeResultsTableView reloadSections:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, 1)] withRowAnimation:UITableViewRowAnimationLeft];
+//        [routeResultsTableView reloadData];
+        timerCallCount++;
+    }else{
+        [tableLoadTimer invalidate];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

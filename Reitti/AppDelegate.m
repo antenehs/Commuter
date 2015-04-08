@@ -49,31 +49,44 @@
 //    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main.storyboard" bundle: nil];
     
     SearchController *controller = (SearchController *)[[navigationController viewControllers] lastObject];
-    
-    NSLog(@"Search controller is : %@",controller);
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    if ([[url query] isEqualToString:@"bookmarks"]) {
-        [controller openBookmarksView];
+    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
+    if ([MKDirectionsRequest isDirectionsRequestURL:url]) {
+        MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
+        // TO DO: Plot and display the route using the
+        //   source and destination properties of directionsInfo.
+        
+        [controller openRouteViewForFromLocation:directionsInfo];
+        
+        return YES;
     }
-    
-    if ([[url query] isEqualToString:@"routeSearch"]) {
-        [controller openRouteSearchView];
-    }
-    
-    if ([[url query] containsString:@"openStop"]) {
-        NSArray *parts = [[url query] componentsSeparatedByString:@"-"];
-        if (parts.count == 2) {
-            [controller openStopViewForCode:parts[1]];
+    else {
+        NSLog(@"Search controller is : %@",controller);
+        [controller dismissViewControllerAnimated:YES completion:nil];
+        if ([[url query] isEqualToString:@"bookmarks"]) {
+            [controller openBookmarksView];
         }
+        
+        if ([[url query] isEqualToString:@"routeSearch"]) {
+            [controller openRouteSearchView];
+        }
+        
+        if ([[url query] containsString:@"openStop"]) {
+            NSArray *parts = [[url query] componentsSeparatedByString:@"-"];
+            if (parts.count == 2) {
+                [controller openStopViewForCode:parts[1]];
+            }
+        }
+        
+        if ([[url query] isEqualToString:@"widgetSettings"]) {
+            [controller openWidgetSettingsView];
+        }
+        
+        //    [self.window.rootViewController presentViewController: controller animated:YES completion:nil];
+        
+        return YES;
     }
     
-    if ([[url query] isEqualToString:@"widgetSettings"]) {
-        [controller openWidgetSettingsView];
-    }
-    
-//    [self.window.rootViewController presentViewController: controller animated:YES completion:nil];
-    
-    return YES;
+    return NO;
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

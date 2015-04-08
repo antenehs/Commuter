@@ -57,48 +57,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //Vars
-    topLayoutGuide = 46;
-    bottomLayoutGuide = -10;
-    bookmarkViewMode = 0;
     
-    //Map vars
-    bigAnnotationWidth = 90;
-    bigAnnotationHeight = 97;
-    smallAnnotationWidth = 35;
-    smallAnnotationHeight = 37;
+    [self initDataComponentsAndModules];
     
-    //Default values
-    darkMode = YES;
-    centerMap = YES;
-    isStopViewDisplayed = NO;
-    isSearchResultsViewDisplayed = NO;
-    justReloading = NO;
-    stopViewDragedDown = NO;
-    requestedForListing = NO;
-    departuresTableIndex = nil;
-    selectedStopLongCode = nil;
-    prevSelectedStopLongCode = nil;
-    annotationSelectionChanged = YES;
-    lastSelectionDismissed = NO;
-    ignoreRegionChange = NO;
-    retryCount = 0;
-    annotationAnimCounter = 0;
+    /*init View Components*/
     
-    [self selectSystemColors];
+    [self initGuestureRecognizers];
+    [self setNeedsStatusBarAppearanceUpdate];
+    [self setNavBarApearance];
+    [self hideSearchResultView:YES animated:NO];
     
-    AppDelegate *appDelegate = [[AppDelegate alloc] init];
-    self.managedObjectContext = appDelegate.managedObjectContext;
-    
-    RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-    dataManger.delegate = self;
-    dataManger.routeSearchdelegate = self;
-    dataManger.disruptionFetchDelegate = self;
-    //dataManger.managedObjectContext = self.managedObjectContext;
-    self.reittiDataManager = dataManger;
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
     if (appOpenCount > 3) {
-//        sendEmailButton.hidden = NO;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
                                                             message:@"Please write a review for this app in the App Store if you think it has been useful."
                                                            delegate:self
@@ -106,67 +76,7 @@
                                                   otherButtonTitles:@"Rate", nil];
         alertView.tag = 1001;
         [alertView show];
-    }else{
-//        sendEmailButton.hidden = YES;
     }
-    
-    _eventStore = [[EKEventStore alloc] init];
-    
-    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
-                                completion:^(BOOL granted, NSError *error) {
-                                    if (!granted){
-                                        NSLog(@"Access to store not granted");
-//                                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders later to use the reminder feature."
-//                                                                                       delegate:nil
-//                                                                              cancelButtonTitle:@"OK"
-//                                                                              otherButtonTitles:nil];
-//                                        [alertView show];
-                                    }
-                                }];
-    
-	// Do any additional setup after loading the view.
-//    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureDetected:)];
-//    tapGestureRecognizer.delegate = self;
-    
-//    [mapView addGestureRecognizer:tapGestureRecognizer];
-    
-    blurViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blurViewGestureDetected:)];
-    
-    [blurView addGestureRecognizer:blurViewGestureRecognizer];
-    
-    toolBarGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(blurViewGestureDetected:)];
-    
-    //[toolBar addGestureRecognizer:toolBarGestureRecognizer];
-    
-    stopViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopViewGestureDetected:)];
-    
-    stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
-    
-    [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
-    
-    [StopView addGestureRecognizer:stopViewGestureRecognizer];
-    
-    searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchResultViewGestureDetected:)];
-    
-    searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
-    
-    [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
-    
-//    [searchResultsTable addGestureRecognizer:searchResultViewDragGestureRecognizer];
-    
-//    [searchResultsView addGestureRecognizer:searchResultsViewGestureRecognizer];
-    
-    [self setNeedsStatusBarAppearanceUpdate];
-    [self setNavBarApearance];
-//    [self setCommandViewApearance];
-    
-    [self hideSearchResultView:YES animated:NO];
-//    [self hideCommandView:YES];
-    [self initializeMapView];
-    [self initDisruptionFetching];
-    [self setBookmarkedStopsToDefaults];
-    
-    self.searchResultListViewMode = RSearchResultViewModeNearByStops;
     
     //Testing
 //    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.commuterAppExtension"];
@@ -232,6 +142,110 @@
         return UIStatusBarStyleDefault;
     }
 }
+
+#pragma - mark initialization Methods
+
+- (void)initDataComponentsAndModules
+{
+    [self initVariablesAndConstants];
+    
+    [self selectSystemColors];
+    [self initDataManager];
+    [self initReminderStore];
+    [self initializeMapComponents];
+    [self initDisruptionFetching];
+    [self setBookmarkedStopsToDefaults];
+}
+
+-(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext{
+    self.managedObjectContext = mngdObjectContext;
+    [self initDataComponentsAndModules];
+}
+
+- (void)initDataManager
+{
+    if (self.managedObjectContext == nil) {
+        AppDelegate *appDelegate = [[AppDelegate alloc] init];
+        self.managedObjectContext = appDelegate.managedObjectContext;
+    }
+    
+    RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    dataManger.delegate = self;
+    dataManger.routeSearchdelegate = self;
+    dataManger.disruptionFetchDelegate = self;
+    //dataManger.managedObjectContext = self.managedObjectContext;
+    self.reittiDataManager = dataManger;
+}
+
+- (void)initReminderStore
+{
+    _eventStore = [[EKEventStore alloc] init];
+    
+    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
+                                completion:^(BOOL granted, NSError *error) {
+                                    if (!granted){
+                                        NSLog(@"Access to store not granted");
+                                        //                                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders later to use the reminder feature."
+                                        //                                                                                       delegate:nil
+                                        //                                                                              cancelButtonTitle:@"OK"
+                                        //                                                                              otherButtonTitles:nil];
+                                        //                                        [alertView show];
+                                    }
+                                }];
+}
+
+- (void)initGuestureRecognizers
+{
+    //    [blurView addGestureRecognizer:blurViewGestureRecognizer];
+    
+    stopViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopViewGestureDetected:)];
+    
+    stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
+    
+    [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
+    
+    [StopView addGestureRecognizer:stopViewGestureRecognizer];
+    
+    searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchResultViewGestureDetected:)];
+    
+    searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
+    
+    [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
+}
+
+- (void)initVariablesAndConstants
+{
+    //Vars
+    topLayoutGuide = 46;
+    bottomLayoutGuide = -10;
+    bookmarkViewMode = 0;
+    
+    //Map vars
+    bigAnnotationWidth = 90;
+    bigAnnotationHeight = 97;
+    smallAnnotationWidth = 35;
+    smallAnnotationHeight = 37;
+    
+    //Default values
+    darkMode = YES;
+    centerMap = YES;
+    isStopViewDisplayed = NO;
+    isSearchResultsViewDisplayed = NO;
+    justReloading = NO;
+    stopViewDragedDown = NO;
+    requestedForListing = NO;
+    departuresTableIndex = nil;
+    selectedStopLongCode = nil;
+    prevSelectedStopLongCode = nil;
+    annotationSelectionChanged = YES;
+    lastSelectionDismissed = NO;
+    ignoreRegionChange = NO;
+    retryCount = 0;
+    annotationAnimCounter = 0;
+    
+    self.searchResultListViewMode = RSearchResultViewModeNearByStops;
+}
+
 
 #pragma mark - Search view methods
 - (void)selectSystemColors{
@@ -771,7 +785,7 @@
 
 #pragma - mark Map methods
 
-- (void)initializeMapView
+- (void)initializeMapComponents
 {
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -1229,7 +1243,6 @@
 - (void)initDisruptionFetching{
     //init a timer
     [self.reittiDataManager fetchDisruptions];
-    
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(fetchDisruptions) userInfo:nil repeats:YES];
 }
 
@@ -1293,6 +1306,34 @@
 
 - (void)openRouteSearchView{
     [self performSegueWithIdentifier: @"switchToRouteSearch" sender: self];
+}
+
+- (void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo{
+    MKMapItem *source = directionsInfo.source;
+    if (source.isCurrentLocation) {
+        selectedFromLocation = @"Current location";
+    }else{
+        selectedFromCoords = [NSString stringWithFormat:@"%f,%f",source.placemark.location.coordinate.longitude, source.placemark.location.coordinate.latitude];
+        selectedFromLocation = [NSString stringWithFormat:@"%@",
+                                       [[source.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
+                                       ];
+    }
+    
+    MKMapItem *destination = directionsInfo.destination;
+    if (destination.isCurrentLocation) {
+        selectedAnnotationUniqeName = @"Current location";
+    }else{
+        selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",destination.placemark.location.coordinate.longitude, destination.placemark.location.coordinate.latitude];
+        NSLog(@"Address of placemark: %@", ABCreateStringWithAddressDictionary(destination.placemark.addressDictionary, NO));
+        NSLog(@"Address Dictionary: %@",destination.placemark.addressDictionary);
+        selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@",
+                                       [[destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
+                                      ];
+    }
+    
+//    NSDate *startDate = directionsInfo.departureDate;
+    
+    [self performSegueWithIdentifier: @"routeSearchController" sender: self];
 }
 
 -(void)openWidgetSettingsView{
@@ -1844,11 +1885,11 @@
         if ([segue.identifier isEqualToString:@"routeSearchController"]) {
             routeSearchViewController.prevToLocation = selectedAnnotationUniqeName;
             routeSearchViewController.prevToCoords = selectedAnnotationCoords;
+            
+            routeSearchViewController.prevFromLocation = selectedFromLocation;
+            routeSearchViewController.prevFromCoords = selectedFromCoords;
         }
-        
-//        routeSearchViewController.locationManager = locationManager;
-        
-        //routeSearchViewController.delegate = self;
+    
         routeSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
 //        routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }

@@ -17,6 +17,7 @@
 #import "RettiDataManager.h"
 #import "CustomeTableViewCell.h"
 #import "SWTableViewCell.h"
+#import "ReittiRemindersManager.h"
 
 @class StopViewController;
 
@@ -53,6 +54,7 @@
     IBOutlet UIBarButtonItem *showLocationBarButtonItem;
     
     EKEventStore * _eventStore;
+    ReittiRemindersManager * reittiReminderManager;
     
     bool stopBookmarked;
     NSString *timeToSetAlarm;

@@ -89,4 +89,11 @@
     
 }
 
+-(NSString *)getStreetAddressString{
+    return [NSString stringWithFormat:@"%@",
+            [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
+            ];
+    
+}
+
 @end

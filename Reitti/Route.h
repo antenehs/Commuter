@@ -45,6 +45,7 @@
 -(bool)isOnlyWalkingRoute;
 -(NSDate *)getStartingTimeOfRoute;
 -(NSDate *)getEndingTimeOfRoute;
+-(NSDate *)getTimeAtTheFirstStop;
 
 @property (nonatomic, retain) NSNumber * routeLength;
 @property (nonatomic, retain) NSNumber * routeDurationInSeconds;

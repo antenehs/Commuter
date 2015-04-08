@@ -65,4 +65,15 @@
     return lastLocation.depTime;
 }
 
+-(NSDate *)getTimeAtTheFirstStop{
+    for (RouteLeg *leg in self.routeLegs) {
+        if (leg.legType != LegTypeWalk) {
+            RouteLegLocation *firstLocation = [leg.legLocations firstObject];
+            return firstLocation.depTime;
+        }
+    }
+    
+    return nil;
+}
+
 @end

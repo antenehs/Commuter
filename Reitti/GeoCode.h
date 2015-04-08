@@ -23,6 +23,7 @@ typedef enum
 -(NSNumber *)getStopCode;
 -(LocationType)getLocationType;
 -(NSString *)FullAddressString;
+-(NSString *)getStreetAddressString;
 
 @property (nonatomic, retain) NSString * locType;
 @property (nonatomic, retain) NSNumber * locTypeId;

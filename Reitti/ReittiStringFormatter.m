@@ -151,10 +151,13 @@
     
     NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
     
-    if ([text rangeOfString:substring].location == NSNotFound)
+    if (text == nil || substring == nil)
         return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
     
-    NSRange location = [text rangeOfString:substring];
+    if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)
+        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+    
+    NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
     
     NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
     

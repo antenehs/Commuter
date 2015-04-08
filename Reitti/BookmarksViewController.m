@@ -234,7 +234,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyCell"];;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyCell"];
     if (indexPath.row < self.dataToLoad.count) {
         if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
@@ -464,6 +464,12 @@
         WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
         
         controller.savedStops = self.savedStops;
+        
+    }else if([segue.identifier isEqualToString:@"addAddress"]){
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        AddressSearchViewController *controller = (AddressSearchViewController *)[[navigationController viewControllers] lastObject];
+        
+        controller.reittiDataManager = self.reittiDataManager;
         
     }
 }

@@ -202,7 +202,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     
     if (CGRectContainsPoint(self.secondaryButton.bounds, pointForSTargetView)) {
         
-        return [self.secondaryButton hitTest:pointForTargetView withEvent:event];
+        return [self.secondaryButton hitTest:pointForSTargetView withEvent:event];
     }
     
     return [super hitTest:point withEvent:event];

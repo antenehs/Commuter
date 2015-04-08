@@ -29,6 +29,7 @@
 #import "CommandView.h"
 #import "CustomBadge.h"
 #import "JPSThumbnailAnnotation.h"
+#import <AddressBookUI/AddressBookUI.h>
 
 typedef enum
 {
@@ -145,6 +146,9 @@ typedef enum
     NSNumber *selectedStopLongCode;
     NSNumber *prevSelectedStopLongCode;
     
+    NSString * selectedFromLocation;
+    NSString * selectedFromCoords;
+    
     StopAnnotation *lastSelectedAnnotation;
     bool annotationSelectionChanged;
     int annotationAnimCounter;
@@ -159,7 +163,10 @@ typedef enum
     NSTimer *refreshTimer;
 }
 
+-(void)initDataComponentsAndModules;
+-(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext;
 -(void)openRouteSearchView;
+-(void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo;
 -(void)openBookmarksView;
 -(void)openWidgetSettingsView;
 -(void)openStopViewForCode:(NSNumber *)code;

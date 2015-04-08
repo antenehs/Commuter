@@ -11,6 +11,7 @@
 #import "RettiDataManager.h"
 #import "StopViewController.h"
 #import "RouteSearchViewController.h"
+#import "AddAddressTableViewController.h"
 
 @class BookmarksViewController;
 

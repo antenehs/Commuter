@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Name</key>
+		<string>Home</string>
+		<key>Type</key>
+		<string>Home</string>
+		<key>Picture</key>
+		<string>home-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Work</string>
+		<key>Type</key>
+		<string>Work</string>
+		<key>Picture</key>
+		<string>work-filled-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Shopping</string>
+		<key>Type</key>
+		<string>Shopping</string>
+		<key>Picture</key>
+		<string>shopping-cart-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Gym</string>
+		<key>Type</key>
+		<string>Gym</string>
+		<key>Picture</key>
+		<string>gym-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>City Center</string>
+		<key>Type</key>
+		<string>City Center</string>
+		<key>Picture</key>
+		<string>city-center-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Park</string>
+		<key>Type</key>
+		<string>Park</string>
+		<key>Picture</key>
+		<string>park-bench-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Beach</string>
+		<key>Type</key>
+		<string>Beach</string>
+		<key>Picture</key>
+		<string>beach-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Bar</string>
+		<key>Type</key>
+		<string>Bar</string>
+		<key>Picture</key>
+		<string>Beer-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Restaurant</string>
+		<key>Type</key>
+		<string>Restaurant</string>
+		<key>Picture</key>
+		<string>restaurant-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Other</string>
+		<key>Type</key>
+		<string>Other</string>
+		<key>Picture</key>
+		<string>location-75.png</string>
+	</dict>
+</array>
+</plist>

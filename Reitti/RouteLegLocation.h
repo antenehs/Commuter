@@ -32,6 +32,8 @@ typedef enum
 
 -(id)initFromDictionary:(NSDictionary *)legDict;
 
+-(id) copy;
+
 @property(nonatomic) bool isHeaderLocation;
 @property (nonatomic) LegTransportType locationLegType;
 @property (nonatomic) int locationLegOrder;

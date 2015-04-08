@@ -53,6 +53,8 @@
     
     routeLocationList = [self convertRouteToLocationList:self.route];
     
+    reittiRemindersManager = [[ReittiRemindersManager alloc] init];
+    
     [self setNeedsStatusBarAppearanceUpdate];
     [self setUpMainView];
     [self initializeMapView];
@@ -71,6 +73,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self hideRouteListView:![self isRouteListViewVisible] animated:NO];
+    [routeListTableView reloadData];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -111,6 +114,22 @@
     
     [self.navigationController setToolbarHidden:YES];
     
+    NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
+    [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+    
+     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:16] forKey:NSFontAttributeName];
+    
+    NSMutableAttributedString *toAddressString = [[NSMutableAttributedString alloc] initWithString:@"To " attributes:toStringDict];
+    
+    NSMutableAttributedString *addressString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",toLocation] attributes:addressStringDict];
+    
+    [toAddressString appendAttributedString:addressString];
+    
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 20)];
+    label.attributedText = toAddressString;
+    [label sizeToFit];
+    self.navigationItem.titleView = label;
+    
     [routeListView setBlurTintColor:nil];
     //    routeListView.layer.borderWidth = 1;
     //    routeListView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
@@ -120,7 +139,9 @@
     routeListTableView.backgroundColor = [UIColor clearColor];
     routeListTableView.separatorColor = [UIColor clearColor];
     
-    [toLabel setText:[NSString stringWithFormat:@"%@",toLocation]];
+    [timeIntervalLabel setText:[NSString stringWithFormat:@"%@ - %@",
+                                               [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute],
+                                               [ReittiStringFormatter formatHourStringFromDate:self.route.getEndingTimeOfRoute]]];
     [fromLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
@@ -147,6 +168,7 @@
 //        routeListView.frame = CGRectMake(viewFrame.origin.x, self.view.bounds.size.height - routeListTableView.frame.origin.y, viewFrame.size.width, viewFrame.size.height);
         routeLIstViewVerticalSpacing.constant = self.view.bounds.size.height - routeListTableView.frame.origin.y;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
+        [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
 //        [toLabel setTextColor:[UIColor lightGrayColor]];
 //        [toLabel setTextColor:[UIColor lightGrayColor]];
         
@@ -157,7 +179,7 @@
 //        [routeListView setBlurTintColor:nil];
         routeLIstViewVerticalSpacing.constant = 0;
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
-        
+        [toggleListArrowButton setImage:[UIImage imageNamed:@"collapse-arrow-100.png"] forState:UIControlStateNormal];
 //        [toLabel setTextColor:[UIColor darkGrayColor]];
 //        [toLabel setTextColor:[UIColor darkGrayColor]];
         
@@ -616,6 +638,42 @@
     [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
 }
 
+- (IBAction)reminderButtonPressed:(id)sender {
+    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
+    actionSheet.tag = 2001;
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
+    if (actionSheet.tag == 2001) {
+        NSString * timeToSetAlarm = [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute];
+        reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minutes.";
+        switch (buttonIndex) {
+            case 0:
+                reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minute.";
+                [reittiRemindersManager setReminderWithMinOffset:1 andHourString:timeToSetAlarm];
+                break;
+            case 1:
+                [reittiRemindersManager setReminderWithMinOffset:5 andHourString:timeToSetAlarm];
+                break;
+            case 2:
+                [reittiRemindersManager setReminderWithMinOffset:10 andHourString:timeToSetAlarm];
+                break;
+            case 3:
+                [reittiRemindersManager setReminderWithMinOffset:15 andHourString:timeToSetAlarm];
+                break;
+            case 4:
+                [reittiRemindersManager setReminderWithMinOffset:30 andHourString:timeToSetAlarm];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
 #pragma mark - TableViewMethods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -834,9 +892,6 @@
                 loc.locationLegType = leg.legType;
                 [locationList addObject:loc];
             }
-            
-            
-            
         }else{
             int orderCount = 0;
             for (RouteLegLocation *loc in leg.legLocations) {
@@ -860,6 +915,13 @@
                 loc.locationLegOrder = leg.legOrder;
                 if (leg.showDetailed) {
                     [locationList addObject:loc];
+                    
+                    //Also add a copy of the header location
+                    if (loc.isHeaderLocation) {
+                        RouteLegLocation *copyLoc = [loc copy];
+                        copyLoc.isHeaderLocation = NO;
+                        [locationList addObject:copyLoc];
+                    }
                 }else if (loc.isHeaderLocation ){
                     [locationList addObject:loc];
                 }

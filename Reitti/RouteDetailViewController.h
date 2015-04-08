@@ -12,15 +12,17 @@
 #import "AMBlurView.h"
 #import "RouteLocation.h"
 #import "RettiDataManager.h"
+#import "ReittiRemindersManager.h"
 
-@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate>{
+@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>{
     
     IBOutlet MKMapView *routeMapView;
     IBOutlet AMBlurView *topBarView;
     IBOutlet AMBlurView *routeListView;
     IBOutlet UIButton *toggleListButton;
     IBOutlet UIButton *toggleListBigButton;
-    IBOutlet UILabel *toLabel;
+    IBOutlet UIButton *toggleListArrowButton;
+    IBOutlet UILabel *timeIntervalLabel;
     IBOutlet UILabel *fromLabel;
     IBOutlet UIView *separatorView;
     
@@ -34,6 +36,8 @@
     
     CLLocationManager *locationManager;
     MKMapRect previousRegion;
+    
+    ReittiRemindersManager *reittiRemindersManager;
     
     IBOutlet NSLayoutConstraint *routeLIstViewVerticalSpacing;
     

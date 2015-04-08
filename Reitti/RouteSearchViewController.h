@@ -75,6 +75,12 @@
     NSString *selectedTimeString;
     NSString *selectedDateString;
     
+    NSTimer *tableLoadTimer;
+    NSMutableArray *routeListCopy;
+    int timerCallCount;
+    BOOL tableReloadAnimatedMode;
+    int tableRowNumberForAnimation;
+    
     RouteSearchOption selectedSearchOption;
     
     BOOL routeBookmarked;

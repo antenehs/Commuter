@@ -43,4 +43,22 @@
     return self;
 }
 
+-(id) copy{
+    RouteLegLocation *copy = [[RouteLegLocation alloc] init];
+    
+    copy.isHeaderLocation = self.isHeaderLocation;
+    copy.locationLegType = self.locationLegType;
+    copy.locationLegOrder = self.locationLegOrder;
+    copy.coordsDictionary = self.coordsDictionary;
+    copy.coordsString = self.coordsString;
+    copy.arrTime = self.arrTime;
+    copy.depTime = self.depTime;
+    copy.name = self.name;
+    copy.stopCode = self.stopCode;
+    copy.shortCode = self.shortCode;
+    copy.stopAddress = self.stopAddress;
+    
+    return copy;
+}
+
 @end
