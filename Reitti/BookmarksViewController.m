@@ -509,6 +509,8 @@
                 
                 routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:self.savedStops];
                 routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:self.recentStops];
+                routeSearchViewController.savedRoutes = self.savedRoutes;
+                routeSearchViewController.recentRoutes = self.recentRoutes;
                 routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:self.savedNamedBookmarks];
                 routeSearchViewController.darkMode = self.darkMode;
                 routeSearchViewController.prevToLocation = selected.toLocationName;

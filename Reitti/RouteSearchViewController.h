@@ -48,7 +48,9 @@
     IBOutlet AMBlurView *selectTimeButton;
     IBOutlet UILabel *selectedTimeLabel;
     IBOutlet UIView *timeSelectionViewShadeView;
-    UITapGestureRecognizer *timeSelectionShadeTapGestureRecognizer;
+//    UITapGestureRecognizer *timeSelectionShadeTapGestureRecognizer;
+    
+    UITableViewController *tableViewController;
     
     IBOutlet AMBlurView *searchOptionSelectionView;
     IBOutlet UISegmentedControl *searchOptionSegmentControl;
@@ -95,6 +97,8 @@
 
 @property (strong, nonatomic) NSMutableArray * savedStops;
 @property (strong, nonatomic) NSMutableArray * recentStops;
+@property (strong, nonatomic) NSMutableArray * savedRoutes;
+@property (strong, nonatomic) NSMutableArray * recentRoutes;
 @property (strong, nonatomic) NSMutableArray * namedBookmarks;
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;

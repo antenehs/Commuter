@@ -568,11 +568,16 @@
         RouteSearchViewController *routeSearchViewController = (RouteSearchViewController *)[navigationController.viewControllers lastObject];
         
         NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
         NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+        
         NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
         
         routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
+        routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
+        routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
         
         if ([segue.identifier isEqualToString:@"routeToHere"]) {

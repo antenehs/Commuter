@@ -657,6 +657,8 @@
         
         routeSearchViewController.savedStops = self.savedStops;
         routeSearchViewController.recentStops = self.recentStops;
+        routeSearchViewController.savedRoutes = self.savedRoutes;
+        routeSearchViewController.recentRoutes = self.recentRoutes;
         routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = addressSearchBar.text;
         routeSearchViewController.darkMode = self.darkMode;
@@ -674,6 +676,8 @@
         
         routeSearchViewController.savedStops = self.savedStops;
         routeSearchViewController.recentStops = self.recentStops;
+        routeSearchViewController.savedRoutes = self.savedRoutes;
+        routeSearchViewController.recentRoutes = self.recentRoutes;
         routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = selected.toLocationName;
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;

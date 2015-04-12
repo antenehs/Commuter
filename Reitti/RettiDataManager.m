@@ -1273,6 +1273,8 @@
 - (void)hslRouteSearchFailed:(int)errorCode{
     if (errorCode == -1009) {
         [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
+    }else if (errorCode == -1016) {
+        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
     }else{
         [routeSearchdelegate routeSearchDidFail:nil];
     }
