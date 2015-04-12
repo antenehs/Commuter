@@ -40,6 +40,7 @@
 		664E28771AD92EC800BE2457 /* bowling-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664E28761AD92EC800BE2457 /* bowling-100.png */; };
 		664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */; };
 		664E287C1AD9985B00BE2457 /* walking-gray-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 664E287B1AD9985B00BE2457 /* walking-gray-64.png */; };
+		664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28831ADAC1E400BE2457 /* TRECommunication.m */; };
 		664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
 		664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664FA7EE198EBC5E00C6A5B0 /* CommandView.m */; };
 		665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E781A0558C300797ABA /* removeIcon-red.png */; };
@@ -359,6 +360,8 @@
 		664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiManagedObjectBase.h; sourceTree = "<group>"; };
 		664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiManagedObjectBase.m; sourceTree = "<group>"; };
 		664E287B1AD9985B00BE2457 /* walking-gray-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "walking-gray-64.png"; path = "Pictures/Version 2.3/walking-gray-64.png"; sourceTree = "<group>"; };
+		664E28821ADAC1E400BE2457 /* TRECommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRECommunication.h; sourceTree = "<group>"; };
+		664E28831ADAC1E400BE2457 /* TRECommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRECommunication.m; sourceTree = "<group>"; };
 		664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoutePreviewView.xib; sourceTree = "<group>"; };
 		664FA7ED198EBC5E00C6A5B0 /* CommandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandView.h; sourceTree = "<group>"; };
 		664FA7EE198EBC5E00C6A5B0 /* CommandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandView.m; sourceTree = "<group>"; };
@@ -736,32 +739,14 @@
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
-				66EC18F61ACB3D07008E045D /* ASPolylineRenderer.h */,
-				66EC18F71ACB3D07008E045D /* ASPolylineRenderer.m */,
-				66EC18F81ACB3D07008E045D /* ASPolylineView.h */,
-				66EC18F91ACB3D07008E045D /* ASPolylineView.m */,
-				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
-				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
-				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
-				664E28711AD86A6600BE2457 /* APParallaxHeader */,
-				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
 				66A73FDB18BA3CED00405043 /* RettiDataManager.h */,
 				66A73FDC18BA3CED00405043 /* RettiDataManager.m */,
 				661FAF23189BA5EB00042074 /* HSLCommunication.h */,
 				661FAF24189BA5EB00042074 /* HSLCommunication.m */,
-				66CB95FF18EEE2B500E95CE5 /* CustomeTableViewCell.h */,
-				66CB960018EEE2B500E95CE5 /* CustomeTableViewCell.m */,
-				66CC93DF18DDC66400644281 /* SVPProgressHUD */,
-				66A7A9C218C65DC000AC9E94 /* MBProgressHUD.h */,
-				66A7A9C318C65DC000AC9E94 /* MBProgressHUD.m */,
+				664E28821ADAC1E400BE2457 /* TRECommunication.h */,
+				664E28831ADAC1E400BE2457 /* TRECommunication.m */,
 				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
 				66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */,
-				66F1383319939B3600B52B6B /* GeoCodeAnnotation.h */,
-				66F1383219939B3600B52B6B /* GeoCodeAnnotation.m */,
-				66A7A9BD18C5FD4200AC9E94 /* StopAnnotation.h */,
-				66A7A9BE18C5FD4200AC9E94 /* StopAnnotation.m */,
-				66DAE1FF19C61AF60039081D /* LocationsAnnotation.h */,
-				66DAE20019C61AF60039081D /* LocationsAnnotation.m */,
 				66CC941718E3452D00644281 /* MyFixedLayoutGuide.h */,
 				66CC941818E3452D00644281 /* MyFixedLayoutGuide.m */,
 				66C59DAA1999432D00E7AC7A /* ReittiShapeMaker.h */,
@@ -770,6 +755,16 @@
 				667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */,
 				667B98321AD5863300C45ADF /* ReittiNotificationHelper.h */,
 				667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */,
+				664E287E1ADAC09200BE2457 /* ASPolylineView */,
+				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
+				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
+				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
+				664E28711AD86A6600BE2457 /* APParallaxHeader */,
+				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
+				66CC93DF18DDC66400644281 /* SVPProgressHUD */,
+				664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */,
+				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
+				664E28811ADAC12400BE2457 /* CustomAnnotations */,
 			);
 			name = "Supporting Classes";
 			sourceTree = "<group>";
@@ -870,6 +865,48 @@
 			);
 			name = APParallaxHeader;
 			path = SWTableViewCell;
+			sourceTree = "<group>";
+		};
+		664E287E1ADAC09200BE2457 /* ASPolylineView */ = {
+			isa = PBXGroup;
+			children = (
+				66EC18F61ACB3D07008E045D /* ASPolylineRenderer.h */,
+				66EC18F71ACB3D07008E045D /* ASPolylineRenderer.m */,
+				66EC18F81ACB3D07008E045D /* ASPolylineView.h */,
+				66EC18F91ACB3D07008E045D /* ASPolylineView.m */,
+			);
+			name = ASPolylineView;
+			sourceTree = "<group>";
+		};
+		664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */ = {
+			isa = PBXGroup;
+			children = (
+				66CB95FF18EEE2B500E95CE5 /* CustomeTableViewCell.h */,
+				66CB960018EEE2B500E95CE5 /* CustomeTableViewCell.m */,
+			);
+			name = SWTableVeiwCell;
+			sourceTree = "<group>";
+		};
+		664E28801ADAC0F700BE2457 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				66A7A9C218C65DC000AC9E94 /* MBProgressHUD.h */,
+				66A7A9C318C65DC000AC9E94 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		664E28811ADAC12400BE2457 /* CustomAnnotations */ = {
+			isa = PBXGroup;
+			children = (
+				66F1383319939B3600B52B6B /* GeoCodeAnnotation.h */,
+				66F1383219939B3600B52B6B /* GeoCodeAnnotation.m */,
+				66A7A9BD18C5FD4200AC9E94 /* StopAnnotation.h */,
+				66A7A9BE18C5FD4200AC9E94 /* StopAnnotation.m */,
+				66DAE1FF19C61AF60039081D /* LocationsAnnotation.h */,
+				66DAE20019C61AF60039081D /* LocationsAnnotation.m */,
+			);
+			name = CustomAnnotations;
 			sourceTree = "<group>";
 		};
 		664FA7EA198EB11900C6A5B0 /* Views */ = {
@@ -1005,8 +1042,8 @@
 			isa = PBXGroup;
 			children = (
 				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
-				664FA7EA198EB11900C6A5B0 /* Views */,
 				661FAF22189BA59F00042074 /* View Controllers */,
+				664FA7EA198EB11900C6A5B0 /* Views */,
 				661FAF21189BA57B00042074 /* Supporting Classes */,
 				661FAF26189E8ACB00042074 /* Models */,
 				66947CC718830ED500642EE1 /* Main.storyboard */,
@@ -1766,6 +1803,7 @@
 				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */,
+				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
 				667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
 			);

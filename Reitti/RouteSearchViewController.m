@@ -907,7 +907,7 @@ typedef enum
         searchOptionSelectionView.hidden = YES;
     }
     
-    if (![fromSearchBar.text isEqualToString:currentLocationText] && ![toSearchBar.text isEqualToString:currentLocationText]) {
+    if (![fromSearchBar.text isEqualToString:currentLocationText] || ![toSearchBar.text isEqualToString:currentLocationText]) {
         [self.reittiDataManager saveRouteHistoryToCoreData:fromString fromCoords:fromCoords andToLocation:toString toCoords:toCoords];
     }
     

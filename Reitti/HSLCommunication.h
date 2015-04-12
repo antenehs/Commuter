@@ -52,6 +52,7 @@
 @property (nonatomic, strong) NSArray *routeList;
 @property (nonatomic, strong) NSArray *disruptionList;
 @property (nonatomic, strong) NSString *requestedKey;
+@property (nonatomic, strong) NSString *hslApiBaseUrl;
 
 @property (nonatomic, weak) id <HSLCommunicationDelegate> delegate;
 

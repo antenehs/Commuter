@@ -60,7 +60,7 @@
 
 - (void)searchStopForCode:(NSString *)code index:(int)index completionBlock:(StopSearchCompletionBlock)completionBlock{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stop&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
+        NSString *searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/1_2_0/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuter&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
         NSError *error = nil;
         NSString *searchResultString = [NSString stringWithContentsOfURL:[NSURL URLWithString:searchURL]
                                                                 encoding:NSUTF8StringEncoding

@@ -19,14 +19,16 @@
 @synthesize routeList;
 @synthesize disruptionList;
 @synthesize requestedKey;
+@synthesize hslApiBaseUrl;
 
 -(id)init{
+    self.hslApiBaseUrl = @"http://api.reittiopas.fi/hsl/1_2_0/";
     return self;
 }
 
 -(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize numberOfResults:(int)numOfResults{
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:hslApiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
@@ -48,7 +50,7 @@
     toCoordinate = [toCoordinate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     toCoordinate = [toCoordinate stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=route&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&detail=full&from=%@&to=%@&date=%@&time=%@&timetype=%@&optimize=%@&show=%d", fromCoordinate,toCoordinate,date,time,timeType,optimize,numOfResults];
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=route&epsg_in=4326&epsg_out=4326&user=asacommuterroutes&pass=rebekah&format=json&detail=full&from=%@&to=%@&date=%@&time=%@&timetype=%@&optimize=%@&show=%d",hslApiBaseUrl, fromCoordinate,toCoordinate,date,time,timeType,optimize,numOfResults];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     
@@ -93,7 +95,7 @@
 -(void)searchGeocodeForKey:(NSString *)key{
     self.requestedKey = key;
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:hslApiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
@@ -117,7 +119,7 @@
     key = [key stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     key = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=geocode&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&key=%@", key];
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=geocode&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&key=%@", hslApiBaseUrl, key];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     
@@ -139,7 +141,7 @@
 
 -(void)getStopInfoForCode:(NSString *)code{
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:hslApiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
@@ -171,7 +173,7 @@
     code = [code stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     code = [code stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stop&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuterstops&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", hslApiBaseUrl, code];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     
@@ -195,7 +197,7 @@
     NSString * centerString = [NSString stringWithFormat:@"%f,%f", center.longitude, center.latitude];
     
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:hslApiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
@@ -218,7 +220,7 @@
     //    qstr = [qstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
     //epsg_in=4326 - WGS84
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stops_area&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&limit=60&center_coordinate=%@&diameter=%d", centerString, diameter];
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=stops_area&epsg_in=4326&epsg_out=4326&user=asacommuternearby&pass=rebekah&format=json&limit=60&center_coordinate=%@&diameter=%d",hslApiBaseUrl, centerString, diameter];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     
@@ -242,7 +244,7 @@
 -(void)getDisruptions{
     
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/1_2_0/"];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeXML];
     [RKMIMETypeSerialization registerClass:[RKXMLReaderSerialization class] forMIMEType:@"text/xml"];
@@ -295,7 +297,7 @@
 -(void)getLineInformation:(NSString *)codeList{
     
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:hslApiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
@@ -310,7 +312,7 @@
     
     codeList = [codeList stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=lines&user=asareitti&pass=rebekah&format=txt&query=%@",codeList];
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=lines&user=asareitti&pass=rebekah&format=txt&query=%@",hslApiBaseUrl,codeList];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     
@@ -334,7 +336,7 @@
 
 -(void) testHSLAPI{
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:@"http://api.reittiopas.fi/hsl/prod/"];
+    NSURL *baseURL = [NSURL URLWithString:hslApiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
@@ -352,7 +354,7 @@
     //convert unsafe strings in search string
 //    qstr = [qstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/prod/?request=stop&user=asareitti&pass=rebekah&format=json&code=2222222"];
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=stop&user=asareitti&pass=rebekah&format=json&code=2222222",hslApiBaseUrl];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     
