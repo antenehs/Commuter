@@ -16,6 +16,5 @@
 @dynamic fromLocationCoordsString;
 @dynamic fromLocationName;
 @dynamic toLocationName;
-@dynamic objectLID;
 
 @end

@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "ReittiManagedObjectBase.h"
 
 
-@interface RouteHistoryEntity : NSManagedObject
+@interface RouteHistoryEntity : ReittiManagedObjectBase
 
 @property (nonatomic, retain) NSString * routeUniqueName;
 @property (nonatomic, retain) NSString * toLocationCoordsString;
 @property (nonatomic, retain) NSString * fromLocationCoordsString;
 @property (nonatomic, retain) NSString * fromLocationName;
 @property (nonatomic, retain) NSString * toLocationName;
-@property (nonatomic, retain) NSNumber * objectLID;
 
 @end

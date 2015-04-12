@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "ReittiManagedObjectBase.h"
 
 
-@interface HistoryEntity : NSManagedObject
+@interface HistoryEntity : ReittiManagedObjectBase
 
-@property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSString * busStopURL;
 @property (nonatomic, retain) NSString * busStopCity;
 @property (nonatomic, retain) NSNumber * busStopCode;

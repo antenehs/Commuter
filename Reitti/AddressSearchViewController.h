@@ -21,6 +21,7 @@
 @protocol AddressSearchViewControllerDelegate <NSObject>
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity;
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode;
+- (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark;
 - (void)searchResultSelectedCurrentLocation;
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm;
 - (void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm;
@@ -56,9 +57,11 @@
 @property (strong, nonatomic) NSMutableArray * recentStops;
 @property (strong, nonatomic) NSMutableArray * savedRoutes;
 @property (strong, nonatomic) NSMutableArray * recentRoutes;
+@property (strong, nonatomic) NSMutableArray * namedBookmarks;
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
 @property (nonatomic) bool routeSearchMode;
+@property (nonatomic) bool simpleSearchMode;
 @property (nonatomic) bool darkMode;
 
 @property (strong, nonatomic) NSString * prevSearchTerm;

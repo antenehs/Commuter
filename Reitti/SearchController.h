@@ -30,6 +30,7 @@
 #import "CustomBadge.h"
 #import "JPSThumbnailAnnotation.h"
 #import <AddressBookUI/AddressBookUI.h>
+#import "EditAddressTableViewController.h"
 
 typedef enum
 {
@@ -148,6 +149,9 @@ typedef enum
     
     NSString * selectedFromLocation;
     NSString * selectedFromCoords;
+    
+    NamedBookmark *selectedNamedBookmark;
+    GeoCode *selectedGeoCode;
     
     StopAnnotation *lastSelectedAnnotation;
     bool annotationSelectionChanged;

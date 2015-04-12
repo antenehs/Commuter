@@ -117,7 +117,8 @@
     NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
     [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
     
-     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:16] forKey:NSFontAttributeName];
+     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:17] forKey:NSFontAttributeName];
+    [addressStringDict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     
     NSMutableAttributedString *toAddressString = [[NSMutableAttributedString alloc] initWithString:@"To " attributes:toStringDict];
     
@@ -751,7 +752,7 @@
             locNameLabel.text = @"Start location";
             detailIndicatorImage.hidden = NO;
         }else{
-            locNameLabel.text = loc.name;
+            locNameLabel.text = loc.name == nil || loc.name == (id)[NSNull null] ? @"" : loc.name;
             detailIndicatorImage.hidden = NO;
         }
         
@@ -913,18 +914,34 @@
                 
                 loc.locationLegType = leg.legType;
                 loc.locationLegOrder = leg.legOrder;
-                if (leg.showDetailed) {
-                    [locationList addObject:loc];
-                    
-                    //Also add a copy of the header location
-                    if (loc.isHeaderLocation) {
-                        RouteLegLocation *copyLoc = [loc copy];
-                        copyLoc.isHeaderLocation = NO;
-                        [locationList addObject:copyLoc];
-                    }
-                }else if (loc.isHeaderLocation ){
+                
+                if (loc.isHeaderLocation || leg.showDetailed) {
                     [locationList addObject:loc];
                 }
+                
+                if (loc.isHeaderLocation && leg.showDetailed){
+                    //Also add a copy of the header location
+                    if (loc.name == nil || loc.name == (id)[NSNull null]) {
+                        orderCount++;
+                        continue;
+                    }
+                    RouteLegLocation *copyLoc = [loc copy];
+                    copyLoc.isHeaderLocation = NO;
+                    [locationList addObject:copyLoc];
+                }
+                
+//                if (leg.showDetailed) {
+//                    [locationList addObject:loc];
+//                    
+//                    //Also add a copy of the header location
+//                    if (loc.isHeaderLocation) {
+//                        RouteLegLocation *copyLoc = [loc copy];
+//                        copyLoc.isHeaderLocation = NO;
+//                        [locationList addObject:copyLoc];
+//                    }
+//                }else if (loc.isHeaderLocation ){
+//                    [locationList addObject:loc];
+//                }
                 
                 orderCount++;
             }

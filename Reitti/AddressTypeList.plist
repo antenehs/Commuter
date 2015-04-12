@@ -20,6 +20,14 @@
 	</dict>
 	<dict>
 		<key>Name</key>
+		<string>School</string>
+		<key>Type</key>
+		<string>School</string>
+		<key>Picture</key>
+		<string>school-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
 		<string>Shopping</string>
 		<key>Type</key>
 		<string>Shopping</string>
@@ -76,7 +84,23 @@
 	</dict>
 	<dict>
 		<key>Name</key>
-		<string>Other</string>
+		<string>Library</string>
+		<key>Type</key>
+		<string>Library</string>
+		<key>Picture</key>
+		<string>books-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>Leisure</string>
+		<key>Type</key>
+		<string>Leisure</string>
+		<key>Picture</key>
+		<string>bowling-100.png</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>My address</string>
 		<key>Type</key>
 		<string>Other</string>
 		<key>Picture</key>

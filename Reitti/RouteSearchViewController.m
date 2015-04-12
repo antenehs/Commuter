@@ -11,14 +11,21 @@
 #import "Transport.h"
 #import "RouteDetailViewController.h"
 
+typedef enum
+{
+    TableViewModeSuggestions = 1,
+    TableViewModeRouteResults = 2
+} TableViewMode;
 
 @interface RouteSearchViewController ()
+
+@property (nonatomic)TableViewMode tableViewMode;
 
 @end
 
 @implementation RouteSearchViewController
 
-@synthesize savedStops, recentStops, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation;
+@synthesize savedStops, recentStops, namedBookmarks, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation;
 @synthesize reittiDataManager;
 @synthesize delegate,viewCycledelegate;
 @synthesize darkMode;
@@ -716,6 +723,8 @@
     [self.routeList removeAllObjects];
     [routeResultsTableView reloadData];
     
+    bookmarkRouteButton.enabled = NO;
+    
     //TODO: display saved stops
     [self hideToolBar:YES animated:YES];
 }
@@ -1182,6 +1191,21 @@
     
     [self searchRouteIfPossible];
 }
+
+- (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
+    [self setTextToSearchBar:activeSearchBar text:namedBookmark.name];
+    
+    if (activeSearchBar == fromSearchBar) {
+        fromString = namedBookmark.name;
+        fromCoords = namedBookmark.coords;
+    }else if (activeSearchBar == toSearchBar) {
+        toString = namedBookmark.name;
+        toCoords = namedBookmark.coords;
+    }
+    
+    [self searchRouteIfPossible];
+}
+
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
     [self setTextToSearchBar:activeSearchBar text:geoCode.FullAddressString];
     
@@ -1341,7 +1365,9 @@
         
         addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:self.savedStops];
         addressSearchViewController.recentStops = [NSMutableArray arrayWithArray:self.recentStops];
+        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:self.namedBookmarks];
         addressSearchViewController.routeSearchMode = YES;
+        addressSearchViewController.simpleSearchMode = YES;
         addressSearchViewController.darkMode = self.darkMode;
         
         if ([segue.identifier isEqualToString:@"searchFromAddress"]){

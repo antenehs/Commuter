@@ -134,7 +134,7 @@
             [imageView setImage:[UIImage imageNamed:@"service-bus-filled-purple.png"]];
             break;
         case LegTypeWalk:
-            [imageView setImage:[UIImage imageNamed:@"shoe-gray-100.png"]];
+            [imageView setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
             break;
             
         default:

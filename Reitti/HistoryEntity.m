@@ -11,7 +11,6 @@
 
 @implementation HistoryEntity
 
-@dynamic objectLID;
 @dynamic busStopURL;
 @dynamic busStopCity;
 @dynamic busStopCode;

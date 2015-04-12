@@ -428,6 +428,22 @@
     [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
 }
 
+-(void)openRouteForNamedAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
+    selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@", title];
+    selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
+    [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+}
+
+-(void)showNamedBookmark:(NamedBookmark *)namedBookmark{
+    selectedNamedBookmark = namedBookmark;
+    [self performSegueWithIdentifier:@"showNamedBookmark" sender:nil];
+}
+
+-(void)showGeoCode:(GeoCode *)geoCode{
+    selectedGeoCode = geoCode;
+    [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
+}
+
 -(void)openStopViewForCode:(NSNumber *)code{
     selectedStopCode = [NSString stringWithFormat:@"%d", [code intValue]];
     [self performSegueWithIdentifier:@"openStopView" sender:nil];
@@ -1007,6 +1023,7 @@
     geoAnT.annotationType = GeoCodeType;
     geoAnT.reuseIdentifier = @"geoLocationAnnotation";
     geoAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
+    geoAnT.secondaryButtonBlock = ^{ [self showGeoCode:geoCode];};
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:geoAnT];
     [mapView addAnnotation:annot];
     
@@ -1016,6 +1033,41 @@
 //    GeoCodeAnnotation *newAnnotation = [[GeoCodeAnnotation alloc] initWithTitle:name andSubtitle:city coordinate:coordinate andLocationType:geoCode.getLocationType];
     
 //    [mapView addAnnotation:newAnnotation];
+}
+
+-(void)plotNamedBookmarkAnnotation:(NamedBookmark *)namedBookmark{
+    
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
+            if (sAnnotation.annotationType == SearchedStopType) {
+                [mapView removeAnnotation:annotation];
+            }
+        }
+    }
+    
+    CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:namedBookmark.coords];
+    NSString * name = @"";
+    NSString * subtitle = @"";
+    
+    
+    name = namedBookmark.name;
+    subtitle = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress , namedBookmark.city];
+    
+    JPSThumbnail *bookmrkAnT = [[JPSThumbnail alloc] init];
+    bookmrkAnT.image = [UIImage imageNamed:@"geoCodeAnnotation.png"];
+    bookmrkAnT.title = name;
+    bookmrkAnT.subtitle = subtitle;
+    bookmrkAnT.coordinate = coordinate;
+    bookmrkAnT.annotationType = GeoCodeType;
+    bookmrkAnT.reuseIdentifier = @"geoLocationAnnotation";
+    bookmrkAnT.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:name andCoords:coordinate];};
+    bookmrkAnT.secondaryButtonBlock = ^{ [self showNamedBookmark:namedBookmark];};
+    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:bookmrkAnT];
+    [mapView addAnnotation:annot];
+    
+    [mapView selectAnnotation:annot animated:YES];
+    
 }
 
 
@@ -1326,9 +1378,16 @@
         selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",destination.placemark.location.coordinate.longitude, destination.placemark.location.coordinate.latitude];
         NSLog(@"Address of placemark: %@", ABCreateStringWithAddressDictionary(destination.placemark.addressDictionary, NO));
         NSLog(@"Address Dictionary: %@",destination.placemark.addressDictionary);
-        selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@",
-                                       [[destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
-                                      ];
+        if ([destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] != nil) {
+            selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@",
+                                           [[destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
+                                           ];
+        }else{
+            selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@, %@",
+                                           [destination.placemark.addressDictionary objectForKey:@"Street"],
+                                           [destination.placemark.addressDictionary objectForKey:@"City"]
+                                          ];
+        }
     }
     
 //    NSDate *startDate = directionsInfo.departureDate;
@@ -1459,6 +1518,13 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }
+}
+
+- (GeoCode *)castNamedBookmarkToGeoCode:(NamedBookmark *)namedBookmark{
+    GeoCode * newGeoCode = [[GeoCode alloc] init];
+    newGeoCode.name = namedBookmark.name;
+    
+    return newGeoCode;
 }
 
 #pragma - mark IBActions
@@ -1749,6 +1815,17 @@
     
     mainSearchBar.text = geoCode.FullAddressString;
 }
+
+- (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
+    [self hideSearchResultView:YES animated:YES];
+    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:namedBookmark.coords]];
+    //Check if it is type busstop
+    
+    [self plotNamedBookmarkAnnotation:namedBookmark];
+    
+    mainSearchBar.text = namedBookmark.name;
+}
+
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
 //    mainSearchBar.text = prevSearchTerm;
 }
@@ -1810,14 +1887,16 @@
 		BookmarksViewController *bookmarksViewController = [[navigationController viewControllers] lastObject];
         
         NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-         NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
         NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
         NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
         
         bookmarksViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         bookmarksViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         bookmarksViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
         bookmarksViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
+        bookmarksViewController.savedNamedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
         bookmarksViewController.darkMode = self.darkMode;
         bookmarksViewController.delegate = self;
         bookmarksViewController.mode = bookmarkViewMode;
@@ -1858,12 +1937,16 @@
         NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
         NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
         NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
         
         addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         addressSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
         addressSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         addressSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
+        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
+        
         addressSearchViewController.routeSearchMode = NO;
+        addressSearchViewController.simpleSearchMode = YES;
         addressSearchViewController.darkMode = self.darkMode;
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
         addressSearchViewController.delegate = self;
@@ -1876,9 +1959,12 @@
         
         NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
         NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
         
         routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
+        routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
+        
         routeSearchViewController.darkMode = self.darkMode;
         routeSearchViewController.prevToLocation = mainSearchBar.text;
         
@@ -1906,6 +1992,30 @@
         WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
         
         controller.savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+    }
+    
+    if ([segue.identifier isEqualToString:@"showNamedBookmark"]) {
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
+        
+        controller.namedBookmark = selectedNamedBookmark;
+        controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
+        controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    }
+    
+    if ([segue.identifier isEqualToString:@"showGeoCode"]) {
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
+        
+        if ([self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
+            controller.namedBookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
+            controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
+            controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        }else{
+            controller.geoCode = selectedGeoCode;
+            controller.viewControllerMode = ViewControllerModeViewGeoCode;
+            controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        }
     }
 }
 

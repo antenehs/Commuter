@@ -54,7 +54,7 @@
         MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
         // TO DO: Plot and display the route using the
         //   source and destination properties of directionsInfo.
-        
+        [controller dismissViewControllerAnimated:YES completion:nil];
         [controller openRouteViewForFromLocation:directionsInfo];
         
         return YES;

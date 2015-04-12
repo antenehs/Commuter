@@ -11,7 +11,7 @@
 #import "RettiDataManager.h"
 #import "StopViewController.h"
 #import "RouteSearchViewController.h"
-#import "AddAddressTableViewController.h"
+#import "EditAddressTableViewController.h"
 
 @class BookmarksViewController;
 
@@ -30,7 +30,7 @@
     IBOutlet AMBlurView *selectorView;
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIView *bluredBackView;
-    IBOutlet UIBarButtonItem *addBookmarkButton;
+//    IBOutlet UIBarButtonItem *addBookmarkButton;
     IBOutlet UIBarButtonItem *widgetSettingButton;
     
     UIColor *systemBackgroundColor;
@@ -42,6 +42,7 @@
 @property (strong, nonatomic) NSMutableArray * recentStops;
 @property (strong, nonatomic) NSMutableArray * savedRoutes;
 @property (strong, nonatomic) NSMutableArray * recentRoutes;
+@property (strong, nonatomic) NSMutableArray * savedNamedBookmarks;
 //mode 0 = bookmark & mode 1 = recents
 @property (nonatomic) int mode;
 @property (nonatomic) bool darkMode;

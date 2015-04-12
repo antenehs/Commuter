@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "ReittiManagedObjectBase.h"
 
 
-@interface StopEntity : NSManagedObject
+@interface StopEntity : ReittiManagedObjectBase
 
 @property (nonatomic, retain) NSNumber * busStopCode;
 @property (nonatomic, retain) NSDictionary * stopLines;

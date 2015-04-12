@@ -1,0 +1,21 @@
+//
+//  ReittiNotificationHelper.m
+//  Reitti
+//
+//  Created by Anteneh Sahledengel on 8/4/15.
+//  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
+//
+
+#import "ReittiNotificationHelper.h"
+
+@implementation ReittiNotificationHelper
+
++(void)showSimpleMessageWithTitle:(NSString *)title andContent:(NSString *)content{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title                                                                                    message:content
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
+@end

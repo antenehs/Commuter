@@ -79,9 +79,6 @@
          identifier = "../Reitti/Helsinki.gpx"
          referenceType = "0">
       </LocationScenarioReference>
-      <RoutingCoverageFileReference
-         identifier = "../Reitti/hsl-region.geojson">
-      </RoutingCoverageFileReference>
    </LaunchAction>
    <ProfileAction
       shouldUseLaunchSchemeArgsEnv = "YES"

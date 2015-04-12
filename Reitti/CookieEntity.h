@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
-
+#import "ReittiManagedObjectBase.h"
 
 @interface CookieEntity : NSManagedObject
 

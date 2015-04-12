@@ -15,10 +15,10 @@
 
 @implementation AddressSearchViewController
 
-@synthesize savedStops, recentStops, savedRoutes, recentRoutes, dataToLoad, prevSearchTerm;
+@synthesize savedStops, recentStops, namedBookmarks, savedRoutes, recentRoutes, dataToLoad, prevSearchTerm;
 @synthesize reittiDataManager;
 @synthesize delegate;
-@synthesize routeSearchMode, darkMode;
+@synthesize routeSearchMode,simpleSearchMode, darkMode;
 
 #define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
 #define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
@@ -108,11 +108,13 @@
         }
     }
     
-    if (routeSearchMode) {
-        searchResultTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    }else{
-        searchResultTableView.backgroundColor = [UIColor clearColor];
-    }
+//    if (routeSearchMode) {
+//        searchResultTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//    }else{
+//        
+//    }
+    
+    searchResultTableView.backgroundColor = [UIColor clearColor];
     
 //    currentLocationContainerView.hidden = !routeSearchMode;
 }
@@ -122,16 +124,19 @@
     [self hideSegmentControl:NO animated:animated];
     
     if (listSegmentControl.selectedSegmentIndex == 0){
-        dataToLoad = [[NSMutableArray alloc] initWithArray:savedStops];
+        dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
+        [dataToLoad addObjectsFromArray:savedStops];
         [dataToLoad addObjectsFromArray:savedRoutes];
+        dataToLoad = [self sortDataArray:dataToLoad];
         if (dataToLoad.count == 0) {
             searchResultTableViewContainer.hidden = YES;
         }else{
             searchResultTableViewContainer.hidden = NO;
         }
     }else{
-        dataToLoad = [[NSMutableArray alloc] initWithArray:recentStops];
-        [dataToLoad addObjectsFromArray:recentRoutes];
+        dataToLoad = [[NSMutableArray alloc] initWithArray:recentRoutes];
+        [dataToLoad addObjectsFromArray:recentStops];
+        dataToLoad = [self sortDataArray:dataToLoad];
         searchResultTableViewContainer.hidden = NO;
     }
     
@@ -141,10 +146,15 @@
 -(void)setUpMergedInitialSearchView:(bool)animated{
     [self hideSegmentControl:YES animated:animated];
     dataToLoad = nil;
-    dataToLoad = [[NSMutableArray alloc] initWithArray:savedStops];
+    dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
+    [dataToLoad addObjectsFromArray:savedStops];
     [dataToLoad addObjectsFromArray:savedRoutes];
-    [dataToLoad addObjectsFromArray:recentRoutes];
-    [dataToLoad addObjectsFromArray:recentStops];
+    dataToLoad = [self sortDataArray:dataToLoad];
+    
+    NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:recentRoutes];
+    [tempArray addObjectsFromArray:recentStops];
+    [dataToLoad addObjectsFromArray:[self sortDataArray:tempArray]];
+    dataToLoad = [self arrayByRemovingDuplicatesInHistory:dataToLoad];
     searchResultTableViewContainer.hidden = NO;
     [searchResultTableView reloadData];
 }
@@ -267,14 +277,17 @@
 - (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
     //Show segment control if there is no text in seach field
     if (thisSearchBar.text == nil || [thisSearchBar.text isEqualToString:@""]){
-        if (savedStops.count == 0 && recentStops.count == 0) {
+        if (savedStops.count == 0 && recentStops.count == 0 && namedBookmarks.count == 0) {
             listSegmentControl.selectedSegmentIndex = 0;
-        }else if(savedStops.count == 0){
+        }else if(savedStops.count == 0 || namedBookmarks.count == 0){
             listSegmentControl.selectedSegmentIndex = 1;
         }else if (recentStops.count == 0){
             listSegmentControl.selectedSegmentIndex = 0;
         }
-        [self setUpInitialSearchView:YES];
+        if (!simpleSearchMode) {
+            [self setUpInitialSearchView:YES];
+        }
+        
     }
     
 }
@@ -390,10 +403,18 @@
         
         UILabel *title = (UILabel *)[cell viewWithTag:2002];
         UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+        UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
+        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
+            dateLabel.hidden = NO;
+            dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
+        }else{
+            dateLabel.hidden = YES;
+        }
+        
         title.attributedText = [ReittiStringFormatter highlightSubstringInString:stopEntity.busStopName substring:addressSearchBar.text withNormalFont:title.font];
-        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity] substring:addressSearchBar.text withNormalFont:title.font];
+        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity] substring:addressSearchBar.text withNormalFont:subTitle.font];
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
@@ -410,10 +431,18 @@
         
         UILabel *title = (UILabel *)[cell viewWithTag:2002];
         UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+        UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
+        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
+            dateLabel.hidden = NO;
+            dateLabel.text = [ReittiStringFormatter formatPrittyDate:routeEntity.dateModified];
+        }else{
+            dateLabel.hidden = YES;
+        }
+        
         title.attributedText = [ReittiStringFormatter highlightSubstringInString: routeEntity.toLocationName substring:addressSearchBar.text withNormalFont:title.font];
-        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", routeEntity.fromLocationName] substring:addressSearchBar.text withNormalFont:title.font];
+        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", routeEntity.fromLocationName] substring:addressSearchBar.text withNormalFont:subTitle.font];
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
@@ -425,8 +454,11 @@
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
+            [imageView setImage:[UIImage imageNamed:@"location-75.png"]];
+            
             title.attributedText = [ReittiStringFormatter highlightSubstringInString:geoCode.name substring:addressSearchBar.text withNormalFont:title.font];
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:title.font];
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
         }else if (geoCode.getLocationType  == LocationTypeAddress) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"addressLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
@@ -434,7 +466,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
             title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] substring:addressSearchBar.text withNormalFont:title.font] ;
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:title.font] ;
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font] ;
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"stopLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
@@ -442,31 +474,54 @@
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
             title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ (%@)", geoCode.name, geoCode.getStopShortCode] substring:addressSearchBar.text withNormalFont:title.font];
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", geoCode.getAddress ,geoCode.city] substring:addressSearchBar.text withNormalFont:title.font];
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", geoCode.getAddress ,geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
     
         }
         
         cell.backgroundColor = [UIColor clearColor];
         return cell;
+    }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
+        NamedBookmark *nbookmark = [self.dataToLoad objectAtIndex:indexPath.row];
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"poiLocationCell"];
+        UILabel *title = (UILabel *)[cell viewWithTag:2002];
+        UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+        
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
+        [imageView setImage:[UIImage imageNamed:nbookmark.iconPictureName]];
+        
+        title.attributedText = [ReittiStringFormatter highlightSubstringInString:nbookmark.name substring:addressSearchBar.text withNormalFont:title.font];
+        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", nbookmark.streetAddress, nbookmark.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
+        
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        
+        return cell;
     }else{
         return nil;
     }
-    
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [delegate searchViewControllerWillBeDismissed:addressSearchBar.text];
     if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
-        [addressSearchBar resignFirstResponder];
+        GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];
         [self dismissViewControllerAnimated:YES completion:^{
             NSLog(@"Dismiss completed");
-            [delegate searchResultSelectedAGeoCode:[self.dataToLoad objectAtIndex:indexPath.row]];
+            [delegate searchResultSelectedAGeoCode:selectedGeocode];
+//            [addressSearchBar resignFirstResponder];
+        }];
+    }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
+        NamedBookmark *selectedBookmark = [self.dataToLoad objectAtIndex:indexPath.row];
+        [self dismissViewControllerAnimated:YES completion:^{
+            NSLog(@"Dismiss completed");
+            [delegate searchResultSelectedANamedBookmark:selectedBookmark];
+//            [addressSearchBar resignFirstResponder];
         }];
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]){
         StopEntity *selectedStopEntity = (StopEntity *)[self.dataToLoad objectAtIndex:indexPath.row];
-        [addressSearchBar resignFirstResponder];
+//        [addressSearchBar resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
             NSLog(@"Dismiss completed");
             [delegate searchResultSelectedAStop:selectedStopEntity];
@@ -490,43 +545,104 @@
 
 - (NSMutableArray *)searchFromBookmarkAndHistoryForKey:(NSString *)key{
     NSMutableArray * searched = [[NSMutableArray alloc] init];
+    key = [key lowercaseString];
     for (StopEntity *stopEntity in savedStops) {
-        if ([stopEntity.busStopName containsString:key]) {
+        if ([[stopEntity.busStopName lowercaseString] containsString:key]) {
             [searched addObject:stopEntity];
-        }else if ([stopEntity.busStopShortCode containsString:key]) {
+        }else if ([[stopEntity.busStopShortCode lowercaseString] containsString:key]) {
             [searched addObject:stopEntity];
-        }else if ([stopEntity.busStopCity containsString:key]) {
+        }else if ([[stopEntity.busStopCity lowercaseString] containsString:key]) {
             [searched addObject:stopEntity];
         }
     }
     
+    for (NamedBookmark *namedBookmark in namedBookmarks) {
+        if ([[namedBookmark.name lowercaseString] containsString:key]) {
+            [searched addObject:namedBookmark];
+        }else if ([[namedBookmark.streetAddress lowercaseString] containsString:key]) {
+            [searched addObject:namedBookmark];
+        }else if ([[namedBookmark.city lowercaseString] containsString:key]) {
+            [searched addObject:namedBookmark];
+        }else if ([[namedBookmark.searchedName lowercaseString] containsString:key]) {
+            [searched addObject:namedBookmark];
+        }else if ([[namedBookmark.notes lowercaseString] containsString:key]) {
+            [searched addObject:namedBookmark];
+        }
+    }
+    
     for (RouteEntity *routeEntity in savedRoutes) {
-        if ([routeEntity.fromLocationName containsString:key]) {
+        if ([[routeEntity.fromLocationName lowercaseString] containsString:key]) {
             [searched addObject:routeEntity];
-        }else if ([routeEntity.toLocationName containsString:key]) {
+        }else if ([[routeEntity.toLocationName lowercaseString] containsString:key]) {
             [searched addObject:routeEntity];
         }
     }
     
     for (RouteHistoryEntity *routeHistoryEntity in recentRoutes) {
-        if ([routeHistoryEntity.fromLocationName containsString:key]) {
+        if ([[routeHistoryEntity.fromLocationName lowercaseString] containsString:key ]) {
             [searched addObject:routeHistoryEntity];
-        }else if ([routeHistoryEntity.toLocationName containsString:key]) {
+        }else if ([[routeHistoryEntity.toLocationName lowercaseString] containsString:key]) {
             [searched addObject:routeHistoryEntity];
         }
     }
     
     for (HistoryEntity *historyEntity in recentStops) {
-        if ([historyEntity.busStopName containsString:key]) {
+        if ([[historyEntity.busStopName lowercaseString] containsString:key]) {
             [searched addObject:historyEntity];
-        }else if ([historyEntity.busStopShortCode containsString:key]) {
+        }else if ([[historyEntity.busStopShortCode lowercaseString] containsString:key]) {
             [searched addObject:historyEntity];
-        }else if ([historyEntity.busStopCity containsString:key]) {
+        }else if ([[historyEntity.busStopCity lowercaseString] containsString:key]) {
             [searched addObject:historyEntity];
         }
     }
     
     return searched;
+}
+
+- (NSMutableArray *)sortDataArray:(NSMutableArray *)array{
+    NSArray *sortedArray;
+    sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        //We can cast all types to ReittiManagedObjectBase since we are only intereted in the date modified property
+        NSDate *first = [(ReittiManagedObjectBase*)a dateModified];
+        NSDate *second = [(ReittiManagedObjectBase*)b dateModified];
+        
+        if (first == nil) {
+            return NSOrderedDescending;
+        }
+        
+        //Decending by date - latest to earliest
+        return [second compare:first];
+    }];
+    
+    return [NSMutableArray arrayWithArray:sortedArray];
+}
+
+- (NSMutableArray *)arrayByRemovingDuplicatesInHistory:(NSMutableArray *)array{
+    
+    for (StopEntity *stop in self.savedStops) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"busStopCode == %@", stop.busStopCode];
+        NSArray *filteredArray = [self.recentStops filteredArrayUsingPredicate:predicate];
+        id firstFoundObject = nil;
+        firstFoundObject =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+        
+        if (firstFoundObject != nil) {
+            [array removeObject:firstFoundObject];
+        }
+    }
+    
+    for (RouteEntity *route in self.savedRoutes) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routeUniqueName == %@", route.routeUniqueName];
+        NSArray *filteredArray = [self.recentRoutes filteredArrayUsingPredicate:predicate];
+        id firstFoundObject = nil;
+        firstFoundObject =  filteredArray.count > 0 ? filteredArray.firstObject : nil;
+        
+        if (firstFoundObject != nil) {
+            [array removeObject:firstFoundObject];
+        }
+    }
+    
+    return array;
+    
 }
 
 
@@ -541,6 +657,7 @@
         
         routeSearchViewController.savedStops = self.savedStops;
         routeSearchViewController.recentStops = self.recentStops;
+        routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = addressSearchBar.text;
         routeSearchViewController.darkMode = self.darkMode;
 //        routeSearchViewController.viewCycledelegate = self;
@@ -557,6 +674,7 @@
         
         routeSearchViewController.savedStops = self.savedStops;
         routeSearchViewController.recentStops = self.recentStops;
+        routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = selected.toLocationName;
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
         routeSearchViewController.prevFromLocation = selected.fromLocationName;

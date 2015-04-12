@@ -10,6 +10,7 @@
 #import "HSLCommunication.h"
 #import "ReittiStringFormatter.h"
 #import "BusStop.h"
+#import "NamedBookmark.h"
 #include "RouteSearchOptions.h"
 
 @class StopEntity;
@@ -17,6 +18,7 @@
 @class RouteEntity;
 @class RouteHistoryEntity;
 @class CookieEntity;
+@class NamedBookmark;
 
 @protocol RettiDataManagerDelegate <NSObject>
 - (void)stopFetchDidComplete:(NSArray *)stopList;
@@ -56,6 +58,7 @@
 
 -(BOOL)isBusStopSaved:(BusStop *)stop;
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;
+-(BOOL)doesNamedBookmarkExistWithName:(NSString *)name;
 
 -(void)saveToCoreDataStop:(BusStop *)stop withLines:(NSDictionary *)lines;
 -(void)deleteSavedStopForCode:(NSNumber *)code;
@@ -78,6 +81,13 @@
 -(void)deleteAllHistoryRoutes;
 -(NSArray *)fetchAllSavedRouteHistoryFromCoreData;
 
+-(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)namedBookmark;
+-(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark;
+-(void)deleteNamedBookmarkForName:(NSString *)name;
+-(void)deleteAllNamedBookmarks;
+-(NSArray *)fetchAllSavedNamedBookmarksFromCoreData;
+-(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
+
 -(int)getAppOpenCountAndIncreament;
 -(void)setAppOpenCountValue:(int)value;
 
@@ -93,6 +103,7 @@
 @property (strong, nonatomic) NSMutableArray *allSavedStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedRouteCodes;
 @property (strong, nonatomic) NSMutableArray *allRouteHistoryCodes;
+@property (strong, nonatomic) NSMutableArray *allNamedBookmarkNames;
 
 @property (strong, nonatomic) HSLCommunication *hslCommunication;
 
@@ -106,6 +117,7 @@
 @property (strong, nonatomic) RouteEntity *routeEntity;
 @property (strong, nonatomic) RouteHistoryEntity *routeHistoryEntity;
 @property (strong, nonatomic) CookieEntity *cookieEntity;
+@property (strong, nonatomic) NamedBookmark *namedBookmark;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

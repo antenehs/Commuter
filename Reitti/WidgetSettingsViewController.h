@@ -11,6 +11,7 @@
 @interface WidgetSettingsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>{
     
     IBOutlet UIView *bluredBackView;
+    IBOutlet UILabel *infoLabel;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

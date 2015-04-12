@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "AddAddressTableViewController.h"
-#import "EditAddressTableViewController.h"
+#import "AddressTypeTableViewController.h"
 
-@interface AddAddressTableViewController ()
+@interface AddressTypeTableViewController ()
 
 @property(nonatomic, strong)NSArray * addressTypeList;
 
 @end
 
-@implementation AddAddressTableViewController
-@synthesize reittiDataManager;
+@implementation AddressTypeTableViewController
+
+@synthesize delegate;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -70,7 +70,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"Dismiss completed");
+        [delegate selectedAddressType:[self.addressTypeList objectAtIndex:indexPath.row]];
+    }];
 }
 
 #pragma mark - Actions
@@ -78,6 +81,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -91,6 +95,6 @@
         editAddressViewController.reittiDataManager = self.reittiDataManager;
     }
 }
-
+*/
 
 @end

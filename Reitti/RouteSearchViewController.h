@@ -95,6 +95,7 @@
 
 @property (strong, nonatomic) NSMutableArray * savedStops;
 @property (strong, nonatomic) NSMutableArray * recentStops;
+@property (strong, nonatomic) NSMutableArray * namedBookmarks;
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
 @property (strong, nonatomic) NSMutableArray * routeList;

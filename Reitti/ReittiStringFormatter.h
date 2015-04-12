@@ -14,6 +14,7 @@
 +(NSString *)formatHSLAPITimeWithColon:(NSString *)hslTime;
 +(NSString *)formatHSLAPITimeToHumanTime:(NSString *)hslTime;
 +(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
++(NSString *)formatPrittyDate:(NSDate *)date;
 +(NSString *)formatHourStringFromDate:(NSDate *)date;
 +(NSString *)formatDurationString:(NSInteger)seconds;
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;

@@ -25,16 +25,26 @@
     self.navigationController.toolbar.hidden = YES;
 //    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
     
-    [bluredBackView setFrame:self.tableView.frame];
-    self.tableView.backgroundView = bluredBackView;
+    if (self.savedStops == nil || self.savedStops.count < 1) {
+        infoLabel.hidden = NO;
+        tableView.hidden = YES;
+    }else{
+        infoLabel.hidden = YES;
+        tableView.hidden = NO;
+        
+        [bluredBackView setFrame:self.tableView.frame];
+        self.tableView.backgroundView = bluredBackView;
+        
+        self.tableView.backgroundColor = [UIColor clearColor];
+        self.tableView.rowHeight = 56;
+        
+        selectedStops = [@[] mutableCopy];
+        unselectedStops = [@[] mutableCopy];
+        [self initUserDefaults];
+        [self readSelectedStops];
+    }
     
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.rowHeight = 56;
     
-    selectedStops = [@[] mutableCopy];
-    unselectedStops = [@[] mutableCopy];
-    [self initUserDefaults];
-    [self readSelectedStops];
 }
 
 - (void)initUserDefaults{
