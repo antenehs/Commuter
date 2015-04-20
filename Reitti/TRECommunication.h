@@ -6,17 +6,7 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
-#import "BusStop.h"
-#import "BusStopShort.h"
-#import "LineInfo.h"
-#import "GeoCode.h"
-#import "Route.h"
-#import "RouteLegs.h"
-#import "RouteLeg.h"
-#import "RouteLegLocation.h"
-#import "Disruption.h"
+#import "APIClient.h"
 
 @class TRECommunication;
 
@@ -29,12 +19,16 @@
 - (void)treLineInfoFetchFailed:(TRECommunication *)communicator;
 - (void)treGeocodeSearchDidComplete:(TRECommunication *)communicator;
 - (void)treGeocodeSearchFailed:(int)errorCode;
+- (void)treReverseGeocodeSearchDidComplete:(TRECommunication *)communicator;
+- (void)treReverseGeocodeSearchFailed:(int)errorCode;
 - (void)treRouteSearchDidComplete:(TRECommunication *)communicator;
 - (void)treRouteSearchFailed:(int)errorCode;
 - (void)treDisruptionFetchComplete:(TRECommunication *)communicator;
 - (void)treDisruptionFetchFailed:(int)errorCode;
 @end
 
-@interface TRECommunication : NSObject
+@interface TRECommunication : APIClient
+
+@property (nonatomic, weak) id <TRECommunicationDelegate> delegate;
 
 @end

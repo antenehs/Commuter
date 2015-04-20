@@ -13,6 +13,7 @@
 #import "RouteEntity.h"
 #import "RouteHistoryEntity.h"
 #import "CookieEntity.h"
+#import "SettingsEntity.h"
 #import "ReittiManagedObjectBase.h"
 
 @implementation RettiDataManager
@@ -21,9 +22,10 @@
 
 @synthesize delegate;
 @synthesize geocodeSearchdelegate;
+@synthesize reverseGeocodeSearchdelegate;
 @synthesize routeSearchdelegate;
 @synthesize disruptionFetchDelegate;
-@synthesize hslCommunication;
+@synthesize hslCommunication, treCommunication;
 @synthesize detailLineInfo;
 @synthesize stopLinesInfo;
 @synthesize allHistoryStopCodes;
@@ -34,25 +36,22 @@
 @synthesize routeEntity;
 @synthesize routeHistoryEntity;
 @synthesize cookieEntity;
+@synthesize settingsEntity;
 @synthesize allNamedBookmarkNames;
 @synthesize namedBookmark;
+@synthesize helsinkiRegion, tampereRegion, userLocation;
 
 -(id)init{
-    HSLCommunication *communicator = [[HSLCommunication alloc] init];
-    communicator.delegate = self;
-    
-    self.hslCommunication = communicator;
-    
+    [self initElements];
     return self;
     
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context{
     self.managedObjectContext = context;
-    HSLCommunication *communicator = [[HSLCommunication alloc] init];
-    communicator.delegate = self;
     
-    self.hslCommunication = communicator;
+    [self initElements];
+    
     [self fetchSystemCookie];
     nextObjectLID = [cookieEntity.objectLID intValue];
     
@@ -66,6 +65,71 @@
     
 }
 
+- (void)initElements {
+    HSLCommunication *hCommunicator = [[HSLCommunication alloc] init];
+    hCommunicator.delegate = self;
+    
+    self.hslCommunication = hCommunicator;
+    
+    TRECommunication *tCommunicator = [[TRECommunication alloc] init];
+    tCommunicator.delegate = self;
+    
+    self.treCommunication = tCommunicator;
+    
+    numberOfApis = 2;
+    stopFetchFailedCount = 0;
+    geocodeFetchResponseCount = 0;
+    geocodeFetchFailedCount = 0;
+    
+    HSLGeocodeResposeQueue = [@[] mutableCopy];
+    TREGeocodeResponseQueue = [@[] mutableCopy];
+    
+    [self initRegionCoordinates];
+    
+    userLocation = HSLandTRERegion;
+}
+
+-(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
+    userLocation = [self identifyRegionOfCoordinate:coords];
+}
+
+-(Region)getRegionForCoords:(CLLocationCoordinate2D)coords{
+    return [self identifyRegionOfCoordinate:coords];
+}
+
+-(void)setUserLocationToRegion:(Region)region{
+    userLocation = region;
+}
+
+-(NSString *)getNameOfRegion:(Region)region{
+    if (region == HSLRegion) {
+        return @"Helsinki region";
+    }else if (region == TRERegion) {
+        return @"Tampere region";
+    }else{
+        return @"";
+    }
+}
+
+-(void)resetResponseQueues{
+    [HSLGeocodeResposeQueue removeAllObjects];
+    [TREGeocodeResponseQueue removeAllObjects];
+}
+
+- (void)initRegionCoordinates {
+    CLLocationCoordinate2D coord1 = {.latitude = 60.585052 , .longitude = 23.742929 };
+    CLLocationCoordinate2D coord2 = {.latitude = 59.928294 , .longitude = 25.786386};
+    RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
+    self.helsinkiRegion = helsinkiRegionCoords;
+    
+    CLLocationCoordinate2D coord3 = {.latitude = 61.792057 , .longitude = 22.781625 };
+    CLLocationCoordinate2D coord4 = {.latitude = 61.292114 , .longitude = 24.616342};
+    RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
+    self.tampereRegion = tampereRegionCoords;
+}
+
+#pragma mark - API fetch methods
+
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andSearchOption:(RouteSearchOption)searchOption{
     NSString *optimizeString;
     if (searchOption == RouteSearchOptionFastest) {
@@ -78,7 +142,19 @@
         optimizeString = @"default";
     }
     
-    [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+    Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
+    Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
+    
+    if (fromRegion == toRegion) {
+        if (fromRegion == TRERegion) {
+            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+        }else{
+            [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+        }
+    }else{
+//        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
+        [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+    }
 }
 
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
@@ -91,21 +167,78 @@
     [dateFormat2 setDateFormat:@"YYYYMMdd"];
     NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
     
-    [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:@"departure" andOptimize:@"fastest" numberOfResults:1];
+    Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
+    Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
+    
+    if (fromRegion == toRegion) {
+        if (fromRegion == TRERegion) {
+            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:@"departure" andOptimize:@"fastest" numberOfResults:1];
+        }else{
+            [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:@"departure" andOptimize:@"fastest" numberOfResults:1];
+        }
+    }else{
+        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
+    }
+    
+    
 }
 
 -(void)searchAddressesForKey:(NSString *)key{
-    [self.hslCommunication searchGeocodeForKey:key];
+    geoCodeRequestedFor = userLocation;
+    if (userLocation == HSLRegion) {
+        [self.hslCommunication searchGeocodeForKey:key];
+    }else if (userLocation == TRERegion) {
+        [self.treCommunication searchGeocodeForKey:key];
+    }else{
+        geoCodeRequestPrioritizedFor = HSLandTRERegion;
+        [self.hslCommunication searchGeocodeForKey:key];
+        [self.treCommunication searchGeocodeForKey:key];
+    }
+    
 }
 
--(void)fetchStopsForCode:(NSString *)code{    
+-(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords{
+    Region region = [self identifyRegionOfCoordinate:coords];
+    NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
+    if (region == HSLRegion) {
+        [self.hslCommunication searchAddressForCoordinate:coordStrings];
+    }else if (region == TRERegion){
+        [self.treCommunication searchAddressForCoordinate:coordStrings];
+    }else{
+        [self.hslCommunication searchAddressForCoordinate:coordStrings];
+    }
+}
+
+-(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     
-    [self.hslCommunication getStopInfoForCode:code];
+    Region region = [self identifyRegionOfCoordinate:coords];
+    if (region == HSLRegion) {
+        [self.hslCommunication getStopInfoForCode:code];
+        stopInfoRequestedFor = HSLRegion;
+    }else if (region == TRERegion){
+        [self.treCommunication getStopInfoForCode:code];
+        stopInfoRequestedFor = TRERegion;
+    }else{
+        [self.hslCommunication getStopInfoForCode:code];
+        [self.treCommunication getStopInfoForCode:code];
+        stopFetchFailedCount = 0;
+        stopInfoRequestedFor = HSLandTRERegion;
+    }
+    
     //[self.delegate stopFetchDidComplete:nil];
 }
 
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion{
-    [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+    Region region = [self identifyRegionOfCoordinate:mapRegion.center];
+    if (region == HSLRegion) {
+        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+        stopInAreaRequestedFor = HSLRegion;
+    }else if (region == TRERegion){
+        [self.treCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+        stopInAreaRequestedFor = TRERegion;
+    }else{
+        [self.delegate nearByStopFetchDidFail:@"Nearby stops not available in this area."];
+    }
 }
 
 -(void)fetchDisruptions{
@@ -192,7 +325,7 @@
     BusStopShort *castedBSS = [[BusStopShort alloc] init];
     castedBSS.code = stopEntityToCast.busStopCode;
     castedBSS.codeShort = stopEntityToCast.busStopShortCode;
-    castedBSS.coords = stopEntityToCast.busStopCoords;
+    castedBSS.coords = stopEntityToCast.busStopWgsCoords;
     castedBSS.name = stopEntityToCast.busStopName;
     castedBSS.city = stopEntityToCast.busStopCity;
     castedBSS.address = nil;
@@ -291,6 +424,107 @@
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
+
+-(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
+    
+    if ([self isCoordinateInRegion:self.helsinkiRegion coordinate:coords]) {
+        return HSLRegion;
+    }
+    
+    if ([self isCoordinateInRegion:self.tampereRegion coordinate:coords]) {
+        return TRERegion;
+    }
+    
+    return OtherRegion;
+}
+
+-(BOOL)isCoordinateInRegion:(RTCoordinateRegion)region coordinate:(CLLocationCoordinate2D)coords{
+    if (coords.latitude < region.topLeftCorner.latitude &&
+        coords.latitude > region.bottomRightCorner.latitude &&
+        coords.longitude > region.topLeftCorner.longitude &&
+        coords.longitude < region.bottomRightCorner.longitude) {
+        return YES;
+    }else
+        return NO;
+}
+
+#pragma mark - Settings Methods
+-(SettingsEntity *)fetchSettings{
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity =[NSEntityDescription entityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
+    
+    [request setEntity:entity];
+    
+    
+    NSError *error = nil;
+    
+    NSArray *tempSystemSettings = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (tempSystemSettings.count > 0) {
+        
+        NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings value is not null");
+        settingsEntity = [tempSystemSettings objectAtIndex:0];
+    }
+    else {
+        NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings values is null");
+        [self initializeSettings];
+    }
+    
+    return settingsEntity;
+    
+}
+
+-(void)initializeSettings{
+    settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
+    //set default values
+    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
+    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
+    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+    [settingsEntity setSettingsStartDate:[NSDate date]];
+    
+    NSError *error = nil;
+    
+    if (![settingsEntity.managedObjectContext save:&error]) {
+        // Handle error
+        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
+        exit(-1);  // Fail
+    }
+}
+
+-(void)resetSettings{
+    if (settingsEntity == nil) {
+        settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
+    }
+    
+    //set default values
+    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
+    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
+    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+    [settingsEntity setSettingsStartDate:[NSDate date]];
+    
+    NSError *error = nil;
+    
+    if (![settingsEntity.managedObjectContext save:&error]) {
+        // Handle error
+        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
+        exit(-1);  // Fail
+    }
+}
+
+-(void)saveSettings{
+    NSError *error = nil;
+    
+    if (![settingsEntity.managedObjectContext save:&error]) {
+        // Handle error
+        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:!!", error, [error userInfo]);
+        exit(-1);  // Fail
+    }
+}
+
 
 #pragma mark - Core data methods
 -(CookieEntity *)fetchSystemCookie{
@@ -393,6 +627,7 @@
     [self.stopEntity setBusStopCity:stop.city_fi];
     [self.stopEntity setBusStopURL:stop.timetable_link];
     [self.stopEntity setBusStopCoords:stop.coords];
+    [self.stopEntity setBusStopWgsCoords:stop.wgs_coords];
     [self.stopEntity setStopLines:lines];
     
     [self saveManagedObject:stopEntity];
@@ -545,6 +780,7 @@
         [self.historyEntity setBusStopCity:stop.city_fi];
         [self.historyEntity setBusStopURL:stop.timetable_link];
         [self.historyEntity setBusStopCoords:stop.coords];
+        [self.historyEntity setBusStopWgsCoords:stop.wgs_coords];
         
         [self saveManagedObject:historyEntity];
         
@@ -591,6 +827,53 @@
     }
     
     [allHistoryStopCodes removeAllObjects];
+}
+
+-(void)clearHistoryOlderThanDays:(int)numOfDays{
+//    numOfDays = 1;
+    BOOL modified = NO;
+    NSArray *allStopHistory = [self fetchAllSavedStopHistoryFromCoreData];
+    for (HistoryEntity *stop in allStopHistory) {
+        if (stop.dateModified != nil) {
+            if ([stop.dateModified timeIntervalSinceNow] < -(numOfDays * 24 * 60 * 60)) {
+                [self.managedObjectContext deleteObject:stop];
+                modified = YES;
+                [allHistoryStopCodes removeObject:stop.busStopCode];
+            }
+        }else{
+            if ([settingsEntity.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
+                [self.managedObjectContext deleteObject:stop];
+                modified = YES;
+                [allHistoryStopCodes removeObject:stop.busStopCode];
+            }
+        }
+    }
+    
+    NSArray *allRouteHistory = [self fetchAllSavedRouteHistoryFromCoreData];
+    for (RouteHistoryEntity *route in allRouteHistory) {
+        if (route.dateModified != nil) {
+            if ([route.dateModified timeIntervalSinceNow] < -(numOfDays * 24 * 60 * 60)) {
+                [self.managedObjectContext deleteObject:route];
+                modified = YES;
+                [allRouteHistoryCodes removeObject:route.routeUniqueName];
+            }
+        }else{
+            if ([settingsEntity.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
+                [self.managedObjectContext deleteObject:route];
+                modified = YES;
+                [allRouteHistoryCodes removeObject:route.routeUniqueName];
+            }
+        }
+    }
+    
+    if (modified) {
+        NSError *error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            // Handle error
+            NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+            exit(-1);  // Fail
+        }
+    }
 }
 
 -(NSArray *)fetchAllSavedStopHistoryFromCoreData{
@@ -1265,6 +1548,48 @@
     }
     return retArray;
 }
+#pragma mark - merged delegate methods
+- (void)checkForGeoCodeFetchCompletionAndReturn{
+    
+    if (HSLGeocodeResposeQueue.count > 0 && TREGeocodeResponseQueue.count > 0) {
+        NSMutableArray *respose = [@[] mutableCopy];
+        if (geoCodeRequestPrioritizedFor == TRERegion) {
+            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
+            }
+            
+            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
+            }
+        }else{
+            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
+            }
+            
+            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
+            }
+        }
+        
+        if (respose.count == 0){
+            //Failed case. Respond the error
+            FailedGeoCodeFetch *failedObject;
+            if (geoCodeRequestPrioritizedFor == TRERegion)
+                failedObject = [TREGeocodeResponseQueue firstObject];
+            else
+                failedObject = [HSLGeocodeResposeQueue firstObject];
+            
+            [geocodeSearchdelegate geocodeSearchDidFail:failedObject.textForError forRequest:nil];
+            
+        }else{
+            [geocodeSearchdelegate geocodeSearchDidComplete:respose  isFinalResult:YES];
+        }
+        
+        [TREGeocodeResponseQueue removeObjectAtIndex:0];
+        [HSLGeocodeResposeQueue removeObjectAtIndex:0];
+    }
+    
+}
 
 #pragma mark - HSLCommunication delegate methods
 - (void)hslRouteSearchDidComplete:(HSLCommunication *)communicator{
@@ -1278,17 +1603,59 @@
     }else{
         [routeSearchdelegate routeSearchDidFail:nil];
     }
-    
 }
 - (void)hslGeocodeSearchDidComplete:(HSLCommunication *)communicator{
-    [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList forRequest:communicator.requestedKey];
-}
-- (void)hslGeocodeSearchFailed:(int)errorCode{
-    if (errorCode == -1009) {
-        [geocodeSearchdelegate geocodeSearchDidFail:@"Internet connection appears to be offline." forRequest:nil];
-    }else{
-        [geocodeSearchdelegate geocodeSearchDidFail:nil forRequest:nil];
+    if (geoCodeRequestedFor == HSLRegion) {
+        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
+    }else if(geoCodeRequestedFor == HSLandTRERegion){
+        [HSLGeocodeResposeQueue addObject:communicator.geoCodeList];
+        
+        [self checkForGeoCodeFetchCompletionAndReturn];
     }
+    
+}
+
+- (void)hslGeocodeSearchFailed:(int)errorCode{
+    //The last one to fail sends the message
+    NSString *errorMessage = nil;
+    if (errorCode == -1009) {
+        errorMessage = @"Internet connection appears to be offline.";
+    }
+    
+    if (geoCodeRequestedFor == HSLRegion) {
+        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
+    }else if (geoCodeRequestedFor == HSLandTRERegion){
+        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
+        failed.errorCode = errorCode;
+        failed.textForError = errorMessage;
+        
+        [HSLGeocodeResposeQueue addObject:failed];
+        [self checkForGeoCodeFetchCompletionAndReturn];
+    }
+    
+    
+}
+
+-(void)hslReverseGeocodeSearchDidComplete:(HSLCommunication *)communicator{
+    if (communicator.reverseGeoCodeList.count > 0) {
+        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
+    }else{
+        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
+    }
+}
+
+-(void)hslReverseGeocodeSearchFailed:(int)errorCode{
+    NSString *errorString = @"";
+    switch (errorCode) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        default:
+            errorString = @"No address was found for the coordinates";
+            break;
+    }
+    
+    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
 }
 
 -(void)hslStopFetchDidComplete:(HSLCommunication *)communicator{
@@ -1298,19 +1665,24 @@
 }
 
 -(void)hslStopFetchFailed:(int)errorCode{
-    NSString *errorString = @"";
-    switch (errorCode) {
-        case -1016:
-            errorString = @"The remote server returned nothing. Try again.";
-            break;
-        case -1009:
-            errorString = @"Internet connection appears to be offline.";
-            break;
-        default:
-            errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
-            break;
+    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApis - 1) {
+        NSString *errorString = @"";
+        switch (errorCode) {
+            case -1016:
+                errorString = @"The remote server returned nothing. Try again.";
+                break;
+            case -1009:
+                errorString = @"Internet connection appears to be offline.";
+                break;
+            default:
+                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
+                break;
+        }
+        [self.delegate stopFetchDidFail:errorString];
+        stopFetchFailedCount = 0;
     }
-    [self.delegate stopFetchDidFail:errorString];
+    
+    stopFetchFailedCount ++;
 }
 -(void)hslStopInAreaFetchDidComplete:(HSLCommunication *)communicator{
     [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
@@ -1348,6 +1720,125 @@
 
 -(void)hslLineInfoFetchFailed:(HSLCommunication *)communicator{
     //[self.delegate stopFetchDidFail:nil];
+}
+
+#pragma mark - TRECommunication delegate methods
+- (void)treStopFetchDidComplete:(TRECommunication *)communicator{
+    [self.delegate stopFetchDidComplete:communicator.stopList];
+}
+- (void)treStopFetchFailed:(int)errorCode{
+    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApis - 1) {
+        NSString *errorString = @"";
+        switch (errorCode) {
+            case -1016:
+                errorString = @"The remote server returned nothing. Try again.";
+                break;
+            case -1009:
+                errorString = @"Internet connection appears to be offline.";
+                break;
+            default:
+                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
+                break;
+        }
+        [self.delegate stopFetchDidFail:errorString];
+        stopFetchFailedCount = 0;
+    }
+    
+    stopFetchFailedCount ++;
+}
+- (void)treStopInAreaFetchDidComplete:(TRECommunication *)communicator{
+    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
+}
+- (void)treStopInAreaFetchFailed:(int)errorCode{
+    NSString *errorString = @"";
+    switch (errorCode) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        case -1011:
+            errorString = @"Service not available in this area.";
+            break;
+        case -1001:
+            errorString = @"Request timed out.";
+            break;
+        default:
+            break;
+    }
+    [self.delegate nearByStopFetchDidFail:errorString];
+}
+- (void)treLineInfoFetchDidComplete:(TRECommunication *)communicator{
+    //not needed yet
+}
+- (void)treLineInfoFetchFailed:(TRECommunication *)communicator{
+    //not needed yet
+}
+- (void)treGeocodeSearchDidComplete:(TRECommunication *)communicator{
+    if (geoCodeRequestedFor == TRERegion) {
+        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
+    }else if(geoCodeRequestedFor == HSLandTRERegion){
+        [TREGeocodeResponseQueue addObject:communicator.geoCodeList];
+    
+        [self checkForGeoCodeFetchCompletionAndReturn];
+    }
+}
+- (void)treGeocodeSearchFailed:(int)errorCode{
+    //The last one to fail sends the message
+    NSString *errorMessage = nil;
+    if (errorCode == -1009) {
+        errorMessage = @"Internet connection appears to be offline.";
+    }
+    
+    if (geoCodeRequestedFor == TRERegion) {
+        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
+    }else if (geoCodeRequestedFor == HSLandTRERegion){
+        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
+        failed.errorCode = errorCode;
+        failed.textForError = errorMessage;
+        
+        [TREGeocodeResponseQueue addObject:failed];
+        [self checkForGeoCodeFetchCompletionAndReturn];
+    }
+}
+
+-(void)treReverseGeocodeSearchDidComplete:(TRECommunication *)communicator{
+    if (communicator.reverseGeoCodeList.count > 0) {
+        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
+    }else{
+        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
+    }
+}
+
+-(void)treReverseGeocodeSearchFailed:(int)errorCode{
+    NSString *errorString = @"";
+    switch (errorCode) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        default:
+            errorString = @"No address was found for the coordinates";
+            break;
+    }
+    
+    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
+}
+
+- (void)treRouteSearchDidComplete:(TRECommunication *)communicator{
+    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
+}
+- (void)treRouteSearchFailed:(int)errorCode{
+    if (errorCode == -1009) {
+        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
+    }else if (errorCode == -1016) {
+        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
+    }else{
+        [routeSearchdelegate routeSearchDidFail:nil];
+    }
+}
+- (void)treDisruptionFetchComplete:(TRECommunication *)communicator{
+    
+}
+- (void)treDisruptionFetchFailed:(int)errorCode{
+    
 }
 
 - (void)dealloc

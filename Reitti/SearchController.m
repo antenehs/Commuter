@@ -30,7 +30,7 @@
 #define SYSTEM_ORANGE_COLOR [UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0];
 
 @synthesize managedObjectContext;
-@synthesize reittiDataManager;
+@synthesize reittiDataManager, settingsManager;
 //@synthesize stopViewController;
 @synthesize searchViewHidden;
 @synthesize searchedStopList;
@@ -65,6 +65,7 @@
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
+    [self setUpToolBarWithMiddleImage:@"list-100.png"];
     [self hideSearchResultView:YES animated:NO];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
@@ -101,7 +102,8 @@
             }
         }
     }
-    [self initDisruptionFetching];   
+    [self initDisruptionFetching];
+    [self hideSearchResultView:YES animated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -150,7 +152,7 @@
     [self initVariablesAndConstants];
     
     [self selectSystemColors];
-    [self initDataManager];
+    [self initDataManagers];
     [self initReminderStore];
     [self initializeMapComponents];
     [self initDisruptionFetching];
@@ -162,7 +164,7 @@
     [self initDataComponentsAndModules];
 }
 
-- (void)initDataManager
+- (void)initDataManagers
 {
     if (self.managedObjectContext == nil) {
         AppDelegate *appDelegate = [[AppDelegate alloc] init];
@@ -173,8 +175,17 @@
     dataManger.delegate = self;
     dataManger.routeSearchdelegate = self;
     dataManger.disruptionFetchDelegate = self;
+    dataManger.reverseGeocodeSearchdelegate = self;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
+    [self.reittiDataManager setUserLocationToRegion:HSLandTRERegion];
+    
+    self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    
+    //Clean history more than the specified date
+    if ([settingsManager isClearingHistoryEnabled]) {
+        [self.reittiDataManager clearHistoryOlderThanDays:[settingsManager numberOfDaysToKeepHistory]];
+    }
 }
 
 - (void)initReminderStore
@@ -211,6 +222,11 @@
     searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
+    
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(dropAnnotation:)];
+    lpgr.minimumPressDuration = 1.0; //user needs to press for 2 seconds
+    [mapView addGestureRecognizer:lpgr];
 }
 
 - (void)initVariablesAndConstants
@@ -233,6 +249,7 @@
     isSearchResultsViewDisplayed = NO;
     justReloading = NO;
     stopViewDragedDown = NO;
+    tableViewIsDecelerating = NO;
     requestedForListing = NO;
     departuresTableIndex = nil;
     selectedStopLongCode = nil;
@@ -242,6 +259,9 @@
     ignoreRegionChange = NO;
     retryCount = 0;
     annotationAnimCounter = 0;
+    
+    firstRecievedLocation = YES;
+    userLocationUpdated = NO;
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
 }
@@ -312,6 +332,52 @@
 
 -(int)searchViewLowerBound{
     return self.view.bounds.origin.y;
+}
+
+-(void)setUpToolBarWithMiddleImage:(NSString *)imageName{
+    CGRect frame = CGRectMake(0, 0, 25, 25);
+    CGRect locFrame = CGRectMake(0, 0, 26, 26);
+    CGRect middleButFrame = CGRectMake(0, 0, 30, 25);
+    
+    UIImage *image1 = [UIImage imageNamed:@"settings-green-100.png"];
+    curentLocBut = [[UIButton alloc] initWithFrame:locFrame];
+    [curentLocBut setBackgroundImage:image1 forState:UIControlStateNormal];
+    
+    [curentLocBut addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* locBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:curentLocBut];
+    
+    
+    UIBarButtonItem *flexiSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIImage *image2 = [UIImage imageNamed:imageName];
+    
+    listButton = [[UIButton alloc] initWithFrame:middleButFrame];
+    [listButton setBackgroundImage:image2 forState:UIControlStateNormal];
+    
+    [listButton addTarget:self action:@selector(listNearbyStopsPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* listBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:listButton];
+    
+    UIBarButtonItem *flexiSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
+    
+    bookmarkButton = [[UIButton alloc] initWithFrame:frame];
+    [bookmarkButton setBackgroundImage:image3 forState:UIControlStateNormal];
+    
+    [bookmarkButton addTarget:self action:@selector(openBookmarkedButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:bookmarkButton];
+    
+    
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    [items addObject:bookmarkBarButtonItem];
+    [items addObject:flexiSpace1];
+    [items addObject:listBarButtonItem];
+    [items addObject:flexiSpace2];
+    [items addObject:locBarButtonItem];
+    self.toolbarItems = items;
 }
 
 #pragma mark - extension methods
@@ -430,7 +496,14 @@
 
 -(void)openRouteForNamedAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
     selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@", title];
+    if (droppedPinGeoCode != nil) {
+        if ([title isEqualToString:@"Dropped pin"]) {
+            selectedAnnotationUniqeName = [droppedPinGeoCode getStreetAddressString];
+        }
+    }
+    
     selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
+    
     [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
 }
 
@@ -444,9 +517,22 @@
     [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
 }
 
--(void)openStopViewForCode:(NSNumber *)code{
+-(void)showDroppedPinGeoCode{
+    if (droppedPinGeoCode != nil) {
+        selectedGeoCode = droppedPinGeoCode;
+        [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
+    }
+}
+
+-(void)openStopViewForCode:(NSNumber *)code andCoords:(CLLocationCoordinate2D)coords{
     selectedStopCode = [NSString stringWithFormat:@"%d", [code intValue]];
+    selectedStopAnnotationCoords = coords;
     [self performSegueWithIdentifier:@"openStopView" sender:nil];
+}
+
+-(void)openStopViewForCode:(NSNumber *)code{
+    StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:code];
+    [self openStopViewForCode:code andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
 }
 
 
@@ -454,7 +540,7 @@
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code{
     
-    [self.reittiDataManager fetchStopsForCode:code];
+//    [self.reittiDataManager fetchStopsForCode:code];
 }
 
 - (void)showProgressHUD{
@@ -529,19 +615,20 @@
 //    CGRect frame = searchResultsView.frame;
 //    CGRect tableFrame = searchResultsTable.frame;
     
+    searchResultsTable.scrollEnabled = !hidden;
+    
     if (hidden) {
 //        frame.origin.y = self.view.bounds.size.height + 5;
         nearByStopsViewTopSpacing.constant = self.view.bounds.size.height;
         isSearchResultsViewDisplayed = NO;
-        [listNearbyStops setImage:[UIImage imageNamed:@"list_nearBy.png"] forState:UIControlStateNormal];
+        [self setUpToolBarWithMiddleImage:@"list-100.png"];
     }else{
 //        frame.origin.y = blurView.frame.size.height;
 //        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
 //        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
         nearByStopsViewTopSpacing.constant = 0;
         isSearchResultsViewDisplayed = YES;
-        
-        [listNearbyStops setImage:[UIImage imageNamed:@"showMap-icon.png"] forState:UIControlStateNormal];
+        [self setUpToolBarWithMiddleImage:@"map-green-100.png"];
     }
     [self.view layoutSubviews];
 //    searchResultsView.frame = frame;
@@ -810,6 +897,10 @@
     [locationManager startUpdatingLocation];
     [locationManager requestWhenInUseAuthorization];
     
+//    mapView.mapType = MKMapTypeSatellite;
+    mapView.showsBuildings = YES;
+    mapView.pitchEnabled = YES;
+    
 }
 
 -(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate{
@@ -876,6 +967,35 @@
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
         centerMap = NO;
     }
+    
+    if (!firstRecievedLocation && !userLocationUpdated) {
+        Region currentRegion = [self.reittiDataManager getRegionForCoords:self.currentUserLocation.coordinate];
+        
+        if (currentRegion != [settingsManager userLocation]) {
+            if (currentRegion != OtherRegion) {
+                //Notify and ask for confirmation
+                [settingsManager setUserLocation:currentRegion];
+                NSString *title = [NSString stringWithFormat:@"Moved to the %@?",[reittiDataManager getNameOfRegion:currentRegion]];
+                NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@. You can change it anytime from settings.",[reittiDataManager getNameOfRegion:currentRegion]];
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                                    message:body
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Settings"
+                                                          otherButtonTitles:@"Cool", nil];
+                alertView.tag = 1003;
+                [alertView show];
+            }else{
+                [settingsManager setUserLocation:HSLandTRERegion];
+            }
+        }
+        
+        userLocationUpdated = YES;
+        
+        
+    }
+    
+    firstRecievedLocation = false;
 }
 
 - (NSMutableArray *)collectStopCodes:(NSArray *)stopList
@@ -923,7 +1043,7 @@
     
     NSArray *newStops = [self collectStopsForCodes:codeList fromStops:stopList];
     
-    UIImage *stopImage = [UIImage imageNamed:@"stopAnnotation.png"];
+    UIImage *stopImage = [UIImage imageNamed:@"stopAnnotation2.png"];
     
     for (BusStopShort *stop in newStops) {
         
@@ -940,8 +1060,8 @@
         stopAnT.annotationType = NearByStopType;
         stopAnT.reuseIdentifier = @"NearByStopAnnotation";
         stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
-        stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code];};
-        stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code];};
+        stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
+        stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
         
         [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
     }
@@ -967,7 +1087,7 @@
     NSString * shortCode = stop.codeShort;
     
     JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
-    stopAnT.image = [UIImage imageNamed:@"stopAnnotation.png"];
+    stopAnT.image = [UIImage imageNamed:@"stopAnnotation2.png"];
     stopAnT.code = stop.code;
     stopAnT.title = name;
     stopAnT.subtitle = shortCode;
@@ -975,7 +1095,8 @@
     stopAnT.annotationType = SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
     stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
-    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code];};
+    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code  andCoords:coordinate];};
+    stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code  andCoords:coordinate];};
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:stopAnT];
     [mapView addAnnotation:annot];
     
@@ -1016,7 +1137,7 @@
     }
     
     JPSThumbnail *geoAnT = [[JPSThumbnail alloc] init];
-    geoAnT.image = [UIImage imageNamed:@"geoCodeAnnotation.png"];
+    geoAnT.image = [UIImage imageNamed:@"geoCodeAnnotation2.png"];
     geoAnT.title = name;
     geoAnT.subtitle = city;
     geoAnT.coordinate = coordinate;
@@ -1055,7 +1176,7 @@
     subtitle = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress , namedBookmark.city];
     
     JPSThumbnail *bookmrkAnT = [[JPSThumbnail alloc] init];
-    bookmrkAnT.image = [UIImage imageNamed:@"geoCodeAnnotation.png"];
+    bookmrkAnT.image = [UIImage imageNamed:@"geoCodeAnnotation2.png"];
     bookmrkAnT.title = name;
     bookmrkAnT.subtitle = subtitle;
     bookmrkAnT.coordinate = coordinate;
@@ -1071,12 +1192,55 @@
 }
 
 
+- (void)dropAnnotation:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
+        return;
+    
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
+            if (sAnnotation.annotationType == DroppedPinType) {
+                [mapView removeAnnotation:annotation];
+            }
+        }
+    }
+    
+    CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
+    CLLocationCoordinate2D touchMapCoordinate =
+    [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
+    
+    JPSThumbnail *annotTN = [[JPSThumbnail alloc] init];
+    annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
+    annotTN.title = @"Dropped pin";
+    annotTN.subtitle = @"Searching address";
+    annotTN.coordinate = touchMapCoordinate;
+    annotTN.annotationType = DroppedPinType;
+    annotTN.reuseIdentifier = @"geoLocationAnnotation";
+    annotTN.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:touchMapCoordinate];};
+    annotTN.secondaryButtonBlock = ^{ [self showDroppedPinGeoCode];};
+    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:annotTN];
+    [mapView addAnnotation:annot];
+    
+    droppedPinGeoCode = nil;
+    
+    [self.reittiDataManager searchAddresseForCoordinate:touchMapCoordinate];
+}
+
+
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 //    static NSString *identifier = @"otherLocations";
 //    static NSString *selectedIdentifier = @"selectedLocation";
     static NSString *poiIdentifier = @"poiIdentifier";
     
     if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+            if (annot.annotationType == DroppedPinType) {
+                droppedPinAnnotationView = [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+            }
+        }
+        
         return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }
     else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
@@ -1259,6 +1423,19 @@
             [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
             [aV setFrame:endFrame];
             [UIView commitAnimations];
+        }else if ([aV.annotation isKindOfClass:[JPSThumbnailAnnotation class]]){
+            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)aV.annotation ;
+            if (annot.annotationType == DroppedPinType || annot.annotationType == GeoCodeType) {
+                CGRect endFrame = aV.frame;
+                
+                aV.frame = CGRectMake(endFrame.origin.x, -40, endFrame.size.width, endFrame.size.height);
+                
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:0.25];
+                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                [aV setFrame:endFrame];
+                [UIView commitAnimations];
+            }
         }
         
     }
@@ -1272,10 +1449,10 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    StopAnnotation *stopAnnotation = (StopAnnotation*)view.annotation;
+//    StopAnnotation *stopAnnotation = (StopAnnotation*)view.annotation;
     
-    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]]];
-    [self showProgressHUD];
+//    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]]];
+//    [self showProgressHUD];
 }
 
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
@@ -1332,12 +1509,12 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
-    [self.view endEditing:YES];
-    
-    if (![searchBar.text isEqualToString:@""]) {
-        [self requestStopInfoAsyncForCode:[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-        [self showProgressHUD];
-    }
+//    [self.view endEditing:YES];
+//    
+//    if (![searchBar.text isEqualToString:@""]) {
+//        [self requestStopInfoAsyncForCode:[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+//        [self showProgressHUD];
+//    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -1560,6 +1737,11 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
             [self.reittiDataManager setAppOpenCountValue:-50];
         }
+    }else if (alertView.tag == 1003) {
+        if (buttonIndex == 0) {
+            [self openSettingsButtonPressed:self];
+        }
+            
     }
 }
 
@@ -1684,7 +1866,11 @@
 }
 
 - (IBAction)openBookmarkedButtonPressed:(id)sender {
-    
+    [self performSegueWithIdentifier:@"openBookmarks" sender:self];
+}
+
+- (IBAction)openSettingsButtonPressed:(id)sender {
+    [self performSegueWithIdentifier:@"showSettings" sender:self];
 }
 
 - (IBAction)seeFullTimeTablePressed:(id)sender {
@@ -1695,11 +1881,11 @@
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 - (IBAction)reloadButtonPressed:(id)sender{
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing Departures ..."];
-    if (_busStop != nil) {
-        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]];
-    }
-    justReloading = YES;
+//    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing Departures ..."];
+//    if (_busStop != nil) {
+//        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]];
+//    }
+//    justReloading = YES;
 }
 - (IBAction)saveStopToBookmarks {
     [self.reittiDataManager saveToCoreDataStop:self._busStop withLines:self._stopLinesDetail];
@@ -1719,6 +1905,52 @@
     return YES;
 }
 
+#pragma - mark Scroll View delegates
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y < 0) {
+        if (!tableViewIsDecelerating) {
+            nearByStopsViewTopSpacing.constant += -scrollView.contentOffset.y;
+            [self.view layoutSubviews];
+            stopViewDragedDown = YES;
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+        }
+        
+    }else if(scrollView.contentOffset.y == 0 ){
+//        stopViewDragedDown = NO;
+        //
+        searchResultsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        searchResultsTable.layer.borderWidth = 0;
+    }else{
+        if (nearByStopsViewTopSpacing.constant > 0) {
+            nearByStopsViewTopSpacing.constant -= scrollView.contentOffset.y;
+            [self.view layoutSubviews];
+            stopViewDragedDown = YES;
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+        }else{
+            stopViewDragedDown = NO;
+            //
+            searchResultsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            searchResultsTable.layer.borderWidth = 0.5;
+        }
+        
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (nearByStopsViewTopSpacing.constant > ([self searchViewLowerBound] + (searchResultsView.frame.size.height / 4)) && stopViewDragedDown) {
+        [self hideSearchResultView:YES animated:YES];
+    }else{
+        [self hideSearchResultView:NO animated:YES];
+    }
+}
+
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    tableViewIsDecelerating = YES;
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    tableViewIsDecelerating = NO;
+}
 
 #pragma - mark RettiDataManager Delegate methods
 -(void)stopFetchDidComplete:(NSArray *)stopList{
@@ -1778,6 +2010,30 @@
     
 }
 
+- (void)reverseGeocodeSearchDidComplete:(GeoCode *)geoCode{
+    if (droppedPinAnnotationView == nil)
+        return;
+    
+    droppedPinGeoCode = geoCode;
+    
+    if ([droppedPinAnnotationView conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+        ignoreRegionChange = YES;
+        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:[geoCode getStreetAddressString]];
+    }
+
+}
+- (void)reverseGeocodeSearchDidFail:(NSString *)error{
+    if (droppedPinAnnotationView == nil)
+        return;
+    
+    if ([droppedPinAnnotationView conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+        ignoreRegionChange = YES;
+        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:nil];
+    }
+}
+
 #pragma mark - Disruptions delegate
 - (void)disruptionFetchDidComplete:(NSArray *)disList{
     self.disruptionList = disList;
@@ -1798,7 +2054,7 @@
 #pragma mark - Address search view delegates
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     [self hideSearchResultView:YES animated:YES];
-    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopCoords]];
+    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
     [self plotStopAnnotation:[reittiDataManager castStopEntityToBusStopShort:stopEntity] withSelect:YES];
 }
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
@@ -1838,13 +2094,37 @@
     [self performSegueWithIdentifier:@"switchToRouteSearch" sender:nil];
 }
 
+#pragma mark - settings view delegate
+-(void)settingsValueChanged{
+    
+    switch ([settingsManager getMapMode]) {
+        case StandartMapMode:
+            mapView.mapType = MKMapTypeStandard;
+            break;
+            
+        case HybridMapMode:
+            mapView.mapType = MKMapTypeHybrid;
+            break;
+            
+        case SateliteMapMode:
+            mapView.mapType = MKMapTypeSatellite;
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+    
+}
+
 #pragma mark - Bookmarks view delegate
 
 - (void)savedStopSelected:(NSNumber *)code fromMode:(int)mode{
-    bookmarkViewMode = mode;
-//    [self hideStopView:YES animated:NO];
-    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [code intValue]]];
-    [self showProgressHUD];
+//    bookmarkViewMode = mode;
+////    [self hideStopView:YES animated:NO];
+//    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [code intValue]]];
+//    [self showProgressHUD];
 }
 
 - (void)viewControllerWillBeDismissed:(int)mode{
@@ -1901,6 +2181,7 @@
         bookmarksViewController.delegate = self;
         bookmarksViewController.mode = bookmarkViewMode;
         bookmarksViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [bookmarksViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        bookmarksViewController.reittiDataManager = self.reittiDataManager;
     }
     if ([segue.identifier isEqualToString:@"seeFullTimeTable"]) {
@@ -1920,12 +2201,15 @@
             BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.row];
             
             stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.code intValue]];
+            stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.coords];
         }else{
             stopViewController.stopCode = selectedStopCode;
+            stopViewController.stopCoords = selectedStopAnnotationCoords;
         }
         
         stopViewController.darkMode = self.darkMode;
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        stopViewController.reittiDataManager = self.reittiDataManager;
         
     }
@@ -1951,6 +2235,7 @@
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
         addressSearchViewController.delegate = self;
         addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [addressSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        addressSearchViewController.reittiDataManager = self.reittiDataManager;
     }
     if ([segue.identifier isEqualToString:@"routeSearchController"] || [segue.identifier isEqualToString:@"switchToRouteSearch"]) {
@@ -1981,6 +2266,7 @@
         }
     
         routeSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [routeSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
     if ([segue.identifier isEqualToString:@"infoViewSegue"]) {
@@ -1989,6 +2275,7 @@
         
         infoViewController.disruptionsList = self.disruptionList;
         infoViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [infoViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
     
     if ([segue.identifier isEqualToString:@"openWidgetSettingFromHome"]) {
@@ -1998,6 +2285,15 @@
         controller.savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
     }
     
+    if ([segue.identifier isEqualToString:@"showSettings"]) {
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        SettingsViewController *controller = (SettingsViewController *)[[navigationController viewControllers] lastObject];
+        
+        controller.mapRegion = mapView.region;
+        controller.settingsManager = settingsManager;
+        controller.delegate = self;
+    }
+    
     if ([segue.identifier isEqualToString:@"showNamedBookmark"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
@@ -2005,6 +2301,7 @@
         controller.namedBookmark = selectedNamedBookmark;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
         controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
     
     if ([segue.identifier isEqualToString:@"showGeoCode"]) {
@@ -2015,10 +2312,12 @@
             controller.namedBookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         }else{
             controller.geoCode = selectedGeoCode;
             controller.viewControllerMode = ViewControllerModeViewGeoCode;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         }
     }
 }

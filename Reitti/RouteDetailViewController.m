@@ -55,33 +55,37 @@
     
     reittiRemindersManager = [[ReittiRemindersManager alloc] init];
     
+    detailViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragRouteList:)];
+    
+    [routeListView addGestureRecognizer:detailViewDragGestureRecognizer];
+    
     [self setNeedsStatusBarAppearanceUpdate];
     [self setUpMainView];
     [self initializeMapView];
     [self initMapViewForRoute:_route];
-    [self hideRouteListView:YES animated:NO];
+    [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
 
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     if (!isShowingStopView){
         isShowingStopView = NO;
-        [self hideRouteListView:YES animated:NO];
+        [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
     }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self hideRouteListView:![self isRouteListViewVisible] animated:NO];
+    [self moveRouteViewToLocation:currentRouteListViewLocation animated:NO];
     [routeListTableView reloadData];
 }
 
-- (id<UILayoutSupport>)topLayoutGuide {
-    return [[MyFixedLayoutGuide alloc] initWithLength:topBarView.frame.size.height];
-}
+//- (id<UILayoutSupport>)topLayoutGuide {
+//    return [[MyFixedLayoutGuide alloc] initWithLength:0];
+//}
 
 - (id<UILayoutSupport>)bottomLayoutGuide {
-    return [[MyFixedLayoutGuide alloc] initWithLength:-56];
+    return [[MyFixedLayoutGuide alloc] initWithLength:70];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -150,46 +154,41 @@
     [routeListView addSubview:topLine];
 }
 
--(void)hideRouteListView:(BOOL)hidden animated:(BOOL)animated{
+-(void)moveRouteViewToLocation:(RouteListViewLoaction)location animated:(BOOL)animated{
     if (animated) {
         [UIView transitionWithView:routeListView duration:0.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
             
-            [self hideRouteListView:hidden];
+            [self moveRouteViewToLocation:location];
             
         } completion:^(BOOL finished) {}];
     }else{
-        [self hideRouteListView:hidden];
+        [self moveRouteViewToLocation:location];
     }
 }
 
--(void)hideRouteListView:(BOOL)hidden{
-//    CGRect viewFrame = routeListView.frame;
-    if (hidden) {
-//        [routeListView setBlurTintColor:[UIColor clearColor]];
-//        routeListView.frame = CGRectMake(viewFrame.origin.x, self.view.bounds.size.height - routeListTableView.frame.origin.y, viewFrame.size.width, viewFrame.size.height);
+-(void)moveRouteViewToLocation:(RouteListViewLoaction)location{
+    currentRouteListViewLocation = location;
+    
+    if (location == RouteListViewLoactionBottom) {
         routeLIstViewVerticalSpacing.constant = self.view.bounds.size.height - routeListTableView.frame.origin.y;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
-//        [toLabel setTextColor:[UIColor lightGrayColor]];
-//        [toLabel setTextColor:[UIColor lightGrayColor]];
-        
-//        separatorView.backgroundColor = [UIColor darkGrayColor];
-        
+        [self.view layoutIfNeeded];
+        [self centerMapRegionToViewRoute];
+    }else if (location == RouteListViewLoactionMiddle) {
+        routeLIstViewVerticalSpacing.constant = self.view.bounds.size.height/2;
+        [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
+        [toggleListArrowButton setImage:[UIImage imageNamed:@"horizontal-line-100.png"] forState:UIControlStateNormal];
+        routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width,self.view.bounds.size.height/2 - routeListTableView.frame.origin.y);
+        [self.view layoutIfNeeded];
+        [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
     }else{
-//        routeListView.frame = CGRectMake(viewFrame.origin.x, 0, viewFrame.size.width, viewFrame.size.height);
-//        [routeListView setBlurTintColor:nil];
         routeLIstViewVerticalSpacing.constant = 0;
+        routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width, self.view.bounds.size.height - routeListTableView.frame.origin.y);
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"collapse-arrow-100.png"] forState:UIControlStateNormal];
-//        [toLabel setTextColor:[UIColor darkGrayColor]];
-//        [toLabel setTextColor:[UIColor darkGrayColor]];
-        
-//        separatorView.backgroundColor = [UIColor lightGrayColor];
+        [self.view layoutIfNeeded];
     }
-    [self.view layoutIfNeeded];
-//    [self.navigationController setNavigationBarHidden:!hidden animated:YES];
-    
-//    routeListTableView.frame = CGRectMake(viewFrame.origin.x, 56, viewFrame.size.width, viewFrame.size.height - 56);
 }
 
 -(BOOL)isRouteListViewVisible{
@@ -213,6 +212,18 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     self.currentUserLocation = [locations lastObject];
+    
+    if (previousCenteredLocation == nil) {
+        previousCenteredLocation = self.currentUserLocation;
+    }
+    
+    if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
+        CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
+        if (dist > 30) {
+            [self centerMapToCurrentLocation:self];
+        }
+    }
+    
 //    [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
 }
 
@@ -227,7 +238,19 @@
     MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
     MKCoordinateRegion region = {coord, span};
     
-    [routeMapView setRegion:region animated:YES];
+    [UIView animateWithDuration:3 animations:^{
+        
+        [routeMapView setRegion:region animated:NO];
+        
+    } completion:^(BOOL finished) {
+        if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
+            CGPoint fakecenter = CGPointMake(self.view.bounds.size.width/2, (self.view.bounds.size.height/1.33) - 70);
+            CLLocationCoordinate2D coordinate = [routeMapView convertPoint:fakecenter toCoordinateFromView:routeMapView];
+            [routeMapView setCenterCoordinate:coordinate animated:NO];
+        }
+    }];
+    
+    
     
     return toReturn;
 }
@@ -238,8 +261,8 @@
     
     CLLocationCoordinate2D centerCoord = {.latitude =  (upperBound.latitude + lowerBound.latitude)/2, .longitude =  (leftBound.longitude + rightBound.longitude)/2};
     MKCoordinateSpan span = {.latitudeDelta =  upperBound.latitude - lowerBound.latitude, .longitudeDelta =  rightBound.longitude - leftBound.longitude };
-    span.latitudeDelta += 0.7 * span.latitudeDelta;
-    span.longitudeDelta += 0.7 * span.longitudeDelta;
+    span.latitudeDelta += 0.3 * span.latitudeDelta;
+    span.longitudeDelta += 0.3 * span.longitudeDelta;
     MKCoordinateRegion region = {centerCoord, span};
     
     [routeMapView setRegion:region animated:YES];
@@ -252,7 +275,7 @@
     self.currentLeg = leg;
     int shapeCount = leg.legShapeDictionaries.count;
     // create an array of coordinates from allPins
-    CLLocationCoordinate2D coordinates[shapeCount];
+    CLLocationCoordinate2D coordinates[shapeCount + 2];
     int i = 0;
     CLLocationCoordinate2D lastCoord;
     CLLocationCoordinate2D firstCoord;
@@ -265,13 +288,21 @@
         lastCoord = coord;
         i++;
     }
+    RouteLegLocation *loc1 = [leg.legLocations objectAtIndex:0];
+    CLLocationCoordinate2D legStartLoc = {.latitude =  [[loc1.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc1.coordsDictionary objectForKey:@"x"] floatValue]};
     
+    coordinates[i] = legStartLoc;
+    i++;
+    
+    RouteLegLocation *loc2 = [leg.legLocations lastObject];
+    CLLocationCoordinate2D legEndLoc = {.latitude =  [[loc2.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc2.coordsDictionary objectForKey:@"x"] floatValue]};
+    
+    coordinates[i] = legEndLoc;
     [self evaluateBoundsForCoordsArray:coordinates andCount:shapeCount];
     
     // create a polyline with all cooridnates
     MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:shapeCount];
     [routeMapView addOverlay:polyline];
-    
     
     if (leg.legType != LegTypeWalk) {
         [self plotTransferAnnotation:[leg.legLocations objectAtIndex:0]];
@@ -314,7 +345,7 @@
         polylineRenderer.strokeColor  = [UIColor yellowColor];
         polylineRenderer.borderColor = [UIColor darkGrayColor];
         polylineRenderer.borderMultiplier = 1.8;
-        polylineRenderer.lineWidth	  = 7.0f;
+        polylineRenderer.lineWidth	  = 8.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         
@@ -397,6 +428,7 @@
 -(void)plotLocationsAnnotation:(Route *)route{
     int count = 0;
     for (RouteLeg *leg in route.routeLegs) {
+       
         int locCount = 0;
         for (RouteLegLocation *loc in leg.legLocations) {
             NSLog(@"ploting location: %@", loc);
@@ -578,20 +610,24 @@
 {
     id <MKAnnotation> annotation = [view annotation];
     NSNumber *stopCode;
+    CLLocationCoordinate2D stopCoords;
     if ([annotation isKindOfClass:[StopAnnotation class]])
     {
         StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
         stopCode = stopAnnotation.code;
+        stopCoords = stopAnnotation.coordinate;
     }else if ([annotation isKindOfClass:[LocationsAnnotation class]])
     {
         LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
         stopCode = locAnnotation.code;
+        stopCoords = locAnnotation.coordinate;
     }else{
         return;
     }
     
     if (stopCode != nil && stopCode != (id)[NSNull null]) {
         selectedAnnotionStopCode = stopCode;
+        selectedAnnotationStopCoords = stopCoords;
         [self performSegueWithIdentifier:@"showStopFromRoute" sender:self];
     }
     
@@ -605,7 +641,16 @@
     NSLog(@"Zoom level is: %lu ", (unsigned long)[self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size]);
     //Show detailed stop annotations when the zoom level is more than or equal to 14
     if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
+        [mapView removeAnnotations:mapView.annotations];
         [self plotLocationsAnnotation:self.route];
+        
+        [mapView removeOverlays:mapView.overlays];
+        
+        for (RouteLeg *leg in self.route.routeLegs) {
+            [self drawLineForLeg:leg];
+        }
+        
+//        [self plotLocationsAnnotation:self.route];
     }
 }
 
@@ -630,13 +675,14 @@
 
 - (IBAction)showOrHideListButtonPressed:(id)sender {
     if ([self isRouteListViewVisible]) {
-        [self hideRouteListView:YES animated:YES];
+        [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:YES];
     }else{
-        [self hideRouteListView:NO animated:YES];
+        [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
     }
 }
 - (IBAction)centerMapToCurrentLocation:(id)sender {
     [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
+    previousCenteredLocation = self.currentUserLocation;
 }
 
 - (IBAction)reminderButtonPressed:(id)sender {
@@ -672,6 +718,104 @@
                 break;
         }
     }
+}
+
+#pragma marks - dragging view methods
+-(IBAction)dragRouteList:(UIPanGestureRecognizer *)recognizer {
+    
+    CGPoint translation = [recognizer translationInView:self.view];
+    if ((recognizer.view.frame.origin.y + translation.y) > 0  ) {
+        //        recognizer.view.center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y + translation.y);
+        routeLIstViewVerticalSpacing.constant += translation.y;
+        [self.view layoutSubviews];
+    }
+    if (recognizer.state != UIGestureRecognizerStateEnded){
+        routeListViewIsGoingUp = translation.y < 0;
+    }
+    
+    [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        [self snapRouteListView];
+    }
+}
+
+#pragma - mark Scroll View delegates
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y < 0) {
+        if (!tableViewIsDecelerating) {
+            routeLIstViewVerticalSpacing.constant += -scrollView.contentOffset.y;
+            [self.view layoutSubviews];
+            routeListViewIsGoingUp = NO;
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+        }
+        
+    }else if(scrollView.contentOffset.y == 0 ){
+        
+    }else{
+        if (routeLIstViewVerticalSpacing.constant > 0 && currentRouteListViewLocation != RouteListViewLoactionMiddle) {
+            routeLIstViewVerticalSpacing.constant -= scrollView.contentOffset.y;
+            [self.view layoutSubviews];
+            routeListViewIsGoingUp = YES;
+            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+        }else{
+//            stopViewDragedDown = NO;
+            //
+        }
+    }
+}
+
+- (void)snapRouteListView {
+    CGFloat viewHeight = routeListView.frame.size.height;
+    CGFloat curPos = routeLIstViewVerticalSpacing.constant;
+    /*
+    if (routeListViewIsGoingUp) {
+        if (routeLIstViewVerticalSpacing.constant > (routeListView.frame.size.height / 1.33)) {
+            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        }else if (routeLIstViewVerticalSpacing.constant > (routeListView.frame.size.height / 4)) {
+            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        }else{
+            [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
+        }
+    }else{
+        if (routeLIstViewVerticalSpacing.constant > (routeListView.frame.size.height / 5)) {
+            [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:YES];
+        }else{
+            [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
+        }
+    }
+     */
+ 
+    if (routeListViewIsGoingUp) {
+        if ( curPos > (viewHeight / 1.2)) {
+            [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:YES];
+        }else if ( ((viewHeight / 1.2) > curPos) && (curPos > (viewHeight / 2.5))) {
+            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        }else{
+            [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
+        }
+    }else{
+        if ( curPos > (viewHeight / 1.33)) {
+            [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:YES];
+        }else if (((viewHeight / 1.33) > curPos) && (curPos > (viewHeight / 6))) {
+            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        }else{
+            [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
+        }
+    }
+   
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [self snapRouteListView];
+}
+
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    tableViewIsDecelerating = YES;
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    tableViewIsDecelerating = NO;
 }
 
 
@@ -968,12 +1112,15 @@
     if ([segue.identifier isEqualToString:@"showStopFromRoute"]) {
         
         NSString *stopCode;
+        CLLocationCoordinate2D stopCoords;
         if ([sender isKindOfClass:[self class]]) {
             stopCode = [NSString stringWithFormat:@"%ld", (long)[selectedAnnotionStopCode integerValue]];
+            stopCoords = selectedAnnotationStopCoords;
         }else{
             NSIndexPath *selectedRowIndexPath = [routeListTableView indexPathForSelectedRow];
             RouteLocation * selected = [self.routeLocationList objectAtIndex:selectedRowIndexPath.row];
             stopCode = selected.stopCode;
+            stopCoords = CLLocationCoordinate2DMake([[selected.coordsDictionary objectForKey:@"y"] floatValue],[[selected.coordsDictionary objectForKey:@"x"] floatValue]);
         }
         
         if (stopCode != nil && ![stopCode isEqualToString:@""]) {
@@ -981,6 +1128,7 @@
             
             StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
             stopViewController.stopCode = stopCode;
+            stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
             stopViewController.darkMode = self.darkMode;
             stopViewController.reittiDataManager = self.reittiDataManager;

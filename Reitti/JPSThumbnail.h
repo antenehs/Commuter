@@ -14,7 +14,8 @@ typedef void (^ActionBlock)();
 typedef enum{
     NearByStopType = 1,
     SearchedStopType = 2,
-    GeoCodeType = 3
+    GeoCodeType = 3,
+    DroppedPinType = 4
 }AnnotationType;
 
 @interface JPSThumbnail : NSObject

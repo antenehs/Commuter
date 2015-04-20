@@ -20,5 +20,6 @@
 @property (nonatomic, retain) NSString * busStopCity;
 @property (nonatomic, retain) NSString * busStopURL;
 @property (nonatomic, retain) NSString * busStopCoords;
+@property (nonatomic, retain) NSString * busStopWgsCoords;
 
 @end

@@ -17,5 +17,6 @@
 @dynamic busStopName;
 @dynamic busStopShortCode;
 @dynamic busStopCoords;
+@dynamic busStopWgsCoords;
 
 @end

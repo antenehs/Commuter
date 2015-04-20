@@ -373,27 +373,33 @@
                 NSMutableAttributedString *tempStr = [NSMutableAttributedString alloc];
                 
                 if (![stop.departures isEqual:[NSNull null]]) {
-                    if (stop.departures.count != 0){
-                        for (NSDictionary *departure in stop.departures) {
-                            NSString *notParsedCode = [departure objectForKey:@"code"];
-                            tempStr = [[NSMutableAttributedString alloc] initWithString:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode] attributes:busNumberDict];
-                            [departuresString appendAttributedString:tempStr];
+                    @try {
+                        if (stop.departures.count != 0){
+                            for (NSDictionary *departure in stop.departures) {
+                                NSString *notParsedCode = [departure objectForKey:@"code"];
+                                tempStr = [[NSMutableAttributedString alloc] initWithString:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode] attributes:busNumberDict];
+                                [departuresString appendAttributedString:tempStr];
+                                
+                                NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+                                
+                                tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   "
+                                                                                             ,[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]] attributes:timeDict];
+                                
+                                [departuresString appendAttributedString:tempStr];
+                            }
                             
-                            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+                            NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+                            [paragrahStyle setLineSpacing:5];
+                            [departuresString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [departuresString length])];
                             
-                            tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   "
-                                                                                         ,[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]] attributes:timeDict];
                             
-                            [departuresString appendAttributedString:tempStr];
+                            departuresLabel.attributedText = departuresString;
                         }
-                        
-                        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
-                        [paragrahStyle setLineSpacing:5];
-                        [departuresString addAttribute:NSParagraphStyleAttributeName value:paragrahStyle range:NSMakeRange(0, [departuresString length])];
-                        
-                        
-                        departuresLabel.attributedText = departuresString;
                     }
+                    @catch (NSException *exception) {
+                        NSLog(@"There wa an exception processing departures. %@",exception);
+                    }
+                    
                     
                 }
                 

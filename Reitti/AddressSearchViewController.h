@@ -50,6 +50,8 @@
     int unRespondedRequestsCount;
     BOOL isFinalSearch;
     
+    BOOL isInitialMergedView;
+    
     float topBoundary;
 }
 
@@ -60,6 +62,7 @@
 @property (strong, nonatomic) NSMutableArray * namedBookmarks;
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
+@property (strong, nonatomic) NSMutableArray * additionalGeoCodeResults;
 @property (nonatomic) bool routeSearchMode;
 @property (nonatomic) bool simpleSearchMode;
 @property (nonatomic) bool darkMode;

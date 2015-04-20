@@ -351,7 +351,6 @@
                 [self.reittiDataManager deleteNamedBookmarkForName:deletedNamedBookmark.name];
                 [savedNamedBookmarks removeObject:deletedNamedBookmark];
             }else{
-//                [delegate deletedSavedStopForCode:deletedStop.busStopCode];
                 [self.reittiDataManager deleteSavedStopForCode:deletedStop.busStopCode];
                 [savedStops removeObject:deletedStop];
             }
@@ -361,7 +360,6 @@
                 [self.reittiDataManager deleteHistoryRouteForCode:deletedRoute.routeUniqueName];
                 [recentRoutes removeObject:deletedRoute];
             }else{
-//                [delegate deletedHistoryStopForCode:deletedStop.busStopCode];
                 [self.reittiDataManager deleteHistoryStopForCode:deletedStop.busStopCode];
                 [recentStops removeObject:deletedStop];
             }
@@ -464,7 +462,6 @@
 {
     if (indexPath.row < self.dataToLoad.count) {
         //StopEntity * selected = [self.dataToLoad objectAtIndex:indexPath.row];
-        //[delegate savedStopSelected:selected.busStopCode fromMode:self.mode];
         //[self dismissViewControllerAnimated:YES completion:nil ];
     }
 }
@@ -491,6 +488,7 @@
                 //NSLog(@"%d", [[navigationController viewControllers] count]);
                 StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
                 stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.busStopCode intValue]];
+                stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.busStopWgsCoords];
                 stopViewController.stopEntity = selected;
                 stopViewController.darkMode = self.darkMode;
                 stopViewController.reittiDataManager = self.reittiDataManager;

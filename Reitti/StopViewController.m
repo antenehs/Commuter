@@ -9,6 +9,9 @@
 #import "StopViewController.h"
 #import "WebViewController.h"
 #import "MyFixedLayoutGuide.h"
+#import "SVProgressHUD.h"
+#import "MBProgressHUD.h"
+#import "RouteSearchViewController.h"
 
 @implementation StopViewController
 
@@ -23,7 +26,7 @@
 @synthesize departures, _busStop, stopEntity;
 @synthesize _stopLinesDetail;
 @synthesize reittiDataManager;
-@synthesize stopCode;
+@synthesize stopCode, stopCoords;
 @synthesize managedObjectContext;
 @synthesize backButtonText;
 @synthesize delegate;
@@ -55,9 +58,13 @@
     [self selectSystemColors];
     [self setUpLoadingView];
     [self setStopViewApearance];
-    [self requestStopInfoAsyncForCode:stopCode];
+    [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
     [self initNotifications];
    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -90,14 +97,22 @@
     }
 }
 -(void)setUpLoadingView{
-    [activityView startAnimating];
+//    [activityView startAnimating];
+    [SVProgressHUD showHUDInView:self.view];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     stopView.hidden = YES;
 }
 
 -(void)setUpMainView{
     self.view.backgroundColor = [UIColor whiteColor];
     stopView.hidden = NO;
-    [activityView stopAnimating];
+    
+    topToolBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    topToolBar.layer.borderWidth = 0.5;
+    
+//    [activityView stopAnimating];
+    [SVProgressHUD dismissFromView:self.view];
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     if ([self.reittiDataManager isBusStopSaved:self._busStop]) {
         [self setStopBookmarkedState];
@@ -163,13 +178,14 @@
 
 - (void)initMapViewForBusStop:(BusStop *)busStop{
     
-    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:busStop.coords]];
+    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:busStop.wgs_coords]];
     [self plotStopAnnotation:busStop];
 }
 
 #pragma mark - ibactions
 
 - (IBAction)BackButtonPressed:(id)sender {
+//    [SVProgressHUD dismiss];
     [self dismissViewControllerAnimated:YES completion:nil ];
 }
 
@@ -268,7 +284,7 @@
 
 -(void)plotStopAnnotation:(BusStop *)stop{
   
-    CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+    CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.wgs_coords];
     
     NSString * name = stop.name_fi;
     NSString * shortCode = stop.code_short;
@@ -380,9 +396,9 @@
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 
-- (void)requestStopInfoAsyncForCode:(NSString *)code{
+- (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     
-    [self.reittiDataManager fetchStopsForCode:code];
+    [self.reittiDataManager fetchStopsForCode:code andCoords:coords];
 }
 
 -(void)setUpStopViewForBusStop:(BusStop *)busStop{
@@ -394,6 +410,7 @@
     self._busStop = busStop;
     self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
     [self.refreshControl endRefreshing];
+//    [SVProgressHUD dismiss];
     [self initRefreshControl];
     departuresTable.backgroundColor = [UIColor clearColor];
     [departuresTable reloadData];
@@ -411,7 +428,8 @@
 
 - (IBAction)reloadButtonPressed:(id)sender{
     if (_busStop != nil) {
-        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]];
+        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]
+                                andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.wgs_coords]];
     }
 }
 
@@ -438,7 +456,11 @@
 {
     // Return the number of rows in the section.
     //NSLog(@"Number of departures is: %d",self.departures.count);
-    return self.departures.count;
+    if (self.departures.count > 0) {
+        return self.departures.count;
+    }else{
+        return 1;
+    }
     //return 1;
 }
 
@@ -493,11 +515,16 @@
             //codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
             
             UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
-            if (_stopLinesDetail != NULL) {
-                destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
-                //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
+            //Destination is available in TRE api. Check for it first
+            if ([departure objectForKey:@"name1"] != nil) {
+                destinationLabel.text = [departure objectForKey:@"name1"];
             }else{
-                destinationLabel.text = @"";
+                if (_stopLinesDetail != NULL) {
+                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
+                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
+                }else{
+                    destinationLabel.text = @"";
+                }
             }
         }
         @catch (NSException *exception) {
@@ -510,6 +537,12 @@
         @finally {
             NSLog(@"finally");
         }
+    }else{
+        cell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
+        cell.backgroundColor = [UIColor clearColor];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        return cell;
     }
     
     [cell setCellHeight:cell.frame.size.height];
@@ -568,6 +601,10 @@
     }
     departuresTableIndex = [departuresTable indexPathForCell:cell];
     
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 1;
 }
 
 #pragma mark - timer methods
@@ -653,6 +690,37 @@
         webViewController._url = url;
         webViewController._pageTitle = _busStop.code_short;
         webViewController.darkMode = self.darkMode;
+    }
+    
+    if ([segue.identifier isEqualToString:@"routeToHere"] || [segue.identifier isEqualToString:@"routeFromHere"]) {
+        UINavigationController * navigationController = (UINavigationController *)[segue destinationViewController];
+        
+        RouteSearchViewController *routeSearchViewController = (RouteSearchViewController *)[navigationController.viewControllers lastObject];
+        
+        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+        
+        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+        
+        routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
+        routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
+        routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
+        routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
+        routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
+        
+        if ([segue.identifier isEqualToString:@"routeToHere"]) {
+            routeSearchViewController.prevToLocation = _busStop.name_fi;
+            routeSearchViewController.prevToCoords = _busStop.coords;
+        }
+        if ([segue.identifier isEqualToString:@"routeFromHere"]) {
+            routeSearchViewController.prevFromLocation = _busStop.name_fi;
+            routeSearchViewController.prevFromCoords = _busStop.coords;
+        }
+        
+        routeSearchViewController.reittiDataManager = self.reittiDataManager;
+        //        routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
 }
 

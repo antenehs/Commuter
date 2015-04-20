@@ -249,6 +249,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     [self shrink];
     //Return small primary button to position if it was moved
     self.primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
+    self.primaryButtonLabel.text = @"";
 }
 
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString {
@@ -262,6 +263,17 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
         [self.primaryButtonLabel setText:durationString];
     }];
     
+}
+
+- (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address{
+    if (address==nil) {
+        self.disclosureButton.alpha = 0;
+        self.titleLabel.frame = CGRectMake(-60.0f, -4.0f, 175.0f, 20.0f);
+    }else{
+        self.disclosureButton.alpha = 1;
+        self.titleLabel.frame = CGRectMake(-60.0f, -12.0f, 175.0f, 20.0f);
+    }
+    self.subtitleLabel.text = address;
 }
 
 #pragma mark - Geometry

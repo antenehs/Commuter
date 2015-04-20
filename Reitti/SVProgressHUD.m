@@ -84,6 +84,14 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
     return sharedView;
 }
 
++ (SVProgressHUD*)sharedViewInView:(UIView *)view {
+    static dispatch_once_t once;
+    static SVProgressHUD *sharedView;
+    dispatch_once(&once, ^ { sharedView = [[self alloc] initWithFrame:view.bounds]; });
+    [view addSubview:sharedView];
+    return sharedView;
+}
+
 #pragma mark - Setters
 
 + (void)setStatus:(NSString *)string {
@@ -121,6 +129,10 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
 }
 
 #pragma mark - Show Methods
+
++ (void)showHUDInView:(UIView *)view{
+    [[self sharedViewInView:view] showProgress:-1 status:nil maskType:SVProgressHUDMaskTypeNone];
+}
 
 + (void)show {
     [[self sharedView] showProgress:-1 status:nil maskType:SVProgressHUDMaskTypeNone];
@@ -182,6 +194,11 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
     }
 }
 
++ (void)dismissFromView:(UIView *)view {
+    if ([self isVisibleInView:view]) {
+        [[self sharedViewInView:view] dismiss];
+    }
+}
 
 #pragma mark - Offset
 
@@ -205,7 +222,7 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
         self.activityCount = 0;
         
         SVProgressHUDBackgroundColor = [UIColor whiteColor];
-        SVProgressHUDForegroundColor = [UIColor grayColor];
+        SVProgressHUDForegroundColor = [UIColor darkGrayColor];
         SVProgressHUDFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         SVProgressHUDSuccessImage = [[UIImage imageNamed:@"SVProgressHUD.bundle/success"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         SVProgressHUDErrorImage = [[UIImage imageNamed:@"SVProgressHUD.bundle/error"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -771,6 +788,9 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
     return ([self sharedView].alpha == 1);
 }
 
++ (BOOL)isVisibleInView:(UIView *)view {
+    return ([self sharedViewInView:view].alpha == 1);
+}
 
 #pragma mark - Getters
 
@@ -794,18 +814,19 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
 
 - (UIView *)hudView {
     if(!_hudView) {
-        /*
+        
         _hudView = [[UIView alloc] initWithFrame:CGRectZero];
-        _hudView.backgroundColor = SVProgressHUDBackgroundColor;
-        _hudView.layer.cornerRadius = 14;
-        _hudView.layer.borderWidth = 1;
-        _hudView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        _hudView.backgroundColor = [UIColor clearColor];
+//        _hudView.layer.cornerRadius = 14;
+//        _hudView.layer.borderWidth = 1;
+//        _hudView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         _hudView.layer.masksToBounds = YES;
         
         _hudView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin |
                                      UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
-        */
         
+        
+        /*
         UIView *blurView = [[AMBlurView alloc] initWithFrame:CGRectZero];
         blurView.backgroundColor = nil;
         blurView.layer.cornerRadius = 14;
@@ -816,6 +837,7 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
                                      UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
         
         _hudView = blurView;
+        */
         
         UIInterpolatingMotionEffect *effectX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath: @"center.x" type: UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
         effectX.minimumRelativeValue = @(-SVProgressHUDParallaxDepthPoints);

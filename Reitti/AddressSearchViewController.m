@@ -15,7 +15,7 @@
 
 @implementation AddressSearchViewController
 
-@synthesize savedStops, recentStops, namedBookmarks, savedRoutes, recentRoutes, dataToLoad, prevSearchTerm;
+@synthesize savedStops, recentStops, namedBookmarks, savedRoutes, recentRoutes, dataToLoad,additionalGeoCodeResults, prevSearchTerm;
 @synthesize reittiDataManager;
 @synthesize delegate;
 @synthesize routeSearchMode,simpleSearchMode, darkMode;
@@ -32,6 +32,7 @@
     topBoundary = 70.0;
     
     reittiDataManager.geocodeSearchdelegate = self;
+    [reittiDataManager resetResponseQueues];
     
     [self selectSystemColors];
     [self setUpMainView];
@@ -157,6 +158,8 @@
     dataToLoad = [self arrayByRemovingDuplicatesInHistory:dataToLoad];
     searchResultTableViewContainer.hidden = NO;
     [searchResultTableView reloadData];
+    
+    isInitialMergedView = YES;
 }
 
 #pragma mark - view methods
@@ -297,9 +300,11 @@
     if (searchText.length > 2){
         [reittiDataManager searchAddressesForKey:searchText];
         unRespondedRequestsCount++;
+        isInitialMergedView = NO;
     }else if(searchText.length > 0) {
         dataToLoad = [ self searchFromBookmarkAndHistoryForKey:searchText];
         [searchResultTableView reloadData];
+        isInitialMergedView = NO;
     }else {
         //Load bookmarks and history
         [self setUpMergedInitialSearchView:YES];
@@ -330,15 +335,21 @@
 }
 
 #pragma mark - reitti data manager delegates
-- (void)geocodeSearchDidComplete:(NSArray *)geocodeList forRequest:(NSString *)requestedKey{
+- (void)geocodeSearchDidComplete:(NSArray *)geocodeList  isFinalResult:(BOOL)isFinalResult{
     unRespondedRequestsCount--;
-    dataToLoad = [self searchFromBookmarkAndHistoryForKey:addressSearchBar.text];
-    [dataToLoad addObjectsFromArray:geocodeList];
-    [searchResultTableView reloadData];
+    if (!isInitialMergedView) {
+        dataToLoad = [self searchFromBookmarkAndHistoryForKey:addressSearchBar.text];
+        [dataToLoad addObjectsFromArray:geocodeList];
+        [searchResultTableView reloadData];
+    }
     if (isFinalSearch && unRespondedRequestsCount == 0) {
         searchActivityIndicator.hidden = YES;
         [searchActivityIndicator stopAnimating];
     }
+}
+
+- (void)geocodeSearchAddedResults:(NSArray *)geocodeList  isFinalResult:(BOOL)isFinalResult{
+    self.additionalGeoCodeResults = [NSMutableArray arrayWithArray:geocodeList];
 }
 - (void)geocodeSearchDidFail:(NSString *)error forRequest:(NSString *)requestedKey{
     unRespondedRequestsCount--;

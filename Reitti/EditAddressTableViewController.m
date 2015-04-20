@@ -70,9 +70,9 @@
         if (self.geoCode.getLocationType == LocationTypePOI)
             self.name = self.geoCode.name;
         else if (self.geoCode.getLocationType == LocationTypeAddress)
-            self.name = self.geoCode.getAddress;
+            self.name = self.geoCode.name;
         else
-            self.name = self.geoCode.getAddress;
+            self.name = self.geoCode.name;
         
         self.streetAddress = self.geoCode.getStreetAddressString;
         self.city = self.geoCode.city;
@@ -478,7 +478,7 @@
     self.fullAddress = [NSString stringWithFormat:@"%@ - %@,\n%@, Finland", [stopEntity busStopName], [stopEntity busStopShortCode], [stopEntity busStopCity]];
     self.streetAddress = [NSString stringWithFormat:@"%@ - %@", [stopEntity busStopName], [stopEntity busStopShortCode]];
     self.city = [stopEntity busStopCity];
-    self.coords = [stopEntity busStopCoords];
+    self.coords = [stopEntity busStopWgsCoords];
     self.searchedName = [stopEntity busStopName];
 //    [self.tableView reloadData];
     self.navigationItem.rightBarButtonItem.enabled = YES;

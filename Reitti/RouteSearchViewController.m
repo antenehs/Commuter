@@ -10,6 +10,7 @@
 #import "RouteSearchViewController.h"
 #import "Transport.h"
 #import "RouteDetailViewController.h"
+#import "SVProgressHUD.h"
 
 typedef enum
 {
@@ -72,6 +73,8 @@ typedef enum
         self.savedStops = [NSMutableArray arrayWithArray:savedArray];
     }
     
+    self.title = @"PLANNER";
+    
     [self setUpToolBar];
 }
 
@@ -115,8 +118,11 @@ typedef enum
     self.tableViewMode = tblViewMode;
     if (tblViewMode == TableViewModeSuggestions) {
         tableViewController.refreshControl = nil;
+        
+        routeResultsTableView.separatorColor = [UIColor lightGrayColor];
     }else{
         [self initRefreshControl];
+        routeResultsTableView.separatorColor = [UIColor clearColor];
     }
 }
 
@@ -159,7 +165,7 @@ typedef enum
     timeSelectionViewShadeView.frame = self.view.frame;
     timeSelectionViewShadeView.hidden = YES;
     
-    searchActivityIndicator.tintColor = systemSubTextColor;
+//    searchActivityIndicator.tintColor = systemSubTextColor;
     
     //fromSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
     //toSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
@@ -267,7 +273,7 @@ typedef enum
 
 -(void)setUpToolBar{
     UIImage *image1 = [UIImage imageNamed:@"previous-gray-64.png"];
-    CGRect frame = CGRectMake(0, 0, 25, 25);
+    CGRect frame = CGRectMake(0, 0, 22, 22);
     
     UIButton* prevButton = [[UIButton alloc] initWithFrame:frame];
     [prevButton setBackgroundImage:image1 forState:UIControlStateNormal];
@@ -353,7 +359,7 @@ typedef enum
                     UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
                     
                     //set font color here
-                    searchBarTextField.textColor = [UIColor whiteColor];
+                    searchBarTextField.textColor = [UIColor colorWithWhite:0.8 alpha:1];
                     
                     break;
                 }
@@ -537,6 +543,7 @@ typedef enum
 - (IBAction)cancelButtonPressed:(id)sender {
 //    [toSearchBar resignFirstResponder];
 //    [fromSearchBar resignFirstResponder];
+//    [SVProgressHUD dismiss];
     [self dismissViewControllerAnimated:YES completion:^{
         [self.viewCycledelegate routeSearchViewControllerDismissed];
     }];
@@ -896,7 +903,8 @@ typedef enum
     
 //    [routeResultsTableView reloadData];
     [self reloadTableViewAnimatedWithInteralSeconds:0.2];
-    [searchActivityIndicator stopAnimating];
+//    [searchActivityIndicator stopAnimating];
+    [SVProgressHUD dismissFromView:self.view];
     
     [routeResultsTableView setContentOffset:CGPointZero animated:YES];
     
@@ -918,7 +926,7 @@ typedef enum
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
     [self.refreshControl endRefreshing];
     
-    [searchActivityIndicator stopAnimating];
+//    [searchActivityIndicator stopAnimating];
     
     if (error != nil) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
@@ -928,7 +936,10 @@ typedef enum
         [alertView show];
     }
     
+//    [ self clearSearchButtonPressed:self];
+    
     [self hideToolBar:YES animated:NO];
+    [SVProgressHUD dismissFromView:self.view];
 }
 #pragma mark - routeSearchOptionSelection
 -(void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions{
@@ -1102,21 +1113,23 @@ typedef enum
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
             //TODO: Identigy if it only walking route with no stops
             if(route.getTimeAtTheFirstStop != nil){
-                moreInfoLebel.text = [NSString stringWithFormat:@"%@ at first stop | %dm walking ",
-                                      [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop],
-                                      (int)route.getTotalWalkLength];
+                moreInfoLebel.text = [NSString stringWithFormat:@"%@ at first stop",
+                                      [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop]];
+                moreInfoLebel.hidden = NO;
             }else{
-                moreInfoLebel.text = [NSString stringWithFormat:@"%dm walking ",
-                                      (int)route.getTotalWalkLength];
+                moreInfoLebel.hidden = YES;
             }
             
+            UILabel *walkingDistLabel = (UILabel *)[cell viewWithTag:2004];
+            walkingDistLabel.text = [NSString stringWithFormat:@"%dm walking ",
+                                  (int)route.getTotalWalkLength];
             
             UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2003];
             
             [cell layoutSubviews];
             
             for (UIView * view in transportsScrollView.subviews) {
-                if (view.tag == 1987) {
+                if (view.tag == 1987 || view.tag == 4006) {
                     [view removeFromSuperview];
                 }
             }
@@ -1182,6 +1195,11 @@ typedef enum
             [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
         }
         
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(20, 139.5, self.view.frame.size.width - 20, 0.5)];
+        line.backgroundColor = [UIColor lightGrayColor];
+        line.tag = 4006;
+        [cell addSubview:line];
+        
         cell.backgroundColor = [UIColor clearColor];
     }
     
@@ -1222,7 +1240,7 @@ typedef enum
             [self setTextToSearchBar:toSearchBar text:[NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode]];
             
             toString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
-            toCoords = stopEntity.busStopCoords;
+            toCoords = stopEntity.busStopWgsCoords;
             
             [self searchRouteIfPossible];
         }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
@@ -1257,7 +1275,7 @@ typedef enum
     if (self.tableViewMode == TableViewModeSuggestions) {
         return 60;
     }else{
-        return 120;
+        return 140;
     }
 }
 
@@ -1280,10 +1298,10 @@ typedef enum
     
     if (activeSearchBar == fromSearchBar) {
         fromString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
-        fromCoords = stopEntity.busStopCoords;
+        fromCoords = stopEntity.busStopWgsCoords;
     }else if (activeSearchBar == toSearchBar) {
         toString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
-        toCoords = stopEntity.busStopCoords;
+        toCoords = stopEntity.busStopWgsCoords;
     }
     
     [self searchRouteIfPossible];
@@ -1360,7 +1378,8 @@ typedef enum
         if (refreshingRouteTable) {
             refreshingRouteTable = NO;
         }else{
-            [searchActivityIndicator startAnimating];
+//            [searchActivityIndicator startAnimating];
+            [SVProgressHUD showHUDInView:self.view];
         }
         
         if (self.tableViewMode == TableViewModeSuggestions) {
@@ -1449,13 +1468,17 @@ typedef enum
 -(void)setUpMergedBookmarksAndHistory{
     dataToLoad = nil;
     dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
-    [dataToLoad addObjectsFromArray:savedStops];
-    [dataToLoad addObjectsFromArray:savedRoutes];
-    dataToLoad = [self sortDataArray:dataToLoad];
     
-    NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:recentRoutes];
-    [tempArray addObjectsFromArray:recentStops];
-    [dataToLoad addObjectsFromArray:[self sortDataArray:tempArray]];
+    NSMutableArray *tempArray1 = [[NSMutableArray alloc] initWithArray:savedStops];
+    [tempArray1 addObjectsFromArray:savedRoutes];
+    
+    [dataToLoad addObjectsFromArray:[self sortDataArray:tempArray1]];
+    
+    NSMutableArray *tempArray2 = [[NSMutableArray alloc] initWithArray:recentRoutes];
+    [tempArray2 addObjectsFromArray:recentStops];
+    
+    [dataToLoad addObjectsFromArray:[self sortDataArray:tempArray2]];
+    
     dataToLoad = [self arrayByRemovingDuplicatesInHistory:dataToLoad];
 }
 
@@ -1559,6 +1582,8 @@ typedef enum
             destinationViewController.toLocation = toString;
             destinationViewController.fromLocation = fromString;
             destinationViewController.reittiDataManager = self.reittiDataManager;
+            
+            self.title = @"";
         }
     }
     

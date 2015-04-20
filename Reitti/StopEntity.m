@@ -18,5 +18,6 @@
 @dynamic busStopCity;
 @dynamic busStopURL;
 @dynamic busStopCoords;
+@dynamic busStopWgsCoords;
 
 @end

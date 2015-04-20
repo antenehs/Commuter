@@ -31,6 +31,7 @@
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;
     IBOutlet AMBlurView *bottomBarView;
+    IBOutlet AMBlurView *topToolBar;
     
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
@@ -73,6 +74,7 @@
 @property (strong, nonatomic) StopEntity * stopEntity;
 
 @property (strong, nonatomic) NSString * stopCode;
+@property (nonatomic) CLLocationCoordinate2D stopCoords;
 @property (strong, nonatomic) NSString * backButtonText;
 
 @property (nonatomic) bool darkMode;

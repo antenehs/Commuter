@@ -118,18 +118,40 @@
 //Expected format is XXXX(X) X 
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
     
-    NSArray *codes = [lineCode componentsSeparatedByString:@" "];
-    NSString *code = [codes objectAtIndex:0];
-    
-    NSRange second = NSMakeRange(1, 1);
-    
-    NSString *checkString = [code substringWithRange:second];
-    
-    if([checkString isEqualToString:@"0"]){
-        return [code substringWithRange:NSMakeRange(2, code.length - 2)];
-    }else{
-        return [code substringWithRange:NSMakeRange(1, code.length - 1)];
+    @try {
+        NSArray *codes = [lineCode componentsSeparatedByString:@" "];
+        NSString *code = [codes objectAtIndex:0];
+        
+        if (code.length < 4) {
+            return code;
+        }
+        
+        //Can be assumed a train line
+        if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
+            NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
+            if (trainLineCode != nil && trainLineCode.length > 0) {
+                return trainLineCode;
+            }
+        }
+        
+        NSRange second = NSMakeRange(1, 1);
+        
+        if (code.length > 1) {
+            NSString *checkString = [code substringWithRange:second];
+            
+            if([checkString isEqualToString:@"0"]){
+                return [code substringWithRange:NSMakeRange(2, code.length - 2)];
+            }else{
+                return [code substringWithRange:NSMakeRange(1, code.length - 1)];
+            }
+        }else{
+            return code;
+        }
     }
+    @catch (NSException *exception) {
+        return lineCode;
+    }
+    
 }
 
 //Expected format is XXXX(X) X:YYYYYYY

@@ -40,6 +40,7 @@ typedef NSUInteger SVProgressHUDMaskType;
 
 #pragma mark - Show Methods
 
++ (void)showHUDInView:(UIView *)view;
 + (void)show;
 + (void)showWithMaskType:(SVProgressHUDMaskType)maskType;
 + (void)showWithStatus:(NSString*)status;
@@ -61,6 +62,7 @@ typedef NSUInteger SVProgressHUDMaskType;
 
 + (void)popActivity;
 + (void)dismiss;
++ (void)dismissFromView:(UIView *)view ;
 
 + (BOOL)isVisible;
 

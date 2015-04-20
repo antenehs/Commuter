@@ -14,6 +14,12 @@
 #import "RettiDataManager.h"
 #import "ReittiRemindersManager.h"
 
+typedef enum{
+    RouteListViewLoactionBottom = 1,
+    RouteListViewLoactionMiddle = 2,
+    RouteListViewLoactionTop = 3
+} RouteListViewLoaction;
+
 @interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>{
     
     IBOutlet MKMapView *routeMapView;
@@ -28,11 +34,15 @@
     
     IBOutlet UITableView *routeListTableView;
     
+    UIPanGestureRecognizer *detailViewDragGestureRecognizer;
+    
     //local vars
     CLLocationCoordinate2D upperBound;
     CLLocationCoordinate2D lowerBound;
     CLLocationCoordinate2D leftBound;
     CLLocationCoordinate2D rightBound;
+    
+    CLLocation *previousCenteredLocation;
     
     CLLocationManager *locationManager;
     MKMapRect previousRegion;
@@ -43,6 +53,11 @@
     
     BOOL isShowingStopView;
     NSNumber *selectedAnnotionStopCode;
+    CLLocationCoordinate2D selectedAnnotationStopCoords;
+    
+    BOOL tableViewIsDecelerating;
+    BOOL routeListViewIsGoingUp;
+    RouteListViewLoaction currentRouteListViewLocation;
 }
 
 @property (strong, nonatomic) Route *route;

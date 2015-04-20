@@ -10,6 +10,8 @@
 
 @class JPSThumbnail;
 
+typedef void (^ActionBlock)();
+
 extern NSString * const kJPSThumbnailAnnotationViewReuseID;
 
 typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewAnimationDirection) {
@@ -28,6 +30,7 @@ typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewState) {
 - (void)didSelectAnnotationViewInMap:(MKMapView *)mapView;
 - (void)didDeselectAnnotationViewInMap:(MKMapView *)mapView;
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString;
+- (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address;
 
 @end
 

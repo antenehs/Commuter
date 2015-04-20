@@ -161,6 +161,10 @@
     NSArray *codes = [lineCode componentsSeparatedByString:@" "];
     NSString *code = [codes objectAtIndex:0];
     
+    if (code.length < 4) {
+        return code;
+    }
+    
     //Can be assumed a train line
     if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
         NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
@@ -189,7 +193,7 @@
 
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
 //    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
-    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[UIColor orangeColor] forKey:NSForegroundColorAttributeName];
+    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[UIColor colorWithRed:244.0f/255 green:107.0f/255 blue:0 alpha:1] forKey:NSForegroundColorAttributeName];
     [subStringDict setObject:font forKey:NSFontAttributeName];
     
     NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];

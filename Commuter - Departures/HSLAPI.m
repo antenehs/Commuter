@@ -60,7 +60,15 @@
 
 - (void)searchStopForCode:(NSString *)code index:(int)index completionBlock:(StopSearchCompletionBlock)completionBlock{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/1_2_0/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuter&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
+        NSString *searchURL;
+        //TODO: Find a better way for determining this
+        //TRE codes have code length 4 and HSL 7
+        if (code.length < 5) {
+            searchURL = [NSString stringWithFormat:@"http://api.publictransport.tampere.fi/1_0_3/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuterwidget&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
+        }else{
+            searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/1_2_0/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuter&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
+        }
+        
         NSError *error = nil;
         NSString *searchResultString = [NSString stringWithContentsOfURL:[NSURL URLWithString:searchURL]
                                                                 encoding:NSUTF8StringEncoding
@@ -85,13 +93,13 @@
                     
                     NSDictionary *busStopDict = [searchResultsArray objectAtIndex:0];
                     
-                    busStop.code = busStopDict[@"code"];
-                    busStop.code_short = busStopDict[@"code_short"];
-                    busStop.name_fi = busStopDict[@"name_fi"];
-                    busStop.city_fi = busStopDict[@"city_fi"];
-                    busStop.lines = busStopDict[@"lines"];
-                    busStop.departures = busStopDict[@"departures"];
-                    busStop.address_fi = busStopDict[@"address_fi"];
+                    busStop.code = [busStopDict[@"code"] isEqual:[NSNull null]] ? nil : busStopDict[@"code"];
+                    busStop.code_short = [busStopDict[@"code_short"] isEqual:[NSNull null]] ? nil : busStopDict[@"code_short"];
+                    busStop.name_fi = [busStopDict[@"name_fi"] isEqual:[NSNull null]] ? nil : busStopDict[@"name_fi"];
+                    busStop.city_fi = [busStopDict[@"city_fi"] isEqual:[NSNull null]] ? nil : busStopDict[@"city_fi"];
+                    busStop.lines = [busStopDict[@"lines"] isEqual:[NSNull null]] ? nil : busStopDict[@"lines"];
+                    busStop.departures = [busStopDict[@"departures"] isEqual:[NSNull null]] ? nil : busStopDict[@"departures"];
+                    busStop.address_fi = [busStopDict[@"address_fi"] isEqual:[NSNull null]] ? nil : busStopDict[@"address_fi"];
                     
                     completionBlock(busStop,index, nil);
                 }

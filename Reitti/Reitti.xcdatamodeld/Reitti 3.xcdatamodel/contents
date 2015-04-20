@@ -30,6 +30,7 @@
         <attribute name="busStopName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="busStopShortCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="busStopURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopWgsCoords" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
@@ -69,6 +70,7 @@
         <attribute name="busStopName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="busStopShortCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="busStopURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopWgsCoords" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="stopLines" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -76,10 +78,10 @@
     <elements>
         <element name="BusStop" positionX="0" positionY="0" width="128" height="270"/>
         <element name="CookieEntity" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="HistoryEntity" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="HistoryEntity" positionX="0" positionY="0" width="128" height="180"/>
         <element name="NamedBookmark" positionX="0" positionY="0" width="128" height="180"/>
         <element name="RouteEntity" positionX="0" positionY="0" width="128" height="150"/>
         <element name="RouteHistoryEntity" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="StopEntity" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="StopEntity" positionX="0" positionY="0" width="128" height="195"/>
     </elements>
 </model>

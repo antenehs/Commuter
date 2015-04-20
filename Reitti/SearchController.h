@@ -31,6 +31,8 @@
 #import "JPSThumbnailAnnotation.h"
 #import <AddressBookUI/AddressBookUI.h>
 #import "EditAddressTableViewController.h"
+#import "SettingsViewController.h"
+#import "SettingsManager.h"
 
 typedef enum
 {
@@ -46,7 +48,7 @@ typedef enum
     RSearchResultViewModeNearByStops = 2
 } RSearchResultViewMode;
 
-@interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, ReittiDisruptionFetchDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
+@interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
     IBOutlet AMBlurView *blurView;
     IBOutlet AMBlurView *commandView;
     IBOutlet MKMapView *mapView;
@@ -76,11 +78,9 @@ typedef enum
     UIColor *systemSubTextColor;
     
     //toolbar
-    IBOutlet UIToolbar *toolBar;
-    IBOutlet UIBarButtonItem *reloadBarButtonItem;
-    IBOutlet UIBarButtonItem *savedStopsBarButtonItem;
-    IBOutlet UIBarButtonItem *backBarButtonItem;
-    IBOutlet UIBarButtonItem *forwardBarButtonItem;
+    UIButton *curentLocBut;
+    UIButton *listButton;
+    UIButton *bookmarkButton;
     
     //Stop view
     IBOutlet UILabel *stopCodeLabel;
@@ -125,6 +125,9 @@ typedef enum
     EKEventStore * _eventStore;
     
     NSObject<JPSThumbnailAnnotationViewProtocol> *selectedAnnotationView;
+    MKAnnotationView *droppedPinAnnotationView;
+    
+    GeoCode *droppedPinGeoCode;
 
     //NSTimer *notificationTimer;
     
@@ -133,8 +136,11 @@ typedef enum
     BOOL isStopViewDisplayed;
     BOOL isSearchResultsViewDisplayed;
     BOOL stopViewDragedDown;
+    BOOL tableViewIsDecelerating;
     BOOL justReloading;
     BOOL requestedForListing;
+    BOOL firstRecievedLocation;
+    BOOL userLocationUpdated;
     float topLayoutGuide;
     float bottomLayoutGuide;
     int bookmarkViewMode;
@@ -146,6 +152,8 @@ typedef enum
     NSString *selectedAnnotationCoords;
     NSNumber *selectedStopLongCode;
     NSNumber *prevSelectedStopLongCode;
+    
+    CLLocationCoordinate2D selectedStopAnnotationCoords;
     
     NSString * selectedFromLocation;
     NSString * selectedFromCoords;
@@ -195,6 +203,7 @@ typedef enum
 @property (strong, nonatomic)CLLocation * currentUserLocation;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
+@property (strong, nonatomic) SettingsManager *settingsManager;
 //@property (strong, nonatomic) StopViewController *stopViewController;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
