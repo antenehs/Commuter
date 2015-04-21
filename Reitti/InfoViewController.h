@@ -24,6 +24,9 @@
     IBOutlet UIView *aboutContainerView;
     
     NSTimer *refreshTimer;
+    
+    IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
+    
 }
 
 @property (strong, nonatomic) NSArray * disruptionsList;

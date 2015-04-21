@@ -54,10 +54,12 @@
         CGRect tableRect = disruptionsTableView.frame;
         tableRect.size.height = tableContent.height;
         disruptionsTableView.frame = tableRect;
+        tableViewHeightConstraint.constant = tableRect.size.height;
         
         [mainScrollView addSubview:disruptionsTableView];
         yPos += disruptionsTableView.frame.size.height + 5;
     }else{
+        tableViewHeightConstraint.constant = 44;
         disruptionsTableView.hidden = YES;
         noDisruptionLabel.hidden = NO;
         checkDisruptionButton.hidden = NO;
@@ -68,9 +70,13 @@
     aboutCont.origin.y = yPos;
     aboutContainerView.frame = aboutCont;
     
-    yPos += aboutContainerView.frame.size.height + 40;
+    yPos += aboutContainerView.frame.size.height + 220;
     
     mainScrollView.contentSize = CGSizeMake(mainScrollView.frame.size.width, yPos);
+    [mainScrollView setNeedsDisplay];
+    
+    [self.view layoutSubviews];
+    [mainScrollView layoutSubviews];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

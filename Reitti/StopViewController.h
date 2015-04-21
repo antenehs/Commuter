@@ -68,6 +68,7 @@
 -(void)setUpStopViewForBusStop:(BusStop *)busStop;
 
 //@property (strong, nonatomic) IBOutlet UIView *StopView;
+@property (strong, nonatomic) NSNumber * modalMode;
 
 @property (strong, nonatomic) NSArray * departures;
 @property (strong, nonatomic) BusStop * _busStop;

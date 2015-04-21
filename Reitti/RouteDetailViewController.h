@@ -20,7 +20,7 @@ typedef enum{
     RouteListViewLoactionTop = 3
 } RouteListViewLoaction;
 
-@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>{
+@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIGestureRecognizerDelegate>{
     
     IBOutlet MKMapView *routeMapView;
     IBOutlet AMBlurView *topBarView;
@@ -31,6 +31,9 @@ typedef enum{
     IBOutlet UILabel *timeIntervalLabel;
     IBOutlet UILabel *fromLabel;
     IBOutlet UIView *separatorView;
+    
+    IBOutlet UIButton *previousRouteButton;
+    IBOutlet UIButton *nextRouteButton;
     
     IBOutlet UITableView *routeListTableView;
     
@@ -61,6 +64,8 @@ typedef enum{
 }
 
 @property (strong, nonatomic) Route *route;
+@property (nonatomic) int selectedRouteIndex;
+@property (strong, nonatomic) NSArray *routeList;
 @property (strong, nonatomic) RouteLeg *currentLeg;
 @property (strong, nonatomic) NSMutableArray *routeLocationList;
 @property (strong, nonatomic) MKPolylineRenderer *currentpolyLine;

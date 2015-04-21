@@ -26,6 +26,11 @@
 		66228CF619CB31C300A2C47F /* previous-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF519CB31C300A2C47F /* previous-48.png */; };
 		66228CF919CB4A1A00A2C47F /* next-grey-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF719CB4A1A00A2C47F /* next-grey-48.png */; };
 		66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF819CB4A1A00A2C47F /* previous-gray-48.png */; };
+		664749DB1AE59B3E0050137E /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
+		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
+		664749E01AE5A0D50050137E /* 3-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749DF1AE5A0D50050137E /* 3-100.png */; };
+		664749E31AE6B2E30050137E /* next-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E11AE6B2E30050137E /* next-gray-100.png */; };
+		664749E41AE6B2E30050137E /* previous-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E21AE6B2E30050137E /* previous-gray-100.png */; };
 		664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */; };
 		664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEA1992740F000B4F18 /* polyline-75.png */; };
 		664ADFF01992740F000B4F18 /* search-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEB1992740F000B4F18 /* search-75.png */; };
@@ -362,6 +367,12 @@
 		66237F0019CE156100DEEC5F /* AikatauluWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AikatauluWidget.entitlements; sourceTree = "<group>"; };
 		66237F0119CE1B9A00DEEC5F /* HSLCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLCommunicator.h; sourceTree = "<group>"; };
 		66237F0219CE1B9A00DEEC5F /* HSLCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLCommunicator.m; sourceTree = "<group>"; };
+		664749DA1AE59B3E0050137E /* versionInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = versionInfo.html; sourceTree = "<group>"; };
+		664749DC1AE59CD70050137E /* VersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoViewController.h; sourceTree = "<group>"; };
+		664749DD1AE59CD70050137E /* VersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoViewController.m; sourceTree = "<group>"; };
+		664749DF1AE5A0D50050137E /* 3-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "3-100.png"; path = "Pictures/Version 2.3/3-100.png"; sourceTree = "<group>"; };
+		664749E11AE6B2E30050137E /* next-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-gray-100.png"; path = "Pictures/Version 2.3/next-gray-100.png"; sourceTree = "<group>"; };
+		664749E21AE6B2E30050137E /* previous-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-gray-100.png"; path = "Pictures/Version 2.3/previous-gray-100.png"; sourceTree = "<group>"; };
 		664ADFE619925CC6000B4F18 /* AddressSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSearchViewController.h; sourceTree = "<group>"; };
 		664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSearchViewController.m; sourceTree = "<group>"; };
 		664ADFEA1992740F000B4F18 /* polyline-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "polyline-75.png"; path = "Pictures/New Version 2.0/Search View/polyline-75.png"; sourceTree = "<group>"; };
@@ -854,6 +865,8 @@
 				664E28A01AE2A50300BE2457 /* SettingsViewController.m */,
 				664E28AA1AE2DCD900BE2457 /* SettingDetailedViewController.h */,
 				664E28AB1AE2DCD900BE2457 /* SettingDetailedViewController.m */,
+				664749DC1AE59CD70050137E /* VersionInfoViewController.h */,
+				664749DD1AE59CD70050137E /* VersionInfoViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1132,6 +1145,7 @@
 				66A7A9BC18C5E56900AC9E94 /* Espoo.gpx */,
 				667B98081AD00FE000C45ADF /* hsl-region.geojson */,
 				667B98101AD3261100C45ADF /* AddressTypeList.plist */,
+				664749DA1AE59B3E0050137E /* versionInfo.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1412,6 +1426,9 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				664749E11AE6B2E30050137E /* next-gray-100.png */,
+				664749E21AE6B2E30050137E /* previous-gray-100.png */,
+				664749DF1AE5A0D50050137E /* 3-100.png */,
 				664E28A81AE2B32300BE2457 /* compass-100.png */,
 				664E28A61AE2B0BB00BE2457 /* location-gray-100.png */,
 				664E28A41AE2AF1A00BE2457 /* history-clock-100.png */,
@@ -1617,10 +1634,12 @@
 				661ABBFD199D5EC600F93894 /* bus-green-100.png in Resources */,
 				6682D24F1ACE39F500F6DDF7 /* previous-gray-64.png in Resources */,
 				66F3B1271AC8592A0038BA78 /* up-right-arrow-32.png in Resources */,
+				664749E41AE6B2E30050137E /* previous-gray-100.png in Resources */,
 				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
 				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
+				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,
 				664E287C1AD9985B00BE2457 /* walking-gray-64.png in Resources */,
 				66DAE1FB19C6112A0039081D /* ferryAnnotationSmall.png in Resources */,
@@ -1670,6 +1689,7 @@
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
 				6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */,
 				66CC93F918DF475500644281 /* humberger.png in Resources */,
+				664749E01AE5A0D50050137E /* 3-100.png in Resources */,
 				664E28731AD92B4800BE2457 /* books-100.png in Resources */,
 				667B981F1AD3294C00C45ADF /* beach-100.png in Resources */,
 				66D989F0199FFC5300E0B74B /* bus-colored-75.png in Resources */,
@@ -1717,6 +1737,7 @@
 				66CB95F418E5C15700E95CE5 /* done_notification.png in Resources */,
 				667B98251AD3294C00C45ADF /* Up Left-100.png in Resources */,
 				66A7A9C618C65FA900AC9E94 /* bus_stop_hsl_orig.png in Resources */,
+				664749E31AE6B2E30050137E /* next-gray-100.png in Resources */,
 				66F13838199651F200B52B6B /* export-128.png in Resources */,
 				66D0BA4E18BE4892002DDC7B /* nearby_3_20120.png in Resources */,
 				6682D24B1ACE34B900F6DDF7 /* previous-green-64.png in Resources */,
@@ -1844,6 +1865,7 @@
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
+				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,

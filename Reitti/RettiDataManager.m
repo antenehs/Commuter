@@ -237,12 +237,15 @@
         [self.treCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
         stopInAreaRequestedFor = TRERegion;
     }else{
-        [self.delegate nearByStopFetchDidFail:@"Nearby stops not available in this area."];
+        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+        stopInAreaRequestedFor = HSLRegion;
     }
 }
 
 -(void)fetchDisruptions{
-    [self.hslCommunication getDisruptions];
+    if (userLocation == HSLRegion) {
+        [self.hslCommunication getDisruptions];
+    }
 }
 
 -(void)fetchLineInfoForCodeList:(NSString *)codeList{

@@ -28,7 +28,7 @@
 #define SYSTEM_BROWN_COLOR [UIColor brownColor];
 #define SYSTEM_CYAN_COLOR [UIColor cyanColor];
 
-@synthesize route = _route;
+@synthesize route = _route, selectedRouteIndex,routeList;
 @synthesize currentpolyLine,currentLeg;
 @synthesize darkMode;
 @synthesize routeLocationList;
@@ -49,6 +49,16 @@
     CLLocationCoordinate2D _right = {.latitude =  0, .longitude =  -180.0};
     rightBound = _right;
     // Do any additional setup after loading the view.
+    
+    UISwipeGestureRecognizer *recogRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToRightDetected:)];
+    recogRight.direction = UISwipeGestureRecognizerDirectionRight;
+//    [routeListView addGestureRecognizer:recogRight];
+    
+    UISwipeGestureRecognizer *recogLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeftDetected:)];
+    recogLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+//    [routeListView addGestureRecognizer:recogLeft];
+    
+//    _route = [routeList objectAtIndex:selectedRouteIndex];
     NSLog(@"Number of legs = %lu", (unsigned long)_route.routeLegs.count);
     
     routeLocationList = [self convertRouteToLocationList:self.route];
@@ -56,11 +66,11 @@
     reittiRemindersManager = [[ReittiRemindersManager alloc] init];
     
     detailViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragRouteList:)];
-    
+    detailViewDragGestureRecognizer.delegate = self;
     [routeListView addGestureRecognizer:detailViewDragGestureRecognizer];
     
     [self setNeedsStatusBarAppearanceUpdate];
-    [self setUpMainView];
+    [self setUpMainViewForRoute];
     [self initializeMapView];
     [self initMapViewForRoute:_route];
     [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
@@ -72,6 +82,10 @@
         isShowingStopView = NO;
         [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -99,6 +113,8 @@
 #pragma mark - initialization
 
 - (void)initMapViewForRoute:(Route *)route{
+    [routeMapView removeOverlays:routeMapView.overlays];
+    [routeMapView removeAnnotations:routeMapView.annotations];
     for (RouteLeg *leg in route.routeLegs) {
         [self drawLineForLeg:leg];
     }
@@ -111,12 +127,15 @@
 
 #pragma mark - view methods
 
--(void)setUpMainView{
+-(void)setUpMainViewForRoute{
 //    [topBarView setBlurTintColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1]];
 //    topBarView.layer.borderWidth = 1;
 //    topBarView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
+    [self setNextAndPrevButtonStates];
+    
     [self.navigationController setToolbarHidden:YES];
+    self.title = @"";
     
     NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
     [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
@@ -152,6 +171,8 @@
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
     [routeListView addSubview:topLine];
+    
+    [routeListTableView reloadData];
 }
 
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location animated:(BOOL)animated{
@@ -193,6 +214,64 @@
 
 -(BOOL)isRouteListViewVisible{
     return (routeListView.frame.origin.y <= self.view.bounds.size.height/4);
+}
+
+- (void)setNextAndPrevButtonStates {
+    if (selectedRouteIndex == routeList.count - 1) {
+        nextRouteButton.enabled = NO;
+        previousRouteButton.enabled = YES;
+    }else if (selectedRouteIndex == 0){
+        nextRouteButton.enabled = YES;
+        previousRouteButton.enabled = NO;
+    }else{
+        nextRouteButton.enabled = YES;
+        previousRouteButton.enabled = YES;
+    }
+}
+
+-(BOOL)displayNextRouteAnimated{
+    if (selectedRouteIndex < routeList.count - 1) {
+        selectedRouteIndex++;
+        _route = [routeList objectAtIndex:selectedRouteIndex];
+        routeLocationList = [self convertRouteToLocationList:self.route];
+        CATransition *transition = [CATransition new];
+        transition.type = kCATransitionPush;
+        transition.subtype = kCATransitionFromRight;
+        
+        // Make any view changes
+        routeLocationList = [self convertRouteToLocationList:self.route];
+        [self setUpMainViewForRoute];
+        [self initMapViewForRoute:_route];
+        
+        // Add the transition
+        [routeListView.layer addAnimation:transition forKey:@"transition"];
+        
+        [self setNextAndPrevButtonStates];
+    }
+    return YES;
+}
+
+-(BOOL)displayPrevRouteAnimated{
+    if (selectedRouteIndex > 0) {
+        selectedRouteIndex--;
+        _route = [routeList objectAtIndex:selectedRouteIndex];
+        
+        CATransition *transition = [CATransition new];
+        transition.type = kCATransitionPush;
+        transition.subtype = kCATransitionFromLeft;
+        
+        // Make any view changes
+        routeLocationList = [self convertRouteToLocationList:self.route];
+        [self setUpMainViewForRoute];
+        [self initMapViewForRoute:_route];
+        
+        // Add the transition
+        [routeListView.layer addAnimation:transition forKey:@"transition"];
+        
+        [self setNextAndPrevButtonStates];
+    }
+
+    return YES;
 }
 
 #pragma mark - map view methods
@@ -672,6 +751,12 @@
 - (IBAction)doneButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (IBAction)nextRouteButtonPressed:(id)sender {
+    [self displayNextRouteAnimated];
+}
+- (IBAction)previousButtonPressed:(id)sender {
+    [self displayPrevRouteAnimated];
+}
 
 - (IBAction)showOrHideListButtonPressed:(id)sender {
     if ([self isRouteListViewVisible]) {
@@ -720,7 +805,15 @@
     }
 }
 
-#pragma marks - dragging view methods
+-(void)swipeToLeftDetected:(id)sender{
+    [self displayNextRouteAnimated];
+}
+
+-(void)swipeToRightDetected:(id)sender{
+    [self displayPrevRouteAnimated];
+}
+
+#pragma - mark dragging view methods
 -(IBAction)dragRouteList:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint translation = [recognizer translationInView:self.view];
@@ -738,6 +831,12 @@
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         [self snapRouteListView];
     }
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:
+(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 #pragma - mark Scroll View delegates
@@ -1124,13 +1223,14 @@
         }
         
         if (stopCode != nil && ![stopCode isEqualToString:@""]) {
-            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+//            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
             
-            StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
+            StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
             stopViewController.stopCode = stopCode;
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
             stopViewController.darkMode = self.darkMode;
+            stopViewController.modalMode = [NSNumber numberWithBool:YES];
             stopViewController.reittiDataManager = self.reittiDataManager;
             stopViewController.delegate = nil;
             

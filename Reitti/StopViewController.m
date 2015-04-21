@@ -23,6 +23,7 @@
 #define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
 
 //@synthesize StopView;
+@synthesize modalMode;
 @synthesize departures, _busStop, stopEntity;
 @synthesize _stopLinesDetail;
 @synthesize reittiDataManager;
@@ -52,6 +53,11 @@
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
+    if (modalMode != nil && [modalMode boolValue]) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+    
+    modalMode = [NSNumber numberWithBool:NO];
     
     [self setNeedsStatusBarAppearanceUpdate];
     self.reittiDataManager.delegate = self;
@@ -422,8 +428,8 @@
     [self setUpMainView];
     [self initMapViewForBusStop:busStop];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self.navigationController setToolbarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:![modalMode boolValue]];
+    [self.navigationController setToolbarHidden:NO animated:![modalMode boolValue]];
 }
 
 - (IBAction)reloadButtonPressed:(id)sender{

@@ -313,6 +313,8 @@ typedef enum
     [items addObject:flexiSpace];
     [items addObject:clearBarButtonItem];
     self.toolbarItems = items;
+    
+//    self.navigationController.toolbar.translucent = NO;
 }
 
 -(void)hideToolBar:(BOOL)hidden animated:(BOOL)animated{
@@ -1113,7 +1115,7 @@ typedef enum
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
             //TODO: Identigy if it only walking route with no stops
             if(route.getTimeAtTheFirstStop != nil){
-                moreInfoLebel.text = [NSString stringWithFormat:@"%@ at first stop",
+                moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop",
                                       [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop]];
                 moreInfoLebel.hidden = NO;
             }else{
@@ -1579,6 +1581,8 @@ typedef enum
             RouteDetailViewController *destinationViewController = (RouteDetailViewController *)segue.destinationViewController;
             
             destinationViewController.route = selectedRoute;
+            destinationViewController.routeList = self.routeList;
+            destinationViewController.selectedRouteIndex = (int)selectedRowIndexPath.row;
             destinationViewController.toLocation = toString;
             destinationViewController.fromLocation = fromString;
             destinationViewController.reittiDataManager = self.reittiDataManager;

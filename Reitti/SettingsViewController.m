@@ -58,7 +58,7 @@
 
 #pragma - mark table view methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
+    return 5;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -68,8 +68,10 @@
         return 1;
     }else if (section == 2) {
         return 1;
-    }else {
+    }else if (section == 3) {
         return 2;
+    }else{
+        return 1;
     }
 }
 
@@ -87,7 +89,7 @@
         NSDictionary *dict = [regions objectAtIndex:[settingsManager userLocation]];
         UILabel *label = (UILabel *)[cell viewWithTag:1001];
         label.text = [dict objectForKey:@"DisplayText"];
-    }else {
+    }else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"clearHistoryCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
@@ -131,6 +133,8 @@
                 selectedLabel.textColor = [UIColor lightGrayColor];
             }
         }
+    }else{
+        cell = [tableView dequeueReusableCellWithIdentifier:@"versionInfoCell"];
     }
     
     return cell;
