@@ -3895,7 +3895,7 @@
                                             <constraint firstAttribute="width" constant="25" id="B07-Lx-7qE"/>
                                             <constraint firstAttribute="height" constant="25" id="fyb-q3-7Wj"/>
                                         </constraints>
-                                        <state key="normal" image="previous-gray-100.png">
+                                        <state key="normal" image="previous-green-100.png">
                                             <color key="titleColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -3910,7 +3910,7 @@
                                             <constraint firstAttribute="width" constant="25" id="rv1-b2-mle"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="xxF-nL-btr"/>
                                         </constraints>
-                                        <state key="normal" image="next-gray-100.png">
+                                        <state key="normal" image="next-green-100.png">
                                             <color key="titleColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -3923,7 +3923,7 @@
                                             <constraint firstAttribute="height" constant="29" id="V5X-Nh-m2P"/>
                                             <constraint firstAttribute="width" constant="210" id="uVi-9o-xPl"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
@@ -4194,7 +4194,7 @@
                                 </variation>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="HUW-IL-lGo" firstAttribute="top" secondItem="bSg-HG-jzC" secondAttribute="bottom" constant="78" id="3xd-aA-YuW"/>
                             <constraint firstItem="HUW-IL-lGo" firstAttribute="top" secondItem="ezY-iD-2Ez" secondAttribute="bottom" id="9jh-Ud-Ony"/>
@@ -4208,6 +4208,7 @@
                             <constraint firstItem="38S-rn-gW8" firstAttribute="bottom" secondItem="HUW-IL-lGo" secondAttribute="top" id="Vpl-Fw-qqX"/>
                             <constraint firstAttribute="trailing" secondItem="38S-rn-gW8" secondAttribute="trailing" id="ccg-RT-Zyd"/>
                             <constraint firstItem="HUW-IL-lGo" firstAttribute="top" secondItem="ezY-iD-2Ez" secondAttribute="bottom" id="hID-1F-d5F"/>
+                            <constraint firstAttribute="height" secondItem="ezY-iD-2Ez" secondAttribute="height" id="lrx-yb-YaQ"/>
                             <constraint firstItem="38S-rn-gW8" firstAttribute="trailing" secondItem="ezY-iD-2Ez" secondAttribute="trailing" id="spt-DO-fay"/>
                             <constraint firstItem="ezY-iD-2Ez" firstAttribute="width" secondItem="LUU-Fv-p8s" secondAttribute="width" id="sqH-65-hVR"/>
                             <constraint firstItem="ezY-iD-2Ez" firstAttribute="height" secondItem="LUU-Fv-p8s" secondAttribute="height" id="xwd-o7-U66"/>
@@ -4218,6 +4219,7 @@
                                 <exclude reference="Ino-Tv-Uu0"/>
                                 <exclude reference="xwd-o7-U66"/>
                                 <exclude reference="9jh-Ud-Ony"/>
+                                <exclude reference="hID-1F-d5F"/>
                             </mask>
                         </variation>
                     </view>
@@ -5503,11 +5505,11 @@ Helsinki, Finland</string>
         <image name="location-gray-100.png" width="100" height="100"/>
         <image name="map-orange-50.png" width="50" height="50"/>
         <image name="map_background.png" width="640" height="939"/>
-        <image name="next-gray-100.png" width="100" height="100"/>
+        <image name="next-green-100.png" width="100" height="100"/>
         <image name="next-grey-48.png" width="48" height="48"/>
         <image name="plugin-100.png" width="100" height="100"/>
-        <image name="previous-gray-100.png" width="100" height="100"/>
         <image name="previous-gray-48.png" width="48" height="48"/>
+        <image name="previous-green-100.png" width="100" height="100"/>
         <image name="search-75.png" width="75" height="75"/>
         <image name="settings-gray-100.png" width="100" height="100"/>
         <image name="settings-white-100.png" width="100" height="100"/>

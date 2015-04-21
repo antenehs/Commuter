@@ -31,6 +31,8 @@
 		664749E01AE5A0D50050137E /* 3-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749DF1AE5A0D50050137E /* 3-100.png */; };
 		664749E31AE6B2E30050137E /* next-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E11AE6B2E30050137E /* next-gray-100.png */; };
 		664749E41AE6B2E30050137E /* previous-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E21AE6B2E30050137E /* previous-gray-100.png */; };
+		664749E71AE6D7E00050137E /* previous-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E51AE6D7E00050137E /* previous-green-100.png */; };
+		664749E81AE6D7E00050137E /* next-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E61AE6D7E00050137E /* next-green-100.png */; };
 		664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */; };
 		664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEA1992740F000B4F18 /* polyline-75.png */; };
 		664ADFF01992740F000B4F18 /* search-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEB1992740F000B4F18 /* search-75.png */; };
@@ -373,6 +375,8 @@
 		664749DF1AE5A0D50050137E /* 3-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "3-100.png"; path = "Pictures/Version 2.3/3-100.png"; sourceTree = "<group>"; };
 		664749E11AE6B2E30050137E /* next-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-gray-100.png"; path = "Pictures/Version 2.3/next-gray-100.png"; sourceTree = "<group>"; };
 		664749E21AE6B2E30050137E /* previous-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-gray-100.png"; path = "Pictures/Version 2.3/previous-gray-100.png"; sourceTree = "<group>"; };
+		664749E51AE6D7E00050137E /* previous-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-green-100.png"; path = "Pictures/Version 2.3/previous-green-100.png"; sourceTree = "<group>"; };
+		664749E61AE6D7E00050137E /* next-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-green-100.png"; path = "Pictures/Version 2.3/next-green-100.png"; sourceTree = "<group>"; };
 		664ADFE619925CC6000B4F18 /* AddressSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSearchViewController.h; sourceTree = "<group>"; };
 		664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSearchViewController.m; sourceTree = "<group>"; };
 		664ADFEA1992740F000B4F18 /* polyline-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "polyline-75.png"; path = "Pictures/New Version 2.0/Search View/polyline-75.png"; sourceTree = "<group>"; };
@@ -1426,6 +1430,8 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				664749E51AE6D7E00050137E /* previous-green-100.png */,
+				664749E61AE6D7E00050137E /* next-green-100.png */,
 				664749E11AE6B2E30050137E /* next-gray-100.png */,
 				664749E21AE6B2E30050137E /* previous-gray-100.png */,
 				664749DF1AE5A0D50050137E /* 3-100.png */,
@@ -1647,6 +1653,7 @@
 				667B980E1AD1502600C45ADF /* expand-arrow-50.png in Resources */,
 				664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */,
 				66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */,
+				664749E71AE6D7E00050137E /* previous-green-100.png in Resources */,
 				664ADFF81992B124000B4F18 /* bus-75.png in Resources */,
 				667B98271AD32A4300C45ADF /* shopping-cart-100.png in Resources */,
 				66CC93DE18DDC65300644281 /* SVProgressHUD.bundle in Resources */,
@@ -1665,6 +1672,7 @@
 				664ADFF11992740F000B4F18 /* location-75.png in Resources */,
 				66F3B1291AC859CD0038BA78 /* bookmark-filled-white-32.png in Resources */,
 				66DAE1F219C42F590039081D /* down-arrow-50.png in Resources */,
+				664749E81AE6D7E00050137E /* next-green-100.png in Resources */,
 				66D42697198FBCFC0080F21E /* Message-Information-128.png in Resources */,
 				66D4269F199027C10080F21E /* cancel-128.png in Resources */,
 				66CB95F918E8CBE300E95CE5 /* warning_notification2.png in Resources */,

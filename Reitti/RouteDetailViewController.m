@@ -244,7 +244,8 @@
         [self initMapViewForRoute:_route];
         
         // Add the transition
-        [routeListView.layer addAnimation:transition forKey:@"transition"];
+//        [routeListView.layer addAnimation:transition forKey:@"transition"];
+        [routeMapView.layer addAnimation:transition forKey:@"transition"];
         
         [self setNextAndPrevButtonStates];
     }
@@ -266,7 +267,8 @@
         [self initMapViewForRoute:_route];
         
         // Add the transition
-        [routeListView.layer addAnimation:transition forKey:@"transition"];
+//        [routeListView.layer addAnimation:transition forKey:@"transition"];
+        [routeMapView.layer addAnimation:transition forKey:@"transition"];
         
         [self setNextAndPrevButtonStates];
     }
@@ -292,16 +294,16 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     self.currentUserLocation = [locations lastObject];
     
-    if (previousCenteredLocation == nil) {
-        previousCenteredLocation = self.currentUserLocation;
-    }
-    
-    if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
-        CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
-        if (dist > 30) {
-            [self centerMapToCurrentLocation:self];
-        }
-    }
+//    if (previousCenteredLocation == nil) {
+//        previousCenteredLocation = self.currentUserLocation;
+//    }
+//    
+//    if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
+//        CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
+//        if (dist > 30) {
+//            [self centerMapToCurrentLocation:self];
+//        }
+//    }
     
 //    [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
 }
@@ -836,7 +838,7 @@
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
 shouldRecognizeSimultaneouslyWithGestureRecognizer:
 (UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
+    return NO;
 }
 
 #pragma - mark Scroll View delegates

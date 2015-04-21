@@ -243,6 +243,7 @@
     smallAnnotationHeight = 37;
     
     //Default values
+    locNotAvailableNotificationShow = NO;
     darkMode = YES;
     centerMap = YES;
     isStopViewDisplayed = NO;
@@ -659,7 +660,7 @@
     
     requestedForListing = YES;
     
-    if ([self isLocationServiceAvailable]) {
+    if ([self isLocationServiceAvailableWithNotification:YES]) {
         [self.reittiDataManager fetchStopsInAreaForRegion:region];
         [self showProgressHUD];
     }else{
@@ -907,11 +908,21 @@
     
     BOOL toReturn = YES;
     
-    if (![self isLocationServiceAvailable]) {
-        CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
-        coordinate = coord;
+    //TODO : Show notification if location service is not available
+    if (![self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
+        if ([settingsManager userLocation] == HSLRegion) {
+            //Helsinki center location
+            CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
+            coordinate = coord;
+        }else{
+            //tampere center location 61.4981508,23.7610254
+            CLLocationCoordinate2D coord = {.latitude =  61.4981508, .longitude =  23.7610254};
+            coordinate = coord;
+        }
         
         toReturn = NO;
+        
+        locNotAvailableNotificationShow = YES;
     }
     
     //CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
@@ -931,30 +942,34 @@
     return toReturn;
 }
 
--(BOOL)isLocationServiceAvailable{
+-(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
     NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                            message:@"Looks like location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        if (notify) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
+                                                                message:@"Looks like location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        }
         
         return NO;
     }
     
     if (!accessGranted) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                            message:@"Looks like access is not granted to this app for location services. Grant access from Settings/Privacy/Location Services to get nearby stops suggestions."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        
+        if (notify) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
+                                                                message:@"Looks like access is not granted to this app for location services. Grant access from Settings/Privacy/Location Services to get nearby stops suggestions."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        }
+    
         return NO;
     }
     

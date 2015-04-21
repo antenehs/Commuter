@@ -132,6 +132,7 @@ typedef enum
     //NSTimer *notificationTimer;
     
     //local vars
+    BOOL locNotAvailableNotificationShow;
     BOOL centerMap;
     BOOL isStopViewDisplayed;
     BOOL isSearchResultsViewDisplayed;
