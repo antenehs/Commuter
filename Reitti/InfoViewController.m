@@ -34,7 +34,7 @@
     [disruptionsTableView reloadData];
     disruptionsTableView.backgroundColor = [UIColor clearColor];
     
-    [self setupScrollView];
+//    [self setupScrollView];
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(checkDisruptionsButtonPressed:) userInfo:nil repeats:YES];
     [self.reittiDataManager fetchDisruptions];
@@ -81,12 +81,12 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 //    NSLog(@"offset : %f and origin: %f",scrollView.contentOffset.y ,aboutContainerView.frame.origin.y);
-    if (scrollView.contentOffset.y > aboutContainerView.frame.origin.y) {
+    if (scrollView.contentOffset.y - 30> aboutCommuterCellOriginY) {
         titleLabel.text = @"About Commuter";
         [titleImageView setImage:[UIImage imageNamed:@"appIconRounded.png"]];
     }
     
-    if (scrollView.contentOffset.y < aboutContainerView.frame.origin.y) {
+    if (scrollView.contentOffset.y - 30 < aboutCommuterCellOriginY) {
         titleLabel.text = @"Disruptions";
         [titleImageView setImage:[UIImage imageNamed:@"warningIconRounded.png"]];
     }
@@ -98,58 +98,107 @@
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return disruptionsList.count;
+    if (disruptionsList.count > 0) {
+        return disruptionsList.count + 2 ;
+    }else{
+        return 3;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
+    UITableViewCell *cell;
     
-    Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
+    if (disruptionsList.count > 0) {
+        if (indexPath.row < disruptionsList.count) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
+            
+            Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
+            
+            UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
+            infoLabel.text = disruption.disruptionInfo;
+            
+            CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
+            
+            CGRect labelSize = [disruption.disruptionInfo boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+                                                                    attributes:@{
+                                                                                 NSFontAttributeName : infoLabel.font
+                                                                                 }
+                                                                       context:nil];;
+            
+            infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, labelSize.size.width, labelSize.size.height);
+        }
+        
+    }else{
+        if (indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionsCell"];
+            
+            checkDisruptionButton = (UIButton *)[cell viewWithTag:1002];
+            refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
+        }
+        
+    }
     
-    UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
-    infoLabel.text = disruption.disruptionInfo;
+    if (indexPath.row == 1) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell"];
+    }
     
-    CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
-    
-    CGRect labelSize = [disruption.disruptionInfo boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
-                            attributes:@{
-                                    NSFontAttributeName : infoLabel.font
-                            }
-                       context:nil];;
-    
-    infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, labelSize.size.width, labelSize.size.height);
+    if (indexPath.row == 2) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"poweredByCell"];
+    }
     
     cell.backgroundColor = [UIColor clearColor];
-    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
-    UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
+    if (disruptionsList.count > 0) {
+        if (indexPath.row < disruptionsList.count) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
+            UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
+            infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, self.view.frame.size.width - 60, infoLabel.frame.size.height);
+            Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
+            
+            CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
+            
+            CGRect labelSize = [disruption.disruptionInfo boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+                                                                    attributes:@{
+                                                                                 NSFontAttributeName :infoLabel.font
+                                                                                 }
+                                                                       context:nil];;
+            
+            return labelSize.size.height + 20;
+        }
+    }else{
+        if (indexPath.row == 0) {
+            return 65;
+        }
+    }
     
-    Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
+    if (indexPath.row == 1) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell"];
+        UILabel *aboutText = (UILabel *)[cell viewWithTag:1001];
+        aboutText.frame = CGRectMake(aboutText.frame.origin.x, aboutText.frame.origin.y, self.view.frame.size.width - 60, aboutText.frame.size.height);
+        CGSize maxSize = CGSizeMake(aboutText.bounds.size.width, CGFLOAT_MAX);
+        
+        CGRect labelSize = [aboutText.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+                                                                attributes:@{
+                                                                             NSFontAttributeName :aboutText.font
+                                                                             }
+                                                                   context:nil];;
+        return 175 + labelSize.size.height;
+    }
     
-    CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
+    if (indexPath.row == 2) {
+        return 290;
+    }
     
-    CGRect labelSize = [disruption.disruptionInfo boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
-                                                            attributes:@{
-                                                                         NSFontAttributeName :infoLabel.font
-                                                                         }
-                                                               context:nil];;
-    
-    return labelSize.size.height + 20;
-    
+    return 44;
 }
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
-        [UIView transitionWithView:mainScrollView duration:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            
-            [self setupScrollView];
-            
-        } completion:^(BOOL finished) {}];
+    if (indexPath.row == 1) {
+        aboutCommuterCellOriginY = cell.frame.origin.y;
     }
 }
 
@@ -272,7 +321,7 @@
         
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have                               at least one Facebook account setup"
+                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -291,7 +340,7 @@
         [self presentViewController:tweetSheet animated:YES completion:nil];
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't send a tweet right now. Make sure your device has an internet connection and you have                               at least one Twitter account setup"
+                                                            message:@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup"
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];

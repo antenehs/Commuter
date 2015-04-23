@@ -23,6 +23,8 @@
     
     IBOutlet UIView *aboutContainerView;
     
+    CGFloat aboutCommuterCellOriginY;
+    
     NSTimer *refreshTimer;
     
     IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
