@@ -34,6 +34,7 @@
 @interface RouteLeg : NSObject
 
 -(id)initFromDictionary:(NSDictionary *)legDict;
+-(int)getNumberOfStopsInLeg;
 
 @property (nonatomic, retain) NSNumber * legLength;
 @property (nonatomic, retain) NSNumber * legDurationInSeconds;

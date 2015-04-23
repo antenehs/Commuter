@@ -97,7 +97,7 @@
                             [self.legSpecificType isEqual:@"25"] ||
                                 [self.legSpecificType isEqual:@"36"] ||
                                     [self.legSpecificType isEqual:@"39"] ||
-                                        [self.legSpecificType isEqual:@"8   "]) {
+                                        [self.legSpecificType isEqual:@"8"]) {
         return LegTypeBus;
     }
     else if ([self.legSpecificType isEqual:@"7"]) {
@@ -120,6 +120,15 @@
     else{
         return LegTypeOther;
     }
+}
+
+-(int)getNumberOfStopsInLeg{
+    int count = 0;
+    if (self.legType != LegTypeWalk) {
+        count = (int)self.legLocations.count;
+    }
+    
+    return count;
 }
 
 @end

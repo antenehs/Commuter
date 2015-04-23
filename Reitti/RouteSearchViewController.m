@@ -160,7 +160,7 @@ typedef enum
     [dateFormat3 setDateFormat:@"HH:mm"];
     NSString *prettyVersion = [dateFormat3 stringFromDate:[NSDate date]];
     
-    selectedTimeLabel.text = [NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+    selectedTimeLabel.text = [NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     
     timeSelectionViewShadeView.frame = self.view.frame;
     timeSelectionViewShadeView.hidden = YES;
@@ -681,7 +681,7 @@ typedef enum
     if (selectedTimeType == SelectedTimeArrival) {
         selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
     }else{
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     }
     
     [self searchRouteIfPossible];
@@ -737,7 +737,7 @@ typedef enum
     if (selectedTimeType == SelectedTimeArrival) {
         selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
     }else{
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     }
     
     [self searchRouteIfPossible];
@@ -886,7 +886,7 @@ typedef enum
             [self isSameDateAsToday:secondRoute.getStartingTimeOfRoute] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
             NSString *prettyVersion = [dateFormat3 stringFromDate:secondRoute.getStartingTimeOfRoute];
             
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
             
             [self.routeList removeLastObject];
             [self.routeList removeLastObject];
@@ -972,11 +972,11 @@ typedef enum
     
     switch (selectedTimeType) {
         case SelectedTimeNow:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
             break;
             
         case SelectedTimeDeparture:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
             break;
             
         case SelectedTimeArrival:
@@ -1146,26 +1146,46 @@ typedef enum
             float tWidth = 70;
             
             //get longest route duration
-            double longestDuration = 0;
+            CGFloat longestDuration = 0.0;
+            CGFloat totalDuration = 0.0;
             if (routeListCopy != nil && routeListCopy.count > routeList.count) {
                 for (Route *route in routeListCopy) {
-                    if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
-                        longestDuration = [route.routeDurationInSeconds doubleValue];
+                    if ([route.routeDurationInSeconds floatValue] > longestDuration) {
+                        longestDuration = [route.routeDurationInSeconds floatValue];
                     }
+                    totalDuration += [route.routeDurationInSeconds floatValue];
                 }
             }else{
                 for (Route *route in self.routeList) {
-                    if ([route.routeDurationInSeconds doubleValue] > longestDuration) {
-                        longestDuration = [route.routeDurationInSeconds doubleValue];
+                    if ([route.routeDurationInSeconds floatValue] > longestDuration) {
+                        longestDuration = [route.routeDurationInSeconds floatValue];
                     }
+                    totalDuration += [route.routeDurationInSeconds floatValue];
                 }
+            }
+            
+            CGFloat meanDuration = totalDuration/routeListCopy.count;
+            CGFloat scale = longestDuration/meanDuration;
+            if (1.5 * meanDuration >= longestDuration > 1.4 * meanDuration) {
+                totalWidth = totalWidth * 1.4;
+            }else if (1.7 >= scale && scale > 1.5) {
+                totalWidth = totalWidth * 1.5;
+            }else if (2.0  >= scale && scale > 1.7) {
+                totalWidth = totalWidth * 1.7;
+            }else if (2.3 >= scale && scale > 2.0) {
+                totalWidth = totalWidth * 2.0;
+            }else if (2.7  >= scale && scale > 2.3) {
+                totalWidth = totalWidth * 2.4;
+            }else if (3.2  >= scale && scale > 2.7) {
+                totalWidth = totalWidth * 2.8;
+            }else if (scale > 3.2) {
+                totalWidth = totalWidth * 3.2;
             }
             
             
             float x = 0;
-            //TODO: Check when there is only walking
             for (RouteLeg *leg in route.routeLegs) {
-                tWidth = totalWidth * ([leg.legDurationInSeconds floatValue]/longestDuration);
+                tWidth = totalWidth * (([leg.legDurationInSeconds floatValue] - leg.waitingTimeInSeconds)/longestDuration);
                 Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
                 CGRect frame = transportView.frame;
                 transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
@@ -1416,7 +1436,7 @@ typedef enum
         [self isSameDateAsToday:myDate] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
         NSString *prettyVersion = [dateFormat3 stringFromDate:myDate];
         
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
+        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     }
     
     [self searchRouteIfPossible];

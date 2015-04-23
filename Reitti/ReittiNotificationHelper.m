@@ -7,6 +7,7 @@
 //
 
 #import "ReittiNotificationHelper.h"
+#import "TSMessage.h"
 
 @implementation ReittiNotificationHelper
 
@@ -16,6 +17,30 @@
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+}
+
++(void)showSuccessBannerMessage:(NSString *)title andContent:(NSString *)content{
+    [TSMessage showNotificationWithTitle:title
+                                subtitle:content
+                                    type:TSMessageNotificationTypeSuccess];
+}
+
++(void)showErrorBannerMessage:(NSString *)title andContent:(NSString *)content{
+    [TSMessage showNotificationWithTitle:title
+                                subtitle:content
+                                    type:TSMessageNotificationTypeError];
+}
+
++(void)showWarningBannerMessage:(NSString *)title andContent:(NSString *)content{
+    [TSMessage showNotificationWithTitle:title
+                                subtitle:content
+                                    type:TSMessageNotificationTypeWarning];
+}
+
++(void)showInfoBannerMessage:(NSString *)title andContent:(NSString *)content{
+    [TSMessage showNotificationWithTitle:title
+                                subtitle:content
+                                    type:TSMessageNotificationTypeMessage];
 }
 
 @end

@@ -14,6 +14,8 @@
 #import "InfoViewController.h"
 #import "WidgetSettingsViewController.h"
 #import <Social/Social.h>
+#import "TSMessage.h"
+#import "ReittiNotificationHelper.h"
 
 @interface SearchController ()
 
@@ -78,6 +80,19 @@
         alertView.tag = 1001;
         [alertView show];
     }
+//    [TSMessage showNotificationInViewController:self
+//                                          title:@"Update available"
+//                                       subtitle:@"Please update the app"
+//                                          image:nil
+//                                           type:TSMessageNotificationTypeMessage
+//                                       duration:TSMessageNotificationDurationAutomatic
+//                                       callback:nil
+//                                    buttonTitle:@"Update"
+//                                 buttonCallback:^{
+//                                     NSLog(@"User tapped the button");
+//                                 }
+//                                     atPosition:TSMessageNotificationPositionTop
+//                           canBeDismissedByUser:YES];
     
     //Testing
 //    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.commuterAppExtension"];
@@ -660,11 +675,16 @@
     
     requestedForListing = YES;
     
-    if ([self isLocationServiceAvailableWithNotification:YES]) {
+    if ([self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
         [self.reittiDataManager fetchStopsInAreaForRegion:region];
         [self showProgressHUD];
     }else{
         requestedForListing = NO;
+        if (locNotAvailableNotificationShow) {
+            [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
+        }
+        
+        locNotAvailableNotificationShow = YES;
     }
 }
 
@@ -908,7 +928,7 @@
     
     BOOL toReturn = YES;
     
-    //TODO : Show notification if location service is not available
+    
     if (![self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
         if ([settingsManager userLocation] == HSLRegion) {
             //Helsinki center location
@@ -1704,7 +1724,7 @@
         
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have                               at least one Facebook account setup"
+                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -1724,6 +1744,10 @@
     //[self toggleSearchViewHiddenAnimated:YES];
 }
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
+    if (![self isLocationServiceAvailableWithNotification:NO] && locNotAvailableNotificationShow) {
+        [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
+    }
+
     [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
 }
 /*
@@ -2071,6 +2095,9 @@
     [self hideSearchResultView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
     [self plotStopAnnotation:[reittiDataManager castStopEntityToBusStopShort:stopEntity] withSelect:YES];
+    
+    mainSearchBar.text = [NSString stringWithFormat:@"%@, %@", stopEntity.busStopName, stopEntity.busStopCity];
+    prevSearchedCoords = stopEntity.busStopCoords;
 }
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
     [self hideSearchResultView:YES animated:YES];
@@ -2085,6 +2112,7 @@
     }
     
     mainSearchBar.text = geoCode.FullAddressString;
+    prevSearchedCoords = geoCode.coords;
 }
 
 - (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
@@ -2095,6 +2123,7 @@
     [self plotNamedBookmarkAnnotation:namedBookmark];
     
     mainSearchBar.text = namedBookmark.name;
+    prevSearchedCoords = namedBookmark.coords;
 }
 
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
@@ -2279,7 +2308,12 @@
             routeSearchViewController.prevFromLocation = selectedFromLocation;
             routeSearchViewController.prevFromCoords = selectedFromCoords;
         }
-    
+        
+        if ([segue.identifier isEqualToString:@"switchToRouteSearch"]) {
+            routeSearchViewController.prevToLocation = mainSearchBar.text;
+            routeSearchViewController.prevToCoords = prevSearchedCoords;
+        }
+        
         routeSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [routeSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        routeSearchViewController.reittiDataManager = self.reittiDataManager;

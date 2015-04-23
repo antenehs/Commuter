@@ -53,6 +53,7 @@ typedef enum{
     ReittiRemindersManager *reittiRemindersManager;
     
     IBOutlet NSLayoutConstraint *routeLIstViewVerticalSpacing;
+    IBOutlet NSLayoutConstraint *mapViewVerticalSpacing;
     
     BOOL isShowingStopView;
     NSNumber *selectedAnnotionStopCode;

@@ -12,4 +12,9 @@
 
 +(void)showSimpleMessageWithTitle:(NSString *)title andContent:(NSString *)content;
 
++(void)showSuccessBannerMessage:(NSString *)title andContent:(NSString *)content;
++(void)showErrorBannerMessage:(NSString *)title andContent:(NSString *)content;
++(void)showWarningBannerMessage:(NSString *)title andContent:(NSString *)content;
++(void)showInfoBannerMessage:(NSString *)title andContent:(NSString *)content;
+
 @end

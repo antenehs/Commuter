@@ -422,8 +422,14 @@
     [departuresTable reloadData];
     [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     
-    [stopViewTitle setText:[busStop code_short]];
-    [stopViewSubTitle setText:[busStop name_fi]];
+    if ([[busStop code_short] isEqualToString:@""] || [busStop code_short] == nil) {
+        [stopViewTitle setText:[busStop name_fi]];
+        [stopViewSubTitle setText:@""];
+    }else{
+        [stopViewTitle setText:[busStop code_short]];
+        [stopViewSubTitle setText:[busStop name_fi]];
+    }
+    
     
     [self setUpMainView];
     [self initMapViewForBusStop:busStop];

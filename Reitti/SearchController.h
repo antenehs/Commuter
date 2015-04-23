@@ -159,6 +159,8 @@ typedef enum
     NSString * selectedFromLocation;
     NSString * selectedFromCoords;
     
+    NSString * prevSearchedCoords;
+    
     NamedBookmark *selectedNamedBookmark;
     GeoCode *selectedGeoCode;
     

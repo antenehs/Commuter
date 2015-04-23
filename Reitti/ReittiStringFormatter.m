@@ -131,9 +131,9 @@
     int minutes = (int)(seconds/60);
     
     if (minutes > 59) {
-        return [NSString stringWithFormat:@"%dh %dmin", (int)(minutes/60), minutes % 60];
+        return [NSString stringWithFormat:@"%dh %d min", (int)(minutes/60), minutes % 60];
     }else{
-        return [NSString stringWithFormat:@"%dmin", minutes];
+        return [NSString stringWithFormat:@"%d min", minutes];
     }
     
 }
