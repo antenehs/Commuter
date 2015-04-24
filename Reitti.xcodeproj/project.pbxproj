@@ -275,6 +275,8 @@
 		66F0998F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png */; };
 		66F099901AE8075D00F20D34 /* NotificationButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099801AE8075D00F20D34 /* NotificationButtonBackground.png */; };
 		66F099911AE8075D00F20D34 /* NotificationButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099811AE8075D00F20D34 /* NotificationButtonBackground@2x.png */; };
+		66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */; };
+		66F099951AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */; };
 		66F1382B1992F54000B52B6B /* busStopAnnotation-small-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */; };
 		66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382C1992FBD500B52B6B /* star-orange-128.png */; };
 		66F1382F19938A3000B52B6B /* idea-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382E19938A3000B52B6B /* idea-75.png */; };
@@ -732,6 +734,8 @@
 		66F0997F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundWarningIcon@2x.png"; sourceTree = "<group>"; };
 		66F099801AE8075D00F20D34 /* NotificationButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationButtonBackground.png; sourceTree = "<group>"; };
 		66F099811AE8075D00F20D34 /* NotificationButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationButtonBackground@2x.png"; sourceTree = "<group>"; };
+		66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = darkGradientLandscape.jpeg; sourceTree = "<group>"; };
+		66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = darkGradientBkgrnd.jpeg; sourceTree = "<group>"; };
 		66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "busStopAnnotation-small-blue.png"; path = "Pictures/New Version 2.0/busStopAnnotation-small-blue.png"; sourceTree = "<group>"; };
 		66F1382C1992FBD500B52B6B /* star-orange-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-orange-128.png"; path = "Pictures/New Version 2.0/star-orange-128.png"; sourceTree = "<group>"; };
 		66F1382E19938A3000B52B6B /* idea-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "idea-75.png"; path = "Pictures/New Version 2.0/Search View/idea-75.png"; sourceTree = "<group>"; };
@@ -1517,6 +1521,8 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */,
+				66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */,
 				664749E51AE6D7E00050137E /* previous-green-100.png */,
 				664749E61AE6D7E00050137E /* next-green-100.png */,
 				664749E11AE6B2E30050137E /* next-gray-100.png */,
@@ -1777,9 +1783,11 @@
 				667B98091AD00FE000C45ADF /* hsl-region.geojson in Resources */,
 				66C59DA519993CC300E7AC7A /* Transport.xib in Resources */,
 				66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */,
+				66F099951AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg in Resources */,
 				66D0BA5A18BF3785002DDC7B /* Aspergit Bold.otf in Resources */,
 				66D6EDB519A0A5F100FEB9FD /* circle-notfilled-50.png in Resources */,
 				664ADFF21992740F000B4F18 /* star-75.png in Resources */,
+				66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */,
 				664E28A91AE2B32300BE2457 /* compass-100.png in Resources */,
 				66DAE1F619C5D1E00039081D /* dotted-brown-line.png in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,

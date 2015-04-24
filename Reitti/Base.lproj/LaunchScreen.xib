@@ -12,6 +12,9 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="darkGradientBkgrnd.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="6Yj-Sk-HRU">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ewketapps-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="Xko-yF-DUF">
                     <rect key="frame" x="190" y="427" width="100" height="25"/>
                     <constraints>
@@ -44,13 +47,19 @@
             </subviews>
             <color key="backgroundColor" red="0.22480751811594191" green="0.22480751811594191" blue="0.22480751811594191" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="6Yj-Sk-HRU" secondAttribute="bottom" id="0G9-Gc-Pa8"/>
                 <constraint firstAttribute="centerY" secondItem="kPs-8U-jCa" secondAttribute="centerY" constant="-166.5" id="7cc-cZ-4ye"/>
                 <constraint firstAttribute="centerX" secondItem="kPs-8U-jCa" secondAttribute="centerX" constant="-0.5" id="L81-qg-ukS"/>
                 <constraint firstAttribute="bottom" secondItem="Xko-yF-DUF" secondAttribute="bottom" constant="28" id="L9X-Er-oxt"/>
+                <constraint firstItem="6Yj-Sk-HRU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YWe-BQ-d4f"/>
+                <constraint firstAttribute="trailing" secondItem="6Yj-Sk-HRU" secondAttribute="trailing" id="boC-t0-ILb"/>
                 <constraint firstAttribute="centerX" secondItem="Xko-yF-DUF" secondAttribute="centerX" id="c1G-kU-ffr"/>
                 <constraint firstItem="Xko-yF-DUF" firstAttribute="top" secondItem="kPs-8U-jCa" secondAttribute="bottom" constant="2" id="fpT-PK-Xsv"/>
+                <constraint firstAttribute="centerY" secondItem="6Yj-Sk-HRU" secondAttribute="centerY" id="gVq-Np-34U"/>
                 <constraint firstAttribute="centerX" secondItem="DG1-Lg-mHX" secondAttribute="centerX" id="j0B-77-SQ8"/>
                 <constraint firstItem="DG1-Lg-mHX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" id="mYw-Jy-Qz2"/>
+                <constraint firstItem="6Yj-Sk-HRU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="oJ9-c2-R5n"/>
+                <constraint firstAttribute="centerX" secondItem="6Yj-Sk-HRU" secondAttribute="centerX" id="ucs-yG-fMo"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -64,6 +73,7 @@
     </objects>
     <resources>
         <image name="app-logo-rounded.png" width="364" height="368"/>
+        <image name="darkGradientBkgrnd.jpeg" width="707" height="1193"/>
         <image name="ewketapps-logo.png" width="281" height="65"/>
     </resources>
 </document>

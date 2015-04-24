@@ -193,7 +193,6 @@
     dataManger.reverseGeocodeSearchdelegate = self;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
-    [self.reittiDataManager setUserLocationToRegion:HSLandTRERegion];
     
     self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
     
@@ -201,6 +200,8 @@
     if ([settingsManager isClearingHistoryEnabled]) {
         [self.reittiDataManager clearHistoryOlderThanDays:[settingsManager numberOfDaysToKeepHistory]];
     }
+    
+    [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 }
 
 - (void)initReminderStore

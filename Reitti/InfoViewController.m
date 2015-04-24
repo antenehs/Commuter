@@ -18,6 +18,7 @@
 
 @synthesize disruptionsList;
 @synthesize reittiDataManager;
+@synthesize settingsManager;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,6 +27,9 @@
 //    mainScrollView.contentSize = CGSizeMake(320, 505);
     
     self.reittiDataManager.disruptionFetchDelegate = self;
+    if (settingsManager == nil) {
+        settingsManager =[[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    }
     
     CGRect scrollVFrame = mainScrollView.frame;
     scrollVFrame.size.height = self.view.frame.size.height - scrollVFrame.origin.y;
@@ -37,8 +41,9 @@
 //    [self setupScrollView];
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(checkDisruptionsButtonPressed:) userInfo:nil repeats:YES];
-    [self.reittiDataManager fetchDisruptions];
-    
+    if ([settingsManager userLocation] == HSLRegion) {
+        [self.reittiDataManager fetchDisruptions];
+    }
 }
 
 #pragma mark - view methods
@@ -126,24 +131,36 @@
                                                                        context:nil];;
             
             infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, labelSize.size.width, labelSize.size.height);
+        }else{
+            if (indexPath.row == disruptionsList.count) {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell"];
+            }
+            
+            if (indexPath.row == disruptionsList.count + 1) {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"poweredByCell"];
+            }
         }
         
     }else{
         if (indexPath.row == 0) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionsCell"];
-            
-            checkDisruptionButton = (UIButton *)[cell viewWithTag:1002];
-            refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
+            if ([settingsManager userLocation] == HSLRegion) {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionsCell"];
+                
+                checkDisruptionButton = (UIButton *)[cell viewWithTag:1002];
+                refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
+            }else{
+                cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionInfoCell"];
+            }
         }
         
-    }
-    
-    if (indexPath.row == 1) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell"];
-    }
-    
-    if (indexPath.row == 2) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"poweredByCell"];
+        if (indexPath.row == 1) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell"];
+        }
+        
+        if (indexPath.row == 2) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"poweredByCell"];
+        }
+        
     }
     
     cell.backgroundColor = [UIColor clearColor];
@@ -167,6 +184,8 @@
                                                                        context:nil];;
             
             return labelSize.size.height + 20;
+        }else{
+            
         }
     }else{
         if (indexPath.row == 0) {
@@ -174,10 +193,12 @@
         }
     }
     
-    if (indexPath.row == 1) {
+    int aboutRowStart = disruptionsList.count > 0 ? (int)disruptionsList.count : 1;
+    
+    if (indexPath.row == aboutRowStart) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell"];
         UILabel *aboutText = (UILabel *)[cell viewWithTag:1001];
-        aboutText.frame = CGRectMake(aboutText.frame.origin.x, aboutText.frame.origin.y, self.view.frame.size.width - 60, aboutText.frame.size.height);
+        aboutText.frame = CGRectMake(aboutText.frame.origin.x, aboutText.frame.origin.y, self.view.frame.size.width - 45, aboutText.frame.size.height);
         CGSize maxSize = CGSizeMake(aboutText.bounds.size.width, CGFLOAT_MAX);
         
         CGRect labelSize = [aboutText.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
@@ -188,7 +209,7 @@
         return 175 + labelSize.size.height;
     }
     
-    if (indexPath.row == 2) {
+    if (indexPath.row == aboutRowStart + 1) {
         return 290;
     }
     
@@ -197,7 +218,8 @@
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
+    int aboutCellLoc = disruptionsList.count > 0 ? (int)disruptionsList.count : 1;
+    if (indexPath.row == aboutCellLoc) {
         aboutCommuterCellOriginY = cell.frame.origin.y;
     }
 }
@@ -258,7 +280,13 @@
 }
 
 - (IBAction)openHSLSiteButtonPressed:(id)sender {
-    NSURL *url = [NSURL URLWithString:@"http://developer.reittiopas.fi/pages/en/home.php"];
+    NSURL *url;
+    if ([settingsManager userLocation] == TRERegion) {
+        url = [NSURL URLWithString:@"http://developer.publictransport.tampere.fi/pages/en/http-get-interface.php"];
+    }else{
+        url = [NSURL URLWithString:@"http://developer.reittiopas.fi/pages/en/home.php"];
+    }
+    
 
     [[UIApplication sharedApplication] openURL:url];
 }

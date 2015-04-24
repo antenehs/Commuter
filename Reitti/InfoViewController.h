@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "RettiDataManager.h"
+#import "SettingsManager.h"
 
 @interface InfoViewController : UIViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ReittiDisruptionFetchDelegate>{
     
@@ -34,5 +35,7 @@
 @property (strong, nonatomic) NSArray * disruptionsList;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
+@property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end

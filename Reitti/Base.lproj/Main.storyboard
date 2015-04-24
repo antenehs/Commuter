@@ -513,7 +513,7 @@
                                 </constraints>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="disruptionsCell" rowHeight="70" id="isq-yz-ZE7">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="disruptionsCell" rowHeight="80" id="isq-yz-ZE7">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="isq-yz-ZE7" id="HCa-Ap-cuO">
@@ -532,7 +532,13 @@
                                                 <constraint firstItem="96V-9S-nUc" firstAttribute="leading" secondItem="HCa-Ap-cuO" secondAttribute="leadingMargin" constant="20" id="PW7-xC-X7I"/>
                                                 <constraint firstItem="96V-9S-nUc" firstAttribute="top" secondItem="HCa-Ap-cuO" secondAttribute="topMargin" id="foB-6p-NkE"/>
                                                 <constraint firstItem="96V-9S-nUc" firstAttribute="trailing" secondItem="HCa-Ap-cuO" secondAttribute="trailingMargin" constant="-20" id="gRv-Iv-YfA"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="96V-9S-nUc" secondAttribute="bottom" constant="10" id="kGP-CO-uFp"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="0kE-Wp-KoX"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noDisruptionsCell" rowHeight="65" id="fih-Xn-cN2">
@@ -588,6 +594,45 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noDisruptionInfoCell" rowHeight="65" id="Vqv-yL-bJl">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vqv-yL-bJl" id="40r-VF-iBN">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No disruption info in your area" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdp-gJ-0g5">
+                                                    <rect key="frame" x="194" y="22" width="211" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="22" id="GoJ-oP-kCz"/>
+                                                        <constraint firstAttribute="width" constant="135" id="a2T-pl-lih"/>
+                                                        <constraint firstAttribute="height" constant="22" id="dsS-E1-PDt"/>
+                                                        <constraint firstAttribute="width" constant="211" id="qf4-42-zah"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="a2T-pl-lih"/>
+                                                            <exclude reference="dsS-E1-PDt"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="kdp-gJ-0g5" firstAttribute="top" secondItem="40r-VF-iBN" secondAttribute="topMargin" constant="3" id="4FK-sg-kTh"/>
+                                                <constraint firstAttribute="centerY" secondItem="kdp-gJ-0g5" secondAttribute="centerY" constant="-0.5" id="5Ye-iz-McZ"/>
+                                                <constraint firstAttribute="centerX" secondItem="kdp-gJ-0g5" secondAttribute="centerX" constant="0.5" id="GNX-WB-cD7"/>
+                                                <constraint firstItem="kdp-gJ-0g5" firstAttribute="leading" secondItem="40r-VF-iBN" secondAttribute="leadingMargin" constant="16" id="tLJ-ey-GIE"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="4FK-sg-kTh"/>
+                                                    <exclude reference="tLJ-ey-GIE"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="aboutCommuterCell" rowHeight="370" id="C9k-Gm-7Gc">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -618,14 +663,14 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbG-y6-Zwh">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vbG-y6-Zwh">
                                                     <rect key="frame" x="30" y="57" width="547" height="192"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="195" id="f1L-uv-A8M"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="195" id="nZv-8p-hQm"/>
                                                     </constraints>
                                                     <mutableString key="text">Commuter is an app made to provide an easy way to plan public transport journeys and get stop time tables. It uses HSL's and TRE's Open API for all the data. It supports public transport in the capital city region and Tampere region with more cities coming soon. There will also be more improvements and new features regularly. Feel free to contact me about feature requests. Last but not least, it is almost mandatory that you write a review in the App store or share on Facebook/Twitter to spread the love. If not there will be 1000 years of darkness. Seriously.</mutableString>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
