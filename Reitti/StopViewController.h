@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <EventKit/EventKit.h>
+#import <iAd/iAd.h>
 #import "AMBlurView.h"
 #import "BusStop.h"
 #import "StopEntity.h"
@@ -18,6 +19,7 @@
 #import "CustomeTableViewCell.h"
 #import "SWTableViewCell.h"
 #import "ReittiRemindersManager.h"
+#import "SettingsManager.h"
 
 @class StopViewController;
 
@@ -26,7 +28,7 @@
 - (void)deletedSavedStop:(StopEntity *)busStop;
 @end
 
-@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate>{
+@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate, ADBannerViewDelegate>{
     
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;
@@ -63,6 +65,8 @@
     NSInteger pressTime;
     
     NSTimer *timer;
+    
+    ADBannerView *_bannerView;
 }
 
 -(void)setUpStopViewForBusStop:(BusStop *)busStop;
@@ -85,6 +89,7 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
+@property (strong, nonatomic) SettingsManager * settingsManager;
 
 @property (nonatomic, weak) id <StopViewControllerDelegate> delegate;
 

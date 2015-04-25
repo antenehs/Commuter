@@ -42,6 +42,7 @@
 -(void)setUserLocation:(Region)userLocation{
     [self.reittiDataManager.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
     [self.reittiDataManager saveSettings];
+    self.reittiDataManager.userLocation = userLocation;
 }
 -(void)enableClearingOldHistory:(BOOL)clear{
     [self.reittiDataManager.settingsEntity setClearOldHistory:[NSNumber numberWithBool:clear]];

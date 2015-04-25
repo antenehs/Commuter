@@ -44,6 +44,17 @@
     if ([settingsManager userLocation] == HSLRegion) {
         [self.reittiDataManager fetchDisruptions];
     }
+    
+    [self initAdBannerView];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self layoutAnimated:NO];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self layoutAnimated:NO];
 }
 
 #pragma mark - view methods
@@ -172,7 +183,7 @@
         if (indexPath.row < disruptionsList.count) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
             UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
-            infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, self.view.frame.size.width - 60, infoLabel.frame.size.height);
+            infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, self.view.frame.size.width - 180, infoLabel.frame.size.height);
             Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
             
             CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
@@ -182,7 +193,9 @@
                                                                                  NSFontAttributeName :infoLabel.font
                                                                                  }
                                                                        context:nil];;
-            
+            if (labelSize.size.height < 40) {
+                labelSize.size.height = 40;
+            }
             return labelSize.size.height + 20;
         }else{
             
@@ -205,7 +218,7 @@
                                                                 attributes:@{
                                                                              NSFontAttributeName :aboutText.font
                                                                              }
-                                                                   context:nil];;
+                                                                   context:nil];
         return 175 + labelSize.size.height;
     }
     
@@ -426,6 +439,69 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - iAd methods
+-(void)initAdBannerView{
+    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
+        _bannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    } else {
+        _bannerView = [[ADBannerView alloc] init];
+    }
+    _bannerView.delegate = self;
+    
+    CGRect bannerFrame = _bannerView.frame;
+    bannerFrame.origin.y = self.view.bounds.size.height;
+    _bannerView.frame = bannerFrame;
+    
+    [self.view addSubview:_bannerView];
+}
+
+- (void)layoutAnimated:(BOOL)animated
+{
+    // As of iOS 6.0, the banner will automatically resize itself based on its width.
+    // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
+    CGRect contentFrame = self.view.bounds;
+    if (contentFrame.size.width < contentFrame.size.height) {
+        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+    } else {
+        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+    }
+    
+    CGRect bannerFrame = _bannerView.frame;
+    bannerFrame.origin.y = contentFrame.size.height;
+    _bannerView.frame = bannerFrame;
+    if (_bannerView.bannerLoaded) {
+        contentFrame.size.height -= _bannerView.frame.size.height;
+        bannerFrame.origin.y = contentFrame.size.height;
+    } else {
+        bannerFrame.origin.y = contentFrame.size.height;
+    }
+    
+    [UIView animateWithDuration:animated ? 0.25 : 0.0 animations:^{
+        //cardView.frame = contentFrame;
+        _bannerView.frame = bannerFrame;
+    }];
+}
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutAnimated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutAnimated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    return YES ;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    
+}
+
 
 /*
 #pragma mark - Navigation

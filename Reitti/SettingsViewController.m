@@ -58,7 +58,7 @@
 
 #pragma - mark table view methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 6;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -70,6 +70,8 @@
         return 1;
     }else if (section == 3) {
         return 2;
+    }else if (section == 4) {
+        return 1;
     }else{
         return 1;
     }
@@ -133,6 +135,8 @@
                 selectedLabel.textColor = [UIColor lightGrayColor];
             }
         }
+    }else if (indexPath.section == 4){
+        cell = [tableView dequeueReusableCellWithIdentifier:@"rateAppCell"];
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"versionInfoCell"];
     }
@@ -143,6 +147,8 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 1 || section == 2) {
         return 70;
+    }else if(section == 4){
+        return 50;
     }else
         return 0;
 }
@@ -160,6 +166,15 @@
     }else if (section == 1) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, mainTableView.frame.size.width - 20, 55)];
         label.text = @"Setup the stops that will be displayed in the Departures Widget in notification center. Note that this feature is available only in iOS 8 and above.";
+        label.numberOfLines = 4;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor darkGrayColor];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-light" size:12];
+        
+        return label;
+    }else if (section == 4) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, mainTableView.frame.size.width - 20, 55)];
+        label.text = @"The gift of 5 little starts is satisfying for both of us more than you think. ";
         label.numberOfLines = 4;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor darkGrayColor];
@@ -207,6 +222,9 @@
     [mainTableView reloadData];
 }
 
+- (IBAction)rateAppCellPressed:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+}
 
 
 #pragma mark - helper methods

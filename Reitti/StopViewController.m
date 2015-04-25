@@ -26,7 +26,7 @@
 @synthesize modalMode;
 @synthesize departures, _busStop, stopEntity;
 @synthesize _stopLinesDetail;
-@synthesize reittiDataManager;
+@synthesize reittiDataManager, settingsManager;
 @synthesize stopCode, stopCoords;
 @synthesize managedObjectContext;
 @synthesize backButtonText;
@@ -57,6 +57,10 @@
         self.navigationItem.leftBarButtonItem = nil;
     }
     
+    if (settingsManager == nil) {
+        settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    }
+    
     modalMode = [NSNumber numberWithBool:NO];
     
     [self setNeedsStatusBarAppearanceUpdate];
@@ -66,11 +70,15 @@
     [self setStopViewApearance];
     [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
     [self initNotifications];
-   
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    
+    [self layoutAnimated:NO];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self layoutAnimated:NO];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -125,6 +133,11 @@
     }else{
         [self setStopNotBookmarkedState];
     }
+    
+    if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
+        [self initAdBannerView];
+    }
+    
 }
 
 - (void)setStopViewApearance{
@@ -690,6 +703,68 @@
 //    }
 //    
 //    [SVProgressHUD dismiss];
+}
+
+#pragma mark - iAd methods
+-(void)initAdBannerView{
+    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
+        _bannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    } else {
+        _bannerView = [[ADBannerView alloc] init];
+    }
+    _bannerView.delegate = self;
+    
+    CGRect bannerFrame = _bannerView.frame;
+    bannerFrame.origin.y = self.view.bounds.size.height;
+    _bannerView.frame = bannerFrame;
+    
+    [self.view addSubview:_bannerView];
+}
+
+- (void)layoutAnimated:(BOOL)animated
+{
+    // As of iOS 6.0, the banner will automatically resize itself based on its width.
+    // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
+    CGRect contentFrame = self.view.bounds;
+    if (contentFrame.size.width < contentFrame.size.height) {
+        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+    } else {
+        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+    }
+    
+    CGRect bannerFrame = _bannerView.frame;
+    bannerFrame.origin.y = contentFrame.size.height;
+    _bannerView.frame = bannerFrame;
+    if (_bannerView.bannerLoaded) {
+        contentFrame.size.height -= _bannerView.frame.size.height + self.navigationController.toolbar.frame.size.height;
+        bannerFrame.origin.y = contentFrame.size.height;
+    } else {
+        bannerFrame.origin.y = contentFrame.size.height;
+    }
+    
+    [UIView animateWithDuration:animated ? 0.25 : 0.0 animations:^{
+        //cardView.frame = contentFrame;
+        _bannerView.frame = bannerFrame;
+    }];
+}
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutAnimated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutAnimated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    return YES ;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    
 }
 
 #pragma mark - Seague

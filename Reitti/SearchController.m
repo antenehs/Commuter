@@ -117,7 +117,7 @@
             }
         }
     }
-    [self initDisruptionFetching];
+    [self fetchDisruptions];
     [self hideSearchResultView:YES animated:YES];
 }
 
@@ -1028,7 +1028,7 @@
         
         userLocationUpdated = YES;
         
-        
+        [self fetchDisruptions];
     }
     
     firstRecievedLocation = false;
@@ -2160,6 +2160,7 @@
     }
     
     [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+    [self fetchDisruptions];
     
 }
 

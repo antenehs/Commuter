@@ -1325,6 +1325,61 @@
                                                     <segue destination="Cud-SI-XzJ" kind="show" id="RgE-nb-PaC"/>
                                                 </connections>
                                             </tableViewCell>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rateAppCell" id="rjy-w8-eza">
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rjy-w8-eza" id="BMt-aK-ifr">
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate in App Store" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KfH-f0-6lH">
+                                                            <rect key="frame" x="44" y="14" width="150" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="21" id="8Pt-gP-hWA"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="Ltn-XH-ku2"/>
+                                                                <constraint firstAttribute="width" constant="150" id="Yr4-8D-td3"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="y56-TX-HMA"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="y56-TX-HMA"/>
+                                                                    <exclude reference="Ltn-XH-ku2"/>
+                                                                </mask>
+                                                            </variation>
+                                                        </label>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Thumbs Up-50.png" translatesAutoresizingMaskIntoConstraints="NO" id="bdf-Ev-Sc3">
+                                                            <rect key="frame" x="10" y="12" width="25" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="EIa-uq-cN4"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="KMs-um-biC"/>
+                                                                <constraint firstAttribute="width" constant="25" id="MFm-q7-xvN"/>
+                                                                <constraint firstAttribute="height" constant="25" id="QcF-Vo-QRp"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Uj-Sf-c53">
+                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="rateAppCellPressed:" destination="MbC-iB-tLX" eventType="touchUpInside" id="RN7-b9-FxQ"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="2Uj-Sf-c53" secondAttribute="trailing" constant="-8" id="8bZ-pC-brn"/>
+                                                        <constraint firstItem="bdf-Ev-Sc3" firstAttribute="top" secondItem="BMt-aK-ifr" secondAttribute="topMargin" constant="4" id="L5E-kh-fr0"/>
+                                                        <constraint firstItem="KfH-f0-6lH" firstAttribute="top" secondItem="BMt-aK-ifr" secondAttribute="topMargin" constant="6" id="SMo-Ga-UdF"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="2Uj-Sf-c53" secondAttribute="bottom" constant="-9" id="Uir-pg-7bH"/>
+                                                        <constraint firstItem="KfH-f0-6lH" firstAttribute="leading" secondItem="bdf-Ev-Sc3" secondAttribute="trailing" constant="9" id="XnG-EY-4di"/>
+                                                        <constraint firstItem="2Uj-Sf-c53" firstAttribute="leading" secondItem="BMt-aK-ifr" secondAttribute="leadingMargin" constant="-8" id="qEx-8Z-AcM"/>
+                                                        <constraint firstItem="bdf-Ev-Sc3" firstAttribute="leading" secondItem="BMt-aK-ifr" secondAttribute="leadingMargin" constant="2" id="qf6-gh-JCp"/>
+                                                        <constraint firstItem="2Uj-Sf-c53" firstAttribute="top" secondItem="BMt-aK-ifr" secondAttribute="topMargin" constant="-8" id="xjP-op-zEM"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
                                         </prototypes>
                                         <connections>
                                             <outlet property="dataSource" destination="MbC-iB-tLX" id="Y1U-lt-aW0"/>
@@ -2402,7 +2457,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eRo-XQ-kRv">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="659"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oiC-BR-Ocn">
@@ -2446,7 +2501,7 @@
                             <constraint firstItem="oiC-BR-Ocn" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leadingMargin" constant="-16" id="1qt-ai-56o"/>
                             <constraint firstItem="oiC-BR-Ocn" firstAttribute="top" secondItem="SPf-0k-7Zl" secondAttribute="topMargin" id="6HS-cZ-gGF"/>
                             <constraint firstItem="eRo-XQ-kRv" firstAttribute="top" secondItem="d8I-ID-baV" secondAttribute="bottom" id="L2R-5v-49v"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="eRo-XQ-kRv" secondAttribute="bottom" constant="-123" id="NMd-Ff-XEu"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="eRo-XQ-kRv" secondAttribute="bottom" id="NMd-Ff-XEu"/>
                             <constraint firstItem="eRo-XQ-kRv" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leading" id="PDR-Wq-fFm"/>
                             <constraint firstItem="eRo-XQ-kRv" firstAttribute="centerX" secondItem="oiC-BR-Ocn" secondAttribute="centerX" id="Tp5-ZQ-aEB"/>
                             <constraint firstItem="oiC-BR-Ocn" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leadingMargin" id="j6J-GA-Bq5"/>
@@ -6101,6 +6156,7 @@ Helsinki, Finland</string>
     <resources>
         <image name="3-100.png" width="100" height="100"/>
         <image name="Info-filled-white-32.png" width="64" height="64"/>
+        <image name="Thumbs Up-50.png" width="50" height="50"/>
         <image name="add-button-white.png" width="100" height="100"/>
         <image name="addIcon-green.png" width="295" height="295"/>
         <image name="alarm-clock-filled-white-100.png" width="100" height="100"/>

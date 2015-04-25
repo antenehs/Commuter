@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import <iAd/iAd.h>
 #import "RettiDataManager.h"
 #import "SettingsManager.h"
 
-@interface InfoViewController : UIViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ReittiDisruptionFetchDelegate>{
+@interface InfoViewController : UIViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ReittiDisruptionFetchDelegate, ADBannerViewDelegate>{
     
     IBOutlet UITableView *disruptionsTableView;
     IBOutlet UIScrollView *mainScrollView;
@@ -29,6 +30,8 @@
     NSTimer *refreshTimer;
     
     IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
+    
+    ADBannerView *_bannerView;
     
 }
 

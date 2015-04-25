@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AMBlurView.h"
+#import <iAd/iAd.h>
 
-@interface WebViewController : UIViewController<UIWebViewDelegate>{
+@interface WebViewController : UIViewController<UIWebViewDelegate,ADBannerViewDelegate>{
     
     IBOutlet UILabel *titleLabel;
     IBOutlet UIView *topBarView;
@@ -21,6 +22,8 @@
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
     UIColor *systemSubTextColor;
+    
+    ADBannerView *_bannerView;
 }
 
 @property (strong, nonatomic) NSURL *_url;
