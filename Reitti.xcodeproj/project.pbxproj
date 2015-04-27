@@ -79,7 +79,11 @@
 		666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
 		666437CD19E1887600B82BE5 /* bookmark-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437CB19E1887600B82BE5 /* bookmark-50.png */; };
 		666437CE19E1887600B82BE5 /* search-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437CC19E1887600B82BE5 /* search-50.png */; };
-		667334A519CEDFF700CCD351 /* app-icon-v-2.4.png in Resources */ = {isa = PBXBuildFile; fileRef = 667334A419CEDFF700CCD351 /* app-icon-v-2.4.png */; };
+		666602501AED831600E3E392 /* Features.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6666024F1AED831600E3E392 /* Features.xib */; };
+		666602541AED8F2600E3E392 /* all-devices.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602511AED8F2600E3E392 /* all-devices.png */; };
+		666602551AED8F2600E3E392 /* joint-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602521AED8F2600E3E392 /* joint-100.png */; };
+		666602561AED8F2600E3E392 /* bug-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602531AED8F2600E3E392 /* bug-100.png */; };
+		666602591AED933A00E3E392 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
 		667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 667334A619CEFCDC00CCD351 /* appIconRounded.png */; };
 		6673774B1ACC9B0A003581B5 /* shoe-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774A1ACC9B0A003581B5 /* shoe-white-100.png */; };
 		6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */; };
@@ -278,6 +282,14 @@
 		66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */; };
 		66F099951AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */; };
 		66F099971AEADCF300F20D34 /* Thumbs Up-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099961AEADCF300F20D34 /* Thumbs Up-50.png */; };
+		66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099991AEC234200F20D34 /* DetailImageView.m */; };
+		66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F0999B1AEC236B00F20D34 /* DetailImageView.xib */; };
+		66F0999E1AEC427F00F20D34 /* IMG_4833.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */; };
+		66F099A11AEC4F5D00F20D34 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */; };
+		66F099A41AED222B00F20D34 /* dropped-pins-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */; };
+		66F099A51AED222B00F20D34 /* named-bookmarks-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */; };
+		66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A61AED223A00F20D34 /* route-view-3.0.png */; };
+		66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099AA1AED4B3500F20D34 /* annotation-3.0.png */; };
 		66F1382B1992F54000B52B6B /* busStopAnnotation-small-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */; };
 		66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382C1992FBD500B52B6B /* star-orange-128.png */; };
 		66F1382F19938A3000B52B6B /* idea-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382E19938A3000B52B6B /* idea-75.png */; };
@@ -469,7 +481,12 @@
 		666437C819E1852E00B82BE5 /* bus-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus-green-50.png"; path = "Pictures/Commuter 2.1/bus-green-50.png"; sourceTree = "<group>"; };
 		666437CB19E1887600B82BE5 /* bookmark-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bookmark-50.png"; path = "../Reitti/Pictures/Commuter 2.1/bookmark-50.png"; sourceTree = "<group>"; };
 		666437CC19E1887600B82BE5 /* search-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-50.png"; path = "../Reitti/Pictures/Commuter 2.1/search-50.png"; sourceTree = "<group>"; };
-		667334A419CEDFF700CCD351 /* app-icon-v-2.4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-v-2.4.png"; path = "Reitti/Images.xcassets/AppIcon v-2.appiconset/app-icon-v-2.4.png"; sourceTree = "<group>"; };
+		6666024F1AED831600E3E392 /* Features.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Features.xib; sourceTree = "<group>"; };
+		666602511AED8F2600E3E392 /* all-devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "all-devices.png"; path = "Pictures/Version 2.3/all-devices.png"; sourceTree = "<group>"; };
+		666602521AED8F2600E3E392 /* joint-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "joint-100.png"; path = "Pictures/Version 2.3/joint-100.png"; sourceTree = "<group>"; };
+		666602531AED8F2600E3E392 /* bug-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bug-100.png"; path = "Pictures/Version 2.3/bug-100.png"; sourceTree = "<group>"; };
+		666602571AED933A00E3E392 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
+		666602581AED933A00E3E392 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
 		667334A619CEFCDC00CCD351 /* appIconRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appIconRounded.png; path = "Pictures/New Version 2.0/appIconRounded.png"; sourceTree = "<group>"; };
 		6673774A1ACC9B0A003581B5 /* shoe-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-white-100.png"; path = "Pictures/Version 2.3/shoe-white-100.png"; sourceTree = "<group>"; };
 		6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-gray-100.png"; path = "Pictures/Version 2.3/shoe-gray-100.png"; sourceTree = "<group>"; };
@@ -738,6 +755,16 @@
 		66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = darkGradientLandscape.jpeg; sourceTree = "<group>"; };
 		66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = darkGradientBkgrnd.jpeg; sourceTree = "<group>"; };
 		66F099961AEADCF300F20D34 /* Thumbs Up-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thumbs Up-50.png"; sourceTree = "<group>"; };
+		66F099981AEC234200F20D34 /* DetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailImageView.h; sourceTree = "<group>"; };
+		66F099991AEC234200F20D34 /* DetailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailImageView.m; sourceTree = "<group>"; };
+		66F0999B1AEC236B00F20D34 /* DetailImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailImageView.xib; sourceTree = "<group>"; };
+		66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_4833.PNG; sourceTree = "<group>"; };
+		66F0999F1AEC4F5D00F20D34 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
+		66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropped-pins-3.0.png"; sourceTree = "<group>"; };
+		66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "named-bookmarks-3.0.png"; sourceTree = "<group>"; };
+		66F099A61AED223A00F20D34 /* route-view-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "route-view-3.0.png"; sourceTree = "<group>"; };
+		66F099AA1AED4B3500F20D34 /* annotation-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "annotation-3.0.png"; path = "Pictures/Version 2.3/annotation-3.0.png"; sourceTree = "<group>"; };
 		66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "busStopAnnotation-small-blue.png"; path = "Pictures/New Version 2.0/busStopAnnotation-small-blue.png"; sourceTree = "<group>"; };
 		66F1382C1992FBD500B52B6B /* star-orange-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-orange-128.png"; path = "Pictures/New Version 2.0/star-orange-128.png"; sourceTree = "<group>"; };
 		66F1382E19938A3000B52B6B /* idea-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "idea-75.png"; path = "Pictures/New Version 2.0/Search View/idea-75.png"; sourceTree = "<group>"; };
@@ -874,6 +901,8 @@
 				664E28B21AE2FD4500BE2457 /* SettingsManager.m */,
 				667B98321AD5863300C45ADF /* ReittiNotificationHelper.h */,
 				667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */,
+				666602571AED933A00E3E392 /* AppManager.h */,
+				666602581AED933A00E3E392 /* AppManager.m */,
 				664E287E1ADAC09200BE2457 /* ASPolylineView */,
 				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
@@ -924,6 +953,8 @@
 				664E28AB1AE2DCD900BE2457 /* SettingDetailedViewController.m */,
 				664749DC1AE59CD70050137E /* VersionInfoViewController.h */,
 				664749DD1AE59CD70050137E /* VersionInfoViewController.m */,
+				66F0999F1AEC4F5D00F20D34 /* WelcomeViewController.h */,
+				66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1050,6 +1081,10 @@
 				66EBBE4319A01B35006A2128 /* Transport.h */,
 				66EBBE4219A01B35006A2128 /* Transport.m */,
 				66C59DA419993CC300E7AC7A /* Transport.xib */,
+				66F099981AEC234200F20D34 /* DetailImageView.h */,
+				66F099991AEC234200F20D34 /* DetailImageView.m */,
+				66F0999B1AEC236B00F20D34 /* DetailImageView.xib */,
+				6666024F1AED831600E3E392 /* Features.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1118,7 +1153,6 @@
 		66947CA918830ED500642EE1 = {
 			isa = PBXGroup;
 			children = (
-				667334A419CEDFF700CCD351 /* app-icon-v-2.4.png */,
 				66F1383B19976C6E00B52B6B /* app-icon-v-2.png */,
 				6662CF7D18F719D6001CD5C1 /* Default-568h@2x.png */,
 				6662CF7C18F719C7001CD5C1 /* Default@2x.png */,
@@ -1523,6 +1557,14 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				666602511AED8F2600E3E392 /* all-devices.png */,
+				666602521AED8F2600E3E392 /* joint-100.png */,
+				666602531AED8F2600E3E392 /* bug-100.png */,
+				66F099AA1AED4B3500F20D34 /* annotation-3.0.png */,
+				66F099A61AED223A00F20D34 /* route-view-3.0.png */,
+				66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */,
+				66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */,
+				66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */,
 				66F099961AEADCF300F20D34 /* Thumbs Up-50.png */,
 				66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */,
 				66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */,
@@ -1717,6 +1759,7 @@
 				66CB95F818E8CBE300E95CE5 /* error_notification.png in Resources */,
 				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
 				666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */,
+				66F099A51AED222B00F20D34 /* named-bookmarks-3.0.png in Resources */,
 				66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */,
 				667377591ACCCD09003581B5 /* tram-filled-green-64.png in Resources */,
 				664E28A51AE2AF1A00BE2457 /* history-clock-100.png in Resources */,
@@ -1750,6 +1793,7 @@
 				66DAE1FB19C6112A0039081D /* ferryAnnotationSmall.png in Resources */,
 				66DAE1F119C42F590039081D /* up-arrow-50.png in Resources */,
 				667B980E1AD1502600C45ADF /* expand-arrow-50.png in Resources */,
+				66F099A41AED222B00F20D34 /* dropped-pins-3.0.png in Resources */,
 				664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */,
 				66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */,
 				664749E71AE6D7E00050137E /* previous-green-100.png in Resources */,
@@ -1791,6 +1835,7 @@
 				66D6EDB519A0A5F100FEB9FD /* circle-notfilled-50.png in Resources */,
 				664ADFF21992740F000B4F18 /* star-75.png in Resources */,
 				66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */,
+				66F0999E1AEC427F00F20D34 /* IMG_4833.PNG in Resources */,
 				664E28A91AE2B32300BE2457 /* compass-100.png in Resources */,
 				66DAE1F619C5D1E00039081D /* dotted-brown-line.png in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
@@ -1819,11 +1864,12 @@
 				66D0BA4D18BE4892002DDC7B /* nearby_4_20120.png in Resources */,
 				66F138481997897700B52B6B /* metro-100.png in Resources */,
 				661ABC03199D694100F93894 /* clock-grey-100.png in Resources */,
-				667334A519CEDFF700CCD351 /* app-icon-v-2.4.png in Resources */,
 				66F099861AE8075D00F20D34 /* NotificationBackgroundMessage.png in Resources */,
+				666602561AED8F2600E3E392 /* bug-100.png in Resources */,
 				667377511ACCA042003581B5 /* boat-filled-light-100.png in Resources */,
 				6673775B1ACCCD09003581B5 /* train-filled-red-64.png in Resources */,
 				66DAE20319C624E90039081D /* white-dot-16.png in Resources */,
+				666602501AED831600E3E392 /* Features.xib in Resources */,
 				66F0998D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png in Resources */,
 				664E28941AE03B1B00BE2457 /* list-100.png in Resources */,
 				664E28771AD92EC800BE2457 /* bowling-100.png in Resources */,
@@ -1844,6 +1890,7 @@
 				66D42699198FBF880080F21E /* bookmark-128.png in Resources */,
 				667B98211AD3294C00C45ADF /* gym-100.png in Resources */,
 				66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */,
+				66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */,
 				66F1384019977E6300B52B6B /* watch-100.png in Resources */,
 				66D989F1199FFC5300E0B74B /* ferry-colored-75.png in Resources */,
 				6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */,
@@ -1861,6 +1908,7 @@
 				66F13838199651F200B52B6B /* export-128.png in Resources */,
 				66D0BA4E18BE4892002DDC7B /* nearby_3_20120.png in Resources */,
 				6682D24B1ACE34B900F6DDF7 /* previous-green-64.png in Resources */,
+				666602541AED8F2600E3E392 /* all-devices.png in Resources */,
 				665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */,
 				66F1383C19976C6E00B52B6B /* app-icon-v-2.png in Resources */,
 				66D989EF199FFC5300E0B74B /* tram-colored-75.png in Resources */,
@@ -1878,6 +1926,7 @@
 				664E28A31AE2AC7900BE2457 /* plugin-100.png in Resources */,
 				66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */,
 				661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */,
+				66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */,
 				667B98241AD3294C00C45ADF /* work-filled-100.png in Resources */,
 				66228CF419CAC76E00A2C47F /* currentLocation-black.png in Resources */,
 				66CB95E318E3953D00E95CE5 /* currentLocation3.png in Resources */,
@@ -1894,6 +1943,7 @@
 				66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */,
 				66D4269B198FC0000080F21E /* disruption-info-128.png in Resources */,
 				66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */,
+				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
 				661ABBFB199D5DB500F93894 /* bus-orange-128.png in Resources */,
@@ -1907,6 +1957,7 @@
 				66F099881AE8075D00F20D34 /* NotificationBackgroundSuccess.png in Resources */,
 				6682D24E1ACE39F500F6DDF7 /* next-gray-64.png in Resources */,
 				666437C919E1852E00B82BE5 /* calendar-50.png in Resources */,
+				666602551AED8F2600E3E392 /* joint-100.png in Resources */,
 				66F099891AE8075D00F20D34 /* NotificationBackgroundSuccess@2x.png in Resources */,
 				66F1384B1997897700B52B6B /* walking-100.png in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
@@ -1994,6 +2045,7 @@
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
+				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
 				66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */,
 				66A7A9E218CF300300AC9E94 /* LineInfo.m in Sources */,
 				66F0996A1AE6ECD700F20D34 /* TSMessage.m in Sources */,
@@ -2032,12 +2084,14 @@
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
+				666602591AED933A00E3E392 /* AppManager.m in Sources */,
 				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
 				66EC18FB1ACB3D07008E045D /* ASPolylineView.m in Sources */,
 				66DAE1EE19C398430039081D /* RouteLocation.m in Sources */,
 				669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */,
 				66A7A9B818C5DB9400AC9E94 /* BusStopShort.m in Sources */,
+				66F099A11AEC4F5D00F20D34 /* WelcomeViewController.m in Sources */,
 				661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */,
 				66947CC218830ED500642EE1 /* main.m in Sources */,
 				664E288C1ADC79F800BE2457 /* FailedGeoCodeFetch.m in Sources */,
@@ -2207,7 +2261,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC1FE501124ADF8164BA63D3 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon v-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2230,7 +2284,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon v-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

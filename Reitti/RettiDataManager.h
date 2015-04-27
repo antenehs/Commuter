@@ -92,6 +92,7 @@ typedef struct {
 -(void)setUserLocationToRegion:(Region)region;
 -(NSString *)getNameOfRegion:(Region)region;
 -(void)resetResponseQueues;
++(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andSearchOption:(RouteSearchOption)searchOption;
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;

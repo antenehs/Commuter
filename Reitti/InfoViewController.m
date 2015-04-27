@@ -43,6 +43,8 @@
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(checkDisruptionsButtonPressed:) userInfo:nil repeats:YES];
     if ([settingsManager userLocation] == HSLRegion) {
         [self.reittiDataManager fetchDisruptions];
+    }else{
+        [self disruptionFetchDidFail:nil];
     }
     
     [self initAdBannerView];

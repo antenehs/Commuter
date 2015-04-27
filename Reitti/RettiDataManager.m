@@ -116,14 +116,26 @@
     [TREGeocodeResponseQueue removeAllObjects];
 }
 
++(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region{
+    if (region == TRERegion) {
+        //lat="61.4981508" lon="23.7610254"
+        CLLocationCoordinate2D coord = {.latitude = 61.4981508 , .longitude = 23.7610254 };
+        return coord;
+    }else{
+        //lat="60.168959" lon="24.924714"
+        CLLocationCoordinate2D coord = {.latitude = 60.168959 , .longitude = 24.924714 };
+        return coord;
+    }
+}
+
 - (void)initRegionCoordinates {
-    CLLocationCoordinate2D coord1 = {.latitude = 60.585052 , .longitude = 23.742929 };
+    CLLocationCoordinate2D coord1 = {.latitude = 60.765052 , .longitude = 23.742929 };
     CLLocationCoordinate2D coord2 = {.latitude = 59.928294 , .longitude = 25.786386};
     RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
     self.helsinkiRegion = helsinkiRegionCoords;
     
-    CLLocationCoordinate2D coord3 = {.latitude = 61.792057 , .longitude = 22.781625 };
-    CLLocationCoordinate2D coord4 = {.latitude = 61.292114 , .longitude = 24.616342};
+    CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
+    CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
     RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
     self.tampereRegion = tampereRegionCoords;
 }
@@ -245,6 +257,8 @@
 -(void)fetchDisruptions{
     if (userLocation == HSLRegion) {
         [self.hslCommunication getDisruptions];
+    }else{
+        [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
     }
 }
 
@@ -1697,7 +1711,7 @@
             errorString = @"Internet connection appears to be offline.";
             break;
         case -1011:
-            errorString = @"Service not available in this area.";
+            errorString = @"Nearby stops service not available in this area.";
             break;
         case -1001:
             errorString = @"Request timed out.";

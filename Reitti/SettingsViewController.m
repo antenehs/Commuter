@@ -88,9 +88,14 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"widgetSettingCell"];
     }else if (indexPath.section == 2) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
-        NSDictionary *dict = [regions objectAtIndex:[settingsManager userLocation]];
         UILabel *label = (UILabel *)[cell viewWithTag:1001];
-        label.text = [dict objectForKey:@"DisplayText"];
+        if ([settingsManager userLocation] < regions.count) {
+            NSDictionary *dict = [regions objectAtIndex:[settingsManager userLocation]];
+            label.text = [dict objectForKey:@"DisplayText"];
+        }else{
+            label.text = @"Unknown";
+        }
+        
     }else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"clearHistoryCell"];

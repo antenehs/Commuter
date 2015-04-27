@@ -16,6 +16,9 @@
 #import <Social/Social.h>
 #import "TSMessage.h"
 #import "ReittiNotificationHelper.h"
+#import "WelcomeViewController.h"
+#import "DetailImageView.h"
+#import "AppManager.h"
 
 @interface SearchController ()
 
@@ -80,6 +83,11 @@
         alertView.tag = 1001;
         [alertView show];
     }
+    
+    if ([AppManager shouldShowWelcomeView]) {
+        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+    }
+    
 //    [TSMessage showNotificationInViewController:self
 //                                          title:@"Update available"
 //                                       subtitle:@"Please update the app"
@@ -142,6 +150,11 @@
     
     [self setNavBarSize];
     [mainSearchBar setPlaceholder:@"address, stop or poi"];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setNavBarSize];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -296,11 +309,6 @@
         systemTextColor = SYSTEM_GREEN_COLOR;
         systemSubTextColor = [UIColor darkGrayColor];
     }
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self setNavBarSize];
 }
 
 - (void)setNavBarSize {
@@ -2028,6 +2036,8 @@
             if ([error isEqualToString:@"Request timed out."] && retryCount < 1) {
                 [self listNearbyStopsPressed:nil];
                 retryCount++;
+            }else{
+                [ReittiNotificationHelper showErrorBannerMessage:error andContent:nil];
             }
             
 //            [self showNotificationWithMessage:error messageType:RNotificationTypeInfo forSeconds:5 keppingSearchView:YES];
@@ -2159,7 +2169,11 @@
             break;
     }
     
-    [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+    if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
+        [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+        [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
+    }
+    
     [self fetchDisruptions];
     
 }
