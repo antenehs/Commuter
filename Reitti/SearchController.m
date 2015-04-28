@@ -74,7 +74,7 @@
     [self hideSearchResultView:YES animated:NO];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
-    if (appOpenCount > 3) {
+    if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
                                                             message:@"Please write a review for this app in the App Store if you think it has been useful."
                                                            delegate:self

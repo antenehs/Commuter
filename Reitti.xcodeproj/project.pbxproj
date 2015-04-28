@@ -33,6 +33,7 @@
 		664749E41AE6B2E30050137E /* previous-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E21AE6B2E30050137E /* previous-gray-100.png */; };
 		664749E71AE6D7E00050137E /* previous-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E51AE6D7E00050137E /* previous-green-100.png */; };
 		664749E81AE6D7E00050137E /* next-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E61AE6D7E00050137E /* next-green-100.png */; };
+		6648D0791AF0306F00C2482F /* Images-4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6648D0781AF0306F00C2482F /* Images-4.xcassets */; };
 		664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */; };
 		664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEA1992740F000B4F18 /* polyline-75.png */; };
 		664ADFF01992740F000B4F18 /* search-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEB1992740F000B4F18 /* search-75.png */; };
@@ -414,6 +415,7 @@
 		664749E21AE6B2E30050137E /* previous-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-gray-100.png"; path = "Pictures/Version 2.3/previous-gray-100.png"; sourceTree = "<group>"; };
 		664749E51AE6D7E00050137E /* previous-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-green-100.png"; path = "Pictures/Version 2.3/previous-green-100.png"; sourceTree = "<group>"; };
 		664749E61AE6D7E00050137E /* next-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-green-100.png"; path = "Pictures/Version 2.3/next-green-100.png"; sourceTree = "<group>"; };
+		6648D0781AF0306F00C2482F /* Images-4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Images-4.xcassets"; sourceTree = "<group>"; };
 		664ADFE619925CC6000B4F18 /* AddressSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSearchViewController.h; sourceTree = "<group>"; };
 		664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSearchViewController.m; sourceTree = "<group>"; };
 		664ADFEA1992740F000B4F18 /* polyline-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "polyline-75.png"; path = "Pictures/New Version 2.0/Search View/polyline-75.png"; sourceTree = "<group>"; };
@@ -1222,6 +1224,7 @@
 				66F1383D19976D5000B52B6B /* Images-3.xcassets */,
 				66947CBC18830ED500642EE1 /* Supporting Files */,
 				669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */,
+				6648D0781AF0306F00C2482F /* Images-4.xcassets */,
 			);
 			path = Reitti;
 			sourceTree = "<group>";
@@ -1844,6 +1847,7 @@
 				66DAE1F619C5D1E00039081D /* dotted-brown-line.png in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
 				6673775A1ACCCD09003581B5 /* bus-filled-blue-100.png in Resources */,
+				6648D0791AF0306F00C2482F /* Images-4.xcassets in Resources */,
 				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
 				66228CF619CB31C300A2C47F /* previous-48.png in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
@@ -2266,6 +2270,7 @@
 			baseConfigurationReference = FC1FE501124ADF8164BA63D3 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2289,6 +2294,7 @@
 			baseConfigurationReference = E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
