@@ -249,6 +249,7 @@
 		66DAE1FE19C6112A0039081D /* trainAnnotationSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE1FA19C6112A0039081D /* trainAnnotationSmall.png */; };
 		66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE20019C61AF60039081D /* LocationsAnnotation.m */; };
 		66DAE20319C624E90039081D /* white-dot-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE20219C624E90039081D /* white-dot-16.png */; };
+		66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E62D841AEED0F9009111B5 /* dropped-pin-100.png */; };
 		66EBBE4419A01B35006A2128 /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
 		66EC18ED1AC9D706008E045D /* location-filled-green-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EC1AC9D706008E045D /* location-filled-green-32.png */; };
 		66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EE1ACA89ED008E045D /* close-button-white.png */; };
@@ -715,6 +716,7 @@
 		66DAE1FF19C61AF60039081D /* LocationsAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsAnnotation.h; sourceTree = "<group>"; };
 		66DAE20019C61AF60039081D /* LocationsAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsAnnotation.m; sourceTree = "<group>"; };
 		66DAE20219C624E90039081D /* white-dot-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "white-dot-16.png"; path = "Pictures/New Version 2.0/white-dot-16.png"; sourceTree = "<group>"; };
+		66E62D841AEED0F9009111B5 /* dropped-pin-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropped-pin-100.png"; path = "Pictures/Version 2.3/dropped-pin-100.png"; sourceTree = "<group>"; };
 		66EBBE4219A01B35006A2128 /* Transport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transport.m; sourceTree = "<group>"; };
 		66EBBE4319A01B35006A2128 /* Transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transport.h; sourceTree = "<group>"; };
 		66EC18EC1AC9D706008E045D /* location-filled-green-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location-filled-green-32.png"; path = "Pictures/Version 2.3/location-filled-green-32.png"; sourceTree = "<group>"; };
@@ -1557,6 +1559,7 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				66E62D841AEED0F9009111B5 /* dropped-pin-100.png */,
 				666602511AED8F2600E3E392 /* all-devices.png */,
 				666602521AED8F2600E3E392 /* joint-100.png */,
 				666602531AED8F2600E3E392 /* bug-100.png */,
@@ -1786,6 +1789,7 @@
 				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
+				66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */,
 				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,

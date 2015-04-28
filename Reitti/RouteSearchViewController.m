@@ -26,7 +26,7 @@ typedef enum
 
 @implementation RouteSearchViewController
 
-@synthesize savedStops, recentStops,savedRoutes, recentRoutes, namedBookmarks, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation;
+@synthesize savedStops, recentStops,savedRoutes, recentRoutes, namedBookmarks, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation, droppedPinGeoCode;
 @synthesize reittiDataManager;
 @synthesize delegate,viewCycledelegate;
 @synthesize darkMode;
@@ -940,6 +940,11 @@ typedef enum
     
 //    [ self clearSearchButtonPressed:self];
     
+    if (self.tableViewMode == TableViewModeRouteResults) {
+        [self setMainTableViewMode:TableViewModeSuggestions];
+        [routeResultsTableView reloadData];
+    }
+    
     [self hideToolBar:YES animated:NO];
     [SVProgressHUD dismissFromView:self.view];
 }
@@ -1022,7 +1027,21 @@ typedef enum
     
     if (self.tableViewMode == TableViewModeSuggestions) {
         
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
+        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"droppedPinCell"];
+            GeoCode *geoCode = [GeoCode alloc];
+            if (indexPath.row < self.dataToLoad.count) {
+                geoCode = [self.dataToLoad objectAtIndex:indexPath.row];
+            }
+            
+            UILabel *title = (UILabel *)[cell viewWithTag:2002];
+            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            
+            
+            title.text = @"Dropped pin";
+            subTitle.text = [geoCode getStreetAddressString];
+        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             StopEntity *stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             
@@ -1145,47 +1164,13 @@ typedef enum
             
             float tWidth = 70;
             
-            //get longest route duration
-            CGFloat longestDuration = 0.0;
-            CGFloat totalDuration = 0.0;
-            if (routeListCopy != nil && routeListCopy.count > routeList.count) {
-                for (Route *route in routeListCopy) {
-                    if ([route.routeDurationInSeconds floatValue] > longestDuration) {
-                        longestDuration = [route.routeDurationInSeconds floatValue];
-                    }
-                    totalDuration += [route.routeDurationInSeconds floatValue];
-                }
-            }else{
-                for (Route *route in self.routeList) {
-                    if ([route.routeDurationInSeconds floatValue] > longestDuration) {
-                        longestDuration = [route.routeDurationInSeconds floatValue];
-                    }
-                    totalDuration += [route.routeDurationInSeconds floatValue];
-                }
-            }
-            
-            CGFloat meanDuration = totalDuration/routeListCopy.count;
-            CGFloat scale = longestDuration/meanDuration;
-            if (1.5 * meanDuration >= longestDuration > 1.4 * meanDuration) {
-                totalWidth = totalWidth * 1.4;
-            }else if (1.7 >= scale && scale > 1.5) {
-                totalWidth = totalWidth * 1.5;
-            }else if (2.0  >= scale && scale > 1.7) {
-                totalWidth = totalWidth * 1.7;
-            }else if (2.3 >= scale && scale > 2.0) {
-                totalWidth = totalWidth * 2.0;
-            }else if (2.7  >= scale && scale > 2.3) {
-                totalWidth = totalWidth * 2.4;
-            }else if (3.2  >= scale && scale > 2.7) {
-                totalWidth = totalWidth * 2.8;
-            }else if (scale > 3.2) {
-                totalWidth = totalWidth * 3.2;
-            }
+            CGFloat longestDuration;
+            longestDuration = [self adjustedWidthForNoTruncation:&totalWidth];
             
             
             float x = 0;
             for (RouteLeg *leg in route.routeLegs) {
-                tWidth = totalWidth * (([leg.legDurationInSeconds floatValue] - leg.waitingTimeInSeconds)/longestDuration);
+                tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
                 Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
                 CGRect frame = transportView.frame;
                 transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
@@ -1228,6 +1213,68 @@ typedef enum
     return cell;
 }
 
+- (CGFloat)adjustedWidthForNoTruncation:(CGFloat *)totalWidth_p
+{
+    NSArray *routes;
+    if (routeListCopy != nil && routeListCopy.count > routeList.count) {
+        routes = [NSArray arrayWithArray:routeListCopy];
+    }else{
+        routes = [NSArray arrayWithArray:routeList];
+    }
+    
+    //get longest route duration
+    CGFloat longestDuration = 0.0;
+    CGFloat totalDuration = 0.0;
+    for (Route *route in routes) {
+        if ([route.routeDurationInSeconds floatValue] > longestDuration) {
+            longestDuration = [route.routeDurationInSeconds floatValue];
+        }
+        totalDuration += [route.routeDurationInSeconds floatValue];
+    }
+    
+    /*
+    //Adjust so that each none walking leg is longer than 30
+    CGFloat largestMultiplier = 1.0;
+    for (Route *route in routes) {
+        for (RouteLeg *leg in route.routeLegs) {
+            if (leg.legType != LegTypeWalk) {
+                CGFloat tWidth = *totalWidth_p * (([leg.legDurationInSeconds floatValue] - leg.waitingTimeInSeconds)/longestDuration);
+                if (tWidth < 30) {
+                    if (largestMultiplier < 30/tWidth) {
+                        largestMultiplier = 30/tWidth;
+                    }
+                }
+            }
+        }
+    }
+    
+    *totalWidth_p = *totalWidth_p * largestMultiplier;
+    
+    */
+    
+    //Adjust so that there is no one long route and the others are made very short to fit the longest.
+    CGFloat meanDuration;
+    meanDuration = totalDuration/routes.count;
+    
+    CGFloat scale = longestDuration/meanDuration;
+    if (1.5 * meanDuration >= longestDuration > 1.4 * meanDuration) {
+        *totalWidth_p = *totalWidth_p * 1.4;
+    }else if (1.7 >= scale && scale > 1.5) {
+        *totalWidth_p = *totalWidth_p * 1.5;
+    }else if (2.0  >= scale && scale > 1.7) {
+        *totalWidth_p = *totalWidth_p * 1.7;
+    }else if (2.3 >= scale && scale > 2.0) {
+        *totalWidth_p = *totalWidth_p * 2.0;
+    }else if (2.7  >= scale && scale > 2.3) {
+        *totalWidth_p = *totalWidth_p * 2.4;
+    }else if (3.2  >= scale && scale > 2.7) {
+        *totalWidth_p = *totalWidth_p * 2.8;
+    }else if (scale > 3.2) {
+        *totalWidth_p = *totalWidth_p * 3.2;
+    }
+    return longestDuration;
+}
+
 -(float)evaluateNeededScalingForRouteList{
     float maxScalling = 0.0;
     double longestDuration = 0;
@@ -1263,6 +1310,15 @@ typedef enum
             
             toString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
             toCoords = stopEntity.busStopWgsCoords;
+            
+            [self searchRouteIfPossible];
+        }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
+            GeoCode *geoCode = [self.dataToLoad objectAtIndex:indexPath.row];
+            
+            [self setTextToSearchBar:toSearchBar text:[geoCode getStreetAddressString]];
+            
+            toString = geoCode.getStreetAddressString;
+            toCoords = geoCode.coords;
             
             [self searchRouteIfPossible];
         }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
@@ -1489,7 +1545,13 @@ typedef enum
 
 -(void)setUpMergedBookmarksAndHistory{
     dataToLoad = nil;
-    dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
+    if (droppedPinGeoCode != nil) {
+        dataToLoad = [[NSMutableArray alloc] initWithObjects:droppedPinGeoCode, nil];
+        [dataToLoad addObjectsFromArray:namedBookmarks];
+    }else{
+        dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
+    }
+    
     
     NSMutableArray *tempArray1 = [[NSMutableArray alloc] initWithArray:savedStops];
     [tempArray1 addObjectsFromArray:savedRoutes];
@@ -1575,6 +1637,7 @@ typedef enum
         addressSearchViewController.routeSearchMode = YES;
         addressSearchViewController.simpleSearchMode = YES;
         addressSearchViewController.darkMode = self.darkMode;
+        addressSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         if ([segue.identifier isEqualToString:@"searchFromAddress"]){
             if (![fromSearchBar.text isEqualToString:currentLocationText]) {

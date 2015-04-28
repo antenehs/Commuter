@@ -15,7 +15,7 @@
 
 @implementation AddressSearchViewController
 
-@synthesize savedStops, recentStops, namedBookmarks, savedRoutes, recentRoutes, dataToLoad,additionalGeoCodeResults, prevSearchTerm;
+@synthesize savedStops, recentStops, namedBookmarks, savedRoutes, recentRoutes, dataToLoad,additionalGeoCodeResults, prevSearchTerm, droppedPinGeoCode;
 @synthesize reittiDataManager;
 @synthesize delegate;
 @synthesize routeSearchMode,simpleSearchMode, darkMode;
@@ -147,7 +147,13 @@
 -(void)setUpMergedInitialSearchView:(bool)animated{
     [self hideSegmentControl:YES animated:animated];
     dataToLoad = nil;
-    dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
+    if(self.droppedPinGeoCode != nil && routeSearchMode){
+        dataToLoad = [[NSMutableArray alloc] initWithObjects:self.droppedPinGeoCode, nil];
+        [dataToLoad addObjectsFromArray:namedBookmarks];
+    }else{
+        dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
+    }
+    
     [dataToLoad addObjectsFromArray:savedStops];
     [dataToLoad addObjectsFromArray:savedRoutes];
     dataToLoad = [self sortDataArray:dataToLoad];
@@ -478,6 +484,14 @@
             
             title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] substring:addressSearchBar.text withNormalFont:title.font] ;
             subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font] ;
+        }else if (geoCode.getLocationType  == LocationTypeDroppedPin) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"droppedPinCell"];
+            UILabel *title = (UILabel *)[cell viewWithTag:2002];
+            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            
+            title.attributedText = [ReittiStringFormatter highlightSubstringInString:@"Dropped pin" substring:addressSearchBar.text withNormalFont:title.font] ;
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] substring:addressSearchBar.text withNormalFont:subTitle.font] ;
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"stopLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
@@ -557,13 +571,16 @@
 - (NSMutableArray *)searchFromBookmarkAndHistoryForKey:(NSString *)key{
     NSMutableArray * searched = [[NSMutableArray alloc] init];
     key = [key lowercaseString];
-    for (StopEntity *stopEntity in savedStops) {
-        if ([[stopEntity.busStopName lowercaseString] containsString:key]) {
-            [searched addObject:stopEntity];
-        }else if ([[stopEntity.busStopShortCode lowercaseString] containsString:key]) {
-            [searched addObject:stopEntity];
-        }else if ([[stopEntity.busStopCity lowercaseString] containsString:key]) {
-            [searched addObject:stopEntity];
+    
+    if (self.droppedPinGeoCode != nil && routeSearchMode) {
+        if ([[droppedPinGeoCode.name lowercaseString] containsString:key]) {
+            [searched addObject:droppedPinGeoCode];
+        }else if ([[droppedPinGeoCode.getStreetAddressString lowercaseString] containsString:key]) {
+            [searched addObject:droppedPinGeoCode];
+        }else if ([[droppedPinGeoCode.city lowercaseString] containsString:key]) {
+            [searched addObject:droppedPinGeoCode];
+        }else if ([[@"Dropped pin" lowercaseString] containsString:key]) {
+            [searched addObject:droppedPinGeoCode];
         }
     }
     
@@ -586,6 +603,16 @@
             [searched addObject:routeEntity];
         }else if ([[routeEntity.toLocationName lowercaseString] containsString:key]) {
             [searched addObject:routeEntity];
+        }
+    }
+    
+    for (StopEntity *stopEntity in savedStops) {
+        if ([[stopEntity.busStopName lowercaseString] containsString:key]) {
+            [searched addObject:stopEntity];
+        }else if ([[stopEntity.busStopShortCode lowercaseString] containsString:key]) {
+            [searched addObject:stopEntity];
+        }else if ([[stopEntity.busStopCity lowercaseString] containsString:key]) {
+            [searched addObject:stopEntity];
         }
     }
     
@@ -614,15 +641,23 @@
     NSArray *sortedArray;
     sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         //We can cast all types to ReittiManagedObjectBase since we are only intereted in the date modified property
-        NSDate *first = [(ReittiManagedObjectBase*)a dateModified];
-        NSDate *second = [(ReittiManagedObjectBase*)b dateModified];
-        
-        if (first == nil) {
+        if ([a isKindOfClass:ReittiManagedObjectBase.class] && [b isKindOfClass:ReittiManagedObjectBase.class]) {
+            NSDate *first = [(ReittiManagedObjectBase*)a dateModified];
+            NSDate *second = [(ReittiManagedObjectBase*)b dateModified];
+            
+            if (first == nil) {
+                return NSOrderedDescending;
+            }
+            
+            //Decending by date - latest to earliest
+            return [second compare:first];
+        }else if ([a isKindOfClass: GeoCode.class]) {
+            return NSOrderedAscending;
+        }else if ([b isKindOfClass: GeoCode.class]) {
             return NSOrderedDescending;
         }
         
-        //Decending by date - latest to earliest
-        return [second compare:first];
+        return NSOrderedAscending;
     }];
     
     return [NSMutableArray arrayWithArray:sortedArray];
@@ -672,6 +707,7 @@
         routeSearchViewController.recentRoutes = self.recentRoutes;
         routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = addressSearchBar.text;
+        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         routeSearchViewController.darkMode = self.darkMode;
 //        routeSearchViewController.viewCycledelegate = self;
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
@@ -694,6 +730,7 @@
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
         routeSearchViewController.prevFromLocation = selected.fromLocationName;
         routeSearchViewController.prevFromCoords = selected.fromLocationCoordsString;
+        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         routeSearchViewController.darkMode = self.darkMode;
 //        routeSearchViewController.delegate = self;

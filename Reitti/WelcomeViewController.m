@@ -8,6 +8,7 @@
 
 #import "WelcomeViewController.h"
 #import "DetailImageView.h"
+#import "AppManager.h"
 
 @interface WelcomeViewController ()
 
@@ -78,7 +79,7 @@
                                 @"Annotations 3.0", @"More at a Glance", @"Go Anywhere", nil];
     NSArray *descArray = [NSArray arrayWithObjects:@"Now you can save any address in addition to stops and routes. You can even call the address 'Home' or 'That place I go to everyday'.",
                           @"Quickly see how long it takes to go to a place from the annotation.",
-                          @"See more from the newly designed route results including leg durations and waiting times?",
+                          @"See more from the newly designed route results including leg durations and waiting times.",
                           @"Wanted to go somewhere but don't know the address? Just long press the place and go. Press on the map of course.", nil];
     
     
@@ -136,6 +137,7 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
+    [AppManager setCurrentAppVersion];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

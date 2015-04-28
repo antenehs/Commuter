@@ -10,6 +10,7 @@
 
 @interface AppManager : NSObject
 
-+(BOOL)shouldShowWelcomeView;
++(BOOL)isNewInstallOrNewVersion;
++(void)setCurrentAppVersion;
 
 @end

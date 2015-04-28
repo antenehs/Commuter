@@ -84,8 +84,9 @@
         [alertView show];
     }
     
-    if ([AppManager shouldShowWelcomeView]) {
+    if ([AppManager isNewInstallOrNewVersion]) {
         [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+        
     }
     
 //    [TSMessage showNotificationInViewController:self
@@ -1019,16 +1020,18 @@
             if (currentRegion != OtherRegion) {
                 //Notify and ask for confirmation
                 [settingsManager setUserLocation:currentRegion];
-                NSString *title = [NSString stringWithFormat:@"Moved to the %@?",[reittiDataManager getNameOfRegion:currentRegion]];
-                NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@. You can change it anytime from settings.",[reittiDataManager getNameOfRegion:currentRegion]];
-                
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                                    message:body
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"Settings"
-                                                          otherButtonTitles:@"Cool", nil];
-                alertView.tag = 1003;
-                [alertView show];
+                if (![AppManager isNewInstallOrNewVersion]) {
+                    NSString *title = [NSString stringWithFormat:@"Moved to the %@?",[reittiDataManager getNameOfRegion:currentRegion]];
+                    NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@. You can change it anytime from settings.",[reittiDataManager getNameOfRegion:currentRegion]];
+                    
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                                        message:body
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"Settings"
+                                                              otherButtonTitles:@"Cool", nil];
+                    alertView.tag = 1003;
+                    [alertView show];
+                }
             }else{
                 [settingsManager setUserLocation:HSLandTRERegion];
             }
@@ -1265,6 +1268,9 @@
     annotTN.secondaryButtonBlock = ^{ [self showDroppedPinGeoCode];};
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:annotTN];
     [mapView addAnnotation:annot];
+    
+    droppedPinLocation = @"Dropped pin";
+    droppedPinCoords = touchMapCoordinate;
     
     droppedPinGeoCode = nil;
     
@@ -2065,12 +2071,15 @@
         return;
     
     droppedPinGeoCode = geoCode;
+    [droppedPinGeoCode setLocationType:LocationTypeDroppedPin];
     
     if ([droppedPinAnnotationView conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:[geoCode getStreetAddressString]];
     }
+    
+    droppedPinLocation = [geoCode getStreetAddressString];
 
 }
 - (void)reverseGeocodeSearchDidFail:(NSString *)error{
@@ -2240,6 +2249,7 @@
         bookmarksViewController.darkMode = self.darkMode;
         bookmarksViewController.delegate = self;
         bookmarksViewController.mode = bookmarkViewMode;
+        bookmarksViewController.droppedPinGeoCode = droppedPinGeoCode;
         bookmarksViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [bookmarksViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        bookmarksViewController.reittiDataManager = self.reittiDataManager;
@@ -2268,6 +2278,7 @@
         }
         
         stopViewController.darkMode = self.darkMode;
+        stopViewController.droppedPinGeoCode = droppedPinGeoCode;
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        stopViewController.reittiDataManager = self.reittiDataManager;
@@ -2293,6 +2304,7 @@
         addressSearchViewController.simpleSearchMode = YES;
         addressSearchViewController.darkMode = self.darkMode;
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
+        addressSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
         addressSearchViewController.delegate = self;
         addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [addressSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -2315,6 +2327,9 @@
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
         
         routeSearchViewController.darkMode = self.darkMode;
+        
+        routeSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
+        
         routeSearchViewController.prevToLocation = mainSearchBar.text;
         
         if ([segue.identifier isEqualToString:@"routeSearchController"]) {
@@ -2364,6 +2379,7 @@
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
         controller.namedBookmark = selectedNamedBookmark;
+        controller.droppedPinGeoCode = droppedPinGeoCode;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
         controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -2372,6 +2388,8 @@
     if ([segue.identifier isEqualToString:@"showGeoCode"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
+        
+        controller.droppedPinGeoCode = droppedPinGeoCode;
         
         if ([self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
             controller.namedBookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];

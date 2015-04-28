@@ -22,6 +22,7 @@
 +(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString;
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
++(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 
 @end

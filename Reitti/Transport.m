@@ -53,13 +53,13 @@
 }
 
 -(void)setUpViewForRoute:(RouteLeg *)routeLeg andWidth:(float)width{
-    if (width < 30) {
+    if (width < 30 && routeLeg.legType != LegTypeWalk) {
         width = 30;
     }
     UILabel *lineNumberLabel = (UILabel *)[self viewWithTag:9003];
     UIImageView *imageView = (UIImageView *)[self viewWithTag:9002];
     
-    float minWidthForWalkLeg = 2 + imageView.frame.size.width;
+    float minWidthForWalkLeg = 20;
     float acceptableWidthForMetroAndFerry = 70;
     float acceptableWidthForOthers = 70;
     
@@ -150,7 +150,7 @@
     
     CGSize size = [lineNumberLabel.text sizeWithAttributes:fontAttr];
     
-    if ((width > 19) && (size.width < lineNumberLabel.bounds.size.width) ) {
+    if ((width > 15) && (size.width < lineNumberLabel.bounds.size.width) ) {
          lineNumberLabel.frame = CGRectMake(lineNumberLabel.frame.origin.x, lineNumberLabel.frame.origin.y, size.width, lineNumberLabel.frame.size.height);
         
         if (routeLeg.legType == LegTypeWalk) {

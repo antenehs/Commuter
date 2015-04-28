@@ -31,13 +31,13 @@
 
 @synthesize savedStops;
 @synthesize recentStops;
-@synthesize savedRoutes, recentRoutes;
+@synthesize savedRoutes, recentRoutes, droppedPinGeoCode;
 @synthesize savedNamedBookmarks;
 @synthesize mode, darkMode;
 @synthesize dataToLoad;
 @synthesize delegate;
 @synthesize _tintColor;
-@synthesize reittiDataManager;
+@synthesize reittiDataManager, settingsManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -56,6 +56,15 @@
     //defaultGreenColor = [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0];
     [self selectSystemColors];
     
+    if (settingsManager == nil) {
+        settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    }
+    
+    if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
+//        [self initAdBannerView];
+        self.canDisplayBannerAds = YES;
+    }
+    
     listSegmentControl.selectedSegmentIndex = self.mode;
     [self setUpViewForTheSelectedMode];
     
@@ -73,6 +82,11 @@
     [self reloadCoreDataValues];
     
     [self setUpViewForTheSelectedMode];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+//    [self layoutAnimated:NO];
 }
 
 #pragma mark - View methods
@@ -466,6 +480,69 @@
     }
 }
 
+#pragma mark - iAd methods
+-(void)initAdBannerView{
+    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
+        _bannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    } else {
+        _bannerView = [[ADBannerView alloc] init];
+    }
+    _bannerView.delegate = self;
+    
+    CGRect bannerFrame = _bannerView.frame;
+    bannerFrame.origin.y = self.view.bounds.size.height;
+    _bannerView.frame = bannerFrame;
+    
+    [self.view addSubview:_bannerView];
+}
+
+- (void)layoutAnimated:(BOOL)animated
+{
+    // As of iOS 6.0, the banner will automatically resize itself based on its width.
+    // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
+    CGRect contentFrame = self.view.bounds;
+    if (contentFrame.size.width < contentFrame.size.height) {
+        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+    } else {
+        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+    }
+    
+    CGRect bannerFrame = _bannerView.frame;
+    bannerFrame.origin.y = contentFrame.size.height;
+    _bannerView.frame = bannerFrame;
+    if (_bannerView.bannerLoaded) {
+        contentFrame.size.height -= _bannerView.frame.size.height + self.navigationController.toolbar.frame.size.height;
+        bannerFrame.origin.y = contentFrame.size.height;
+    } else {
+        bannerFrame.origin.y = contentFrame.size.height;
+    }
+    
+    [UIView animateWithDuration:animated ? 0.25 : 0.0 animations:^{
+        //cardView.frame = contentFrame;
+        _bannerView.frame = bannerFrame;
+    }];
+}
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutAnimated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutAnimated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    return YES ;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    
+}
+
+
 #pragma mark - Seague
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
@@ -515,6 +592,7 @@
                 routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
                 routeSearchViewController.prevFromLocation = selected.fromLocationName;
                 routeSearchViewController.prevFromCoords = selected.fromLocationCoordsString;
+                routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
                 
                 routeSearchViewController.delegate = self;
                 routeSearchViewController.reittiDataManager = self.reittiDataManager;
@@ -529,7 +607,7 @@
     }else if([segue.identifier isEqualToString:@"addAddress"]){
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
          EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
-        
+        controller.droppedPinGeoCode = self.droppedPinGeoCode;
         controller.reittiDataManager = self.reittiDataManager;
         controller.viewControllerMode = ViewControllerModeAddNewAddress;
         
@@ -542,6 +620,7 @@
             EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
             
             controller.namedBookmark = selected;
+            controller.droppedPinGeoCode = self.droppedPinGeoCode;
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
             controller.reittiDataManager = self.reittiDataManager;
         }

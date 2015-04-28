@@ -154,6 +154,9 @@ typedef enum
     NSNumber *selectedStopLongCode;
     NSNumber *prevSelectedStopLongCode;
     
+    NSString *droppedPinLocation;
+    CLLocationCoordinate2D droppedPinCoords;
+    
     CLLocationCoordinate2D selectedStopAnnotationCoords;
     
     NSString * selectedFromLocation;

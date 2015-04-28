@@ -91,6 +91,8 @@
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager * settingsManager;
 
+@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+
 @property (nonatomic, weak) id <StopViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

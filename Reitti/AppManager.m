@@ -10,25 +10,21 @@
 
 @implementation AppManager
 
-+(BOOL)shouldShowWelcomeView{
++(BOOL)isNewInstallOrNewVersion{
     NSString *currentBundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *previousBundleVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
     
-    BOOL toReturn = NO;
+    return ![currentBundleVersion isEqualToString:previousBundleVersion];
+}
+
++(void)setCurrentAppVersion{
+    NSString *currentBundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
-    if (![currentBundleVersion isEqualToString:previousBundleVersion] ) {
-        toReturn = YES;
-        
-        NSString *currentBundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-        NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        
-        if (standardUserDefaults) {
-            [standardUserDefaults setObject:currentBundleVersion forKey:@"PreviousBundleVersion"];
-            [standardUserDefaults synchronize];
-        }
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:currentBundleVersion forKey:@"PreviousBundleVersion"];
+        [standardUserDefaults synchronize];
     }
-    
-    return toReturn;
 }
 
 @end

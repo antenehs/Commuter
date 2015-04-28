@@ -69,6 +69,8 @@
 
 @property (strong, nonatomic) NSString * prevSearchTerm;
 
+@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 
 @property (nonatomic, weak) id <AddressSearchViewControllerDelegate> delegate;

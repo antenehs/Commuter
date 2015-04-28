@@ -111,6 +111,8 @@
 @property (strong, nonatomic) NSString * prevFromLocation;
 @property (strong, nonatomic) NSString * prevFromCoords;
 
+@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) CLLocation * currentUserLocation;
 @property (strong, nonatomic) CLLocationManager *locationManager;

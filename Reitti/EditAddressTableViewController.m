@@ -16,7 +16,7 @@
 
 @implementation EditAddressTableViewController
 
-@synthesize addressTypeDictionary, namedBookmark, geoCode;
+@synthesize addressTypeDictionary, namedBookmark, geoCode, droppedPinGeoCode;
 @synthesize iconName;
 @synthesize name, streetAddress, fullAddress;
 @synthesize reittiDataManager;
@@ -579,7 +579,7 @@
         routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        
+        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         if ([segue.identifier isEqualToString:@"routeToHere"]) {
             routeSearchViewController.prevToLocation = self.name;
             routeSearchViewController.prevToCoords = self.coords;

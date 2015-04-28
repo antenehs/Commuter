@@ -77,8 +77,35 @@
         return LocationTypeStop;
     else if (typeId_int == 900)
         return LocationTypeAddress;
+    else if (typeId_int == 999)
+        return LocationTypeDroppedPin;
     else
         return LocationTypeAddress;
+}
+
+-(void)setLocationType:(LocationType)type{
+    switch (type) {
+        case LocationTypePOI:
+            self.locTypeId = [NSNumber numberWithInt:1];
+            break;
+            
+        case LocationTypeStop:
+            self.locTypeId = [NSNumber numberWithInt:10];
+            break;
+            
+        case LocationTypeAddress:
+            self.locTypeId = [NSNumber numberWithInt:900];
+            break;
+            
+        case LocationTypeDroppedPin:
+            self.locTypeId = [NSNumber numberWithInt:999]; //Custome type. Not coming from HSL
+            break;
+            
+        default:
+            self.locTypeId = [NSNumber numberWithInt:900];
+            break;
+    }
+    
 }
 
 -(NSString *)FullAddressString{

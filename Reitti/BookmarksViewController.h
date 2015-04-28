@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import "AMBlurView.h"
 #import "RettiDataManager.h"
 #import "StopViewController.h"
@@ -26,7 +27,7 @@
 - (void)deletedAllHistoryStops;
 @end
 
-@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate>{
+@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate>{
     IBOutlet AMBlurView *selectorView;
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIView *bluredBackView;
@@ -36,6 +37,8 @@
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
     UIColor *systemSubTextColor;
+    
+    ADBannerView *_bannerView;
 }
 
 @property (strong, nonatomic) NSMutableArray * savedStops;
@@ -49,6 +52,10 @@
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
 @property (strong, nonatomic) UIColor * _tintColor;
+
+@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+
+@property (strong, nonatomic) SettingsManager * settingsManager;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 

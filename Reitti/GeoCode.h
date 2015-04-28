@@ -12,7 +12,8 @@ typedef enum
 {
     LocationTypePOI = 1,
     LocationTypeAddress = 2,
-    LocationTypeStop = 3
+    LocationTypeStop = 3,
+    LocationTypeDroppedPin = 10
 } LocationType;
 
 @interface GeoCode : NSObject
@@ -22,6 +23,7 @@ typedef enum
 -(NSString *)getStopShortCode;
 -(NSNumber *)getStopCode;
 -(LocationType)getLocationType;
+-(void)setLocationType:(LocationType)type;
 -(NSString *)FullAddressString;
 -(NSString *)getStreetAddressString;
 

@@ -33,6 +33,7 @@
 @synthesize delegate;
 @synthesize refreshControl;
 @synthesize darkMode;
+@synthesize droppedPinGeoCode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -796,14 +797,15 @@
         routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
+        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         if ([segue.identifier isEqualToString:@"routeToHere"]) {
             routeSearchViewController.prevToLocation = _busStop.name_fi;
-            routeSearchViewController.prevToCoords = _busStop.coords;
+            routeSearchViewController.prevToCoords = _busStop.wgs_coords;
         }
         if ([segue.identifier isEqualToString:@"routeFromHere"]) {
             routeSearchViewController.prevFromLocation = _busStop.name_fi;
-            routeSearchViewController.prevFromCoords = _busStop.coords;
+            routeSearchViewController.prevFromCoords = _busStop.wgs_coords;
         }
         
         routeSearchViewController.reittiDataManager = self.reittiDataManager;

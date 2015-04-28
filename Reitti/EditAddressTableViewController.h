@@ -45,6 +45,8 @@ typedef enum
 
 @property(nonatomic)EditAddressViewControllerMode viewControllerMode;
 
+@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 
 @end
