@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3493EF41B3AC4D40AC49470A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06E935F13E44503B376EA3D /* libPods.a */; };
 		660F2E6919C8D35800A75987 /* bus_station-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 660F2E6819C8D35800A75987 /* bus_station-50.png */; };
+		661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202AF1AFFC12900D93C2E /* RouteViewManager.m */; };
+		661202B31AFFEE0400D93C2E /* next-lgray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661202B11AFFEE0300D93C2E /* next-lgray-100.png */; };
+		661202B41AFFEE0400D93C2E /* previous-lgray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661202B21AFFEE0400D93C2E /* previous-lgray-100.png */; };
 		661721EA19CD999500E3CD6E /* blured-background-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721E919CD999500E3CD6E /* blured-background-dark.png */; };
 		661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721EB19CD9ED300E3CD6E /* map-orange-50.png */; };
 		661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* InfoViewController.m */; };
@@ -375,6 +378,10 @@
 
 /* Begin PBXFileReference section */
 		660F2E6819C8D35800A75987 /* bus_station-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus_station-50.png"; path = "Pictures/New Version 2.0/bus_station-50.png"; sourceTree = "<group>"; };
+		661202AE1AFFC12900D93C2E /* RouteViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteViewManager.h; sourceTree = "<group>"; };
+		661202AF1AFFC12900D93C2E /* RouteViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteViewManager.m; sourceTree = "<group>"; };
+		661202B11AFFEE0300D93C2E /* next-lgray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-lgray-100.png"; path = "Pictures/Version 2.3/next-lgray-100.png"; sourceTree = "<group>"; };
+		661202B21AFFEE0400D93C2E /* previous-lgray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-lgray-100.png"; path = "Pictures/Version 2.3/previous-lgray-100.png"; sourceTree = "<group>"; };
 		661721E919CD999500E3CD6E /* blured-background-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blured-background-dark.png"; path = "Pictures/New Version 2.0/blured-background-dark.png"; sourceTree = "<group>"; };
 		661721EB19CD9ED300E3CD6E /* map-orange-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map-orange-50.png"; path = "Pictures/New Version 2.0/map-orange-50.png"; sourceTree = "<group>"; };
 		661721ED19CDA78000E3CD6E /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
@@ -907,6 +914,8 @@
 				667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */,
 				666602571AED933A00E3E392 /* AppManager.h */,
 				666602581AED933A00E3E392 /* AppManager.m */,
+				661202AE1AFFC12900D93C2E /* RouteViewManager.h */,
+				661202AF1AFFC12900D93C2E /* RouteViewManager.m */,
 				664E287E1ADAC09200BE2457 /* ASPolylineView */,
 				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
@@ -1562,6 +1571,8 @@
 		66F3B1251AC859100038BA78 /* New Version 2.3 */ = {
 			isa = PBXGroup;
 			children = (
+				661202B11AFFEE0300D93C2E /* next-lgray-100.png */,
+				661202B21AFFEE0400D93C2E /* previous-lgray-100.png */,
 				66E62D841AEED0F9009111B5 /* dropped-pin-100.png */,
 				666602511AED8F2600E3E392 /* all-devices.png */,
 				666602521AED8F2600E3E392 /* joint-100.png */,
@@ -1771,6 +1782,7 @@
 				664E28A51AE2AF1A00BE2457 /* history-clock-100.png in Resources */,
 				66F138361993DEDB00B52B6B /* locationAnnotation.png in Resources */,
 				66F3B1301AC861ED0038BA78 /* star-filled-white-100.png in Resources */,
+				661202B31AFFEE0400D93C2E /* next-lgray-100.png in Resources */,
 				664E289E1AE1B8BA00BE2457 /* settings-green-100.png in Resources */,
 				66EC18F51ACAC1F7008E045D /* current-location-100.png in Resources */,
 				66CB961718EEECBA00E95CE5 /* alarmClock_1.png in Resources */,
@@ -1792,6 +1804,7 @@
 				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
+				661202B41AFFEE0400D93C2E /* previous-lgray-100.png in Resources */,
 				66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */,
 				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
@@ -2035,6 +2048,7 @@
 			files = (
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
+				661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */,
 				664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */,
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
@@ -2278,7 +2292,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2302,7 +2316,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

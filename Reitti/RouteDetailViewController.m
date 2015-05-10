@@ -14,6 +14,7 @@
 #import "StopViewController.h"
 #import "ASPolylineRenderer.h"
 #import "ASPolylineView.h"
+#import "RouteViewManager.h"
 
 @interface RouteDetailViewController ()
 
@@ -91,7 +92,8 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self moveRouteViewToLocation:currentRouteListViewLocation animated:NO];
-    [routeListTableView reloadData];
+//    [routeListTableView reloadData];
+    [self setUpMainViewForRoute];
 }
 
 //- (id<UILayoutSupport>)topLayoutGuide {
@@ -127,20 +129,30 @@
 
 #pragma mark - view methods
 
+-(BOOL)isLandScapeOrientation{
+    return self.view.frame.size.height < self.view.frame.size.width;
+}
+
 -(void)setUpMainViewForRoute{
 //    [topBarView setBlurTintColor:[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1]];
 //    topBarView.layer.borderWidth = 1;
 //    topBarView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    
+    [nextRouteButton setImage:[UIImage imageNamed:@"next-lgray-100.png"] forState:UIControlStateDisabled];
+    [previousRouteButton setImage:[UIImage imageNamed:@"previous-lgray-100.png"] forState:UIControlStateDisabled];
     
     [self setNextAndPrevButtonStates];
     
     [self.navigationController setToolbarHidden:YES];
     self.title = @"";
     
-    NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
+    UIView * titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, [self isLandScapeOrientation] ? 20 : 40)];
+    titleView.clipsToBounds = YES;
+    
+    NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:14] forKey:NSFontAttributeName];
     [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
     
-     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:17] forKey:NSFontAttributeName];
+     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:15] forKey:NSFontAttributeName];
     [addressStringDict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     
     NSMutableAttributedString *toAddressString = [[NSMutableAttributedString alloc] initWithString:@"To " attributes:toStringDict];
@@ -149,10 +161,26 @@
     
     [toAddressString appendAttributedString:addressString];
     
-    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 20)];
-    label.attributedText = toAddressString;
-    [label sizeToFit];
-    self.navigationItem.titleView = label;
+    CGFloat titleViewW = self.navigationItem.titleView.frame.size.width;
+    CGFloat labelsW = titleViewW < 10 ? 300 : titleViewW;
+    UILabel * toLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelsW, 20)];
+    toLabel.attributedText = toAddressString;
+    toLabel.textAlignment = NSTextAlignmentCenter;
+//    [toLabel sizeToFit];
+    
+    [titleView addSubview:toLabel];
+    
+    if (![self isLandScapeOrientation]) {
+        UILabel * fLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, labelsW, 18)];
+        [fLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
+//        [fLabel sizeToFit];
+        fLabel.textAlignment = NSTextAlignmentCenter;
+        fLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
+        fLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        [titleView addSubview:fLabel];
+    }
+    
+    self.navigationItem.titleView = titleView;
     
     [routeListView setBlurTintColor:nil];
     //    routeListView.layer.borderWidth = 1;
@@ -163,10 +191,21 @@
     routeListTableView.backgroundColor = [UIColor clearColor];
     routeListTableView.separatorColor = [UIColor clearColor];
     
+    for (UIView *view in routeView.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    UIView *transportsView = [RouteViewManager viewForRoute:self.route longestDuration:[self.route.routeDurationInSeconds floatValue] width:self.view.frame.size.width - 150];
+    
+    [routeView addSubview:transportsView];
+    routeView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);
+    
+    routeView.userInteractionEnabled = NO;
+    [topViewBackView addGestureRecognizer:routeView.panGestureRecognizer];
+    
     [timeIntervalLabel setText:[NSString stringWithFormat:@"%@ - %@",
                                                [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute],
                                                [ReittiStringFormatter formatHourStringFromDate:self.route.getEndingTimeOfRoute]]];
-    [fromLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
@@ -218,15 +257,20 @@
 }
 
 - (void)setNextAndPrevButtonStates {
-    if (selectedRouteIndex == routeList.count - 1) {
-        nextRouteButton.enabled = NO;
-        previousRouteButton.enabled = YES;
-    }else if (selectedRouteIndex == 0){
-        nextRouteButton.enabled = YES;
-        previousRouteButton.enabled = NO;
+    if (routeList.count > 1) {
+        if (selectedRouteIndex == routeList.count - 1) {
+            nextRouteButton.enabled = NO;
+            previousRouteButton.enabled = YES;
+        }else if (selectedRouteIndex == 0){
+            nextRouteButton.enabled = YES;
+            previousRouteButton.enabled = NO;
+        }else{
+            nextRouteButton.enabled = YES;
+            previousRouteButton.enabled = YES;
+        }
     }else{
-        nextRouteButton.enabled = YES;
-        previousRouteButton.enabled = YES;
+        nextRouteButton.enabled = NO;
+        previousRouteButton.enabled = NO;
     }
 }
 

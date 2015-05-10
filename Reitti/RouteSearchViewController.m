@@ -11,6 +11,7 @@
 #import "Transport.h"
 #import "RouteDetailViewController.h"
 #import "SVProgressHUD.h"
+#import "RouteViewManager.h"
 
 typedef enum
 {
@@ -1157,44 +1158,28 @@ typedef enum
             
             CGFloat totalWidth = self.view.frame.size.width - 75;
             
-            UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, totalWidth , 36)];
-            transportsContainer.clipsToBounds = YES;
-            transportsContainer.tag = 1987;
-            transportsContainer.layer.cornerRadius = 4;
+//            UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, totalWidth , 36)];
+//            transportsContainer.clipsToBounds = YES;
+//            transportsContainer.tag = 1987;
+//            transportsContainer.layer.cornerRadius = 4;
             
-            float tWidth = 70;
+//            float tWidth = 70;
             
             CGFloat longestDuration;
-            longestDuration = [self adjustedWidthForNoTruncation:&totalWidth];
-            
-            
-            float x = 0;
-            for (RouteLeg *leg in route.routeLegs) {
-                tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
-                Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
-                CGRect frame = transportView.frame;
-                transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
-                transportView.clipsToBounds = YES;
-                [transportsContainer addSubview:transportView];
-                x += frame.size.width;
-                
-                //Append waiting view if exists
-                if (leg.waitingTimeInSeconds > 0) {
-                    float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
-                    UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
-                    waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-                    waitingView.clipsToBounds = YES;
-                    if (waitingWidth > 22) {
-                        UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
-                        waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
-                        [waitingView addSubview:waitingImageView];
-                    }
-                    [transportsContainer addSubview:waitingView];
-                    x += waitingWidth;
-                }
+            NSArray *routes;
+            if (routeListCopy != nil && routeListCopy.count > routeList.count) {
+                routes = [NSArray arrayWithArray:routeListCopy];
+            }else{
+                routes = [NSArray arrayWithArray:routeList];
             }
+            longestDuration = [self adjustedWidthForNoTruncation:&totalWidth forListOfRoutes:routes];
             
-            transportsContainer.frame = CGRectMake(transportsContainer.frame.origin.x, transportsContainer.frame.origin.y, x, transportsContainer.frame.size.height);
+//            float x;
+//            [self viewForRoute:transportsContainer longestDuration:longestDuration width:totalWidth route:route];
+            UIView *transportsContainer = [RouteViewManager viewForRoute:route longestDuration:longestDuration width:totalWidth];
+//            [transportsContainer addSubview:routeView];
+            
+            transportsContainer.frame = CGRectMake(12, 0, transportsContainer.frame.size.width, transportsContainer.frame.size.height);
             [transportsScrollView addSubview:transportsContainer];
             transportsScrollView.contentSize = CGSizeMake(transportsContainer.frame.size.width + 24, transportsScrollView.frame.size.height);
             
@@ -1213,15 +1198,76 @@ typedef enum
     return cell;
 }
 
-- (CGFloat)adjustedWidthForNoTruncation:(CGFloat *)totalWidth_p
+//- (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth
+//{
+//    float tWidth  = 70;
+//    float x = 0;
+//    UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, totalWidth , 36)];
+//    transportsContainer.clipsToBounds = YES;
+//    transportsContainer.tag = 1987;
+//    transportsContainer.layer.cornerRadius = 4;
+//    
+//    for (RouteLeg *leg in route.routeLegs) {
+//        tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
+//        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
+//        CGRect frame = transportView.frame;
+//        transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
+//        transportView.clipsToBounds = YES;
+//        [transportsContainer addSubview:transportView];
+//        x += frame.size.width;
+//        
+//        //Append waiting view if exists
+//        if (leg.waitingTimeInSeconds > 0) {
+//            float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
+//            UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
+//            waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+//            waitingView.clipsToBounds = YES;
+//            if (waitingWidth > 22) {
+//                UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
+//                waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
+//                [waitingView addSubview:waitingImageView];
+//            }
+//            [transportsContainer addSubview:waitingView];
+//            x += waitingWidth;
+//        }
+//    }
+//    transportsContainer.frame = CGRectMake(12, 0, x, 36);
+//    
+//    return transportsContainer;
+//}
+
+//- (void)viewForRoute:(UIView *)transportsContainer longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth route:(Route *)route
+//{
+//    float tWidth;
+//    float x = 0;
+//    for (RouteLeg *leg in route.routeLegs) {
+//        tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
+//        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
+//        CGRect frame = transportView.frame;
+//        transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
+//        transportView.clipsToBounds = YES;
+//        [transportsContainer addSubview:transportView];
+//        x += frame.size.width;
+//        
+//        //Append waiting view if exists
+//        if (leg.waitingTimeInSeconds > 0) {
+//            float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
+//            UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
+//            waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+//            waitingView.clipsToBounds = YES;
+//            if (waitingWidth > 22) {
+//                UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
+//                waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
+//                [waitingView addSubview:waitingImageView];
+//            }
+//            [transportsContainer addSubview:waitingView];
+//            x += waitingWidth;
+//        }
+//    }
+//}
+
+- (CGFloat)adjustedWidthForNoTruncation:(CGFloat *)totalWidth_p forListOfRoutes:(NSArray *)routes
 {
-    NSArray *routes;
-    if (routeListCopy != nil && routeListCopy.count > routeList.count) {
-        routes = [NSArray arrayWithArray:routeListCopy];
-    }else{
-        routes = [NSArray arrayWithArray:routeList];
-    }
-    
     //get longest route duration
     CGFloat longestDuration = 0.0;
     CGFloat totalDuration = 0.0;

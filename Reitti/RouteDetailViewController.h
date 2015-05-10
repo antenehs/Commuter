@@ -31,6 +31,8 @@ typedef enum{
     IBOutlet UILabel *timeIntervalLabel;
     IBOutlet UILabel *fromLabel;
     IBOutlet UIView *separatorView;
+    IBOutlet UIScrollView *routeView;
+    IBOutlet UIView *topViewBackView;
     
     IBOutlet UIButton *previousRouteButton;
     IBOutlet UIButton *nextRouteButton;
