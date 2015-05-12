@@ -71,7 +71,7 @@
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
     [self setUpToolBarWithMiddleImage:@"list-100.png"];
-    [self hideSearchResultView:YES animated:NO];
+    [self hideNearByStopsView:YES animated:NO];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
     if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
@@ -127,7 +127,7 @@
         }
     }
     [self fetchDisruptions];
-    [self hideSearchResultView:YES animated:YES];
+    [self hideNearByStopsView:YES animated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -158,9 +158,9 @@
     [self setNavBarSize];
 }
 
-- (id<UILayoutSupport>)topLayoutGuide {
-    return [[MyFixedLayoutGuide alloc]initWithLength:blurView.frame.size.height];
-}
+//- (id<UILayoutSupport>)topLayoutGuide {
+////    return [[MyFixedLayoutGuide alloc]initWithLength:blurView.frame.size.height];
+//}
 
 - (id<UILayoutSupport>)bottomLayoutGuide {
     return [[MyFixedLayoutGuide alloc]initWithLength:bottomLayoutGuide];
@@ -180,7 +180,7 @@
 {
     [self initVariablesAndConstants];
     
-    [self selectSystemColors];
+//    [self selectSystemColors];
     [self initDataManagers];
     [self initReminderStore];
     [self initializeMapComponents];
@@ -239,15 +239,15 @@
 {
     //    [blurView addGestureRecognizer:blurViewGestureRecognizer];
     
-    stopViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopViewGestureDetected:)];
+//    stopViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopViewGestureDetected:)];
     
     stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
     
-    [StopView addGestureRecognizer:stopViewGestureRecognizer];
+//    [StopView addGestureRecognizer:stopViewGestureRecognizer];
     
-    searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchResultViewGestureDetected:)];
+    searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nearByStopsListViewGestureDetected:)];
     
     searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
@@ -298,19 +298,19 @@
 }
 
 
-#pragma mark - Search view methods
-- (void)selectSystemColors{
-    if (self.darkMode) {
-//        systemBackgroundColor = [UIColor clearColor];
-        systemBackgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor lightGrayColor];
-    }else{
-        systemBackgroundColor = nil;
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor darkGrayColor];
-    }
-}
+#pragma mark - Nav bar and toolbar methods
+//- (void)selectSystemColors{
+//    if (self.darkMode) {
+////        systemBackgroundColor = [UIColor clearColor];
+//        systemBackgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
+//        systemTextColor = SYSTEM_GREEN_COLOR;
+//        systemSubTextColor = [UIColor lightGrayColor];
+//    }else{
+//        systemBackgroundColor = nil;
+//        systemTextColor = SYSTEM_GREEN_COLOR;
+//        systemSubTextColor = [UIColor darkGrayColor];
+//    }
+//}
 
 - (void)setNavBarSize {
     CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
@@ -322,14 +322,7 @@
 
 - (void)setNavBarApearance{
     [self setNavBarSize];
-    
-    [blurView setBlurTintColor:systemBackgroundColor];
-    //blurView.alpha = 0.97;
-    blurView.layer.borderWidth = 0.5;
-    blurView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    
-    //searchBarFrame = mainSearchBar.frame;
-//    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+
     //Set search bar text color
     for (UIView *subView in mainSearchBar.subviews)
     {
@@ -361,22 +354,25 @@
 }
 
 -(void)setUpToolBarWithMiddleImage:(NSString *)imageName{
-    CGRect frame = CGRectMake(0, 0, 25, 25);
-    CGRect locFrame = CGRectMake(0, 0, 26, 26);
-    CGRect middleButFrame = CGRectMake(0, 0, 30, 25);
+    CGRect frame = CGRectMake(0, 0, 25, 26);
+    CGRect settingsFrame = CGRectMake(0, 0, 26, 26);
+    CGRect liveFrame = CGRectMake(0, 0, 28, 26);
+//    CGRect middleButFrame = CGRectMake(0, 0, 30, 25);
+    CGRect middleButFrame = CGRectMake(0, 0, 26, 25);
     
     UIImage *image1 = [UIImage imageNamed:@"settings-green-100.png"];
-    curentLocBut = [[UIButton alloc] initWithFrame:locFrame];
-    [curentLocBut setBackgroundImage:image1 forState:UIControlStateNormal];
+    settingsBut = [[UIButton alloc] initWithFrame:settingsFrame];
+    [settingsBut setBackgroundImage:image1 forState:UIControlStateNormal];
     
-    [curentLocBut addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [settingsBut addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIBarButtonItem* locBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:curentLocBut];
+    UIBarButtonItem* locBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsBut];
     
     
     UIBarButtonItem *flexiSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    UIImage *image2 = [UIImage imageNamed:imageName];
+//    UIImage *image2 = [UIImage imageNamed:imageName];
+    UIImage *image2 = [UIImage imageNamed:@"plan-green-100.png"];
     
     listButton = [[UIButton alloc] initWithFrame:middleButFrame];
     [listButton setBackgroundImage:image2 forState:UIControlStateNormal];
@@ -396,12 +392,23 @@
     
     UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:bookmarkButton];
     
+    UIBarButtonItem *flexiSpace3 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIImage *image4 = [UIImage imageNamed:@"gps-green-100.png"];
+    
+    UIButton *moreButton = [[UIButton alloc] initWithFrame:liveFrame];
+    [moreButton setBackgroundImage:image4 forState:UIControlStateNormal];
+    [moreButton addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* moreBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     [items addObject:bookmarkBarButtonItem];
     [items addObject:flexiSpace1];
     [items addObject:listBarButtonItem];
     [items addObject:flexiSpace2];
+    [items addObject:moreBarButtonItem];
+    [items addObject:flexiSpace3];
     [items addObject:locBarButtonItem];
     self.toolbarItems = items;
 }
@@ -416,7 +423,7 @@
     NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 
-#pragma - mark Command view methods
+//#pragma - mark Command view methods
 
 /*
 - (void)setCommandViewApearance{
@@ -579,40 +586,39 @@
 }
 
 
-#pragma - mark searchResultsView methods
--(void)displaySearchResults:(NSArray *)result{
-    [self setupSearchResultViewForSearchResult:result];
-    [self hideSearchResultView:NO animated:YES];
-}
--(void)setupSearchResultViewForSearchResult:(NSArray *)result{
-    [self setupSearchResultViewAppearance];
-    
-    self.searchResultListViewMode = RSearchResultViewModeSearchResults;
-    searchResultsLabel.text = [NSString stringWithFormat:@"%lu stops found", (unsigned long)result.count];
-//    searchResultsLabel.font = CUSTOME_FONT_BOLD(16.0f);
-    [searchResultsTable reloadData];
-    [searchResultsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-}
+#pragma - mark nearby stops list methods
+//-(void)displaySearchResults:(NSArray *)result{
+////    [self setupSearchResultViewForSearchResult:result];
+////    [self hideSearchResultView:NO animated:YES];
+//}
+//-(void)setupSearchResultViewForSearchResult:(NSArray *)result{
+////    [self setupSearchResultViewAppearance];
+////    
+////    self.searchResultListViewMode = RSearchResultViewModeSearchResults;
+////    searchResultsLabel.text = [NSString stringWithFormat:@"%lu stops found", (unsigned long)result.count];
+//////    searchResultsLabel.font = CUSTOME_FONT_BOLD(16.0f);
+////    [searchResultsTable reloadData];
+////    [searchResultsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+//}
 -(void)displayNearByStopsList:(NSArray *)nearByStops{
-    [self setupSearchResultViewForNearByStops:nearByStops];
-    [self hideSearchResultView:NO animated:YES];
+    [self setupTableViewForNearByStops:nearByStops];
+    [self hideNearByStopsView:NO animated:YES];
 }
--(void)setupSearchResultViewForNearByStops:(NSArray *)result{
-    [self setupSearchResultViewAppearance];
+-(void)setupTableViewForNearByStops:(NSArray *)result{
+    [self setupListTableViewAppearance];
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
     searchResultsLabel.text = @"Nearby stops";
-//    searchResultsLabel.font = CUSTOME_FONT_BOLD(16.0f);
     [searchResultsTable reloadData];
     [searchResultsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
--(void)setupSearchResultViewAppearance{
+-(void)setupListTableViewAppearance{
     searchResultsTable.backgroundColor = [UIColor clearColor];
     [searchResultsView setBlurTintColor:nil];
     searchResultsView.layer.borderWidth = 0.5;
     searchResultsView.layer.borderColor = [SYSTEM_GRAY_COLOR CGColor];
 }
--(void)hideSearchResultView:(BOOL)hidden animated:(BOOL)anim{
+-(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim{
     if (!hidden) {
         //[self hideSearchResultView:YES];
         searchResultsView.hidden = NO;
@@ -620,7 +626,7 @@
     if (anim) {
         [UIView transitionWithView:searchResultsView duration:0.3 options:UIViewAnimationOptionCurveEaseIn animations:^{
             
-            [self hideSearchResultView:hidden];
+            [self hideNearByStopsView:hidden];
             
         } completion:^(BOOL finished) {
             if (hidden) {
@@ -629,7 +635,7 @@
             }
         }];
     }else{
-        [self hideSearchResultView:hidden];
+        [self hideNearByStopsView:hidden];
         if (hidden) {
             searchResultsView.hidden = YES;
             [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
@@ -637,7 +643,7 @@
     }
 }
 
-- (void)hideSearchResultView:(BOOL)hidden{
+- (void)hideNearByStopsView:(BOOL)hidden{
 //    CGRect frame = searchResultsView.frame;
 //    CGRect tableFrame = searchResultsTable.frame;
     
@@ -674,7 +680,7 @@
         [self.view layoutSubviews];
         
     } completion:^(BOOL finished) {
-        [self hideSearchResultView:NO animated:YES];
+        [self hideNearByStopsView:NO animated:YES];
     }];
 }
 
@@ -709,130 +715,154 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"Number of departures is: %lu",(unsigned long)self.departures.count);
-    if (tableView.tag == 1000) {
-        return self.departures.count;
-    }else if (tableView.tag == 0){
-        if (self.searchResultListViewMode == RSearchResultViewModeSearchResults){
-            return self.nearByStopList.count;
-        }else if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
-            return self.nearByStopList.count;
-        }
-    }
+//    NSLog(@"Number of departures is: %lu",(unsigned long)self.departures.count);
+//    if (tableView.tag == 1000) {
+//        return self.departures.count;
+//    }else if (tableView.tag == 0){
+//        if (self.searchResultListViewMode == RSearchResultViewModeSearchResults){
+//            return self.nearByStopList.count;
+//        }else if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
+//            return self.nearByStopList.count;
+//        }
+//    }
     
-    return 0;
+    return self.nearByStopList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag == 1000) {
-        CustomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departureCell"];
+//    if (tableView.tag == 1000) {
+//        CustomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departureCell"];
+//        
+//        CustomeTableViewCell __weak *weakCell = cell;
+//        NSMutableArray * leftUtilityButtons = [NSMutableArray new];
+//        [leftUtilityButtons sw_addUtilityButtonWithColor:
+//                        [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0]
+//                                                                   icon:[UIImage imageNamed:@"alarmClock_small.png"]];
+//        
+//        NSArray *buttonsArray = [NSArray arrayWithArray:leftUtilityButtons];
+//        
+//        [cell setAppearanceWithBlock:^{
+//            weakCell.leftUtilityButtons = buttonsArray;
+//            weakCell.delegate = self;
+//            weakCell.containingTableView = tableView;
+//        } force:NO];
+//        
+//        NSDictionary *departure = [self.departures objectAtIndex:indexPath.row];
+//        if (departure) {
+//            
+//            @try {
+//                UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
+//                NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+//                timeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+//                //cell.cellTimeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+////                timeLabel.font = CUSTOME_FONT_BOLD(25.0f);
+//                
+//                //            UILabel *dateLabel = (UILabel *)[cell viewWithTag:1002];
+//                //            NSString *notFormattedDate = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"date"] intValue]];
+//                //            dateLabel.text = [ReittiStringFormatter formatHSLDateWithDots:notFormattedDate];
+//                //            dateLabel.font = CUSTOME_FONT(20.0f);
+//                
+//                UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
+//                NSString *notParsedCode = [departure objectForKey:@"code"];
+//                codeLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
+////                codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
+//                
+//                UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
+//                if (_stopLinesDetail != NULL) {
+//                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
+//                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
+//                }else{
+//                    destinationLabel.text = @"";
+//                }
+//            }
+//            @catch (NSException *exception) {
+//                if (self.departures.count == 1) {
+//                    UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
+//                    //                infoCell.backgroundColor = [UIColor clearColor];
+//                    return infoCell;
+//                }
+//            }
+//            @finally {
+//                NSLog(@"finally");
+//            }
+//        }
+//        
+//        [cell setCellHeight:cell.frame.size.height];
+//        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//        
+//        return cell;
+//        
+//    }else if (tableView.tag == 0){
+//        if (self.searchResultListViewMode == RSearchResultViewModeSearchResults) {
+//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
+//            
+//            BusStop *stop = [searchedStopList objectAtIndex:indexPath.row];
+//            
+//            UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
+//            codeLabel.text = stop.code_short;
+////            codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
+//            
+//            UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
+//            nameLabel.text = stop.name_fi;
+////            nameLabel.font = CUSTOME_FONT_BOLD(22.0f);
+//            
+//            UILabel *cityLabel = (UILabel *)[cell viewWithTag:3003];
+//            cityLabel.text = stop.city_fi;
+////            cityLabel.font = CUSTOME_FONT_BOLD(15.0f);
+//            
+//            cell.backgroundColor = [UIColor clearColor];
+//            
+//            return cell;
+//        }else if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
+//            if (nearByStopList.count > 0) {
+//                UITableViewCell *cell = [searchResultsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
+//                
+//                BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
+//                
+//                UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
+//                codeLabel.text = stop.codeShort;
+////                codeLabel.font = CUSTOME_FONT_BOLD(22.0f);
+//                
+//                UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
+//                nameLabel.text = stop.name;
+////                nameLabel.font = CUSTOME_FONT_BOLD(20.0f);
+//                
+//                UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
+//                distanceLabel.text = [NSString stringWithFormat:@"%d m", [stop.distance intValue]];
+////                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
+//                
+//                cell.backgroundColor = [UIColor clearColor];
+//                
+//                return cell;
+//            }else{
+//                
+//            }
+//        }
+//    }
+    
+    if (nearByStopList.count > 0) {
+        UITableViewCell *cell = [searchResultsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
         
-        CustomeTableViewCell __weak *weakCell = cell;
-        NSMutableArray * leftUtilityButtons = [NSMutableArray new];
-        [leftUtilityButtons sw_addUtilityButtonWithColor:
-                        [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0]
-                                                                   icon:[UIImage imageNamed:@"alarmClock_small.png"]];
+        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
         
-        NSArray *buttonsArray = [NSArray arrayWithArray:leftUtilityButtons];
+        UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
+        codeLabel.text = stop.codeShort;
+        //                codeLabel.font = CUSTOME_FONT_BOLD(22.0f);
         
-        [cell setAppearanceWithBlock:^{
-            weakCell.leftUtilityButtons = buttonsArray;
-            weakCell.delegate = self;
-            weakCell.containingTableView = tableView;
-        } force:NO];
+        UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
+        nameLabel.text = stop.name;
+        //                nameLabel.font = CUSTOME_FONT_BOLD(20.0f);
         
-        NSDictionary *departure = [self.departures objectAtIndex:indexPath.row];
-        if (departure) {
-            
-            @try {
-                UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-                NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-                timeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-                //cell.cellTimeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-//                timeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-                
-                //            UILabel *dateLabel = (UILabel *)[cell viewWithTag:1002];
-                //            NSString *notFormattedDate = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"date"] intValue]];
-                //            dateLabel.text = [ReittiStringFormatter formatHSLDateWithDots:notFormattedDate];
-                //            dateLabel.font = CUSTOME_FONT(20.0f);
-                
-                UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-                NSString *notParsedCode = [departure objectForKey:@"code"];
-                codeLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
-//                codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-                
-                UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
-                if (_stopLinesDetail != NULL) {
-                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
-                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
-                }else{
-                    destinationLabel.text = @"";
-                }
-            }
-            @catch (NSException *exception) {
-                if (self.departures.count == 1) {
-                    UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
-                    //                infoCell.backgroundColor = [UIColor clearColor];
-                    return infoCell;
-                }
-            }
-            @finally {
-                NSLog(@"finally");
-            }
-        }
+        UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
+        distanceLabel.text = [NSString stringWithFormat:@"%d m", [stop.distance intValue]];
+        //                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
         
-        [cell setCellHeight:cell.frame.size.height];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
+    }else{
         
-    }else if (tableView.tag == 0){
-        if (self.searchResultListViewMode == RSearchResultViewModeSearchResults) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
-            
-            BusStop *stop = [searchedStopList objectAtIndex:indexPath.row];
-            
-            UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
-            codeLabel.text = stop.code_short;
-//            codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-            
-            UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-            nameLabel.text = stop.name_fi;
-//            nameLabel.font = CUSTOME_FONT_BOLD(22.0f);
-            
-            UILabel *cityLabel = (UILabel *)[cell viewWithTag:3003];
-            cityLabel.text = stop.city_fi;
-//            cityLabel.font = CUSTOME_FONT_BOLD(15.0f);
-            
-            cell.backgroundColor = [UIColor clearColor];
-            
-            return cell;
-        }else if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
-            if (nearByStopList.count > 0) {
-                UITableViewCell *cell = [searchResultsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
-                
-                BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
-                
-                UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
-                codeLabel.text = stop.codeShort;
-//                codeLabel.font = CUSTOME_FONT_BOLD(22.0f);
-                
-                UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-                nameLabel.text = stop.name;
-//                nameLabel.font = CUSTOME_FONT_BOLD(20.0f);
-                
-                UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
-                distanceLabel.text = [NSString stringWithFormat:@"%d m", [stop.distance intValue]];
-//                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
-                
-                cell.backgroundColor = [UIColor clearColor];
-                
-                return cell;
-            }else{
-                
-            }
-        }
     }
 	
     return nil;
@@ -840,14 +870,14 @@
 
 
 // Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return NO;
-}
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    // Return NO if you do not want the specified item to be editable.
+//    return NO;
+//}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
 //    if (tableView.tag == 0) {
 //        if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
 //            BusStopShort *selected = [self.nearByStopList objectAtIndex:indexPath.row];
@@ -864,57 +894,57 @@
 //            [cell showUtilityButtonsAnimated:YES];
 //        }
 //    }
-}
+//}
 
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-    UIActionSheet *actionSheet;
-    EKAuthorizationStatus status;
-    switch (index) {
-        case 0:
-            status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-            
-            if (status != EKAuthorizationStatusAuthorized) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-                                                                   delegate:nil
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil];
-                [alertView show];
-                [cell hideUtilityButtonsAnimated:YES];
-                break;
-            }
-            actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
-            //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-            actionSheet.tag = 2001;
-            [actionSheet showInView:self.view];
-            timeToSetAlarm = [(UILabel *)[cell viewWithTag:1001] text];
-            [cell hideUtilityButtonsAnimated:YES];
-            
-            break;
-        default:
-            break;
-    }
-}
+//- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
+//    UIActionSheet *actionSheet;
+//    EKAuthorizationStatus status;
+//    switch (index) {
+//        case 0:
+//            status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
+//            
+//            if (status != EKAuthorizationStatusAuthorized) {
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
+//                                                                   delegate:nil
+//                                                          cancelButtonTitle:@"OK"
+//                                                          otherButtonTitles:nil];
+//                [alertView show];
+//                [cell hideUtilityButtonsAnimated:YES];
+//                break;
+//            }
+//            actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
+//            //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
+//            actionSheet.tag = 2001;
+//            [actionSheet showInView:self.view];
+//            timeToSetAlarm = [(UILabel *)[cell viewWithTag:1001] text];
+//            [cell hideUtilityButtonsAnimated:YES];
+//            
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state{
-    NSIndexPath *index = [departuresTable indexPathForCell:cell];
-    if (departuresTableIndex != nil && state == kCellStateLeft && index.row != departuresTableIndex.row) {
-        [(CustomeTableViewCell *)[departuresTable cellForRowAtIndexPath:departuresTableIndex] hideUtilityButtonsAnimated:YES];
-    }
-    departuresTableIndex = [departuresTable indexPathForCell:cell];
-    
-}
+//- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state{
+//    NSIndexPath *index = [departuresTable indexPathForCell:cell];
+//    if (departuresTableIndex != nil && state == kCellStateLeft && index.row != departuresTableIndex.row) {
+//        [(CustomeTableViewCell *)[departuresTable cellForRowAtIndexPath:departuresTableIndex] hideUtilityButtonsAnimated:YES];
+//    }
+//    departuresTableIndex = [departuresTable indexPathForCell:cell];
+//    
+//}
 
 
-- (void)initRefreshControl{
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = departuresTable;
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadButtonPressed:) forControlEvents:UIControlEventValueChanged];
-    //refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    tableViewController.refreshControl = self.refreshControl;
-}
+//- (void)initRefreshControl{
+//    
+//    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+//    tableViewController.tableView = departuresTable;
+//    
+//    self.refreshControl = [[UIRefreshControl alloc] init];
+//    [self.refreshControl addTarget:self action:@selector(reloadButtonPressed:) forControlEvents:UIControlEventValueChanged];
+//    //refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+//    tableViewController.refreshControl = self.refreshControl;
+//}
 
 
 #pragma - mark Map methods
@@ -1314,8 +1344,8 @@
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
     currentLocationButton.alpha = 0.3;
-    sendEmailButton.alpha = 0.3;
-    listNearbyStops.alpha = 0.3;
+//    sendEmailButton.alpha = 0.3;
+//    listNearbyStops.alpha = 0.3;
 }
 
 - (void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
@@ -1514,7 +1544,7 @@
     
     [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
     currentLocationButton.alpha = 1;
-    sendEmailButton.alpha = 1;
+//    sendEmailButton.alpha = 1;
     listNearbyStops.alpha = 1;
 }
 
@@ -1557,27 +1587,29 @@
 
 #pragma mark - text field mehthods
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    
-//    [self.view endEditing:YES];
+//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
 //    
-//    if (![searchBar.text isEqualToString:@""]) {
-//        [self requestStopInfoAsyncForCode:[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-//        [self showProgressHUD];
-//    }
-}
+////    [self.view endEditing:YES];
+////    
+////    if (![searchBar.text isEqualToString:@""]) {
+////        [self requestStopInfoAsyncForCode:[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+////        [self showProgressHUD];
+////    }
+//}
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    
-}
+//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+//    
+//}
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     [self performSegueWithIdentifier: @"addressSearchController" sender: self];
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
-    //[thisSearchBar setFrame:searchBarFrame];
-}
+//- (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
+//    //[thisSearchBar setFrame:searchBarFrame];
+//}
+
+#pragma - mark View transition methods
 
 - (void)openBookmarksView{
     [self performSegueWithIdentifier: @"openBookmarks" sender: self];
@@ -1627,125 +1659,125 @@
 }
 
 #pragma mark - helper methods
-- (void)sendEmailWithSubject:(NSString *)subject{
-    // Email Subject
-    NSString *emailTitle = subject;
-    // Email Content
-    NSString *messageBody = @"";
-    // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"ewketapps@gmail.com"];
-    
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:NO];
-    [mc setToRecipients:toRecipents];
-    
-    // Present mail view controller on screen
-    [self presentViewController:mc animated:YES completion:NULL];
-    
-}
+//- (void)sendEmailWithSubject:(NSString *)subject{
+//    // Email Subject
+//    NSString *emailTitle = subject;
+//    // Email Content
+//    NSString *messageBody = @"";
+//    // To address
+//    NSArray *toRecipents = [NSArray arrayWithObject:@"ewketapps@gmail.com"];
+//    
+//    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+//    mc.mailComposeDelegate = self;
+//    [mc setSubject:emailTitle];
+//    [mc setMessageBody:messageBody isHTML:NO];
+//    [mc setToRecipients:toRecipents];
+//    
+//    // Present mail view controller on screen
+//    [self presentViewController:mc animated:YES completion:NULL];
+//    
+//}
 
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-            NSLog(@"Mail cancelled");
-            break;
-        case MFMailComposeResultSaved:
-            NSLog(@"Mail saved");
-            break;
-        case MFMailComposeResultSent:
-            NSLog(@"Mail sent");
-//            [self.reittiDataManager setAppOpenCountValue:-100];
-            break;
-        case MFMailComposeResultFailed:
-            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
-            break;
-        default:
-            break;
-    }
-    
-    // Close the Mail Interface
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
+//- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+//{
+//    switch (result)
+//    {
+//        case MFMailComposeResultCancelled:
+//            NSLog(@"Mail cancelled");
+//            break;
+//        case MFMailComposeResultSaved:
+//            NSLog(@"Mail saved");
+//            break;
+//        case MFMailComposeResultSent:
+//            NSLog(@"Mail sent");
+////            [self.reittiDataManager setAppOpenCountValue:-100];
+//            break;
+//        case MFMailComposeResultFailed:
+//            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+//            break;
+//        default:
+//            break;
+//    }
+//    
+//    // Close the Mail Interface
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//}
 
--(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString{
-    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-    
-    if (status == EKAuthorizationStatusAuthorized) {
-        if ([self createEKReminderWithMinOffset:minute andHourString:timeString]) {
-//            [self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
-        }
-        
-    }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-}
+//-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString{
+//    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
+//    
+//    if (status == EKAuthorizationStatusAuthorized) {
+//        if ([self createEKReminderWithMinOffset:minute andHourString:timeString]) {
+////            [self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
+//        }
+//        
+//    }else{
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//        [alertView show];
+//    }
+//}
 
--(BOOL)createEKReminderWithMinOffset:(int)minutes andHourString:(NSString *)timeString{
-    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minutes];
-    
-    if (date == nil) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-oh"                                                                                      message:@"Setting reminder failed."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        return NO;
-    }
-    
-    if ([[NSDate date] compare:date] == NSOrderedDescending ) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Just so you know"                                                                                      message:@"The alarm time you set has already past."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-    
-    EKReminder *reminder = [EKReminder reminderWithEventStore:_eventStore];
-    
-    reminder.title = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minutes];
-    
-    reminder.calendar = [_eventStore defaultCalendarForNewReminders];
-    
-    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:date];
-    
-    [reminder addAlarm:alarm];
-    
-    NSError *error = nil;
-    
-    [_eventStore saveReminder:reminder commit:YES error:&error];
-    
-    return YES;
-}
+//-(BOOL)createEKReminderWithMinOffset:(int)minutes andHourString:(NSString *)timeString{
+//    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minutes];
+//    
+//    if (date == nil) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-oh"                                                                                      message:@"Setting reminder failed."
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//        [alertView show];
+//        return NO;
+//    }
+//    
+//    if ([[NSDate date] compare:date] == NSOrderedDescending ) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Just so you know"                                                                                      message:@"The alarm time you set has already past."
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//        [alertView show];
+//    }
+//    
+//    EKReminder *reminder = [EKReminder reminderWithEventStore:_eventStore];
+//    
+//    reminder.title = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minutes];
+//    
+//    reminder.calendar = [_eventStore defaultCalendarForNewReminders];
+//    
+//    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:date];
+//    
+//    [reminder addAlarm:alarm];
+//    
+//    NSError *error = nil;
+//    
+//    [_eventStore saveReminder:reminder commit:YES error:&error];
+//    
+//    return YES;
+//}
 
 
-- (void)postToFacebook {
-    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        
-        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        
-        [controller setInitialText:@"Easy way to get HSL timetables and stop locations!Check Commuter out."];
-        [controller addURL:[NSURL URLWithString:@"http://itunes.com/apps/antenehseifu"]];
-        [controller addImage:[UIImage imageNamed:@"appicon4.png"]];
-        
-        [self presentViewController:controller animated:YES completion:Nil];
-        
-    }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-}
+//- (void)postToFacebook {
+//    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+//        
+//        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+//        
+//        [controller setInitialText:@"Easy way to get HSL timetables and stop locations!Check Commuter out."];
+//        [controller addURL:[NSURL URLWithString:@"http://itunes.com/apps/antenehseifu"]];
+//        [controller addImage:[UIImage imageNamed:@"appicon4.png"]];
+//        
+//        [self presentViewController:controller animated:YES completion:Nil];
+//        
+//    }else{
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+//                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//        [alertView show];
+//    }
+//}
 
 - (GeoCode *)castNamedBookmarkToGeoCode:(NamedBookmark *)namedBookmark{
     GeoCode * newGeoCode = [[GeoCode alloc] init];
@@ -1755,9 +1787,9 @@
 }
 
 #pragma - mark IBActions
-- (IBAction)hideButtonPressed:(id)sender {
-    //[self toggleSearchViewHiddenAnimated:YES];
-}
+//- (IBAction)hideButtonPressed:(id)sender {
+//    //[self toggleSearchViewHiddenAnimated:YES];
+//}
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
     if (![self isLocationServiceAvailableWithNotification:NO] && locNotAvailableNotificationShow) {
         [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
@@ -1778,7 +1810,7 @@
         [self listNearByStops];
 //        [listNearbyStops setImage:[UIImage imageNamed:@"showMap-icon.png"] forState:UIControlStateNormal];
     }else{
-        [self hideSearchResultView:YES animated:YES];
+        [self hideNearByStopsView:YES animated:YES];
     }
     
 }
@@ -1795,59 +1827,58 @@
         if (buttonIndex == 0) {
             [self openSettingsButtonPressed:self];
         }
-            
     }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
-    if (actionSheet.tag == 1001) {
-        switch (buttonIndex) {
-            case 0:
-                [self postToFacebook];
-                [self.reittiDataManager setAppOpenCountValue:-30];
-                break;
-            case 1:
-                [self sendEmailWithSubject:@"[Feature Request] - "];
-                break;
-            case 2:
-                [self sendEmailWithSubject:@"[Feedback] - "];
-                break;
-            case 3:
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
-                [self.reittiDataManager setAppOpenCountValue:-30];
-                break;
-            default:
-                break;
-        }
-        
-        if (buttonIndex == 0) {
-            
-        }
-
-    }else{
-        switch (buttonIndex) {
-            case 0:
-                [self setReminderWithMinOffset:1 andHourString:timeToSetAlarm];
-                break;
-            case 1:
-                [self setReminderWithMinOffset:5 andHourString:timeToSetAlarm];
-                break;
-            case 2:
-                [self setReminderWithMinOffset:10 andHourString:timeToSetAlarm];
-                break;
-            case 3:
-                [self setReminderWithMinOffset:15 andHourString:timeToSetAlarm];
-                break;
-            case 4:
-                [self setReminderWithMinOffset:30 andHourString:timeToSetAlarm];
-                break;
-            default:
-                break;
-        }
-    }    
-}
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
+//    if (actionSheet.tag == 1001) {
+//        switch (buttonIndex) {
+//            case 0:
+//                [self postToFacebook];
+//                [self.reittiDataManager setAppOpenCountValue:-30];
+//                break;
+//            case 1:
+//                [self sendEmailWithSubject:@"[Feature Request] - "];
+//                break;
+//            case 2:
+//                [self sendEmailWithSubject:@"[Feedback] - "];
+//                break;
+//            case 3:
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+//                [self.reittiDataManager setAppOpenCountValue:-30];
+//                break;
+//            default:
+//                break;
+//        }
+//        
+//        if (buttonIndex == 0) {
+//            
+//        }
+//
+//    }else{
+//        switch (buttonIndex) {
+//            case 0:
+//                [self setReminderWithMinOffset:1 andHourString:timeToSetAlarm];
+//                break;
+//            case 1:
+//                [self setReminderWithMinOffset:5 andHourString:timeToSetAlarm];
+//                break;
+//            case 2:
+//                [self setReminderWithMinOffset:10 andHourString:timeToSetAlarm];
+//                break;
+//            case 3:
+//                [self setReminderWithMinOffset:15 andHourString:timeToSetAlarm];
+//                break;
+//            case 4:
+//                [self setReminderWithMinOffset:30 andHourString:timeToSetAlarm];
+//                break;
+//            default:
+//                break;
+//        }
+//    }    
+//}
 
 /*
 -(IBAction)tapGestureDetected:(UIGestureRecognizer *)sender{
@@ -1875,15 +1906,15 @@
  
  */
 
--(IBAction)blurViewGestureDetected:(UIGestureRecognizer *)sender{
-    self.searchViewHidden = NO;
-}
+//-(IBAction)blurViewGestureDetected:(UIGestureRecognizer *)sender{
+//    self.searchViewHidden = NO;
+//}
 
--(IBAction)stopViewGestureDetected:(id)sender{
-    [self.view endEditing:YES];
-}
+//-(IBAction)stopViewGestureDetected:(id)sender{
+//    [self.view endEditing:YES];
+//}
 
--(IBAction)searchResultViewGestureDetected:(id)sender{
+-(IBAction)nearByStopsListViewGestureDetected:(id)sender{
     [self.view endEditing:YES];
     [self moveSearchResultViewByPoint:CGPointMake(0, 20) animated:YES];
 }
@@ -1907,13 +1938,13 @@
             if (recognizer.view.tag == 0) {
 //                [self hideStopView:YES animated:YES];
             }else{
-                [self hideSearchResultView:YES animated:YES];
+                [self hideNearByStopsView:YES animated:YES];
             }
         }else{
             if (recognizer.view.tag == 0) {
 //                [self hideStopView:NO animated:YES];
             }else{
-                [self hideSearchResultView:NO animated:YES];
+                [self hideNearByStopsView:NO animated:YES];
             }
         }
     }
@@ -1934,24 +1965,24 @@
         
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
-- (IBAction)reloadButtonPressed:(id)sender{
-//    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing Departures ..."];
-//    if (_busStop != nil) {
-//        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]];
-//    }
-//    justReloading = YES;
-}
-- (IBAction)saveStopToBookmarks {
-    [self.reittiDataManager saveToCoreDataStop:self._busStop withLines:self._stopLinesDetail];
-    //addBookmarkButton.hidden = YES;
-    //[self showNotificationWithMessage:@"Bookmark added successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
-}
+//- (IBAction)reloadButtonPressed:(id)sender{
+////    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing Departures ..."];
+////    if (_busStop != nil) {
+////        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]];
+////    }
+////    justReloading = YES;
+//}
+//- (IBAction)saveStopToBookmarks {
+//    [self.reittiDataManager saveToCoreDataStop:self._busStop withLines:self._stopLinesDetail];
+//    //addBookmarkButton.hidden = YES;
+//    //[self showNotificationWithMessage:@"Bookmark added successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
+//}
 
-- (IBAction)closeStopViewButtonPressed:(id)sender {
-//    [self hideStopView:YES animated:YES];
-}
+//- (IBAction)closeStopViewButtonPressed:(id)sender {
+////    [self hideStopView:YES animated:YES];
+//}
 - (IBAction)hideSearchResultViewPressed:(id)sender {
-    [self hideSearchResultView:YES animated:YES];
+    [self hideNearByStopsView:YES animated:YES];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -1992,9 +2023,9 @@
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (nearByStopsViewTopSpacing.constant > ([self searchViewLowerBound] + (searchResultsView.frame.size.height / 4)) && stopViewDragedDown) {
-        [self hideSearchResultView:YES animated:YES];
+        [self hideNearByStopsView:YES animated:YES];
     }else{
-        [self hideSearchResultView:NO animated:YES];
+        [self hideNearByStopsView:NO animated:YES];
     }
 }
 
@@ -2011,20 +2042,14 @@
     if (stopList != nil) {
         self.searchedStopList = stopList;
 //        [self displayStopView:self.searchedStopList];
-    }else{
-//        [self showNotificationWithMessage:@"Sorry. No stop found by that search term." messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
     }
     
-    
-    //[MBProgressHUD hideHUDForView:self.view animated:YES];
     [SVProgressHUD dismiss];
 }
 
 -(void)stopFetchDidFail:(NSString *)error{
-//    [self showNotificationWithMessage:error messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
-    //[MBProgressHUD hideHUDForView:self.view animated:YES];
     [SVProgressHUD dismiss];
-    [self.refreshControl endRefreshing];
+//    [self.refreshControl endRefreshing];
 }
 
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{
@@ -2112,7 +2137,7 @@
 
 #pragma mark - Address search view delegates
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
-    [self hideSearchResultView:YES animated:YES];
+    [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
     [self plotStopAnnotation:[reittiDataManager castStopEntityToBusStopShort:stopEntity] withSelect:YES];
     
@@ -2120,7 +2145,7 @@
     prevSearchedCoords = stopEntity.busStopCoords;
 }
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
-    [self hideSearchResultView:YES animated:YES];
+    [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:geoCode.coords]];
     //Check if it is type busstop
     if (geoCode.getLocationType == LocationTypeStop) {
@@ -2136,7 +2161,7 @@
 }
 
 - (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
-    [self hideSearchResultView:YES animated:YES];
+    [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:namedBookmark.coords]];
     //Check if it is type busstop
     

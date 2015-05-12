@@ -49,27 +49,27 @@ typedef enum
 } RSearchResultViewMode;
 
 @interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
-    IBOutlet AMBlurView *blurView;
-    IBOutlet AMBlurView *commandView;
+//    IBOutlet AMBlurView *blurView;
+//    IBOutlet AMBlurView *commandView;
     IBOutlet MKMapView *mapView;
-    IBOutlet UISegmentedControl *searchTypeSegmentControl;
-    IBOutlet UIButton *hideSearchViewButton;
-    IBOutlet UISearchBar *fromSearchBar;
-    IBOutlet UISearchBar *toSearchBar;
-    IBOutlet UISearchBar *stopSearchBar;
+//    IBOutlet UISegmentedControl *searchTypeSegmentControl;
+//    IBOutlet UIButton *hideSearchViewButton;
+//    IBOutlet UISearchBar *fromSearchBar;
+//    IBOutlet UISearchBar *toSearchBar;
+//    IBOutlet UISearchBar *stopSearchBar;
     IBOutlet UISearchBar *mainSearchBar;
-    IBOutlet UIButton *exchangeButton;
-    IBOutlet UISegmentedControl *timeSegmentControl;
-    IBOutlet UIDatePicker *datePicker;
-    IBOutlet UILabel *showSearchViewLabel;
-    IBOutlet UIImageView *shadowImageView;
-    IBOutlet UIToolbar *mainToolBar;
+//    IBOutlet UIButton *exchangeButton;
+//    IBOutlet UISegmentedControl *timeSegmentControl;
+//    IBOutlet UIDatePicker *datePicker;
+//    IBOutlet UILabel *showSearchViewLabel;
+//    IBOutlet UIImageView *shadowImageView;
+//    IBOutlet UIToolbar *mainToolBar;
     IBOutlet UIButton *currentLocationButton;
-    IBOutlet UILabel *appTitileLable;
-    IBOutlet UIButton *bookmarksButton;
+//    IBOutlet UILabel *appTitileLable;
+//    IBOutlet UIButton *bookmarksButton;
     IBOutlet UIButton *infoAndAboutButton;
     IBOutlet UIView *rightNavButtonsView;    
-    IBOutlet UIButton *sendEmailButton;
+//    IBOutlet UIButton *sendEmailButton;
     IBOutlet UIButton *listNearbyStops;
     IBOutlet NSLayoutConstraint *nearByStopsViewTopSpacing;
     
@@ -78,16 +78,9 @@ typedef enum
     UIColor *systemSubTextColor;
     
     //toolbar
-    UIButton *curentLocBut;
+    UIButton *settingsBut;
     UIButton *listButton;
     UIButton *bookmarkButton;
-    
-    //Stop view
-    IBOutlet UILabel *stopCodeLabel;
-    IBOutlet UILabel *stopNameLabel;
-    IBOutlet UILabel *cityNameLabel;
-    IBOutlet UITableView *departuresTable;
-    IBOutlet UIButton *addBookmarkButton;
     
     //Multiple searchs view
     IBOutlet UITableView *searchResultsTable;
@@ -95,15 +88,15 @@ typedef enum
     IBOutlet UIButton *hideSearchResultViewButton;
         
     //notification view
-    IBOutlet UIImageView *notificationImageView;
-    IBOutlet UILabel *notificationMessageLabel;
+//    IBOutlet UIImageView *notificationImageView;
+//    IBOutlet UILabel *notificationMessageLabel;
     
     //Command View
-    IBOutlet UILabel *selectedStopLabel;
-    IBOutlet UILabel *selectedStopNameLabel;
-    IBOutlet UIButton *showStopTimeTableButton;
-    IBOutlet UIButton *searchRouteToLocationButton;
-    IBOutlet UIView *commandViewButtonSeparator;
+//    IBOutlet UILabel *selectedStopLabel;
+//    IBOutlet UILabel *selectedStopNameLabel;
+//    IBOutlet UIButton *showStopTimeTableButton;
+//    IBOutlet UIButton *searchRouteToLocationButton;
+//    IBOutlet UIView *commandViewButtonSeparator;
     
     //Map view
     int bigAnnotationWidth;
@@ -112,10 +105,10 @@ typedef enum
     int smallAnnotationHeight;
     
     
-    UITapGestureRecognizer *tapGestureRecognizer;
-    UITapGestureRecognizer *blurViewGestureRecognizer;
-    UITapGestureRecognizer *toolBarGestureRecognizer;
-    UITapGestureRecognizer *stopViewGestureRecognizer;
+//    UITapGestureRecognizer *tapGestureRecognizer;
+//    UITapGestureRecognizer *blurViewGestureRecognizer;
+//    UITapGestureRecognizer *toolBarGestureRecognizer;
+//    UITapGestureRecognizer *stopViewGestureRecognizer;
     UITapGestureRecognizer *searchResultsViewGestureRecognizer;
     
     UIPanGestureRecognizer *stopViewDragGestureRecognizer;

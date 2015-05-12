@@ -172,7 +172,8 @@
     
     if (![self isLandScapeOrientation]) {
         UILabel * fLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, labelsW, 18)];
-        [fLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
+//        [fLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
+        [fLabel setText:[NSString stringWithFormat:@"%d mins",[self.route.routeDurationInSeconds intValue]/60]];
 //        [fLabel sizeToFit];
         fLabel.textAlignment = NSTextAlignmentCenter;
         fLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
@@ -402,7 +403,7 @@
 - (void)drawLineForLeg:(RouteLeg *)leg {
     
     self.currentLeg = leg;
-    int shapeCount = leg.legShapeDictionaries.count;
+    int shapeCount = (int)leg.legShapeDictionaries.count;
     // create an array of coordinates from allPins
     CLLocationCoordinate2D coordinates[shapeCount + 2];
     int i = 0;
@@ -472,8 +473,8 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
         polylineRenderer.strokeColor  = [UIColor yellowColor];
-        polylineRenderer.borderColor = [UIColor darkGrayColor];
-        polylineRenderer.borderMultiplier = 1.8;
+        polylineRenderer.borderColor = [UIColor blackColor];
+        polylineRenderer.borderMultiplier = 1.4;
         polylineRenderer.lineWidth	  = 8.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
