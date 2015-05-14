@@ -394,7 +394,7 @@
     
     UIBarButtonItem *flexiSpace3 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    UIImage *image4 = [UIImage imageNamed:@"gps-green-100.png"];
+    UIImage *image4 = [UIImage imageNamed:@"more-green-100.png"];
     
     UIButton *moreButton = [[UIButton alloc] initWithFrame:liveFrame];
     [moreButton setBackgroundImage:image4 forState:UIControlStateNormal];
@@ -407,9 +407,9 @@
     [items addObject:flexiSpace1];
     [items addObject:listBarButtonItem];
     [items addObject:flexiSpace2];
-    [items addObject:moreBarButtonItem];
-    [items addObject:flexiSpace3];
     [items addObject:locBarButtonItem];
+    [items addObject:flexiSpace3];
+    [items addObject:moreBarButtonItem];
     self.toolbarItems = items;
 }
 

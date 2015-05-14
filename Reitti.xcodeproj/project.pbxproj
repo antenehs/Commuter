@@ -16,6 +16,8 @@
 		661202B91B01414700D93C2E /* plan-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661202B81B01414700D93C2E /* plan-green-100.png */; };
 		661202BB1B01453500D93C2E /* list-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661202BA1B01453500D93C2E /* list-white-100.png */; };
 		661202BD1B014DC800D93C2E /* gps-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661202BC1B014DC800D93C2E /* gps-green-100.png */; };
+		661202BF1B04152E00D93C2E /* dark-dotted-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 661202BE1B04152E00D93C2E /* dark-dotted-line.png */; };
+		661202C21B04F01E00D93C2E /* PubTransAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202C11B04F01E00D93C2E /* PubTransAPI.m */; };
 		661721EA19CD999500E3CD6E /* blured-background-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721E919CD999500E3CD6E /* blured-background-dark.png */; };
 		661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721EB19CD9ED300E3CD6E /* map-orange-50.png */; };
 		661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* InfoViewController.m */; };
@@ -380,6 +382,9 @@
 		661202B81B01414700D93C2E /* plan-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plan-green-100.png"; path = "Pictures/Version 3.1/plan-green-100.png"; sourceTree = "<group>"; };
 		661202BA1B01453500D93C2E /* list-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "list-white-100.png"; path = "Pictures/Version 3.1/list-white-100.png"; sourceTree = "<group>"; };
 		661202BC1B014DC800D93C2E /* gps-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gps-green-100.png"; path = "Pictures/Version 3.1/gps-green-100.png"; sourceTree = "<group>"; };
+		661202BE1B04152E00D93C2E /* dark-dotted-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dark-dotted-line.png"; path = "Pictures/Version 3.1/dark-dotted-line.png"; sourceTree = "<group>"; };
+		661202C01B04F01E00D93C2E /* PubTransAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PubTransAPI.h; sourceTree = "<group>"; };
+		661202C11B04F01E00D93C2E /* PubTransAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PubTransAPI.m; sourceTree = "<group>"; };
 		661721E919CD999500E3CD6E /* blured-background-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blured-background-dark.png"; path = "Pictures/New Version 2.0/blured-background-dark.png"; sourceTree = "<group>"; };
 		661721EB19CD9ED300E3CD6E /* map-orange-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map-orange-50.png"; path = "Pictures/New Version 2.0/map-orange-50.png"; sourceTree = "<group>"; };
 		661721ED19CDA78000E3CD6E /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
@@ -858,6 +863,7 @@
 		661202B51B01406300D93C2E /* Version 3.1 */ = {
 			isa = PBXGroup;
 			children = (
+				661202BE1B04152E00D93C2E /* dark-dotted-line.png */,
 				661202BC1B014DC800D93C2E /* gps-green-100.png */,
 				661202BA1B01453500D93C2E /* list-white-100.png */,
 				661202B81B01414700D93C2E /* plan-green-100.png */,
@@ -926,6 +932,8 @@
 				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
 				664E28811ADAC12400BE2457 /* CustomAnnotations */,
 				66F099621AE6ECB500F20D34 /* TSMessages */,
+				661202C01B04F01E00D93C2E /* PubTransAPI.h */,
+				661202C11B04F01E00D93C2E /* PubTransAPI.m */,
 			);
 			name = "Supporting Classes";
 			sourceTree = "<group>";
@@ -1783,6 +1791,7 @@
 				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,
+				661202BF1B04152E00D93C2E /* dark-dotted-line.png in Resources */,
 				664E287C1AD9985B00BE2457 /* walking-gray-64.png in Resources */,
 				66DAE1FB19C6112A0039081D /* ferryAnnotationSmall.png in Resources */,
 				66DAE1F119C42F590039081D /* up-arrow-50.png in Resources */,
@@ -2091,6 +2100,7 @@
 				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */,
+				661202C21B04F01E00D93C2E /* PubTransAPI.m in Sources */,
 				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
 				667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
