@@ -15,6 +15,7 @@
 #import "CookieEntity.h"
 #import "SettingsEntity.h"
 #import "ReittiManagedObjectBase.h"
+#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
 
@@ -60,6 +61,9 @@
     [self fetchAllSavedRouteCodesFromCoreData];
     [self fetchAllRouteHistoryCodesFromCoreData];
     [self fetchAllNamedBookmarkNamesFromCoreData];
+
+    liveManager = [[LiveTrafficManager alloc] init];
+    [liveManager fetchAllLiveVehicles];
     
     return self;
     

@@ -19,6 +19,7 @@
 #import "WelcomeViewController.h"
 #import "DetailImageView.h"
 #import "AppManager.h"
+#import "LiveTrafficManager.h"
 
 @interface SearchController ()
 

@@ -24,6 +24,7 @@
 @class NamedBookmark;
 @class FailedGeoCodeFetch;
 @class SettingsEntity;
+@class LiveTrafficManager;
 
 @protocol RettiDataManagerDelegate <NSObject>
 - (void)stopFetchDidComplete:(NSArray *)stopList;
@@ -83,7 +84,8 @@ typedef struct {
     NSMutableArray *TREGeocodeResponseQueue;
     
     int numberOfApis;
-    
+
+    LiveTrafficManager *liveManager;
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;

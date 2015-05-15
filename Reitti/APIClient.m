@@ -378,6 +378,47 @@
     [objectManager enqueueObjectRequestOperation:objectRequestOperation];
 }
 
+#pragma mark - PubTrans Methods
+- (void)getAllLiveVehicles{
+    NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles"];
+    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
+    NSLog(@"%@", urlAsString);
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            [self VehiclesFetchFailed:error];
+        } else {
+            [self VehiclesFetchComplete:data];
+        }
+    }];
+    
+//    [[[RKObjectManager sharedManager] HTTPClient] getPath:@"http://www.pubtrans.it/hsl/vehicles"
+//                                               parameters:nil
+//                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                                                      // handle success
+//                                                      [self VehiclesFetchComplete:responseObject];
+//                                                  }
+//                                                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                                                      // response code is in operation.response.statusCode
+//                                                      [self VehiclesFetchFailed:error];
+//                                                  }];
+    
+//    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.pubtrans.it/"]];
+//    NSMutableURLRequest *request = [httpClient requestWithMethod:@"GET"
+//                                                            path:@"http://www.pubtrans.it/hsl/vehicles"
+//                                                      parameters:nil];
+//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+//    [httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        // Print the response body in text
+//        [self VehiclesFetchComplete:responseObject];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        [self VehiclesFetchFailed:error];
+//    }];
+//    [operation start];
+}
+
 #pragma mark - Test method
 
 -(void) testHSLAPI{
@@ -439,6 +480,8 @@
 - (void)RouteSearchFailed:(int)errorCode{}
 - (void)DisruptionFetchComplete{}
 - (void)DisruptionFetchFailed:(int)errorCode{}
+- (void)VehiclesFetchComplete:(NSData *)objectNotation{}
+- (void)VehiclesFetchFailed:(NSError *)error{}
 
 - (void)dealloc
 {
