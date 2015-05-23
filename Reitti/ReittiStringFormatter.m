@@ -176,12 +176,17 @@
     NSRange second = NSMakeRange(1, 1);
     
     NSString *checkString = [code substringWithRange:second];
-    
+    NSString *returnString;
     if([checkString isEqualToString:@"0"]){
-        return [code substringWithRange:NSMakeRange(2, code.length - 2)];
+        returnString = [code substringWithRange:NSMakeRange(2, code.length - 2)];
     }else{
-        return [code substringWithRange:NSMakeRange(1, code.length - 1)];
+        returnString = [code substringWithRange:NSMakeRange(1, code.length - 1)];
     }
+    
+    if ([returnString hasPrefix:@"0"])
+        return [returnString substringWithRange:NSMakeRange(1, returnString.length - 1)];
+    else
+        return returnString;
 }
 
 //Expected format is XXXX(X) X:YYYYYYY

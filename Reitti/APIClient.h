@@ -30,7 +30,8 @@
 -(void)getDisruptions;
 -(void)getLineInformation:(NSString *)codeList;
 
-- (void)getAllLiveVehicles;
+- (void)getAllLiveVehiclesFromPubTrans;
+- (void)getAllLiveVehiclesFromHSLLive;
 
 
 - (void)StopFetchDidComplete;
@@ -47,8 +48,10 @@
 - (void)RouteSearchFailed:(int)errorCode;
 - (void)DisruptionFetchComplete;
 - (void)DisruptionFetchFailed:(int)errorCode;
-- (void)VehiclesFetchComplete:(NSData *)objectNotation;
-- (void)VehiclesFetchFailed:(NSError *)error;
+- (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation;
+- (void)VehiclesFetchFromPubtransFailed:(NSError *)error;
+- (void)VehiclesFetchFromHslLiveComplete:(NSData *)objectNotation;
+- (void)VehiclesFetchFromHslLiveFailed:(NSError *)error;
 
 @property (nonatomic, strong) NSArray *stopList;
 @property (nonatomic, strong) NSArray *nearByStopList;

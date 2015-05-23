@@ -20,6 +20,7 @@
 #import "DetailImageView.h"
 #import "AppManager.h"
 #import "LiveTrafficManager.h"
+#import "Vehicle.h"
 
 @interface SearchController ()
 
@@ -49,7 +50,7 @@
 @synthesize notificationTimer;
 @synthesize notificationView;
 @synthesize searchResultListViewMode;
-@synthesize darkMode;
+@synthesize darkMode, mapMode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,6 +73,7 @@
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
     [self setUpToolBarWithMiddleImage:@"list-100.png"];
+    [self setUpModeSelector];
     [self hideNearByStopsView:YES animated:NO];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
@@ -157,11 +159,12 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setNavBarSize];
+    [self setSegmentControlSize];
 }
 
-//- (id<UILayoutSupport>)topLayoutGuide {
-////    return [[MyFixedLayoutGuide alloc]initWithLength:blurView.frame.size.height];
-//}
+- (id<UILayoutSupport>)topLayoutGuide {
+    return [[MyFixedLayoutGuide alloc]initWithLength:40];
+}
 
 - (id<UILayoutSupport>)bottomLayoutGuide {
     return [[MyFixedLayoutGuide alloc]initWithLength:bottomLayoutGuide];
@@ -206,6 +209,7 @@
     dataManger.routeSearchdelegate = self;
     dataManger.disruptionFetchDelegate = self;
     dataManger.reverseGeocodeSearchdelegate = self;
+    dataManger.vehicleFetchDelegate = self;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
     
@@ -294,6 +298,8 @@
     
     firstRecievedLocation = YES;
     userLocationUpdated = NO;
+    
+    mapMode = MainMapViewModeStops;
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
 }
@@ -399,7 +405,7 @@
     
     UIButton *moreButton = [[UIButton alloc] initWithFrame:liveFrame];
     [moreButton setBackgroundImage:image4 forState:UIControlStateNormal];
-    [moreButton addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [moreButton addTarget:self action:@selector(openMoreViewButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem* moreBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
     
@@ -412,6 +418,65 @@
     [items addObject:flexiSpace3];
     [items addObject:moreBarButtonItem];
     self.toolbarItems = items;
+}
+
+-(void)setUpModeSelector{
+    //     Segmented control with more customization and indexChangeBlock
+    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Stops", @"Live"]];
+    [self setSegmentControlSize];
+    [segmentedControl setIndexChangeBlock:^(NSInteger index) {
+//        NSLog(@"Selected index %ld (via block)", (long)index);
+        mapMode = (int)index;
+        if (mapMode == MainMapViewModeStops) {
+            [reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+            [mapView removeAnnotations:mapView.annotations];
+            [reittiDataManager stopFetchingLiveVehicles];
+            
+        }else{
+            [mapView removeAnnotations:mapView.annotations];
+            [reittiDataManager fetchAllLiveVehicles];
+        }
+    }];
+//    [segmentedControl addTarget:self action:@selector(mapModeSegmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+    segmentedControl.selectionIndicatorHeight = 4.0f;
+    segmentedControl.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
+    segmentedControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:17.0f]};
+//    segmentedControl.titleTextAttributes = @{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f]};
+    segmentedControl.selectionIndicatorColor = [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
+    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleBox;
+    segmentedControl.selectedSegmentIndex = mapMode;
+    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    segmentedControl.shouldAnimateUserSelection = YES;
+    segmentedControl.tag = 2;
+    segmentedControl.layer.borderWidth = 0.5;
+    segmentedControl.layer.borderColor = [[UIColor grayColor] CGColor];
+    [self.view addSubview:segmentedControl];
+}
+
+-(void)setSegmentControlSize{
+    BOOL landscapeMode = self.view.frame.size.width > self.view.frame.size.height;
+    CGFloat height = landscapeMode ? 30 : 40;
+    [segmentedControl setFrame:CGRectMake(0, segmentedControl.hidden ? 0 - height : 0 , self.view.frame.size.width, height)];
+}
+
+- (void)hideSegmentControlView:(bool)hidden animated:(bool)anim{
+    
+    if (!hidden) {
+        segmentedControl.hidden = hidden;
+    }
+    
+    [UIView transitionWithView:self.view duration:anim?0.35:0 options:UIViewAnimationOptionTransitionNone animations:^{
+        
+        CGRect frame = segmentedControl.frame;
+        frame.origin.y = hidden ? 0 - frame.size.height : 0;
+        
+        segmentedControl.frame = frame;
+        
+    } completion:^(BOOL finished) {
+        if (hidden) {
+            segmentedControl.hidden = hidden;
+        }
+    }];
 }
 
 #pragma mark - extension methods
@@ -632,16 +697,22 @@
         } completion:^(BOOL finished) {
             if (hidden) {
                 searchResultsView.hidden = YES;
-                [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                if (mapMode == MainMapViewModeStops) {
+                    [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                }
             }
         }];
     }else{
         [self hideNearByStopsView:hidden];
         if (hidden) {
             searchResultsView.hidden = YES;
-            [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+            if (mapMode == MainMapViewModeStops) {
+                [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+            }
         }
     }
+    
+    [self hideSegmentControlView:!hidden animated:anim];
 }
 
 - (void)hideNearByStopsView:(BOOL)hidden{
@@ -987,7 +1058,7 @@
     }
     
     //CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
-    MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
+    MKCoordinateSpan span = {.latitudeDelta =  0.005, .longitudeDelta =  0.005};
     MKCoordinateRegion region = {coordinate, span};
     
     [mapView setRegion:region animated:YES];
@@ -1121,7 +1192,7 @@
     
     NSArray *newStops = [self collectStopsForCodes:codeList fromStops:stopList];
     
-    UIImage *stopImage = [UIImage imageNamed:@"stopAnnotation2.png"];
+    UIImage *stopImage = [UIImage imageNamed:@"busAnnotation3.1.png"];
     
     for (BusStopShort *stop in newStops) {
         
@@ -1308,6 +1379,110 @@
     [self.reittiDataManager searchAddresseForCoordinate:touchMapCoordinate];
 }
 
+- (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
+{
+    
+    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+    for (Vehicle *vehicle in vehicleList) {
+        [codeList addObject:vehicle.vehicleId];
+    }
+    return codeList;
+}
+
+- (NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList
+{
+    return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
+}
+
+-(UIImage *)imageForVehicleType:(VehicleType)type{
+    if (type == VehicleTypeTram) {
+        return [UIImage imageNamed:@"tramVAnnot.png"];
+    }else if (type == VehicleTypeTrain) {
+        return [UIImage imageNamed:@"trainVAnnot.png"];
+    }else if (type == VehicleTypeMetro) {
+        return [UIImage imageNamed:@"metroVAnnot.png"];
+    }else if (type == VehicleTypeBus) {
+        return [UIImage imageNamed:@"busVAnnot.png"];
+    }else if (type == VehicleTypeLongDistanceTrain) {
+        return [UIImage imageNamed:@"trainVAnnot.png"];
+    }else {
+        return [UIImage imageNamed:@"tramVAnnot.png"];
+    }
+}
+
+-(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
+//    for (id<MKAnnotation> annotation in mapView.annotations) {
+//        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+////            LVThumbnailAnnotation *sAnnotation = (LVThumbnailAnnotation *)annotation;
+//            [mapView removeAnnotation:annotation];
+//        }
+//    }
+    
+    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
+    
+    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
+    
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            
+            if (isTrain) {
+                if (annot.vehicleType != VehicleTypeTrain) {
+                    continue;
+                }
+            }else{
+                if (annot.vehicleType == VehicleTypeTrain) {
+                    continue;
+                }
+            }
+            
+            if (![codeList containsObject:annot.code]) {
+                [annotToRemove addObject:annotation];
+            }else{
+                [codeList removeObject:annot.code];
+                [existingVehicles addObject:annotation];
+            }
+        }
+    }
+    
+    for (id<MKAnnotation> annotation in existingVehicles) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            @try {
+                Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                annot.coordinate = vehicleToUpdate.coords;
+//                annot.thumbnail.bearing = [NSNumber numberWithDouble:vehicleToUpdate.bearing];
+                [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
+                [annotToRemove addObject:annot];
+                [codeList addObject:annot.code];
+            }
+        }
+    }
+    
+    [mapView removeAnnotations:annotToRemove];
+    
+    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
+//    [mapView removeAnnotations:mapView.annotations];
+    
+    for (Vehicle *vehicle in newVehicles) {
+        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
+        vehicleAnT.image = [self imageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        vehicleAnT.code = vehicle.vehicleId;
+        vehicleAnT.title = vehicle.vehicleName;
+        vehicleAnT.lineId = vehicle.vehicleLineId;
+        vehicleAnT.vehicleType = vehicle.vehicleType;
+        vehicleAnT.coordinate = vehicle.coords;
+        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
+        
+        [mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
+    }
+}
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 //    static NSString *identifier = @"otherLocations";
@@ -1323,8 +1498,10 @@
         }
         
         return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }
-    else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
+    }else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
+        
+        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+    }else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:poiIdentifier];
         if (annotationView == nil) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:poiIdentifier];
@@ -1420,6 +1597,14 @@
         NSString *toCoordsString = [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
         
         [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString];
+    }else if ([view conformsToProtocol:@protocol(LVThumbnailAnnotationViewProtocol)]) {
+        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            if (annot.lineId != nil) {
+                [self.reittiDataManager fetchLineInfoForCodeList:annot.lineId];
+            }
+        }
     }
 }
 
@@ -1543,7 +1728,10 @@
         ignoreRegionChange = NO;
     }
     
-    [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
+    if (self.mapMode == MainMapViewModeStops) {
+         [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
+    }
+//    [self.reittiDataManager fetchAllLiveVehicles];
     currentLocationButton.alpha = 1;
 //    sendEmailButton.alpha = 1;
     listNearbyStops.alpha = 1;
@@ -1791,6 +1979,9 @@
 //- (IBAction)hideButtonPressed:(id)sender {
 //    //[self toggleSearchViewHiddenAnimated:YES];
 //}
+-(IBAction)mapModeSegmentedControlChangedValue:(id)sender{
+    
+}
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
     if (![self isLocationServiceAvailableWithNotification:NO] && locNotAvailableNotificationShow) {
         [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
@@ -1959,6 +2150,10 @@
     [self performSegueWithIdentifier:@"showSettings" sender:self];
 }
 
+- (IBAction)openMoreViewButtonPressed:(id)sender {
+    [self.reittiDataManager fetchAllLiveVehicles];
+}
+
 - (IBAction)seeFullTimeTablePressed:(id)sender {
     NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
     
@@ -2055,7 +2250,9 @@
 
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{
     self.nearByStopList = stopList;
-    [self plotStopAnnotations:self.nearByStopList];
+    if (mapMode == MainMapViewModeStops) {
+        [self plotStopAnnotations:self.nearByStopList];
+    }
     if (requestedForListing) {
         [self displayNearByStopsList:stopList];
     }
@@ -2117,6 +2314,26 @@
         [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:nil];
     }
+}
+
+//- (void)vehicleFetchDidComplete:(NSArray *)vehicleList{
+//    [self plotVehicleAnnotations:vehicleList];
+//}
+//- (void)vehicleFetchDidFail:(NSError *)error{
+//    
+//}
+
+- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
+    [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+}
+- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
+    
+}
+- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList{
+    [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
+}
+- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error{
+    
 }
 
 #pragma mark - Disruptions delegate

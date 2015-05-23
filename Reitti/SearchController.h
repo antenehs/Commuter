@@ -29,10 +29,12 @@
 #import "CommandView.h"
 #import "CustomBadge.h"
 #import "JPSThumbnailAnnotation.h"
+#import "LVThumbnailAnnotation.h"
 #import <AddressBookUI/AddressBookUI.h>
 #import "EditAddressTableViewController.h"
 #import "SettingsViewController.h"
 #import "SettingsManager.h"
+#import "HMSegmentedControl.h"
 
 typedef enum
 {
@@ -48,7 +50,13 @@ typedef enum
     RSearchResultViewModeNearByStops = 2
 } RSearchResultViewMode;
 
-@interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
+typedef enum
+{
+    MainMapViewModeStops = 0,
+    MainMapViewModeLive = 1
+} MainMapViewMode;
+
+@interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, ReittiLiveVehicleFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
 //    IBOutlet AMBlurView *blurView;
 //    IBOutlet AMBlurView *commandView;
     IBOutlet MKMapView *mapView;
@@ -72,6 +80,8 @@ typedef enum
 //    IBOutlet UIButton *sendEmailButton;
     IBOutlet UIButton *listNearbyStops;
     IBOutlet NSLayoutConstraint *nearByStopsViewTopSpacing;
+    
+    HMSegmentedControl *segmentedControl;
     
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
@@ -188,6 +198,7 @@ typedef enum
 @property (strong, nonatomic) NSDictionary * _stopLinesDetail;
 @property (strong, nonatomic) BusStop * _busStop;
 @property (nonatomic) bool darkMode;
+@property (nonatomic) MainMapViewMode mapMode;
 
 @property (strong, nonatomic) IBOutlet AMBlurView *notificationView;
 

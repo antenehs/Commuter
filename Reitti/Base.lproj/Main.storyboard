@@ -4117,7 +4117,7 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eec-f6-l9W">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eec-f6-l9W">
                                         <rect key="frame" x="288" y="3" width="32" height="12"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="FlI-af-liU"/>
@@ -4310,8 +4310,8 @@
                                                             </constraints>
                                                             <variation key="default">
                                                                 <mask key="constraints">
-                                                                    <exclude reference="cm1-0Z-Rie"/>
                                                                     <exclude reference="5LG-ZQ-4nO"/>
+                                                                    <exclude reference="cm1-0Z-Rie"/>
                                                                 </mask>
                                                             </variation>
                                                         </imageView>
@@ -4345,7 +4345,7 @@
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="dtr-MV-8Sl"/>
                                                                 <constraint firstAttribute="height" constant="21" id="rUo-J6-CJQ"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -5738,9 +5738,9 @@ Helsinki, Finland</string>
         <segue reference="Tx2-4m-mRF"/>
         <segue reference="due-au-0KO"/>
         <segue reference="DEk-ct-YDr"/>
+        <segue reference="rqm-Vp-DPt"/>
         <segue reference="y7Z-EO-EpP"/>
         <segue reference="lwh-ia-2sg"/>
-        <segue reference="e2V-qU-oq6"/>
         <segue reference="ZjJ-Bw-eOZ"/>
         <segue reference="EHN-bT-MQW"/>
         <segue reference="4lM-KH-B6v"/>

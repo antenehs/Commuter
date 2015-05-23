@@ -15,7 +15,8 @@ typedef enum{
     NearByStopType = 1,
     SearchedStopType = 2,
     GeoCodeType = 3,
-    DroppedPinType = 4
+    DroppedPinType = 4,
+    LiveVehicleType = 5
 }AnnotationType;
 
 @interface JPSThumbnail : NSObject

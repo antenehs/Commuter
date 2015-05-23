@@ -16,11 +16,11 @@
     return  self;
 }
 
-- (void)VehiclesFetchComplete:(NSData *)objectNotation{
+- (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{
     [self.delegate receivedGeoJSON:objectNotation];
 }
-- (void)VehiclesFetchFailed:(NSError *)error{
-    [self.delegate fetchingVehiclesFailedWithError:error];
+- (void)VehiclesFetchFromPubtransFailed:(NSError *)error{
+    [self.delegate fetchingVehiclesFromPubTransFailedWithError:error];
 }
 
 - (void)dealloc

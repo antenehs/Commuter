@@ -15,6 +15,7 @@
 #import "NamedBookmark.h"
 #include "RouteSearchOptions.h"
 #include "FailedGeoCodeFetch.h"
+#import "LiveTrafficManager.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -54,6 +55,13 @@
 - (void)disruptionFetchDidFail:(NSString *)error;
 @end
 
+@protocol ReittiLiveVehicleFetchDelegate <NSObject>
+- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList;
+- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error;
+- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList;
+- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error;
+@end
+
 typedef enum
 {
     HSLRegion = 0,
@@ -67,7 +75,7 @@ typedef struct {
     CLLocationCoordinate2D bottomRightCorner;
 } RTCoordinateRegion;
 
-@interface RettiDataManager : NSObject<HSLCommunicationDelegate,TRECommunicationDelegate>{
+@interface RettiDataManager : NSObject <HSLCommunicationDelegate,TRECommunicationDelegate, LiveTraficManagerDelegate>{
     int nextObjectLID;
     
     Region stopInAreaRequestedFor;
@@ -84,8 +92,6 @@ typedef struct {
     NSMutableArray *TREGeocodeResponseQueue;
     
     int numberOfApis;
-
-    LiveTrafficManager *liveManager;
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
@@ -148,6 +154,10 @@ typedef struct {
 -(void)setAppOpenCountValue:(int)value;
 
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
+
+- (void)fetchAllLiveVehicles;
+-(void)stopFetchingLiveVehicles;
+
 +(NSDictionary *)convertStopLinesArrayToDictionary:(NSArray *)lineList;
 -(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntity;
 -(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode;
@@ -169,6 +179,7 @@ typedef struct {
 @property (nonatomic, weak) id <RettiReverseGeocodeSearchDelegate> reverseGeocodeSearchdelegate;
 @property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
 @property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
+@property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
 
 @property (strong, nonatomic) StopEntity *stopEntity;
 @property (strong, nonatomic) HistoryEntity *historyEntity;
@@ -185,4 +196,5 @@ typedef struct {
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+@property(nonatomic, strong) LiveTrafficManager *liveTrafficManager;
 @end

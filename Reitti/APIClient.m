@@ -379,17 +379,22 @@
 }
 
 #pragma mark - PubTrans Methods
-- (void)getAllLiveVehicles{
-    NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles"];
+- (void)getAllLiveVehiclesFromPubTrans{
+    NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0"];
     NSURL *url = [[NSURL alloc] initWithString:urlAsString];
     NSLog(@"%@", urlAsString);
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (error) {
-            [self VehiclesFetchFailed:error];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self VehiclesFetchFromPubtransFailed:error];
+            });
+            
         } else {
-            [self VehiclesFetchComplete:data];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self VehiclesFetchFromPubtransComplete:data];
+            });
         }
     }];
     
@@ -418,6 +423,28 @@
 //    }];
 //    [operation start];
 }
+
+#pragma mark - HSL Live Methods
+- (void)getAllLiveVehiclesFromHSLLive{
+    NSString *urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5"];
+    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
+    NSLog(@"%@", urlAsString);
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self VehiclesFetchFromHslLiveFailed:error];
+            });
+            
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self VehiclesFetchFromHslLiveComplete:data];
+            });
+        }
+    }];
+}
+
 
 #pragma mark - Test method
 
@@ -480,8 +507,10 @@
 - (void)RouteSearchFailed:(int)errorCode{}
 - (void)DisruptionFetchComplete{}
 - (void)DisruptionFetchFailed:(int)errorCode{}
-- (void)VehiclesFetchComplete:(NSData *)objectNotation{}
-- (void)VehiclesFetchFailed:(NSError *)error{}
+- (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{}
+- (void)VehiclesFetchFromPubtransFailed:(NSError *)error{}
+- (void)VehiclesFetchFromHslLiveComplete:(NSData *)objectNotation{}
+- (void)VehiclesFetchFromHslLiveFailed:(NSError *)error{}
 
 - (void)dealloc
 {

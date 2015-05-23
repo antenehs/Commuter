@@ -6,8 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Geometry.h"
+#import "Properties.h"
 
-@class Geometry, Properties;
+//@class Geometry, Properties;
 
 @interface Features : NSObject <NSCoding, NSCopying>
 

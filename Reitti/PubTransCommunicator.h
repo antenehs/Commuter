@@ -11,7 +11,7 @@
 
 @protocol PubTransCommunicatorDelegate <NSObject>
 - (void)receivedGeoJSON:(NSData *)objectNotation;
-- (void)fetchingVehiclesFailedWithError:(NSError *)error;
+- (void)fetchingVehiclesFromPubTransFailedWithError:(NSError *)error;
 @end
 
 @interface PubTransCommunicator : APIClient
