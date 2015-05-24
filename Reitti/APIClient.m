@@ -287,6 +287,31 @@
 
 }
 
+- (void)getStopsFromPubTransInArea:(CLLocationCoordinate2D)center forDiameter:(int)diameter{
+    NSString * longString = [NSString stringWithFormat:@"%f", center.longitude];
+    NSString * latString = [NSString stringWithFormat:@"%f", center.latitude];
+    
+//    diameter = 200;
+    
+    NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/stops?lon=%@&lat=%@&rad=%d&cid=asareitticlient&dup=1&max=20", longString, latString, diameter];
+    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
+    NSLog(@"%@", urlAsString);
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self StopInAreaFetchFromPubtransFailed:error];
+            });
+            
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self StopInAreaFetchFromPubtransDidComplete:data];
+            });
+        }
+    }];
+}
+
 -(void)getDisruptions{
     
     //Do the API call
@@ -397,31 +422,6 @@
             });
         }
     }];
-    
-//    [[[RKObjectManager sharedManager] HTTPClient] getPath:@"http://www.pubtrans.it/hsl/vehicles"
-//                                               parameters:nil
-//                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//                                                      // handle success
-//                                                      [self VehiclesFetchComplete:responseObject];
-//                                                  }
-//                                                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//                                                      // response code is in operation.response.statusCode
-//                                                      [self VehiclesFetchFailed:error];
-//                                                  }];
-    
-//    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.pubtrans.it/"]];
-//    NSMutableURLRequest *request = [httpClient requestWithMethod:@"GET"
-//                                                            path:@"http://www.pubtrans.it/hsl/vehicles"
-//                                                      parameters:nil];
-//    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-//    [httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
-//    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        // Print the response body in text
-//        [self VehiclesFetchComplete:responseObject];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [self VehiclesFetchFailed:error];
-//    }];
-//    [operation start];
 }
 
 #pragma mark - HSL Live Methods
@@ -507,6 +507,8 @@
 - (void)RouteSearchFailed:(int)errorCode{}
 - (void)DisruptionFetchComplete{}
 - (void)DisruptionFetchFailed:(int)errorCode{}
+- (void)StopInAreaFetchFromPubtransDidComplete:(NSData *)objectNotation{}
+- (void)StopInAreaFetchFromPubtransFailed:(NSError *)error{}
 - (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{}
 - (void)VehiclesFetchFromPubtransFailed:(NSError *)error{}
 - (void)VehiclesFetchFromHslLiveComplete:(NSData *)objectNotation{}

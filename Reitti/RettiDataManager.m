@@ -15,7 +15,7 @@
 #import "CookieEntity.h"
 #import "SettingsEntity.h"
 #import "ReittiManagedObjectBase.h"
-#import "LiveTrafficManager.h"
+//#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
 
@@ -25,7 +25,7 @@
 @synthesize reverseGeocodeSearchdelegate;
 @synthesize routeSearchdelegate;
 @synthesize disruptionFetchDelegate;
-@synthesize hslCommunication, treCommunication;
+@synthesize hslCommunication, treCommunication, pubTransAPI;
 @synthesize detailLineInfo;
 @synthesize stopLinesInfo;
 @synthesize allHistoryStopCodes;
@@ -79,6 +79,9 @@
     tCommunicator.delegate = self;
     
     self.treCommunication = tCommunicator;
+    
+    pubTransAPI = [[PubTransCommunicator alloc] init];
+    pubTransAPI.delegate = self;
 
     self.liveTrafficManager = [[LiveTrafficManager alloc] init];
     self.liveTrafficManager.delegate = self;
@@ -250,7 +253,8 @@
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion{
     Region region = [self identifyRegionOfCoordinate:mapRegion.center];
     if (region == HSLRegion) {
-        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+//        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+        [self.pubTransAPI getStopsFromPubTransInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
         stopInAreaRequestedFor = HSLRegion;
     }else if (region == TRERegion){
         [self.treCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
@@ -522,6 +526,15 @@
 - (void)treDisruptionFetchFailed:(int)errorCode{
     
 }
+
+#pragma mark - PubTrans Delegate Methods
+- (void)receivedStopsFromPubTrans:(NSArray *)stops{
+    [self.delegate nearByStopFetchDidComplete:stops];
+}
+- (void)fetchingStopsFromPubTransFailedWithError:(NSError *)error{
+    [self.delegate nearByStopFetchDidFail:nil];
+}
+- (void)receivedGeoJSON:(NSData *)objectNotation{/*Not Implemented Here*/}
 
 #pragma mark - Live traffic fetch methods
 -(void)fetchAllLiveVehicles{

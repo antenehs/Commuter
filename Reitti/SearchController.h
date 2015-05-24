@@ -35,6 +35,7 @@
 #import "SettingsViewController.h"
 #import "SettingsManager.h"
 #import "HMSegmentedControl.h"
+#import "NearByStop.h"
 
 typedef enum
 {
@@ -53,7 +54,8 @@ typedef enum
 typedef enum
 {
     MainMapViewModeStops = 0,
-    MainMapViewModeLive = 1
+    MainMapViewModeLive = 1,
+    MainMapViewModeStopsAndLive = 2
 } MainMapViewMode;
 
 @interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, ReittiLiveVehicleFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{

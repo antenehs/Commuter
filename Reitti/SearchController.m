@@ -73,7 +73,7 @@
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
     [self setUpToolBarWithMiddleImage:@"list-100.png"];
-    [self setUpModeSelector];
+//    [self setUpModeSelector];
     [self hideNearByStopsView:YES animated:NO];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
@@ -159,7 +159,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setNavBarSize];
-    [self setSegmentControlSize];
+//    [self setSegmentControlSize];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -218,6 +218,11 @@
     //Clean history more than the specified date
     if ([settingsManager isClearingHistoryEnabled]) {
         [self.reittiDataManager clearHistoryOlderThanDays:[settingsManager numberOfDaysToKeepHistory]];
+    }
+    
+    //StartVehicleFetching
+    if (settingsManager.userLocation == HSLRegion) {
+        [reittiDataManager fetchAllLiveVehicles];
     }
     
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -299,7 +304,7 @@
     firstRecievedLocation = YES;
     userLocationUpdated = NO;
     
-    mapMode = MainMapViewModeStops;
+    mapMode = MainMapViewModeStopsAndLive;
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
 }
@@ -697,7 +702,7 @@
         } completion:^(BOOL finished) {
             if (hidden) {
                 searchResultsView.hidden = YES;
-                if (mapMode == MainMapViewModeStops) {
+                if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
                     [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
                 }
             }
@@ -706,7 +711,7 @@
         [self hideNearByStopsView:hidden];
         if (hidden) {
             searchResultsView.hidden = YES;
-            if (mapMode == MainMapViewModeStops) {
+            if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
                 [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
             }
         }
@@ -1188,23 +1193,35 @@
             }
         }
     }
-    [mapView removeAnnotations:annotToRemove];
+//    [mapView removeAnnotations:annotToRemove];
     
     NSArray *newStops = [self collectStopsForCodes:codeList fromStops:stopList];
     
-    UIImage *stopImage = [UIImage imageNamed:@"busAnnotation3.1.png"];
-    
     for (BusStopShort *stop in newStops) {
+        UIImage *stopImage;
+        if (stop.stopType == StopTypeBus) {
+            stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
+        }else if (stop.stopType == StopTypeTrain) {
+            stopImage = [UIImage imageNamed:@"trainAnnotation3_2.png"];
+        }else if (stop.stopType == StopTypeTram) {
+            stopImage = [UIImage imageNamed:@"tramAnnotation3_2.png"];
+        }else if (stop.stopType == StopTypeFerry) {
+            stopImage = [UIImage imageNamed:@"ferryAnnotation3_2.png"];
+        }else if (stop.stopType == StopTypeMetro) {
+            stopImage = [UIImage imageNamed:@"metroAnnotation3_2.png"];
+        }else if (stop.stopType == StopTypeOther) {
+            stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
+        }
         
         CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
         NSString * name = stop.name;
-        NSString * codeShort = [NSString stringWithFormat:@"%@", stop.codeShort];
+        NSString * codeShort = stop.codeShort;
         
         JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
         stopAnT.image = stopImage;
         stopAnT.code = stop.code;
         stopAnT.title = name;
-        stopAnT.subtitle = codeShort;
+        stopAnT.subtitle = ![stop.linesString isEqualToString:@""] ? stop.linesString : codeShort;
         stopAnT.coordinate = coordinate;
         stopAnT.annotationType = NearByStopType;
         stopAnT.reuseIdentifier = @"NearByStopAnnotation";
@@ -1236,7 +1253,7 @@
     NSString * shortCode = stop.codeShort;
     
     JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
-    stopAnT.image = [UIImage imageNamed:@"stopAnnotation2.png"];
+    stopAnT.image = [UIImage imageNamed:@"busAnnotation3_2.png"];
     stopAnT.code = stop.code;
     stopAnT.title = name;
     stopAnT.subtitle = shortCode;
@@ -1258,6 +1275,9 @@
     if (select) {
         [mapView selectAnnotation:annot animated:YES];
     }
+    
+    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stop.coords]];
+
 }
 
 -(void)plotGeoCodeAnnotation:(GeoCode *)geoCode{
@@ -1299,6 +1319,7 @@
     
     [mapView selectAnnotation:annot animated:YES];
 
+    [self centerMapRegionToCoordinate:coordinate];
     
 //    GeoCodeAnnotation *newAnnotation = [[GeoCodeAnnotation alloc] initWithTitle:name andSubtitle:city coordinate:coordinate andLocationType:geoCode.getLocationType];
     
@@ -1337,6 +1358,8 @@
     [mapView addAnnotation:annot];
     
     [mapView selectAnnotation:annot animated:YES];
+    
+    [self centerMapRegionToCoordinate:coordinate];
     
 }
 
@@ -1714,12 +1737,12 @@
     
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-//    StopAnnotation *stopAnnotation = (StopAnnotation*)view.annotation;
-    
-//    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]]];
-//    [self showProgressHUD];
-}
+//- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+////    StopAnnotation *stopAnnotation = (StopAnnotation*)view.annotation;
+//    
+////    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]]];
+////    [self showProgressHUD];
+//}
 
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
     if (!ignoreRegionChange) {
@@ -1728,14 +1751,38 @@
         ignoreRegionChange = NO;
     }
     
-    if (self.mapMode == MainMapViewModeStops) {
-         [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
+    if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
+        if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
+            [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
+        }else{
+            for (id<MKAnnotation> annotation in mapView.annotations) {
+                if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+                    JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+                    
+                    if (annot.annotationType == NearByStopType) {
+                        [mapView removeAnnotation:annot];
+                    }
+                }
+            }
+        }
+        
     }
 //    [self.reittiDataManager fetchAllLiveVehicles];
     currentLocationButton.alpha = 1;
 //    sendEmailButton.alpha = 1;
     listNearbyStops.alpha = 1;
 }
+
+-(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
+{
+    NSUInteger zoomLevel = 20; // MAXIMUM_ZOOM is 20 with MapKit
+    MKZoomScale zoomScale = mRect.size.width / viewSizeInPixels.width; //MKZoomScale is just a CGFloat typedef
+    double zoomExponent = log2(zoomScale);
+    zoomLevel = (NSUInteger)(20 - ceil(zoomExponent));
+    return zoomLevel;
+}
+
+
 
 #pragma mark - disruptions methods
 - (void)initDisruptionFetching{
@@ -2249,8 +2296,23 @@
 }
 
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{
-    self.nearByStopList = stopList;
-    if (mapMode == MainMapViewModeStops) {
+    
+    if (stopList.count > 0) {
+        if ([stopList.firstObject isKindOfClass:NearByStop.class]) {
+            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+            
+            for (NearByStop *stop in stopList) {
+                BusStopShort *sStop = [[BusStopShort alloc] initWithNearByStop:stop];
+                [tempArray addObject:sStop];
+            }
+            
+            self.nearByStopList = tempArray;
+        }else{
+            self.nearByStopList = stopList;
+        }
+    }
+    
+    if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
         [self plotStopAnnotations:self.nearByStopList];
     }
     if (requestedForListing) {

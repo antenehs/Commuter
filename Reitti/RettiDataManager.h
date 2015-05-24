@@ -13,8 +13,8 @@
 #import "ReittiStringFormatter.h"
 #import "BusStop.h"
 #import "NamedBookmark.h"
-#include "RouteSearchOptions.h"
-#include "FailedGeoCodeFetch.h"
+#import "RouteSearchOptions.h"
+#import "FailedGeoCodeFetch.h"
 #import "LiveTrafficManager.h"
 
 @class StopEntity;
@@ -75,7 +75,7 @@ typedef struct {
     CLLocationCoordinate2D bottomRightCorner;
 } RTCoordinateRegion;
 
-@interface RettiDataManager : NSObject <HSLCommunicationDelegate,TRECommunicationDelegate, LiveTraficManagerDelegate>{
+@interface RettiDataManager : NSObject <HSLCommunicationDelegate,TRECommunicationDelegate, PubTransCommunicatorDelegate, LiveTraficManagerDelegate>{
     int nextObjectLID;
     
     Region stopInAreaRequestedFor;
@@ -173,6 +173,7 @@ typedef struct {
 
 @property (strong, nonatomic) HSLCommunication *hslCommunication;
 @property (strong, nonatomic) TRECommunication *treCommunication;
+@property (strong, nonatomic) PubTransCommunicator *pubTransAPI;
 
 @property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
 @property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
@@ -197,4 +198,5 @@ typedef struct {
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property(nonatomic, strong) LiveTrafficManager *liveTrafficManager;
+
 @end

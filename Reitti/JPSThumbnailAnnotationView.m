@@ -18,6 +18,7 @@ static CGFloat const kJPSThumbnailAnnotationViewStandardWidth     = 35.0f;
 static CGFloat const kJPSThumbnailAnnotationViewStandardHeight    = 43.0f;
 static CGFloat const kJPSThumbnailAnnotationViewExpandOffset      = 265.0f;
 static CGFloat const kJPSThumbnailAnnotationViewExpandHeightOffset= 20.0f;
+static CGFloat const ASAThumbnailAnnotationViewImageViewHeight    = 42.0f;
 static CGFloat const kJPSThumbnailAnnotationViewVerticalOffset    = 21.0f;
 static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
@@ -80,8 +81,9 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupImageView {
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-4.0f, 1.0f, 43.0f, 46.0f)];
-    _imageView.layer.cornerRadius = 14.5f;
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-3.0f, 10.0f, 40.0f, ASAThumbnailAnnotationViewImageViewHeight)];
+//    _imageView.layer.cornerRadius = 14.5f;
+    _imageView.contentMode = UIViewContentModeScaleAspectFit;
     _imageView.layer.masksToBounds = YES;
 //    _imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 //    _imageView.layer.borderWidth = 0.5f;
@@ -89,17 +91,17 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupTitleLabel {
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -12.0f, 175.0f, 20.0f)];
-    _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -48.0f, 175.0f, 20.0f)];
+    _titleLabel.textColor = [UIColor darkGrayColor];
+    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17.0f];
     _titleLabel.minimumScaleFactor = 0.7f;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_titleLabel];
 }
 
 - (void)setupSubtitleLabel {
-    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, 8.0f, 168.0f, 20.0f)];
-    _subtitleLabel.textColor = [UIColor lightGrayColor];
+    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -28.0f, 168.0f, 20.0f)];
+    _subtitleLabel.textColor = [UIColor grayColor];
     _subtitleLabel.font = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_subtitleLabel];
 }
@@ -112,7 +114,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     
     _primaryButton.frame = CGRectMake(0, 0, 55.0f, 55.5f);
     
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(-132.0f, -19.5f, 72.0f, 55.0f)];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(-132.0f, -55.5f, 72.0f, 55.0f)];
     containerView.clipsToBounds = YES;
     containerView.layer.cornerRadius = 17.5;
     
@@ -145,7 +147,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 //    [_secondaryButton setImage:image forState:UIControlStateNormal];
     _secondaryButton.tintColor = SYSTEM_GREEN_COLOR;
 //    _secondaryButton.backgroundColor = [UIColor greenColor];
-    _secondaryButton.frame = CGRectMake(-70.0f, -19.5f, 205.0f, 55.0f);
+    _secondaryButton.frame = CGRectMake(-70.0f, -55.5f, 245.0f, 55.0f);
     [self addSubview:_secondaryButton];
     
     [_secondaryButton addTarget:self action:@selector(didTapSecondaryButton) forControlEvents:UIControlEventTouchDown];
@@ -159,7 +161,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     UIImage *disclosureIndicatorImage = [JPSThumbnailAnnotationView disclosureButtonImage];
     [_disclosureButton setImage:disclosureIndicatorImage forState:UIControlStateNormal];
     _disclosureButton.frame = CGRectMake(kJPSThumbnailAnnotationViewExpandOffset/2.0f + self.frame.size.width/2.0f - 8.0f,
-                                         -1.0f,
+                                         -37.0f,
                                          disclosureIndicatorImage.size.width,
                                          disclosureIndicatorImage.size.height);
     
@@ -172,7 +174,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 //    CGPathRef path = [self newBubbleWithRect:self.bounds];
 //    _bgLayer.path = path;
 //    CFRelease(path);
-    _bgLayer.fillColor = [UIColor darkGrayColor].CGColor;
+    _bgLayer.fillColor = [UIColor colorWithWhite:0.97 alpha:1].CGColor;
     
     _bgLayer.shadowColor = [UIColor blackColor].CGColor;
     _bgLayer.shadowOffset = CGSizeMake(0.0f, 2.0f);
@@ -237,10 +239,27 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)didSelectAnnotationViewInMap:(MKMapView *)mapView {
     // Center map at annotation point
-    MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
-    MKCoordinateRegion region = {self.coordinate, span};
+//    MKCoordinateSpan span = mapView.region.span;
+//    MKCoordinateRegion region = {self.coordinate, span};
     
-    [mapView setRegion:region animated:YES];
+    CGPoint annotPoint = [mapView convertCoordinate:self.coordinate toPointToView:mapView];
+    
+    CGFloat yOffset = annotPoint.y < 160 ? 160 - annotPoint.y : 0;
+    CGFloat xOffset;
+    if( annotPoint.x < 170){
+        xOffset = 170 - annotPoint.x;
+    }else if(annotPoint.x > mapView.frame.size.width - 170){
+        xOffset = mapView.frame.size.width - annotPoint.x - 170;
+    }else{
+        xOffset = 0;
+    }
+    
+    CGPoint centerPoint = [mapView convertCoordinate:mapView.region.center toPointToView:mapView];
+    CGPoint fakecenter = CGPointMake(centerPoint.x - xOffset, centerPoint.y - yOffset);
+    CLLocationCoordinate2D coordinate = [mapView convertPoint:fakecenter toCoordinateFromView:mapView];
+    [mapView setCenterCoordinate:coordinate animated:YES];
+    
+//    [mapView setRegion:region animated:YES];
 //    [mapView setCenterCoordinate:self.coordinate animated:YES];
     [self expand];
 }
@@ -268,10 +287,10 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 - (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address{
     if (address==nil) {
         self.disclosureButton.alpha = 0;
-        self.titleLabel.frame = CGRectMake(-60.0f, -4.0f, 175.0f, 20.0f);
+        self.titleLabel.frame = CGRectMake(-60.0f, -40.0f, 175.0f, 20.0f);
     }else{
         self.disclosureButton.alpha = 1;
-        self.titleLabel.frame = CGRectMake(-60.0f, -12.0f, 175.0f, 20.0f);
+        self.titleLabel.frame = CGRectMake(-60.0f, -48.0f, 175.0f, 20.0f);
     }
     self.subtitleLabel.text = address;
 }
@@ -340,7 +359,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setCompactGroupAlpha:(CGFloat)alpha {
-    self.imageView.alpha = alpha;
+//    self.imageView.alpha = alpha;
 }
 
 - (void)expand {
@@ -354,6 +373,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.centerOffset = CGPointMake(kJPSThumbnailAnnotationViewExpandOffset/2.0f, -kJPSThumbnailAnnotationViewExpandHeightOffset/2.0f);
     [UIView animateWithDuration:kJPSThumbnailAnnotationViewAnimationDuration/2.0f delay:kJPSThumbnailAnnotationViewAnimationDuration options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setDetailGroupAlpha:1.0f];
+        _bgLayer.fillColor = [UIColor colorWithWhite:0.97 alpha:1].CGColor;
     } completion:^(BOOL finished) {
         self.state = JPSThumbnailAnnotationViewStateExpanded;
     }];
@@ -385,8 +405,10 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
                                           }
                                           completion:^(BOOL finished) {
                                               [self setCompactGroupAlpha:1];
+                                              _bgLayer.fillColor = [UIColor clearColor].CGColor;
                                           }];
                      }];
+    
 }
 
 - (void)animateBubbleWithDirection:(JPSThumbnailAnnotationViewAnimationDirection)animationDirection {
@@ -395,7 +417,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     [UIView animateWithDuration:kJPSThumbnailAnnotationViewAnimationDuration animations:^{
         CGFloat xOffset = (growing ? -1 : 1) * kJPSThumbnailAnnotationViewExpandOffset/2.0f;
         
-        self.imageView.frame = CGRectOffset(self.imageView.frame, xOffset, 0.0f);
+//        self.imageView.frame = CGRectOffset(self.imageView.frame, xOffset, 0.0f);
     } completion:^(BOOL finished) {
         if (animationDirection == JPSThumbnailAnnotationViewAnimationDirectionShrink) {
             self.state = JPSThumbnailAnnotationViewStateCollapsed;
@@ -413,12 +435,12 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     
     // Stroke & Shadow From/To Values
     CGRect largeRect = CGRectInset(self.bounds, -kJPSThumbnailAnnotationViewExpandOffset/2.0f, -kJPSThumbnailAnnotationViewExpandHeightOffset/2.0f);
-    largeRect = CGRectOffset(largeRect, 0, -kJPSThumbnailAnnotationViewExpandHeightOffset/2.0f);
-    CGPathRef fromPath = [self newBubbleWithRect:growing ? self.bounds : largeRect];
+    largeRect = CGRectOffset(largeRect, 0, -ASAThumbnailAnnotationViewImageViewHeight - 4.0f);
+    CGPathRef fromPath = [self newBubbleWithRect:growing ? CGRectOffset(self.bounds, 0, -ASAThumbnailAnnotationViewImageViewHeight - 4.0f) : largeRect];
     animation.fromValue = (__bridge id)fromPath;
     CGPathRelease(fromPath);
     
-    CGPathRef toPath = [self newBubbleWithRect:growing ? largeRect : self.bounds];
+    CGPathRef toPath = [self newBubbleWithRect:growing ? largeRect : CGRectOffset(self.bounds, 0, -ASAThumbnailAnnotationViewImageViewHeight - 4.0f)];
     animation.toValue = (__bridge id)toPath;
     CGPathRelease(toPath);
     

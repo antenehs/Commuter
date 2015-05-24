@@ -27,6 +27,7 @@
 -(void)searchAddressForCoordinate:(NSString *)coords;
 -(void)getStopInfoForCode:(NSString *)code;
 -(void)getStopsInArea:(CLLocationCoordinate2D)center forDiameter:(int)diameter;
+-(void)getStopsFromPubTransInArea:(CLLocationCoordinate2D)center forDiameter:(int)diameter;
 -(void)getDisruptions;
 -(void)getLineInformation:(NSString *)codeList;
 
@@ -48,6 +49,8 @@
 - (void)RouteSearchFailed:(int)errorCode;
 - (void)DisruptionFetchComplete;
 - (void)DisruptionFetchFailed:(int)errorCode;
+- (void)StopInAreaFetchFromPubtransDidComplete:(NSData *)objectNotation;
+- (void)StopInAreaFetchFromPubtransFailed:(NSError *)error;
 - (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation;
 - (void)VehiclesFetchFromPubtransFailed:(NSError *)error;
 - (void)VehiclesFetchFromHslLiveComplete:(NSData *)objectNotation;

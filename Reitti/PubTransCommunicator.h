@@ -10,6 +10,8 @@
 #import "APIClient.h"
 
 @protocol PubTransCommunicatorDelegate <NSObject>
+- (void)receivedStopsFromPubTrans:(NSArray *)stops;
+- (void)fetchingStopsFromPubTransFailedWithError:(NSError *)error;
 - (void)receivedGeoJSON:(NSData *)objectNotation;
 - (void)fetchingVehiclesFromPubTransFailedWithError:(NSError *)error;
 @end

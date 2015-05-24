@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NearByStop.h"
 
 @interface BusStopShort : NSObject
+
+-(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop;
 
 @property (nonatomic, retain) NSNumber * code;
 @property (nonatomic, retain) NSString * codeShort;
@@ -17,5 +20,8 @@
 @property (nonatomic, retain) NSString * coords;
 @property (nonatomic, retain) NSString * address;
 @property (nonatomic, retain) NSNumber * distance;
+@property (nonatomic, retain) NSArray  * lines;
+@property (nonatomic, retain) NSString  * linesString;
+@property (nonatomic) StopType stopType;
 
 @end
