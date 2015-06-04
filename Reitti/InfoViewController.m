@@ -47,7 +47,7 @@
         [self disruptionFetchDidFail:nil];
     }
     
-    [self initAdBannerView];
+//    [self initAdBannerView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

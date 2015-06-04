@@ -11,7 +11,7 @@
 @interface JPSThumbnailAnnotation ()
 
 @property (nonatomic, readwrite) JPSThumbnailAnnotationView *view;
-@property (nonatomic, readonly) JPSThumbnail *thumbnail;
+//@property (nonatomic, readonly) JPSThumbnail *thumbnail;
 
 @end
 
@@ -28,6 +28,7 @@
         _code = thumbnail.code;
         _thumbnail = thumbnail;
         _annotationType = thumbnail.annotationType;
+        _stopType = thumbnail.stopType;
     }
     return self;
 }

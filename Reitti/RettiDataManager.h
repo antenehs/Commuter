@@ -103,6 +103,7 @@ typedef struct {
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andSearchOption:(RouteSearchOption)searchOption;
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)searchAddressesForKey:(NSString *)key;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords;

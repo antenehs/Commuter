@@ -27,7 +27,7 @@
 - (void)deletedAllHistoryStops;
 @end
 
-@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate>{
+@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, RettiRouteSearchDelegate, CLLocationManagerDelegate>{
     IBOutlet AMBlurView *selectorView;
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIView *bluredBackView;
@@ -39,6 +39,12 @@
     UIColor *systemSubTextColor;
     
     ADBannerView *_bannerView;
+    
+    NSTimer *refreshTimer;
+    
+    UIActivityIndicatorView *activityIndicator;
+    
+    BOOL firstTimeLocation;
 }
 
 @property (strong, nonatomic) NSMutableArray * savedStops;
@@ -51,9 +57,15 @@
 @property (nonatomic) bool darkMode;
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
+@property (strong, nonatomic) NSMutableDictionary *namedBRouteDetail;
+
 @property (strong, nonatomic) UIColor * _tintColor;
 
 @property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+
+@property (strong, nonatomic) CLLocation * currentUserLocation;
+@property (strong, nonatomic) CLLocation * previousCenteredLocation;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 @property (strong, nonatomic) SettingsManager * settingsManager;
 

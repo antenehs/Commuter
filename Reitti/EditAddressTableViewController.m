@@ -9,6 +9,8 @@
 #import "EditAddressTableViewController.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "StopAnnotation.h"
+#import "SettingsManager.h"
+#import "AppDelegate.h"
 
 @interface EditAddressTableViewController ()
 
@@ -25,6 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self initDataManagerIfNull];
     
     self.iconName = @"location-75.png";
     mapView = [[MKMapView alloc] init];
@@ -51,6 +55,29 @@
 //    [self.tableView removeParallaxWithView];
     [self.tableView reloadData];
     [self setUpMapView];
+}
+
+- (void)initDataManagerIfNull {
+    // Do any additional setup after loading the view.
+    
+    if (self.reittiDataManager == nil) {
+        if (self.managedObjectContext != nil){
+            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            
+            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+            
+            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        }else{
+            AppDelegate *appDelegate = [[AppDelegate alloc] init];
+            self.managedObjectContext = appDelegate.managedObjectContext;
+            
+            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            
+            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+            
+            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        }
+    }
 }
 
 - (void)updateViewData {

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 
 #import "Route.h"
+#import "ReittiStringFormatter.h"
 
 @implementation Route
 
@@ -74,6 +75,20 @@
     }
     
     return nil;
+}
+
+-(CLLocationCoordinate2D)getStartCoords{
+    RouteLeg *firstLeg = [self.routeLegs firstObject];
+    RouteLegLocation *firstLocation = [firstLeg.legLocations firstObject];
+    
+    return [ReittiStringFormatter convertStringTo2DCoord:firstLocation.coordsString];
+}
+
+-(NSString *)getDestinationCoords{
+    RouteLeg *lastLeg = [self.routeLegs lastObject];
+    RouteLegLocation *lastLocation = [lastLeg.legLocations lastObject];
+    
+    return lastLocation.coordsString;
 }
 
 @end

@@ -179,6 +179,18 @@
     }
 }
 
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"HHmm"];
+    NSString *time = [dateFormat stringFromDate:[NSDate date]];
+    
+    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+    [dateFormat2 setDateFormat:@"YYYYMMdd"];
+    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
+    
+    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords time:time andDate:date andTimeType:@"departure" andSearchOption:RouteSearchOptionFastest];
+}
+
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -253,7 +265,7 @@
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion{
     Region region = [self identifyRegionOfCoordinate:mapRegion.center];
     if (region == HSLRegion) {
-//        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
         [self.pubTransAPI getStopsFromPubTransInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
         stopInAreaRequestedFor = HSLRegion;
     }else if (region == TRERegion){

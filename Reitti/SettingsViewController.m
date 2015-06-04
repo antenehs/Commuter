@@ -9,6 +9,7 @@
 #import "SettingsViewController.h"
 #import "RettiDataManager.h"
 #import "WidgetSettingsViewController.h"
+#import "SearchController.h"
 
 @interface SettingsViewController ()
 
@@ -19,10 +20,18 @@
 @synthesize mapRegion;
 @synthesize settingsManager;
 @synthesize delegate;
+@synthesize isRootViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (settingsManager == nil) {
+        UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
+        SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
+        
+        self.settingsManager = homeViewController.settingsManager;
+    }
     
     [self InitMap];
     mainTableView.backgroundColor = [UIColor clearColor];

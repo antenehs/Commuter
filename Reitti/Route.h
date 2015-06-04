@@ -36,6 +36,7 @@
 #import <Foundation/Foundation.h>
 #import "RouteLeg.h"
 #import "RouteLegLocation.h"
+#import <MapKit/MapKit.h>
 
 @interface Route : NSObject
 
@@ -46,6 +47,8 @@
 -(NSDate *)getStartingTimeOfRoute;
 -(NSDate *)getEndingTimeOfRoute;
 -(NSDate *)getTimeAtTheFirstStop;
+-(CLLocationCoordinate2D)getStartCoords;
+-(NSString *)getDestinationCoords;
 
 @property (nonatomic, retain) NSNumber * routeLength;
 @property (nonatomic, retain) NSNumber * routeDurationInSeconds;

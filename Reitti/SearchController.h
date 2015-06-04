@@ -131,8 +131,6 @@ typedef enum
     
     NSObject<JPSThumbnailAnnotationViewProtocol> *selectedAnnotationView;
     MKAnnotationView *droppedPinAnnotationView;
-    
-    GeoCode *droppedPinGeoCode;
 
     //NSTimer *notificationTimer;
     
@@ -199,6 +197,7 @@ typedef enum
 @property (strong, nonatomic) NSArray * departures;
 @property (strong, nonatomic) NSDictionary * _stopLinesDetail;
 @property (strong, nonatomic) BusStop * _busStop;
+@property (strong, nonatomic) GeoCode *droppedPinGeoCode;
 @property (nonatomic) bool darkMode;
 @property (nonatomic) MainMapViewMode mapMode;
 

@@ -149,10 +149,10 @@
     UIView * titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, [self isLandScapeOrientation] ? 20 : 40)];
     titleView.clipsToBounds = YES;
     
-    NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:14] forKey:NSFontAttributeName];
+    NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
     [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
     
-     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:15] forKey:NSFontAttributeName];
+     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:17] forKey:NSFontAttributeName];
     [addressStringDict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     
     NSMutableAttributedString *toAddressString = [[NSMutableAttributedString alloc] initWithString:@"To " attributes:toStringDict];
@@ -161,27 +161,32 @@
     
     [toAddressString appendAttributedString:addressString];
     
-    CGFloat titleViewW = self.navigationItem.titleView.frame.size.width;
-    CGFloat labelsW = titleViewW < 10 ? 300 : titleViewW;
-    UILabel * toLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelsW, 20)];
-    toLabel.attributedText = toAddressString;
-    toLabel.textAlignment = NSTextAlignmentCenter;
-//    [toLabel sizeToFit];
-    
-    [titleView addSubview:toLabel];
-    
-    if (![self isLandScapeOrientation]) {
-        UILabel * fLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, labelsW, 18)];
-//        [fLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
-        [fLabel setText:[NSString stringWithFormat:@"%d mins",[self.route.routeDurationInSeconds intValue]/60]];
-//        [fLabel sizeToFit];
-        fLabel.textAlignment = NSTextAlignmentCenter;
-        fLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
-        fLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-        [titleView addSubview:fLabel];
-    }
-    
-    self.navigationItem.titleView = titleView;
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 20)];
+    label.attributedText = toAddressString;
+    [label sizeToFit];
+    self.navigationItem.titleView = label;
+
+//    CGFloat titleViewW = self.navigationItem.titleView.frame.size.width;
+//    CGFloat labelsW = titleViewW < 10 ? 300 : titleViewW;
+//    UILabel * toLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelsW, 20)];
+//    toLabel.attributedText = toAddressString;
+//    toLabel.textAlignment = NSTextAlignmentCenter;
+////    [toLabel sizeToFit];
+//    
+//    [titleView addSubview:toLabel];
+//    
+//    if (![self isLandScapeOrientation]) {
+//        UILabel * fLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, labelsW, 18)];
+////        [fLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
+//        [fLabel setText:[NSString stringWithFormat:@"%d mins",[self.route.routeDurationInSeconds intValue]/60]];
+////        [fLabel sizeToFit];
+//        fLabel.textAlignment = NSTextAlignmentCenter;
+//        fLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
+//        fLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+//        [titleView addSubview:fLabel];
+//    }
+//    
+//    self.navigationItem.titleView = titleView;
     
     [routeListView setBlurTintColor:nil];
     //    routeListView.layer.borderWidth = 1;
@@ -231,14 +236,16 @@
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location{
     currentRouteListViewLocation = location;
     
+    CGFloat tabBarHeight = self.tabBarController != nil ? self.tabBarController.tabBar.frame.size.height : 0;
+    
     if (location == RouteListViewLoactionBottom) {
-        routeLIstViewVerticalSpacing.constant = self.view.bounds.size.height - routeListTableView.frame.origin.y;
+        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y - tabBarHeight;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
         [self centerMapRegionToViewRoute];
     }else if (location == RouteListViewLoactionMiddle) {
-        routeLIstViewVerticalSpacing.constant = self.view.bounds.size.height/2;
+        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height/2;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"horizontal-line-100.png"] forState:UIControlStateNormal];
         routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width,self.view.bounds.size.height/2 - routeListTableView.frame.origin.y);
@@ -526,28 +533,28 @@
             newAnnotation.imageNameForView = @"";
             break;
         case LegTypeFerry:
-            newAnnotation.imageNameForView = @"ferryAnnotationSmall.png";
+            newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
 //            newAnnotation.identifier = @"ferryAnnotIdentifier";
             break;
         case LegTypeTrain:
-            newAnnotation.imageNameForView = @"trainAnnotationSmall.png";
+            newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
 //            newAnnotation.identifier = @"trainAnnotIdentifier";
             break;
         case LegTypeBus:
-            newAnnotation.imageNameForView = @"busStopAnnotation-small-blue.png";
+            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
 //            newAnnotation.identifier = @"busAnnotIdentifier";
             break;
         case LegTypeTram:
-            newAnnotation.imageNameForView = @"tramAnnotationSmall.png";
+            newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
 //            newAnnotation.identifier = @"tramAnnotIdentifier";
             break;
         case LegTypeMetro:
-            newAnnotation.imageNameForView = @"metroAnnotationSmall.png";
+            newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
 //            newAnnotation.identifier = @"metroAnnotIdentifier";
             break;
             
         default:
-            newAnnotation.imageNameForView = @"busStopAnnotation-small-blue.png";
+            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
             break;
     }
 
@@ -603,23 +610,23 @@
                                 newAnnotation.imageNameForView = @"";
                                 break;
                             case LegTypeFerry:
-                                newAnnotation.imageNameForView = @"ferryAnnotationSmall.png";
+                                newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
 //                                newAnnotation.identifier = @"ferryAnnotIdentifier";
                                 break;
                             case LegTypeTrain:
-                                newAnnotation.imageNameForView = @"trainAnnotationSmall.png";
+                                newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
 //                                newAnnotation.identifier = @"trainAnnotIdentifier";
                                 break;
                             case LegTypeBus:
-                                newAnnotation.imageNameForView = @"busStopAnnotation-small-blue.png";
+                                newAnnotation.imageNameForView = @"busAnnotation3_2.png";
 //                                newAnnotation.identifier = @"busAnnotIdentifier";
                                 break;
                             case LegTypeTram:
-                                newAnnotation.imageNameForView = @"tramAnnotationSmall.png";
+                                newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
 //                                newAnnotation.identifier = @"tramAnnotIdentifier";
                                 break;
                             case LegTypeMetro:
-                                newAnnotation.imageNameForView = @"metroAnnotationSmall.png";
+                                newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
 //                                newAnnotation.identifier = @"metroAnnotIdentifier";
                                 break;
                                 
@@ -665,8 +672,8 @@
         }
         
         annotationView.image = [UIImage imageNamed:stopAnnotation.imageNameForView];
-        [annotationView setFrame:CGRectMake(0, 0, 35, 38)];
-        annotationView.centerOffset = CGPointMake(0,-19);
+        [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
+        annotationView.centerOffset = CGPointMake(0,-15);
         
         return annotationView;
     }
@@ -690,8 +697,8 @@
             }
             
             annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-            [annotationView setFrame:CGRectMake(0, 0, 35, 35)];
-            annotationView.centerOffset = CGPointMake(0,-18);
+            [annotationView setFrame:CGRectMake(0, 0, 30, 30)];
+            annotationView.centerOffset = CGPointMake(5,-15);
             
             return annotationView;
         }else if (locAnnotation.locationType == StartLocation){
@@ -728,8 +735,8 @@
             }
             
             annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-            [annotationView setFrame:CGRectMake(0, 0, 35, 38)];
-            annotationView.centerOffset = CGPointMake(0,-19);
+            [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
+            annotationView.centerOffset = CGPointMake(0,-15);
             
             return annotationView;
         }
@@ -1123,7 +1130,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                 [legTypeImage setImage:[UIImage imageNamed:@"tram-colored-75.png"]];
                 break;
             case LegTypeMetro:
-                [legTypeImage setImage:[UIImage imageNamed:@"metro-colored-75.png"]];
+                [legTypeImage setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
                 break;
                 
             default:

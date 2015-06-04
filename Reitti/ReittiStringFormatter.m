@@ -138,6 +138,36 @@
     
 }
 
++(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font{
+    
+    UIFont *smallerFont = [font fontWithSize:16.0];
+    
+    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+    [numbersDict setObject:font forKey:NSFontAttributeName];
+    
+    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
+    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
+    
+    
+    int minutes = (int)(seconds/60);
+    if (minutes > 59) {
+        NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)(minutes/60)] attributes:numbersDict];
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"h " attributes:stringsDict]];
+        
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", minutes % 60] attributes:numbersDict]];
+        
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"min" attributes:stringsDict]];
+        
+        return formattedString;
+    }else{
+        NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", minutes] attributes:numbersDict];
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"min" attributes:stringsDict]];
+        
+        return formattedString;
+    }
+    
+}
+
 //Expected format is XXXXXXXX of numbers
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData{
     if (hslData.length != 8 || [hslData intValue] == 0) {

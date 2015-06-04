@@ -212,8 +212,8 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section == 1) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, self.tableView.frame.size.width, 20)];
-        label.text = @" Not selected Stops";
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 100, 20)];
+        label.text = @"  NOT SELECTED STOPS";
         label.textColor = [UIColor darkGrayColor];
         label.font = [UIFont fontWithName:@"HelveticaNeue-regular" size:16];
         

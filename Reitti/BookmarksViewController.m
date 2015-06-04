@@ -14,6 +14,8 @@
 #import "StopViewController.h"
 #import "RouteSearchViewController.h"
 #import "WidgetSettingsViewController.h"
+#import "SearchController.h"
+#import "RouteViewManager.h"
 
 @interface BookmarksViewController ()
 
@@ -38,7 +40,8 @@
 @synthesize delegate;
 @synthesize _tintColor;
 @synthesize reittiDataManager, settingsManager;
-
+@synthesize namedBRouteDetail;
+@synthesize currentUserLocation, previousCenteredLocation, locationManager;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -51,14 +54,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    firstTimeLocation = YES;
     //defaultBlueColor = [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
     //defaultGreenColor = [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0];
-    [self selectSystemColors];
+//    [self selectSystemColors];
+    UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
+    SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
     
-    if (settingsManager == nil) {
-        settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    if (self.reittiDataManager == nil) {
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:homeViewController.managedObjectContext];
+        
+        if (settingsManager == nil) {
+            settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        }
+        
+        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        
+        self.reittiDataManager.routeSearchdelegate = self;
     }
+    
+    [self loadSavedValues];
+    self.droppedPinGeoCode = homeViewController.droppedPinGeoCode;
     
     if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
 //        [self initAdBannerView];
@@ -75,19 +91,119 @@
     
     self.tableView.rowHeight = 60;
     
+    [self updateDetailStores];
+    [self initLocationManager];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.alpha = 1.0;
+    activityIndicator.hidesWhenStopped = YES;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self reloadCoreDataValues];
+    [self loadSavedValues];
     
     [self setUpViewForTheSelectedMode];
+    [self resetAndRequestRoutesIfNeeded];
+    
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(refreshTableView:) userInfo:nil repeats:YES];
+    [locationManager startUpdatingLocation];
+}
+
+//- (void)appDidBecomeActive:(NSNotification *)notification {
+//    NSLog(@"did become active notification");
+//}
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self resetAndRequestRoutesIfNeeded];
+    
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(refreshTableView:) userInfo:nil repeats:YES];
+    [locationManager startUpdatingLocation];
+}
+
+- (void)appWillEnterBackground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [refreshTimer invalidate];
+    [locationManager stopUpdatingLocation];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [refreshTimer invalidate];
+    [locationManager stopUpdatingLocation];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 //    [self layoutAnimated:NO];
 }
+//
+//- (void)fetchData
+//{
+//    NSArray * __savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+//    NSArray * __savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+//    NSArray * __recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+//    NSArray * __recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+//    NSArray * __namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+//    
+//    self.savedStops = [NSMutableArray arrayWithArray:__savedStops];
+//    self.savedRoutes = [NSMutableArray arrayWithArray:__savedRoutes];
+//    self.recentStops = [NSMutableArray arrayWithArray:__recentStops];
+//    self.recentRoutes = [NSMutableArray arrayWithArray:__recentRoutes];
+//    self.savedNamedBookmarks = [NSMutableArray arrayWithArray:__namedBookmarks];
+//}
+
+
+- (void)updateDetailStores
+{
+    //Init data
+    if (namedBRouteDetail == nil) {
+        namedBRouteDetail = [[NSMutableDictionary alloc] init];
+    }
+    
+    for (NamedBookmark *nmdBkmrk in self.savedNamedBookmarks) {
+        if ([namedBRouteDetail objectForKey:nmdBkmrk.coords] == nil) {
+             [namedBRouteDetail setObject:[[NSArray alloc] init] forKey:nmdBkmrk.coords];
+        }
+    }
+}
+
+- (void)resetAndRequestRoutesIfNeeded{
+//    [self initDetailStores];
+    
+//    for (int i = 0; i < self.savedNamedBookmarks.count; i++) {
+//        NamedBookmark *nmdBkmrk = [self.savedNamedBookmarks objectAtIndex:i];
+//        
+//        if ([self shouldUpdateRouteInfoForBookmark:nmdBkmrk]) {
+//            [self fetchRouteForNamedBookmark:nmdBkmrk];
+//            
+//            NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:i inSection:0];
+//            
+//            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPathToUpdate, nil] withRowAnimation:UITableViewRowAnimationNone];
+//        }
+//    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)fetchRouteForNamedBookmark:(NamedBookmark *)namedBookmark
+{
+//    UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
+//    SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
+//    
+//    CLLocationCoordinate2D currentLocation = [homeViewController.currentUserLocation coordinate];
+    
+    if (self.currentUserLocation) {
+        [self.reittiDataManager searchRouteForFromCoords:[ReittiStringFormatter convert2DCoordToString:[currentUserLocation coordinate]] andToCoords:namedBookmark.coords];
+        [activityIndicator startAnimating];
+    }
+}
+
 
 #pragma mark - View methods
 - (void)selectSystemColors{
@@ -104,13 +220,13 @@
 
 - (void)setUpViewForTheSelectedMode{
     if (listSegmentControl.selectedSegmentIndex == 0) {
-        self.title = @"Bookmarked";
+//        self.title = @"BOOKMARKS";
 //        self._tintColor = SYSTEM_GREEN_COLOR;
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:savedNamedBookmarks];
-        [dataToLoad addObjectsFromArray:savedStops];
         [dataToLoad addObjectsFromArray:savedRoutes];
-        self.dataToLoad = [self sortDataArray:dataToLoad];
+        [dataToLoad addObjectsFromArray:savedStops];
+//        self.dataToLoad = [self sortDataArray:dataToLoad];
         if (self.savedStops != nil && self.savedStops.count > 0) {
             [self hideWidgetSettingsButton:NO];
         }else{
@@ -118,7 +234,7 @@
         }
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }else{
-        self.title = @"Recents";
+//        self.title = @"HISTORY";
 //        self._tintColor = SYSTEM_ORANGE_COLOR;
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:recentRoutes];
@@ -157,6 +273,52 @@
     }
     
 }
+
+#pragma mark - location services
+- (void)initLocationManager{
+    if (locationManager == nil) {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.distanceFilter = kCLDistanceFilterNone;
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    }
+    
+    [locationManager startUpdatingLocation];
+    locationManager.delegate = self;
+}
+
+-(BOOL)isLocationServiceAvailable{
+    BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
+    NSLog(@"%d",[CLLocationManager authorizationStatus]);
+    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
+    
+    if (!locationServicesEnabled) {
+        return NO;
+    }
+    
+    if (!accessGranted) {
+        return NO;
+    }
+    
+    return YES;
+    
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    previousCenteredLocation = self.currentUserLocation;
+    
+    self.currentUserLocation = [locations lastObject];
+    
+    CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
+    if (dist > 250) {
+        firstTimeLocation = YES;
+    }
+    
+    if (firstTimeLocation) {
+        [self.tableView reloadData];
+        firstTimeLocation = NO;
+    }
+}
+
 #pragma mark - ibactions
 - (IBAction)CancelButtonPressed:(id)sender {
     [delegate viewControllerWillBeDismissed:self.mode];
@@ -200,15 +362,18 @@
         
         [dataToLoad removeAllObjects];
         [self.tableView reloadData];
-    }   
-    
+    }
 }
 
 - (IBAction)segmentControlValueChanged:(id)sender {
     
     [self setUpViewForTheSelectedMode];
     
-    self.mode = listSegmentControl.selectedSegmentIndex;
+    self.mode = (int)listSegmentControl.selectedSegmentIndex;
+}
+
+- (IBAction)refreshTableView:(id)sender {
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -222,115 +387,211 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    if (listSegmentControl.selectedSegmentIndex == 0){
+        return 3;
+    }else
+        return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"%@",self.dataToLoad);
+//    NSLog(@"%@",self.dataToLoad);
+    if (listSegmentControl.selectedSegmentIndex == 0){
+        if (section == 0) {
+            return self.savedNamedBookmarks.count;
+        }else if (section == 1){
+            return self.savedRoutes.count;
+        }else{
+            return self.savedStops.count;
+        }
+    }
     return self.dataToLoad.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyCell"];
-    if (indexPath.row < self.dataToLoad.count) {
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
-            cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
-            cell = [tableView dequeueReusableCellWithIdentifier:@"namedBookmarkCell"];
+    if (dataIndex < self.dataToLoad.count) {
+        @try {
+            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
+                
+                StopEntity *stopEntity = [StopEntity alloc];
+                if (dataIndex < self.dataToLoad.count) {
+                    stopEntity = [self.dataToLoad objectAtIndex:dataIndex];
+                }
+                
+                UILabel *title = (UILabel *)[cell viewWithTag:2002];
+                UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+                UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                
+                title.text = stopEntity.busStopName;
+                //stopName.font = CUSTOME_FONT_BOLD(23.0f);
+                
+                subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+                //cityName.font = CUSTOME_FONT_BOLD(19.0f);
+                if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+                    dateLabel.hidden = NO;
+                    dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
+                }else{
+                    dateLabel.hidden = YES;
+                }
+            }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]) {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"namedBookmarkCell"];
+                
+                NamedBookmark *namedBookmark = [NamedBookmark alloc];
+                if (dataIndex < self.dataToLoad.count) {
+                    namedBookmark = [self.dataToLoad objectAtIndex:dataIndex];
+                }
+                
+                UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
+                UILabel *title = (UILabel *)[cell viewWithTag:2002];
+                UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                
+                [imageView setImage:[UIImage imageNamed:namedBookmark.iconPictureName]];
+                
+                title.text = namedBookmark.name;
+                subTitle.text = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress, namedBookmark.city];
+                
+                UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2004];
+                UILabel *leavesTime = (UILabel *)[cell viewWithTag:2005];
+                UILabel *arrivesTime = (UILabel *)[cell viewWithTag:2006];
+                
+                if (![self shouldUpdateRouteInfoForBookmark:namedBookmark]) {
+                    NSArray * routes = [namedBRouteDetail objectForKey:namedBookmark.coords];
+                    Route *route = [routes firstObject];
+                    
+                    if (!route.isOnlyWalkingRoute) {
+                        transportsScrollView.hidden = NO;
+                        leavesTime.hidden = NO;
+                        arrivesTime.hidden = NO;
+                        
+                        for (UIView * view in transportsScrollView.subviews) {
+                            [view removeFromSuperview];
+                        }
+                        
+                        UIView *transportsView = [RouteViewManager viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:transportsScrollView.frame.size.width - 30];
+                        
+                        [transportsScrollView addSubview:transportsView];
+                        //                    transportsScrollView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);
+                        transportsScrollView.userInteractionEnabled = NO;
+                        [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
+                        
+                        leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]];
+                        arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+                    }else{
+                        transportsScrollView.hidden = YES;
+                        leavesTime.hidden = YES;
+                        arrivesTime.hidden = YES;
+                    }
+                }else{
+                    transportsScrollView.hidden = YES;
+                    leavesTime.hidden = YES;
+                    arrivesTime.hidden = YES;
+                    
+                    [self fetchRouteForNamedBookmark:namedBookmark];
+                }
+                
+                //cityName.font = CUSTOME_FONT_BOLD(19.0f);
+            }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+                cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
+                
+                RouteEntity *routeEntity = [RouteEntity alloc];
+                if (dataIndex < self.dataToLoad.count) {
+                    routeEntity = [self.dataToLoad objectAtIndex:dataIndex];
+                }
+                
+                UILabel *title = (UILabel *)[cell viewWithTag:2002];
+                UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+                UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                
+                title.text = routeEntity.toLocationName;
+                //stopName.font = CUSTOME_FONT_BOLD(23.0f);
+                
+                subTitle.text = [NSString stringWithFormat:@"%@", routeEntity.fromLocationName];
+                
+                if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]) {
+                    dateLabel.hidden = NO;
+                    dateLabel.text = [ReittiStringFormatter formatPrittyDate:routeEntity.dateModified];
+                }else{
+                    dateLabel.hidden = YES;
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception when displaying table: %@", [exception description]);
+            //This is to leave on extra empty row
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     }
-    @try {
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-            StopEntity *stopEntity = [StopEntity alloc];
-            if (indexPath.row < self.dataToLoad.count) {
-                stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
-            }
-            
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            title.text = stopEntity.busStopName;
-            //stopName.font = CUSTOME_FONT_BOLD(23.0f);
-            
-            subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
-            //cityName.font = CUSTOME_FONT_BOLD(19.0f);
-            if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-                dateLabel.hidden = NO;
-                dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
-            }else{
-                dateLabel.hidden = YES;
-            }
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]) {
-            NamedBookmark *namedBookmark = [NamedBookmark alloc];
-            if (indexPath.row < self.dataToLoad.count) {
-                namedBookmark = [self.dataToLoad objectAtIndex:indexPath.row];
-            }
-            
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            [imageView setImage:[UIImage imageNamed:namedBookmark.iconPictureName]];
-            
-            title.text = namedBookmark.name;
-            subTitle.text = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress, namedBookmark.city];
-            
-            
-            //cityName.font = CUSTOME_FONT_BOLD(19.0f);
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
-            RouteEntity *routeEntity = [RouteEntity alloc];
-            if (indexPath.row < self.dataToLoad.count) {
-                routeEntity = [self.dataToLoad objectAtIndex:indexPath.row];
-            }
-            
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            title.text = routeEntity.toLocationName;
-            //stopName.font = CUSTOME_FONT_BOLD(23.0f);
-            
-            subTitle.text = [NSString stringWithFormat:@"%@", routeEntity.fromLocationName];
-            
-            if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
-                dateLabel.hidden = NO;
-                dateLabel.text = [ReittiStringFormatter formatPrittyDate:routeEntity.dateModified];
-            }else{
-                dateLabel.hidden = YES;
-            }
-        }
-        
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exception when displaying table: %@", [exception description]);
-        //This is to leave on extra empty row
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    @finally {
-    }
+    
     cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    if (listSegmentControl.selectedSegmentIndex == 0) {
+        NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
+        
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]) {
+            return [self bookmarkHasValidRouteInfo:[self.dataToLoad objectAtIndex:dataIndex]] ? 135 : 60;
+        }else{
+            return 60;
+        }
+    }else{
+        return 60;
+    }
+    
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (listSegmentControl.selectedSegmentIndex == 0) {
+        return 30;
+    }
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (listSegmentControl.selectedSegmentIndex == 0) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
+        titleLabel.font = [titleLabel.font fontWithSize:14];
+        titleLabel.textColor = [UIColor darkGrayColor];
+        if (section == 0) {
+            titleLabel.text = @"   LOCATIONS";
+            activityIndicator.center = CGPointMake(self.view.frame.size.width - 30, 15);
+            [view addSubview:activityIndicator];
+        }else if (section == 1){
+            titleLabel.text = @"   SAVED ROUTES";
+        }else{
+            titleLabel.text = @"   SAVED STOPS";
+        }
+        
+        [view addSubview:titleLabel];
+        
+        view.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+        
+        return view;
+    }else{
+        return nil;
+    }
+    
+}
+
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    if (indexPath.row < self.dataToLoad.count) {
+    NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
+    if (dataIndex < self.dataToLoad.count) {
         return YES;
     }else{
         return NO;
@@ -341,17 +602,18 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
         StopEntity *deletedStop;
         RouteEntity *deletedRoute;
         NamedBookmark *deletedNamedBookmark;
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-            deletedStop = [dataToLoad objectAtIndex:indexPath.row];
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+            deletedStop = [dataToLoad objectAtIndex:dataIndex];
             [dataToLoad removeObject:deletedStop];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
-            deletedRoute = [dataToLoad objectAtIndex:indexPath.row];
+        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+            deletedRoute = [dataToLoad objectAtIndex:dataIndex];
             [dataToLoad removeObject:deletedRoute];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
-            deletedNamedBookmark = [dataToLoad objectAtIndex:indexPath.row];
+        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
+            deletedNamedBookmark = [dataToLoad objectAtIndex:dataIndex];
             [dataToLoad removeObject:deletedNamedBookmark];
         }
         // Delete the row from the data source
@@ -389,6 +651,89 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
+}
+
+#pragma mark - helper methods
+- (BOOL)shouldUpdateRouteInfoForBookmark:(NamedBookmark *)namedBookmark {
+    NSMutableArray *routes = [[namedBRouteDetail objectForKey:namedBookmark.coords] mutableCopy];
+    
+    if (routes.count == 0)
+        return YES;
+    
+    CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
+    if (dist > 100) {
+//        [self.tableView reloadData];
+        return YES;
+    }
+    
+    for (int i = 0; i < routes.count;i++) {
+        Route *route = [routes objectAtIndex:i];
+        if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < 0){
+            if (route.isOnlyWalkingRoute) {
+                if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < -600){
+                    return YES;
+                }else{
+                    return NO;
+                }
+            }
+            [routes removeObject:route];
+        }else{
+            [namedBRouteDetail setObject:routes forKey:namedBookmark.coords];
+            return NO;
+        }
+        
+        if (i == routes.count - 1) {
+            return YES;
+        }
+    }
+    
+    return YES;
+}
+
+- (BOOL)bookmarkHasValidRouteInfo:(NamedBookmark *)namedBookmark{
+    
+    if([self shouldUpdateRouteInfoForBookmark:namedBookmark]){
+        return NO;
+    }else{
+        NSMutableArray *routes = [[namedBRouteDetail objectForKey:namedBookmark.coords] mutableCopy];
+        Route *route = [routes objectAtIndex:0];
+        
+        if (route.isOnlyWalkingRoute)
+            return NO;
+        
+        return YES;
+    }
+}
+
+- (NSInteger)dataIndexForIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger dataIndex;
+    BOOL isBookmarksView = listSegmentControl.selectedSegmentIndex == 0;
+    if (isBookmarksView) {
+        if (indexPath.section == 0) {
+            dataIndex = indexPath.row;
+        }else if (indexPath.section == 1){
+            dataIndex = indexPath.row + savedNamedBookmarks.count;
+        }else{
+            dataIndex = indexPath.row + savedNamedBookmarks.count + savedRoutes.count;
+        }
+    }else{
+        dataIndex = indexPath.row;
+    }
+    return dataIndex;
+}
+
+- (NSIndexPath *)nsIndexForNamedBookmarkCoords:(NSString *)namedBookmarkCoords{
+    NSIndexPath * indexPathToUpdate = [NSIndexPath indexPathForRow:0 inSection:0];
+    for (int i=0; i < self.savedNamedBookmarks.count; i++) {
+        NamedBookmark *bookmark = [self.savedNamedBookmarks objectAtIndex:i];
+        if ([bookmark.coords isEqualToString:namedBookmarkCoords]) {
+            indexPathToUpdate = [NSIndexPath indexPathForRow:i inSection:0];
+            break;
+        }
+    }
+    
+    return indexPathToUpdate;
 }
 
 
@@ -438,7 +783,7 @@
 }
 
 #pragma mark - helper methods
-- (void)reloadCoreDataValues{
+- (void)loadSavedValues{
     NSArray * sStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
     NSArray * sRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
     NSArray * rStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
@@ -450,12 +795,14 @@
     self.recentStops = [NSMutableArray arrayWithArray:rStops];
     self.recentRoutes = [NSMutableArray arrayWithArray:rRoutes];
     self.savedNamedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
+    
+    [self updateDetailStores];
 }
 
 - (NSMutableArray *)sortDataArray:(NSMutableArray *)array{
     NSArray *sortedArray;
     sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        //We can cast all types to ReittiManagedObjectBase since we are only intereted in the date modified property
+        //We can cast all types to ReittiManagedObjectBase since we are only interested in the date modified property
         NSDate *first = [(ReittiManagedObjectBase*)a dateModified];
         NSDate *second = [(ReittiManagedObjectBase*)b dateModified];
         
@@ -474,10 +821,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < self.dataToLoad.count) {
+    NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
+    if (dataIndex < self.dataToLoad.count) {
         //StopEntity * selected = [self.dataToLoad objectAtIndex:indexPath.row];
         //[self dismissViewControllerAnimated:YES completion:nil ];
     }
+}
+
+#pragma mark - Route search delegate methods
+- (void)routeSearchDidComplete:(NSArray *)routeList{
+    Route *first = [routeList firstObject];
+    [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
+    //Update affected row is slow in performance
+//    NSIndexPath *indexPathToUpdate = [self nsIndexForNamedBookmarkCoords:[first getDestinationCoords]];
+    
+//    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPathToUpdate, nil] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
+    [activityIndicator stopAnimating];
+}
+- (void)routeSearchDidFail:(NSString *)error{
+    [activityIndicator stopAnimating];
 }
 
 #pragma mark - iAd methods
@@ -546,48 +909,43 @@
 #pragma mark - Seague
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
-    if (selectedRowIndexPath.row < self.dataToLoad.count)
+    NSInteger dataIndex = [self dataIndexForIndexPath:selectedRowIndexPath];
+    if (dataIndex < self.dataToLoad.count)
         return YES;
     return NO;
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    NSInteger dataIndex = [self dataIndexForIndexPath:selectedRowIndexPath];
     
     if ([segue.identifier isEqualToString:@"bookmarkSelected"]) {
-        if (selectedRowIndexPath.row < self.dataToLoad.count) {
-            if ([[self.dataToLoad objectAtIndex:selectedRowIndexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:selectedRowIndexPath.row] isKindOfClass:[HistoryEntity class]]) {
+        if (dataIndex < self.dataToLoad.count) {
+            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
                 
-                StopEntity * selected = [self.dataToLoad objectAtIndex:selectedRowIndexPath.row];
+                StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
                 UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-                //NSLog(@"%@", [navigationController viewControllers]);
-                //NSLog(@"%d", [[navigationController viewControllers] count]);
                 StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
                 stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.busStopCode intValue]];
                 stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.busStopWgsCoords];
                 stopViewController.stopEntity = selected;
-                stopViewController.darkMode = self.darkMode;
-                stopViewController.reittiDataManager = self.reittiDataManager;
+//                stopViewController.reittiDataManager = self.reittiDataManager;
+                stopViewController.droppedPinGeoCode = self.droppedPinGeoCode;
+                stopViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
                 stopViewController.backButtonText = self.title;
                 stopViewController.delegate = self;
             }
         }
     }else if ([segue.identifier isEqualToString:@"routeSelected"]){
-        if (selectedRowIndexPath.row < self.dataToLoad.count){
-            if ([[self.dataToLoad objectAtIndex:selectedRowIndexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:selectedRowIndexPath.row] isKindOfClass:[RouteEntity class]]){
+        if (dataIndex < self.dataToLoad.count){
+            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
                 
-                RouteEntity * selected = [self.dataToLoad objectAtIndex:selectedRowIndexPath.row];
+                RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
                 UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
                 RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
                 
-                routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:self.savedStops];
-                routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:self.recentStops];
-                routeSearchViewController.savedRoutes = self.savedRoutes;
-                routeSearchViewController.recentRoutes = self.recentRoutes;
-                routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:self.savedNamedBookmarks];
-                routeSearchViewController.darkMode = self.darkMode;
                 routeSearchViewController.prevToLocation = selected.toLocationName;
                 routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
                 routeSearchViewController.prevFromLocation = selected.fromLocationName;
@@ -595,7 +953,25 @@
                 routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
                 
                 routeSearchViewController.delegate = self;
-                routeSearchViewController.reittiDataManager = self.reittiDataManager;
+                routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+            }
+        }
+    }else if ([segue.identifier isEqualToString:@"routeToNamedBookmark"]){
+        if (dataIndex < self.dataToLoad.count){
+            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
+                
+                NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
+                
+                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+                RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
+                
+                routeSearchViewController.prevToLocation = selected.name;
+                routeSearchViewController.prevToCoords = selected.coords;
+                
+                routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
+                
+                routeSearchViewController.delegate = self;
+                routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
             }
         }
     }else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
@@ -608,13 +984,13 @@
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
          EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         controller.droppedPinGeoCode = self.droppedPinGeoCode;
-        controller.reittiDataManager = self.reittiDataManager;
+        controller.managedObjectContext = self.reittiDataManager.managedObjectContext;
         controller.viewControllerMode = ViewControllerModeAddNewAddress;
         
     }else if([segue.identifier isEqualToString:@"namedBookmarkSelected"]){
-        if ([[self.dataToLoad objectAtIndex:selectedRowIndexPath.row] isKindOfClass:[NamedBookmark class]]) {
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]) {
             
-            NamedBookmark * selected = [self.dataToLoad objectAtIndex:selectedRowIndexPath.row];
+            NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
             
             UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
             EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
@@ -622,7 +998,7 @@
             controller.namedBookmark = selected;
             controller.droppedPinGeoCode = self.droppedPinGeoCode;
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
-            controller.reittiDataManager = self.reittiDataManager;
+            controller.managedObjectContext = self.reittiDataManager.managedObjectContext;
         }
     }
 }

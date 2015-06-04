@@ -173,6 +173,14 @@
 		66947CFB188C535300642EE1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CFA188C535300642EE1 /* MapKit.framework */; };
 		66947CFD188C56D400642EE1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CFC188C56D400642EE1 /* QuartzCore.framework */; };
 		66947D00188C58C400642EE1 /* StopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CFF188C58C400642EE1 /* StopViewController.m */; };
+		669602B31B1224B3006919CB /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 669602B21B1224B3006919CB /* TabBarViewController.m */; };
+		669602B51B12422F006919CB /* Home-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602B41B12422F006919CB /* Home-green-100.png */; };
+		669602B81B124910006919CB /* Bookmark-unselected-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602B61B124910006919CB /* Bookmark-unselected-100.png */; };
+		669602B91B124910006919CB /* Settings-unselected-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602B71B124910006919CB /* Settings-unselected-100.png */; };
+		669602BB1B124C82006919CB /* Settings-Filled-2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BA1B124C82006919CB /* Settings-Filled-2-100.png */; };
+		669602BD1B1396AF006919CB /* Bus Filled-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BC1B1396AF006919CB /* Bus Filled-green-100.png */; };
+		669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BE1B139708006919CB /* Bus-unselected-100.png */; };
+		669602D71B14DC12006919CB /* Search-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602D61B14DC12006919CB /* Search-green-100.png */; };
 		669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F619C83794005A04B9 /* RouteEntity.m */; };
 		669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */; };
 		66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A73FDC18BA3CED00405043 /* RettiDataManager.m */; };
@@ -272,6 +280,7 @@
 		66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE20019C61AF60039081D /* LocationsAnnotation.m */; };
 		66DAE20319C624E90039081D /* white-dot-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE20219C624E90039081D /* white-dot-16.png */; };
 		66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E62D841AEED0F9009111B5 /* dropped-pin-100.png */; };
+		66EBADF91B1B5E5A00831812 /* Edit-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */; };
 		66EBBE4419A01B35006A2128 /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
 		66EC18ED1AC9D706008E045D /* location-filled-green-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EC1AC9D706008E045D /* location-filled-green-32.png */; };
 		66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EE1ACA89ED008E045D /* close-button-white.png */; };
@@ -628,6 +637,36 @@
 		66947CFC188C56D400642EE1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		66947CFE188C58C400642EE1 /* StopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopViewController.h; sourceTree = "<group>"; };
 		66947CFF188C58C400642EE1 /* StopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopViewController.m; sourceTree = "<group>"; };
+		669602B11B1224B3006919CB /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		669602B21B1224B3006919CB /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		669602B41B12422F006919CB /* Home-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Home-green-100.png"; path = "Pictures/Version 3.1/Home-green-100.png"; sourceTree = "<group>"; };
+		669602B61B124910006919CB /* Bookmark-unselected-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bookmark-unselected-100.png"; path = "Pictures/Version 3.1/Bookmark-unselected-100.png"; sourceTree = "<group>"; };
+		669602B71B124910006919CB /* Settings-unselected-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Settings-unselected-100.png"; path = "Pictures/Version 3.1/Settings-unselected-100.png"; sourceTree = "<group>"; };
+		669602BA1B124C82006919CB /* Settings-Filled-2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Settings-Filled-2-100.png"; path = "Pictures/Version 3.1/Settings-Filled-2-100.png"; sourceTree = "<group>"; };
+		669602BC1B1396AF006919CB /* Bus Filled-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bus Filled-green-100.png"; path = "Pictures/Version 3.1/Bus Filled-green-100.png"; sourceTree = "<group>"; };
+		669602BE1B139708006919CB /* Bus-unselected-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bus-unselected-100.png"; path = "Pictures/Version 3.1/Bus-unselected-100.png"; sourceTree = "<group>"; };
+		669602C11B14D8E7006919CB /* SanFranciscoDisplay-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Black.otf"; sourceTree = "<group>"; };
+		669602C21B14D8E7006919CB /* SanFranciscoDisplay-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Bold.otf"; sourceTree = "<group>"; };
+		669602C31B14D8E7006919CB /* SanFranciscoDisplay-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Heavy.otf"; sourceTree = "<group>"; };
+		669602C41B14D8E7006919CB /* SanFranciscoDisplay-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Light.otf"; sourceTree = "<group>"; };
+		669602C51B14D8E7006919CB /* SanFranciscoDisplay-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Medium.otf"; sourceTree = "<group>"; };
+		669602C61B14D8E7006919CB /* SanFranciscoDisplay-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Regular.otf"; sourceTree = "<group>"; };
+		669602C71B14D8E7006919CB /* SanFranciscoDisplay-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Semibold.otf"; sourceTree = "<group>"; };
+		669602C81B14D8E7006919CB /* SanFranciscoDisplay-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Thin.otf"; sourceTree = "<group>"; };
+		669602C91B14D8E7006919CB /* SanFranciscoDisplay-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Ultralight.otf"; sourceTree = "<group>"; };
+		669602CA1B14D8E7006919CB /* SanFranciscoText-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Bold.otf"; sourceTree = "<group>"; };
+		669602CB1B14D8E7006919CB /* SanFranciscoText-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-BoldItalic.otf"; sourceTree = "<group>"; };
+		669602CC1B14D8E7006919CB /* SanFranciscoText-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Heavy.otf"; sourceTree = "<group>"; };
+		669602CD1B14D8E7006919CB /* SanFranciscoText-HeavyItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-HeavyItalic.otf"; sourceTree = "<group>"; };
+		669602CE1B14D8E7006919CB /* SanFranciscoText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Light.otf"; sourceTree = "<group>"; };
+		669602CF1B14D8E7006919CB /* SanFranciscoText-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-LightItalic.otf"; sourceTree = "<group>"; };
+		669602D01B14D8E7006919CB /* SanFranciscoText-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Medium.otf"; sourceTree = "<group>"; };
+		669602D11B14D8E7006919CB /* SanFranciscoText-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-MediumItalic.otf"; sourceTree = "<group>"; };
+		669602D21B14D8E7006919CB /* SanFranciscoText-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Regular.otf"; sourceTree = "<group>"; };
+		669602D31B14D8E7006919CB /* SanFranciscoText-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-RegularItalic.otf"; sourceTree = "<group>"; };
+		669602D41B14D8E7006919CB /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
+		669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-SemiboldItalic.otf"; sourceTree = "<group>"; };
+		669602D61B14DC12006919CB /* Search-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Search-green-100.png"; path = "Pictures/Version 2.3/Search-green-100.png"; sourceTree = "<group>"; };
 		669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reitti-Bridging-Header.h"; sourceTree = "<group>"; };
 		669EA1F519C83794005A04B9 /* RouteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteEntity.h; sourceTree = "<group>"; };
 		669EA1F619C83794005A04B9 /* RouteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteEntity.m; sourceTree = "<group>"; };
@@ -777,6 +816,7 @@
 		66DAE20019C61AF60039081D /* LocationsAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsAnnotation.m; sourceTree = "<group>"; };
 		66DAE20219C624E90039081D /* white-dot-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "white-dot-16.png"; path = "Pictures/New Version 2.0/white-dot-16.png"; sourceTree = "<group>"; };
 		66E62D841AEED0F9009111B5 /* dropped-pin-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropped-pin-100.png"; path = "Pictures/Version 2.3/dropped-pin-100.png"; sourceTree = "<group>"; };
+		66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Edit-gray-100.png"; path = "Pictures/Version 3.1/Edit-gray-100.png"; sourceTree = "<group>"; };
 		66EBBE4219A01B35006A2128 /* Transport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transport.m; sourceTree = "<group>"; };
 		66EBBE4319A01B35006A2128 /* Transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transport.h; sourceTree = "<group>"; };
 		66EC18EC1AC9D706008E045D /* location-filled-green-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location-filled-green-32.png"; path = "Pictures/Version 2.3/location-filled-green-32.png"; sourceTree = "<group>"; };
@@ -923,6 +963,14 @@
 		661202B51B01406300D93C2E /* Version 3.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */,
+				669602D61B14DC12006919CB /* Search-green-100.png */,
+				669602BE1B139708006919CB /* Bus-unselected-100.png */,
+				669602BC1B1396AF006919CB /* Bus Filled-green-100.png */,
+				669602BA1B124C82006919CB /* Settings-Filled-2-100.png */,
+				669602B61B124910006919CB /* Bookmark-unselected-100.png */,
+				669602B71B124910006919CB /* Settings-unselected-100.png */,
+				669602B41B12422F006919CB /* Home-green-100.png */,
 				665885C61B1143080044F514 /* ferryAnnotation3_2.png */,
 				665885C71B1143080044F514 /* metroAnnotation3_2.png */,
 				665885C81B1143080044F514 /* trainAnnotation3_2.png */,
@@ -1091,6 +1139,8 @@
 				664749DD1AE59CD70050137E /* VersionInfoViewController.m */,
 				66F0999F1AEC4F5D00F20D34 /* WelcomeViewController.h */,
 				66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */,
+				669602B11B1224B3006919CB /* TabBarViewController.h */,
+				669602B21B1224B3006919CB /* TabBarViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1421,6 +1471,34 @@
 			name = Pictures;
 			sourceTree = "<group>";
 		};
+		669602C01B14D8CA006919CB /* San Fransisco Font */ = {
+			isa = PBXGroup;
+			children = (
+				669602C11B14D8E7006919CB /* SanFranciscoDisplay-Black.otf */,
+				669602C21B14D8E7006919CB /* SanFranciscoDisplay-Bold.otf */,
+				669602C31B14D8E7006919CB /* SanFranciscoDisplay-Heavy.otf */,
+				669602C41B14D8E7006919CB /* SanFranciscoDisplay-Light.otf */,
+				669602C51B14D8E7006919CB /* SanFranciscoDisplay-Medium.otf */,
+				669602C61B14D8E7006919CB /* SanFranciscoDisplay-Regular.otf */,
+				669602C71B14D8E7006919CB /* SanFranciscoDisplay-Semibold.otf */,
+				669602C81B14D8E7006919CB /* SanFranciscoDisplay-Thin.otf */,
+				669602C91B14D8E7006919CB /* SanFranciscoDisplay-Ultralight.otf */,
+				669602CA1B14D8E7006919CB /* SanFranciscoText-Bold.otf */,
+				669602CB1B14D8E7006919CB /* SanFranciscoText-BoldItalic.otf */,
+				669602CC1B14D8E7006919CB /* SanFranciscoText-Heavy.otf */,
+				669602CD1B14D8E7006919CB /* SanFranciscoText-HeavyItalic.otf */,
+				669602CE1B14D8E7006919CB /* SanFranciscoText-Light.otf */,
+				669602CF1B14D8E7006919CB /* SanFranciscoText-LightItalic.otf */,
+				669602D01B14D8E7006919CB /* SanFranciscoText-Medium.otf */,
+				669602D11B14D8E7006919CB /* SanFranciscoText-MediumItalic.otf */,
+				669602D21B14D8E7006919CB /* SanFranciscoText-Regular.otf */,
+				669602D31B14D8E7006919CB /* SanFranciscoText-RegularItalic.otf */,
+				669602D41B14D8E7006919CB /* SanFranciscoText-Semibold.otf */,
+				669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */,
+			);
+			name = "San Fransisco Font";
+			sourceTree = "<group>";
+		};
 		66A73FD618B645CF00405043 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
@@ -1524,6 +1602,7 @@
 		66D0BA5118BF2DFA002DDC7B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				669602C01B14D8CA006919CB /* San Fransisco Font */,
 				66D0BA5C18BF3A22002DDC7B /* Aspergit Light.otf */,
 				66D0BA5818BF3785002DDC7B /* Aspergit Bold.otf */,
 				66D0BA5918BF3785002DDC7B /* Aspergit.otf */,
@@ -1879,6 +1958,7 @@
 				666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */,
 				66F099A51AED222B00F20D34 /* named-bookmarks-3.0.png in Resources */,
 				66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */,
+				669602B51B12422F006919CB /* Home-green-100.png in Resources */,
 				667377591ACCCD09003581B5 /* tram-filled-green-64.png in Resources */,
 				661202BB1B01453500D93C2E /* list-white-100.png in Resources */,
 				664E28A51AE2AF1A00BE2457 /* history-clock-100.png in Resources */,
@@ -1893,6 +1973,7 @@
 				66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
 				665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */,
+				669602BD1B1396AF006919CB /* Bus Filled-green-100.png in Resources */,
 				6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */,
 				66F3B13A1AC886FE0038BA78 /* search-icon-25.png in Resources */,
 				66F099911AE8075D00F20D34 /* NotificationButtonBackground@2x.png in Resources */,
@@ -1977,6 +2058,7 @@
 				66CC93F918DF475500644281 /* humberger.png in Resources */,
 				664749E01AE5A0D50050137E /* 3-100.png in Resources */,
 				664E28731AD92B4800BE2457 /* books-100.png in Resources */,
+				669602B81B124910006919CB /* Bookmark-unselected-100.png in Resources */,
 				667B981F1AD3294C00C45ADF /* beach-100.png in Resources */,
 				66D989F0199FFC5300E0B74B /* bus-colored-75.png in Resources */,
 				66CB95FE18EAC30300E95CE5 /* down_256.png in Resources */,
@@ -2007,6 +2089,7 @@
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
 				66D6EDB619A0A5F100FEB9FD /* finish_flag-50.png in Resources */,
 				66F0998E1AE8075D00F20D34 /* NotificationBackgroundWarningIcon.png in Resources */,
+				66EBADF91B1B5E5A00831812 /* Edit-gray-100.png in Resources */,
 				665885B21B0A480B0044F514 /* tramVAnnot.png in Resources */,
 				664E28A71AE2B0BB00BE2457 /* location-gray-100.png in Resources */,
 				667B981C1AD3294C00C45ADF /* restaurant-100.png in Resources */,
@@ -2015,16 +2098,19 @@
 				66D426A8199148D10080F21E /* polyline-128.png in Resources */,
 				660F2E6919C8D35800A75987 /* bus_station-50.png in Resources */,
 				66CB961918EEF45F00E95CE5 /* alarmClock_small.png in Resources */,
+				669602B91B124910006919CB /* Settings-unselected-100.png in Resources */,
 				66D4269D199022780080F21E /* star-128.png in Resources */,
 				66D42699198FBF880080F21E /* bookmark-128.png in Resources */,
 				667B98211AD3294C00C45ADF /* gym-100.png in Resources */,
 				66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */,
+				669602BB1B124C82006919CB /* Settings-Filled-2-100.png in Resources */,
 				66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */,
 				66F1384019977E6300B52B6B /* watch-100.png in Resources */,
 				66D989F1199FFC5300E0B74B /* ferry-colored-75.png in Resources */,
 				6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */,
 				664E28751AD92DEC00BE2457 /* school-100.png in Resources */,
 				66D42695198FBB0F0080F21E /* Message-Warning-128.png in Resources */,
+				669602D71B14DC12006919CB /* Search-green-100.png in Resources */,
 				66D426A31990F7020080F21E /* busStopAnnotation.png in Resources */,
 				66F099971AEADCF300F20D34 /* Thumbs Up-50.png in Resources */,
 				66F099841AE8075D00F20D34 /* NotificationBackgroundErrorIcon.png in Resources */,
@@ -2074,6 +2160,7 @@
 				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
+				669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */,
 				661ABBFB199D5DB500F93894 /* bus-orange-128.png in Resources */,
 				667B98221AD3294C00C45ADF /* city-center-100.png in Resources */,
 				664E28921AE03B1B00BE2457 /* current-location-green-100.png in Resources */,
@@ -2204,6 +2291,7 @@
 				66F099691AE6ECD700F20D34 /* TSBlurView.m in Sources */,
 				66F0996B1AE6ECD700F20D34 /* TSMessageView.m in Sources */,
 				66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */,
+				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,

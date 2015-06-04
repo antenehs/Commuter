@@ -73,13 +73,8 @@
 -(void)setUpMainView{
     //self.view.backgroundColor = [UIColor whiteColor];
 //    [backView setBlurTintColor:systemBackgroundColor];
-    if (self.darkMode) {
-        addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
-    }else{
-        addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDefault;
-    }
-    
-    
+    addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
+      
     CGRect searchBarFrame = addressSearchBar.frame;
     if (routeSearchMode) {
         //width 257 & x = 0

@@ -295,7 +295,7 @@
     
     NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/stops?lon=%@&lat=%@&rad=%d&cid=asareitticlient&dup=1&max=20", longString, latString, diameter];
     NSURL *url = [[NSURL alloc] initWithString:urlAsString];
-    NSLog(@"%@", urlAsString);
+//    NSLog(@"%@", urlAsString);
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
@@ -407,7 +407,7 @@
 - (void)getAllLiveVehiclesFromPubTrans{
     NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0"];
     NSURL *url = [[NSURL alloc] initWithString:urlAsString];
-    NSLog(@"%@", urlAsString);
+//    NSLog(@"%@", urlAsString);
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
@@ -428,7 +428,7 @@
 - (void)getAllLiveVehiclesFromHSLLive{
     NSString *urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5"];
     NSURL *url = [[NSURL alloc] initWithString:urlAsString];
-    NSLog(@"%@", urlAsString);
+//    NSLog(@"%@", urlAsString);
     
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         

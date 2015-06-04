@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NearByStop.h"
 @import MapKit;
 
 typedef void (^ActionBlock)();
@@ -27,6 +28,7 @@ typedef enum{
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, copy) NSString *reuseIdentifier;
 @property (nonatomic) AnnotationType annotationType;
+@property (nonatomic) StopType stopType;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) ActionBlock disclosureBlock;
 @property (nonatomic, copy) ActionBlock primaryButtonBlock;

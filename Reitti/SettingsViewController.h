@@ -27,6 +27,8 @@
 
 @property (nonatomic) MKCoordinateRegion mapRegion;
 
+@property (nonatomic) bool isRootViewController;
+
 @property (nonatomic, strong)SettingsManager *settingsManager;
 
 @property (nonatomic, weak) id <SettingsDelegate> delegate;

@@ -15,6 +15,8 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 //    NSLog(@"%@", [UIFont fontNamesForFamilyName:@"Aspergit"]);
@@ -35,7 +37,58 @@
 //    
 //        NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
     
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    
+    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:31.0/255.0 green:154.0/255.0 blue:57.0/255.0 alpha:1.0]];
+    
+    UITabBar *tabBar = tabBarController.tabBar;
+    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
+    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
+    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
+    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+    
+    tabBarItem1.title = @"SEARCH";
+    tabBarItem2.title = @"ROUTE";
+    tabBarItem3.title = @"BOOKMARKS";
+    tabBarItem4.title = @"SETTINGS";
+//    tabBarItem4.title = @"Settings";
+    
+    UIImage *image1 = [UIImage imageNamed:@"Search-green-100.png"];
+    tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(26, 26)];
+    
+    UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
+//    UIImage *image2_unselected = [UIImage imageNamed:@"Bus-unselected-100.png"];
+    tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(25, 24)];
+//    tabBarItem2.image = [[self imageWithImage:image2_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
+//    UIImage *image3_unselected = [UIImage imageNamed:@"Bookmark-unselected-100.png"];
+    tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(28, 28)];
+//    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UIImage *image4 = [UIImage imageNamed:@"Settings-Filled-2-100.png"];
+//    UIImage *image4_unselected = [UIImage imageNamed:@"Settings-unselected-100.png"];
+    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(24, 24)];
+//    tabBarItem4.selectedImage = [self imageWithImage:image4 scaledToSize:CGSizeMake(26, 26)];
+//    tabBarItem4.image = [[self imageWithImage:image4_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    tabBarItem1.image = [UIImage imageNamed:@"Home-green-100.png"];
+//    tabBarItem2.image = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
+//    tabBarItem3.image = [UIImage imageNamed:@"settings-green-100.png"];
+    
+//    [tabBarItem1 setFinishedSelectedImage:[UIImage imageNamed:@"home_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"home.png"]];
+//    [tabBarItem2 setFinishedSelectedImage:[UIImage imageNamed:@"maps_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"maps.png"]];
+//    [tabBarItem3 setFinishedSelectedImage:[UIImage imageNamed:@"myplan_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"myplan.png"]];
+//    [tabBarItem4 setFinishedSelectedImage:[UIImage imageNamed:@"settings_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"settings.png"]];
+    
     return YES;
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url

@@ -17,6 +17,7 @@
 +(NSString *)formatPrittyDate:(NSDate *)date;
 +(NSString *)formatHourStringFromDate:(NSDate *)date;
 +(NSString *)formatDurationString:(NSInteger)seconds;
++(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
 +(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString;

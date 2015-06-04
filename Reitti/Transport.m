@@ -152,39 +152,39 @@
     
     if ((width > 15) && (size.width < lineNumberLabel.bounds.size.width) ) {
          lineNumberLabel.frame = CGRectMake(lineNumberLabel.frame.origin.x, lineNumberLabel.frame.origin.y, size.width, lineNumberLabel.frame.size.height);
-        
-        if (routeLeg.legType == LegTypeWalk) {
-            self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-        }else{
-            self.backgroundColor = [UIColor colorWithWhite:0.28 alpha:1];
-        }
     }else{
 //        lineNumberLabel.hidden = YES;
         
-        switch (routeLeg.legType) {
-            case LegTypeWalk:
-                self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-                break;
-            case LegTypeFerry:
-                self.backgroundColor = SYSTEM_CYAN_COLOR;
-                break;
-            case LegTypeTrain:
-                self.backgroundColor = SYSTEM_RED_COLOR;
-                break;
-            case LegTypeBus:
-                self.backgroundColor = SYSTEM_BLUE_COLOR;
-                break;
-            case LegTypeTram:
-                self.backgroundColor = SYSTEM_GREEN_COLOR;
-                break;
-            case LegTypeMetro:
-                self.backgroundColor = SYSTEM_ORANGE_COLOR;
-                break;
-                
-            default:
-                self.backgroundColor = SYSTEM_BLUE_COLOR;
-                break;
-        }
+//        switch (routeLeg.legType) {
+//            case LegTypeWalk:
+//                self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+//                break;
+//            case LegTypeFerry:
+//                self.backgroundColor = SYSTEM_CYAN_COLOR;
+//                break;
+//            case LegTypeTrain:
+//                self.backgroundColor = SYSTEM_RED_COLOR;
+//                break;
+//            case LegTypeBus:
+//                self.backgroundColor = SYSTEM_BLUE_COLOR;
+//                break;
+//            case LegTypeTram:
+//                self.backgroundColor = SYSTEM_GREEN_COLOR;
+//                break;
+//            case LegTypeMetro:
+//                self.backgroundColor = SYSTEM_ORANGE_COLOR;
+//                break;
+//                
+//            default:
+//                self.backgroundColor = SYSTEM_BLUE_COLOR;
+//                break;
+//        }
+    }
+    
+    if (routeLeg.legType == LegTypeWalk) {
+        self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    }else{
+        self.backgroundColor = [UIColor colorWithWhite:0.28 alpha:1];
     }
     
     //Center views

@@ -12,6 +12,7 @@
 #import "SVProgressHUD.h"
 #import "MBProgressHUD.h"
 #import "RouteSearchViewController.h"
+#import "SearchController.h"
 
 @implementation StopViewController
 
@@ -47,6 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initDataManagerIfNull];
     
     stopBookmarked = NO;
     departuresTableIndex = nil;
@@ -62,10 +64,13 @@
         settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
     }
     
+    self.reittiDataManager.delegate = self;
+    [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    
     modalMode = [NSNumber numberWithBool:NO];
     
     [self setNeedsStatusBarAppearanceUpdate];
-    self.reittiDataManager.delegate = self;
+    
     [self selectSystemColors];
     [self setUpLoadingView];
     [self setStopViewApearance];
@@ -96,6 +101,16 @@
     }else{
         return UIStatusBarStyleDefault;
     }    
+}
+
+#pragma mark - initialization
+- (void)initDataManagerIfNull {
+    // Do any additional setup after loading the view.
+    
+    if (self.reittiDataManager == nil) {
+        
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    }
 }
 
 #pragma mark - View methods

@@ -104,6 +104,7 @@
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
 @property (strong, nonatomic) NSMutableArray * routeList;
 @property (nonatomic) bool darkMode;
+@property (nonatomic) bool isRootViewController;
 
 @property (strong, nonatomic) NSString * prevToLocation;
 @property (strong, nonatomic) NSString * prevToCoords;
@@ -121,5 +122,7 @@
 
 @property (nonatomic, weak) id <RouteSearchViewControllerDelegate> delegate;
 @property (nonatomic, weak) id <RouteSearchViewControllerViewCycleDelegate> viewCycledelegate;
+
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end

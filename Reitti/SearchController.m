@@ -51,6 +51,7 @@
 @synthesize notificationView;
 @synthesize searchResultListViewMode;
 @synthesize darkMode, mapMode;
+@synthesize droppedPinGeoCode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -154,6 +155,15 @@
     
     [self setNavBarSize];
     [mainSearchBar setPlaceholder:@"address, stop or poi"];
+    
+    //StartVehicleFetching
+    if (settingsManager.userLocation == HSLRegion) {
+        [reittiDataManager fetchAllLiveVehicles];
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [reittiDataManager stopFetchingLiveVehicles];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1175,61 +1185,99 @@
 }
 
 -(void)plotStopAnnotations:(NSArray *)stopList{
-    NSMutableArray *codeList;
-    codeList = [self collectStopCodes:stopList];
-    
-    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
-    
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-            
-            if (![codeList containsObject:annot.code]) {
-                if (annot.annotationType == NearByStopType) {
-                    [annotToRemove addObject:annotation];
+    @try {
+        
+        
+        NSMutableArray *codeList;
+        codeList = [self collectStopCodes:stopList];
+        
+        NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+        NSMutableArray *newStops = [[NSMutableArray alloc] init];
+        
+        if (stopList.count > 0) {
+            //if stops are from pubtrans, only update lines and type
+            BusStopShort *firstStop = [stopList objectAtIndex:0];
+            if (firstStop.lines.count > 0) {
+                for (id<MKAnnotation> annotation in mapView.annotations) {
+                    if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+                        JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+                        if (annot.annotationType != NearByStopType)
+                            continue;
+                        
+                        NSArray *stops = [self collectStopsForCodes:@[annot.code] fromStops:stopList];
+                        
+                        if (stops == nil || stops.count == 0)
+                            continue;
+                        
+                        BusStopShort *stop = [stops firstObject];
+                        
+                        if (![annot.thumbnail.subtitle isEqualToString:stop.linesString]) {
+                            [annotToRemove addObject:annot];
+                            [newStops addObject:stop];
+                        }
+                    }
                 }
             }else{
-                [codeList removeObject:annot.code];
+                for (id<MKAnnotation> annotation in mapView.annotations) {
+                    if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+                        JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+                        
+                        if (![codeList containsObject:annot.code]) {
+                            //Remove stop if it doesn't exist in the new list
+                            if (annot.annotationType == NearByStopType) {
+                                [annotToRemove addObject:annotation];
+                            }
+                        }else{
+                            //remove annot if type is bus because it might have been updated with another call from pubtrans
+                            [codeList removeObject:annot.code];
+                        }
+                    }
+                }
+                newStops = [NSMutableArray arrayWithArray:[self collectStopsForCodes:codeList fromStops:stopList]];
             }
+            
+            [mapView removeAnnotations:annotToRemove];
+            
+            for (BusStopShort *stop in newStops) {
+                UIImage *stopImage;
+                if (stop.stopType == StopTypeBus) {
+                    stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
+                }else if (stop.stopType == StopTypeTrain) {
+                    stopImage = [UIImage imageNamed:@"trainAnnotation3_2.png"];
+                }else if (stop.stopType == StopTypeTram) {
+                    stopImage = [UIImage imageNamed:@"tramAnnotation3_2.png"];
+                }else if (stop.stopType == StopTypeFerry) {
+                    stopImage = [UIImage imageNamed:@"ferryAnnotation3_2.png"];
+                }else if (stop.stopType == StopTypeMetro) {
+                    stopImage = [UIImage imageNamed:@"metroAnnotation3_2.png"];
+                }else if (stop.stopType == StopTypeOther) {
+                    stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
+                }
+                
+                CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+                NSString * name = stop.name;
+                NSString * codeShort = stop.codeShort;
+                
+                JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
+                stopAnT.image = stopImage;
+                stopAnT.code = stop.code;
+                stopAnT.title = name;
+                stopAnT.subtitle = [stop.linesString isEqualToString:@""] || stop.linesString == nil ? codeShort : stop.linesString;
+                stopAnT.coordinate = coordinate;
+                stopAnT.annotationType = NearByStopType;
+                stopAnT.stopType = stop.stopType;
+                stopAnT.reuseIdentifier = @"NearByStopAnnotation";
+                stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
+                stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
+                stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
+                
+                [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+            }
+            
         }
     }
-//    [mapView removeAnnotations:annotToRemove];
-    
-    NSArray *newStops = [self collectStopsForCodes:codeList fromStops:stopList];
-    
-    for (BusStopShort *stop in newStops) {
-        UIImage *stopImage;
-        if (stop.stopType == StopTypeBus) {
-            stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
-        }else if (stop.stopType == StopTypeTrain) {
-            stopImage = [UIImage imageNamed:@"trainAnnotation3_2.png"];
-        }else if (stop.stopType == StopTypeTram) {
-            stopImage = [UIImage imageNamed:@"tramAnnotation3_2.png"];
-        }else if (stop.stopType == StopTypeFerry) {
-            stopImage = [UIImage imageNamed:@"ferryAnnotation3_2.png"];
-        }else if (stop.stopType == StopTypeMetro) {
-            stopImage = [UIImage imageNamed:@"metroAnnotation3_2.png"];
-        }else if (stop.stopType == StopTypeOther) {
-            stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
-        }
-        
-        CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
-        NSString * name = stop.name;
-        NSString * codeShort = stop.codeShort;
-        
-        JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
-        stopAnT.image = stopImage;
-        stopAnT.code = stop.code;
-        stopAnT.title = name;
-        stopAnT.subtitle = ![stop.linesString isEqualToString:@""] ? stop.linesString : codeShort;
-        stopAnT.coordinate = coordinate;
-        stopAnT.annotationType = NearByStopType;
-        stopAnT.reuseIdentifier = @"NearByStopAnnotation";
-        stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
-        stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
-        stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
-        
-        [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+    @catch (NSException *exception) {
+        NSLog(@"Adding annotations failed!!! Exception %@", exception);
     }
 }
 
@@ -1752,7 +1800,7 @@
     }
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
-        if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
+        if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
             [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
         }else{
             for (id<MKAnnotation> annotation in mapView.annotations) {
@@ -1817,7 +1865,7 @@
 }
 
 - (void)tapOnBadgeDetected{
-    [self performSegueWithIdentifier:@"infoViewSegue" sender:nil ];
+//    [self performSegueWithIdentifier:@"infoViewSegue" sender:nil ];
 }
 
 
@@ -2299,6 +2347,8 @@
     
     if (stopList.count > 0) {
         if ([stopList.firstObject isKindOfClass:NearByStop.class]) {
+            //TODO: Check if update is needed by checking existing list and values in cache
+            //TODO: Do the check in separate thread
             NSMutableArray *tempArray = [[NSMutableArray alloc] init];
             
             for (NearByStop *stop in stopList) {
@@ -2307,7 +2357,9 @@
             }
             
             self.nearByStopList = tempArray;
+            //TODO: Store in stops cache
         }else{
+            //TODO: Filter if stop exists in stops cache
             self.nearByStopList = stopList;
         }
     }
@@ -2630,8 +2682,6 @@
         routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        
-        routeSearchViewController.darkMode = self.darkMode;
         
         routeSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
         

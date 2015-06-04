@@ -12,6 +12,8 @@
 #import "RouteDetailViewController.h"
 #import "SVProgressHUD.h"
 #import "RouteViewManager.h"
+#import "SearchController.h"
+#import "AppDelegate.h"
 
 typedef enum
 {
@@ -30,17 +32,21 @@ typedef enum
 @synthesize savedStops, recentStops,savedRoutes, recentRoutes, namedBookmarks, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation, droppedPinGeoCode;
 @synthesize reittiDataManager;
 @synthesize delegate,viewCycledelegate;
-@synthesize darkMode;
+@synthesize darkMode, isRootViewController;
 @synthesize locationManager, currentUserLocation;
 @synthesize refreshControl;
+@synthesize managedObjectContext;
 
 #define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
-#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
+//#008411
+#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:0.0/255.0 green:132.0/255.0 blue:17.0/255.0 alpha:1.0];
 #define SYSTEM_BLUE_COLOR [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self initDataManagerIfNull];
+    
+    [self loadData];
     
     currentLocationText = @"Current location";
     selectedTimeType = SelectedTimeNow;
@@ -68,14 +74,8 @@ typedef enum
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    //Update list of saved stopes in case a new one is saved in the detail view
-    if (self.reittiDataManager != nil) {
-        NSArray * savedArray = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-        self.savedStops = [NSMutableArray arrayWithArray:savedArray];
-    }
-    
-    self.title = @"PLANNER";
-    
+    [self.navigationItem setTitle:@"PLANNER"];
+    [self loadData];
     [self setUpToolBar];
 }
 
@@ -86,6 +86,8 @@ typedef enum
         [self setSelectedTimesForDate:selectedTime];
         [self searchRouteIfPossible];
     }
+    
+    [self loadData];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -102,6 +104,56 @@ typedef enum
 }
 
 #pragma mark - initializations
+- (void)initDataManagerIfNull {
+    // Do any additional setup after loading the view.
+    
+    if (self.reittiDataManager == nil) {
+        UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
+        if (homeViewNavController != nil) {
+            SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
+            
+            self.managedObjectContext = homeViewController.managedObjectContext;
+            self.droppedPinGeoCode = homeViewController.droppedPinGeoCode;
+            
+            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            
+            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+            
+            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        }else if (self.managedObjectContext != nil){
+            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            
+            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+            
+            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        }else{
+            NSLog(@"You are in serious trouble!");
+            
+            AppDelegate *appDelegate = [[AppDelegate alloc] init];
+            self.managedObjectContext = appDelegate.managedObjectContext;
+            
+            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            
+            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+            
+            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        }
+    }
+}
+
+- (void)loadData {
+    NSArray * _savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+    NSArray * _savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+    NSArray * _recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+    NSArray * _recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+    NSArray * _namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+    
+    self.savedStops = [NSMutableArray arrayWithArray:_savedStops];
+    self.recentStops = [NSMutableArray arrayWithArray:_recentStops];
+    self.savedRoutes = [NSMutableArray arrayWithArray:_savedRoutes];
+    self.recentRoutes = [NSMutableArray arrayWithArray:_recentRoutes];
+    self.namedBookmarks = [NSMutableArray arrayWithArray:_namedBookmarks];
+}
 
 - (void)selectSystemColors{
     if (self.darkMode) {
@@ -146,22 +198,27 @@ typedef enum
     
     timeTypeSegmentControl.selectedSegmentIndex = (int)selectedTimeType;
     
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:[NSDate date]];
-    selectedTimeString = time;
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"HHmm"];
+//    NSString *time = [dateFormat stringFromDate:[NSDate date]];
+//    selectedTimeString = time;
+//    
+//    
+//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+//    [dateFormat2 setDateFormat:@"YYYYMMdd"];
+//    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
+//    selectedDateString = date;
     
+//    [self setSelectedTimeToTimeLabel:[NSDate date] andTimeType:SelectedTimeDeparture];
     
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
-    selectedDateString = date;
+//    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
+//    [dateFormat3 setDateFormat:@"HH:mm"];
+//    NSString *prettyVersion = [dateFormat3 stringFromDate:[NSDate date]];
+//    
+//    selectedTimeLabel.text = [NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     
-    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [dateFormat3 setDateFormat:@"HH:mm"];
-    NSString *prettyVersion = [dateFormat3 stringFromDate:[NSDate date]];
-    
-    selectedTimeLabel.text = [NSString stringWithFormat:@"Departs at: %@", prettyVersion];
+    selectedTimeType = SelectedTimeDeparture;
+    [self setSelectedTimesForDate:[NSDate date]];
     
     timeSelectionViewShadeView.frame = self.view.frame;
     timeSelectionViewShadeView.hidden = YES;
@@ -203,8 +260,8 @@ typedef enum
         toCoords = prevToCoords;
     }
     routeResultsTableView.backgroundColor = [UIColor clearColor];
-    routeResultsTableView.layer.borderWidth = 1;
-    routeResultsTableView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//    routeResultsTableView.layer.borderWidth = 1;
+//    routeResultsTableView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     
     CGRect tableFrame = routeResultsTableView.frame;
     tableFrame.size.height = self.view.bounds.size.height - routeResultsTableContainerView.frame.origin.y;
@@ -273,7 +330,7 @@ typedef enum
 }
 
 -(void)setUpToolBar{
-    UIImage *image1 = [UIImage imageNamed:@"previous-gray-64.png"];
+    UIImage *image1 = [UIImage imageNamed:@"previous-green-64.png"];
     CGRect frame = CGRectMake(0, 0, 22, 22);
     
     UIButton* prevButton = [[UIButton alloc] initWithFrame:frame];
@@ -282,17 +339,18 @@ typedef enum
     [prevButton addTarget:self action:@selector(previousRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem* prevBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:prevButton];
-    
+    prevBarButtonItem.tintColor = SYSTEM_GREEN_COLOR;
     
     UIBarButtonItem *firstSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     firstSpace.width = 30;
     
-    UIBarButtonItem *nowBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStyleDone target:self action:@selector(currentTimeRoutesButtonPressed:)];
+    UIBarButtonItem *nowBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStylePlain target:self action:@selector(currentTimeRoutesButtonPressed:)];
+    nowBarButtonItem.tintColor = SYSTEM_GREEN_COLOR;
     
     UIBarButtonItem *secondSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     secondSpace.width = 30;
     
-    UIImage *image2 = [UIImage imageNamed:@"next-gray-64.png"];
+    UIImage *image2 = [UIImage imageNamed:@"next-green-100.png"];
     
     UIButton* nextButton = [[UIButton alloc] initWithFrame:frame];
     [nextButton setBackgroundImage:image2 forState:UIControlStateNormal];
@@ -303,7 +361,8 @@ typedef enum
     
     UIBarButtonItem *flexiSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleDone target:self action:@selector(clearSearchButtonPressed:)];
+    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearSearchButtonPressed:)];
+    clearBarButtonItem.tintColor = SYSTEM_GREEN_COLOR;
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     [items addObject:prevBarButtonItem];
@@ -663,27 +722,27 @@ typedef enum
         lastTime = lastRoute.getStartingTimeOfRoute;
     }
     
-    datePicker.date = lastTime;
+    [self setSelectedTimesForDate:lastTime];
     
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:lastTime];
-    selectedTimeString = time;
-    
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:lastTime];
-    selectedDateString = date;
-    
-    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-    NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
-    
-    if (selectedTimeType == SelectedTimeArrival) {
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
-    }else{
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-    }
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"HHmm"];
+//    NSString *time = [dateFormat stringFromDate:lastTime];
+//    selectedTimeString = time;
+//    
+//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+//    [dateFormat2 setDateFormat:@"YYYYMMdd"];
+//    NSString *date = [dateFormat2 stringFromDate:lastTime];
+//    selectedDateString = date;
+//    
+//    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
+//    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+//    NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
+//    
+//    if (selectedTimeType == SelectedTimeArrival) {
+//        selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
+//    }else{
+//        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
+//    }
     
     [self searchRouteIfPossible];
 }
@@ -718,28 +777,27 @@ typedef enum
         lastTime = lastRoute.getEndingTimeOfRoute;
     }
     
+    [self setSelectedTimesForDate:lastTime];
     
-    datePicker.date = lastTime;
-    
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:lastTime];
-    selectedTimeString = time;
-    
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:lastTime];
-    selectedDateString = date;
-    
-    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-    NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
-    
-    if (selectedTimeType == SelectedTimeArrival) {
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
-    }else{
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-    }
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"HHmm"];
+//    NSString *time = [dateFormat stringFromDate:lastTime];
+//    selectedTimeString = time;
+//    
+//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+//    [dateFormat2 setDateFormat:@"YYYYMMdd"];
+//    NSString *date = [dateFormat2 stringFromDate:lastTime];
+//    selectedDateString = date;
+//    
+//    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
+//    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+//    NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
+//    
+//    if (selectedTimeType == SelectedTimeArrival) {
+//        selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
+//    }else{
+//        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
+//    }
     
     [self searchRouteIfPossible];
 }
@@ -972,11 +1030,17 @@ typedef enum
     NSString *date = [dateFormat2 stringFromDate:selectedTime];
     selectedDateString = date;
     
-    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [self isSameDateAsToday:selectedTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-    NSString *prettyVersion = [dateFormat3 stringFromDate:selectedTime];
+    [self setSelectedTimeToTimeLabel:selectedTime andTimeType:selectedTimeType];
     
-    switch (selectedTimeType) {
+    [self searchRouteIfPossible];
+}
+
+- (void)setSelectedTimeToTimeLabel:(NSDate *)time andTimeType:(SelectedTimeType)timeType{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [self isSameDateAsToday:time] ? [dateFormat setDateFormat:@"HH:mm"] : [dateFormat setDateFormat:@"d.MM.yy HH:mm"];
+    NSString *prettyVersion = [dateFormat stringFromDate:time];
+    
+    switch (timeType) {
         case SelectedTimeNow:
             selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
             break;
@@ -992,8 +1056,6 @@ typedef enum
         default:
             break;
     }
-    
-    [self searchRouteIfPossible];
 }
 
 #pragma mark - TableViewMethods
@@ -1113,27 +1175,28 @@ typedef enum
             
             Route *route = [self.routeList objectAtIndex:indexPath.row];
             
-            UILabel *timeIntervalLabel = (UILabel *)[cell viewWithTag:2000];
+            UILabel *leaveTimeLabel = (UILabel *)[cell viewWithTag:2000];
+            UILabel *arriveTimeLabel = (UILabel *)[cell viewWithTag:2005];
+            
+            NSString *leavesString = [NSString stringWithFormat:@"leave %@",
+                                      [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]];
             
             if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < 300) {
-                timeIntervalLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@",
-                                                                                                      [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute],
-                                                                                                      [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]]
-                                                                                           substring:[ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]
-                                                                                      withNormalFont:timeIntervalLabel.font];
+                leaveTimeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:leavesString                                                                         substring:leavesString withNormalFont:leaveTimeLabel.font];
                 ;
             }else{
-                timeIntervalLabel.text = [NSString stringWithFormat:@"%@ - %@",
-                                          [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute],
-                                          [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+                leaveTimeLabel.text = leavesString;
             }
+            
+            arriveTimeLabel.text = [NSString stringWithFormat:@"arrive %@",
+                                    [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
             
             //durations
             UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
-            durationLabel.text = [NSString stringWithFormat:@"%@", [ReittiStringFormatter formatDurationString:[route.routeDurationInSeconds integerValue]]];
+            durationLabel.attributedText = [ReittiStringFormatter formatAttributedDurationString:[route.routeDurationInSeconds integerValue] withFont:durationLabel.font];
             
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
-            //TODO: Identigy if it only walking route with no stops
+            
             if(route.getTimeAtTheFirstStop != nil){
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop",
                                       [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop]];
@@ -1143,8 +1206,20 @@ typedef enum
             }
             
             UILabel *walkingDistLabel = (UILabel *)[cell viewWithTag:2004];
-            walkingDistLabel.text = [NSString stringWithFormat:@"%dm walking ",
-                                  (int)route.getTotalWalkLength];
+            CGFloat walkingKm = route.getTotalWalkLength/1000.0;
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            
+            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            
+            [formatter setMaximumFractionDigits:2];
+            
+            [formatter setRoundingMode: NSNumberFormatterRoundUp];
+            
+            NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:walkingKm]];
+            
+            walkingDistLabel.text = [NSString stringWithFormat:@"%@ km",
+                                  numberString];
             
             UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2003];
             
@@ -1530,15 +1605,15 @@ typedef enum
     NSDate *myDate;
     if(selectedTimeType == SelectedTimeNow){
         myDate = currentTime;
-        datePicker.date = currentTime;
+//        datePicker.date = currentTime;
         
         [self setSelectedTimesForDate:currentTime];
         
-        NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-        [self isSameDateAsToday:myDate] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-        NSString *prettyVersion = [dateFormat3 stringFromDate:myDate];
-        
-        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
+//        NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
+//        [self isSameDateAsToday:myDate] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
+//        NSString *prettyVersion = [dateFormat3 stringFromDate:myDate];
+//        
+//        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     }
     
     [self searchRouteIfPossible];
@@ -1555,12 +1630,14 @@ typedef enum
     NSString *date1 = [dateFormat2 stringFromDate:date];
     selectedDateString = date1;
     
-    datePicker.date = date;
+    [self setSelectedTimeToTimeLabel:date andTimeType:selectedTimeType];
+    
+//    datePicker.date = date;
 }
 
 -(BOOL)isSameDateAsToday:(NSDate *)date1{
-    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date1];
-    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date1];
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
     return ([today day] == [otherDay day] &&
             [today month] == [otherDay month] &&
             [today year] == [otherDay year] &&
@@ -1716,7 +1793,7 @@ typedef enum
             destinationViewController.fromLocation = fromString;
             destinationViewController.reittiDataManager = self.reittiDataManager;
             
-            self.title = @"";
+            [self.navigationItem setTitle:@""];
         }
     }
     
