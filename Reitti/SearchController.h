@@ -151,7 +151,7 @@ typedef enum
     int appOpenCount;
     int retryCount;
     NSString *timeToSetAlarm;
-    NSString *selectedStopCode;
+    NSString *selectedStopCode, *selectedStopShortCode, *selectedStopName;
     NSString *selectedAnnotationUniqeName;
     NSString *selectedAnnotationCoords;
     NSNumber *selectedStopLongCode;

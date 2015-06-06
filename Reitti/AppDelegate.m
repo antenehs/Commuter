@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SearchController.h"
+#import "AppManager.h"
 
 @implementation AppDelegate
 
@@ -39,7 +40,7 @@
     
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     
-    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:31.0/255.0 green:154.0/255.0 blue:57.0/255.0 alpha:1.0]];
+    [[UITabBar appearance] setTintColor:[AppManager systemGreenColor]];
     
     UITabBar *tabBar = tabBarController.tabBar;
     UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];

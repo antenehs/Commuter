@@ -59,7 +59,7 @@
     //defaultGreenColor = [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0];
 //    [self selectSystemColors];
     UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
-    SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
+    SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] firstObject];
     
     if (self.reittiDataManager == nil) {
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:homeViewController.managedObjectContext];
@@ -101,6 +101,8 @@
     activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicator.alpha = 1.0;
     activityIndicator.hidesWhenStopped = YES;
+    
+    [self.navigationItem setTitle:@""];
     
 }
 
@@ -582,9 +584,7 @@
     }else{
         return nil;
     }
-    
 }
-
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -905,7 +905,6 @@
     
 }
 
-
 #pragma mark - Seague
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
@@ -925,9 +924,12 @@
                 
                 StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
-                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-                StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
+//                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+//                StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
+                StopViewController *stopViewController = (StopViewController *)segue.destinationViewController;
                 stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.busStopCode intValue]];
+                stopViewController.stopShortCode = selected.busStopShortCode;
+                stopViewController.stopName = selected.busStopName;
                 stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.busStopWgsCoords];
                 stopViewController.stopEntity = selected;
 //                stopViewController.reittiDataManager = self.reittiDataManager;

@@ -111,7 +111,7 @@
 }
 
 - (void)setUpMainView {
-    self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
     if (viewControllerMode == ViewControllerModeAddNewAddress || viewControllerMode == ViewControllerModeEditAddress) {
         self.navigationItem.rightBarButtonItem.style = UIBarButtonSystemItemDone;
         self.navigationItem.rightBarButtonItem.title = @"Done";
@@ -524,6 +524,10 @@
 }
 
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
+    
+}
+
+-(void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
     
 }
 #pragma mark - uitextview delegate methods

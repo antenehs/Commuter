@@ -110,9 +110,15 @@ typedef enum
     if (self.reittiDataManager == nil) {
         UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
         if (homeViewNavController != nil) {
-            SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
+            SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] firstObject];
             
-            self.managedObjectContext = homeViewController.managedObjectContext;
+            if ([homeViewController isKindOfClass:[SearchController class]]) {
+                self.managedObjectContext = homeViewController.managedObjectContext;
+            }else {
+                AppDelegate *appDelegate = [[AppDelegate alloc] init];
+                self.managedObjectContext = appDelegate.managedObjectContext;
+            }
+            
             self.droppedPinGeoCode = homeViewController.droppedPinGeoCode;
             
             self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
@@ -1188,7 +1194,7 @@ typedef enum
                 leaveTimeLabel.text = leavesString;
             }
             
-            arriveTimeLabel.text = [NSString stringWithFormat:@"arrive %@",
+            arriveTimeLabel.text = [NSString stringWithFormat:@"| arrive %@",
                                     [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
             
             //durations

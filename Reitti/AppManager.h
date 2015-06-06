@@ -13,4 +13,8 @@
 +(BOOL)isNewInstallOrNewVersion;
 +(void)setCurrentAppVersion;
 
+//App theme
++(UIColor *)systemGreenColor;
++(UIColor *)systemOrangeColor;
+
 @end

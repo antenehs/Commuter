@@ -749,17 +749,23 @@
 {
     id <MKAnnotation> annotation = [view annotation];
     NSNumber *stopCode;
+    NSString *stopShortCode, *stopName;
     CLLocationCoordinate2D stopCoords;
     if ([annotation isKindOfClass:[StopAnnotation class]])
     {
         StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
         stopCode = stopAnnotation.code;
         stopCoords = stopAnnotation.coordinate;
+        stopShortCode = stopAnnotation.subtitle;
+        stopName = stopAnnotation.title;
+        
     }else if ([annotation isKindOfClass:[LocationsAnnotation class]])
     {
         LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
         stopCode = locAnnotation.code;
         stopCoords = locAnnotation.coordinate;
+        stopShortCode = locAnnotation.subtitle;
+        stopName = locAnnotation.title;
     }else{
         return;
     }
@@ -767,6 +773,8 @@
     if (stopCode != nil && stopCode != (id)[NSNull null]) {
         selectedAnnotionStopCode = stopCode;
         selectedAnnotationStopCoords = stopCoords;
+        selectedAnnotionStopShortCode = stopShortCode;
+        selectedAnnotionStopName = stopName;
         [self performSegueWithIdentifier:@"showStopFromRoute" sender:self];
     }
     
@@ -1471,15 +1479,19 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"showStopFromRoute"]) {
         
-        NSString *stopCode;
+        NSString *stopCode, *stopShortCode, *stopName;
         CLLocationCoordinate2D stopCoords;
         if ([sender isKindOfClass:[self class]]) {
             stopCode = [NSString stringWithFormat:@"%ld", (long)[selectedAnnotionStopCode integerValue]];
             stopCoords = selectedAnnotationStopCoords;
+            stopShortCode = selectedAnnotionStopShortCode;
+            stopName = selectedAnnotionStopName;
         }else{
             NSIndexPath *selectedRowIndexPath = [routeListTableView indexPathForSelectedRow];
             RouteLocation * selected = [self.routeLocationList objectAtIndex:selectedRowIndexPath.row];
             stopCode = selected.stopCode;
+            stopShortCode = selected.shortCode;
+            stopName = selected.name;
             stopCoords = CLLocationCoordinate2DMake([[selected.coordsDictionary objectForKey:@"y"] floatValue],[[selected.coordsDictionary objectForKey:@"x"] floatValue]);
         }
         
@@ -1488,10 +1500,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             
             StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
             stopViewController.stopCode = stopCode;
+            stopViewController.stopShortCode = stopShortCode;
+            stopViewController.stopName = stopName;
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
             stopViewController.darkMode = self.darkMode;
-            stopViewController.modalMode = [NSNumber numberWithBool:YES];
+//            stopViewController.modalMode = [NSNumber numberWithBool:NO];
             stopViewController.reittiDataManager = self.reittiDataManager;
             stopViewController.delegate = nil;
             

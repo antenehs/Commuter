@@ -28,7 +28,7 @@
 - (void)deletedSavedStop:(StopEntity *)busStop;
 @end
 
-@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate, ADBannerViewDelegate>{
+@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate>{
     
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;
@@ -56,9 +56,11 @@
     IBOutlet UILabel *pressingInfoLabel;
     IBOutlet UIBarButtonItem *showLocationBarButtonItem;
     
+    UIButton *fullTimeTableButton;
+    
     EKEventStore * _eventStore;
     ReittiRemindersManager * reittiReminderManager;
-    
+    BOOL stopFetched;
     bool stopBookmarked;
     NSString *timeToSetAlarm;
     NSIndexPath * departuresTableIndex;
@@ -79,6 +81,8 @@
 @property (strong, nonatomic) StopEntity * stopEntity;
 
 @property (strong, nonatomic) NSString * stopCode;
+@property (strong, nonatomic) NSString * stopShortCode;
+@property (strong, nonatomic) NSString * stopName;
 @property (nonatomic) CLLocationCoordinate2D stopCoords;
 @property (strong, nonatomic) NSString * backButtonText;
 

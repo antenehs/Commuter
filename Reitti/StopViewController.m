@@ -13,6 +13,8 @@
 #import "MBProgressHUD.h"
 #import "RouteSearchViewController.h"
 #import "SearchController.h"
+#import "UIScrollView+APParallaxHeader.h"
+#import "AppManager.h"
 
 @implementation StopViewController
 
@@ -28,7 +30,7 @@
 @synthesize departures, _busStop, stopEntity;
 @synthesize _stopLinesDetail;
 @synthesize reittiDataManager, settingsManager;
-@synthesize stopCode, stopCoords;
+@synthesize stopCode, stopShortCode, stopName, stopCoords;
 @synthesize managedObjectContext;
 @synthesize backButtonText;
 @synthesize delegate;
@@ -50,13 +52,17 @@
     [super viewDidLoad];
     [self initDataManagerIfNull];
     
+    stopFetched = NO;
+    
     stopBookmarked = NO;
     departuresTableIndex = nil;
     pressTime = 0;
     
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    modalMode = [NSNumber numberWithBool:NO];
+    
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
-    if (modalMode != nil && [modalMode boolValue]) {
+    if (modalMode != nil && ![modalMode boolValue]) {
         self.navigationItem.leftBarButtonItem = nil;
     }
     
@@ -67,24 +73,29 @@
     self.reittiDataManager.delegate = self;
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
-    modalMode = [NSNumber numberWithBool:NO];
-    
     [self setNeedsStatusBarAppearanceUpdate];
     
-    [self selectSystemColors];
-    [self setUpLoadingView];
-    [self setStopViewApearance];
+    mapView = [[MKMapView alloc] init];
+    mapView.delegate = self;
+    
+//    [self setStopViewApearance];
     [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
+    [SVProgressHUD showHUDInView:self.view];
     [self initNotifications];
+    
+    [self setUpMainView];
+//    [self setUpLoadingView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self layoutAnimated:NO];
+    [self setUpMapViewForBusStop];
+//    [self layoutAnimated:NO];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self layoutAnimated:NO];
+    [self setUpMapViewForBusStop];
+    [departuresTable reloadData];
 }
 
 - (id<UILayoutSupport>)topLayoutGuide {
@@ -114,18 +125,6 @@
 }
 
 #pragma mark - View methods
-- (void)selectSystemColors{
-    if (self.darkMode) {
-//        systemBackgroundColor = [UIColor clearColor];
-        systemBackgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor lightGrayColor];
-    }else{
-        systemBackgroundColor = nil;
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor darkGrayColor];
-    }
-}
 -(void)setUpLoadingView{
 //    [activityView startAnimating];
     [SVProgressHUD showHUDInView:self.view];
@@ -134,15 +133,19 @@
 }
 
 -(void)setUpMainView{
-    self.view.backgroundColor = [UIColor whiteColor];
-    stopView.hidden = NO;
+    
+    if ([stopShortCode isEqualToString:@""] || stopShortCode == nil) {
+        [stopViewTitle setText:stopName];
+        [stopViewSubTitle setText:@""];
+    }else{
+        [stopViewTitle setText:stopShortCode];
+        [stopViewSubTitle setText:stopName];
+    }
+    
+    departuresTable.backgroundColor = [UIColor clearColor];
     
     topToolBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     topToolBar.layer.borderWidth = 0.5;
-    
-//    [activityView stopAnimating];
-    [SVProgressHUD dismissFromView:self.view];
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     if ([self.reittiDataManager isBusStopSaved:self._busStop]) {
         [self setStopBookmarkedState];
@@ -154,71 +157,52 @@
         [self initAdBannerView];
     }
     
+    [self setUpMapViewForBusStop];
+    
+    [departuresTable reloadData];
+    [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
-- (void)setStopViewApearance{
-//    UIImage * bgImage = [[UIImage imageNamed:@"location-filled-green-32.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-//    [showLocationBarButtonItem setBackgroundImage:bgImage forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-//    showLocationBarButtonItem.width = 25.0;
-//    showLocationButton.frame = CGRectMake(200, self.view.frame.size.height - 40, 30, 30);
-//    [showLocationBarButtonItem setCustomView:showLocationButton];
+- (void)setUpMapViewForBusStop{
+    [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 160)];
     
-    /*
-    [stopView setBlurTintColor:systemBackgroundColor];
-//    [topBarView setBlurTintColor:systemBackgroundColor];
-//    topBarView.alpha = 0.95;
-    [bottomBarView setBlurTintColor:systemBackgroundColor];
-    bottomBarView.alpha = 0.95;
-//    topBarView.layer.borderWidth = 0.5;
-//    topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
-    bottomBarView.layer.borderWidth = 0.5;
-    bottomBarView.layer.borderColor = [[UIColor blackColor] CGColor];
-    if (backButtonText != nil) {
-        [cancelButton setTitle:backButtonText forState:UIControlStateNormal];
-    }
-    cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self centerMapRegionToCoordinate:stopCoords];
+    [self plotStopAnnotation];
     
-    CGRect dVFrame = departuresTableViewContainer.frame;
-    CGRect dTFrame = departuresTable.frame;
+    [departuresTable addParallaxWithView:mapView andHeight:160];
+}
+
+
+-(void)setUpStopViewForBusStop:(BusStop *)busStop{
+    self.departures = busStop.departures;
+    self._busStop = busStop;
+    self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
+    //    [self.refreshControl endRefreshing];
+    //    [SVProgressHUD dismiss];
+    //    [self initRefreshControl];
     
-    dVFrame.size.height = self.view.bounds.size.height - topBarView.frame.size.height - bottomBarView.frame.size.height;
+    [self setUpMapViewForBusStop];
     
-    dTFrame.size.height = dVFrame.size.height;
+    [departuresTable reloadData];
+    [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     
-    departuresTableViewContainer.frame = dVFrame;
-    departuresTable.frame = dTFrame;
+    self.view.backgroundColor = [UIColor whiteColor];
+    stopView.hidden = NO;
+    fullTimeTableButton.enabled = busStop.timetable_link != nil;
     
-    CGRect botomFrame = bottomBarView.frame;
+    //    [activityView stopAnimating];
+    [SVProgressHUD dismissFromView:self.view];
+    //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    bottomBarView.frame = CGRectMake(0, self.view.bounds.size.height - botomFrame.size.height, botomFrame.size.width, botomFrame.size.height);
-     */
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    //    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 - (void)initNotifications{
-//    _eventStore = [[EKEventStore alloc] init];
-//    
-//    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
-//                                completion:^(BOOL granted, NSError *error) {
-//                                    if (!granted){
-//                                        NSLog(@"Access to store not granted");
-//                                        //                                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders later to use the reminder feature."
-//                                        //                                                                                       delegate:nil
-//                                        //                                                                              cancelButtonTitle:@"OK"
-//                                        //                                                                              otherButtonTitles:nil];
-//                                        //                                        [alertView show];
-//                                    }
-//                                }];
     reittiReminderManager = [[ReittiRemindersManager alloc] init];
 }
 
-- (void)initMapViewForBusStop:(BusStop *)busStop{
-    
-    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:busStop.wgs_coords]];
-    [self plotStopAnnotation:busStop];
-}
-
 #pragma mark - ibactions
-
 - (IBAction)BackButtonPressed:(id)sender {
 //    [SVProgressHUD dismiss];
     [self dismissViewControllerAnimated:YES completion:nil ];
@@ -237,7 +221,6 @@
         [self setStopBookmarkedState];
         [delegate savedStop:self.stopEntity];
     }
-    
 }
 
 - (IBAction)showMapViewButtonPressed:(id)sender {
@@ -260,6 +243,10 @@
     }
     pressTime = 0;
     [timer invalidate];
+}
+
+-(IBAction)showFullTimeTable:(id)sender{
+    [self performSegueWithIdentifier:@"seeFullTimeTable" sender:self];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -301,31 +288,23 @@
     BOOL toReturn = YES;
     
 //    CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
-    MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
+    MKCoordinateSpan span = {.latitudeDelta =  0.005, .longitudeDelta =  0.005};
     MKCoordinateRegion region = {coordinate, span};
     
     [mapView setRegion:region animated:YES];
     
-//    mapView.pitchEnabled = YES;
-//    MKMapCamera *myCamera = [[MKMapCamera alloc] init];
-//    myCamera.centerCoordinate = coordinate;
-//    myCamera.pitch = 45;
-//    myCamera.altitude = 700;
-//    
-//    [mapView setCamera:myCamera];
-    
     return toReturn;
 }
 
--(void)plotStopAnnotation:(BusStop *)stop{
+-(void)plotStopAnnotation{
   
-    CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.wgs_coords];
+//    CLLocationCoordinate2D coordinate = stopCoords;
     
-    NSString * name = stop.name_fi;
-    NSString * shortCode = stop.code_short;
+    NSString * name = stopCode;
+    NSString * shortCode = stopCode;
     
-    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:coordinate];
-    newAnnotation.code = stop.code;
+    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords];
+    newAnnotation.code = @111111;
     
     [mapView addAnnotation:newAnnotation];
     
@@ -338,9 +317,9 @@
         if (annotationView == nil) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
             annotationView.enabled = YES;
-            annotationView.image = [UIImage imageNamed:@"busStopAnnotation.png"];
-            [annotationView setFrame:CGRectMake(0, 0, 50, 54)];
-            annotationView.centerOffset = CGPointMake(0,-27);
+            annotationView.image = [UIImage imageNamed:@"busAnnotation3_2.png"];
+            [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
+            annotationView.centerOffset = CGPointMake(0,-21);
             
         } else {
             annotationView.annotation = annotation;
@@ -353,66 +332,6 @@
 }
 
 #pragma mark - reminder methods
-//-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString{
-//    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-//    
-//    if (status == EKAuthorizationStatusAuthorized) {
-//        if ([self createEKReminderWithMinOffset:minute andHourString:timeString]) {
-//            //[self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Got it!"
-//                                                                message:@"You will be reminded."
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"OK"
-//                                                      otherButtonTitles:nil];
-//            [alertView show];
-//        }
-//        
-//    }else{
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//}
-//
-//-(BOOL)createEKReminderWithMinOffset:(int)minutes andHourString:(NSString *)timeString{
-//    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minutes];
-//    
-//    if (date == nil) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-oh"                                                                                      message:@"Setting reminder failed."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//        return NO;
-//    }
-//    
-//    if ([[NSDate date] compare:date] == NSOrderedDescending ) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Just so you know"                                                                                      message:@"The alarm time you set has already past."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//    
-//    EKReminder *reminder = [EKReminder reminderWithEventStore:_eventStore];
-//    
-//    reminder.title = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minutes];
-//    
-//    reminder.calendar = [_eventStore defaultCalendarForNewReminders];
-//    
-//    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:date];
-//    
-//    [reminder addAlarm:alarm];
-//    
-//    NSError *error = nil;
-//    
-//    [_eventStore saveReminder:reminder commit:YES error:&error];
-//    
-//    return YES;
-//}
-
 - (void)setStopBookmarkedState{
     [bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
     stopBookmarked = YES;
@@ -434,37 +353,6 @@
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     
     [self.reittiDataManager fetchStopsForCode:code andCoords:coords];
-}
-
--(void)setUpStopViewForBusStop:(BusStop *)busStop{
-//    departuresTableViewContainer.layer.borderWidth = 2;
-    //  departuresTable.layer.cornerRadius = 10;
-//    departuresTableViewContainer    .layer.borderColor = [[UIColor darkGrayColor] CGColor];
-
-    self.departures = busStop.departures;
-    self._busStop = busStop;
-    self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
-    [self.refreshControl endRefreshing];
-//    [SVProgressHUD dismiss];
-    [self initRefreshControl];
-    departuresTable.backgroundColor = [UIColor clearColor];
-    [departuresTable reloadData];
-    [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-    
-    if ([[busStop code_short] isEqualToString:@""] || [busStop code_short] == nil) {
-        [stopViewTitle setText:[busStop name_fi]];
-        [stopViewSubTitle setText:@""];
-    }else{
-        [stopViewTitle setText:[busStop code_short]];
-        [stopViewSubTitle setText:[busStop name_fi]];
-    }
-    
-    
-    [self setUpMainView];
-    [self initMapViewForBusStop:busStop];
-    
-    [self.navigationController setNavigationBarHidden:NO animated:![modalMode boolValue]];
-    [self.navigationController setToolbarHidden:NO animated:![modalMode boolValue]];
 }
 
 - (IBAction)reloadButtonPressed:(id)sender{
@@ -495,14 +383,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    //NSLog(@"Number of departures is: %d",self.departures.count);
     if (self.departures.count > 0) {
         return self.departures.count;
     }else{
-        return 1;
+        return stopFetched ? 1 : 0;
     }
-    //return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -540,15 +425,6 @@
             }else{
                 timeLabel.text = [ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime];
             }
-            
-            
-            //cell.cellTimeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-            //timeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-            
-            //            UILabel *dateLabel = (UILabel *)[cell viewWithTag:1002];
-            //            NSString *notFormattedDate = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"date"] intValue]];
-            //            dateLabel.text = [ReittiStringFormatter formatHSLDateWithDots:notFormattedDate];
-            //            dateLabel.font = CUSTOME_FONT(20.0f);
             
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
             NSString *notParsedCode = [departure objectForKey:@"code"];
@@ -593,6 +469,39 @@
 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 30;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 110, 30)];
+    titleLabel.font = [titleLabel.font fontWithSize:14];
+    titleLabel.textColor = [UIColor darkGrayColor];
+    titleLabel.adjustsFontSizeToFitWidth = YES;
+    if (section == 0) {
+        titleLabel.text = @"   DEPARTURES";
+    }
+    [view addSubview:titleLabel];
+    
+    fullTimeTableButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 107, 0, 100, 30);
+    [fullTimeTableButton setTitle:@"Full timetable" forState:UIControlStateNormal];
+    [fullTimeTableButton setTintColor:[AppManager systemOrangeColor]];
+    [fullTimeTableButton addTarget:self action:@selector(showFullTimeTable:) forControlEvents:UIControlEventTouchUpInside];
+    
+    fullTimeTableButton.enabled = stopFetched;
+    
+    [view addSubview:fullTimeTableButton];
+    
+    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1)];
+    topLineView.backgroundColor = [AppManager systemGreenColor];
+    
+    [view addSubview:topLineView];
+    view.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+    
+    return view;
+}
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -608,7 +517,6 @@
         [cell showUtilityButtonsAnimated:YES];
     }
 }
-
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     UIActionSheet *actionSheet;
@@ -644,10 +552,6 @@
     
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 1;
-}
-
 #pragma mark - timer methods
 - (void) startTimer {
     timer = [NSTimer scheduledTimerWithTimeInterval:0.1
@@ -664,6 +568,7 @@
 
 #pragma - mark RettiDataManager Delegate methods
 -(void)stopFetchDidComplete:(NSArray *)stopList{
+    stopFetched = YES;
     if (stopList != nil) {
         self._busStop = [stopList objectAtIndex:0];
         [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
@@ -673,14 +578,12 @@
     }else{
         //[self showNotificationWithMessage:@"Sorry. No stop found by that search term." messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
     }
-    
-    
     //[MBProgressHUD hideHUDForView:self.view animated:YES];
     //[SVProgressHUD dismiss];
 }
 
 -(void)stopFetchDidFail:(NSString *)error{
-    
+    stopFetched = YES;
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
@@ -688,11 +591,6 @@
     [alertView show];
     
     [self dismissViewControllerAnimated:YES completion:nil ];
-    [self.refreshControl endRefreshing];
-    //[self showNotificationWithMessage:error messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
-    //[MBProgressHUD hideHUDForView:self.view animated:YES];
-    //[SVProgressHUD dismiss];
-    //[self.refreshControl endRefreshing];
 }
 
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{

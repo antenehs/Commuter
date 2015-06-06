@@ -356,6 +356,10 @@
 		66F3B13A1AC886FE0038BA78 /* search-icon-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B1391AC886FE0038BA78 /* search-icon-25.png */; };
 		66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B13B1AC89FC60038BA78 /* app-logo-rounded.png */; };
 		66F3B13E1AC89FC60038BA78 /* ewketapps-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B13C1AC89FC60038BA78 /* ewketapps-logo.png */; };
+		66FC547D1B23656F005B890D /* routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547B1B23656F005B890D /* routes.json */; };
+		66FC547E1B23656F005B890D /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547C1B23656F005B890D /* stops.json */; };
+		66FC54811B23677B005B890D /* StaticRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54801B23677B005B890D /* StaticRoute.m */; };
+		66FC54841B236866005B890D /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54831B236866005B890D /* CacheManager.m */; };
 		E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F46F1A0941E4DE9CE9E29E /* Vehicle.m */; };
 /* End PBXBuildFile section */
 
@@ -906,6 +910,13 @@
 		66F3B1391AC886FE0038BA78 /* search-icon-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-icon-25.png"; path = "Pictures/Version 2.3/search-icon-25.png"; sourceTree = "<group>"; };
 		66F3B13B1AC89FC60038BA78 /* app-logo-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-rounded.png"; path = "Pictures/Version 2.3/app-logo-rounded.png"; sourceTree = "<group>"; };
 		66F3B13C1AC89FC60038BA78 /* ewketapps-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ewketapps-logo.png"; path = "Pictures/Version 2.3/ewketapps-logo.png"; sourceTree = "<group>"; };
+		66FC547B1B23656F005B890D /* routes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routes.json; sourceTree = "<group>"; };
+		66FC547C1B23656F005B890D /* stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stops.json; sourceTree = "<group>"; };
+		66FC547F1B23677B005B890D /* StaticRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticRoute.h; sourceTree = "<group>"; };
+		66FC54801B23677B005B890D /* StaticRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticRoute.m; sourceTree = "<group>"; };
+		66FC54821B236866005B890D /* CacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
+		66FC54831B236866005B890D /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
+		66FC54851B236BBB005B890D /* Reitti 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 6.xcdatamodel"; sourceTree = "<group>"; };
 		D06E935F13E44503B376EA3D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E2F46A4CB8ADB9579B1365DF /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
@@ -1069,6 +1080,8 @@
 				665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */,
 				661202C31B04F5B200D93C2E /* LiveTrafficManager.h */,
 				661202C41B04F5B200D93C2E /* LiveTrafficManager.m */,
+				66FC54821B236866005B890D /* CacheManager.h */,
+				66FC54831B236866005B890D /* CacheManager.m */,
 				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
 				66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */,
 				66CC941718E3452D00644281 /* MyFixedLayoutGuide.h */,
@@ -1602,6 +1615,7 @@
 		66D0BA5118BF2DFA002DDC7B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				66FC547A1B236545005B890D /* Static Data */,
 				669602C01B14D8CA006919CB /* San Fransisco Font */,
 				66D0BA5C18BF3A22002DDC7B /* Aspergit Light.otf */,
 				66D0BA5818BF3785002DDC7B /* Aspergit Bold.otf */,
@@ -1826,6 +1840,17 @@
 				66F3B1261AC8592A0038BA78 /* up-right-arrow-32.png */,
 			);
 			name = "New Version 2.3";
+			sourceTree = "<group>";
+		};
+		66FC547A1B236545005B890D /* Static Data */ = {
+			isa = PBXGroup;
+			children = (
+				66FC547F1B23677B005B890D /* StaticRoute.h */,
+				66FC54801B23677B005B890D /* StaticRoute.m */,
+				66FC547B1B23656F005B890D /* routes.json */,
+				66FC547C1B23656F005B890D /* stops.json */,
+			);
+			name = "Static Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2134,6 +2159,7 @@
 				66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */,
 				66947CC018830ED500642EE1 /* InfoPlist.strings in Resources */,
 				667B981E1AD3294C00C45ADF /* Beer-100.png in Resources */,
+				66FC547E1B23656F005B890D /* stops.json in Resources */,
 				66F099821AE8075D00F20D34 /* NotificationBackgroundError.png in Resources */,
 				66DAE1FC19C6112A0039081D /* tramAnnotationSmall.png in Resources */,
 				667377531ACCBE60003581B5 /* metro-logo-orange.png in Resources */,
@@ -2177,6 +2203,7 @@
 				66F1384B1997897700B52B6B /* walking-100.png in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
 				665885B91B1096580044F514 /* busAnnotation3_2.png in Resources */,
+				66FC547D1B23656F005B890D /* routes.json in Resources */,
 				664E289A1AE1B14F00BE2457 /* stopAnnotation2.png in Resources */,
 				66F3B13E1AC89FC60038BA78 /* ewketapps-logo.png in Resources */,
 			);
@@ -2272,6 +2299,7 @@
 				664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
+				66FC54811B23677B005B890D /* StaticRoute.m in Sources */,
 				66CB961118EEE46100E95CE5 /* SWCellScrollView.m in Sources */,
 				66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */,
 				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
@@ -2324,6 +2352,7 @@
 				661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */,
 				66947CC218830ED500642EE1 /* main.m in Sources */,
 				664E288C1ADC79F800BE2457 /* FailedGeoCodeFetch.m in Sources */,
+				66FC54841B236866005B890D /* CacheManager.m in Sources */,
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
@@ -2663,13 +2692,14 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				66FC54851B236BBB005B890D /* Reitti 6.xcdatamodel */,
 				664E28B41AE3E7EB00BE2457 /* Reitti 5.xcdatamodel */,
 				664E28AD1AE2FA2400BE2457 /* Reitti 4.xcdatamodel */,
 				667B982E1AD557D200C45ADF /* Reitti 3.xcdatamodel */,
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 664E28B41AE3E7EB00BE2457 /* Reitti 5.xcdatamodel */;
+			currentVersion = 66FC54851B236BBB005B890D /* Reitti 6.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

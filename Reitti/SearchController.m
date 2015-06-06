@@ -73,7 +73,7 @@
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
-    [self setUpToolBarWithMiddleImage:@"list-100.png"];
+//    [self setUpToolBarWithMiddleImage:@"list-100.png"];
 //    [self setUpModeSelector];
     [self hideNearByStopsView:YES animated:NO];
     
@@ -132,6 +132,7 @@
     }
     [self fetchDisruptions];
     [self hideNearByStopsView:YES animated:YES];
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -344,7 +345,7 @@
 
 - (void)setNavBarApearance{
     [self setNavBarSize];
-
+    [self.navigationItem setTitle:@""];
     //Set search bar text color
     for (UIView *subView in mainSearchBar.subviews)
     {
@@ -638,15 +639,17 @@
     }
 }
 
--(void)openStopViewForCode:(NSNumber *)code andCoords:(CLLocationCoordinate2D)coords{
+-(void)openStopViewForCode:(NSNumber *)code shortCode:(NSString *)shortCode name:(NSString *)name andCoords:(CLLocationCoordinate2D)coords{
     selectedStopCode = [NSString stringWithFormat:@"%d", [code intValue]];
     selectedStopAnnotationCoords = coords;
+    selectedStopShortCode = shortCode;
+    selectedStopName = name;
     [self performSegueWithIdentifier:@"openStopView" sender:nil];
 }
 
 -(void)openStopViewForCode:(NSNumber *)code{
     StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:code];
-    [self openStopViewForCode:code andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
+    [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
 }
 
 
@@ -740,14 +743,14 @@
 //        frame.origin.y = self.view.bounds.size.height + 5;
         nearByStopsViewTopSpacing.constant = self.view.bounds.size.height;
         isSearchResultsViewDisplayed = NO;
-        [self setUpToolBarWithMiddleImage:@"list-100.png"];
+//        [self setUpToolBarWithMiddleImage:@"list-100.png"];
     }else{
 //        frame.origin.y = blurView.frame.size.height;
 //        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
 //        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
         nearByStopsViewTopSpacing.constant = 0;
         isSearchResultsViewDisplayed = YES;
-        [self setUpToolBarWithMiddleImage:@"map-green-100.png"];
+//        [self setUpToolBarWithMiddleImage:@"map-green-100.png"];
     }
     [self.view layoutSubviews];
 //    searchResultsView.frame = frame;
@@ -1268,8 +1271,8 @@
                 stopAnT.stopType = stop.stopType;
                 stopAnT.reuseIdentifier = @"NearByStopAnnotation";
                 stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
-                stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
-                stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code andCoords:coordinate];};
+                stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
                 
                 [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
             }
@@ -1309,8 +1312,8 @@
     stopAnT.annotationType = SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
     stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
-    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code  andCoords:coordinate];};
-    stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code  andCoords:coordinate];};
+    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+    stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:stopAnT];
     [mapView addAnnotation:annot];
     
@@ -2619,8 +2622,9 @@
     }
     if ([segue.identifier isEqualToString:@"openStopView"] || [segue.identifier isEqualToString:@"openNearbyStop"])
     {
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
+//        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+//        StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
+        StopViewController *stopViewController = (StopViewController *)segue.destinationViewController;
         
         if ([segue.identifier isEqualToString:@"openNearbyStop"]) {
             NSIndexPath *selectedRowIndexPath = [searchResultsTable indexPathForSelectedRow];
@@ -2629,9 +2633,13 @@
             
             stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.code intValue]];
             stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.coords];
+            stopViewController.stopShortCode = selected.codeShort;
+            stopViewController.stopName = selected.name;
         }else{
             stopViewController.stopCode = selectedStopCode;
             stopViewController.stopCoords = selectedStopAnnotationCoords;
+            stopViewController.stopShortCode = selectedStopShortCode;
+            stopViewController.stopName = selectedStopName;
         }
         
         stopViewController.darkMode = self.darkMode;

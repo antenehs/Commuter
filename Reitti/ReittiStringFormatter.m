@@ -7,6 +7,7 @@
 //
 
 #import "ReittiStringFormatter.h"
+#import "AppManager.h"
 
 @implementation ReittiStringFormatter
 
@@ -228,7 +229,7 @@
 
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
 //    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
-    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[UIColor colorWithRed:244.0f/255 green:107.0f/255 blue:0 alpha:1] forKey:NSForegroundColorAttributeName];
+    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[AppManager systemOrangeColor] forKey:NSForegroundColorAttributeName];
     [subStringDict setObject:font forKey:NSFontAttributeName];
     
     NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
