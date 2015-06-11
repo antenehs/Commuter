@@ -21,6 +21,7 @@
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
 +(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString;
++(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator;
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;

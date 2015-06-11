@@ -28,7 +28,7 @@
 //@synthesize StopView;
 @synthesize modalMode;
 @synthesize departures, _busStop, stopEntity;
-@synthesize _stopLinesDetail;
+@synthesize _stopLinesDetail, _stopLineNames;
 @synthesize reittiDataManager, settingsManager;
 @synthesize stopCode, stopShortCode, stopName, stopCoords;
 @synthesize managedObjectContext;
@@ -177,6 +177,7 @@
     self.departures = busStop.departures;
     self._busStop = busStop;
     self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
+    self._stopLineNames = [RettiDataManager parseStopLineNamesToDictionary:busStop.lines];
     //    [self.refreshControl endRefreshing];
     //    [SVProgressHUD dismiss];
     //    [self initRefreshControl];
@@ -427,8 +428,14 @@
             }
             
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-            NSString *notParsedCode = [departure objectForKey:@"code"];
-            codeLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
+            NSString *lineName;
+            if (_stopLinesDetail != nil) {
+                lineName = [_stopLineNames objectForKey:[departure objectForKey:@"code"]];
+            }else{
+                NSString *notParsedCode = [departure objectForKey:@"code"];
+                lineName = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
+            }
+            codeLabel.text = lineName;
             //codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
             
             UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
@@ -436,7 +443,7 @@
             if ([departure objectForKey:@"name1"] != nil) {
                 destinationLabel.text = [departure objectForKey:@"name1"];
             }else{
-                if (_stopLinesDetail != NULL) {
+                if (_stopLinesDetail != nil) {
                     destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
                     //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
                 }else{
@@ -452,7 +459,7 @@
             }
         }
         @finally {
-            NSLog(@"finally");
+//            NSLog(@"finally");
         }
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];

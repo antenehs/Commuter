@@ -37,7 +37,7 @@
 #define SYSTEM_ORANGE_COLOR [UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0];
 
 @synthesize managedObjectContext;
-@synthesize reittiDataManager, settingsManager;
+@synthesize reittiDataManager, settingsManager, cacheManager;
 //@synthesize stopViewController;
 @synthesize searchViewHidden;
 @synthesize searchedStopList;
@@ -173,9 +173,9 @@
 //    [self setSegmentControlSize];
 }
 
-- (id<UILayoutSupport>)topLayoutGuide {
-    return [[MyFixedLayoutGuide alloc]initWithLength:40];
-}
+//- (id<UILayoutSupport>)topLayoutGuide {
+//    return [[MyFixedLayoutGuide alloc]initWithLength:0];
+//}
 
 - (id<UILayoutSupport>)bottomLayoutGuide {
     return [[MyFixedLayoutGuide alloc]initWithLength:bottomLayoutGuide];
@@ -237,6 +237,8 @@
     }
     
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    
+    self.cacheManager = [CacheManager sharedManager];
 }
 
 - (void)initReminderStore
@@ -821,131 +823,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (tableView.tag == 1000) {
-//        CustomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departureCell"];
-//        
-//        CustomeTableViewCell __weak *weakCell = cell;
-//        NSMutableArray * leftUtilityButtons = [NSMutableArray new];
-//        [leftUtilityButtons sw_addUtilityButtonWithColor:
-//                        [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0]
-//                                                                   icon:[UIImage imageNamed:@"alarmClock_small.png"]];
-//        
-//        NSArray *buttonsArray = [NSArray arrayWithArray:leftUtilityButtons];
-//        
-//        [cell setAppearanceWithBlock:^{
-//            weakCell.leftUtilityButtons = buttonsArray;
-//            weakCell.delegate = self;
-//            weakCell.containingTableView = tableView;
-//        } force:NO];
-//        
-//        NSDictionary *departure = [self.departures objectAtIndex:indexPath.row];
-//        if (departure) {
-//            
-//            @try {
-//                UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-//                NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-//                timeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-//                //cell.cellTimeLabel.text = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-////                timeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-//                
-//                //            UILabel *dateLabel = (UILabel *)[cell viewWithTag:1002];
-//                //            NSString *notFormattedDate = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"date"] intValue]];
-//                //            dateLabel.text = [ReittiStringFormatter formatHSLDateWithDots:notFormattedDate];
-//                //            dateLabel.font = CUSTOME_FONT(20.0f);
-//                
-//                UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-//                NSString *notParsedCode = [departure objectForKey:@"code"];
-//                codeLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
-////                codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-//                
-//                UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
-//                if (_stopLinesDetail != NULL) {
-//                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
-//                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
-//                }else{
-//                    destinationLabel.text = @"";
-//                }
-//            }
-//            @catch (NSException *exception) {
-//                if (self.departures.count == 1) {
-//                    UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
-//                    //                infoCell.backgroundColor = [UIColor clearColor];
-//                    return infoCell;
-//                }
-//            }
-//            @finally {
-//                NSLog(@"finally");
-//            }
-//        }
-//        
-//        [cell setCellHeight:cell.frame.size.height];
-//        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//        
-//        return cell;
-//        
-//    }else if (tableView.tag == 0){
-//        if (self.searchResultListViewMode == RSearchResultViewModeSearchResults) {
-//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
-//            
-//            BusStop *stop = [searchedStopList objectAtIndex:indexPath.row];
-//            
-//            UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
-//            codeLabel.text = stop.code_short;
-////            codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
-//            
-//            UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-//            nameLabel.text = stop.name_fi;
-////            nameLabel.font = CUSTOME_FONT_BOLD(22.0f);
-//            
-//            UILabel *cityLabel = (UILabel *)[cell viewWithTag:3003];
-//            cityLabel.text = stop.city_fi;
-////            cityLabel.font = CUSTOME_FONT_BOLD(15.0f);
-//            
-//            cell.backgroundColor = [UIColor clearColor];
-//            
-//            return cell;
-//        }else if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
-//            if (nearByStopList.count > 0) {
-//                UITableViewCell *cell = [searchResultsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
-//                
-//                BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
-//                
-//                UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
-//                codeLabel.text = stop.codeShort;
-////                codeLabel.font = CUSTOME_FONT_BOLD(22.0f);
-//                
-//                UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-//                nameLabel.text = stop.name;
-////                nameLabel.font = CUSTOME_FONT_BOLD(20.0f);
-//                
-//                UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
-//                distanceLabel.text = [NSString stringWithFormat:@"%d m", [stop.distance intValue]];
-////                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
-//                
-//                cell.backgroundColor = [UIColor clearColor];
-//                
-//                return cell;
-//            }else{
-//                
-//            }
-//        }
-//    }
-    
     if (nearByStopList.count > 0) {
         UITableViewCell *cell = [searchResultsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
         
         BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
         
-        UILabel *codeLabel = (UILabel *)[cell viewWithTag:3001];
-        codeLabel.text = stop.codeShort;
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:3001];
+        [imageView setImage:[AppManager stopAnnotationImageForStopType:stop.stopType]];
+        
+        UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
+        codeLabel.text = @"";
+        
+        codeLabel.text = [stop linesString];
+        
         //                codeLabel.font = CUSTOME_FONT_BOLD(22.0f);
         
         UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-        nameLabel.text = stop.name;
+        NSString *shortCode = stop.codeShort != nil && ![stop.codeShort isEqualToString:@""] ? [NSString stringWithFormat:@" - %@", stop.codeShort] : @"";
+        nameLabel.text = [NSString stringWithFormat:@"%@ %@", stop.name, shortCode];
         //                nameLabel.font = CUSTOME_FONT_BOLD(20.0f);
         
         UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
-        distanceLabel.text = [NSString stringWithFormat:@"%d m", [stop.distance intValue]];
+        distanceLabel.text = [NSString stringWithFormat:@"%dm", [stop.distance intValue]];
         //                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
         
         cell.backgroundColor = [UIColor clearColor];
@@ -1178,19 +1077,10 @@
 - (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList
 {
     return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.code",codeList ]];
-////    NSMutableArray *collectedList = [[NSMutableArray alloc] init];
-////    for (BusStopShort *stop in stopList) {
-////        if ([codeList containsObject:stop.code]) {
-////            [collectedList addObject:stop];
-////        }
-////    }
-//    return collectedList;
 }
 
 -(void)plotStopAnnotations:(NSArray *)stopList{
     @try {
-        
-        
         NSMutableArray *codeList;
         codeList = [self collectStopCodes:stopList];
         
@@ -1199,63 +1089,52 @@
         
         if (stopList.count > 0) {
             //if stops are from pubtrans, only update lines and type
-            BusStopShort *firstStop = [stopList objectAtIndex:0];
-            if (firstStop.lines.count > 0) {
-                for (id<MKAnnotation> annotation in mapView.annotations) {
-                    if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-                        JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-                        if (annot.annotationType != NearByStopType)
-                            continue;
-                        
-                        NSArray *stops = [self collectStopsForCodes:@[annot.code] fromStops:stopList];
-                        
-                        if (stops == nil || stops.count == 0)
-                            continue;
-                        
-                        BusStopShort *stop = [stops firstObject];
-                        
-                        if (![annot.thumbnail.subtitle isEqualToString:stop.linesString]) {
-                            [annotToRemove addObject:annot];
-                            [newStops addObject:stop];
+//            BusStopShort *firstStop = [stopList objectAtIndex:0];
+//            if (firstStop.lines.count > 0) {
+//                for (id<MKAnnotation> annotation in mapView.annotations) {
+//                    if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+//                        JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//                        if (annot.annotationType != NearByStopType)
+//                            continue;
+//                        
+//                        NSArray *stops = [self collectStopsForCodes:@[annot.code] fromStops:stopList];
+//                        
+//                        if (stops == nil || stops.count == 0)
+//                            continue;
+//                        
+//                        BusStopShort *stop = [stops firstObject];
+//                        
+//                        if (![annot.thumbnail.subtitle isEqualToString:stop.linesString]) {
+//                            [annotToRemove addObject:annot];
+//                            [newStops addObject:stop];
+//                        }
+//                    }
+//                }
+//            }else{
+//                
+//            }
+            
+            for (id<MKAnnotation> annotation in mapView.annotations) {
+                if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+                    JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+                    
+                    if (![codeList containsObject:annot.code]) {
+                        //Remove stop if it doesn't exist in the new list
+                        if (annot.annotationType == NearByStopType) {
+                            [annotToRemove addObject:annotation];
                         }
+                    }else{
+                        //remove annot if type is bus because it might have been updated with another call from pubtrans
+                        [codeList removeObject:annot.code];
                     }
                 }
-            }else{
-                for (id<MKAnnotation> annotation in mapView.annotations) {
-                    if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-                        JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-                        
-                        if (![codeList containsObject:annot.code]) {
-                            //Remove stop if it doesn't exist in the new list
-                            if (annot.annotationType == NearByStopType) {
-                                [annotToRemove addObject:annotation];
-                            }
-                        }else{
-                            //remove annot if type is bus because it might have been updated with another call from pubtrans
-                            [codeList removeObject:annot.code];
-                        }
-                    }
-                }
-                newStops = [NSMutableArray arrayWithArray:[self collectStopsForCodes:codeList fromStops:stopList]];
             }
+            newStops = [NSMutableArray arrayWithArray:[self collectStopsForCodes:codeList fromStops:stopList]];
             
             [mapView removeAnnotations:annotToRemove];
             
             for (BusStopShort *stop in newStops) {
-                UIImage *stopImage;
-                if (stop.stopType == StopTypeBus) {
-                    stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
-                }else if (stop.stopType == StopTypeTrain) {
-                    stopImage = [UIImage imageNamed:@"trainAnnotation3_2.png"];
-                }else if (stop.stopType == StopTypeTram) {
-                    stopImage = [UIImage imageNamed:@"tramAnnotation3_2.png"];
-                }else if (stop.stopType == StopTypeFerry) {
-                    stopImage = [UIImage imageNamed:@"ferryAnnotation3_2.png"];
-                }else if (stop.stopType == StopTypeMetro) {
-                    stopImage = [UIImage imageNamed:@"metroAnnotation3_2.png"];
-                }else if (stop.stopType == StopTypeOther) {
-                    stopImage = [UIImage imageNamed:@"busAnnotation3_2.png"];
-                }
+                UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
                 
                 CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
                 NSString * name = stop.name;
@@ -2362,8 +2241,26 @@
             self.nearByStopList = tempArray;
             //TODO: Store in stops cache
         }else{
-            //TODO: Filter if stop exists in stops cache
-            self.nearByStopList = stopList;
+            
+            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+            
+            for (BusStopShort *stop in stopList) {
+                
+                @try {
+                    StaticStop *staticStop = [self.cacheManager getStopForCode:[NSString stringWithFormat:@"%@", stop.code]];
+                    if (staticStop != nil) {
+                        [stop setStopTypeForGDTypeString:staticStop.stopType];
+                        stop.lines = staticStop.lineNames;
+                    }
+                }
+                @catch (NSException *exception) {
+                    
+                }
+                
+                [tempArray addObject:stop];
+            }
+            
+            self.nearByStopList = tempArray;
         }
     }
     

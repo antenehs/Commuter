@@ -14,6 +14,7 @@
 #import "RouteViewManager.h"
 #import "SearchController.h"
 #import "AppDelegate.h"
+#import "AppManager.h"
 
 typedef enum
 {
@@ -412,7 +413,7 @@ typedef enum
                     UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
                     
                     //set font color here
-                    searchBarTextField.textColor = SYSTEM_GREEN_COLOR;
+                    searchBarTextField.textColor = [AppManager systemGreenColor];
                     
                     break;
                 }
@@ -1200,18 +1201,9 @@ typedef enum
             //durations
             UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
             durationLabel.attributedText = [ReittiStringFormatter formatAttributedDurationString:[route.routeDurationInSeconds integerValue] withFont:durationLabel.font];
+//            durationLabel.text = [NSString stringWithFormat:@"%d", (int)([route.routeDurationInSeconds integerValue]/60)];
             
-            UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
-            
-            if(route.getTimeAtTheFirstStop != nil){
-                moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop",
-                                      [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop]];
-                moreInfoLebel.hidden = NO;
-            }else{
-                moreInfoLebel.hidden = YES;
-            }
-            
-            UILabel *walkingDistLabel = (UILabel *)[cell viewWithTag:2004];
+//            UILabel *walkingDistLabel = (UILabel *)[cell viewWithTag:2004];
             CGFloat walkingKm = route.getTotalWalkLength/1000.0;
             
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
@@ -1224,8 +1216,17 @@ typedef enum
             
             NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:walkingKm]];
             
-            walkingDistLabel.text = [NSString stringWithFormat:@"%@ km",
-                                  numberString];
+            UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
+            
+            if(route.getTimeAtTheFirstStop != nil){
+                moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
+                                      [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop], numberString];
+                
+            }else{
+                moreInfoLebel.text = [NSString stringWithFormat:@"%@ km walking", numberString];
+            }
+            
+//            walkingDistLabel.text = [NSString stringWithFormat:@"%@ km", numberString];
             
             UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2003];
             
@@ -1268,7 +1269,7 @@ typedef enum
             [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
         }
         
-        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(20, 139.5, self.view.frame.size.width - 20, 0.5)];
+        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 129.5, self.view.frame.size.width, 0.5)];
         line.backgroundColor = [UIColor lightGrayColor];
         line.tag = 4006;
         [cell addSubview:line];
@@ -1480,7 +1481,7 @@ typedef enum
     if (self.tableViewMode == TableViewModeSuggestions) {
         return 60;
     }else{
-        return 140;
+        return 130;
     }
 }
 

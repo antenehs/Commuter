@@ -1,8 +1,8 @@
 //
-//  StaticRoute.h
+//  RouteCacheEntity.h
+//  
 //
-//  Created by Anteneh Sahledengel on 6/6/15
-//  Copyright (c) 2015 shaby ltd. All rights reserved.
+//  Created by Anteneh Sahledengel on 6/6/15.
 //
 //0 - Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
 //1 - Subway, Metro. Any underground rail system within a metropolitan area.
@@ -15,20 +15,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 
+@interface RouteCacheEntity : NSManagedObject
 
-@interface StaticRoute : NSObject <NSCoding, NSCopying>
-
-@property (nonatomic, strong) NSString *routeUrl;
-@property (nonatomic, strong) NSString *operator;
-@property (nonatomic, strong) NSString *shortName;
-@property (nonatomic, strong) NSString *routeType;
-@property (nonatomic, strong) NSString *code;
-@property (nonatomic, strong) NSString *longName;
-
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+@property (nonatomic, retain) NSString * code;
+@property (nonatomic, retain) NSString * shortName;
+@property (nonatomic, retain) NSString * longName;
+@property (nonatomic, retain) NSString * routeOperator;
+@property (nonatomic, retain) NSString * routeType;
+@property (nonatomic, retain) NSString * routeUrl;
 
 @end

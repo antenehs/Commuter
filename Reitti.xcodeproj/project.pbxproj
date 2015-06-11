@@ -193,6 +193,11 @@
 		66C59DA519993CC300E7AC7A /* Transport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA419993CC300E7AC7A /* Transport.xib */; };
 		66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA619993F7100E7AC7A /* walking-black-75.png */; };
 		66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C59DAB1999432D00E7AC7A /* ReittiShapeMaker.m */; };
+		66C734FA1B28D5970026A584 /* bus-filled-blue-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F61B28D5970026A584 /* bus-filled-blue-100.png */; };
+		66C734FB1B28D5970026A584 /* train-filled-red-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F71B28D5970026A584 /* train-filled-red-100.png */; };
+		66C734FC1B28D5970026A584 /* tram-filled-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F81B28D5970026A584 /* tram-filled-green-100.png */; };
+		66C734FD1B28D5970026A584 /* ferry-filled-cyan-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */; };
+		66C734FF1B28DBB30026A584 /* search-icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734FE1B28DBB30026A584 /* search-icon-100.png */; };
 		66CB95E318E3953D00E95CE5 /* currentLocation3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E218E3953D00E95CE5 /* currentLocation3.png */; };
 		66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */; };
 		66CB95FE18EAC30300E95CE5 /* down_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95FD18EAC30300E95CE5 /* down_256.png */; };
@@ -360,6 +365,8 @@
 		66FC547E1B23656F005B890D /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547C1B23656F005B890D /* stops.json */; };
 		66FC54811B23677B005B890D /* StaticRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54801B23677B005B890D /* StaticRoute.m */; };
 		66FC54841B236866005B890D /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54831B236866005B890D /* CacheManager.m */; };
+		66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC548A1B237F00005B890D /* RouteCacheEntity.m */; };
+		66FC54911B24B134005B890D /* StaticStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54901B24B134005B890D /* StaticStop.m */; };
 		E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F46F1A0941E4DE9CE9E29E /* Vehicle.m */; };
 /* End PBXBuildFile section */
 
@@ -696,6 +703,11 @@
 		66C59DA619993F7100E7AC7A /* walking-black-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "walking-black-75.png"; path = "Pictures/New Version 2.0/Route Search/walking-black-75.png"; sourceTree = "<group>"; };
 		66C59DAA1999432D00E7AC7A /* ReittiShapeMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiShapeMaker.h; sourceTree = "<group>"; };
 		66C59DAB1999432D00E7AC7A /* ReittiShapeMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiShapeMaker.m; sourceTree = "<group>"; };
+		66C734F61B28D5970026A584 /* bus-filled-blue-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus-filled-blue-100.png"; path = "Pictures/Version 3.1/bus-filled-blue-100.png"; sourceTree = "<group>"; };
+		66C734F71B28D5970026A584 /* train-filled-red-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train-filled-red-100.png"; path = "Pictures/Version 3.1/train-filled-red-100.png"; sourceTree = "<group>"; };
+		66C734F81B28D5970026A584 /* tram-filled-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tram-filled-green-100.png"; path = "Pictures/Version 3.1/tram-filled-green-100.png"; sourceTree = "<group>"; };
+		66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ferry-filled-cyan-100.png"; path = "Pictures/Version 3.1/ferry-filled-cyan-100.png"; sourceTree = "<group>"; };
+		66C734FE1B28DBB30026A584 /* search-icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-icon-100.png"; path = "Pictures/Version 2.3/search-icon-100.png"; sourceTree = "<group>"; };
 		66CB95E218E3953D00E95CE5 /* currentLocation3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = currentLocation3.png; path = Pictures/currentLocation3.png; sourceTree = "<group>"; };
 		66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sendMailbutton3.png; path = Pictures/sendMailbutton3.png; sourceTree = "<group>"; };
 		66CB95E818E4F56C00E95CE5 /* appicon1_retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon1_retina.png; path = Reitti/Pictures/appicon1_retina.png; sourceTree = "<group>"; };
@@ -917,6 +929,10 @@
 		66FC54821B236866005B890D /* CacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheManager.h; sourceTree = "<group>"; };
 		66FC54831B236866005B890D /* CacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheManager.m; sourceTree = "<group>"; };
 		66FC54851B236BBB005B890D /* Reitti 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 6.xcdatamodel"; sourceTree = "<group>"; };
+		66FC54891B237F00005B890D /* RouteCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteCacheEntity.h; sourceTree = "<group>"; };
+		66FC548A1B237F00005B890D /* RouteCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCacheEntity.m; sourceTree = "<group>"; };
+		66FC548F1B24B134005B890D /* StaticStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStop.h; sourceTree = "<group>"; };
+		66FC54901B24B134005B890D /* StaticStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticStop.m; sourceTree = "<group>"; };
 		D06E935F13E44503B376EA3D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E2F46A4CB8ADB9579B1365DF /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
@@ -974,6 +990,11 @@
 		661202B51B01406300D93C2E /* Version 3.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66C734FE1B28DBB30026A584 /* search-icon-100.png */,
+				66C734F61B28D5970026A584 /* bus-filled-blue-100.png */,
+				66C734F71B28D5970026A584 /* train-filled-red-100.png */,
+				66C734F81B28D5970026A584 /* tram-filled-green-100.png */,
+				66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */,
 				66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */,
 				669602D61B14DC12006919CB /* Search-green-100.png */,
 				669602BE1B139708006919CB /* Bus-unselected-100.png */,
@@ -1193,6 +1214,8 @@
 				661ABBF2199AABF900F93894 /* RouteLeg.m */,
 				661ABBF4199AB04100F93894 /* RouteLegLocation.h */,
 				661ABBF5199AB04100F93894 /* RouteLegLocation.m */,
+				66FC54891B237F00005B890D /* RouteCacheEntity.h */,
+				66FC548A1B237F00005B890D /* RouteCacheEntity.m */,
 				66DAE1EC19C398430039081D /* RouteLocation.h */,
 				66DAE1ED19C398430039081D /* RouteLocation.m */,
 				66F3B1321AC86FEC0038BA78 /* RouteSearchOptions.h */,
@@ -1848,6 +1871,8 @@
 				66FC547F1B23677B005B890D /* StaticRoute.h */,
 				66FC54801B23677B005B890D /* StaticRoute.m */,
 				66FC547B1B23656F005B890D /* routes.json */,
+				66FC548F1B24B134005B890D /* StaticStop.h */,
+				66FC54901B24B134005B890D /* StaticStop.m */,
 				66FC547C1B23656F005B890D /* stops.json */,
 			);
 			name = "Static Data";
@@ -1988,6 +2013,7 @@
 				661202BB1B01453500D93C2E /* list-white-100.png in Resources */,
 				664E28A51AE2AF1A00BE2457 /* history-clock-100.png in Resources */,
 				66F138361993DEDB00B52B6B /* locationAnnotation.png in Resources */,
+				66C734FD1B28D5970026A584 /* ferry-filled-cyan-100.png in Resources */,
 				661202BD1B014DC800D93C2E /* gps-green-100.png in Resources */,
 				66F3B1301AC861ED0038BA78 /* star-filled-white-100.png in Resources */,
 				661202B31AFFEE0400D93C2E /* next-lgray-100.png in Resources */,
@@ -2016,6 +2042,7 @@
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
 				661202B41AFFEE0400D93C2E /* previous-lgray-100.png in Resources */,
 				66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */,
+				66C734FF1B28DBB30026A584 /* search-icon-100.png in Resources */,
 				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,
@@ -2107,6 +2134,7 @@
 				66F0998D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png in Resources */,
 				664E28941AE03B1B00BE2457 /* list-100.png in Resources */,
 				664E28771AD92EC800BE2457 /* bowling-100.png in Resources */,
+				66C734FA1B28D5970026A584 /* bus-filled-blue-100.png in Resources */,
 				661202B71B01408700D93C2E /* more-green-100.png in Resources */,
 				66F0998B1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
 				66F1384D1997897700B52B6B /* train-100.png in Resources */,
@@ -2129,6 +2157,7 @@
 				667B98211AD3294C00C45ADF /* gym-100.png in Resources */,
 				66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */,
 				669602BB1B124C82006919CB /* Settings-Filled-2-100.png in Resources */,
+				66C734FB1B28D5970026A584 /* train-filled-red-100.png in Resources */,
 				66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */,
 				66F1384019977E6300B52B6B /* watch-100.png in Resources */,
 				66D989F1199FFC5300E0B74B /* ferry-colored-75.png in Resources */,
@@ -2180,6 +2209,7 @@
 				6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */,
 				66EC18FD1ACB58D4008E045D /* collapse-arrow-100.png in Resources */,
 				66D06A7719A40EFB00424A4A /* map_background.png in Resources */,
+				66C734FC1B28D5970026A584 /* tram-filled-green-100.png in Resources */,
 				66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */,
 				66D4269B198FC0000080F21E /* disruption-info-128.png in Resources */,
 				66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */,
@@ -2275,6 +2305,7 @@
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
+				66FC54911B24B134005B890D /* StaticStop.m in Sources */,
 				66EC18FA1ACB3D07008E045D /* ASPolylineRenderer.m in Sources */,
 				661202DC1B07DD4C00D93C2E /* LVThumbnailAnnotation.m in Sources */,
 				66CC93DB18DDC3E900644281 /* SVProgressHUD.m in Sources */,
@@ -2327,6 +2358,7 @@
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
+				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
 				664E28AC1AE2DCD900BE2457 /* SettingDetailedViewController.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
 				66A7A9BF18C5FD4200AC9E94 /* StopAnnotation.m in Sources */,

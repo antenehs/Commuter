@@ -16,6 +16,7 @@
 #import "RouteSearchOptions.h"
 #import "FailedGeoCodeFetch.h"
 #import "LiveTrafficManager.h"
+#import "CacheManager.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -160,6 +161,7 @@ typedef struct {
 -(void)stopFetchingLiveVehicles;
 
 +(NSDictionary *)convertStopLinesArrayToDictionary:(NSArray *)lineList;
++(NSDictionary *)parseStopLineNamesToDictionary:(NSArray *)lineList;
 -(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntity;
 -(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode;
 -(BusStopShort *)castStopEntityToBusStopShort:(StopEntity *)stopEntity;
@@ -199,5 +201,6 @@ typedef struct {
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property(nonatomic, strong) LiveTrafficManager *liveTrafficManager;
+@property(nonatomic, strong) CacheManager *cacheManager;
 
 @end

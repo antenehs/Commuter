@@ -8,6 +8,7 @@
 
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
+#import "CacheManager.h"
 
 @implementation ReittiStringFormatter
 
@@ -196,6 +197,15 @@
         return code;
     }
     
+    //Try getting from line cache
+    CacheManager *cacheManager = [CacheManager sharedManager];
+    
+    NSString * lineName = [cacheManager getRouteNameForCode:code];
+    
+    if (lineName != nil && ![lineName isEqualToString:@""]) {
+        return lineName;
+    }
+    
     //Can be assumed a train line
     if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
         NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
@@ -225,6 +235,27 @@
     NSArray *segments = [lineInfoString componentsSeparatedByString:@":"];
     
     return [segments objectAtIndex:0];
+}
+
++(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    if (array != nil && ![[array firstObject] isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+    
+    for (NSString *line in array) {
+        if (![tempArray containsObject:line]) {
+            [tempArray addObject:line];
+        }
+    }
+    
+    separator = separator != nil ? separator : @",";
+    
+    if (tempArray.count > 0) {
+        return [[tempArray valueForKey:@"description"] componentsJoinedByString:separator];
+    }else{
+        return @"";
+    }
 }
 
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{

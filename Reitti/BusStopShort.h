@@ -12,6 +12,7 @@
 @interface BusStopShort : NSObject
 
 -(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop;
+-(void)setStopTypeForGDTypeString:(NSString *)type;
 
 @property (nonatomic, retain) NSNumber * code;
 @property (nonatomic, retain) NSString * codeShort;

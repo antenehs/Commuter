@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NearByStop.h"
+#import "RouteLeg.h"
 
 @interface AppManager : NSObject
 
@@ -16,5 +18,13 @@
 //App theme
 +(UIColor *)systemGreenColor;
 +(UIColor *)systemOrangeColor;
++(UIColor *)systemBlueColor;
++(UIColor *)systemRedColor;
++(UIColor *)systemCyanColor;
+
++(UIColor *)colorForLegType:(LegTransportType)legTransportType;
+
+//App images
++(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;
 
 @end

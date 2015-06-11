@@ -89,6 +89,7 @@
 @property (nonatomic) bool darkMode;
 
 @property (strong, nonatomic) NSDictionary * _stopLinesDetail;
+@property (strong, nonatomic) NSDictionary * _stopLineNames;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 

@@ -45,6 +45,14 @@
         <attribute name="searchedName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="streetAddress" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="RouteCacheEntity" representedClassName="RouteCacheEntity" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeOperator" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shortName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="RouteEntity" representedClassName="RouteEntity" syncable="YES">
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="fromLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
@@ -91,5 +99,6 @@
         <element name="RouteHistoryEntity" positionX="0" positionY="0" width="128" height="150"/>
         <element name="SettingsEntity" positionX="0" positionY="117" width="128" height="120"/>
         <element name="StopEntity" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="RouteCacheEntity" positionX="0" positionY="117" width="128" height="135"/>
     </elements>
 </model>

@@ -63,7 +63,6 @@
             waitingTimeInSeconds = 0;
         }
         
-        
         self.legShapeDictionaries = legDict[@"shape"];
         
         NSMutableArray *shapeArray = [[NSMutableArray alloc] init];

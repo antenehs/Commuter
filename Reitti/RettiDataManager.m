@@ -41,7 +41,7 @@
 @synthesize namedBookmark;
 @synthesize helsinkiRegion, tampereRegion, userLocation;
 
-@synthesize liveTrafficManager;
+@synthesize liveTrafficManager, cacheManager;
 
 @synthesize vehicleFetchDelegate;
 
@@ -85,6 +85,8 @@
 
     self.liveTrafficManager = [[LiveTrafficManager alloc] init];
     self.liveTrafficManager.delegate = self;
+    
+    self.cacheManager = [CacheManager sharedManager];
 
     numberOfApis = 2;
     stopFetchFailedCount = 0;
@@ -266,7 +268,7 @@
     Region region = [self identifyRegionOfCoordinate:mapRegion.center];
     if (region == HSLRegion) {
         [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
-        [self.pubTransAPI getStopsFromPubTransInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
+//        [self.pubTransAPI getStopsFromPubTransInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
         stopInAreaRequestedFor = HSLRegion;
     }else if (region == TRERegion){
         [self.treCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
@@ -618,6 +620,18 @@
     for (NSString *line in lineList) {
         NSArray *info = [line componentsSeparatedByString:@":"];
         [lineListDict setObject:[info objectAtIndex:1] forKey:[info objectAtIndex:0]];
+    }
+    
+    return lineListDict;
+}
+
++(NSDictionary *)parseStopLineNamesToDictionary:(NSArray *)lineList{
+    
+    NSMutableDictionary *lineListDict = [[NSMutableDictionary alloc] init];
+    
+    for (NSString *line in lineList) {
+        NSArray *info = [line componentsSeparatedByString:@":"];
+        [lineListDict setObject:[ReittiStringFormatter parseBusNumFromLineCode:[info objectAtIndex:0]] forKey:[info objectAtIndex:0]];
     }
     
     return lineListDict;

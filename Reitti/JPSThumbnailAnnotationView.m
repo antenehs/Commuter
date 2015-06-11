@@ -91,7 +91,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupTitleLabel {
-    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -48.0f, 175.0f, 20.0f)];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -48.0f, 190.0f, 20.0f)];
     _titleLabel.textColor = [UIColor blackColor];
     _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17.0f];
     _titleLabel.minimumScaleFactor = 0.7f;
@@ -100,7 +100,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupSubtitleLabel {
-    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -28.0f, 168.0f, 20.0f)];
+    _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -28.0f, 180.0f, 20.0f)];
     _subtitleLabel.textColor = [UIColor darkGrayColor];
     _subtitleLabel.font = [UIFont systemFontOfSize:12.0f];
     [self addSubview:_subtitleLabel];

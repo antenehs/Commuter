@@ -54,7 +54,7 @@
     tabBarItem4.title = @"SETTINGS";
 //    tabBarItem4.title = @"Settings";
     
-    UIImage *image1 = [UIImage imageNamed:@"Search-green-100.png"];
+    UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];
     tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(26, 26)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];

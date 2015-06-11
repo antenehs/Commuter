@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Reitti/SettingsEntity.h">
-   </FileRef>
-   <FileRef
-      location = "group:Reitti/SettingsEntity.m">
-   </FileRef>
-   <FileRef
       location = "group:Reitti.xcodeproj">
    </FileRef>
    <FileRef

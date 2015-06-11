@@ -36,6 +36,7 @@
 #import "SettingsManager.h"
 #import "HMSegmentedControl.h"
 #import "NearByStop.h"
+#import "CacheManager.h"
 
 typedef enum
 {
@@ -215,6 +216,7 @@ typedef enum
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
+@property (strong, nonatomic) CacheManager *cacheManager;
 //@property (strong, nonatomic) StopViewController *stopViewController;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

@@ -69,8 +69,8 @@
         [self RouteSearchDidComplete];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        RKLogError(@"Operation failed with error: %@", error);
-        NSLog(@"Response ERROR ASA:%@", error);
+//        RKLogError(@"Operation failed with error: %@", error);
+//        NSLog(@"Response ERROR ASA:%@", error);
         [self RouteSearchFailed:(int)error.code];
     }];
     
@@ -350,14 +350,14 @@
     
     [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         self.disruptionList = mappingResult.array;
-        NSLog(@"Disruptions: %@",[[disruptionList objectAtIndex:0] disruptionEndTime]);
-        NSLog(@"Disruptions: %@",[[disruptionList objectAtIndex:0] disruptionInfo]);
-        NSLog(@"Disruptions: %@",[[disruptionList objectAtIndex:0] disruptionStartTime]);
+//        NSLog(@"Disruptions: %@",[[disruptionList objectAtIndex:0] disruptionEndTime]);
+//        NSLog(@"Disruptions: %@",[[disruptionList objectAtIndex:0] disruptionInfo]);
+//        NSLog(@"Disruptions: %@",[[disruptionList objectAtIndex:0] disruptionStartTime]);
         [self DisruptionFetchComplete];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        RKLogError(@"Operation failed with error: %@", error);
-        NSLog(@"Response ERROR ASA:%@", error);
+//        RKLogError(@"Operation failed with error: %@", error);
+//        NSLog(@"Response ERROR ASA:%@", error);
         [self DisruptionFetchFailed:(int)error.code];
     }];
     

@@ -29,6 +29,7 @@ typedef enum{
     IBOutlet UIButton *toggleListBigButton;
     IBOutlet UIButton *toggleListArrowButton;
     IBOutlet UILabel *timeIntervalLabel;
+    IBOutlet UILabel *arrivalTimeLabel;
     IBOutlet UILabel *fromLabel;
     IBOutlet UIView *separatorView;
     IBOutlet UIScrollView *routeView;

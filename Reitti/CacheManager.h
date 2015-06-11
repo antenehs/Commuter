@@ -7,8 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RouteCacheEntity.h"
+#import "StaticStop.h"
 
 @interface CacheManager : NSObject
+
++ (id)sharedManager;
+
+-(id)init;
+-(id)initFromFile;
+-(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
+
+-(NSString *)getRouteNameForCode:(NSString *)code;
+-(StaticStop *)getStopForCode:(NSString *)code;
+
+@property (strong, nonatomic) NSMutableDictionary *allSavedRouteCache;
+@property (strong, nonatomic) NSMutableDictionary *allInMemoryRouteCache;
+@property (strong, nonatomic) NSMutableDictionary *allInMemoryStopCache;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

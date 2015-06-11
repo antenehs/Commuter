@@ -15,6 +15,7 @@
 #import "ASPolylineRenderer.h"
 #import "ASPolylineView.h"
 #import "RouteViewManager.h"
+#import "AppManager.h"
 
 @interface RouteDetailViewController ()
 
@@ -141,6 +142,14 @@
     [nextRouteButton setImage:[UIImage imageNamed:@"next-lgray-100.png"] forState:UIControlStateDisabled];
     [previousRouteButton setImage:[UIImage imageNamed:@"previous-lgray-100.png"] forState:UIControlStateDisabled];
     
+    nextRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
+    nextRouteButton.layer.borderWidth = 0.5f;
+    nextRouteButton.layer.cornerRadius = 4.0f;
+    
+    previousRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
+    previousRouteButton.layer.borderWidth = 0.5f;
+    previousRouteButton.layer.cornerRadius = 4.0f;
+    
     [self setNextAndPrevButtonStates];
     
     [self.navigationController setToolbarHidden:YES];
@@ -152,7 +161,7 @@
     NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
     [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
     
-     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue" size:17] forKey:NSFontAttributeName];
+     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17] forKey:NSFontAttributeName];
     [addressStringDict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     
     NSMutableAttributedString *toAddressString = [[NSMutableAttributedString alloc] initWithString:@"To " attributes:toStringDict];
@@ -165,28 +174,6 @@
     label.attributedText = toAddressString;
     [label sizeToFit];
     self.navigationItem.titleView = label;
-
-//    CGFloat titleViewW = self.navigationItem.titleView.frame.size.width;
-//    CGFloat labelsW = titleViewW < 10 ? 300 : titleViewW;
-//    UILabel * toLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelsW, 20)];
-//    toLabel.attributedText = toAddressString;
-//    toLabel.textAlignment = NSTextAlignmentCenter;
-////    [toLabel sizeToFit];
-//    
-//    [titleView addSubview:toLabel];
-//    
-//    if (![self isLandScapeOrientation]) {
-//        UILabel * fLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, labelsW, 18)];
-////        [fLabel setText:[NSString stringWithFormat:@"from %@",fromLocation]];
-//        [fLabel setText:[NSString stringWithFormat:@"%d mins",[self.route.routeDurationInSeconds intValue]/60]];
-////        [fLabel sizeToFit];
-//        fLabel.textAlignment = NSTextAlignmentCenter;
-//        fLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
-//        fLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-//        [titleView addSubview:fLabel];
-//    }
-//    
-//    self.navigationItem.titleView = titleView;
     
     [routeListView setBlurTintColor:nil];
     //    routeListView.layer.borderWidth = 1;
@@ -209,9 +196,11 @@
     routeView.userInteractionEnabled = NO;
     [topViewBackView addGestureRecognizer:routeView.panGestureRecognizer];
     
-    [timeIntervalLabel setText:[NSString stringWithFormat:@"%@ - %@",
-                                               [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute],
-                                               [ReittiStringFormatter formatHourStringFromDate:self.route.getEndingTimeOfRoute]]];
+    [timeIntervalLabel setText:[NSString stringWithFormat:@"leave at %@ ",
+                                               [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute]]];
+    
+        [arrivalTimeLabel setText:[NSString stringWithFormat:@"| arrive at %@",
+                                   [ReittiStringFormatter formatHourStringFromDate:self.route.getEndingTimeOfRoute]]];
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
@@ -482,25 +471,25 @@
         ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
         polylineRenderer.strokeColor  = [UIColor yellowColor];
         polylineRenderer.borderColor = [UIColor blackColor];
-        polylineRenderer.borderMultiplier = 1.4;
-        polylineRenderer.lineWidth	  = 8.0f;
+        polylineRenderer.borderMultiplier = 1.1;
+        polylineRenderer.lineWidth	  = 7.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         
-        polylineRenderer.alpha = 0.8;
+        polylineRenderer.alpha = 0.95;
         if (currentLeg.legType == LegTypeWalk) {
             polylineRenderer.strokeColor = SYSTEM_BROWN_COLOR;
             polylineRenderer.lineDashPattern = @[@4, @10];
         }else if (currentLeg.legType == LegTypeBus){
-            polylineRenderer.strokeColor = SYSTEM_BLUE_COLOR;
+            polylineRenderer.strokeColor = [AppManager systemBlueColor];
         }else if (currentLeg.legType == LegTypeTrain) {
-            polylineRenderer.strokeColor = SYSTEM_RED_COLOR;
+            polylineRenderer.strokeColor = [AppManager systemRedColor];;
         }else if (currentLeg.legType == LegTypeTram) {
-            polylineRenderer.strokeColor = SYSTEM_GREEN_COLOR;
+            polylineRenderer.strokeColor = [AppManager systemGreenColor];;
         }else if (currentLeg.legType == LegTypeMetro) {
-            polylineRenderer.strokeColor = SYSTEM_ORANGE_COLOR;
+            polylineRenderer.strokeColor = [AppManager systemOrangeColor];;
         }else if (currentLeg.legType == LegTypeFerry) {
-            polylineRenderer.strokeColor = SYSTEM_CYAN_COLOR;
+            polylineRenderer.strokeColor = [AppManager systemCyanColor];;
         }
         
         return polylineRenderer;
@@ -1032,7 +1021,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     UITableViewCell *cell;
     if (loc.isHeaderLocation) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"legHeaderCell"];
-        NSLog(@"%@", cell.backgroundColor);
+//        NSLog(@"%@", cell.backgroundColor);
         
         UILabel *locNameLabel = (UILabel *)[cell viewWithTag:1002];
         UIImageView *legTypeImage = (UIImageView *)[cell viewWithTag:1001];
@@ -1080,7 +1069,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             nextDottedLine.hidden = YES;
             prevLegLine.hidden = NO;
             prevDottedLine.hidden = NO;
-            [cell addSubview:line];
+//            [cell addSubview:line];
 //            line.frame = CGRectMake(0, 69.5, self.view.frame.size.width, 0.5);
             
         }else if (indexPath.row == 0) {
@@ -1098,7 +1087,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             nextDottedLine.hidden = NO;
             prevLegLine.hidden = NO;
             prevDottedLine.hidden = NO;
-            [cell addSubview:line];
+//            [cell addSubview:line];
         }
         
         if (indexPath.row > 0) {
@@ -1121,21 +1110,21 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         
         switch (loc.locationLegType) {
             case LegTypeWalk:
-                [legTypeImage setImage:[UIImage imageNamed:@"walking-black-75.png"]];
+                [legTypeImage setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
                 nextDottedLine.hidden = NO;
                 nextLegLine.hidden = YES;
                 break;
             case LegTypeFerry:
-                [legTypeImage setImage:[UIImage imageNamed:@"ferry-colored-75.png"]];
+                [legTypeImage setImage:[UIImage imageNamed:@"ferry-filled-cyan-100.png"]];
                 break;
             case LegTypeTrain:
-                [legTypeImage setImage:[UIImage imageNamed:@"train-colored-75.png"]];
+                [legTypeImage setImage:[UIImage imageNamed:@"train-filled-red-100.png"]];
                 break;
             case LegTypeBus:
-                [legTypeImage setImage:[UIImage imageNamed:@"bus-colored-75.png"]];
+                [legTypeImage setImage:[UIImage imageNamed:@"bus-filled-blue-100.png"]];
                 break;
             case LegTypeTram:
-                [legTypeImage setImage:[UIImage imageNamed:@"tram-colored-75.png"]];
+                [legTypeImage setImage:[UIImage imageNamed:@"tram-filled-green-100.png"]];
                 break;
             case LegTypeMetro:
                 [legTypeImage setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
@@ -1156,9 +1145,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             //Position the label in the middle
             moreInfoLabel.text = @"At your destination";
         }else if (selectedLeg.legType == LegTypeWalk) {
-            moreInfoLabel.text = [NSString stringWithFormat:@"%ld m ( %@ )", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+            moreInfoLabel.text = [NSString stringWithFormat:@"%ld m · %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
         }else{
-            moreInfoLabel.text = [NSString stringWithFormat:@"%d stops ( %@ )", [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+            moreInfoLabel.text = [NSString stringWithFormat:@"550 towards Espoon kes · %d stops · %@", [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
         }
         
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
@@ -1182,40 +1171,43 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         UIView *typeLine = (UIView *)[cell viewWithTag:2001];
         UIView *dotView = (UIView *)[cell viewWithTag:2004];
         
-        switch (loc.locationLegType) {
-            case LegTypeWalk:
-                break;
-            case LegTypeFerry:
-                typeLine.backgroundColor = SYSTEM_CYAN_COLOR;
-                dotView.backgroundColor = SYSTEM_CYAN_COLOR;
-                break;
-            case LegTypeTrain:
-                typeLine.backgroundColor = SYSTEM_RED_COLOR;
-                dotView.backgroundColor = SYSTEM_RED_COLOR;
-                break;
-            case LegTypeBus:
-                typeLine.backgroundColor = SYSTEM_BLUE_COLOR;
-                dotView.backgroundColor = SYSTEM_BLUE_COLOR;
-                break;
-            case LegTypeTram:
-                typeLine.backgroundColor = SYSTEM_GREEN_COLOR;
-                dotView.backgroundColor = SYSTEM_GREEN_COLOR;
-                break;
-            case LegTypeMetro:
-                typeLine.backgroundColor = SYSTEM_ORANGE_COLOR;
-                dotView.backgroundColor = SYSTEM_ORANGE_COLOR;
-                break;
-                
-            default:
-                break;
-        }
+//        switch (loc.locationLegType) {
+//            case LegTypeWalk:
+//                break;
+//            case LegTypeFerry:
+//                typeLine.backgroundColor = SYSTEM_CYAN_COLOR;
+//                dotView.backgroundColor = SYSTEM_CYAN_COLOR;
+//                break;
+//            case LegTypeTrain:
+//                typeLine.backgroundColor = SYSTEM_RED_COLOR;
+//                dotView.backgroundColor = SYSTEM_RED_COLOR;
+//                break;
+//            case LegTypeBus:
+//                typeLine.backgroundColor = SYSTEM_BLUE_COLOR;
+//                dotView.backgroundColor = SYSTEM_BLUE_COLOR;
+//                break;
+//            case LegTypeTram:
+//                typeLine.backgroundColor = SYSTEM_GREEN_COLOR;
+//                dotView.backgroundColor = SYSTEM_GREEN_COLOR;
+//                break;
+//            case LegTypeMetro:
+//                typeLine.backgroundColor = SYSTEM_ORANGE_COLOR;
+//                dotView.backgroundColor = SYSTEM_ORANGE_COLOR;
+//                break;
+//                
+//            default:
+//                break;
+//        }
+        
+//        typeLine.backgroundColor = [AppManager colorForLegType:loc.locationLegType];
+//        dotView.backgroundColor = [AppManager colorForLegType:loc.locationLegType];
         
         typeLine.backgroundColor = [UIColor darkGrayColor];
         dotView.backgroundColor = [UIColor darkGrayColor];
         
         dotView.layer.cornerRadius = 3.5f;
         
-        cell.backgroundColor = [UIColor clearColor];
+//        cell.backgroundColor = [UIColor clearColor];
         
         UILabel *locNameLabel = (UILabel *)[cell viewWithTag:2002];
         if (loc.name == nil || loc.name == (id)[NSNull null]) {
@@ -1233,7 +1225,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    cell.backgroundColor = [UIColor clearColor];
+//    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -1241,7 +1233,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
     
     if (loc.isHeaderLocation) {
-        return 70.0;
+        return 100.0;
     }else{
         return 30.0;
     }

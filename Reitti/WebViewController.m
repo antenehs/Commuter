@@ -37,7 +37,7 @@
     // Do any additional setup after loading the view.
     [self selectSystemColors];
 //    [self setUpTopBarApearance];
-    [self initAdBannerView];
+//    [self initAdBannerView];
     
     _webView.delegate = self;
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:_url];
