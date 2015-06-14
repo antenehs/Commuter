@@ -1355,7 +1355,7 @@
     }else if (type == VehicleTypeMetro) {
         return [UIImage imageNamed:@"metroVAnnot.png"];
     }else if (type == VehicleTypeBus) {
-        return [UIImage imageNamed:@"busVAnnot.png"];
+        return [UIImage imageNamed:@"BusVAnnot.png"];
     }else if (type == VehicleTypeLongDistanceTrain) {
         return [UIImage imageNamed:@"trainVAnnot.png"];
     }else {

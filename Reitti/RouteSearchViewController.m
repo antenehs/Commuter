@@ -969,8 +969,8 @@ typedef enum
 
     }
     
-//    [routeResultsTableView reloadData];
-    [self reloadTableViewAnimatedWithInteralSeconds:0.2];
+    [routeResultsTableView reloadData];
+//    [self reloadTableViewAnimatedWithInteralSeconds:0.2];
 //    [searchActivityIndicator stopAnimating];
     [SVProgressHUD dismissFromView:self.view];
     

@@ -51,7 +51,6 @@ NSString *const kStaticStopLineNames = @"LineNames";
     }
     
     return self;
-    
 }
 
 - (NSDictionary *)dictionaryRepresentation

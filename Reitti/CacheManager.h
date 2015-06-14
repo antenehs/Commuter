@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RouteCacheEntity.h"
 #import "StaticStop.h"
+#import "StaticRoute.h"
 
 @interface CacheManager : NSObject
 
@@ -19,6 +20,8 @@
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
 
 -(NSString *)getRouteNameForCode:(NSString *)code;
+-(NSString *)getRouteDestinationForCode:(NSString *)code;
+-(StaticRoute *)getRouteForCode:(NSString *)code;
 -(StaticStop *)getStopForCode:(NSString *)code;
 
 @property (strong, nonatomic) NSMutableDictionary *allSavedRouteCache;

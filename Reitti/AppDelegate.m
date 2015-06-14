@@ -48,10 +48,10 @@
     UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
     UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     
-    tabBarItem1.title = @"SEARCH";
-    tabBarItem2.title = @"ROUTE";
-    tabBarItem3.title = @"BOOKMARKS";
-    tabBarItem4.title = @"SETTINGS";
+    tabBarItem1.title = @"Search";
+    tabBarItem2.title = @"Route";
+    tabBarItem3.title = @"Bookmarks";
+    tabBarItem4.title = @"Settings";
 //    tabBarItem4.title = @"Settings";
     
     UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];

@@ -57,27 +57,33 @@
     //        StopTypeOther = 5
     //    } StopType;
     
-    //0 - Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
-    //1 - Subway, Metro. Any underground rail system within a metropolitan area.
-    //2 - Rail. Used for intercity or long-distance travel.
-    //3 - Bus. Used for short- and long-distance bus routes.
-    //4 - Ferry. Used for short- and long-distance boat service.
-    //5 - Cable car. Used for street-level cable cars where the cable runs beneath the car.
-    //6 - Gondola, Suspended cable car. Typically used for aerial cable cars where the car is suspended from the cable.
-    //7 - Funicular. Any rail system designed for steep inclines.
+//    1 = Helsinki internal bus lines
+//    2 = trams
+//    3 = Espoo internal bus lines
+//    4 = Vantaa internal bus lines
+//    5 = regional bus lines
+//    6 = metro
+//    7 = ferry
+//    8 = U-lines
+//    12 = commuter trains
+//    21 = Helsinki service lines
+//    22 = Helsinki night buses
+//    23 = Espoo service lines
+//    24 = Vantaa service lines
+//    25 = region night buses
+//    36 = Kirkkonummi internal bus lines
+//    39 = Kerava internal bus lines
     
-    if ([type isEqualToString:@"0"]) {
+    if ([type isEqualToString:@"2"]) {
         self.stopType = StopTypeTram;
-    }else if ([type isEqualToString:@"1"]) {
+    }else if ([type isEqualToString:@"6"]) {
         self.stopType = StopTypeMetro;
-    }else if ([type isEqualToString:@"2"] || [type isEqualToString:@"109"]) {
+    }else if ([type isEqualToString:@"12"]) {
         self.stopType = StopTypeTrain;
     }else if ([type isEqualToString:@"3"]) {
         self.stopType = StopTypeBus;
-    }else if ([type isEqualToString:@"4"]) {
+    }else if ([type isEqualToString:@"7"]) {
         self.stopType = StopTypeFerry;
-    }else if ([type isEqualToString:@"5"]) {
-        self.stopType = StopTypeTram;
     }else{
         self.stopType = StopTypeBus;
     }

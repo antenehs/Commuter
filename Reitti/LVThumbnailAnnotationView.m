@@ -214,6 +214,14 @@ static CGFloat const kLVThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.coordinate = thumbnail.coordinate;
     self.code = thumbnail.code;
     self.titleLabel.text = thumbnail.title;
+    CGRect labFrame = self.titleLabel.frame;
+    if (thumbnail.title.length == 2) {
+        labFrame.origin.y -= 1;
+        self.titleLabel.frame = labFrame;
+    }else if (thumbnail.title.length == 3){
+        labFrame.origin.y -= 2;
+        self.titleLabel.frame = labFrame;
+    }
     self.imageView.image = thumbnail.image;
     self.imageView.transform = CGAffineTransformMakeRotation(DegreesToRadians([thumbnail.bearing doubleValue]));
 }

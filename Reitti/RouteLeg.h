@@ -42,6 +42,7 @@
 @property (nonatomic) LegTransportType legType;
 @property (nonatomic, retain) NSString * legSpecificType;
 @property (nonatomic, retain) NSString * lineCode;
+@property (nonatomic, retain) NSString * lineName;
 @property (nonatomic, retain) NSArray * legLocations;
 @property (nonatomic, retain) NSArray * legShapeDictionaries;
 @property (nonatomic, retain) NSArray * legShapeStrings;

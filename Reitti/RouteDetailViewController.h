@@ -63,6 +63,8 @@ typedef enum{
     NSNumber *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;
     
+    BOOL mapResizedForMiddlePosition;
+    
     BOOL tableViewIsDecelerating;
     BOOL routeListViewIsGoingUp;
     RouteListViewLoaction currentRouteListViewLocation;

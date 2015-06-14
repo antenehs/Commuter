@@ -51,7 +51,7 @@
     if (allSavedRouteCache.count != 0) {
         RouteCacheEntity *route = [allSavedRouteCache objectForKey:code];
         if (route != nil) {
-            if ([route.routeType isEqualToString:@"1"]) {
+            if ([route.routeType isEqualToString:@"6"]) {
                 //Metro
                 return @"Metro";
             }
@@ -60,7 +60,7 @@
     }else if (allInMemoryRouteCache.count != 0) {
         StaticRoute *route = [allInMemoryRouteCache objectForKey:code];
         if (route != nil) {
-            if ([route.routeType isEqualToString:@"1"]) {
+            if ([route.routeType isEqualToString:@"6"]) {
                 //Metro
                 return @"Metro";
             }
@@ -71,11 +71,30 @@
     return nil;
 }
 
+-(NSString *)getRouteDestinationForCode:(NSString *)code{
+    
+    if (allSavedRouteCache.count != 0) {
+//        RouteCacheEntity *route = [allSavedRouteCache objectForKey:code];
+        //TODO: Implement this case
+    }else if (allInMemoryRouteCache.count != 0) {
+        StaticRoute *route = [allInMemoryRouteCache objectForKey:code];
+        if (route != nil) {
+            if ([route.routeType isEqualToString:@"6"]) {
+                //Metro
+                return @"Metro";
+            }
+            return route.lineEnd;
+        }
+    }
+    
+    return nil;
+}
+
 -(StaticStop *)getStopForCode:(NSString *)code{
     if (allInMemoryStopCache.count != 0) {
         StaticStop *stop = [allInMemoryStopCache objectForKey:code];
         if (stop != nil) {
-            if ([stop.stopType isEqualToString:@"1"]) {
+            if ([stop.stopType isEqualToString:@"6"]) {
                 //Metro
                 stop.lineNames = @[@"Metro"];
                 return stop;

@@ -24,6 +24,7 @@
 
 
 #import "RouteLeg.h"
+#import "ReittiStringFormatter.h"
 
 @implementation RouteLeg
 
@@ -75,7 +76,7 @@
         if (self.legType == LegTypeWalk || self.legType == LegTypeOther) {
             self.showDetailed = NO;
         }else{
-            self.showDetailed = YES;
+            self.showDetailed = NO;
         }        
         
         NSLog(@"leg is %@",self);
@@ -128,6 +129,10 @@
     }
     
     return count;
+}
+
+-(NSString *)lineName{
+    return [ReittiStringFormatter parseBusNumFromLineCode:self.lineCode];
 }
 
 @end

@@ -16,6 +16,8 @@
 #import "ASPolylineView.h"
 #import "RouteViewManager.h"
 #import "AppManager.h"
+#import "StaticRoute.h"
+#import "CacheManager.h"
 
 @interface RouteDetailViewController ()
 
@@ -42,6 +44,9 @@
     //init vars
     darkMode = YES;
     isShowingStopView = NO;
+    
+    mapResizedForMiddlePosition=NO;
+    
     CLLocationCoordinate2D _upper = {.latitude =  -90.0, .longitude =  0.0};
     upperBound = _upper;
     CLLocationCoordinate2D _lower = {.latitude =  90.0, .longitude =  0.0};
@@ -228,23 +233,36 @@
     CGFloat tabBarHeight = self.tabBarController != nil ? self.tabBarController.tabBar.frame.size.height : 0;
     
     if (location == RouteListViewLoactionBottom) {
+//        [self.navigationController setNavigationBarHidden:NO animated:YES];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y - tabBarHeight;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
         [self centerMapRegionToViewRoute];
+        mapResizedForMiddlePosition = NO;
     }else if (location == RouteListViewLoactionMiddle) {
+//        [self.navigationController setNavigationBarHidden:NO animated:YES];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         routeLIstViewVerticalSpacing.constant = self.view.frame.size.height/2;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"horizontal-line-100.png"] forState:UIControlStateNormal];
         routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width,self.view.bounds.size.height/2 - routeListTableView.frame.origin.y);
         [self.view layoutIfNeeded];
+        if (!mapResizedForMiddlePosition) {
+            [self centerMapRegionToViewRoute];
+            mapResizedForMiddlePosition = YES;
+        }
+        
     }else{
         routeLIstViewVerticalSpacing.constant = 0;
         routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width, self.view.bounds.size.height - routeListTableView.frame.origin.y);
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"collapse-arrow-100.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
+//        [self.navigationController setNavigationBarHidden:YES animated:YES];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//        [self.tabBarController.tabBar setHidden:YES];
     }
     
     [routeListTableView reloadData];
@@ -386,6 +404,13 @@
     
     BOOL toReturn = YES;
     
+    CLLocationCoordinate2D lowerBoundTemp = lowerBound;
+    
+    if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
+        float latBoundSpan = upperBound.latitude - lowerBound.latitude;
+        lowerBound.latitude =  lowerBound.latitude - (latBoundSpan);
+    }
+    
     CLLocationCoordinate2D centerCoord = {.latitude =  (upperBound.latitude + lowerBound.latitude)/2, .longitude =  (leftBound.longitude + rightBound.longitude)/2};
     MKCoordinateSpan span = {.latitudeDelta =  upperBound.latitude - lowerBound.latitude, .longitudeDelta =  rightBound.longitude - leftBound.longitude };
     span.latitudeDelta += 0.3 * span.latitudeDelta;
@@ -393,6 +418,8 @@
     MKCoordinateRegion region = {centerCoord, span};
     
     [routeMapView setRegion:region animated:YES];
+    
+    lowerBound = lowerBoundTemp;
     
     return toReturn;
 }
@@ -476,7 +503,7 @@
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         
-        polylineRenderer.alpha = 0.95;
+        polylineRenderer.alpha = 1.0;
         if (currentLeg.legType == LegTypeWalk) {
             polylineRenderer.strokeColor = SYSTEM_BROWN_COLOR;
             polylineRenderer.lineDashPattern = @[@4, @10];
@@ -490,6 +517,8 @@
             polylineRenderer.strokeColor = [AppManager systemOrangeColor];;
         }else if (currentLeg.legType == LegTypeFerry) {
             polylineRenderer.strokeColor = [AppManager systemCyanColor];;
+        }else{
+            polylineRenderer.strokeColor = [AppManager systemBlueColor];
         }
         
         return polylineRenderer;
@@ -1143,11 +1172,17 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         
         if (indexPath.row == self.routeLocationList.count - 1) {
             //Position the label in the middle
-            moreInfoLabel.text = @"At your destination";
+            moreInfoLabel.text = @"";
         }else if (selectedLeg.legType == LegTypeWalk) {
-            moreInfoLabel.text = [NSString stringWithFormat:@"%ld m · %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+            moreInfoLabel.text = [NSString stringWithFormat:@"Walk %ld meters · %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
         }else{
-            moreInfoLabel.text = [NSString stringWithFormat:@"550 towards Espoon kes · %d stops · %@", [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+            NSString *destination = [[CacheManager sharedManager] getRouteDestinationForCode:selectedLeg.lineCode];
+            if (destination != nil) {
+                moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards %@ · %d stops · %@", selectedLeg.lineName, destination, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+            }else{
+                moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards Espoon keskus in minutes · %d stops · %@", selectedLeg.lineName, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+            }
+            
         }
         
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
@@ -1242,15 +1277,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
-//    if (currentRouteListViewLocation != RouteListViewLoactionMiddle) {
-//        [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
-//    }
-//    
-//    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:loc.coordsString]];
-//    [self selectTransferAnnotationWithCode:loc.stopCode];
-//    
-//    [routeListTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    
+
     if (loc.isHeaderLocation) {
         @try {
             RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
@@ -1263,10 +1290,25 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             routeLocationList = [self convertRouteToLocationList:self.route];
             
             [routeListTableView reloadData];
+            
+            if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
+                [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:loc.coordsString]];
+                [self selectTransferAnnotationWithCode:loc.stopCode];
+            }
         }
         @catch (NSException *exception) {
             
         }
+        
+    }else{
+        if (currentRouteListViewLocation != RouteListViewLoactionMiddle) {
+            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        }
+    
+        [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:loc.coordsString]];
+        [self selectLocationAnnotationWithCode:loc.stopCode];
+    
+        [routeListTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         
     }
 }
@@ -1354,6 +1396,17 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         if ([annotation isKindOfClass:[StopAnnotation class]]) {
             StopAnnotation *sAnnot = (StopAnnotation *)annotation;
             if ([sAnnot.code integerValue] == [code integerValue]) {
+                [routeMapView selectAnnotation:annotation animated:YES];
+            }
+        }
+    }
+}
+
+-(void)selectLocationAnnotationWithCode:(NSString *)code{
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+            LocationsAnnotation *lAnnot = (LocationsAnnotation *)annotation;
+            if ([lAnnot.code integerValue] == [code integerValue]) {
                 [routeMapView selectAnnotation:annotation animated:YES];
             }
         }
