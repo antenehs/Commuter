@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
+#import "EnumManager.h"
 
 
 @interface BusStop : NSObject
@@ -45,5 +46,7 @@
 @property (nonatomic, retain) NSString * omatlahdot_link;
 @property (nonatomic, retain) NSString * address_fi;
 @property (nonatomic, retain) NSString * address_sv;
+
+@property (nonatomic) StopType stopType;
 
 @end

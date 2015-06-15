@@ -99,10 +99,13 @@
     NSLog(@"URL scheme:%@", [url scheme]);
     NSLog(@"URL query: %@", [url query]);
     
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+//    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
 //    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main.storyboard" bundle: nil];
     
-    SearchController *controller = (SearchController *)[[navigationController viewControllers] lastObject];
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
+    
+    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] lastObject];
     [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
     if ([MKDirectionsRequest isDirectionsRequestURL:url]) {
         MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
@@ -117,11 +120,13 @@
         NSLog(@"Search controller is : %@",controller);
         [controller dismissViewControllerAnimated:YES completion:nil];
         if ([[url query] isEqualToString:@"bookmarks"]) {
-            [controller openBookmarksView];
+//            [controller openBookmarksView];
+            tabBarController.selectedIndex = 2;
         }
         
         if ([[url query] isEqualToString:@"routeSearch"]) {
-            [controller openRouteSearchView];
+//            [controller openRouteSearchView];
+            tabBarController.selectedIndex = 1;
         }
         
         if ([[url query] containsString:@"openStop"]) {

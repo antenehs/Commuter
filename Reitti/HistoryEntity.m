@@ -7,7 +7,7 @@
 //
 
 #import "HistoryEntity.h"
-
+#import "CacheManager.h"
 
 @implementation HistoryEntity
 
@@ -18,5 +18,23 @@
 @dynamic busStopShortCode;
 @dynamic busStopCoords;
 @dynamic busStopWgsCoords;
+
+-(StopType)stopType{
+    @try {
+        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.busStopCode]];
+        if (staticStop != nil) {
+            return staticStop.reittiStopType;
+        }else{
+            return StopTypeBus;
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+}
+
+-(void)setStopType:(StopType)stopType{
+    self.stopType = stopType;
+}
 
 @end

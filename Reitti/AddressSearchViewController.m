@@ -8,6 +8,8 @@
 
 #import "AddressSearchViewController.h"
 #import "RouteSearchViewController.h"
+#import "CacheManager.h"
+#import "AppManager.h"
 
 @interface AddressSearchViewController ()
 
@@ -416,6 +418,9 @@
         UILabel *title = (UILabel *)[cell viewWithTag:2002];
         UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
         UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
+        imageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
+        
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
         if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
@@ -427,6 +432,14 @@
         
         title.attributedText = [ReittiStringFormatter highlightSubstringInString:stopEntity.busStopName substring:addressSearchBar.text withNormalFont:title.font];
         subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity] substring:addressSearchBar.text withNormalFont:subTitle.font];
+        
+//        StaticStop *sStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", stopEntity.busStopCode]];
+//        if (sStop != nil) {
+//            
+//        }else{
+//            imageView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
+//        }
+        
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
@@ -491,10 +504,13 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"stopLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
             title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ (%@)", geoCode.name, geoCode.getStopShortCode] substring:addressSearchBar.text withNormalFont:title.font];
             subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", geoCode.getAddress ,geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
+            
+           imageView.image = [AppManager stopAnnotationImageForStopType:[geoCode getStopType]];
     
         }
         

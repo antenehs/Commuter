@@ -49,6 +49,10 @@ typedef enum
     
     [self loadData];
     
+    if (![self isModalMode]) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+    
     currentLocationText = @"Current location";
     selectedTimeType = SelectedTimeNow;
     selectedTime = [NSDate date];
@@ -102,6 +106,10 @@ typedef enum
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [routeResultsTableView reloadData];
+}
+
+-(BOOL)isModalMode{
+    return self.tabBarController == nil;
 }
 
 #pragma mark - initializations
@@ -1118,6 +1126,9 @@ typedef enum
             UILabel *title = (UILabel *)[cell viewWithTag:2002];
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
             UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
+            imageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
+            
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
             title.text = stopEntity.busStopName;

@@ -189,6 +189,8 @@
 		66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9C318C65DC000AC9E94 /* MBProgressHUD.m */; };
 		66A7A9C618C65FA900AC9E94 /* bus_stop_hsl_orig.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A7A9C518C65FA900AC9E94 /* bus_stop_hsl_orig.png */; };
 		66A7A9E218CF300300AC9E94 /* LineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9E118CF300300AC9E94 /* LineInfo.m */; };
+		66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
+		66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C59DA519993CC300E7AC7A /* Transport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA419993CC300E7AC7A /* Transport.xib */; };
 		66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA619993F7100E7AC7A /* walking-black-75.png */; };
@@ -696,6 +698,10 @@
 		66A7A9C518C65FA900AC9E94 /* bus_stop_hsl_orig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bus_stop_hsl_orig.png; path = Pictures/bus_stop_hsl_orig.png; sourceTree = "<group>"; };
 		66A7A9E018CF300300AC9E94 /* LineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineInfo.h; sourceTree = "<group>"; };
 		66A7A9E118CF300300AC9E94 /* LineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineInfo.m; sourceTree = "<group>"; };
+		66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
+		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
+		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
+		66BCA3811B2F0A2B00166530 /* EnumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EnumManager.m; path = ../EnumManager.m; sourceTree = "<group>"; };
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		66C1254419CF5BD400099AFF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
@@ -1103,6 +1109,10 @@
 				661202C41B04F5B200D93C2E /* LiveTrafficManager.m */,
 				66FC54821B236866005B890D /* CacheManager.h */,
 				66FC54831B236866005B890D /* CacheManager.m */,
+				66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */,
+				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
+				66BCA3801B2F0A2B00166530 /* EnumManager.h */,
+				66BCA3811B2F0A2B00166530 /* EnumManager.m */,
 				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
 				66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */,
 				66CC941718E3452D00644281 /* MyFixedLayoutGuide.h */,
@@ -2350,10 +2360,12 @@
 				66F099691AE6ECD700F20D34 /* TSBlurView.m in Sources */,
 				66F0996B1AE6ECD700F20D34 /* TSMessageView.m in Sources */,
 				66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */,
+				66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */,
 				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,
+				66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */,
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,

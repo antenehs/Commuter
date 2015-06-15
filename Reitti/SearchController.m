@@ -1183,10 +1183,11 @@
     NSString * shortCode = stop.codeShort;
     
     JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
-    stopAnT.image = [UIImage imageNamed:@"busAnnotation3_2.png"];
+    UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
+    stopAnT.image = stopImage;
     stopAnT.code = stop.code;
     stopAnT.title = name;
-    stopAnT.subtitle = shortCode;
+    stopAnT.subtitle = [stop.linesString isEqualToString:@""] || stop.linesString == nil ? shortCode : stop.linesString;;
     stopAnT.coordinate = coordinate;
     stopAnT.annotationType = SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
@@ -2242,25 +2243,25 @@
             //TODO: Store in stops cache
         }else{
             
-            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+//            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+//            
+//            for (BusStopShort *stop in stopList) {
+//                
+//                @try {
+//                    StaticStop *staticStop = [self.cacheManager getStopForCode:[NSString stringWithFormat:@"%@", stop.code]];
+//                    if (staticStop != nil) {
+//                        stop.stopType = staticStop.reittiStopType;
+//                        stop.lines = staticStop.lineNames;
+//                    }
+//                }
+//                @catch (NSException *exception) {
+//                    
+//                }
+//                
+//                [tempArray addObject:stop];
+//            }
             
-            for (BusStopShort *stop in stopList) {
-                
-                @try {
-                    StaticStop *staticStop = [self.cacheManager getStopForCode:[NSString stringWithFormat:@"%@", stop.code]];
-                    if (staticStop != nil) {
-                        [stop setStopTypeForGDTypeString:staticStop.stopType];
-                        stop.lines = staticStop.lineNames;
-                    }
-                }
-                @catch (NSException *exception) {
-                    
-                }
-                
-                [tempArray addObject:stop];
-            }
-            
-            self.nearByStopList = tempArray;
+            self.nearByStopList = stopList;
         }
     }
     

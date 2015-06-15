@@ -7,6 +7,8 @@
 //
 
 #import "BusStop.h"
+#import "EnumManager.h"
+#import "CacheManager.h"
 
 
 @implementation BusStop
@@ -26,5 +28,19 @@
 @synthesize omatlahdot_link;
 @synthesize address_fi;
 @synthesize address_sv;
+
+-(StopType)stopType{
+    @try {
+        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+        if (staticStop != nil) {
+            return staticStop.reittiStopType;
+        }else{
+            return StopTypeBus;
+        }
+    }
+    @catch (NSException *exception) {
+        
+    }
+}
 
 @end

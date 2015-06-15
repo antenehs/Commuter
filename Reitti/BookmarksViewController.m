@@ -16,6 +16,7 @@
 #import "WidgetSettingsViewController.h"
 #import "SearchController.h"
 #import "RouteViewManager.h"
+#import "AppManager.h"
 
 @interface BookmarksViewController ()
 
@@ -115,6 +116,8 @@
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(refreshTableView:) userInfo:nil repeats:YES];
     [locationManager startUpdatingLocation];
+    
+    [self.navigationController setToolbarHidden:NO];
 }
 
 //- (void)appDidBecomeActive:(NSNotification *)notification {
@@ -429,6 +432,9 @@
                 UILabel *title = (UILabel *)[cell viewWithTag:2002];
                 UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
                 UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
+                UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
+                imageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
+                
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 
                 title.text = stopEntity.busStopName;

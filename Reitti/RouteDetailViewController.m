@@ -1180,7 +1180,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             if (destination != nil) {
                 moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards %@ · %d stops · %@", selectedLeg.lineName, destination, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
             }else{
-                moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards Espoon keskus in minutes · %d stops · %@", selectedLeg.lineName, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+                moreInfoLabel.text = [NSString stringWithFormat:@"%@ · %d stops · %@", selectedLeg.lineName, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
             }
             
         }

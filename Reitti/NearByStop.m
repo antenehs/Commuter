@@ -36,19 +36,7 @@
 }
 
 -(StopType)stopType{
-    if ([self.properties.type isEqualToString:@"tram"]) {
-        return StopTypeTram;
-    }else if ([self.properties.type isEqualToString:@"train"]) {
-        return StopTypeTrain;
-    }else if ([self.properties.type isEqualToString:@"metro"]) {
-        return StopTypeMetro;
-    }else if ([self.properties.type isEqualToString:@"bus"]) {
-        return StopTypeBus;
-    }else if ([self.properties.type isEqualToString:@"ferry"]) {
-        return StopTypeFerry;
-    }else {
-        return StopTypeOther;
-    }
+    return [EnumManager stopTypeForPubTransStopType:self.properties.type];
 }
 
 -(NSArray *)lines{

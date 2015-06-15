@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "ReittiManagedObjectBase.h"
-
+#import "EnumManager.h"
 
 @interface HistoryEntity : ReittiManagedObjectBase
 
@@ -20,5 +20,7 @@
 @property (nonatomic, retain) NSString * busStopShortCode;
 @property (nonatomic, retain) NSString * busStopCoords;
 @property (nonatomic, retain) NSString * busStopWgsCoords;
+
+@property (nonatomic) StopType stopType;
 
 @end

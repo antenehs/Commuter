@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EnumManager.h"
 
 typedef enum
 {
@@ -26,6 +27,7 @@ typedef enum
 -(void)setLocationType:(LocationType)type;
 -(NSString *)FullAddressString;
 -(NSString *)getStreetAddressString;
+-(StopType)getStopType;
 
 @property (nonatomic, retain) NSString * locType;
 @property (nonatomic, retain) NSNumber * locTypeId;

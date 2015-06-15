@@ -47,7 +47,6 @@ NSString *const kStaticStopLineNames = @"LineNames";
             self.shortCode = [self objectOrNilForKey:kStaticStopShortCode fromDictionary:dict];
             self.code = [self objectOrNilForKey:kStaticStopCode fromDictionary:dict];
             self.lineNames = [self objectOrNilForKey:kStaticStopLineNames fromDictionary:dict];
-
     }
     
     return self;
@@ -78,6 +77,14 @@ NSString *const kStaticStopLineNames = @"LineNames";
 - (NSString *)description 
 {
     return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+- (StopType)reittiStopType{
+    if (self.stopType != nil) {
+        return [EnumManager stopTypeForGDTypeString:self.stopType];
+    }else{
+        return StopTypeBus;
+    }
 }
 
 #pragma mark - Helper Method

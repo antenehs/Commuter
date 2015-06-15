@@ -7,6 +7,7 @@
 //
 
 #import "GeoCode.h"
+#import "CacheManager.h"
 
 @implementation GeoCode
 
@@ -121,6 +122,24 @@
             [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
             ];
     
+}
+
+-(StopType)getStopType{
+    if ([self getLocationType] == LocationTypeStop) {
+        @try {
+            StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", [self getStopCode]]];
+            if (staticStop != nil) {
+                return staticStop.reittiStopType;
+            }else{
+                return StopTypeBus;
+            }
+        }
+        @catch (NSException *exception) {
+            
+        }
+    }else{
+        return StopTypeBus;
+    }
 }
 
 @end

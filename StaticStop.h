@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "EnumManager.h"
 
 
 @interface StaticStop : NSObject <NSCoding, NSCopying>
@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString *shortCode;
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSArray *lineNames;
+@property (nonatomic) StopType reittiStopType;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

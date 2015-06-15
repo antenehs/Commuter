@@ -15,6 +15,7 @@
 #import "SearchController.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "AppManager.h"
+#import "CacheManager.h"
 
 @implementation StopViewController
 
@@ -318,7 +319,13 @@
         if (annotationView == nil) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
             annotationView.enabled = YES;
-            annotationView.image = [UIImage imageNamed:@"busAnnotation3_2.png"];
+            StaticStop *sStop = [[CacheManager sharedManager] getStopForCode:stopCode];
+            if (sStop != nil) {
+                annotationView.image = [AppManager stopAnnotationImageForStopType:sStop.reittiStopType];
+            }else{
+                annotationView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
+            }
+            
             [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
             annotationView.centerOffset = CGPointMake(0,-21);
             
@@ -429,12 +436,21 @@
             
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
             NSString *lineName;
-            if (_stopLinesDetail != nil) {
-                lineName = [_stopLineNames objectForKey:[departure objectForKey:@"code"]];
+            if (([settingsManager userLocation] != HSLRegion)) {
+                lineName = [departure objectForKey:@"code"];
             }else{
-                NSString *notParsedCode = [departure objectForKey:@"code"];
-                lineName = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
+                if (_stopLinesDetail != nil) {
+                    lineName = [_stopLineNames objectForKey:[departure objectForKey:@"code"]];
+                }else{
+                    NSString *notParsedCode = [departure objectForKey:@"code"];
+                    lineName = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
+                }
             }
+            
+            if (lineName == nil) {
+                lineName = [departure objectForKey:@"code"];
+            }
+            
             codeLabel.text = lineName;
             //codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
             
@@ -720,12 +736,12 @@
         routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         if ([segue.identifier isEqualToString:@"routeToHere"]) {
-            routeSearchViewController.prevToLocation = _busStop.name_fi;
-            routeSearchViewController.prevToCoords = _busStop.wgs_coords;
+            routeSearchViewController.prevToLocation = self.stopName;
+            routeSearchViewController.prevToCoords = [NSString stringWithFormat:@"%f,%f",self.stopCoords.longitude, self.stopCoords.latitude];
         }
         if ([segue.identifier isEqualToString:@"routeFromHere"]) {
-            routeSearchViewController.prevFromLocation = _busStop.name_fi;
-            routeSearchViewController.prevFromCoords = _busStop.wgs_coords;
+            routeSearchViewController.prevFromLocation = self.stopName;
+            routeSearchViewController.prevFromCoords = [NSString stringWithFormat:@"%f,%f",self.stopCoords.longitude, self.stopCoords.latitude];
         }
         
         routeSearchViewController.reittiDataManager = self.reittiDataManager;

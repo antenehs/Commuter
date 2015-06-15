@@ -26,6 +26,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    if (![self isModalMode]) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }
+    
     if (settingsManager == nil) {
         UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
         SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
@@ -49,6 +53,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(BOOL)isModalMode{
+    return self.tabBarController == nil;
 }
 
 #pragma mark - mapView methods

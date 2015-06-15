@@ -9,16 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Features.h"
 #import <MapKit/MapKit.h>
-
-typedef enum
-{
-    StopTypeBus = 0,
-    StopTypeTram = 1,
-    StopTypeTrain = 2,
-    StopTypeMetro = 3,
-    StopTypeFerry = 4,
-    StopTypeOther = 5
-} StopType;
+#import "EnumManager.h"
 
 @interface NearByStop : Features
 
