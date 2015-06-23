@@ -15,6 +15,8 @@
 #import "SearchController.h"
 #import "AppDelegate.h"
 #import "AppManager.h"
+#import "CoreDataManager.h"
+#import "DroppedPinManager.h"
 
 typedef enum
 {
@@ -31,7 +33,7 @@ typedef enum
 @implementation RouteSearchViewController
 
 @synthesize savedStops, recentStops,savedRoutes, recentRoutes, namedBookmarks, dataToLoad, routeList, prevFromCoords, prevFromLocation, prevToCoords, prevToLocation, droppedPinGeoCode;
-@synthesize reittiDataManager;
+@synthesize reittiDataManager, settingsManager;
 @synthesize delegate,viewCycledelegate;
 @synthesize darkMode, isRootViewController;
 @synthesize locationManager, currentUserLocation;
@@ -76,23 +78,24 @@ typedef enum
     [self initLocationManager];
     [self selectSystemColors];
     [self setUpMainView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self.navigationItem setTitle:@"PLANNER"];
-    [self loadData];
-    [self setUpToolBar];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    //update time to now and reload route.
-    if ([[[self.routeList firstObject] getStartingTimeOfRoute] timeIntervalSinceNow] < -300) {
-        selectedTime = [NSDate date];
-        [self setSelectedTimesForDate:selectedTime];
-        [self searchRouteIfPossible];
-    }
+    [self.navigationItem setTitle:@"PLANNER"];
+    [self setUpToolBar];
     
-    [self loadData];
+    [self refreshData];
+}
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self refreshData];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -117,42 +120,41 @@ typedef enum
     // Do any additional setup after loading the view.
     
     if (self.reittiDataManager == nil) {
-        UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
-        if (homeViewNavController != nil) {
-            SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-            
-            if ([homeViewController isKindOfClass:[SearchController class]]) {
-                self.managedObjectContext = homeViewController.managedObjectContext;
-            }else {
-                AppDelegate *appDelegate = [[AppDelegate alloc] init];
-                self.managedObjectContext = appDelegate.managedObjectContext;
-            }
-            
-            self.droppedPinGeoCode = homeViewController.droppedPinGeoCode;
-            
-            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            
-            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-            
-            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-        }else if (self.managedObjectContext != nil){
-            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            
-            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-            
-            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-        }else{
-            NSLog(@"You are in serious trouble!");
-            
-            AppDelegate *appDelegate = [[AppDelegate alloc] init];
-            self.managedObjectContext = appDelegate.managedObjectContext;
-            
-            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            
-            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-            
-            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-        }
+        
+        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
+        
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        
+        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        
+        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        
+        self.droppedPinGeoCode = [[DroppedPinManager sharedManager] droppedPin];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLocationValueChanged:)
+                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
+}
+
+
+- (void)refreshData {
+    //update time to now and reload route.
+    if ([[[self.routeList firstObject] getStartingTimeOfRoute] timeIntervalSinceNow] < -300) {
+        selectedTime = [NSDate date];
+        [self setSelectedTimesForDate:selectedTime];
+        [self searchRouteIfPossible];
+    }
+    
+    [self loadData];
+    self.droppedPinGeoCode = [[DroppedPinManager sharedManager] droppedPin];
+    [self setUpMergedBookmarksAndHistory];
+    
+    if (self.tableViewMode == TableViewModeSuggestions) {
+        selectedTime = [NSDate date];
+        [self setSelectedTimesForDate:selectedTime];
+        
+        [routeResultsTableView reloadData];
     }
 }
 
@@ -295,7 +297,6 @@ typedef enum
             if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
                 [subview removeFromSuperview];
             }
-            
             
             // Remove the rounded corners
             if ([subview isKindOfClass:NSClassFromString(@"UITextField")]) {
@@ -1566,6 +1567,10 @@ typedef enum
     reittiDataManager.routeSearchdelegate = self;
 }
 
+#pragma mark - Settings change notifications
+-(void)userLocationValueChanged:(NSNotification *)notification{
+    [self.reittiDataManager setUserLocation:[self.settingsManager userLocation]];
+}
 
 #pragma mark - helper methods
 -(void)searchRouteIfPossible{
@@ -1758,6 +1763,10 @@ typedef enum
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager userlocationChangedNotificationName] object:nil];
+}
+
 #pragma mark - guesture recognizer
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
@@ -1809,7 +1818,7 @@ typedef enum
             destinationViewController.selectedRouteIndex = (int)selectedRowIndexPath.row;
             destinationViewController.toLocation = toString;
             destinationViewController.fromLocation = fromString;
-            destinationViewController.reittiDataManager = self.reittiDataManager;
+//            destinationViewController.reittiDataManager = self.reittiDataManager;
             
             [self.navigationItem setTitle:@""];
         }

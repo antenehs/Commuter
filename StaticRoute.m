@@ -59,7 +59,6 @@ NSString *const kBaseClassOperator = @"Operator";
     }
     
     return self;
-    
 }
 
 - (NSDictionary *)dictionaryRepresentation

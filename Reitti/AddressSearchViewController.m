@@ -293,9 +293,7 @@
         if (!simpleSearchMode) {
             [self setUpInitialSearchView:YES];
         }
-        
     }
-    
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -718,8 +716,8 @@
         routeSearchViewController.recentRoutes = self.recentRoutes;
         routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = addressSearchBar.text;
-        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
-        routeSearchViewController.darkMode = self.darkMode;
+//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
+//        routeSearchViewController.darkMode = self.darkMode;
 //        routeSearchViewController.viewCycledelegate = self;
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
@@ -741,9 +739,9 @@
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
         routeSearchViewController.prevFromLocation = selected.fromLocationName;
         routeSearchViewController.prevFromCoords = selected.fromLocationCoordsString;
-        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
+//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
-        routeSearchViewController.darkMode = self.darkMode;
+//        routeSearchViewController.darkMode = self.darkMode;
 //        routeSearchViewController.delegate = self;
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }

@@ -61,7 +61,7 @@
 
 @property (strong, nonatomic) UIColor * _tintColor;
 
-@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+//@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 
 @property (strong, nonatomic) CLLocation * currentUserLocation;
 @property (strong, nonatomic) CLLocation * previousCenteredLocation;

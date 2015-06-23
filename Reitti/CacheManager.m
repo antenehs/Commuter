@@ -11,7 +11,7 @@
 
 @implementation CacheManager
 
-@synthesize allSavedRouteCache, allInMemoryRouteCache, allInMemoryStopCache;
+@synthesize allSavedRouteCache, allInMemoryRouteCache, allInMemoryRouteList, allInMemoryStopCache;
 @synthesize managedObjectContext;
 
 #pragma mark Singleton Methods
@@ -30,6 +30,7 @@
 }
 
 -(id)initFromFile{
+    self.allInMemoryRouteList = [[NSMutableArray alloc] init];
     
     self.allInMemoryRouteCache = [self readRoutesFromFile];
     self.allInMemoryStopCache = [self readStopsFromFile];
@@ -216,6 +217,7 @@
             StaticRoute *route = [[StaticRoute alloc] initWithDictionary:routeDict];
             
             [routes setValue:route forKey:route.code];
+            [self.allInMemoryRouteList addObject:route];
         }
     }
     

@@ -13,6 +13,7 @@
 #import "RouteLocation.h"
 #import "RettiDataManager.h"
 #import "ReittiRemindersManager.h"
+#import "SettingsManager.h"
 
 typedef enum{
     RouteListViewLoactionBottom = 1,
@@ -20,7 +21,7 @@ typedef enum{
     RouteListViewLoactionTop = 3
 } RouteListViewLoaction;
 
-@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIGestureRecognizerDelegate>{
+@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIGestureRecognizerDelegate, ReittiLiveVehicleFetchDelegate>{
     
     IBOutlet MKMapView *routeMapView;
     IBOutlet AMBlurView *topBarView;
@@ -83,5 +84,6 @@ typedef enum{
 @property (nonatomic) bool darkMode;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
+@property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end

@@ -23,8 +23,13 @@
 +(UIColor *)systemCyanColor;
 
 +(UIColor *)colorForLegType:(LegTransportType)legTransportType;
++(UIColor *)colorForLineType:(LineType)lineType;
 
 //App images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;
++(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType;
++(UIImage *)vehicleImageForVehicleType:(VehicleType)type;
++(UIImage *)vehicleImageForLineType:(LineType)type;
++(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 
 @end

@@ -38,11 +38,15 @@
 -(void)setMapMode:(MapMode)mapMode{
     [self.reittiDataManager.settingsEntity setMapMode:[NSNumber numberWithInt:mapMode]];
     [self.reittiDataManager saveSettings];
+    
+    [self postNotificationWithName:[SettingsManager mapModeChangedNotificationName]];
 }
 -(void)setUserLocation:(Region)userLocation{
     [self.reittiDataManager.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
     [self.reittiDataManager saveSettings];
     self.reittiDataManager.userLocation = userLocation;
+    
+    [self postNotificationWithName:[SettingsManager userlocationChangedNotificationName]];
 }
 -(void)enableClearingOldHistory:(BOOL)clear{
     [self.reittiDataManager.settingsEntity setClearOldHistory:[NSNumber numberWithBool:clear]];
@@ -51,6 +55,18 @@
 -(void)setNumberOfDaysToKeepHistory:(int)days{
     [self.reittiDataManager.settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:days]];
     [self.reittiDataManager saveSettings];
+}
+
+//Notifications
++(NSString *)mapModeChangedNotificationName{
+    return @"SettingsManagerMapModeChangedNotification";
+}
++(NSString *)userlocationChangedNotificationName{
+    return @"SettingsManagerUserLocationChangedNotification";
+}
+     
+-(void)postNotificationWithName:(NSString *)name{
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
 }
 
 @end

@@ -18,6 +18,9 @@
 #import "AppManager.h"
 #import "StaticRoute.h"
 #import "CacheManager.h"
+#import "CoreDataManager.h"
+#import "Vehicle.h"
+#import "LVThumbnailAnnotation.h"
 
 @interface RouteDetailViewController ()
 
@@ -37,11 +40,13 @@
 @synthesize darkMode;
 @synthesize routeLocationList;
 @synthesize toLocation, fromLocation, currentUserLocation;
-@synthesize reittiDataManager;
+@synthesize reittiDataManager, settingsManager;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     //init vars
+    [self initDataManagerIfNull];
+    
     darkMode = YES;
     isShowingStopView = NO;
     
@@ -66,7 +71,7 @@
 //    [routeListView addGestureRecognizer:recogLeft];
     
 //    _route = [routeList objectAtIndex:selectedRouteIndex];
-    NSLog(@"Number of legs = %lu", (unsigned long)_route.routeLegs.count);
+//    NSLog(@"Number of legs = %lu", (unsigned long)_route.routeLegs.count);
     
     routeLocationList = [self convertRouteToLocationList:self.route];
     
@@ -118,7 +123,19 @@
     }
 }
 
-#pragma mark - initialization
+#pragma mark - initializations
+- (void)initDataManagerIfNull {
+    // Do any additional setup after loading the view.
+    
+    if (self.reittiDataManager == nil) {
+        
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
+        
+        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        
+        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    }
+}
 
 - (void)initMapViewForRoute:(Route *)route{
     [routeMapView removeOverlays:routeMapView.overlays];
@@ -189,6 +206,9 @@
     routeListTableView.backgroundColor = [UIColor clearColor];
     routeListTableView.separatorColor = [UIColor clearColor];
     
+    [self stopFetchingVehicles];
+    [self startFetchingVehicles];
+    
     for (UIView *view in routeView.subviews) {
         [view removeFromSuperview];
     }
@@ -213,6 +233,36 @@
     
     [routeListTableView reloadData];
 //    [self addTransportTypePictures];
+}
+
+- (void)startFetchingVehicles {
+    //Start fetching vehicle locations for route
+    NSMutableArray *tempTrainArray = [@[] mutableCopy];
+    NSMutableArray *tempOthersArray = [@[] mutableCopy];
+    for (RouteLeg *leg in self.route.routeLegs) {
+        if (leg.legType == LegTypeTrain) {
+            [tempTrainArray addObject:leg.lineCode];
+        }
+        
+        if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram) {
+            [tempOthersArray addObject:leg.lineCode];
+        }
+    }
+    
+    if (tempTrainArray.count > 0) {
+        self.reittiDataManager.vehicleFetchDelegate = self;
+        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromPubTrans:tempTrainArray];
+    }
+    
+    if (tempOthersArray.count > 0) {
+        self.reittiDataManager.vehicleFetchDelegate = self;
+        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray];
+    }
+}
+
+- (void)stopFetchingVehicles{
+    //Remove all vehicle annotations
+    [self.reittiDataManager stopFetchingLiveVehicles];
 }
 
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location animated:(BOOL)animated{
@@ -507,19 +557,23 @@
         if (currentLeg.legType == LegTypeWalk) {
             polylineRenderer.strokeColor = SYSTEM_BROWN_COLOR;
             polylineRenderer.lineDashPattern = @[@4, @10];
-        }else if (currentLeg.legType == LegTypeBus){
-            polylineRenderer.strokeColor = [AppManager systemBlueColor];
-        }else if (currentLeg.legType == LegTypeTrain) {
-            polylineRenderer.strokeColor = [AppManager systemRedColor];;
-        }else if (currentLeg.legType == LegTypeTram) {
-            polylineRenderer.strokeColor = [AppManager systemGreenColor];;
-        }else if (currentLeg.legType == LegTypeMetro) {
-            polylineRenderer.strokeColor = [AppManager systemOrangeColor];;
-        }else if (currentLeg.legType == LegTypeFerry) {
-            polylineRenderer.strokeColor = [AppManager systemCyanColor];;
         }else{
-            polylineRenderer.strokeColor = [AppManager systemBlueColor];
+            polylineRenderer.strokeColor = [AppManager colorForLegType:currentLeg.legType];
         }
+            
+//        if (currentLeg.legType == LegTypeBus){
+//            polylineRenderer.strokeColor = [AppManager systemBlueColor];
+//        }else if (currentLeg.legType == LegTypeTrain) {
+//            polylineRenderer.strokeColor = [AppManager systemRedColor];;
+//        }else if (currentLeg.legType == LegTypeTram) {
+//            polylineRenderer.strokeColor = [AppManager systemGreenColor];;
+//        }else if (currentLeg.legType == LegTypeMetro) {
+//            polylineRenderer.strokeColor = [AppManager systemOrangeColor];;
+//        }else if (currentLeg.legType == LegTypeFerry) {
+//            polylineRenderer.strokeColor = [AppManager systemCyanColor];;
+//        }else{
+//            polylineRenderer.strokeColor = [AppManager systemBlueColor];
+//        }
         
         return polylineRenderer;
     } else {
@@ -546,35 +600,41 @@
                                                             andCoordinate:coordinate];
     newAnnotation.code = [NSNumber numberWithInteger:[loc.stopCode integerValue]];
     
-    switch (loc.locationLegType) {
-        case LegTypeWalk:
-            newAnnotation.imageNameForView = @"";
-            break;
-        case LegTypeFerry:
-            newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
-//            newAnnotation.identifier = @"ferryAnnotIdentifier";
-            break;
-        case LegTypeTrain:
-            newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
-//            newAnnotation.identifier = @"trainAnnotIdentifier";
-            break;
-        case LegTypeBus:
-            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
-//            newAnnotation.identifier = @"busAnnotIdentifier";
-            break;
-        case LegTypeTram:
-            newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
-//            newAnnotation.identifier = @"tramAnnotIdentifier";
-            break;
-        case LegTypeMetro:
-            newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
-//            newAnnotation.identifier = @"metroAnnotIdentifier";
-            break;
-            
-        default:
-            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
-            break;
+    if (loc.locationLegType == LegTypeWalk) {
+        newAnnotation.imageNameForView = @"";
+    }else{
+        newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:loc.locationLegType]];
     }
+//    
+//    switch (loc.locationLegType) {
+//        case LegTypeWalk:
+//            newAnnotation.imageNameForView = @"";
+//            break;
+//        case LegTypeFerry:
+//            newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
+////            newAnnotation.identifier = @"ferryAnnotIdentifier";
+//            break;
+//        case LegTypeTrain:
+//            newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
+////            newAnnotation.identifier = @"trainAnnotIdentifier";
+//            break;
+//        case LegTypeBus:
+//            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
+////            newAnnotation.identifier = @"busAnnotIdentifier";
+//            break;
+//        case LegTypeTram:
+//            newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
+////            newAnnotation.identifier = @"tramAnnotIdentifier";
+//            break;
+//        case LegTypeMetro:
+//            newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
+////            newAnnotation.identifier = @"metroAnnotIdentifier";
+//            break;
+//            
+//        default:
+//            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
+//            break;
+//    }
 
 //    newAnnotation.code = loc.code;
     
@@ -588,7 +648,7 @@
        
         int locCount = 0;
         for (RouteLegLocation *loc in leg.legLocations) {
-            NSLog(@"ploting location: %@", loc);
+//            NSLog(@"ploting location: %@", loc);
             CLLocationCoordinate2D coordinate = {.latitude =  [[loc.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc.coordsDictionary objectForKey:@"x"] floatValue]};
             if (loc.name == nil) {
                 
@@ -623,34 +683,39 @@
                     if (loc.shortCode != nil) {
                         LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
                         newAnnotation.code = [NSNumber numberWithInteger:[loc.stopCode integerValue]];
-                        switch (loc.locationLegType) {
-                            case LegTypeWalk:
-                                newAnnotation.imageNameForView = @"";
-                                break;
-                            case LegTypeFerry:
-                                newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
-//                                newAnnotation.identifier = @"ferryAnnotIdentifier";
-                                break;
-                            case LegTypeTrain:
-                                newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
-//                                newAnnotation.identifier = @"trainAnnotIdentifier";
-                                break;
-                            case LegTypeBus:
-                                newAnnotation.imageNameForView = @"busAnnotation3_2.png";
-//                                newAnnotation.identifier = @"busAnnotIdentifier";
-                                break;
-                            case LegTypeTram:
-                                newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
-//                                newAnnotation.identifier = @"tramAnnotIdentifier";
-                                break;
-                            case LegTypeMetro:
-                                newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
-//                                newAnnotation.identifier = @"metroAnnotIdentifier";
-                                break;
-                                
-                            default:
-                                break;
+                        if (loc.locationLegType == LegTypeWalk) {
+                            newAnnotation.imageNameForView = @"";
+                        }else{
+                            newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:loc.locationLegType]];
                         }
+//                        switch (loc.locationLegType) {
+//                            case LegTypeWalk:
+//                                newAnnotation.imageNameForView = @"";
+//                                break;
+//                            case LegTypeFerry:
+//                                newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
+////                                newAnnotation.identifier = @"ferryAnnotIdentifier";
+//                                break;
+//                            case LegTypeTrain:
+//                                newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
+////                                newAnnotation.identifier = @"trainAnnotIdentifier";
+//                                break;
+//                            case LegTypeBus:
+//                                newAnnotation.imageNameForView = @"busAnnotation3_2.png";
+////                                newAnnotation.identifier = @"busAnnotIdentifier";
+//                                break;
+//                            case LegTypeTram:
+//                                newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
+////                                newAnnotation.identifier = @"tramAnnotIdentifier";
+//                                break;
+//                            case LegTypeMetro:
+//                                newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
+////                                newAnnotation.identifier = @"metroAnnotIdentifier";
+//                                break;
+//                                
+//                            default:
+//                                break;
+//                        }
                         
                         [routeMapView addAnnotation:newAnnotation];
                     }
@@ -671,6 +736,88 @@
         count++;
     }
 }
+
+- (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
+{
+    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+    for (Vehicle *vehicle in vehicleList) {
+        [codeList addObject:vehicle.vehicleId];
+    }
+    return codeList;
+}
+
+- (NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList
+{
+    return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
+}
+
+-(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
+    
+    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
+    
+    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
+    
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            
+            if (isTrain) {
+                if (annot.vehicleType != VehicleTypeTrain) {
+                    continue;
+                }
+            }else{
+                if (annot.vehicleType == VehicleTypeTrain) {
+                    continue;
+                }
+            }
+            
+            if (![codeList containsObject:annot.code]) {
+                [annotToRemove addObject:annotation];
+            }else{
+                [codeList removeObject:annot.code];
+                [existingVehicles addObject:annotation];
+            }
+        }
+    }
+    
+    for (id<MKAnnotation> annotation in existingVehicles) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            @try {
+                Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                annot.coordinate = vehicleToUpdate.coords;
+                //                annot.thumbnail.bearing = [NSNumber numberWithDouble:vehicleToUpdate.bearing];
+                [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
+                [annotToRemove addObject:annot];
+                [codeList addObject:annot.code];
+            }
+        }
+    }
+    
+    [routeMapView removeAnnotations:annotToRemove];
+    
+    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
+    
+    for (Vehicle *vehicle in newVehicles) {
+        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
+        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        vehicleAnT.code = vehicle.vehicleId;
+        vehicleAnT.title = vehicle.vehicleName;
+        vehicleAnT.lineId = vehicle.vehicleLineId;
+        vehicleAnT.vehicleType = vehicle.vehicleType;
+        vehicleAnT.coordinate = vehicle.coords;
+        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
+        
+        [routeMapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
+    }
+}
+
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     static NSString *transferIdentifier = @"transferLocation";
@@ -760,6 +907,11 @@
         }
     }
     
+    if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
+        
+        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
+    }
+    
     return nil;
 }
 
@@ -802,11 +954,23 @@
     previousRegion = mapView.visibleMapRect;
 }
 
+-(void)removeAnnotationsExceptVehicles{
+    NSMutableArray *array = [@[] mutableCopy];
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if (![annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            [array addObject:annotation];
+        }
+    }
+    
+    [routeMapView removeAnnotations:array];
+}
+
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    NSLog(@"Zoom level is: %lu ", (unsigned long)[self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size]);
+//    NSLog(@"Zoom level is: %lu ", (unsigned long)[self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size]);
     //Show detailed stop annotations when the zoom level is more than or equal to 14
     if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
-        [mapView removeAnnotations:mapView.annotations];
+//        [mapView removeAnnotations:mapView.annotations];
+        [self removeAnnotationsExceptVehicles];
         [self plotLocationsAnnotation:self.route];
         
         [mapView removeOverlays:mapView.overlays];
@@ -848,7 +1012,7 @@
     NSIndexPath *indexPath = [routeListTableView indexPathForRowAtPoint:buttonPosition];
     if (indexPath != nil)
     {
-        NSLog(@"Index path: %ld", (long)indexPath.row);
+//        NSLog(@"Index path: %ld", (long)indexPath.row);
         RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
         
         if (loc.isHeaderLocation) {
@@ -891,7 +1055,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
+//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     if (actionSheet.tag == 2001) {
         NSString * timeToSetAlarm = [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute];
         reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minutes.";
@@ -1137,31 +1301,37 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         nextDottedLine.hidden = YES;
         nextLegLine.hidden = NO;
         
-        switch (loc.locationLegType) {
-            case LegTypeWalk:
-                [legTypeImage setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
-                nextDottedLine.hidden = NO;
-                nextLegLine.hidden = YES;
-                break;
-            case LegTypeFerry:
-                [legTypeImage setImage:[UIImage imageNamed:@"ferry-filled-cyan-100.png"]];
-                break;
-            case LegTypeTrain:
-                [legTypeImage setImage:[UIImage imageNamed:@"train-filled-red-100.png"]];
-                break;
-            case LegTypeBus:
-                [legTypeImage setImage:[UIImage imageNamed:@"bus-filled-blue-100.png"]];
-                break;
-            case LegTypeTram:
-                [legTypeImage setImage:[UIImage imageNamed:@"tram-filled-green-100.png"]];
-                break;
-            case LegTypeMetro:
-                [legTypeImage setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
-                break;
-                
-            default:
-                break;
+        [legTypeImage setImage:[AppManager vehicleImageForLegTrasnportType:loc.locationLegType]];
+        if (loc.locationLegType == LegTypeWalk) {
+            nextDottedLine.hidden = NO;
+            nextLegLine.hidden = YES;
         }
+        
+//        switch (loc.locationLegType) {
+//            case LegTypeWalk:
+//                [legTypeImage setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
+//                nextDottedLine.hidden = NO;
+//                nextLegLine.hidden = YES;
+//                break;
+//            case LegTypeFerry:
+//                [legTypeImage setImage:[UIImage imageNamed:@"ferry-filled-cyan-100.png"]];
+//                break;
+//            case LegTypeTrain:
+//                [legTypeImage setImage:[UIImage imageNamed:@"train-filled-red-100.png"]];
+//                break;
+//            case LegTypeBus:
+//                [legTypeImage setImage:[UIImage imageNamed:@"bus-filled-blue-100.png"]];
+//                break;
+//            case LegTypeTram:
+//                [legTypeImage setImage:[UIImage imageNamed:@"tram-filled-green-100.png"]];
+//                break;
+//            case LegTypeMetro:
+//                [legTypeImage setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
+//                break;
+//                
+//            default:
+//                break;
+//        }
         
         if (indexPath.row == self.routeLocationList.count - 1) {
             nextLegLine.hidden = YES;
@@ -1411,6 +1581,20 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             }
         }
     }
+}
+
+#pragma mark - Reitti data manager delegates
+- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
+    [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+}
+- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
+    
+}
+- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList{
+    [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
+}
+- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error{
+    
 }
 
 #pragma mark - helper methods

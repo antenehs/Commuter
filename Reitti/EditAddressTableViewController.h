@@ -22,16 +22,19 @@ typedef enum
     ViewControllerModeViewGeoCode = 4
 } EditAddressViewControllerMode;
 
-@interface EditAddressTableViewController : UITableViewController<AddressSearchViewControllerDelegate, AddressTypeViewControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate>{
+@interface EditAddressTableViewController : UITableViewController<AddressSearchViewControllerDelegate, AddressTypeViewControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate, RettiReverseGeocodeSearchDelegate>{
     
     IBOutlet UITextField *nameTextView;
     IBOutlet UILabel *nameLabel;
     
     MKMapView *mapView;
     BOOL showMap;
+    
+    BOOL requestedForSaving;
 }
 
 @property(nonatomic, strong)NSDictionary *addressTypeDictionary;
+@property(nonatomic, strong)NSString *preSelectType;
 @property(nonatomic, strong)NamedBookmark *namedBookmark;
 @property(nonatomic, strong)GeoCode *geoCode;
 
@@ -45,7 +48,9 @@ typedef enum
 
 @property(nonatomic)EditAddressViewControllerMode viewControllerMode;
 
-@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+//@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
+@property (strong, nonatomic) GeoCode * currentLocationGeoCode;;
+@property (strong, nonatomic) CLLocation * currentUserLocation;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

@@ -14,19 +14,8 @@
 //3.5.7	stopAddress	String	Address of the stop.
 
 #import <Foundation/Foundation.h>
+#import "EnumManager.h"
 //#import "RouteLegs.m"
-
-typedef enum
-{
-    LegTypeWalk = 1,
-    LegTypeBus = 2,
-    LegTypeTrain = 3,
-    LegTypeMetro = 4,
-    LegTypeTram = 5,
-    LegTypeFerry = 6,
-    LegTypeService = 7,
-    LegTypeOther = 8
-} LegTransportType;
 
 @interface RouteLegLocation : NSObject
 

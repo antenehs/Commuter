@@ -31,6 +31,9 @@ typedef enum
 -(void)enableClearingOldHistory:(BOOL)clear;
 -(void)setNumberOfDaysToKeepHistory:(int)days;
 
+//Notifications
++(NSString *)mapModeChangedNotificationName;
++(NSString *)userlocationChangedNotificationName;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

@@ -10,7 +10,7 @@
 #import "UIScrollView+APParallaxHeader.h"
 #import "StopAnnotation.h"
 #import "SettingsManager.h"
-#import "AppDelegate.h"
+#import "CoreDataManager.h"
 
 @interface EditAddressTableViewController ()
 
@@ -18,7 +18,8 @@
 
 @implementation EditAddressTableViewController
 
-@synthesize addressTypeDictionary, namedBookmark, geoCode, droppedPinGeoCode;
+@synthesize addressTypeDictionary, preSelectType, namedBookmark, geoCode;
+@synthesize currentUserLocation, currentLocationGeoCode;
 @synthesize iconName;
 @synthesize name, streetAddress, fullAddress;
 @synthesize reittiDataManager;
@@ -30,7 +31,7 @@
     
     [self initDataManagerIfNull];
     
-    self.iconName = @"location-75.png";
+    self.iconName = @"location-75-red.png";
     mapView = [[MKMapView alloc] init];
     if (viewControllerMode == ViewControllerModeAddNewAddress) {
         showMap = false;
@@ -39,8 +40,20 @@
     }
     
     if (viewControllerMode == ViewControllerModeAddNewAddress) {
-        [self performSegueWithIdentifier:@"chooseType" sender:self];
+        //Check if there is a preset address type
+        if (preSelectType != nil) {
+            self.addressTypeDictionary = [self getTypeDictionaryForName:preSelectType];
+            if (self.addressTypeDictionary != nil) {
+                self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
+            }else{
+                [self performSegueWithIdentifier:@"chooseType" sender:self];
+            }
+        }else
+            [self performSegueWithIdentifier:@"chooseType" sender:self];
     }
+    
+    requestedForSaving = NO;
+    [self.reittiDataManager searchAddresseForCoordinate:self.currentUserLocation.coordinate];
     
     [self updateViewData];
     
@@ -61,29 +74,22 @@
     // Do any additional setup after loading the view.
     
     if (self.reittiDataManager == nil) {
-        if (self.managedObjectContext != nil){
-            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            
-            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-            
-            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-        }else{
-            AppDelegate *appDelegate = [[AppDelegate alloc] init];
-            self.managedObjectContext = appDelegate.managedObjectContext;
-            
-            self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            
-            SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-            
-            [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-        }
+        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
+        
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        
+        SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        
+        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        
+        self.reittiDataManager.reverseGeocodeSearchdelegate = self;
     }
 }
 
 - (void)updateViewData {
     if (viewControllerMode == ViewControllerModeAddNewAddress) {
         self.name = [self.addressTypeDictionary objectForKey:@"Name"];
-        self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
+        self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
     }else if (viewControllerMode == ViewControllerModeViewNamedBookmark){
         self.name = self.namedBookmark.name;
         self.streetAddress = self.namedBookmark.streetAddress;
@@ -104,7 +110,7 @@
         self.streetAddress = self.geoCode.getStreetAddressString;
         self.city = self.geoCode.city;
         self.coords = self.geoCode.coords;
-        self.iconName = @"location-75.png";
+        self.iconName = @"location-75-red.png";
         
         self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", self.streetAddress, self.city];
     }
@@ -489,16 +495,20 @@
 }
 
 #pragma mark - address search delegates
--(void)searchResultSelectedAGeoCode:(GeoCode *)selectedGeoCode{
+- (void)setValuesFromGeoCode:(GeoCode *)selectedGeoCode {
     self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", [selectedGeoCode getStreetAddressString], [selectedGeoCode city]];
     self.streetAddress = [selectedGeoCode getStreetAddressString];
     self.city = [selectedGeoCode city];
     self.coords = [selectedGeoCode coords];
     self.searchedName = [selectedGeoCode matchedName];
-//    [self.tableView reloadData];
+    //    [self.tableView reloadData];
     self.navigationItem.rightBarButtonItem.enabled = YES;
     showMap = YES;
     [self setUpMainView];
+}
+
+-(void)searchResultSelectedAGeoCode:(GeoCode *)selectedGeoCode{
+    [self setValuesFromGeoCode:selectedGeoCode];
 }
 
 -(void)searchResultSelectedAStop:(StopEntity *)stopEntity{
@@ -515,8 +525,16 @@
 
 -(void)searchResultSelectedCurrentLocation{
     //TODO - Do a reverse GEO from coordinates
+    if (self.currentLocationGeoCode != nil) {
+        [self setValuesFromGeoCode:currentLocationGeoCode];
+    }else{
+        [self.reittiDataManager searchAddresseForCoordinate:self.currentUserLocation.coordinate];
+        //TODO: Do some indication
+        requestedForSaving = YES;
+    }
+    
     [self.tableView reloadData];
-    self.navigationItem.rightBarButtonItem.enabled = YES;
+//    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 -(void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
@@ -530,6 +548,19 @@
 -(void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
     
 }
+
+#pragma mark - reverse geo delegate
+- (void)reverseGeocodeSearchDidComplete:(GeoCode *)_geoCode{
+    currentLocationGeoCode = _geoCode;
+    if (requestedForSaving) {
+        [self setValuesFromGeoCode:currentLocationGeoCode];
+    }
+}
+
+- (void)reverseGeocodeSearchDidFail:(NSString *)error{
+    [ReittiNotificationHelper showErrorBannerMessage:@"Current location cannot be determined." andContent:nil];
+}
+
 #pragma mark - uitextview delegate methods
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     
@@ -553,12 +584,25 @@
 -(void)selectedAddressType:(NSDictionary *)stopEntity{
     self.addressTypeDictionary = stopEntity;
     if (viewControllerMode == ViewControllerModeEditAddress) {
-        self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
+        self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
     }else{
         [self updateViewData];
     }
     
     [self.tableView reloadData];
+}
+
+-(NSDictionary *)getTypeDictionaryForName:(NSString *)typeName{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AddressTypeList" ofType:@"plist"];
+    NSArray *tempArray = [NSArray arrayWithContentsOfFile:plistPath];
+    
+    for (NSDictionary *dict in tempArray) {
+        if ([[dict objectForKey:@"Name"] isEqualToString:typeName]) {
+            return dict;
+        }
+    }
+    
+    return nil;
 }
 
 - (void)dealloc
@@ -610,7 +654,7 @@
         routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
+//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         if ([segue.identifier isEqualToString:@"routeToHere"]) {
             routeSearchViewController.prevToLocation = self.name;
             routeSearchViewController.prevToCoords = self.coords;

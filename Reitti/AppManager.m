@@ -79,22 +79,98 @@
     }
 }
 
++(UIColor *)colorForLineType:(LineType)lineType{
+    switch (lineType) {
+        case LineTypeFerry:
+            return [AppManager systemCyanColor];
+            break;
+        case LineTypeTrain:
+            return [AppManager systemRedColor];
+            break;
+        case LineTypeBus:
+            return [AppManager systemBlueColor];
+            break;
+        case LineTypeTram:
+            return [AppManager systemGreenColor];
+            break;
+        case LineTypeMetro:
+            return [AppManager systemOrangeColor];
+            break;
+            
+        default:
+            return [AppManager systemBlueColor];
+            break;
+    }
+}
+
 #pragma mark - system images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType{
+    return [UIImage imageNamed:[AppManager stopAnnotationImageNameForStopType:stopType]];
+}
+
++(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType{
     
     if (stopType == StopTypeBus) {
-        return [UIImage imageNamed:@"busAnnotation3_2.png"];
+        return @"busAnnotation3_2.png";
     }else if (stopType == StopTypeTrain) {
-        return [UIImage imageNamed:@"trainAnnotation3_2.png"];
+        return @"trainAnnotation3_2.png";
     }else if (stopType == StopTypeTram) {
-        return [UIImage imageNamed:@"tramAnnotation3_2.png"];
+        return @"tramAnnotation3_2.png";
     }else if (stopType == StopTypeFerry) {
-        return [UIImage imageNamed:@"ferryAnnotation3_2.png"];
+        return @"ferryAnnotation3_2.png";
     }else if (stopType == StopTypeMetro) {
-        return [UIImage imageNamed:@"metroAnnotation3_2.png"];
+        return @"metroAnnotation3_2.png";
     }else{
-        return [UIImage imageNamed:@"busAnnotation3_2.png"];
+        return @"busAnnotation3_2.png";
     }
+}
+
++(UIImage *)vehicleImageForVehicleType:(VehicleType)type{
+    if (type == VehicleTypeTram) {
+        return [UIImage imageNamed:@"tramVAnnot.png"];
+    }else if (type == VehicleTypeTrain) {
+        return [UIImage imageNamed:@"trainVAnnot.png"];
+    }else if (type == VehicleTypeMetro) {
+        return [UIImage imageNamed:@"metroVAnnot.png"];
+    }else if (type == VehicleTypeBus) {
+        return [UIImage imageNamed:@"BusVAnnot.png"];
+    }else if (type == VehicleTypeLongDistanceTrain) {
+        return [UIImage imageNamed:@"trainVAnnot.png"];
+    }else {
+        return [UIImage imageNamed:@"tramVAnnot.png"];
+    }
+}
+
++(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type{
+    switch (type) {
+        case LegTypeWalk:
+            return [UIImage imageNamed:@"walking-gray-64.png"];
+            break;
+        case LegTypeFerry:
+            return [UIImage imageNamed:@"ferry-filled-cyan-100.png"];
+            break;
+        case LegTypeTrain:
+            return [UIImage imageNamed:@"train-filled-red-100.png"];
+            break;
+        case LegTypeBus:
+            return [UIImage imageNamed:@"bus-filled-blue-100.png"];
+            break;
+        case LegTypeTram:
+            return [UIImage imageNamed:@"tram-filled-green-100.png"];
+            break;
+        case LegTypeMetro:
+            return [UIImage imageNamed:@"metro-logo-orange.png"];
+            break;
+            
+        default:
+            return [UIImage imageNamed:@"bus-filled-blue-100.png"];
+            break;
+    }
+}
+
+
++(UIImage *)vehicleImageForLineType:(LineType)type{
+    return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];
 }
 
 @end

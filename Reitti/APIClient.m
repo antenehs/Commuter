@@ -368,44 +368,71 @@
 -(void)getLineInformation:(NSString *)codeList{
     
     //Do the API call
-    NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
-    AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
-    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
-    [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
-    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    
-    RKObjectMapping *setMapping = [RKObjectMapping mappingForClass:[LineInfo class]];
-    [setMapping addAttributeMappingsFromDictionary:@{
-                                                     @"code_short" : @"code_short"
-                                                     }];
-    
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:setMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
     codeList = [codeList stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+    NSString *urlAsString = [NSString stringWithFormat:@"%@?request=lines&epsg_in=4326&epsg_out=4326&user=asareitti&pass=rebekah&format=json&query=%@",apiBaseUrl,codeList];
     
-    NSString *apiURL = [NSString stringWithFormat:@"%@?request=lines&user=asareitti&pass=rebekah&format=txt&query=%@",apiBaseUrl,codeList];
+    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
+    //    NSLog(@"%@", urlAsString);
     
-    NSURL *URL = [NSURL URLWithString:apiURL];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
-    
-    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        self.lineInfoList = mappingResult.array;
-        [self LineInfoFetchDidComplete];
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        RKLogError(@"Operation failed with error: %@", error);
-        NSLog(@"Response ERROR ASA:%@", error);
-        [self LineInfoFetchFailed];
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self LineInfoFetchFailed:error];
+            });
+            
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self LineInfoFetchDidComplete:data];
+            });
+        }
     }];
     
-    [objectManager enqueueObjectRequestOperation:objectRequestOperation];
+//    
+//    NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
+//    AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
+//    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
+//    [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
+//    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+//    
+//    RKObjectMapping *setMapping = [RKObjectMapping mappingForClass:[LineInfo class]];
+//    [setMapping addAttributeMappingsFromDictionary:@{
+//                                                     @"code_short" : @"code_short"
+//                                                     }];
+//    
+//    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:setMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//    
+//    codeList = [codeList stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+//    
+//    NSString *apiURL = [NSString stringWithFormat:@"%@?request=lines&user=asareitti&pass=rebekah&format=txt&query=%@",apiBaseUrl,codeList];
+//    
+//    NSURL *URL = [NSURL URLWithString:apiURL];
+//    
+//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+//    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+//    
+//    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        self.lineInfoList = mappingResult.array;
+//        [self LineInfoFetchDidComplete];
+//        
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        RKLogError(@"Operation failed with error: %@", error);
+//        NSLog(@"Response ERROR ASA:%@", error);
+//        [self LineInfoFetchFailed];
+//    }];
+//    
+//    [objectManager enqueueObjectRequestOperation:objectRequestOperation];
 }
 
 #pragma mark - PubTrans Methods
-- (void)getAllLiveVehiclesFromPubTrans{
+- (void)getAllLiveVehiclesFromPubTrans:(NSString *)lineCodes{
     NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0"];
+    if (lineCodes != nil) {
+        //convert unsafe strings in search string
+        lineCodes = [lineCodes stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        lineCodes = [lineCodes stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0&lines=%@", lineCodes];
+    }
     NSURL *url = [[NSURL alloc] initWithString:urlAsString];
 //    NSLog(@"%@", urlAsString);
     
@@ -425,8 +452,14 @@
 }
 
 #pragma mark - HSL Live Methods
-- (void)getAllLiveVehiclesFromHSLLive{
+- (void)getAllLiveVehiclesFromHSLLive:(NSString *)lineCodes{
+    
     NSString *urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5"];
+    
+    if (lineCodes != nil) {
+        urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5&lines=%@", lineCodes];
+    }
+    
     NSURL *url = [[NSURL alloc] initWithString:urlAsString];
 //    NSLog(@"%@", urlAsString);
     
@@ -497,8 +530,8 @@
 - (void)StopFetchFailed:(int)errorCode{}
 - (void)StopInAreaFetchDidComplete{}
 - (void)StopInAreaFetchFailed:(int)errorCode{}
-- (void)LineInfoFetchDidComplete{}
-- (void)LineInfoFetchFailed{}
+- (void)LineInfoFetchDidComplete:(NSData *)objectNotation{}
+- (void)LineInfoFetchFailed:(NSError *)error{}
 - (void)GeocodeSearchDidComplete{}
 - (void)GeocodeSearchFailed:(int)errorCode{}
 - (void)ReverseGeocodeSearchDidComplete{}

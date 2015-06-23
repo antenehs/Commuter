@@ -10,7 +10,7 @@
 #import <RestKit/RestKit.h>
 #import "BusStop.h"
 #import "BusStopShort.h"
-#import "LineInfo.h"
+#import "Line.h"
 #import "GeoCode.h"
 #import "Route.h"
 #import "RouteLegs.h"
@@ -31,16 +31,16 @@
 -(void)getDisruptions;
 -(void)getLineInformation:(NSString *)codeList;
 
-- (void)getAllLiveVehiclesFromPubTrans;
-- (void)getAllLiveVehiclesFromHSLLive;
+- (void)getAllLiveVehiclesFromPubTrans:(NSString *)lineCodes;
+- (void)getAllLiveVehiclesFromHSLLive:(NSString *)lineCodes;
 
 
 - (void)StopFetchDidComplete;
 - (void)StopFetchFailed:(int)errorCode;
 - (void)StopInAreaFetchDidComplete;
 - (void)StopInAreaFetchFailed:(int)errorCode;
-- (void)LineInfoFetchDidComplete;
-- (void)LineInfoFetchFailed;
+- (void)LineInfoFetchDidComplete:(NSData *)objectNotation;
+- (void)LineInfoFetchFailed:(NSError *)error;
 - (void)GeocodeSearchDidComplete;
 - (void)GeocodeSearchFailed:(int)errorCode;
 - (void)ReverseGeocodeSearchDidComplete;

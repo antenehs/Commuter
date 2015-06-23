@@ -21,6 +21,8 @@
 #import "AppManager.h"
 #import "LiveTrafficManager.h"
 #import "Vehicle.h"
+#import "CoreDataManager.h"
+#import "DroppedPinManager.h"
 
 @interface SearchController ()
 
@@ -52,6 +54,7 @@
 @synthesize searchResultListViewMode;
 @synthesize darkMode, mapMode;
 @synthesize droppedPinGeoCode;
+@synthesize mapView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,6 +76,7 @@
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
+    [self setMapModeForSettings];
 //    [self setUpToolBarWithMiddleImage:@"list-100.png"];
 //    [self setUpModeSelector];
     [self hideNearByStopsView:YES animated:NO];
@@ -80,10 +84,10 @@
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
     if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
-                                                            message:@"Please write a review for this app in the App Store if you think it has been useful."
+                                                            message:@"The gift of 5 little starts is satisfying for both of us more than you think."
                                                            delegate:self
                                                   cancelButtonTitle:@"Maybe later"
-                                                  otherButtonTitles:@"Rate", nil];
+                                                  otherButtonTitles:@"Try it", nil];
         alertView.tag = 1001;
         [alertView show];
     }
@@ -161,6 +165,8 @@
     if (settingsManager.userLocation == HSLRegion) {
         [reittiDataManager fetchAllLiveVehicles];
     }
+    
+    removeAnnotationsOnce = YES;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -189,6 +195,11 @@
     }
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager userlocationChangedNotificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager mapModeChangedNotificationName] object:nil];
+}
+
 #pragma - mark initialization Methods
 
 - (void)initDataComponentsAndModules
@@ -211,8 +222,7 @@
 - (void)initDataManagers
 {
     if (self.managedObjectContext == nil) {
-        AppDelegate *appDelegate = [[AppDelegate alloc] init];
-        self.managedObjectContext = appDelegate.managedObjectContext;
+        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
     }
     
     RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
@@ -235,6 +245,14 @@
     if (settingsManager.userLocation == HSLRegion) {
         [reittiDataManager fetchAllLiveVehicles];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(mapModeSettingsValueChanged:)
+                                                 name:[SettingsManager mapModeChangedNotificationName] object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLocationSettingsValueChanged:)
+                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
     
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
@@ -718,7 +736,9 @@
             if (hidden) {
                 searchResultsView.hidden = YES;
                 if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
-                    [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
+                        [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                    }
                 }
             }
         }];
@@ -727,7 +747,9 @@
         if (hidden) {
             searchResultsView.hidden = YES;
             if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
-                [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
+                    [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                }
             }
         }
     }
@@ -1133,6 +1155,8 @@
             
             [mapView removeAnnotations:annotToRemove];
             
+            NSMutableArray *allAnots = [@[] mutableCopy];
+            
             for (BusStopShort *stop in newStops) {
                 UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
                 
@@ -1153,9 +1177,17 @@
                 stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
                 stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
                 
-                [mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+                [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
             }
             
+            if (allAnots.count > 0) {
+                @try {
+                    [self.mapView addAnnotations:allAnots];
+                }
+                @catch (NSException *exception) {
+                     NSLog(@"Adding annotations failed!!! Exception %@", exception);
+                }
+            }
         }
     }
     @catch (NSException *exception) {
@@ -1348,22 +1380,6 @@
     return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
 }
 
--(UIImage *)imageForVehicleType:(VehicleType)type{
-    if (type == VehicleTypeTram) {
-        return [UIImage imageNamed:@"tramVAnnot.png"];
-    }else if (type == VehicleTypeTrain) {
-        return [UIImage imageNamed:@"trainVAnnot.png"];
-    }else if (type == VehicleTypeMetro) {
-        return [UIImage imageNamed:@"metroVAnnot.png"];
-    }else if (type == VehicleTypeBus) {
-        return [UIImage imageNamed:@"BusVAnnot.png"];
-    }else if (type == VehicleTypeLongDistanceTrain) {
-        return [UIImage imageNamed:@"trainVAnnot.png"];
-    }else {
-        return [UIImage imageNamed:@"tramVAnnot.png"];
-    }
-}
-
 -(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
 //    for (id<MKAnnotation> annotation in mapView.annotations) {
 //        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
@@ -1425,7 +1441,7 @@
     
     for (Vehicle *vehicle in newVehicles) {
         LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
-        vehicleAnT.image = [self imageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
         vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
         vehicleAnT.code = vehicle.vehicleId;
         vehicleAnT.title = vehicle.vehicleName;
@@ -1668,6 +1684,21 @@
     
 }
 
+- (void)removeAllStopAnnotations {
+    NSMutableArray *tempArray = [@[] mutableCopy];
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+            
+            if (annot.annotationType == NearByStopType) {
+                [tempArray addObject:annot];
+            }
+        }
+    }
+    
+    [self.mapView removeAnnotations:tempArray];
+}
+
 //- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
 ////    StopAnnotation *stopAnnotation = (StopAnnotation*)view.annotation;
 //    
@@ -1686,18 +1717,15 @@
         if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
             [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
         }else{
-            for (id<MKAnnotation> annotation in mapView.annotations) {
-                if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-                    JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-                    
-                    if (annot.annotationType == NearByStopType) {
-                        [mapView removeAnnotation:annot];
-                    }
-                }
-            }
+            [self removeAllStopAnnotations];
         }
-        
     }
+    
+    if (removeAnnotationsOnce) {
+        [self removeAllStopAnnotations];
+        removeAnnotationsOnce = NO;
+    }
+    
 //    [self.reittiDataManager fetchAllLiveVehicles];
     currentLocationButton.alpha = 1;
 //    sendEmailButton.alpha = 1;
@@ -1727,23 +1755,30 @@
 }
 
 - (void)showDisruptionCustomBadge:(bool)show{
-    if (customBadge == nil && show) {
-        customBadge = [CustomBadge customBadgeWithString:@"!"
-                                                      withStringColor:[UIColor whiteColor]
-                                                       withInsetColor:[UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0] withBadgeFrame:YES
-                                                  withBadgeFrameColor:[UIColor whiteColor]
-                                                            withScale:1.0
-                                                          withShining:NO];
-        [customBadge setFrame:CGRectMake(infoAndAboutButton.frame.origin.x + infoAndAboutButton.frame.size.width - 3 - customBadge.frame.size.width/2, infoAndAboutButton.frame.origin.y - customBadge.frame.size.height/2, customBadge.frame.size.width, customBadge.frame.size.height)];
-        
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnBadgeDetected)];
-        tapGesture.delegate = self;
-        
-        [customBadge addGestureRecognizer:tapGesture];
-        
-        [rightNavButtonsView addSubview:customBadge];
+//    if (customBadge == nil && show) {
+//        customBadge = [CustomBadge customBadgeWithString:@"!"
+//                                                      withStringColor:[UIColor whiteColor]
+//                                                       withInsetColor:[UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0] withBadgeFrame:YES
+//                                                  withBadgeFrameColor:[UIColor whiteColor]
+//                                                            withScale:1.0
+//                                                          withShining:NO];
+//        [customBadge setFrame:CGRectMake(infoAndAboutButton.frame.origin.x + infoAndAboutButton.frame.size.width - 3 - customBadge.frame.size.width/2, infoAndAboutButton.frame.origin.y - customBadge.frame.size.height/2, customBadge.frame.size.width, customBadge.frame.size.height)];
+//        
+//        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnBadgeDetected)];
+//        tapGesture.delegate = self;
+//        
+//        [customBadge addGestureRecognizer:tapGesture];
+//        
+//        [rightNavButtonsView addSubview:customBadge];
+//    }else{
+//        customBadge.hidden = !show;
+//    }
+    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:3];
+
+    if (show) {
+        moreTabBarItem.badgeValue = @"!";
     }else{
-        customBadge.hidden = !show;
+        moreTabBarItem.badgeValue = nil;
     }
 }
 
@@ -1954,12 +1989,7 @@
 }
 
 #pragma - mark IBActions
-//- (IBAction)hideButtonPressed:(id)sender {
-//    //[self toggleSearchViewHiddenAnimated:YES];
-//}
--(IBAction)mapModeSegmentedControlChangedValue:(id)sender{
-    
-}
+
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
     if (![self isLocationServiceAvailableWithNotification:NO] && locNotAvailableNotificationShow) {
         [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
@@ -1967,14 +1997,7 @@
 
     [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
 }
-/*
-- (IBAction)sendFeedBackButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Your feedbacks and opinions are highly valued." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share on Facebook", @"Send Feature Request",@"Send FeedBack",@"Rate In AppStore", nil];
-    //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-    actionSheet.tag = 1001;
-    [actionSheet showInView:self.view];
-}
-*/
+
 - (IBAction)listNearbyStopsPressed:(id)sender {
     if (searchResultsView.hidden) {
         [self listNearByStops];
@@ -2311,6 +2334,8 @@
     droppedPinGeoCode = geoCode;
     [droppedPinGeoCode setLocationType:LocationTypeDroppedPin];
     
+    [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
+    
     if ([droppedPinAnnotationView conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
@@ -2342,13 +2367,13 @@
     [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
 }
 - (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
-    
+    //TODO: Remove vehicles if call fails
 }
 - (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList{
     [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
 }
 - (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error{
-    
+    //TODO: Remove vehicles if call fails    
 }
 
 #pragma mark - Disruptions delegate
@@ -2417,8 +2442,7 @@
 }
 
 #pragma mark - settings view delegate
--(void)settingsValueChanged{
-    
+- (void)setMapModeForSettings {
     switch ([settingsManager getMapMode]) {
         case StandartMapMode:
             mapView.mapType = MKMapTypeStandard;
@@ -2435,13 +2459,46 @@
         default:
             break;
     }
-    
+}
+
+-(void)mapModeSettingsValueChanged:(NSNotification *)notification{
+    [self setMapModeForSettings];
+}
+
+-(void)userLocationSettingsValueChanged:(NSNotification *)notification{
     if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
         [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
         [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
     }
     
     [self fetchDisruptions];
+}
+
+-(void)settingsValueChanged{
+//    
+//    switch ([settingsManager getMapMode]) {
+//        case StandartMapMode:
+//            mapView.mapType = MKMapTypeStandard;
+//            break;
+//            
+//        case HybridMapMode:
+//            mapView.mapType = MKMapTypeHybrid;
+//            break;
+//            
+//        case SateliteMapMode:
+//            mapView.mapType = MKMapTypeSatellite;
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    
+//    if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
+//        [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+//        [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
+//    }
+//    
+//    [self fetchDisruptions];
     
 }
 
@@ -2507,7 +2564,7 @@
         bookmarksViewController.darkMode = self.darkMode;
         bookmarksViewController.delegate = self;
         bookmarksViewController.mode = bookmarkViewMode;
-        bookmarksViewController.droppedPinGeoCode = droppedPinGeoCode;
+//        bookmarksViewController.droppedPinGeoCode = droppedPinGeoCode;
         bookmarksViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [bookmarksViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        bookmarksViewController.reittiDataManager = self.reittiDataManager;
@@ -2541,7 +2598,7 @@
         }
         
         stopViewController.darkMode = self.darkMode;
-        stopViewController.droppedPinGeoCode = droppedPinGeoCode;
+//        stopViewController.droppedPinGeoCode = droppedPinGeoCode;
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        stopViewController.reittiDataManager = self.reittiDataManager;
@@ -2565,9 +2622,9 @@
         
         addressSearchViewController.routeSearchMode = NO;
         addressSearchViewController.simpleSearchMode = YES;
-        addressSearchViewController.darkMode = self.darkMode;
+//        addressSearchViewController.darkMode = self.darkMode;
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
-        addressSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
+//        addressSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
         addressSearchViewController.delegate = self;
         addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [addressSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -2589,7 +2646,7 @@
         routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
         
-        routeSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
+//        routeSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
         
         routeSearchViewController.prevToLocation = mainSearchBar.text;
         
@@ -2640,7 +2697,7 @@
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
         controller.namedBookmark = selectedNamedBookmark;
-        controller.droppedPinGeoCode = droppedPinGeoCode;
+//        controller.droppedPinGeoCode = droppedPinGeoCode;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
         controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -2650,7 +2707,7 @@
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
-        controller.droppedPinGeoCode = droppedPinGeoCode;
+//        controller.droppedPinGeoCode = droppedPinGeoCode;
         
         if ([self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
             controller.namedBookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];

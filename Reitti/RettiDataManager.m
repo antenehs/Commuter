@@ -15,6 +15,7 @@
 #import "CookieEntity.h"
 #import "SettingsEntity.h"
 #import "ReittiManagedObjectBase.h"
+#import "CoreDataManager.h"
 //#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
@@ -24,6 +25,7 @@
 @synthesize geocodeSearchdelegate;
 @synthesize reverseGeocodeSearchdelegate;
 @synthesize routeSearchdelegate;
+@synthesize lineSearchdelegate;
 @synthesize disruptionFetchDelegate;
 @synthesize hslCommunication, treCommunication, pubTransAPI;
 @synthesize detailLineInfo;
@@ -46,9 +48,20 @@
 @synthesize vehicleFetchDelegate;
 
 -(id)init{
-    [self initElements];
-    return self;
+    self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
     
+    [self initElements];
+    
+    [self fetchSystemCookie];
+    nextObjectLID = [cookieEntity.objectLID intValue];
+    
+    [self fetchAllHistoryStopCodesFromCoreData];
+    [self fetchAllSavedStopCodesFromCoreData];
+    [self fetchAllSavedRouteCodesFromCoreData];
+    [self fetchAllRouteHistoryCodesFromCoreData];
+    [self fetchAllNamedBookmarkNamesFromCoreData];
+    
+    return self;
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context{
@@ -99,10 +112,19 @@
     [self initRegionCoordinates];
     
     userLocation = HSLandTRERegion;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLocationSettingsValueChanged:)
+                                                 name:@"SettingsManagerUserLocationChangedNotification" object:nil];
 }
 
 -(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
     userLocation = [self identifyRegionOfCoordinate:coords];
+}
+
+-(void)userLocationSettingsValueChanged:(NSNotificationCenter *)notification{
+    [self fetchSettings];
+    userLocation = (Region)[self.settingsEntity.userLocation intValue];
 }
 
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords{
@@ -332,8 +354,6 @@
         [HSLGeocodeResposeQueue addObject:failed];
         [self checkForGeoCodeFetchCompletionAndReturn];
     }
-    
-    
 }
 
 -(void)hslReverseGeocodeSearchDidComplete:(HSLCommunication *)communicator{
@@ -413,13 +433,16 @@
     [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
 }
 
--(void)hslLineInfoFetchDidComplete:(HSLCommunication *)communicator{
-    self.detailLineInfo = [self convertListInfoArrayToDictionary:communicator.lineInfoList];
+-(void)hslLineInfoFetchDidComplete:(NSArray *)lines{
+//    self.detailLineInfo = [self convertListInfoArrayToDictionary:communicator.lineInfoList];
     //[self.delegate stopFetchDidComplete:communicator.stopList];
+    [self.lineSearchdelegate lineSearchDidComplete:lines];
 }
 
--(void)hslLineInfoFetchFailed:(HSLCommunication *)communicator{
+-(void)hslLineInfoFetchFailed:(NSError *)error{
     //[self.delegate stopFetchDidFail:nil];
+    //TODO: evaluate error string
+    [self.lineSearchdelegate lineSearchDidFail:@"Line fetch failed"];
 }
 
 #pragma mark - TRECommunication delegate methods
@@ -551,8 +574,22 @@
 - (void)receivedGeoJSON:(NSData *)objectNotation{/*Not Implemented Here*/}
 
 #pragma mark - Live traffic fetch methods
+-(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes{
+    if (userLocation == HSLRegion) {
+        [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromHSLLive:lineCodes];
+    }
+}
+
+-(void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes{
+    if (userLocation == HSLRegion) {
+        [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromPubTrans:lineCodes];
+    }
+}
+
 -(void)fetchAllLiveVehicles{
-    [self.liveTrafficManager fetchAllLiveVehicles];
+    if (userLocation == HSLRegion) {
+        [self.liveTrafficManager fetchAllLiveVehicles];
+    }
 }
 
 -(void)stopFetchingLiveVehicles{
@@ -595,7 +632,7 @@
     
     NSMutableArray *codesList;
     
-    for (LineInfo * line in infoListArray) {
+    for (Line * line in infoListArray) {
         [codesList addObject:[NSString stringWithFormat:@"%@", line.code]];
     }
     
@@ -1928,9 +1965,10 @@
     
 }
 
-- (void)dealloc
-{
-    NSLog(@"RettiManager:Dealloc:Saved cooki data");
+- (void)dealloc {
+    NSLog(@"RettiDataManager:Dealloced");
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SettingsManagerUserLocationChangedNotification" object:nil];
 }
 
 @end

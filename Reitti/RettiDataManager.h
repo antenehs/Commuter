@@ -51,6 +51,11 @@
 - (void)routeSearchDidFail:(NSString *)error;
 @end
 
+@protocol RettiLineInfoSearchDelegate <NSObject>
+- (void)lineSearchDidComplete:(NSArray *)lines;
+- (void)lineSearchDidFail:(NSString *)error;
+@end
+
 @protocol ReittiDisruptionFetchDelegate <NSObject>
 - (void)disruptionFetchDidComplete:(NSArray *)disList;
 - (void)disruptionFetchDidFail:(NSString *)error;
@@ -157,7 +162,9 @@ typedef struct {
 
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 
-- (void)fetchAllLiveVehicles;
+-(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes;
+-(void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes;
+-(void)fetchAllLiveVehicles;
 -(void)stopFetchingLiveVehicles;
 
 +(NSDictionary *)convertStopLinesArrayToDictionary:(NSArray *)lineList;
@@ -182,6 +189,7 @@ typedef struct {
 @property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
 @property (nonatomic, weak) id <RettiReverseGeocodeSearchDelegate> reverseGeocodeSearchdelegate;
 @property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
+@property (nonatomic, weak) id <RettiLineInfoSearchDelegate> lineSearchdelegate;
 @property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
 @property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
 

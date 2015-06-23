@@ -46,15 +46,16 @@
     UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
     UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
     UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+//    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     
-    tabBarItem1.title = @"Search";
+    tabBarItem1.title = @"Map";
     tabBarItem2.title = @"Route";
     tabBarItem3.title = @"Bookmarks";
-    tabBarItem4.title = @"Settings";
+//    tabBarItem4.title = @"Lines";
 //    tabBarItem4.title = @"Settings";
     
-    UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];
+//    UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];
+    UIImage *image1 = [UIImage imageNamed:@"compas-100.png"];
     tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(26, 26)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
@@ -67,9 +68,9 @@
     tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(28, 28)];
 //    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    UIImage *image4 = [UIImage imageNamed:@"Settings-Filled-2-100.png"];
+//    UIImage *image4 = [UIImage imageNamed:@"lines-100.png"];
 //    UIImage *image4_unselected = [UIImage imageNamed:@"Settings-unselected-100.png"];
-    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(24, 24)];
+//    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(24, 24)];
 //    tabBarItem4.selectedImage = [self imageWithImage:image4 scaledToSize:CGSizeMake(26, 26)];
 //    tabBarItem4.image = [[self imageWithImage:image4_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 //    tabBarItem1.image = [UIImage imageNamed:@"Home-green-100.png"];

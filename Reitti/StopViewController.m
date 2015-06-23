@@ -37,7 +37,7 @@
 @synthesize delegate;
 @synthesize refreshControl;
 @synthesize darkMode;
-@synthesize droppedPinGeoCode;
+//@synthesize droppedPinGeoCode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -143,16 +143,12 @@
         [stopViewSubTitle setText:stopName];
     }
     
+    bookmarkButton.enabled = NO;
+    
     departuresTable.backgroundColor = [UIColor clearColor];
     
     topToolBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     topToolBar.layer.borderWidth = 0.5;
-    
-    if ([self.reittiDataManager isBusStopSaved:self._busStop]) {
-        [self setStopBookmarkedState];
-    }else{
-        [self setStopNotBookmarkedState];
-    }
     
     if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
         [self initAdBannerView];
@@ -173,15 +169,20 @@
     [departuresTable addParallaxWithView:mapView andHeight:160];
 }
 
-
+//This method is called after the busStop object is fetched
 -(void)setUpStopViewForBusStop:(BusStop *)busStop{
     self.departures = busStop.departures;
     self._busStop = busStop;
     self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
     self._stopLineNames = [RettiDataManager parseStopLineNamesToDictionary:busStop.lines];
-    //    [self.refreshControl endRefreshing];
-    //    [SVProgressHUD dismiss];
-    //    [self initRefreshControl];
+    
+    bookmarkButton.enabled = YES;
+    
+    if ([self.reittiDataManager isBusStopSaved:self._busStop]) {
+        [self setStopBookmarkedState];
+    }else{
+        [self setStopNotBookmarkedState];
+    }
     
     [self setUpMapViewForBusStop];
     
@@ -537,7 +538,9 @@
 {
     CustomeTableViewCell *cell = (CustomeTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if (cell != nil) {
-        [cell showUtilityButtonsAnimated:YES];
+        if ([cell isKindOfClass:[CustomeTableViewCell class]]) {
+            [cell showUtilityButtonsAnimated:YES];
+        }
     }
 }
 
@@ -733,7 +736,7 @@
         routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
         routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
         routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
+//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         if ([segue.identifier isEqualToString:@"routeToHere"]) {
             routeSearchViewController.prevToLocation = self.stopName;

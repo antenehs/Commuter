@@ -16,6 +16,7 @@
 #import "HistoryEntity.h"
 #import "AddressSearchViewController.h"
 #import "RouteSearchOptions.h"
+#import "SettingsManager.h"
 #import "RouteOptionsTableViewController.h"
 
 @class RouteSearchViewController;
@@ -115,6 +116,7 @@
 @property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
+@property (strong, nonatomic) SettingsManager *settingsManager;
 @property (strong, nonatomic) CLLocation * currentUserLocation;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 

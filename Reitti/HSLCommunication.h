@@ -15,8 +15,8 @@
 - (void)hslStopFetchFailed:(int)errorCode;
 - (void)hslStopInAreaFetchDidComplete:(HSLCommunication *)communicator;
 - (void)hslStopInAreaFetchFailed:(int)errorCode;
-- (void)hslLineInfoFetchDidComplete:(HSLCommunication *)communicator;
-- (void)hslLineInfoFetchFailed:(HSLCommunication *)communicator;
+- (void)hslLineInfoFetchDidComplete:(NSArray *)lines;
+- (void)hslLineInfoFetchFailed:(NSError *)erro;
 - (void)hslGeocodeSearchDidComplete:(HSLCommunication *)communicator;
 - (void)hslGeocodeSearchFailed:(int)errorCode;
 - (void)hslReverseGeocodeSearchDidComplete:(HSLCommunication *)communicator;

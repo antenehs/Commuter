@@ -20,14 +20,14 @@
     IBOutlet UITableView *mainTableView;
     IBOutlet MKMapView *backgroundMapView;
     
+    UISegmentedControl *mapModeSegmentControl;
+    
     NSArray *historyTimeInDays;
     NSArray *regions;
     
 }
 
 @property (nonatomic) MKCoordinateRegion mapRegion;
-
-@property (nonatomic) bool isRootViewController;
 
 @property (nonatomic, strong)SettingsManager *settingsManager;
 

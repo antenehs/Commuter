@@ -25,6 +25,10 @@
     self.navigationController.toolbar.hidden = YES;
 //    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
     
+    if (![self isModalMode]) {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    
     if (self.savedStops == nil || self.savedStops.count < 1) {
         infoLabel.hidden = NO;
         tableView.hidden = YES;
@@ -43,8 +47,10 @@
         [self initUserDefaults];
         [self readSelectedStops];
     }
-    
-    
+}
+
+-(BOOL)isModalMode{
+    return self.tabBarController == nil;
 }
 
 - (void)initUserDefaults{

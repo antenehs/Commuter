@@ -20,7 +20,6 @@
 @synthesize mapRegion;
 @synthesize settingsManager;
 @synthesize delegate;
-@synthesize isRootViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -100,6 +99,7 @@
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"mapModeCell"];
         UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
+        segmentCtrl.selectedSegmentIndex = [settingsManager getMapMode];
         segmentCtrl.selectedSegmentIndex = [self.settingsManager getMapMode];
     }else if (indexPath.section == 1) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"widgetSettingCell"];
@@ -208,7 +208,7 @@
     }
 }
 
-#pragma mark - IBOutlets
+#pragma mark - IBActions
 - (IBAction)closeButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
         [delegate settingsValueChanged];

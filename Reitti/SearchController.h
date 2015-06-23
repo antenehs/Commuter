@@ -62,7 +62,7 @@ typedef enum
 @interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, ReittiLiveVehicleFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate>{
 //    IBOutlet AMBlurView *blurView;
 //    IBOutlet AMBlurView *commandView;
-    IBOutlet MKMapView *mapView;
+//    IBOutlet MKMapView *mapView;
 //    IBOutlet UISegmentedControl *searchTypeSegmentControl;
 //    IBOutlet UIButton *hideSearchViewButton;
 //    IBOutlet UISearchBar *fromSearchBar;
@@ -146,6 +146,7 @@ typedef enum
     BOOL requestedForListing;
     BOOL firstRecievedLocation;
     BOOL userLocationUpdated;
+    BOOL removeAnnotationsOnce;
     float topLayoutGuide;
     float bottomLayoutGuide;
     int bookmarkViewMode;
@@ -192,6 +193,8 @@ typedef enum
 -(void)openBookmarksView;
 -(void)openWidgetSettingsView;
 -(void)openStopViewForCode:(NSNumber *)code;
+
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
 
 @property (strong, nonatomic) IBOutlet AMBlurView *StopView;
 @property (strong, nonatomic) IBOutlet AMBlurView *searchResultsView;
