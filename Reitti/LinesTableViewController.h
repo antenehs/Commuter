@@ -10,6 +10,8 @@
 
 @interface LinesTableViewController : UITableViewController<UISearchBarDelegate, UIScrollViewDelegate>{
     IBOutlet UISearchBar *addressSearchBar;
+    BOOL scrollingShouldResignFirstResponder;
+    BOOL tableIsScrolling;
 }
 
 

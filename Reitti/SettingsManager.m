@@ -28,6 +28,11 @@
 -(Region)userLocation{
     return (Region)[self.reittiDataManager.settingsEntity.userLocation intValue];
 }
+
+-(BOOL)shouldShowLiveVehicles{
+    return [self.reittiDataManager.settingsEntity.showLiveVehicle boolValue];
+}
+
 -(BOOL)isClearingHistoryEnabled{
     return [self.reittiDataManager.settingsEntity.clearOldHistory boolValue];
 }
@@ -48,6 +53,14 @@
     
     [self postNotificationWithName:[SettingsManager userlocationChangedNotificationName]];
 }
+
+-(void)showLiveVehicle:(BOOL)show{
+    [self.reittiDataManager.settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:show]];
+    [self.reittiDataManager saveSettings];
+    
+    [self postNotificationWithName:[SettingsManager shouldShowVehiclesNotificationName]];
+}
+
 -(void)enableClearingOldHistory:(BOOL)clear{
     [self.reittiDataManager.settingsEntity setClearOldHistory:[NSNumber numberWithBool:clear]];
     [self.reittiDataManager saveSettings];
@@ -64,7 +77,11 @@
 +(NSString *)userlocationChangedNotificationName{
     return @"SettingsManagerUserLocationChangedNotification";
 }
-     
+
++(NSString *)shouldShowVehiclesNotificationName{
+    return @"SettingsManagerShowVehiclesChangedNotification";
+}
+
 -(void)postNotificationWithName:(NSString *)name{
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
 }

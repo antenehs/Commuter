@@ -486,7 +486,7 @@
         return cell;
     }
     
-    [cell setCellHeight:cell.frame.size.height];
+    [cell setCellHeight:56];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.backgroundColor = [UIColor clearColor];
     return cell;

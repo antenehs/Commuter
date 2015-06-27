@@ -13,6 +13,7 @@
 
 @dynamic mapMode;
 @dynamic userLocation;
+@dynamic showLiveVehicle;
 @dynamic clearOldHistory;
 @dynamic numberOfDaysToKeepHistory;
 @dynamic settingsStartDate;

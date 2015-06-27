@@ -14,6 +14,7 @@
 
 @property (nonatomic, retain) NSNumber * mapMode;
 @property (nonatomic, retain) NSNumber * userLocation;
+@property (nonatomic, retain) NSNumber * showLiveVehicle;
 @property (nonatomic, retain) NSNumber * clearOldHistory;
 @property (nonatomic, retain) NSNumber * numberOfDaysToKeepHistory;
 @property (nonatomic, retain) NSDate   * settingsStartDate;

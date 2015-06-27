@@ -997,6 +997,7 @@ typedef enum
     }
     
     [self setBookmarkButtonStatus];
+    [self hideToolBar:NO animated:YES];
     
 }
 - (void)routeSearchDidFail:(NSString *)error{
@@ -1499,15 +1500,15 @@ typedef enum
 
 #pragma mark - scroll view delegates
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (routeList.count < 1)
-        return;
-    
-    if (scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height - 100) {
-        [self hideToolBar:NO animated:YES];
-    }
-    if (scrollView.contentOffset.y + scrollView.frame.size.height < scrollView.contentSize.height - 150) {
-        [self hideToolBar:YES animated:YES];
-    }
+//    if (routeList.count < 1)
+//        return;
+//    
+//    if (scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height - 100) {
+//        [self hideToolBar:NO animated:YES];
+//    }
+//    if (scrollView.contentOffset.y + scrollView.frame.size.height < scrollView.contentSize.height - 150) {
+//        [self hideToolBar:YES animated:YES];
+//    }
 }
 
 #pragma mark - address search view controller

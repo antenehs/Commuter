@@ -708,7 +708,7 @@
             }
         }
         
-        if (indexPath.row > 0 && (listSegmentControl.selectedSegmentIndex != 0 && indexPath.section != 0)) {
+        if (listSegmentControl.selectedSegmentIndex == 1) {
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         

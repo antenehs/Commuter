@@ -41,6 +41,9 @@
     
     [self.tableView reloadData];
     
+    scrollingShouldResignFirstResponder = YES;
+    tableIsScrolling = NO;
+    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -94,7 +97,13 @@
 
 #pragma mark - search bar methods
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-    //hide segment control
+    //set a variable to prevent scrolling to dismiss it until scrolling stops
+    if (tableIsScrolling) {
+        scrollingShouldResignFirstResponder = NO;
+    }else{
+        scrollingShouldResignFirstResponder = YES;
+    }
+    
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
@@ -168,7 +177,7 @@
     
     numberLabel.text = routeForCell.shortName;
 //    numberLabel.textColor = [AppManager colorForLineType:[EnumManager lineTypeForHSLLineTypeId:routeForCell.routeType]];
-    numberLabel.textColor = [UIColor darkGrayColor];
+//    numberLabel.textColor = [UIColor darkGrayColor];
     if (indexPath.section == 0) {
         nameLabel.text = [NSString stringWithFormat:@"%@ - %@", routeForCell.lineStart, routeForCell.lineEnd];
     }else
@@ -177,7 +186,7 @@
 //    typeImageView.image = [AppManager vehicleImageForLineType:[EnumManager lineTypeForHSLLineTypeId:routeForCell.routeType]];
     
     // Configure the cell...
-    cell.backgroundColor = [UIColor clearColor];
+//    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -227,7 +236,7 @@
     [view addSubview:typeImageView];
     [view addSubview:titleLabel];
     
-    view.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
     
     return view;
 }
@@ -254,8 +263,15 @@
 
 #pragma mark - scroll view delegates
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if(scrollView == self.tableView)
+    tableIsScrolling = YES;
+    if(scrollView == self.tableView && scrollingShouldResignFirstResponder){
         [addressSearchBar resignFirstResponder];
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    tableIsScrolling = NO;
+    scrollingShouldResignFirstResponder = YES;
 }
 
 #pragma mark - helper methods

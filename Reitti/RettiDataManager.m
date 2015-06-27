@@ -840,6 +840,11 @@
         
         NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings value is not null");
         settingsEntity = [tempSystemSettings objectAtIndex:0];
+        
+        //Migration to datamodel version 7
+        if (settingsEntity.showLiveVehicle == nil) {
+            [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
+        }
     }
     else {
         NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings values is null");
@@ -855,6 +860,7 @@
     //set default values
     [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
     [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
     [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
     [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
     [settingsEntity setSettingsStartDate:[NSDate date]];

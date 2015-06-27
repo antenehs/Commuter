@@ -15,6 +15,7 @@
 #import "LocationsAnnotation.h"
 #import "StopViewController.h"
 #import "SVProgressHUD.h"
+#import "ReittiNotificationHelper.h"
 
 @interface LineDetailViewController ()
 
@@ -95,7 +96,19 @@
     span.longitudeDelta += 0.3 * span.longitudeDelta;
     MKCoordinateRegion region = {centerCoord, span};
     
-    [routeMapView setRegion:region animated:YES];
+    @try {
+        [routeMapView setRegion:region animated:YES];
+    }
+    
+    @catch (NSException *exception) {
+        NSLog(@"failed to ccenter map");
+        LineStops *firstStop = [self.line.lineStops firstObject];
+        CLLocationCoordinate2D centerCoord = [ReittiStringFormatter convertStringTo2DCoord:firstStop.coords];
+        MKCoordinateSpan span = {.latitudeDelta =  0.1, .longitudeDelta = 0.1};
+        MKCoordinateRegion region = {centerCoord, span};
+        
+        [routeMapView setRegion:region animated:YES];
+    }
     
     lowerBound = lowerBoundTemp;
 }
@@ -242,6 +255,12 @@
 
 -(void)lineSearchDidFail:(NSString *)error{
     [SVProgressHUD dismiss];
+    [ReittiNotificationHelper showErrorBannerMessage:@"Fetching line detail failed" andContent:nil];
+    [self performSelector:@selector(popViewController) withObject:nil afterDelay:2];
+}
+
+-(void)popViewController{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - helper methods

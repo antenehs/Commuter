@@ -23,17 +23,20 @@ typedef enum
 
 -(MapMode)getMapMode;
 -(Region)userLocation;
+-(BOOL)shouldShowLiveVehicles;
 -(BOOL)isClearingHistoryEnabled;
 -(int)numberOfDaysToKeepHistory;
 
 -(void)setMapMode:(MapMode)mapMode;
 -(void)setUserLocation:(Region)userLocation;
+-(void)showLiveVehicle:(BOOL)show;
 -(void)enableClearingOldHistory:(BOOL)clear;
 -(void)setNumberOfDaysToKeepHistory:(int)days;
 
 //Notifications
 +(NSString *)mapModeChangedNotificationName;
 +(NSString *)userlocationChangedNotificationName;
++(NSString *)shouldShowVehiclesNotificationName;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

@@ -74,7 +74,7 @@
 
 #pragma - mark table view methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 6;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -84,12 +84,8 @@
         return 1;
     }else if (section == 2) {
         return 1;
-    }else if (section == 3) {
-        return 2;
-    }else if (section == 4) {
-        return 1;
-    }else{
-        return 1;
+    }else {
+        return 3;
     }
 }
 
@@ -114,7 +110,12 @@
         }
         
     }else if (indexPath.section == 3) {
+        
         if (indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"liveVehicleCell"];
+            UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
+            uiSwitch.on = [settingsManager shouldShowLiveVehicles];
+        }else if (indexPath.row == 1) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"clearHistoryCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
             uiSwitch.on = [settingsManager isClearingHistoryEnabled];
@@ -157,11 +158,12 @@
                 selectedLabel.textColor = [UIColor lightGrayColor];
             }
         }
-    }else if (indexPath.section == 4){
-        cell = [tableView dequeueReusableCellWithIdentifier:@"rateAppCell"];
-    }else{
-        cell = [tableView dequeueReusableCellWithIdentifier:@"versionInfoCell"];
     }
+//        else if (indexPath.section == 4){
+//        cell = [tableView dequeueReusableCellWithIdentifier:@"rateAppCell"];
+//    }else{
+//        cell = [tableView dequeueReusableCellWithIdentifier:@"versionInfoCell"];
+//    }
     
     return cell;
 }
@@ -169,7 +171,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 1 || section == 2) {
         return 70;
-    }else if(section == 4){
+    }else if(section == 3){
         return 50;
     }else
         return 0;
@@ -236,6 +238,12 @@
         default:
             break;
     }
+}
+
+- (IBAction)showLiveVehicleSwitchValueChanged:(id)sender {
+    UISwitch *uiSwith = (UISwitch *)sender;
+    [settingsManager showLiveVehicle:uiSwith.isOn];
+    [mainTableView reloadData];
 }
 
 - (IBAction)historyClearingSwitchValueChanged:(id)sender {

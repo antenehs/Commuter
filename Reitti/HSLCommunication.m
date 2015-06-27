@@ -42,7 +42,12 @@
     NSError *error = nil;
     NSArray *lines = [HSLCommunication lineFromJSON:objectNotation error:&error];
     
-    [delegate hslLineInfoFetchDidComplete:lines];
+    if (lines != nil) {
+        [delegate hslLineInfoFetchDidComplete:lines];
+    }else{
+        [delegate hslLineInfoFetchFailed:error];
+    }
+    
 }
 - (void)LineInfoFetchFailed:(NSError *)error{
     [delegate hslLineInfoFetchFailed:error];

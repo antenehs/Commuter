@@ -23,6 +23,7 @@
 #import "Vehicle.h"
 #import "CoreDataManager.h"
 #import "DroppedPinManager.h"
+#import "GCThumbnailAnnotation.h"
 
 @interface SearchController ()
 
@@ -162,15 +163,16 @@
     [mainSearchBar setPlaceholder:@"address, stop or poi"];
     
     //StartVehicleFetching
-    if (settingsManager.userLocation == HSLRegion) {
+    if (settingsManager.userLocation == HSLRegion && [settingsManager shouldShowLiveVehicles]) {
         [reittiDataManager fetchAllLiveVehicles];
+    }else{
+        [self removeAllVehicleAnnotation];
     }
-    
-    removeAnnotationsOnce = YES;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [reittiDataManager stopFetchingLiveVehicles];
+    [self removeAllVehicleAnnotation];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -242,7 +244,7 @@
     }
     
     //StartVehicleFetching
-    if (settingsManager.userLocation == HSLRegion) {
+    if (settingsManager.userLocation == HSLRegion && [settingsManager shouldShowLiveVehicles]) {
         [reittiDataManager fetchAllLiveVehicles];
     }
     
@@ -253,6 +255,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
                                                  name:[SettingsManager userlocationChangedNotificationName] object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(shouldShowVehiclesSettingsValueChanged:)
+                                                 name:[SettingsManager shouldShowVehiclesNotificationName] object:nil];
     
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
@@ -396,98 +402,98 @@
     return self.view.bounds.origin.y;
 }
 
--(void)setUpToolBarWithMiddleImage:(NSString *)imageName{
-    CGRect frame = CGRectMake(0, 0, 25, 26);
-    CGRect settingsFrame = CGRectMake(0, 0, 26, 26);
-    CGRect liveFrame = CGRectMake(0, 0, 28, 26);
-//    CGRect middleButFrame = CGRectMake(0, 0, 30, 25);
-    CGRect middleButFrame = CGRectMake(0, 0, 26, 25);
-    
-    UIImage *image1 = [UIImage imageNamed:@"settings-green-100.png"];
-    settingsBut = [[UIButton alloc] initWithFrame:settingsFrame];
-    [settingsBut setBackgroundImage:image1 forState:UIControlStateNormal];
-    
-    [settingsBut addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* locBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsBut];
-    
-    
-    UIBarButtonItem *flexiSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
-//    UIImage *image2 = [UIImage imageNamed:imageName];
-    UIImage *image2 = [UIImage imageNamed:@"plan-green-100.png"];
-    
-    listButton = [[UIButton alloc] initWithFrame:middleButFrame];
-    [listButton setBackgroundImage:image2 forState:UIControlStateNormal];
-    
-    [listButton addTarget:self action:@selector(listNearbyStopsPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* listBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:listButton];
-    
-    UIBarButtonItem *flexiSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
-    UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    
-    bookmarkButton = [[UIButton alloc] initWithFrame:frame];
-    [bookmarkButton setBackgroundImage:image3 forState:UIControlStateNormal];
-    
-    [bookmarkButton addTarget:self action:@selector(openBookmarkedButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:bookmarkButton];
-    
-    UIBarButtonItem *flexiSpace3 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
-    UIImage *image4 = [UIImage imageNamed:@"more-green-100.png"];
-    
-    UIButton *moreButton = [[UIButton alloc] initWithFrame:liveFrame];
-    [moreButton setBackgroundImage:image4 forState:UIControlStateNormal];
-    [moreButton addTarget:self action:@selector(openMoreViewButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* moreBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
-    
-    NSMutableArray *items = [[NSMutableArray alloc] init];
-    [items addObject:bookmarkBarButtonItem];
-    [items addObject:flexiSpace1];
-    [items addObject:listBarButtonItem];
-    [items addObject:flexiSpace2];
-    [items addObject:locBarButtonItem];
-    [items addObject:flexiSpace3];
-    [items addObject:moreBarButtonItem];
-    self.toolbarItems = items;
-}
+//-(void)setUpToolBarWithMiddleImage:(NSString *)imageName{
+//    CGRect frame = CGRectMake(0, 0, 25, 26);
+//    CGRect settingsFrame = CGRectMake(0, 0, 26, 26);
+//    CGRect liveFrame = CGRectMake(0, 0, 28, 26);
+////    CGRect middleButFrame = CGRectMake(0, 0, 30, 25);
+//    CGRect middleButFrame = CGRectMake(0, 0, 26, 25);
+//    
+//    UIImage *image1 = [UIImage imageNamed:@"settings-green-100.png"];
+//    settingsBut = [[UIButton alloc] initWithFrame:settingsFrame];
+//    [settingsBut setBackgroundImage:image1 forState:UIControlStateNormal];
+//    
+//    [settingsBut addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem* locBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsBut];
+//    
+//    
+//    UIBarButtonItem *flexiSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    
+////    UIImage *image2 = [UIImage imageNamed:imageName];
+//    UIImage *image2 = [UIImage imageNamed:@"plan-green-100.png"];
+//    
+//    listButton = [[UIButton alloc] initWithFrame:middleButFrame];
+//    [listButton setBackgroundImage:image2 forState:UIControlStateNormal];
+//    
+//    [listButton addTarget:self action:@selector(listNearbyStopsPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem* listBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:listButton];
+//    
+//    UIBarButtonItem *flexiSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    
+//    UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
+//    
+//    bookmarkButton = [[UIButton alloc] initWithFrame:frame];
+//    [bookmarkButton setBackgroundImage:image3 forState:UIControlStateNormal];
+//    
+//    [bookmarkButton addTarget:self action:@selector(openBookmarkedButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:bookmarkButton];
+//    
+//    UIBarButtonItem *flexiSpace3 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    
+//    UIImage *image4 = [UIImage imageNamed:@"more-green-100.png"];
+//    
+//    UIButton *moreButton = [[UIButton alloc] initWithFrame:liveFrame];
+//    [moreButton setBackgroundImage:image4 forState:UIControlStateNormal];
+//    [moreButton addTarget:self action:@selector(openMoreViewButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIBarButtonItem* moreBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
+//    
+//    NSMutableArray *items = [[NSMutableArray alloc] init];
+//    [items addObject:bookmarkBarButtonItem];
+//    [items addObject:flexiSpace1];
+//    [items addObject:listBarButtonItem];
+//    [items addObject:flexiSpace2];
+//    [items addObject:locBarButtonItem];
+//    [items addObject:flexiSpace3];
+//    [items addObject:moreBarButtonItem];
+//    self.toolbarItems = items;
+//}
 
--(void)setUpModeSelector{
-    //     Segmented control with more customization and indexChangeBlock
-    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Stops", @"Live"]];
-    [self setSegmentControlSize];
-    [segmentedControl setIndexChangeBlock:^(NSInteger index) {
-//        NSLog(@"Selected index %ld (via block)", (long)index);
-        mapMode = (int)index;
-        if (mapMode == MainMapViewModeStops) {
-            [reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
-            [mapView removeAnnotations:mapView.annotations];
-            [reittiDataManager stopFetchingLiveVehicles];
-            
-        }else{
-            [mapView removeAnnotations:mapView.annotations];
-            [reittiDataManager fetchAllLiveVehicles];
-        }
-    }];
-//    [segmentedControl addTarget:self action:@selector(mapModeSegmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
-    segmentedControl.selectionIndicatorHeight = 4.0f;
-    segmentedControl.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
-    segmentedControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:17.0f]};
-//    segmentedControl.titleTextAttributes = @{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f]};
-    segmentedControl.selectionIndicatorColor = [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
-    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleBox;
-    segmentedControl.selectedSegmentIndex = mapMode;
-    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-    segmentedControl.shouldAnimateUserSelection = YES;
-    segmentedControl.tag = 2;
-    segmentedControl.layer.borderWidth = 0.5;
-    segmentedControl.layer.borderColor = [[UIColor grayColor] CGColor];
-    [self.view addSubview:segmentedControl];
-}
+//-(void)setUpModeSelector{
+//    //     Segmented control with more customization and indexChangeBlock
+//    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Stops", @"Live"]];
+//    [self setSegmentControlSize];
+//    [segmentedControl setIndexChangeBlock:^(NSInteger index) {
+////        NSLog(@"Selected index %ld (via block)", (long)index);
+//        mapMode = (int)index;
+//        if (mapMode == MainMapViewModeStops) {
+//            [reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+//            [mapView removeAnnotations:mapView.annotations];
+//            [reittiDataManager stopFetchingLiveVehicles];
+//            
+//        }else{
+//            [mapView removeAnnotations:mapView.annotations];
+//            [reittiDataManager fetchAllLiveVehicles];
+//        }
+//    }];
+////    [segmentedControl addTarget:self action:@selector(mapModeSegmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+//    segmentedControl.selectionIndicatorHeight = 4.0f;
+//    segmentedControl.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
+//    segmentedControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:17.0f]};
+////    segmentedControl.titleTextAttributes = @{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f]};
+//    segmentedControl.selectionIndicatorColor = [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
+//    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleBox;
+//    segmentedControl.selectedSegmentIndex = mapMode;
+//    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+//    segmentedControl.shouldAnimateUserSelection = YES;
+//    segmentedControl.tag = 2;
+//    segmentedControl.layer.borderWidth = 0.5;
+//    segmentedControl.layer.borderColor = [[UIColor grayColor] CGColor];
+//    [self.view addSubview:segmentedControl];
+//}
 
 -(void)setSegmentControlSize{
     BOOL landscapeMode = self.view.frame.size.width > self.view.frame.size.height;
@@ -801,21 +807,44 @@
 - (void)listNearByStops{
     
     MKCoordinateSpan span = {.latitudeDelta =  0.02, .longitudeDelta =  0.02};
-    MKCoordinateRegion region = {self.currentUserLocation.coordinate, span};
+    MKCoordinateSpan minSpan = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
     
+    //Stop annotations are removed so request new
     requestedForListing = YES;
+    MKCoordinateRegion region = mapView.region;
     
-    if ([self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
-        [self.reittiDataManager fetchStopsInAreaForRegion:region];
-        [self showProgressHUD];
-    }else{
-        requestedForListing = NO;
-        if (locNotAvailableNotificationShow) {
-            [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
-        }
-        
-        locNotAvailableNotificationShow = YES;
+    //Evaluate region
+    if ([settingsManager userLocation] != [reittiDataManager getRegionForCoords:region.center]) {
+        [ReittiNotificationHelper showErrorBannerMessage:@"Sorry" andContent:@"Service not available in this area. Try changing the region in settings."];
+        return;
     }
+    
+    if (region.span.latitudeDelta > 0.02) {
+        region.span = span;
+    }
+    
+    if (region.span.latitudeDelta < 0.01) {
+        region.span = minSpan;
+    }
+    [self.reittiDataManager fetchStopsInAreaForRegion:region];
+    [self showProgressHUD];
+    
+//
+//    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] < 15) {
+//        
+//    }
+    
+//    if ([self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
+//        [self.reittiDataManager fetchStopsInAreaForRegion:region];
+//        [self showProgressHUD];
+//    }else{
+//        requestedForListing = NO;
+//        if (locNotAvailableNotificationShow) {
+//            [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
+//        }
+//        
+//        locNotAvailableNotificationShow = YES;
+//    }
 }
 
 #pragma mark - Table view datasource and delegate methods
@@ -869,7 +898,7 @@
         distanceLabel.text = [NSString stringWithFormat:@"%dm", [stop.distance intValue]];
         //                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
         
-        cell.backgroundColor = [UIColor clearColor];
+//        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     }else{
@@ -877,6 +906,33 @@
     }
 	
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (nearByStopList.count > 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
+        UILabel *codesLabel = (UILabel *)[cell viewWithTag:3004];
+        codesLabel.frame = CGRectMake(codesLabel.frame.origin.x, codesLabel.frame.origin.y, self.view.frame.size.width - 52, codesLabel.frame.size.height);
+        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
+        
+        CGSize maxSize = CGSizeMake(codesLabel.bounds.size.width, CGFLOAT_MAX);
+        
+        CGRect labelSize = [stop.linesString boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+                                                                attributes:@{
+                                                                             NSFontAttributeName :codesLabel.font
+                                                                             }
+                                                                   context:nil];;
+        if (labelSize.size.height < 26) {
+            labelSize.size.height = 26;
+        }
+        
+        if (labelSize.size.height > 75) {
+            labelSize.size.height = 75;
+        }
+        return labelSize.size.height + 40;
+    }
+    
+    return 65;
 }
 
 
@@ -1345,16 +1401,28 @@
     CLLocationCoordinate2D touchMapCoordinate =
     [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
     
-    JPSThumbnail *annotTN = [[JPSThumbnail alloc] init];
+//    JPSThumbnail *annotTN = [[JPSThumbnail alloc] init];
+//    annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
+//    annotTN.title = @"Dropped pin";
+//    annotTN.subtitle = @"Searching address";
+//    annotTN.coordinate = touchMapCoordinate;
+//    annotTN.annotationType = DroppedPinType;
+//    annotTN.reuseIdentifier = @"geoLocationAnnotation";
+//    annotTN.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:touchMapCoordinate];};
+//    annotTN.secondaryButtonBlock = ^{ [self showDroppedPinGeoCode];};
+//    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:annotTN];
+//    [mapView addAnnotation:annot];
+    
+    GCThumbnail *annotTN = [[GCThumbnail alloc] init];
     annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
     annotTN.title = @"Dropped pin";
     annotTN.subtitle = @"Searching address";
     annotTN.coordinate = touchMapCoordinate;
-    annotTN.annotationType = DroppedPinType;
+//    annotTN.annotationType = DroppedPinType;
     annotTN.reuseIdentifier = @"geoLocationAnnotation";
     annotTN.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:touchMapCoordinate];};
     annotTN.secondaryButtonBlock = ^{ [self showDroppedPinGeoCode];};
-    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:annotTN];
+    GCThumbnailAnnotation *annot = [GCThumbnailAnnotation annotationWithThumbnail:annotTN];
     [mapView addAnnotation:annot];
     
     droppedPinLocation = @"Dropped pin";
@@ -1454,23 +1522,33 @@
     }
 }
 
+-(void)removeAllVehicleAnnotation{
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            [mapView removeAnnotation:annotation];
+        }
+    }
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 //    static NSString *identifier = @"otherLocations";
 //    static NSString *selectedIdentifier = @"selectedLocation";
     static NSString *poiIdentifier = @"poiIdentifier";
     
     if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-            if (annot.annotationType == DroppedPinType) {
-                droppedPinAnnotationView = [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-            }
-        }
-        
         return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
         
         return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+    }else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
+        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
+            GCThumbnailAnnotation *annot = (GCThumbnailAnnotation *)annotation;
+//            if (annot.annotationType == DroppedPinType) {
+                droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+//            }
+        }
+        
+        return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:poiIdentifier];
         if (annotationView == nil) {
@@ -1497,63 +1575,6 @@
 }
 
 - (void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
-//    if ([view.annotation isKindOfClass:[StopAnnotation class]]) {
-//        if (![self isCommandViewHidden])
-//            [self hideCommandView:YES animated:NO];
-//        [self setUpCommandViewForAnnotation:view.annotation];
-//        
-//        [self hideCommandView:NO animated:YES];
-//        
-//        StopAnnotation *sAnnotation = (StopAnnotation *)view.annotation;
-//        sAnnotation.isSelected = YES;
-//        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:sAnnotation reuseIdentifier:@"selectedLocation"];
-//        @try{
-//            [affectedMapView removeAnnotation:view.annotation];
-//        }@catch(id anException){
-//            //do nothing, obviously it wasn't attached because an exception was thrown
-//        }
-//        
-//        [affectedMapView addAnnotation:annotationView.annotation];
-//        
-//        if (lastSelectedAnnotation != nil && (lastSelectedAnnotation.code != sAnnotation.code) && !lastSelectionDismissed) {
-//            
-////            [self mapView:mapView deselectStopAnnotation:lastSelectedAnnotation];
-//            
-////            lastSelectionDismissed = true;
-//            
-//            StopAnnotation *lastSAnnotation = (StopAnnotation *)lastSelectedAnnotation;
-//            
-//            lastSAnnotation.isSelected = NO;
-//
-//            MKAnnotationView *prevAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:lastSAnnotation reuseIdentifier:@"otherLocations"];
-//            @try{
-//                [affectedMapView removeAnnotation:lastSelectedAnnotation];
-//                [affectedMapView addAnnotation:prevAnnotationView.annotation];
-//                lastSelectionDismissed = true;
-//            }@catch(id anException){
-//                //do nothing, obviously it wasn't attached because an exception was thrown
-//            }
-//        }
-//        
-//        //lastSelectedAnnotation = annotationView.annotation;
-//    }
-//    if ([view.annotation isKindOfClass:[GeoCodeAnnotation class]]){
-//        if (![self isCommandViewHidden])
-//            [self hideCommandView:YES animated:NO];
-//        [self setUpCommandViewForAnnotation:view.annotation];
-//        
-//        [self hideCommandView:NO animated:YES];
-//        
-//        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:view.annotation reuseIdentifier:@"selectedLocation"];
-//        @try{
-//            [affectedMapView removeAnnotation:view.annotation];
-//        }@catch(id anException){
-//            //do nothing, obviously it wasn't attached because an exception was thrown
-//        }
-//        
-//        [affectedMapView addAnnotation:annotationView.annotation];
-//    }
-    
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
@@ -1567,6 +1588,9 @@
         NSString *toCoordsString = [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
         
         [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString];
+    }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
+        ignoreRegionChange = YES;
+        [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
     }else if ([view conformsToProtocol:@protocol(LVThumbnailAnnotationViewProtocol)]) {
         id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
         if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
@@ -1590,6 +1614,11 @@
     
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+        selectedAnnotationView = nil;
+    }
+    
+    if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
+        [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
         selectedAnnotationView = nil;
     }
 }
@@ -1721,10 +1750,7 @@
         }
     }
     
-    if (removeAnnotationsOnce) {
-        [self removeAllStopAnnotations];
-        removeAnnotationsOnce = NO;
-    }
+//    [self removeAllStopAnnotations];
     
 //    [self.reittiDataManager fetchAllLiveVehicles];
     currentLocationButton.alpha = 1;
@@ -2151,9 +2177,9 @@
     [self performSegueWithIdentifier:@"showSettings" sender:self];
 }
 
-- (IBAction)openMoreViewButtonPressed:(id)sender {
-    [self.reittiDataManager fetchAllLiveVehicles];
-}
+//- (IBAction)openMoreViewButtonPressed:(id)sender {
+//    [self.reittiDataManager fetchAllLiveVehicles];
+//}
 
 - (IBAction)seeFullTimeTablePressed:(id)sender {
     NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
@@ -2265,35 +2291,16 @@
             self.nearByStopList = tempArray;
             //TODO: Store in stops cache
         }else{
-            
-//            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-//            
-//            for (BusStopShort *stop in stopList) {
-//                
-//                @try {
-//                    StaticStop *staticStop = [self.cacheManager getStopForCode:[NSString stringWithFormat:@"%@", stop.code]];
-//                    if (staticStop != nil) {
-//                        stop.stopType = staticStop.reittiStopType;
-//                        stop.lines = staticStop.lineNames;
-//                    }
-//                }
-//                @catch (NSException *exception) {
-//                    
-//                }
-//                
-//                [tempArray addObject:stop];
-//            }
-            
             self.nearByStopList = stopList;
         }
     }
     
-    if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
-        [self plotStopAnnotations:self.nearByStopList];
-    }
     if (requestedForListing) {
         [self displayNearByStopsList:stopList];
+    }else{
+        [self plotStopAnnotations:self.nearByStopList];
     }
+    
     retryCount = 0;
     [SVProgressHUD dismiss];
 }
@@ -2336,10 +2343,10 @@
     
     [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
     
-    if ([droppedPinAnnotationView conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+    if ([droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
-        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:[geoCode getStreetAddressString]];
+        [((NSObject<GCThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:[geoCode getStreetAddressString]];
     }
     
     droppedPinLocation = [geoCode getStreetAddressString];
@@ -2364,13 +2371,17 @@
 //}
 
 - (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
-    [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+    if ([settingsManager shouldShowLiveVehicles]) {
+        [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+    }
 }
 - (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
     //TODO: Remove vehicles if call fails
 }
 - (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList{
-    [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
+    if ([settingsManager shouldShowLiveVehicles]) {
+        [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
+    }
 }
 - (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error{
     //TODO: Remove vehicles if call fails    
@@ -2472,6 +2483,15 @@
     }
     
     [self fetchDisruptions];
+}
+
+
+-(void)shouldShowVehiclesSettingsValueChanged:(NSNotification *)notification{
+    if ([settingsManager shouldShowLiveVehicles]) {
+        [reittiDataManager fetchAllLiveVehicles];
+    }else{
+        [self removeAllVehicleAnnotation];
+    }
 }
 
 -(void)settingsValueChanged{

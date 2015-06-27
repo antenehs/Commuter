@@ -165,7 +165,7 @@
             refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionInfoCell"];
-            cell.backgroundColor = [UIColor clearColor];
+//            cell.backgroundColor = [UIColor clearColor];
         }
         
     }
