@@ -81,7 +81,7 @@
     
     if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
 //        [self initAdBannerView];
-        self.canDisplayBannerAds = YES;
+        self.canDisplayBannerAds = NO;
     }
     
     listSegmentControl.selectedSegmentIndex = self.mode;
@@ -595,7 +595,7 @@
     if (listSegmentControl.selectedSegmentIndex == 0) {
         NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
         
-        if (savedNamedBookmarks.count < 2 && indexPath.section == 0) {
+        if (savedNamedBookmarks.count < 1 && indexPath.section == 0) {
             return 60;
         }else if (savedRoutes.count < 1 && indexPath.section == 1){
             return 80;
@@ -965,11 +965,11 @@
     // As of iOS 6.0, the banner will automatically resize itself based on its width.
     // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
     CGRect contentFrame = self.view.bounds;
-    if (contentFrame.size.width < contentFrame.size.height) {
-        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-    } else {
-        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
-    }
+//    if (contentFrame.size.width < contentFrame.size.height) {
+//        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+//    } else {
+//        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+//    }
     
     CGRect bannerFrame = _bannerView.frame;
     bannerFrame.origin.y = contentFrame.size.height;

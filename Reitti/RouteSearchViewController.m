@@ -88,8 +88,14 @@ typedef enum
 
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationItem setTitle:@"PLANNER"];
-    [self setUpToolBar];
+    if (![self isModalMode]) {
+        [self.tabBarController.tabBar setHidden:NO];
+    }
     
+    [self setUpToolBar];
+    if (toolBarIsShowing) {
+        [self hideToolBar:NO animated:YES];
+    }
     [self refreshData];
 }
 
@@ -1568,6 +1574,10 @@ typedef enum
     reittiDataManager.routeSearchdelegate = self;
 }
 
+-(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
+    
+}
+
 #pragma mark - Settings change notifications
 -(void)userLocationValueChanged:(NSNotification *)notification{
     [self.reittiDataManager setUserLocation:[self.settingsManager userLocation]];
@@ -1822,6 +1832,9 @@ typedef enum
 //            destinationViewController.reittiDataManager = self.reittiDataManager;
             
             [self.navigationItem setTitle:@""];
+            if (![self isModalMode]) {
+                [self.tabBarController.tabBar setHidden:YES];
+            }
         }
     }
     

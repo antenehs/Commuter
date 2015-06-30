@@ -8,8 +8,14 @@
 
 #import "MoreTableViewController.h"
 #import "AMBlurView.h"
+#import "RettiDataManager.h"
+#import "SettingsManager.h"
+#import "CoreDataManager.h"
 
 @interface MoreTableViewController ()
+
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+@property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end
 
@@ -21,11 +27,22 @@
     [self setTableBackgroundView];
     self.clearsSelectionOnViewWillAppear = YES;
     
+    [self initDataManager];
+    
     thereIsDisruptions = [self areThereDisruptions];
+    canShowLines = YES;
+    canShowDisruptions = YES;
+    
+    [self checkForLinesAndDisruptionAvailability];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLocationSettingsValueChanged:)
+                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [self.navigationItem setTitle:@"MORE"];
+    [self.tabBarController.tabBar setHidden:NO];
     
     if (thereIsDisruptions != [self areThereDisruptions] ) {
         thereIsDisruptions = [self areThereDisruptions];
@@ -41,6 +58,19 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Init
+- (void)initDataManager {
+    if (self.reittiDataManager == nil) {
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
+        
+        if (self.settingsManager == nil) {
+            self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        }
+        
+        [self.reittiDataManager setUserLocationToRegion:[self.settingsManager userLocation]];
+    }
 }
 
 #pragma mark - view methods
@@ -65,6 +95,24 @@
     return moreTabBarItem.badgeValue != nil;
 }
 
+- (void)checkForLinesAndDisruptionAvailability {
+    if (([self.settingsManager userLocation] != HSLRegion)) {
+        canShowLines = NO;
+        canShowDisruptions = NO;
+    }else{
+        canShowLines = YES;
+        canShowDisruptions = YES;
+    }
+}
+
+-(void)userLocationSettingsValueChanged:(NSNotification *)notification{
+    [self checkForLinesAndDisruptionAvailability];
+    
+    thereIsDisruptions = [self areThereDisruptions];
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -74,7 +122,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 2;
+        return canShowLines ? 2 : 1;
     }else if (section == 1) {
         return 1;
     }else{
@@ -82,12 +130,11 @@
     }
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     
     if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
+        if (indexPath.row == 0 && canShowLines) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"linesCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
@@ -97,7 +144,7 @@
 //            disruptionsView.layer.borderWidth = 0.5;
 //            disruptionsView.layer.borderColor = [UIColor darkGrayColor].CGColor;
             
-            disruptionsView.hidden = !thereIsDisruptions;
+            disruptionsView.hidden = !thereIsDisruptions || !canShowDisruptions;
         }
     }else if (indexPath.section == 1){
         cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell" forIndexPath:indexPath];
@@ -237,6 +284,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     [self.navigationItem setTitle:@""];
+    [self.tabBarController.tabBar setHidden:YES];
 }
 
 

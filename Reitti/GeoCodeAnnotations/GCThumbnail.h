@@ -33,5 +33,6 @@ typedef void (^ActionBlock)();
 @property (nonatomic, copy) ActionBlock disclosureBlock;
 @property (nonatomic, copy) ActionBlock primaryButtonBlock;
 @property (nonatomic, copy) ActionBlock secondaryButtonBlock;
+@property (nonatomic, copy) ActionBlock middleButtonBlock;
 
 @end

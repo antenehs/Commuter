@@ -88,7 +88,7 @@
                                                             message:@"The gift of 5 little starts is satisfying for both of us more than you think."
                                                            delegate:self
                                                   cancelButtonTitle:@"Maybe later"
-                                                  otherButtonTitles:@"Try it", nil];
+                                                  otherButtonTitles:@"Rate", nil];
         alertView.tag = 1001;
         [alertView show];
     }
@@ -175,9 +175,15 @@
     [self removeAllVehicleAnnotation];
 }
 
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setNavBarSize];
+    [centerLocatorView removeFromSuperview];
+//    centerLocatorView = nil;
+    
+//    [self initCenterLocator:mapView.center];
+    [mapView addSubview:centerLocatorView];
 //    [self setSegmentControlSize];
 }
 
@@ -300,10 +306,9 @@
     
     [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
     
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
-                                          initWithTarget:self action:@selector(dropAnnotation:)];
-    lpgr.minimumPressDuration = 1.0; //user needs to press for 2 seconds
-    [mapView addGestureRecognizer:lpgr];
+//    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(dropAnnotation:)];
+//    lpgr.minimumPressDuration = 1.0; //user needs to press for 2 seconds
+//    [mapView addGestureRecognizer:lpgr];
 }
 
 - (void)initVariablesAndConstants
@@ -335,6 +340,7 @@
     annotationSelectionChanged = YES;
     lastSelectionDismissed = NO;
     ignoreRegionChange = NO;
+    canShowDroppedPin = NO;
     retryCount = 0;
     annotationAnimCounter = 0;
     
@@ -344,6 +350,39 @@
     mapMode = MainMapViewModeStopsAndLive;
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
+}
+
+-(void)initCenterLocator:(CGPoint)point{
+    centerLocatorView = [[UIView alloc] initWithFrame:CGRectMake(point.x - 10, point.y + 10, 20, 20)];
+    centerLocatorView.layer.borderWidth = 4.0f;
+    centerLocatorView.layer.cornerRadius = 10.0f;
+    centerLocatorView.layer.borderColor = [UIColor whiteColor].CGColor;
+    centerLocatorView.backgroundColor = [AppManager systemOrangeColor];
+    
+    centerLocatorView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+    centerLocatorView.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    centerLocatorView.layer.shadowRadius = 1.0f;
+    centerLocatorView.layer.shadowOpacity = 0.3f;
+}
+
+- (void)bounceAnimateCenterLocator {
+    //Do spring animation
+    centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
+    [UIView transitionWithView:searchResultsView duration:0.1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        centerLocatorView.frame = CGRectMake(self.mapView.center.x - 4, self.mapView.center.y + 16, 8, 8);
+    } completion:^(BOOL finished) {
+        //            centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
+        [UIView transitionWithView:searchResultsView duration:0.1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            centerLocatorView.frame = CGRectMake(self.mapView.center.x - 11, self.mapView.center.y + 9, 22, 22);
+        } completion:^(BOOL finished) {
+            //                centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
+            [UIView transitionWithView:searchResultsView duration:0.1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
+            } completion:^(BOOL finished) {
+                
+            }];
+        }];
+    }];
 }
 
 
@@ -645,6 +684,23 @@
     
     selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
     
+    selectedFromLocation = nil;
+    selectedFromCoords = nil;
+    [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+}
+
+-(void)openRouteFromAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
+    selectedFromLocation = [NSString stringWithFormat:@"%@", title];
+    if (droppedPinGeoCode != nil) {
+        if ([title isEqualToString:@"Dropped pin"]) {
+            selectedFromLocation = [droppedPinGeoCode getStreetAddressString];
+        }
+    }
+    
+    selectedFromCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
+    
+    selectedAnnotationUniqeName = nil;
+    selectedAnnotationCoords = nil;
     [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
 }
 
@@ -1383,23 +1439,21 @@
 }
 
 
-- (void)dropAnnotation:(UIGestureRecognizer *)gestureRecognizer
-{
-    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
-        return;
+- (void)dropAnnotation:(CLLocationCoordinate2D)coordinate{
+//    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
+//        return;
     
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
-            if (sAnnotation.annotationType == DroppedPinType) {
-                [mapView removeAnnotation:annotation];
-            }
+        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
+//            GCThumbnailAnnotation *sAnnotation = (GCThumbnailAnnotation *)annotation;
+            [mapView removeAnnotation:annotation];
         }
     }
     
-    CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
-    CLLocationCoordinate2D touchMapCoordinate =
-    [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
+//    CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
+//    CGPoint touchPoint = self.mapView.center;
+//    CLLocationCoordinate2D coordinate =
+//    [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
     
 //    JPSThumbnail *annotTN = [[JPSThumbnail alloc] init];
 //    annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
@@ -1417,20 +1471,28 @@
     annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
     annotTN.title = @"Dropped pin";
     annotTN.subtitle = @"Searching address";
-    annotTN.coordinate = touchMapCoordinate;
+    annotTN.coordinate = coordinate;
 //    annotTN.annotationType = DroppedPinType;
     annotTN.reuseIdentifier = @"geoLocationAnnotation";
-    annotTN.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:touchMapCoordinate];};
-    annotTN.secondaryButtonBlock = ^{ [self showDroppedPinGeoCode];};
+    annotTN.primaryButtonBlock = ^{ [self openRouteFromAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
+    annotTN.secondaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
+    annotTN.middleButtonBlock = ^{ [self showDroppedPinGeoCode];};
     GCThumbnailAnnotation *annot = [GCThumbnailAnnotation annotationWithThumbnail:annotTN];
     [mapView addAnnotation:annot];
     
     droppedPinLocation = @"Dropped pin";
-    droppedPinCoords = touchMapCoordinate;
+    droppedPinCoords = coordinate;
     
-    droppedPinGeoCode = nil;
+    droppedPinGeoCode = [[GeoCode alloc] init];
+    droppedPinGeoCode.name = @"Unknown address";
+    droppedPinGeoCode.matchedName = @"Unknown address";
+    droppedPinGeoCode.city = @"Unknown";
+    droppedPinGeoCode.coords = [ReittiStringFormatter convert2DCoordToString:coordinate];
+    [droppedPinGeoCode setLocationType:LocationTypeDroppedPin];
     
-    [self.reittiDataManager searchAddresseForCoordinate:touchMapCoordinate];
+    [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
+    
+    [self.reittiDataManager searchAddresseForCoordinate:coordinate];
 }
 
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
@@ -1530,6 +1592,14 @@
     }
 }
 
+-(void)removeAllGeocodeAnnotation{
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
+            [mapView removeAnnotation:annotation];
+        }
+    }
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 //    static NSString *identifier = @"otherLocations";
 //    static NSString *selectedIdentifier = @"selectedLocation";
@@ -1542,7 +1612,7 @@
         return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
         if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
-            GCThumbnailAnnotation *annot = (GCThumbnailAnnotation *)annotation;
+//            GCThumbnailAnnotation *annot = (GCThumbnailAnnotation *)annotation;
 //            if (annot.annotationType == DroppedPinType) {
                 droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
 //            }
@@ -1568,12 +1638,6 @@
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
-    currentLocationButton.alpha = 0.3;
-//    sendEmailButton.alpha = 0.3;
-//    listNearbyStops.alpha = 0.3;
-}
-
 - (void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
@@ -1592,13 +1656,13 @@
         ignoreRegionChange = YES;
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
     }else if ([view conformsToProtocol:@protocol(LVThumbnailAnnotationViewProtocol)]) {
-        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
-        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-            if (annot.lineId != nil) {
-                [self.reittiDataManager fetchLineInfoForCodeList:annot.lineId];
-            }
-        }
+//        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
+//        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+//            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+//            if (annot.lineId != nil) {
+//                [self.reittiDataManager fetchLineInfoForCodeList:annot.lineId];
+//            }
+//        }
     }
 }
 
@@ -1735,6 +1799,18 @@
 ////    [self showProgressHUD];
 //}
 
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
+    currentLocationButton.alpha = 0.3;
+    if (centerLocatorView != nil){
+        centerLocatorView.alpha = 0.3;
+    }
+    [self removeAllGeocodeAnnotation];
+}
+
+-(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
+    canShowDroppedPin = YES;
+}
+
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
     if (!ignoreRegionChange) {
         
@@ -1750,12 +1826,66 @@
         }
     }
     
-//    [self removeAllStopAnnotations];
+    if ([self shouldShowDroppedPin]) {
+        CGPoint centerPoint = self.mapView.center;
+        CLLocationCoordinate2D coordinate = [mapView convertPoint:centerPoint toCoordinateFromView:mapView];
+        
+        if (centerLocatorView == nil) {
+            [self initCenterLocator:centerPoint];
+        }
+        
+        [self.mapView addSubview:centerLocatorView];
+        [self dropAnnotation:coordinate];
+    }else{
+        [centerLocatorView removeFromSuperview];
+    }
     
-//    [self.reittiDataManager fetchAllLiveVehicles];
     currentLocationButton.alpha = 1;
-//    sendEmailButton.alpha = 1;
     listNearbyStops.alpha = 1;
+    
+    if (centerLocatorView != nil){
+        centerLocatorView.alpha = 1;
+        [self bounceAnimateCenterLocator];
+    }
+}
+
+-(BOOL)shouldShowDroppedPin{
+    
+    if (!canShowDroppedPin) {
+        return NO;
+    }
+    
+    //if there is another seleced annotation
+    if (mapView.selectedAnnotations != nil) {
+        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
+        if (![annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            return NO;
+        }
+    }
+    
+    //Check if the region is out of supported regions
+    CGPoint centerPoint = self.mapView.center;
+    CLLocationCoordinate2D coordinate = [mapView convertPoint:centerPoint toCoordinateFromView:mapView];
+    
+    Region pointRegion = [reittiDataManager getRegionForCoords:coordinate];
+    
+    if (pointRegion == OtherRegion) {
+        return NO;
+    }
+    
+    //Check if at least 250m from current location
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+    CLLocationDistance dist = [location distanceFromLocation:self.currentUserLocation];
+    if (dist < 250 && self.currentUserLocation != nil) {
+        return NO;
+    }
+    
+    //Check the zoom level
+    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] < 10) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 -(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
@@ -2345,8 +2475,8 @@
     
     if ([droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
-        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
-        [((NSObject<GCThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:[geoCode getStreetAddressString]];
+//        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
+//        [((NSObject<GCThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:[geoCode getStreetAddressString]];
     }
     
     droppedPinLocation = [geoCode getStreetAddressString];

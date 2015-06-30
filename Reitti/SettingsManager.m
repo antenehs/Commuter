@@ -23,20 +23,25 @@
 }
 
 -(MapMode)getMapMode{
+    [self.reittiDataManager fetchSettings];
     return (MapMode)[self.reittiDataManager.settingsEntity.mapMode  intValue];
 }
 -(Region)userLocation{
+    [self.reittiDataManager fetchSettings];
     return (Region)[self.reittiDataManager.settingsEntity.userLocation intValue];
 }
 
 -(BOOL)shouldShowLiveVehicles{
+    [self.reittiDataManager fetchSettings];
     return [self.reittiDataManager.settingsEntity.showLiveVehicle boolValue];
 }
 
 -(BOOL)isClearingHistoryEnabled{
+    [self.reittiDataManager fetchSettings];
     return [self.reittiDataManager.settingsEntity.clearOldHistory boolValue];
 }
 -(int)numberOfDaysToKeepHistory{
+    [self.reittiDataManager fetchSettings];
     return [self.reittiDataManager.settingsEntity.numberOfDaysToKeepHistory intValue];
 }
 

@@ -11,7 +11,7 @@
 
 @implementation CacheManager
 
-@synthesize allSavedRouteCache, allInMemoryRouteCache, allInMemoryRouteList, allInMemoryStopCache;
+@synthesize allSavedRouteCache, allInMemoryRouteCache, allInMemoryRouteList, allInMemoryUniqueRouteList, allInMemoryStopCache;
 @synthesize managedObjectContext;
 
 #pragma mark Singleton Methods
@@ -30,9 +30,10 @@
 }
 
 -(id)initFromFile{
-    self.allInMemoryRouteList = [[NSMutableArray alloc] init];
+    self.allInMemoryRouteList = [self readRoutesFromFile:@"routes.json"];
+    self.allInMemoryUniqueRouteList = [self readRoutesFromFile:@"routesFiltered.json"];
     
-    self.allInMemoryRouteCache = [self readRoutesFromFile];
+    self.allInMemoryRouteCache = [self convertRoutesArrayToDictionary:self.allInMemoryRouteList];
     self.allInMemoryStopCache = [self readStopsFromFile];
     
     return self;
@@ -167,7 +168,8 @@
 }
 
 -(void)initializeRouteCachesFromJson{
-    NSMutableDictionary *routes = [self readRoutesFromFile];
+    NSMutableArray *routeList = [self readRoutesFromFile:@"routes.json"];
+    NSMutableDictionary *routes = [self convertRoutesArrayToDictionary:routeList];
     allSavedRouteCache = [[NSMutableDictionary alloc] init];
     
     if (routes.count > 0) {
@@ -195,12 +197,12 @@
     }
 }
 
--(NSMutableDictionary *)readRoutesFromFile{
-    NSMutableDictionary *routes = [[NSMutableDictionary alloc] init];
+-(NSMutableArray *)readRoutesFromFile:(NSString *)fileName{
+    NSMutableArray *routes = [[NSMutableArray alloc] init];
     
     NSError *localError = nil;
     
-    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"routes.json"];
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:fileName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path])
     {
         NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path]
@@ -215,14 +217,28 @@
         
         for (NSDictionary *routeDict in results) {
             StaticRoute *route = [[StaticRoute alloc] initWithDictionary:routeDict];
-            
-            [routes setValue:route forKey:route.code];
-            [self.allInMemoryRouteList addObject:route];
+            [routes addObject:route];
         }
     }
     
     return routes;
 }
+
+-(NSMutableDictionary *)convertRoutesArrayToDictionary:(NSArray *)array{
+    NSMutableDictionary *routes = [[NSMutableDictionary alloc] init];
+    
+    if (array == nil) {
+        return routes;
+    }
+    
+    for (StaticRoute *route in array) {
+        
+        [routes setValue:route forKey:route.code];
+    }
+    
+    return routes;
+}
+
 
 -(NSMutableDictionary *)readStopsFromFile{
     NSMutableDictionary *stops = [[NSMutableDictionary alloc] init];

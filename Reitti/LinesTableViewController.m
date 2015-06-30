@@ -35,7 +35,7 @@
     self.tramLines = [[NSMutableArray alloc] init];
     self.trainLines = [[NSMutableArray alloc] init];
     
-    self.allLines = [[CacheManager sharedManager] allInMemoryRouteList];
+    self.allLines = [[CacheManager sharedManager] allInMemoryUniqueRouteList];
     
     [self groupLinesByType:allLines];
     

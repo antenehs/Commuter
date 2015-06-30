@@ -171,15 +171,16 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)setLayerProperties {
     _bgLayer = [CAShapeLayer layer];
-//    CGPathRef path = [self newBubbleWithRect:self.bounds];
-//    _bgLayer.path = path;
-//    CFRelease(path);
-    _bgLayer.fillColor = [UIColor colorWithWhite:0.97 alpha:1].CGColor;
+    //    CGPathRef path = [self newBubbleWithRect:self.bounds];
+    //    _bgLayer.path = path;
+    //    CFRelease(path);
+    _bgLayer.fillColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+//    _bgLayer.strokeColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
     
-    _bgLayer.shadowColor = [UIColor blackColor].CGColor;
+    _bgLayer.shadowColor = [UIColor darkGrayColor].CGColor;
     _bgLayer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-    _bgLayer.shadowRadius = 2.0f;
-    _bgLayer.shadowOpacity = 0.5f;
+    _bgLayer.shadowRadius = 1.0f;
+    _bgLayer.shadowOpacity = 0.3f;
     
     _bgLayer.masksToBounds = NO;
     
@@ -373,7 +374,8 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.centerOffset = CGPointMake(kJPSThumbnailAnnotationViewExpandOffset/2.0f, -kJPSThumbnailAnnotationViewExpandHeightOffset/2.0f);
     [UIView animateWithDuration:kJPSThumbnailAnnotationViewAnimationDuration/2.0f delay:kJPSThumbnailAnnotationViewAnimationDuration options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setDetailGroupAlpha:1.0f];
-        _bgLayer.fillColor = [UIColor colorWithWhite:0.97 alpha:1].CGColor;
+        _bgLayer.fillColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+        _bgLayer.strokeColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
     } completion:^(BOOL finished) {
         self.state = JPSThumbnailAnnotationViewStateExpanded;
     }];
@@ -406,6 +408,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
                                           completion:^(BOOL finished) {
                                               [self setCompactGroupAlpha:1];
                                               _bgLayer.fillColor = [UIColor clearColor].CGColor;
+                                              _bgLayer.strokeColor = [UIColor clearColor].CGColor;
                                           }];
                      }];
     
@@ -415,7 +418,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     BOOL growing = (animationDirection == JPSThumbnailAnnotationViewAnimationDirectionGrow);
     // Image
     [UIView animateWithDuration:kJPSThumbnailAnnotationViewAnimationDuration animations:^{
-        CGFloat xOffset = (growing ? -1 : 1) * kJPSThumbnailAnnotationViewExpandOffset/2.0f;
+//        CGFloat xOffset = (growing ? -1 : 1) * kJPSThumbnailAnnotationViewExpandOffset/2.0f;
         
 //        self.imageView.frame = CGRectOffset(self.imageView.frame, xOffset, 0.0f);
     } completion:^(BOOL finished) {

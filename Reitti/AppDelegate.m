@@ -55,7 +55,7 @@
 //    tabBarItem4.title = @"Settings";
     
 //    UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];
-    UIImage *image1 = [UIImage imageNamed:@"compas-100.png"];
+    UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
     tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(26, 26)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
@@ -106,8 +106,9 @@
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
     
-    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] lastObject];
-    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
+    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+//    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
+    [controller initDataComponentsAndModules];
     if ([MKDirectionsRequest isDirectionsRequestURL:url]) {
         MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
         // TO DO: Plot and display the route using the
@@ -133,6 +134,11 @@
         if ([[url query] containsString:@"openStop"]) {
             NSArray *parts = [[url query] componentsSeparatedByString:@"-"];
             if (parts.count == 2) {
+                if (tabBarController.selectedIndex != 0) {
+                    tabBarController.selectedIndex = 0;
+                }
+                
+                [controller.navigationController popToRootViewControllerAnimated:NO];
                 [controller openStopViewForCode:parts[1]];
             }
         }

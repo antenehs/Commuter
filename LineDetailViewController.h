@@ -12,6 +12,7 @@
 #import "RettiDataManager.h"
 #import "SettingsManager.h"
 #import "StaticRoute.h"
+#import "AMBlurView.h"
 
 @interface LineDetailViewController : UIViewController<MKMapViewDelegate, RettiLineInfoSearchDelegate>{
     IBOutlet MKMapView *routeMapView;
@@ -24,6 +25,9 @@
     NSString *selectedAnnotionStopShortCode, *selectedAnnotionStopName;
     NSNumber *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;
+    
+    IBOutlet UILabel *nameLabel;
+    IBOutlet AMBlurView *bottomTabBarView;
 }
 
 @property (strong, nonatomic) StaticRoute *staticRoute;

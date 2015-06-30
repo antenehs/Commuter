@@ -280,12 +280,12 @@
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location{
     currentRouteListViewLocation = location;
     
-    CGFloat tabBarHeight = self.tabBarController != nil ? self.tabBarController.tabBar.frame.size.height : 0;
+//    CGFloat tabBarHeight = self.tabBarController != nil ? self.tabBarController.tabBar.frame.size.height : 0;
     
     if (location == RouteListViewLoactionBottom) {
 //        [self.navigationController setNavigationBarHidden:NO animated:YES];
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y - tabBarHeight;
+        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
@@ -1347,10 +1347,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             moreInfoLabel.text = [NSString stringWithFormat:@"Walk %ld meters · %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
         }else{
             NSString *destination = [[CacheManager sharedManager] getRouteDestinationForCode:selectedLeg.lineCode];
+            NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
             if (destination != nil) {
-                moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards %@ · %d stops · %@", selectedLeg.lineName, destination, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+                moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards %@ · %d %@ · %@", selectedLeg.lineName, destination, [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
             }else{
-                moreInfoLabel.text = [NSString stringWithFormat:@"%@ · %d stops · %@", selectedLeg.lineName, [selectedLeg getNumberOfStopsInLeg], [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+                moreInfoLabel.text = [NSString stringWithFormat:@"%@ · %d %@ · %@", selectedLeg.lineName, [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
             }
             
         }

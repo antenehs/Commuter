@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSMutableDictionary *allSavedRouteCache;
 @property (strong, nonatomic) NSMutableDictionary *allInMemoryRouteCache;
 @property (strong, nonatomic) NSMutableArray *allInMemoryRouteList;
+@property (strong, nonatomic) NSMutableArray *allInMemoryUniqueRouteList;
 @property (strong, nonatomic) NSMutableDictionary *allInMemoryStopCache;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

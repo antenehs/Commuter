@@ -11,6 +11,9 @@
 
 @interface MoreTableViewController : UITableViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate>{
     BOOL thereIsDisruptions;
+    
+    BOOL canShowLines;
+    BOOL canShowDisruptions;
 }
 
 @end

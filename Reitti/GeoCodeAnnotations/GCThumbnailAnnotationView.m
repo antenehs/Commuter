@@ -13,13 +13,16 @@
 NSString * const kGCThumbnailAnnotationViewReuseID = @"GCThumbnailAnnotationView";
 
 //static CGFloat const kGCThumbnailAnnotationViewStandardWidth     = 75.0f;
-static CGFloat const kGCThumbnailAnnotationViewStandardWidth     = 35.0f;
+static CGFloat const kGCThumbnailAnnotationViewStandardWidth     = 0.0f;
 //static CGFloat const kGCThumbnailAnnotationViewStandardHeight    = 87.0f;
-static CGFloat const kGCThumbnailAnnotationViewStandardHeight    = 43.0f;
-static CGFloat const kGCThumbnailAnnotationViewExpandOffset      = 265.0f;
-static CGFloat const kGCThumbnailAnnotationViewExpandHeightOffset= 20.0f;
-static CGFloat const ASAThumbnailAnnotationViewImageViewHeight    = 42.0f;
-static CGFloat const kGCThumbnailAnnotationViewVerticalOffset    = 21.0f;
+static CGFloat const kGCThumbnailAnnotationViewStandardHeight    = 0.0f;
+static CGFloat const kGCThumbnailAnnotationViewExpandOffset      = 150.0f;
+static CGFloat const kGCThumbnailAnnotationViewExpandHeightOffset= 55.0f;
+static CGFloat const ASAMagicVerticalOffset    = 26.0f;
+//static CGFloat const kGCThumbnailAnnotationTriangleHeight        = 14.0f;
+//static CGFloat const ASAThumbnailAnnotationViewImageViewHeight    = 5.0f;
+//static CGFloat const ASAThumbnailAnnotationViewImageViewWidth    = 5.0f;
+//static CGFloat const kGCThumbnailAnnotationViewVerticalOffset    = 21.0f;
 static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 @interface GCThumbnailAnnotationView ()
@@ -33,13 +36,19 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 @property (nonatomic, strong) ActionBlock disclosureBlock;
 @property (nonatomic, strong) ActionBlock primaryButtonBlock;
 @property (nonatomic, strong) ActionBlock secondaryButtonBlock;
+@property (nonatomic, strong) ActionBlock middleButtonBlock;
 
 @property (nonatomic, strong) CAShapeLayer *bgLayer;
+@property (nonatomic, strong) UIView *firstSep;
+@property (nonatomic, strong) UIView *secondSep;
 @property (nonatomic, strong) UIButton *disclosureButton;
 @property (nonatomic, strong) UIButton *primaryButton;
 @property (nonatomic, strong) UIButton *primaryButtonSmall;
 @property (nonatomic, strong) UILabel *primaryButtonLabel;
 @property (nonatomic, strong) UIButton *secondaryButton;
+@property (nonatomic, strong) UIButton *secondaryButtonSmall;
+@property (nonatomic, strong) UILabel *secondaryButtonLabel;
+@property (nonatomic, strong) UIButton *middleButton;
 @property (nonatomic, assign) GCThumbnailAnnotationViewState state;
 
 @property (nonatomic, strong) UIColor *systemGreenColor;
@@ -57,9 +66,9 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     
     if (self) {
         self.canShowCallout = NO;
-        self.frame = CGRectMake(0, 0, kGCThumbnailAnnotationViewStandardWidth, kGCThumbnailAnnotationViewStandardHeight);
+        self.frame = CGRectMake(0, 0, 0, 0);
         self.backgroundColor = [UIColor clearColor];
-        self.centerOffset = CGPointMake(0, -kGCThumbnailAnnotationViewVerticalOffset);
+//        self.centerOffset = CGPointMake(0, -kGCThumbnailAnnotationViewVerticalOffset);
         
         _state = GCThumbnailAnnotationViewStateCollapsed;
         _systemGreenColor = [UIColor colorWithRed:51/256 green:153/256 blue:102/256 alpha:1];
@@ -71,23 +80,38 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)setupView {
     [self setupImageView];
-    [self setupTitleLabel];
-    [self setupSubtitleLabel];
-    [self setupDisclosureButton];
+    [self setUpSeparators];
+//    [self setupTitleLabel];
+//    [self setupSubtitleLabel];
+//    [self setupDisclosureButton];
     [self setupPrimaryButton];
     [self setupSecondaryButton];
+    [self setupMiddleButton];
     [self setLayerProperties];
     [self setDetailGroupAlpha:0.0f];
 }
 
 - (void)setupImageView {
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(-3.0f, 10.0f, 40.0f, ASAThumbnailAnnotationViewImageViewHeight)];
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kGCThumbnailAnnotationViewStandardWidth, kGCThumbnailAnnotationViewStandardHeight)];
 //    _imageView.layer.cornerRadius = 14.5f;
     _imageView.contentMode = UIViewContentModeScaleAspectFit;
     _imageView.layer.masksToBounds = YES;
 //    _imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 //    _imageView.layer.borderWidth = 0.5f;
     [self addSubview:_imageView];
+}
+
+-(void)setUpSeparators{
+    _firstSep = [[UIView alloc] initWithFrame:CGRectMake(-kGCThumbnailAnnotationViewExpandOffset/6, -ASAMagicVerticalOffset + 5, 0.5f, 35.0f)];
+    _firstSep.backgroundColor = [UIColor lightGrayColor];
+    _firstSep.alpha = 0.5;
+    
+    _secondSep = [[UIView alloc] initWithFrame:CGRectMake(kGCThumbnailAnnotationViewExpandOffset/6, -ASAMagicVerticalOffset + 5, 0.5f, 35.0f)];
+    _secondSep.backgroundColor = [UIColor lightGrayColor];
+    _secondSep.alpha = 0.5;
+    
+    [self addSubview:_firstSep];
+    [self addSubview:_secondSep];
 }
 
 - (void)setupTitleLabel {
@@ -108,27 +132,25 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 //It is the button on the left side with route
 - (void)setupPrimaryButton {
-    _primaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _primaryButton.tintColor = SYSTEM_GREEN_COLOR;
-    _primaryButton.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    _primaryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _primaryButton.frame = CGRectMake(0, 0, 50, 50);
     
-    _primaryButton.frame = CGRectMake(0, 0, 55.0f, 55.5f);
-    
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(-132.0f, -55.5f, 72.0f, 55.0f)];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(-kGCThumbnailAnnotationViewExpandOffset/2.0f, -ASAMagicVerticalOffset, 50, 50)];
     containerView.clipsToBounds = YES;
-    containerView.layer.cornerRadius = 17.5;
+    containerView.layer.cornerRadius = 10.0;
     
     _primaryButtonSmall = [UIButton buttonWithType:UIButtonTypeSystem];
-    UIImage *image = [UIImage imageNamed:@"bus-filled-gray-100.png"];
+    UIImage *image = [UIImage imageNamed:@"goFromHere.png"];
     [_primaryButtonSmall setImage:image forState:UIControlStateNormal];
     _primaryButtonSmall.tintColor = SYSTEM_GREEN_COLOR;
-    _primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
+    _primaryButtonSmall.frame = CGRectMake(12.0f, 10.0f, 25.0f, 17.0f);
     
-    _primaryButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake(8.0f, 32.0f, 40.0f, 20.0f)];
-    _primaryButtonLabel.textColor = SYSTEM_GREEN_COLOR;
-    _primaryButtonLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0f];
+    _primaryButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 31.0f, 50.0f, 10.0f)];
+    _primaryButtonLabel.textColor = [UIColor darkTextColor];
+    _primaryButtonLabel.font = [UIFont fontWithName:@"HelveticaNeue-light" size:10.0f];
     _primaryButtonLabel.textAlignment = NSTextAlignmentCenter;
     _primaryButtonLabel.adjustsFontSizeToFitWidth = YES;
+    _primaryButtonLabel.text = @"from here";
     
     [containerView addSubview:_primaryButton];
     [containerView addSubview:_primaryButtonSmall];
@@ -142,15 +164,44 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 //it is going to cover the whole anotation
 - (void)setupSecondaryButton {
-    _secondaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-//    UIImage *image = [UIImage imageNamed:@"calendar-50.png"];
-//    [_secondaryButton setImage:image forState:UIControlStateNormal];
-    _secondaryButton.tintColor = SYSTEM_GREEN_COLOR;
-//    _secondaryButton.backgroundColor = [UIColor greenColor];
-    _secondaryButton.frame = CGRectMake(-70.0f, -55.5f, 245.0f, 55.0f);
-    [self addSubview:_secondaryButton];
+    _secondaryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _secondaryButton.frame = CGRectMake(0, 0, 50, 50);
+    
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(kGCThumbnailAnnotationViewExpandOffset/6.0f, -ASAMagicVerticalOffset, 50, 50)];
+    containerView.clipsToBounds = YES;
+    containerView.layer.cornerRadius = 10.0;
+    
+    _secondaryButtonSmall = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIImage *image = [UIImage imageNamed:@"goToHere.png"];
+    [_secondaryButtonSmall setImage:image forState:UIControlStateNormal];
+    _secondaryButtonSmall.tintColor = SYSTEM_GREEN_COLOR;
+    _secondaryButtonSmall.frame = CGRectMake(12.0f, 10.0f, 25.0f, 17.0f);
+    
+    _secondaryButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 31.0f, 50.0f, 10.0f)];
+    _secondaryButtonLabel.textColor = [UIColor darkTextColor];
+    _secondaryButtonLabel.font = [UIFont fontWithName:@"HelveticaNeue-light" size:10.0f];
+    _secondaryButtonLabel.textAlignment = NSTextAlignmentCenter;
+    _secondaryButtonLabel.adjustsFontSizeToFitWidth = YES;
+    _secondaryButtonLabel.text = @"to here";
+    
+    [containerView addSubview:_secondaryButton];
+    [containerView addSubview:_secondaryButtonSmall];
+    [containerView addSubview:_secondaryButtonLabel];
+    
+    [self addSubview:containerView];
     
     [_secondaryButton addTarget:self action:@selector(didTapSecondaryButton) forControlEvents:UIControlEventTouchDown];
+    [_secondaryButtonSmall addTarget:self action:@selector(didTapSecondaryButton) forControlEvents:UIControlEventTouchDown];
+}
+
+- (void)setupMiddleButton {
+    _middleButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    _middleButton.frame = CGRectMake(-11, -ASAMagicVerticalOffset + 10, 22, 22);
+    _middleButton.tintColor = SYSTEM_GREEN_COLOR;
+    
+    [self addSubview:_middleButton];
+    
+    [_middleButton addTarget:self action:@selector(didTapMiddleButton) forControlEvents:UIControlEventTouchDown];
 }
 
 - (void)setupDisclosureButton {
@@ -174,12 +225,14 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 //    CGPathRef path = [self newBubbleWithRect:self.bounds];
 //    _bgLayer.path = path;
 //    CFRelease(path);
-    _bgLayer.fillColor = [UIColor colorWithWhite:0.97 alpha:1].CGColor;
+    _bgLayer.fillColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+    _bgLayer.strokeColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
+    _bgLayer.borderWidth = 0.5f;
     
-    _bgLayer.shadowColor = [UIColor blackColor].CGColor;
-    _bgLayer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-    _bgLayer.shadowRadius = 2.0f;
-    _bgLayer.shadowOpacity = 0.5f;
+    _bgLayer.shadowColor = [UIColor lightGrayColor].CGColor;
+    _bgLayer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    _bgLayer.shadowRadius = 1.0f;
+    _bgLayer.shadowOpacity = 0.3f;
     
     _bgLayer.masksToBounds = NO;
     
@@ -207,6 +260,13 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
         return [self.secondaryButton hitTest:pointForSTargetView withEvent:event];
     }
     
+    CGPoint pointForMTargetView = [self.middleButton convertPoint:point fromView:self];
+    
+    if (CGRectContainsPoint(self.middleButton.bounds, pointForMTargetView)) {
+        
+        return [self.middleButton hitTest:pointForMTargetView withEvent:event];
+    }
+    
     return [super hitTest:point withEvent:event];
 }
 
@@ -223,6 +283,7 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.primaryButtonBlock = thumbnail.primaryButtonBlock;
     self.secondaryButtonBlock = thumbnail.secondaryButtonBlock;
     self.disclosureBlock = thumbnail.disclosureBlock;
+    self.middleButtonBlock = thumbnail.middleButtonBlock;
     
     if (!self.primaryButtonBlock)
         self.primaryButton.hidden = YES;
@@ -233,6 +294,7 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     else
         self.secondaryButton.hidden = NO;
     
+    [self expand];
 }
 
 #pragma mark - GCThumbnailAnnotationViewProtocol
@@ -298,8 +360,10 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 #pragma mark - Geometry
 
 - (CGPathRef)newBubbleWithRect:(CGRect)rect {
-    CGFloat stroke = 1.0f;
-	CGFloat radius = 17.5f;
+    CGFloat stroke = 0.5f;
+	CGFloat radius = 10.0f;
+    CGFloat triangleWidth = 28.0f;
+    CGFloat triangleHeight = 14.0f;
 	CGMutablePathRef path = CGPathCreateMutable();
 	CGFloat parentX = rect.origin.x + rect.size.width/2.0f;
     
@@ -317,18 +381,16 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 	CGPathAddLineToPoint(path, NULL, rect.origin.x, rect.origin.y + rect.size.height - radius);
     if ((rect.size.width - 2*radius > 7.0f)) {
         CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius, radius, M_PI, M_PI_2, 1);
-        CGPathAddLineToPoint(path, NULL, parentX - 7.0f, rect.origin.y + rect.size.height);
+        CGPathAddLineToPoint(path, NULL, parentX - triangleWidth/2, rect.origin.y + rect.size.height);
     }else{
         CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius, radius, M_PI, M_PI_2 + M_PI_4, 1);
         curveTouchPoint = CGPathGetCurrentPoint(path);
-        
-        
     }
 	
-	CGPathAddLineToPoint(path, NULL, parentX, rect.origin.y + rect.size.height + 7.0f);
+	CGPathAddLineToPoint(path, NULL, parentX, rect.origin.y + rect.size.height + triangleHeight);
     
     if ((rect.size.width - 2*radius > 7.0f)) {
-        CGPathAddLineToPoint(path, NULL, parentX + 7.0f, rect.origin.y + rect.size.height);
+        CGPathAddLineToPoint(path, NULL, parentX + triangleWidth/2, rect.origin.y + rect.size.height);
         CGPathAddLineToPoint(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height);
         CGPathAddArc(path, NULL, rect.origin.x + rect.size.width - radius, rect.origin.y + rect.size.height - radius, radius, M_PI_2, 0.0f, 1.0f);
     }else{
@@ -352,10 +414,15 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.disclosureButton.alpha = alpha;
     self.titleLabel.alpha = alpha;
     self.subtitleLabel.alpha = alpha;
+    self.firstSep.alpha = alpha;
+    self.secondSep.alpha = alpha;
     self.primaryButton.alpha = alpha;
     self.primaryButtonSmall.alpha = alpha;
     self.primaryButtonLabel.alpha = alpha;
     self.secondaryButton.alpha = alpha;
+    self.secondaryButtonSmall.alpha = alpha;
+    self.secondaryButtonLabel.alpha = alpha;
+    self.middleButton.alpha = alpha;
 }
 
 - (void)setCompactGroupAlpha:(CGFloat)alpha {
@@ -370,10 +437,10 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     [self animateBubbleWithDirection:GCThumbnailAnnotationViewAnimationDirectionGrow];
     [self setCompactGroupAlpha:0];
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width+kGCThumbnailAnnotationViewExpandOffset, self.frame.size.height + kGCThumbnailAnnotationViewExpandHeightOffset);
-    self.centerOffset = CGPointMake(kGCThumbnailAnnotationViewExpandOffset/2.0f, -kGCThumbnailAnnotationViewExpandHeightOffset/2.0f);
+    self.centerOffset = CGPointMake(kGCThumbnailAnnotationViewExpandOffset/2.0f, 0);
     [UIView animateWithDuration:kGCThumbnailAnnotationViewAnimationDuration/2.0f delay:kGCThumbnailAnnotationViewAnimationDuration options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self setDetailGroupAlpha:1.0f];
-        _bgLayer.fillColor = [UIColor colorWithWhite:0.97 alpha:1].CGColor;
+        _bgLayer.fillColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
     } completion:^(BOOL finished) {
         self.state = GCThumbnailAnnotationViewStateExpanded;
     }];
@@ -397,7 +464,7 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
                      }
                      completion:^(BOOL finished) {
                          [self animateBubbleWithDirection:GCThumbnailAnnotationViewAnimationDirectionShrink];
-                         self.centerOffset = CGPointMake(0.0f, -kGCThumbnailAnnotationViewVerticalOffset);
+//                         self.centerOffset = CGPointMake(0.0f, -kGCThumbnailAnnotationViewVerticalOffset);
                          [UIView animateWithDuration:kGCThumbnailAnnotationViewAnimationDuration
                                                delay:0.0f
                                              options:UIViewAnimationOptionCurveEaseInOut
@@ -415,7 +482,7 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     BOOL growing = (animationDirection == GCThumbnailAnnotationViewAnimationDirectionGrow);
     // Image
     [UIView animateWithDuration:kGCThumbnailAnnotationViewAnimationDuration animations:^{
-        CGFloat xOffset = (growing ? -1 : 1) * kGCThumbnailAnnotationViewExpandOffset/2.0f;
+//        CGFloat xOffset = (growing ? -1 : 1) * kGCThumbnailAnnotationViewExpandOffset/2.0f;
         
 //        self.imageView.frame = CGRectOffset(self.imageView.frame, xOffset, 0.0f);
     } completion:^(BOOL finished) {
@@ -435,12 +502,12 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     
     // Stroke & Shadow From/To Values
     CGRect largeRect = CGRectInset(self.bounds, -kGCThumbnailAnnotationViewExpandOffset/2.0f, -kGCThumbnailAnnotationViewExpandHeightOffset/2.0f);
-    largeRect = CGRectOffset(largeRect, 0, -ASAThumbnailAnnotationViewImageViewHeight - 4.0f);
-    CGPathRef fromPath = [self newBubbleWithRect:growing ? CGRectOffset(self.bounds, 0, -ASAThumbnailAnnotationViewImageViewHeight - 4.0f) : largeRect];
+    largeRect = CGRectOffset(largeRect, 0, 0);
+    CGPathRef fromPath = [self newBubbleWithRect:growing ? CGRectOffset(self.bounds, 0, 0) : largeRect];
     animation.fromValue = (__bridge id)fromPath;
     CGPathRelease(fromPath);
     
-    CGPathRef toPath = [self newBubbleWithRect:growing ? largeRect : CGRectOffset(self.bounds, 0, -ASAThumbnailAnnotationViewImageViewHeight - 4.0f)];
+    CGPathRef toPath = [self newBubbleWithRect:growing ? largeRect : CGRectOffset(self.bounds, 0, 0)];
     animation.toValue = (__bridge id)toPath;
     CGPathRelease(toPath);
     
@@ -459,6 +526,10 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (void)didTapSecondaryButton {
     if (self.secondaryButtonBlock) self.secondaryButtonBlock();
+}
+
+- (void)didTapMiddleButton {
+    if (self.middleButtonBlock) self.middleButtonBlock();
 }
 
 + (UIImage *)disclosureButtonImage {

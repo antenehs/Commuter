@@ -82,9 +82,9 @@
 +(NSString *)formatPrittyDate:(NSDate *)date{
     NSDateFormatter *formatter;
     
-    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
     
-    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
     //If date is today
     if([today day] == [otherDay day] &&
        [today month] == [otherDay month] &&
@@ -187,7 +187,8 @@
     return [NSString stringWithFormat:@"%@.%@.%@", date, month, year];
 }
 
-//Expected format is XXXX(X) X 
+//Expected format is XXXX(X) X
+//PArsing logic https://github.com/HSLdevcom/navigator-proto/blob/master/src/routing.coffee#L40
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
     
     NSArray *codes = [lineCode componentsSeparatedByString:@" "];
@@ -212,6 +213,16 @@
         if (trainLineCode != nil && trainLineCode.length > 0) {
             return trainLineCode;
         }
+    }
+    
+    //Can be assumed a metro
+    if ([code hasPrefix:@"1300"]) {
+        return @"Metro";
+    }
+    
+    //Can be assumed a ferry
+    if ([code hasPrefix:@"1019"]) {
+        return @"Ferry";
     }
     
     NSRange second = NSMakeRange(1, 1);
@@ -323,12 +334,12 @@
         }
         
         NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:time];
+        NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:time];
         NSInteger hour = [components hour];
         NSInteger minute = [components minute];
         
         NSDate *today = [NSDate date];
-        NSDateComponents *component = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:today];
+        NSDateComponents *component = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:today];
         [component setHour:hour];
         [component setMinute:minute];
         

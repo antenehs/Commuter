@@ -150,9 +150,9 @@
     topToolBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     topToolBar.layer.borderWidth = 0.5;
     
-    if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
-        [self initAdBannerView];
-    }
+//    if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
+//        [self initAdBannerView];
+//    }
     
     [self setUpMapViewForBusStop];
     
@@ -666,11 +666,6 @@
     // As of iOS 6.0, the banner will automatically resize itself based on its width.
     // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
     CGRect contentFrame = self.view.bounds;
-    if (contentFrame.size.width < contentFrame.size.height) {
-        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-    } else {
-        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
-    }
     
     CGRect bannerFrame = _bannerView.frame;
     bannerFrame.origin.y = contentFrame.size.height;

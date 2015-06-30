@@ -45,10 +45,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell;
-    UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 0.5)];
+    UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
     
-    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 0.5)];
+    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0.5)];
     line.backgroundColor = [UIColor lightGrayColor];
     
     if (indexPath.row == 0) {
@@ -61,12 +61,12 @@
         self.timeTypeSegmentControl.selectedSegmentIndex = (int)selectedTimeType;
     }else if (indexPath.row == 1) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"SearchOptionTitleCell"];
-        topLine.frame = CGRectMake(0, 0, cell.frame.size.width, 0.5);
+        topLine.frame = CGRectMake(0, 0, self.view.frame.size.width, 0.5);
         [cell addSubview:topLine];
-        line.frame = CGRectMake(20.0, cell.frame.size.height - 0.5, cell.frame.size.width - 20.0, 0.5);
+        line.frame = CGRectMake(20.0, cell.frame.size.height - 0.5, self.view.frame.size.width - 20.0, 0.5);
     }else if (indexPath.row == 2) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"SearchOptionCell"];
-        line.frame = CGRectMake(35.0, cell.frame.size.height - 0.5, cell.frame.size.width - 35.0, 0.5);
+        line.frame = CGRectMake(35.0, cell.frame.size.height - 0.5, self.view.frame.size.width - 35.0, 0.5);
         cell.textLabel.text = @"    Fastest";
         if (selectedSearchOption == RouteSearchOptionFastest) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -78,7 +78,7 @@
         }
     }else if (indexPath.row == 3) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"SearchOptionCell"];
-        line.frame = CGRectMake(35.0, cell.frame.size.height - 0.5, cell.frame.size.width - 35.0, 0.5);
+        line.frame = CGRectMake(35.0, cell.frame.size.height - 0.5, self.view.frame.size.width - 35.0, 0.5);
         cell.textLabel.text = @"    Least transfer";
         if (selectedSearchOption == RouteSearchOptionLeastTransfer) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -90,7 +90,7 @@
         }
     }else if (indexPath.row == 4) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"SearchOptionCell"];
-        line.frame = CGRectMake(0.0, cell.frame.size.height - 0.5, cell.frame.size.width, 0.5);
+        line.frame = CGRectMake(0.0, cell.frame.size.height - 0.5, self.view.frame.size.width, 0.5);
         cell.textLabel.text = @"    Least walking";
         if (selectedSearchOption == RouteSearchOptionLeastWalking) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

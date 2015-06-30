@@ -35,6 +35,11 @@
     [self initBounds];
     
     [self setTitle:self.staticRoute.shortName];
+    nameLabel.text = self.staticRoute.longName;
+    
+    bottomTabBarView.layer.borderColor = [UIColor grayColor].CGColor;
+    bottomTabBarView.layer.borderWidth = 0.5f;
+    
     [self.reittiDataManager fetchLineInfoForCodeList:self.staticRoute.code];
     [SVProgressHUD show];
 }
