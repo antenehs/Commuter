@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lQM-Fk-yNv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lQM-Fk-yNv">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -977,7 +977,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96V-9S-nUc">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96V-9S-nUc">
                                                     <rect key="frame" x="28" y="8" width="544" height="54"/>
                                                     <animations/>
                                                     <string key="text">Trams: 4 and 4T, disrupt route. Operates via Aleksanterinkatu - Snellmankatu - Liisankatu - Central Railway Station - Lasipalatsi. Cause: public event. Estimated time: 17:00 - 18:30.</string>
@@ -1332,7 +1332,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear history older than" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.85000000000000031" translatesAutoresizingMaskIntoConstraints="NO" id="bmV-Zd-dTJ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear history older than" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.65000000000000013" translatesAutoresizingMaskIntoConstraints="NO" id="bmV-Zd-dTJ">
                                                             <rect key="frame" x="44" y="14" width="440" height="21"/>
                                                             <animations/>
                                                             <constraints>
@@ -3706,7 +3706,7 @@
                                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-75.png" translatesAutoresizingMaskIntoConstraints="NO" id="cMh-e7-a2T">
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="search-75.png" translatesAutoresizingMaskIntoConstraints="NO" id="cMh-e7-a2T">
                                                                             <rect key="frame" x="15" y="15" width="20" height="20"/>
                                                                             <animations/>
                                                                             <constraints>
@@ -7027,7 +7027,7 @@ Helsinki, Finland</string>
                                     <outlet property="delegate" destination="22G-UU-nOZ" id="VCk-9f-kpz"/>
                                 </connections>
                             </scrollView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="mds-5v-6WT">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="mds-5v-6WT">
                                 <rect key="frame" x="258" y="545" width="84" height="37"/>
                                 <animations/>
                                 <constraints>
@@ -7062,12 +7062,12 @@ Helsinki, Finland</string>
                                     <constraint firstAttribute="width" constant="25" id="rrY-le-d6a"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New in Commuter 3.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sX-Uq-vFd">
-                                <rect key="frame" x="55" y="22" width="202" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New in Commuter 4.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sX-Uq-vFd">
+                                <rect key="frame" x="55" y="22" width="202" height="24"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="202" id="HFm-uO-dAa"/>
-                                    <constraint firstAttribute="height" constant="21" id="pKo-Fc-fgQ"/>
+                                    <constraint firstAttribute="height" constant="24" id="pKo-Fc-fgQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -609,7 +609,6 @@
     }else{
         return 60;
     }
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

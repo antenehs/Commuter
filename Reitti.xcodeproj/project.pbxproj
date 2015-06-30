@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3493EF41B3AC4D40AC49470A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06E935F13E44503B376EA3D /* libPods.a */; };
+		6604F2761B433A2C007489D1 /* new-bookmarks.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2741B433A2C007489D1 /* new-bookmarks.png */; };
+		6604F2771B433A2C007489D1 /* new-mapview.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2751B433A2C007489D1 /* new-mapview.png */; };
 		660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5A1B33630C00CE670E /* HSLLine.m */; };
 		660E2F5E1B33630C00CE670E /* LineStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStops.m */; };
 		660E2F6F1B34386400CE670E /* location-75-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F611B34386400CE670E /* location-75-red.png */; };
@@ -464,6 +466,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6604F2741B433A2C007489D1 /* new-bookmarks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-bookmarks.png"; sourceTree = "<group>"; };
+		6604F2751B433A2C007489D1 /* new-mapview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-mapview.png"; sourceTree = "<group>"; };
 		660E2F591B33630C00CE670E /* HSLLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLLine.h; sourceTree = "<group>"; };
 		660E2F5A1B33630C00CE670E /* HSLLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLLine.m; sourceTree = "<group>"; };
 		660E2F5B1B33630C00CE670E /* LineStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineStops.h; sourceTree = "<group>"; };
@@ -1165,6 +1169,8 @@
 		661202B51B01406300D93C2E /* Version 3.1 */ = {
 			isa = PBXGroup;
 			children = (
+				6604F2741B433A2C007489D1 /* new-bookmarks.png */,
+				6604F2751B433A2C007489D1 /* new-mapview.png */,
 				66134C041B41EB320008C6D7 /* globe-filled-100.png */,
 				66134C001B4067860008C6D7 /* dark-dotted-line-long.png */,
 				66134BFE1B3F1BFC0008C6D7 /* goFromHere.png */,
@@ -2225,6 +2231,7 @@
 				66D989F3199FFC5300E0B74B /* metro-colored-75.png in Resources */,
 				66D426A9199148D10080F21E /* schedule-128.png in Resources */,
 				66CF81961A0ED8E30034C9AB /* finish_flag-light-50.png in Resources */,
+				6604F2761B433A2C007489D1 /* new-bookmarks.png in Resources */,
 				665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */,
 				66F3B12D1AC861620038BA78 /* back-arrow-white-100.png in Resources */,
 				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
@@ -2249,6 +2256,7 @@
 				66CB961718EEECBA00E95CE5 /* alarmClock_1.png in Resources */,
 				66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
+				6604F2771B433A2C007489D1 /* new-mapview.png in Resources */,
 				665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */,
 				669602BD1B1396AF006919CB /* Bus Filled-green-100.png in Resources */,
 				6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */,

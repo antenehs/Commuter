@@ -74,14 +74,19 @@
 }
 
 - (void)setUpScrollView{
-    NSArray *imagesArray = [NSArray arrayWithObjects:@"named-bookmarks-3.0.png",@"annotation-3.0.png",@"route-view-3.0.png",@"dropped-pins-3.0.png", nil];
-    NSArray *titleArray = [NSArray arrayWithObjects:@"Named Bookmarks",
-                                @"Annotations 3.0", @"More at a Glance", @"Go Anywhere", nil];
-    NSArray *descArray = [NSArray arrayWithObjects:@"Now you can save any address in addition to stops and routes. You can even call the address 'Home' or 'That place I go to everyday'.",
-                          @"Quickly see how long it takes to go to a place from the annotation.",
-                          @"See more from the newly designed route results including leg durations and waiting times.",
-                          @"Wanted to go somewhere but don't know the address? Just long press the place and go. Press on the map of course.", nil];
+//    NSArray *imagesArray = [NSArray arrayWithObjects:@"named-bookmarks-3.0.png",@"annotation-3.0.png",@"route-view-3.0.png",@"dropped-pins-3.0.png", nil];
+//    NSArray *titleArray = [NSArray arrayWithObjects:@"Named Bookmarks",
+//                                @"Annotations 3.0", @"More at a Glance", @"Go Anywhere", nil];
+//    NSArray *descArray = [NSArray arrayWithObjects:@"Now you can save any address in addition to stops and routes. You can even call the address 'Home' or 'That place I go to everyday'.",
+//                          @"Quickly see how long it takes to go to a place from the annotation.",
+//                          @"See more from the newly designed route results including leg durations and waiting times.",
+//                          @"Wanted to go somewhere but don't know the address? Just long press the place and go. Press on the map of course.", nil];
     
+    NSArray *imagesArray = [NSArray arrayWithObjects:@"new-mapview.png",@"new-bookmarks.png", nil];
+    NSArray *titleArray = [NSArray arrayWithObjects:@"Live vehicles",
+                           @"Live bookmarks", nil];
+    NSArray *descArray = [NSArray arrayWithObjects:@"See realtime location of your ride. Might save you from running your lungs out. (only in Helsinki region)",
+                          @"See route suggestions right from the new revamped bookmarks view.",nil];
     
     float xPosition = 0;
 //    float width = 0.8 * self.view.frame.size.width;
