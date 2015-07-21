@@ -119,7 +119,15 @@
         
         return [formatter stringFromDate:date];;
     }
+}
+
++(NSString *)formatFullDate:(NSDate *)date{
+    NSDateFormatter *formatter;
     
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd.MM.yy"];
+    
+    return [formatter stringFromDate:date];;
 }
 
 +(NSString *)formatHourStringFromDate:(NSDate *)date{
@@ -360,6 +368,20 @@
     }
     
     return offsettedDate;
+}
+
++(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    [formatter setMaximumFractionDigits:roundPoints];
+    
+    [formatter setRoundingMode: roundUp? NSNumberFormatterRoundUp : NSNumberFormatterRoundDown];
+    
+    NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:doubleVal]];
+    
+    return numberString;
 }
 
 @end

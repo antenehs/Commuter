@@ -15,6 +15,7 @@
 +(NSString *)formatHSLAPITimeToHumanTime:(NSString *)hslTime;
 +(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
 +(NSString *)formatPrittyDate:(NSDate *)date;
++(NSString *)formatFullDate:(NSDate *)date;
 +(NSString *)formatHourStringFromDate:(NSDate *)date;
 +(NSString *)formatDurationString:(NSInteger)seconds;
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
@@ -26,5 +27,6 @@
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
++(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp;
 
 @end

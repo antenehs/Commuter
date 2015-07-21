@@ -202,7 +202,7 @@
 }
 
 - (void)initNotifications{
-    reittiReminderManager = [[ReittiRemindersManager alloc] init];
+    reittiReminderManager = [ReittiRemindersManager sharedManger];
 }
 
 #pragma mark - ibactions

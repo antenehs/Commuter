@@ -11,6 +11,7 @@
 @interface ReittiNotificationHelper : NSObject
 
 +(void)showSimpleMessageWithTitle:(NSString *)title andContent:(NSString *)content;
++(void)showSimpleMessageWithTitle:(NSString *)title content:(NSString *)content andDelegate:(id)delegate otherButtonName:(NSString *)otherButtonName;
 
 +(void)showSuccessBannerMessage:(NSString *)title andContent:(NSString *)content;
 +(void)showErrorBannerMessage:(NSString *)title andContent:(NSString *)content;

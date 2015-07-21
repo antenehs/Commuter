@@ -50,6 +50,17 @@ typedef enum
     LegTypeOther = 8
 } LegTransportType;
 
+typedef enum
+{
+    WeekDayMonday = 1,
+    WeekDayTuesday = 2,
+    WeekDayWedensday = 3,
+    WeekDayThursday = 4,
+    WeekDayFriday = 5,
+    WeekDaySaturday = 6,
+    WeekDaySunday = 7
+} WeekDay;
+
 @interface EnumManager : NSObject
 
 +(StopType)stopTypeForGDTypeString:(NSString *)type;
@@ -63,5 +74,9 @@ typedef enum
 +(LineType)lineTypeForVehicleType:(VehicleType)vehicleType;
 
 +(LegTransportType)legTrasportTypeForLineType:(LineType)lineType;
+
++(NSString *)dayNameForWeekDay:(WeekDay)weekDay;
++(NSString *)shortDayNameForWeekDay:(WeekDay)weekDay;
++(WeekDay)weekDayForDayName:(NSString *)dayName;
 
 @end

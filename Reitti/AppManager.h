@@ -32,4 +32,8 @@
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 
+//Sounds
++(NSArray *)toneNames;
++(NSString *)defailtToneName;
+
 @end

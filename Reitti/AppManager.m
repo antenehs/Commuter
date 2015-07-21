@@ -173,4 +173,23 @@
     return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];
 }
 
+//Tones
++(NSArray *)toneNames{
+    return [[NSArray alloc] initWithObjects:@"Choo choo train",
+                                            @"Horse whinny",
+                                            @"Mellow mood",
+                                            @"Time to go 1",
+                                            @"Time to go 2",
+                                            @"Time to go 3",
+                                            @"Time to go 4",
+                                            @"Time to go 5",
+                                            @"Train",
+                                            @"Vibration sound",
+                                            @"Wheels on the bus",nil];
+}
+
++(NSString *)defailtToneName{
+    return @"Train";
+}
+
 @end

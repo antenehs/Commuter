@@ -524,7 +524,6 @@
 }
 
 -(void)searchResultSelectedCurrentLocation{
-    //TODO - Do a reverse GEO from coordinates
     if (self.currentLocationGeoCode != nil) {
         [self setValuesFromGeoCode:currentLocationGeoCode];
     }else{

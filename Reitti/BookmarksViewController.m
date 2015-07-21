@@ -260,11 +260,12 @@
             [dataToLoad addObjectsFromArray:savedStops];
         }
         
-        if (self.savedStops != nil && self.savedStops.count > 0) {
-            [self hideWidgetSettingsButton:NO];
-        }else{
-            [self hideWidgetSettingsButton:YES];
-        }
+        //NO need to hide the widget settings button
+//        if (self.savedStops != nil && self.savedStops.count > 0) {
+//            [self hideWidgetSettingsButton:NO];
+//        }else{
+//            [self hideWidgetSettingsButton:YES];
+//        }
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }else{
 //        self.title = @"HISTORY";
@@ -274,7 +275,8 @@
         [dataToLoad addObjectsFromArray:recentStops];
         self.dataToLoad = [self sortDataArray:dataToLoad];
         
-        [self hideWidgetSettingsButton:YES];
+        //NO need to hide the widget settings button
+//        [self hideWidgetSettingsButton:YES];
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     self.tableView.backgroundColor = [UIColor clearColor];
@@ -386,7 +388,9 @@
             [self.reittiDataManager deleteAllSavedStop];
             [self.reittiDataManager deleteAllSavedroutes];
             [self.reittiDataManager deleteAllNamedBookmarks];
-            [self hideWidgetSettingsButton:YES];
+            
+            //NO need to hide the widget settings button
+//            [self hideWidgetSettingsButton:YES];
         }else{
 //            [delegate deletedAllHistoryStops];
             [self.reittiDataManager deleteAllHistoryStop];
@@ -711,11 +715,12 @@
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         
-        if (![self.reittiDataManager fetchAllSavedStopsFromCoreData]) {
-            [self hideWidgetSettingsButton:YES];
-        }else{
-            [self hideWidgetSettingsButton:NO];
-        }
+        //NO need to hide the widget settings button
+//        if (![self.reittiDataManager fetchAllSavedStopsFromCoreData]) {
+//            [self hideWidgetSettingsButton:YES];
+//        }else{
+//            [self hideWidgetSettingsButton:NO];
+//        }
         
         if (listSegmentControl.selectedSegmentIndex == 0) {
             [self setUpViewForTheSelectedMode];

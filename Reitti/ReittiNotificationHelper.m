@@ -19,6 +19,15 @@
     [alertView show];
 }
 
++(void)showSimpleMessageWithTitle:(NSString *)title content:(NSString *)content andDelegate:(id)delegate otherButtonName:(NSString *)otherButtonName{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:content
+                                                       delegate:delegate
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:otherButtonName, nil];
+    [alertView show];
+}
+
 +(void)showSuccessBannerMessage:(NSString *)title andContent:(NSString *)content{
     [TSMessage showNotificationWithTitle:title
                                 subtitle:content

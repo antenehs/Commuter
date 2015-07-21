@@ -173,6 +173,8 @@ typedef struct {
 -(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode;
 -(BusStopShort *)castStopEntityToBusStopShort:(StopEntity *)stopEntity;
 
++(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
+
 @property (strong, nonatomic) NSDictionary *detailLineInfo;
 @property (strong, nonatomic) NSDictionary *stopLinesInfo;
 @property (strong, nonatomic) NSMutableArray *allHistoryStopCodes;

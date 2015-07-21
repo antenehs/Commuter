@@ -1819,7 +1819,7 @@
     }
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
-        if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
+        if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
             [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
         }else{
             [self removeAllStopAnnotations];
@@ -1929,7 +1929,7 @@
 //    }else{
 //        customBadge.hidden = !show;
 //    }
-    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:3];
+    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:4];
 
     if (show) {
         moreTabBarItem.badgeValue = @"!";

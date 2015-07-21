@@ -90,7 +90,7 @@
 }
 
 - (BOOL)areThereDisruptions {
-    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:3];
+    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:4];
     
     return moreTabBarItem.badgeValue != nil;
 }
@@ -122,7 +122,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return canShowLines ? 2 : 1;
+        return canShowLines ? 3 : 2;
     }else if (section == 1) {
         return 1;
     }else{
@@ -134,7 +134,10 @@
     UITableViewCell *cell;
     
     if (indexPath.section == 0) {
-        if (indexPath.row == 0 && canShowLines) {
+        if (indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"remindersCell" forIndexPath:indexPath];
+        }
+        else if (indexPath.row == 1 && canShowLines) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"linesCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];

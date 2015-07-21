@@ -828,6 +828,7 @@ typedef enum
     [self clearSearchTexts];
     
     [self.routeList removeAllObjects];
+    [self refreshData];
     [routeResultsTableView reloadData];
     
     bookmarkRouteButton.enabled = NO;
@@ -1225,15 +1226,15 @@ typedef enum
 //            UILabel *walkingDistLabel = (UILabel *)[cell viewWithTag:2004];
             CGFloat walkingKm = route.getTotalWalkLength/1000.0;
             
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+//            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+//            
+//            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+//            
+//            [formatter setMaximumFractionDigits:2];
+//            
+//            [formatter setRoundingMode: NSNumberFormatterRoundUp];
             
-            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            
-            [formatter setMaximumFractionDigits:2];
-            
-            [formatter setRoundingMode: NSNumberFormatterRoundUp];
-            
-            NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:walkingKm]];
+            NSString *numberString = [ReittiStringFormatter formatRoundedNumberFromDouble:walkingKm roundDigits:2 androundUp:YES];
             
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
             
@@ -1626,6 +1627,21 @@ typedef enum
             refreshingRouteTable = NO;
         }
     }
+}
+
+-(void)searchRouteForFromLocation:(NSString *)fromLoc fromLocationCoords:(NSString *)fromCoordinates andToLocation:(NSString *)toLoc toLocationCoords:(NSString *)toCoordinates{
+    fromSearchBar.text = fromLoc;
+    toSearchBar.text = toLoc;
+    
+    fromCoords = fromCoordinates;
+    toCoords = toCoordinates;
+    
+    selectedSearchOption = RouteSearchOptionFastest;
+    
+    selectedTimeType = SelectedTimeDeparture;
+    [self setSelectedTimesForDate:[NSDate date]];
+    
+    [self searchRouteIfPossible];
 }
 
 -(void)tableViewRefreshing{

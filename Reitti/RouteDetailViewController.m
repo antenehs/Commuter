@@ -75,7 +75,7 @@
     
     routeLocationList = [self convertRouteToLocationList:self.route];
     
-    reittiRemindersManager = [[ReittiRemindersManager alloc] init];
+    reittiRemindersManager = [ReittiRemindersManager sharedManger];
     
     detailViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragRouteList:)];
     detailViewDragGestureRecognizer.delegate = self;

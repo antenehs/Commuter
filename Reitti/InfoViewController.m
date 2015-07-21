@@ -211,7 +211,15 @@
 
 #pragma mark - Disruptions delegate
 - (void)disruptionFetchDidComplete:(NSArray *)disList{
-    self.disruptionsList = disList;
+    //Filter out disruptions with no info text
+    NSMutableArray *tempArray = [@[] mutableCopy];
+    for (Disruption *disruption in disList) {
+        if (disruption.disruptionInfo != nil) {
+            [tempArray addObject:disruption];
+        }
+    }
+    
+    self.disruptionsList = tempArray;
     
     [disruptionsTableView reloadData];
     

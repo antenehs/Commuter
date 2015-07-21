@@ -198,4 +198,58 @@
     }
 }
 
++(NSString *)dayNameForWeekDay:(WeekDay)weekDay{
+    if (weekDay == WeekDayMonday) {
+        return @"Monday";
+    }else if (weekDay == WeekDayTuesday) {
+        return @"Tuesday";
+    }else if (weekDay == WeekDayWedensday) {
+        return @"Wedensday";
+    }else if (weekDay == WeekDayThursday) {
+        return @"Thursday";
+    }else if (weekDay == WeekDayFriday) {
+        return @"Friday";
+    }else if (weekDay == WeekDaySaturday) {
+        return @"Saturday";
+    }else {
+        return @"Sunday";
+    }
+}
+
++(NSString *)shortDayNameForWeekDay:(WeekDay)weekDay{
+    if (weekDay == WeekDayMonday) {
+        return @"Mon";
+    }else if (weekDay == WeekDayTuesday) {
+        return @"Tue";
+    }else if (weekDay == WeekDayWedensday) {
+        return @"Wed";
+    }else if (weekDay == WeekDayThursday) {
+        return @"Thu";
+    }else if (weekDay == WeekDayFriday) {
+        return @"Fri";
+    }else if (weekDay == WeekDaySaturday) {
+        return @"Sat";
+    }else {
+        return @"Sun";
+    }
+}
+
++(WeekDay)weekDayForDayName:(NSString *)dayName{
+    if ([[dayName lowercaseString]  isEqual: @"monday"]) {
+        return WeekDayMonday;
+    }else if ([[dayName lowercaseString]  isEqual: @"tuesday"]) {
+        return WeekDayTuesday;
+    }else if ([[dayName lowercaseString]  isEqual: @"wedensday"]) {
+        return WeekDayWedensday;
+    }else if ([[dayName lowercaseString]  isEqual: @"thursday"]) {
+        return WeekDayThursday;
+    }else if ([[dayName lowercaseString]  isEqual: @"friday"]) {
+        return WeekDayFriday;
+    }else if ([[dayName lowercaseString]  isEqual: @"saturday"]) {
+        return WeekDaySaturday;
+    }else {
+        return WeekDaySunday;
+    }
+}
+
 @end

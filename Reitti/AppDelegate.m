@@ -8,7 +8,10 @@
 
 #import "AppDelegate.h"
 #import "SearchController.h"
+#import "RouteSearchViewController.h"
 #import "AppManager.h"
+#import "TravelCardManager.h"
+#import "ReittiRemindersManager.h"
 
 @implementation AppDelegate
 
@@ -20,24 +23,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    NSLog(@"%@", [UIFont fontNamesForFamilyName:@"Aspergit"]);
-//    NSLog(@"%@", [ReittiStringFormatter formatHSLAPITimeWithColon:@"0000"]);
-//    NSLog(@"%@", [ReittiStringFormatter formatHSLAPITimeWithColon:@"ante"]);
-//    NSLog(@"%@", [ReittiStringFormatter formatHSLAPITimeWithColon:@"000"]);
-//    NSLog(@"%@", [ReittiStringFormatter formatHSLAPITimeWithColon:@"1234"]);
-//    NSLog(@"%@", [ReittiStringFormatter parseBusNumFromLineCode:@"1041T 0"]);
-//    NSLog(@"%@", [ReittiStringFormatter parseBusNumFromLineCode:@"1234 R"]);
-//    NSLog(@"%@", [ReittiStringFormatter parseBusNumFromLineCode:@"1034 2"]);
-    // Override point for customization after application launch.
-    
-//        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-//    
-////        NSDictionary *defaults = @{@"StopCodes" : @"2222222",};
-//    
-//        [sharedDefaults setObject:@"222222" forKey:@"StopCodes"];
-//    
-//        NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
-    
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     
     [[UITabBar appearance] setTintColor:[AppManager systemGreenColor]];
@@ -46,31 +31,31 @@
     UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
     UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
     UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-//    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     
     tabBarItem1.title = @"Map";
     tabBarItem2.title = @"Route";
     tabBarItem3.title = @"Bookmarks";
-//    tabBarItem4.title = @"Lines";
+    tabBarItem4.title = @"Matkakortti";
 //    tabBarItem4.title = @"Settings";
     
 //    UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(26, 26)];
+    tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(22, 22)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
 //    UIImage *image2_unselected = [UIImage imageNamed:@"Bus-unselected-100.png"];
-    tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(25, 24)];
+    tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(21, 21)];
 //    tabBarItem2.image = [[self imageWithImage:image2_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
 //    UIImage *image3_unselected = [UIImage imageNamed:@"Bookmark-unselected-100.png"];
-    tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(28, 28)];
+    tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(24, 24)];
 //    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-//    UIImage *image4 = [UIImage imageNamed:@"lines-100.png"];
+    UIImage *image4 = [UIImage imageNamed:@"matkakortti-icon-1.png"];
 //    UIImage *image4_unselected = [UIImage imageNamed:@"Settings-unselected-100.png"];
-//    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(24, 24)];
+    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(20, 20)];
 //    tabBarItem4.selectedImage = [self imageWithImage:image4 scaledToSize:CGSizeMake(26, 26)];
 //    tabBarItem4.image = [[self imageWithImage:image4_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 //    tabBarItem1.image = [UIImage imageNamed:@"Home-green-100.png"];
@@ -81,6 +66,26 @@
 //    [tabBarItem2 setFinishedSelectedImage:[UIImage imageNamed:@"maps_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"maps.png"]];
 //    [tabBarItem3 setFinishedSelectedImage:[UIImage imageNamed:@"myplan_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"myplan.png"]];
 //    [tabBarItem4 setFinishedSelectedImage:[UIImage imageNamed:@"settings_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"settings.png"]];
+    
+    //Testing - delete on sight
+    
+    //Init Singletons
+    TravelCardManager *cm = [TravelCardManager sharedManager];
+    
+    //Check if notification is allowed.
+    if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
+        [[ReittiRemindersManager sharedManger] registerNotification];
+    }
+    
+    if (launchOptions != nil) {
+        // Launched from push notification
+        UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+        if (locationNotification) {
+            [self searchRouteFromRoutineNotification:locationNotification];
+        }
+    }
+    
+//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
     return YES;
 }
@@ -93,8 +98,7 @@
     return newImage;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
     NSLog(@"URL scheme:%@", [url scheme]);
@@ -153,6 +157,63 @@
     }
     
     return NO;
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    UIApplicationState applicationState = application.applicationState;
+    if (application.applicationState == UIApplicationStateInactive || applicationState == UIApplicationStateBackground) {
+//        [application presentLocalNotificationNow:notification];
+        [self searchRouteFromRoutineNotification:notification];
+    }else if (application.applicationState == UIApplicationStateActive) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertTitle
+                                                        message:notification.alertBody
+                                                       delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+    }
+}
+
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    
+//}
+
+-(void)searchRouteFromRoutineNotification:(UILocalNotification *)locationNotification{
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * routeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:1];
+    
+    RouteSearchViewController *routeViewController = (RouteSearchViewController *)[[routeViewNavController viewControllers] firstObject];
+    
+    if (routeViewController.isViewLoaded) {
+        [routeViewController searchRouteForFromLocation:locationNotification.userInfo[kRoutineNotificationFromName]
+                                     fromLocationCoords:locationNotification.userInfo[kRoutineNotificationFromCoords]
+                                          andToLocation:locationNotification.userInfo[kRoutineNotificationToName]
+                                       toLocationCoords:locationNotification.userInfo[kRoutineNotificationToCoords]];
+    }else{
+        routeViewController.prevFromLocation = locationNotification.userInfo[kRoutineNotificationFromName];
+        routeViewController.prevFromCoords = locationNotification.userInfo[kRoutineNotificationFromCoords];
+        routeViewController.prevToLocation = locationNotification.userInfo[kRoutineNotificationToName];
+        routeViewController.prevToCoords = locationNotification.userInfo[kRoutineNotificationToCoords];
+    }
+    
+    tabBarController.selectedIndex = 1;
+}
+
+-(void)getAndInitHomeViewController{
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
+    
+    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+    //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
+    [controller initDataComponentsAndModules];
+}
+
+-(RouteSearchViewController *)getAndInitRouteSearchViewController{
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * routeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:1];
+    
+    return (RouteSearchViewController *)[[routeViewNavController viewControllers] firstObject];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

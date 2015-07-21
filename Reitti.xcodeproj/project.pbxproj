@@ -10,6 +10,25 @@
 		3493EF41B3AC4D40AC49470A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06E935F13E44503B376EA3D /* libPods.a */; };
 		6604F2761B433A2C007489D1 /* new-bookmarks.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2741B433A2C007489D1 /* new-bookmarks.png */; };
 		6604F2771B433A2C007489D1 /* new-mapview.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2751B433A2C007489D1 /* new-mapview.png */; };
+		660715FA1B45CD2C00033049 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715E91B45CD2C00033049 /* Distance.m */; };
+		660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715EB1B45CD2C00033049 /* InactiveReasons.m */; };
+		660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715ED1B45CD2C00033049 /* PeriodProductState.m */; };
+		660715FD1B45CD2C00033049 /* ProductNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715EF1B45CD2C00033049 /* ProductNames.m */; };
+		660715FE1B45CD2C00033049 /* TicketNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F11B45CD2C00033049 /* TicketNames.m */; };
+		660715FF1B45CD2C00033049 /* Tickets.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F31B45CD2C00033049 /* Tickets.m */; };
+		660716001B45CD2C00033049 /* TravelCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F51B45CD2C00033049 /* TravelCard.m */; };
+		660716011B45CD2C00033049 /* Value.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F71B45CD2C00033049 /* Value.m */; };
+		660716021B45CD2C00033049 /* ValueState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F91B45CD2C00033049 /* ValueState.m */; };
+		660716061B45E2A700033049 /* matkakortti-icon-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716041B45E2A700033049 /* matkakortti-icon-1.png */; };
+		660716071B45E2A700033049 /* matkakortti-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716051B45E2A700033049 /* matkakortti-full.png */; };
+		660716091B486DAD00033049 /* matkakortti-rounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716081B486DAD00033049 /* matkakortti-rounded.png */; };
+		6607160C1B48712700033049 /* lock-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6607160A1B48712700033049 /* lock-50.png */; };
+		6607160D1B48712700033049 /* user-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6607160B1B48712700033049 /* user-50.png */; };
+		6607160F1B4871C300033049 /* password-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6607160E1B4871C300033049 /* password-50.png */; };
+		660716121B49345D00033049 /* user-red-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716101B49345D00033049 /* user-red-50.png */; };
+		660716131B49345D00033049 /* lock-red-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716111B49345D00033049 /* lock-red-50.png */; };
+		660716151B49399700033049 /* Info-red-filled-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716141B49399700033049 /* Info-red-filled-50.png */; };
+		660716171B49CBFA00033049 /* logoutJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 660716161B49CBFA00033049 /* logoutJS.js */; };
 		660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5A1B33630C00CE670E /* HSLLine.m */; };
 		660E2F5E1B33630C00CE670E /* LineStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStops.m */; };
 		660E2F6F1B34386400CE670E /* location-75-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F611B34386400CE670E /* location-75-red.png */; };
@@ -92,6 +111,7 @@
 		66228CF619CB31C300A2C47F /* previous-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF519CB31C300A2C47F /* previous-48.png */; };
 		66228CF919CB4A1A00A2C47F /* next-grey-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF719CB4A1A00A2C47F /* next-grey-48.png */; };
 		66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF819CB4A1A00A2C47F /* previous-gray-48.png */; };
+		663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 663B7BDF1B4DB5B9008CF187 /* Reachability.m */; };
 		664749DB1AE59B3E0050137E /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
 		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
 		664749E01AE5A0D50050137E /* 3-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749DF1AE5A0D50050137E /* 3-100.png */; };
@@ -154,6 +174,7 @@
 		665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E791A0558C300797ABA /* addIcon-green.png */; };
 		665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */; };
 		665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E7F1A05791E00797ABA /* stopIcon-dark.png */; };
+		6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */; };
 		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		666437C919E1852E00B82BE5 /* calendar-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C719E1852E00B82BE5 /* calendar-50.png */; };
 		666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
@@ -164,6 +185,18 @@
 		666602551AED8F2600E3E392 /* joint-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602521AED8F2600E3E392 /* joint-100.png */; };
 		666602561AED8F2600E3E392 /* bug-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602531AED8F2600E3E392 /* bug-100.png */; };
 		666602591AED933A00E3E392 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
+		666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */; };
+		666BC1D21B5C259700889DD2 /* Time to go 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */; };
+		666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C81B5C259700889DD2 /* Horse whinny.mp3 */; };
+		666BC1D41B5C259700889DD2 /* Train.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C91B5C259700889DD2 /* Train.mp3 */; };
+		666BC1D51B5C259700889DD2 /* Choo choo train.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CA1B5C259700889DD2 /* Choo choo train.mp3 */; };
+		666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CB1B5C259700889DD2 /* Mellow mood.mp3 */; };
+		666BC1D71B5C259700889DD2 /* Wheels on the bus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CC1B5C259700889DD2 /* Wheels on the bus.mp3 */; };
+		666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CD1B5C259700889DD2 /* Time to go 2.mp3 */; };
+		666BC1D91B5C259700889DD2 /* Time to go 3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CE1B5C259700889DD2 /* Time to go 3.mp3 */; };
+		666BC1DA1B5C259700889DD2 /* Vibration sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CF1B5C259700889DD2 /* Vibration sound.mp3 */; };
+		666BC1DB1B5C259700889DD2 /* Time to go 4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */; };
+		666BC1DC1B5C259700889DD2 /* Time to go 5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */; };
 		667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 667334A619CEFCDC00CCD351 /* appIconRounded.png */; };
 		6673774B1ACC9B0A003581B5 /* shoe-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774A1ACC9B0A003581B5 /* shoe-white-100.png */; };
 		6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */; };
@@ -176,6 +209,7 @@
 		6673775B1ACCCD09003581B5 /* train-filled-red-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377571ACCCD09003581B5 /* train-filled-red-64.png */; };
 		6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673775C1ACCCE9E003581B5 /* train-filled-light-64.png */; };
 		6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673775D1ACCCE9E003581B5 /* tram-filled-light-64.png */; };
+		6675BA611B5110AC002EB83C /* reminders-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6675BA601B5110AC002EB83C /* reminders-100.png */; };
 		6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
 		667B98091AD00FE000C45ADF /* hsl-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 667B98081AD00FE000C45ADF /* hsl-region.geojson */; };
 		667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */; };
@@ -411,6 +445,31 @@
 		66F3B13A1AC886FE0038BA78 /* search-icon-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B1391AC886FE0038BA78 /* search-icon-25.png */; };
 		66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B13B1AC89FC60038BA78 /* app-logo-rounded.png */; };
 		66F3B13E1AC89FC60038BA78 /* ewketapps-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B13C1AC89FC60038BA78 /* ewketapps-logo.png */; };
+		66F3FADA1B4473A200DAA5B4 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */; };
+		66F3FADB1B4473A200DAA5B4 /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */; };
+		66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */; };
+		66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */; };
+		66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */; };
+		66F3FADF1B4473A200DAA5B4 /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */; };
+		66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */; };
+		66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */; };
+		66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */; };
+		66F3FAE31B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */; };
+		66F3FAE41B4473A200DAA5B4 /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */; };
+		66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */; };
+		66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACF1B4473A200DAA5B4 /* HTMLString.m */; };
+		66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */; };
+		66F3FAE81B4473A200DAA5B4 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */; };
+		66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */; };
+		66F3FAEA1B4473A200DAA5B4 /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */; };
+		66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */; };
+		66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */; };
+		66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 66F3FAF11B44972600DAA5B4 /* logginJS.js */; };
+		66F6CED81B51197500F934A2 /* reminders2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F6CED71B51197500F934A2 /* reminders2-100.png */; };
+		66F6CEDB1B511E6C00F934A2 /* RemindersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */; };
+		66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */; };
+		66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */; };
+		66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */; };
 		66FC547D1B23656F005B890D /* routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547B1B23656F005B890D /* routes.json */; };
 		66FC547E1B23656F005B890D /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547C1B23656F005B890D /* stops.json */; };
 		66FC54811B23677B005B890D /* StaticRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54801B23677B005B890D /* StaticRoute.m */; };
@@ -468,6 +527,34 @@
 /* Begin PBXFileReference section */
 		6604F2741B433A2C007489D1 /* new-bookmarks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-bookmarks.png"; sourceTree = "<group>"; };
 		6604F2751B433A2C007489D1 /* new-mapview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-mapview.png"; sourceTree = "<group>"; };
+		660715E81B45CD2C00033049 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distance.h; sourceTree = "<group>"; };
+		660715E91B45CD2C00033049 /* Distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Distance.m; sourceTree = "<group>"; };
+		660715EA1B45CD2C00033049 /* InactiveReasons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InactiveReasons.h; sourceTree = "<group>"; };
+		660715EB1B45CD2C00033049 /* InactiveReasons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InactiveReasons.m; sourceTree = "<group>"; };
+		660715EC1B45CD2C00033049 /* PeriodProductState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeriodProductState.h; sourceTree = "<group>"; };
+		660715ED1B45CD2C00033049 /* PeriodProductState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeriodProductState.m; sourceTree = "<group>"; };
+		660715EE1B45CD2C00033049 /* ProductNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductNames.h; sourceTree = "<group>"; };
+		660715EF1B45CD2C00033049 /* ProductNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductNames.m; sourceTree = "<group>"; };
+		660715F01B45CD2C00033049 /* TicketNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketNames.h; sourceTree = "<group>"; };
+		660715F11B45CD2C00033049 /* TicketNames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketNames.m; sourceTree = "<group>"; };
+		660715F21B45CD2C00033049 /* Tickets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tickets.h; sourceTree = "<group>"; };
+		660715F31B45CD2C00033049 /* Tickets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tickets.m; sourceTree = "<group>"; };
+		660715F41B45CD2C00033049 /* TravelCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCard.h; sourceTree = "<group>"; };
+		660715F51B45CD2C00033049 /* TravelCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCard.m; sourceTree = "<group>"; };
+		660715F61B45CD2C00033049 /* Value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Value.h; sourceTree = "<group>"; };
+		660715F71B45CD2C00033049 /* Value.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Value.m; sourceTree = "<group>"; };
+		660715F81B45CD2C00033049 /* ValueState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueState.h; sourceTree = "<group>"; };
+		660715F91B45CD2C00033049 /* ValueState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueState.m; sourceTree = "<group>"; };
+		660716041B45E2A700033049 /* matkakortti-icon-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "matkakortti-icon-1.png"; path = "Pictures/version 4.1/matkakortti-icon-1.png"; sourceTree = "<group>"; };
+		660716051B45E2A700033049 /* matkakortti-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "matkakortti-full.png"; path = "Pictures/version 4.1/matkakortti-full.png"; sourceTree = "<group>"; };
+		660716081B486DAD00033049 /* matkakortti-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "matkakortti-rounded.png"; path = "Pictures/version 4.1/matkakortti-rounded.png"; sourceTree = "<group>"; };
+		6607160A1B48712700033049 /* lock-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lock-50.png"; path = "Pictures/version 4.1/lock-50.png"; sourceTree = "<group>"; };
+		6607160B1B48712700033049 /* user-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user-50.png"; path = "Pictures/version 4.1/user-50.png"; sourceTree = "<group>"; };
+		6607160E1B4871C300033049 /* password-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "password-50.png"; path = "Pictures/version 4.1/password-50.png"; sourceTree = "<group>"; };
+		660716101B49345D00033049 /* user-red-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user-red-50.png"; path = "Pictures/version 4.1/user-red-50.png"; sourceTree = "<group>"; };
+		660716111B49345D00033049 /* lock-red-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lock-red-50.png"; path = "Pictures/version 4.1/lock-red-50.png"; sourceTree = "<group>"; };
+		660716141B49399700033049 /* Info-red-filled-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Info-red-filled-50.png"; path = "Pictures/version 4.1/Info-red-filled-50.png"; sourceTree = "<group>"; };
+		660716161B49CBFA00033049 /* logoutJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logoutJS.js; sourceTree = "<group>"; };
 		660E2F591B33630C00CE670E /* HSLLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLLine.h; sourceTree = "<group>"; };
 		660E2F5A1B33630C00CE670E /* HSLLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLLine.m; sourceTree = "<group>"; };
 		660E2F5B1B33630C00CE670E /* LineStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineStops.h; sourceTree = "<group>"; };
@@ -591,6 +678,8 @@
 		66237F0019CE156100DEEC5F /* AikatauluWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AikatauluWidget.entitlements; sourceTree = "<group>"; };
 		66237F0119CE1B9A00DEEC5F /* HSLCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLCommunicator.h; sourceTree = "<group>"; };
 		66237F0219CE1B9A00DEEC5F /* HSLCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLCommunicator.m; sourceTree = "<group>"; };
+		663B7BDE1B4DB5B9008CF187 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		663B7BDF1B4DB5B9008CF187 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		664749DA1AE59B3E0050137E /* versionInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = versionInfo.html; sourceTree = "<group>"; };
 		664749DC1AE59CD70050137E /* VersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoViewController.h; sourceTree = "<group>"; };
 		664749DD1AE59CD70050137E /* VersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoViewController.m; sourceTree = "<group>"; };
@@ -676,6 +765,7 @@
 		665EFFF819E190A600367839 /* bookmark-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-green-50.png"; sourceTree = "<group>"; };
 		6662CF7C18F719C7001CD5C1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Reitti/Default@2x.png"; sourceTree = "<group>"; };
 		6662CF7D18F719D6001CD5C1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Reitti/Default-568h@2x.png"; sourceTree = "<group>"; };
+		6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = changeToFullVersionJS.js; path = Reitti/changeToFullVersionJS.js; sourceTree = "<group>"; };
 		666437B719E1478400B82BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		666437B819E1478400B82BE5 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		666437B919E1478400B82BE5 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
@@ -690,6 +780,19 @@
 		666602531AED8F2600E3E392 /* bug-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bug-100.png"; path = "Pictures/Version 2.3/bug-100.png"; sourceTree = "<group>"; };
 		666602571AED933A00E3E392 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
 		666602581AED933A00E3E392 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
+		666BC1C41B5C1E3700889DD2 /* ToneSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToneSelectorTableViewController.h; sourceTree = "<group>"; };
+		666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToneSelectorTableViewController.m; sourceTree = "<group>"; };
+		666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 1.mp3"; path = "Sounds/Time to go 1.mp3"; sourceTree = "<group>"; };
+		666BC1C81B5C259700889DD2 /* Horse whinny.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Horse whinny.mp3"; path = "Sounds/Horse whinny.mp3"; sourceTree = "<group>"; };
+		666BC1C91B5C259700889DD2 /* Train.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Train.mp3; path = Sounds/Train.mp3; sourceTree = "<group>"; };
+		666BC1CA1B5C259700889DD2 /* Choo choo train.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Choo choo train.mp3"; path = "Sounds/Choo choo train.mp3"; sourceTree = "<group>"; };
+		666BC1CB1B5C259700889DD2 /* Mellow mood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Mellow mood.mp3"; path = "Sounds/Mellow mood.mp3"; sourceTree = "<group>"; };
+		666BC1CC1B5C259700889DD2 /* Wheels on the bus.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Wheels on the bus.mp3"; path = "Sounds/Wheels on the bus.mp3"; sourceTree = "<group>"; };
+		666BC1CD1B5C259700889DD2 /* Time to go 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 2.mp3"; path = "Sounds/Time to go 2.mp3"; sourceTree = "<group>"; };
+		666BC1CE1B5C259700889DD2 /* Time to go 3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 3.mp3"; path = "Sounds/Time to go 3.mp3"; sourceTree = "<group>"; };
+		666BC1CF1B5C259700889DD2 /* Vibration sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Vibration sound.mp3"; path = "Sounds/Vibration sound.mp3"; sourceTree = "<group>"; };
+		666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 4.mp3"; path = "Sounds/Time to go 4.mp3"; sourceTree = "<group>"; };
+		666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 5.mp3"; path = "Sounds/Time to go 5.mp3"; sourceTree = "<group>"; };
 		667334A619CEFCDC00CCD351 /* appIconRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appIconRounded.png; path = "Pictures/New Version 2.0/appIconRounded.png"; sourceTree = "<group>"; };
 		6673774A1ACC9B0A003581B5 /* shoe-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-white-100.png"; path = "Pictures/Version 2.3/shoe-white-100.png"; sourceTree = "<group>"; };
 		6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-gray-100.png"; path = "Pictures/Version 2.3/shoe-gray-100.png"; sourceTree = "<group>"; };
@@ -702,6 +805,7 @@
 		667377571ACCCD09003581B5 /* train-filled-red-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train-filled-red-64.png"; path = "Pictures/Version 2.3/train-filled-red-64.png"; sourceTree = "<group>"; };
 		6673775C1ACCCE9E003581B5 /* train-filled-light-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "train-filled-light-64.png"; path = "Pictures/Version 2.3/train-filled-light-64.png"; sourceTree = "<group>"; };
 		6673775D1ACCCE9E003581B5 /* tram-filled-light-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tram-filled-light-64.png"; path = "Pictures/Version 2.3/tram-filled-light-64.png"; sourceTree = "<group>"; };
+		6675BA601B5110AC002EB83C /* reminders-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reminders-100.png"; path = "Pictures/version 4.1/reminders-100.png"; sourceTree = "<group>"; };
 		6679ADC619C1CA3700DD38DD /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
 		667B98081AD00FE000C45ADF /* hsl-region.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "hsl-region.geojson"; sourceTree = "<group>"; };
@@ -1038,6 +1142,63 @@
 		66F3B1391AC886FE0038BA78 /* search-icon-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-icon-25.png"; path = "Pictures/Version 2.3/search-icon-25.png"; sourceTree = "<group>"; };
 		66F3B13B1AC89FC60038BA78 /* app-logo-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-rounded.png"; path = "Pictures/Version 2.3/app-logo-rounded.png"; sourceTree = "<group>"; };
 		66F3B13C1AC89FC60038BA78 /* ewketapps-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ewketapps-logo.png"; path = "Pictures/Version 2.3/ewketapps-logo.png"; sourceTree = "<group>"; };
+		66F3FAB31B4473A200DAA5B4 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLComment.h; sourceTree = "<group>"; };
+		66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLComment.m; sourceTree = "<group>"; };
+		66F3FAB51B4473A200DAA5B4 /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLDocument.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
+		66F3FAB71B4473A200DAA5B4 /* HTMLDocumentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLDocumentType.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentType.m; sourceTree = "<group>"; };
+		66F3FAB91B4473A200DAA5B4 /* HTMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
+		66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLElement.m; sourceTree = "<group>"; };
+		66F3FABB1B4473A200DAA5B4 /* HTMLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEncoding.h; sourceTree = "<group>"; };
+		66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEncoding.m; sourceTree = "<group>"; };
+		66F3FABD1B4473A200DAA5B4 /* HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEntities.h; sourceTree = "<group>"; };
+		66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEntities.m; sourceTree = "<group>"; };
+		66F3FABF1B4473A200DAA5B4 /* HTMLNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLNamespace.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FAC01B4473A200DAA5B4 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		66F3FAC21B4473A200DAA5B4 /* HTMLOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLOrderedDictionary.h; sourceTree = "<group>"; };
+		66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLOrderedDictionary.m; sourceTree = "<group>"; };
+		66F3FAC41B4473A200DAA5B4 /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
+		66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
+		66F3FAC61B4473A200DAA5B4 /* HTMLPreprocessedInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLPreprocessedInputStream.h; sourceTree = "<group>"; };
+		66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLPreprocessedInputStream.m; sourceTree = "<group>"; };
+		66F3FAC81B4473A200DAA5B4 /* HTMLQuirksMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLQuirksMode.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FAC91B4473A200DAA5B4 /* HTMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLReader.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FACA1B4473A200DAA5B4 /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLSelector.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
+		66F3FACC1B4473A200DAA5B4 /* HTMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLSerialization.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerialization.m; sourceTree = "<group>"; };
+		66F3FACE1B4473A200DAA5B4 /* HTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLString.h; sourceTree = "<group>"; };
+		66F3FACF1B4473A200DAA5B4 /* HTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLString.m; sourceTree = "<group>"; };
+		66F3FAD01B4473A200DAA5B4 /* HTMLSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSupport.h; sourceTree = "<group>"; };
+		66F3FAD11B4473A200DAA5B4 /* HTMLTextNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTextNode.h; sourceTree = "<group>"; };
+		66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTextNode.m; sourceTree = "<group>"; };
+		66F3FAD31B4473A200DAA5B4 /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
+		66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
+		66F3FAD51B4473A200DAA5B4 /* HTMLTokenizerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerState.h; sourceTree = "<group>"; };
+		66F3FAD61B4473A200DAA5B4 /* HTMLTreeEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeEnumerator.h; sourceTree = "<group>"; };
+		66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeEnumerator.m; sourceTree = "<group>"; };
+		66F3FAD81B4473A200DAA5B4 /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLEntities.m"; sourceTree = "<group>"; };
+		66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardManager.h; sourceTree = "<group>"; };
+		66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardManager.m; sourceTree = "<group>"; };
+		66F3FAEE1B44940700DAA5B4 /* TravelCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardViewController.h; sourceTree = "<group>"; };
+		66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardViewController.m; sourceTree = "<group>"; };
+		66F3FAF11B44972600DAA5B4 /* logginJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logginJS.js; sourceTree = "<group>"; };
+		66F6CED71B51197500F934A2 /* reminders2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reminders2-100.png"; path = "Pictures/version 4.1/reminders2-100.png"; sourceTree = "<group>"; };
+		66F6CED91B511E6C00F934A2 /* RemindersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindersTableViewController.h; path = ../RemindersTableViewController.h; sourceTree = "<group>"; };
+		66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindersTableViewController.m; path = ../RemindersTableViewController.m; sourceTree = "<group>"; };
+		66F6CEDC1B51335400F934A2 /* Reitti 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 8.xcdatamodel"; sourceTree = "<group>"; };
+		66F6CEDD1B513CED00F934A2 /* RoutineEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutineEntity.h; sourceTree = "<group>"; };
+		66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutineEntity.m; sourceTree = "<group>"; };
+		66F6CEE31B51AD0400F934A2 /* EditReminderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReminderTableViewController.h; sourceTree = "<group>"; };
+		66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReminderTableViewController.m; sourceTree = "<group>"; };
+		66F6CEE61B5297D800F934A2 /* Reitti 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 9.xcdatamodel"; sourceTree = "<group>"; };
+		66F6CEE71B529BFB00F934A2 /* Reitti 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 10.xcdatamodel"; sourceTree = "<group>"; };
+		66F6CEE81B52A86B00F934A2 /* MultiSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSelectTableViewController.h; sourceTree = "<group>"; };
+		66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiSelectTableViewController.m; sourceTree = "<group>"; };
+		66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 11.xcdatamodel"; sourceTree = "<group>"; };
 		66FC547B1B23656F005B890D /* routes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routes.json; sourceTree = "<group>"; };
 		66FC547C1B23656F005B890D /* stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stops.json; sourceTree = "<group>"; };
 		66FC547F1B23677B005B890D /* StaticRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticRoute.h; sourceTree = "<group>"; };
@@ -1101,6 +1262,49 @@
 				E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		660715E71B45CCA300033049 /* TravelCard */ = {
+			isa = PBXGroup;
+			children = (
+				660715E81B45CD2C00033049 /* Distance.h */,
+				660715E91B45CD2C00033049 /* Distance.m */,
+				660715EA1B45CD2C00033049 /* InactiveReasons.h */,
+				660715EB1B45CD2C00033049 /* InactiveReasons.m */,
+				660715EC1B45CD2C00033049 /* PeriodProductState.h */,
+				660715ED1B45CD2C00033049 /* PeriodProductState.m */,
+				660715EE1B45CD2C00033049 /* ProductNames.h */,
+				660715EF1B45CD2C00033049 /* ProductNames.m */,
+				660715F01B45CD2C00033049 /* TicketNames.h */,
+				660715F11B45CD2C00033049 /* TicketNames.m */,
+				660715F21B45CD2C00033049 /* Tickets.h */,
+				660715F31B45CD2C00033049 /* Tickets.m */,
+				660715F41B45CD2C00033049 /* TravelCard.h */,
+				660715F51B45CD2C00033049 /* TravelCard.m */,
+				660715F61B45CD2C00033049 /* Value.h */,
+				660715F71B45CD2C00033049 /* Value.m */,
+				660715F81B45CD2C00033049 /* ValueState.h */,
+				660715F91B45CD2C00033049 /* ValueState.m */,
+			);
+			name = TravelCard;
+			sourceTree = "<group>";
+		};
+		660716031B45E28C00033049 /* Version 4.1 */ = {
+			isa = PBXGroup;
+			children = (
+				66F6CED71B51197500F934A2 /* reminders2-100.png */,
+				6675BA601B5110AC002EB83C /* reminders-100.png */,
+				660716141B49399700033049 /* Info-red-filled-50.png */,
+				660716101B49345D00033049 /* user-red-50.png */,
+				660716111B49345D00033049 /* lock-red-50.png */,
+				6607160E1B4871C300033049 /* password-50.png */,
+				6607160A1B48712700033049 /* lock-50.png */,
+				6607160B1B48712700033049 /* user-50.png */,
+				660716081B486DAD00033049 /* matkakortti-rounded.png */,
+				660716041B45E2A700033049 /* matkakortti-icon-1.png */,
+				660716051B45E2A700033049 /* matkakortti-full.png */,
+			);
+			name = "Version 4.1";
 			sourceTree = "<group>";
 		};
 		660E2F571B33627600CE670E /* Lines */ = {
@@ -1319,6 +1523,8 @@
 				66FC54831B236866005B890D /* CacheManager.m */,
 				66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */,
 				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
+				66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */,
+				66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */,
 				66BCA3801B2F0A2B00166530 /* EnumManager.h */,
 				66BCA3811B2F0A2B00166530 /* EnumManager.m */,
 				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
@@ -1339,6 +1545,8 @@
 				660FB22C1B38B0F2009C30BF /* DroppedPinManager.m */,
 				661202AE1AFFC12900D93C2E /* RouteViewManager.h */,
 				661202AF1AFFC12900D93C2E /* RouteViewManager.m */,
+				663B7BDE1B4DB5B9008CF187 /* Reachability.h */,
+				663B7BDF1B4DB5B9008CF187 /* Reachability.m */,
 				664E287E1ADAC09200BE2457 /* ASPolylineView */,
 				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
@@ -1353,6 +1561,7 @@
 				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
 				664E28811ADAC12400BE2457 /* CustomAnnotations */,
 				66F099621AE6ECB500F20D34 /* TSMessages */,
+				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
 			);
 			name = "Supporting Classes";
 			sourceTree = "<group>";
@@ -1380,6 +1589,16 @@
 				661090C61B36D037003F2688 /* LinesTableViewController.m */,
 				661090C81B374B43003F2688 /* LineDetailViewController.h */,
 				661090C91B374B43003F2688 /* LineDetailViewController.m */,
+				66F3FAEE1B44940700DAA5B4 /* TravelCardViewController.h */,
+				66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */,
+				66F6CED91B511E6C00F934A2 /* RemindersTableViewController.h */,
+				66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */,
+				66F6CEE31B51AD0400F934A2 /* EditReminderTableViewController.h */,
+				66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */,
+				66F6CEE81B52A86B00F934A2 /* MultiSelectTableViewController.h */,
+				66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */,
+				666BC1C41B5C1E3700889DD2 /* ToneSelectorTableViewController.h */,
+				666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */,
 				660FB23A1B39E5ED009C30BF /* MoreTableViewController.h */,
 				660FB23B1B39E5ED009C30BF /* MoreTableViewController.m */,
 				66CC940818E190D300644281 /* WebViewController.h */,
@@ -1411,6 +1630,7 @@
 		661FAF26189E8ACB00042074 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				660715E71B45CCA300033049 /* TravelCard */,
 				660E2F7D1B349A9000CE670E /* TableViewCells */,
 				660E2F571B33627600CE670E /* Lines */,
 				661202C61B05083B00D93C2E /* GeoJSON */,
@@ -1455,6 +1675,8 @@
 				E2F46F1A0941E4DE9CE9E29E /* Vehicle.m */,
 				665885C31B1121000044F514 /* NearByStop.h */,
 				665885C41B1121000044F514 /* NearByStop.m */,
+				66F6CEDD1B513CED00F934A2 /* RoutineEntity.h */,
+				66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1719,6 +1941,7 @@
 		66947CED1885D71F00642EE1 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				660716031B45E28C00033049 /* Version 4.1 */,
 				661202B51B01406300D93C2E /* Version 3.1 */,
 				66F3B1251AC859100038BA78 /* New Version 2.3 */,
 				66CEE28219FAF22B0089A6F9 /* New Version 2.2 */,
@@ -1769,6 +1992,24 @@
 			children = (
 			);
 			name = XIB;
+			sourceTree = "<group>";
+		};
+		66AF3ABA1B5596B200D6B645 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */,
+				666BC1C81B5C259700889DD2 /* Horse whinny.mp3 */,
+				666BC1C91B5C259700889DD2 /* Train.mp3 */,
+				666BC1CA1B5C259700889DD2 /* Choo choo train.mp3 */,
+				666BC1CB1B5C259700889DD2 /* Mellow mood.mp3 */,
+				666BC1CC1B5C259700889DD2 /* Wheels on the bus.mp3 */,
+				666BC1CD1B5C259700889DD2 /* Time to go 2.mp3 */,
+				666BC1CE1B5C259700889DD2 /* Time to go 3.mp3 */,
+				666BC1CF1B5C259700889DD2 /* Vibration sound.mp3 */,
+				666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */,
+				666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		66CB960218EEE46100E95CE5 /* SWTableViewCell */ = {
@@ -1867,6 +2108,7 @@
 		66D0BA5118BF2DFA002DDC7B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				66AF3ABA1B5596B200D6B645 /* Sounds */,
 				66FC547A1B236545005B890D /* Static Data */,
 				669602C01B14D8CA006919CB /* San Fransisco Font */,
 				66D0BA5C18BF3A22002DDC7B /* Aspergit Light.otf */,
@@ -1874,6 +2116,9 @@
 				66D0BA5918BF3785002DDC7B /* Aspergit.otf */,
 				66D0BA5418BF3327002DDC7B /* timeburner_regular.ttf */,
 				66D0BA5218BF2E1E002DDC7B /* trench100free.otf */,
+				66F3FAF11B44972600DAA5B4 /* logginJS.js */,
+				6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */,
+				660716161B49CBFA00033049 /* logoutJS.js */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -2093,6 +2338,52 @@
 			name = "New Version 2.3";
 			sourceTree = "<group>";
 		};
+		66F3FAB21B44735800DAA5B4 /* HTMLReader */ = {
+			isa = PBXGroup;
+			children = (
+				66F3FAB31B4473A200DAA5B4 /* HTMLComment.h */,
+				66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */,
+				66F3FAB51B4473A200DAA5B4 /* HTMLDocument.h */,
+				66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */,
+				66F3FAB71B4473A200DAA5B4 /* HTMLDocumentType.h */,
+				66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */,
+				66F3FAB91B4473A200DAA5B4 /* HTMLElement.h */,
+				66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */,
+				66F3FABB1B4473A200DAA5B4 /* HTMLEncoding.h */,
+				66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */,
+				66F3FABD1B4473A200DAA5B4 /* HTMLEntities.h */,
+				66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */,
+				66F3FABF1B4473A200DAA5B4 /* HTMLNamespace.h */,
+				66F3FAC01B4473A200DAA5B4 /* HTMLNode.h */,
+				66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */,
+				66F3FAC21B4473A200DAA5B4 /* HTMLOrderedDictionary.h */,
+				66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */,
+				66F3FAC41B4473A200DAA5B4 /* HTMLParser.h */,
+				66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */,
+				66F3FAC61B4473A200DAA5B4 /* HTMLPreprocessedInputStream.h */,
+				66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */,
+				66F3FAC81B4473A200DAA5B4 /* HTMLQuirksMode.h */,
+				66F3FAC91B4473A200DAA5B4 /* HTMLReader.h */,
+				66F3FACA1B4473A200DAA5B4 /* HTMLSelector.h */,
+				66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */,
+				66F3FACC1B4473A200DAA5B4 /* HTMLSerialization.h */,
+				66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */,
+				66F3FACE1B4473A200DAA5B4 /* HTMLString.h */,
+				66F3FACF1B4473A200DAA5B4 /* HTMLString.m */,
+				66F3FAD01B4473A200DAA5B4 /* HTMLSupport.h */,
+				66F3FAD11B4473A200DAA5B4 /* HTMLTextNode.h */,
+				66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */,
+				66F3FAD31B4473A200DAA5B4 /* HTMLTokenizer.h */,
+				66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */,
+				66F3FAD51B4473A200DAA5B4 /* HTMLTokenizerState.h */,
+				66F3FAD61B4473A200DAA5B4 /* HTMLTreeEnumerator.h */,
+				66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */,
+				66F3FAD81B4473A200DAA5B4 /* NSString+HTMLEntities.h */,
+				66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */,
+			);
+			name = HTMLReader;
+			sourceTree = "<group>";
+		};
 		66FC547A1B236545005B890D /* Static Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -2232,6 +2523,7 @@
 				66D426A9199148D10080F21E /* schedule-128.png in Resources */,
 				66CF81961A0ED8E30034C9AB /* finish_flag-light-50.png in Resources */,
 				6604F2761B433A2C007489D1 /* new-bookmarks.png in Resources */,
+				66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */,
 				665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */,
 				66F3B12D1AC861620038BA78 /* back-arrow-white-100.png in Resources */,
 				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
@@ -2244,6 +2536,7 @@
 				664E28A51AE2AF1A00BE2457 /* history-clock-100.png in Resources */,
 				66F138361993DEDB00B52B6B /* locationAnnotation.png in Resources */,
 				660E2F8A1B35F49D00CE670E /* lines-100.png in Resources */,
+				666BC1DB1B5C259700889DD2 /* Time to go 4.mp3 in Resources */,
 				66C734FD1B28D5970026A584 /* ferry-filled-cyan-100.png in Resources */,
 				661202BD1B014DC800D93C2E /* gps-green-100.png in Resources */,
 				66F3B1301AC861ED0038BA78 /* star-filled-white-100.png in Resources */,
@@ -2255,6 +2548,8 @@
 				660FB2371B39E242009C30BF /* settings-color-100.png in Resources */,
 				66CB961718EEECBA00E95CE5 /* alarmClock_1.png in Resources */,
 				66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */,
+				6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */,
+				660716131B49345D00033049 /* lock-red-50.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
 				6604F2771B433A2C007489D1 /* new-mapview.png in Resources */,
 				665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */,
@@ -2271,6 +2566,7 @@
 				6682D24F1ACE39F500F6DDF7 /* previous-gray-64.png in Resources */,
 				66F3B1271AC8592A0038BA78 /* up-right-arrow-32.png in Resources */,
 				66F0998A1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon.png in Resources */,
+				66F6CED81B51197500F934A2 /* reminders2-100.png in Resources */,
 				664749E41AE6B2E30050137E /* previous-gray-100.png in Resources */,
 				66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */,
 				66F1384F19978B7000B52B6B /* polyline-green-100.png in Resources */,
@@ -2337,12 +2633,16 @@
 				665885AF1B0A480B0044F514 /* BusVAnnot.png in Resources */,
 				664ADFF21992740F000B4F18 /* star-75.png in Resources */,
 				66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */,
+				6607160F1B4871C300033049 /* password-50.png in Resources */,
 				66F0999E1AEC427F00F20D34 /* IMG_4833.PNG in Resources */,
 				664E28A91AE2B32300BE2457 /* compass-100.png in Resources */,
 				66DAE1F619C5D1E00039081D /* dotted-brown-line.png in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
+				6607160D1B48712700033049 /* user-50.png in Resources */,
+				660716121B49345D00033049 /* user-red-50.png in Resources */,
 				660E2F701B34386400CE670E /* work-filled-100.png in Resources */,
 				6673775A1ACCCD09003581B5 /* bus-filled-blue-100.png in Resources */,
+				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
 				6648D0791AF0306F00C2482F /* Images-4.xcassets in Resources */,
 				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
 				66134BFF1B3F1BFC0008C6D7 /* goFromHere.png in Resources */,
@@ -2352,6 +2652,7 @@
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
 				6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */,
 				660E2F7B1B34386400CE670E /* school-100.png in Resources */,
+				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
 				660E2F791B34386400CE670E /* shopping-cart-100.png in Resources */,
 				66CC93F918DF475500644281 /* humberger.png in Resources */,
 				664749E01AE5A0D50050137E /* 3-100.png in Resources */,
@@ -2360,6 +2661,7 @@
 				660E2F721B34386400CE670E /* city-center-100.png in Resources */,
 				667B981F1AD3294C00C45ADF /* beach-100_grey.png in Resources */,
 				66D989F0199FFC5300E0B74B /* bus-colored-75.png in Resources */,
+				666BC1DC1B5C259700889DD2 /* Time to go 5.mp3 in Resources */,
 				660E2F6F1B34386400CE670E /* location-75-red.png in Resources */,
 				66CB95FE18EAC30300E95CE5 /* down_256.png in Resources */,
 				66D426A11990316F0080F21E /* star-selected-128.png in Resources */,
@@ -2376,17 +2678,20 @@
 				66F138481997897700B52B6B /* metro-100.png in Resources */,
 				661ABC03199D694100F93894 /* clock-grey-100.png in Resources */,
 				66F099861AE8075D00F20D34 /* NotificationBackgroundMessage.png in Resources */,
+				666BC1D51B5C259700889DD2 /* Choo choo train.mp3 in Resources */,
 				660FB2341B39E242009C30BF /* rate-color-100.png in Resources */,
 				666602561AED8F2600E3E392 /* bug-100.png in Resources */,
 				667377511ACCA042003581B5 /* boat-filled-light-100.png in Resources */,
 				6673775B1ACCCD09003581B5 /* train-filled-red-64.png in Resources */,
 				66DAE20319C624E90039081D /* white-dot-16.png in Resources */,
+				666BC1D91B5C259700889DD2 /* Time to go 3.mp3 in Resources */,
 				666602501AED831600E3E392 /* Features.xib in Resources */,
 				66134C031B41D69A0008C6D7 /* routesFiltered.json in Resources */,
 				66F0998D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png in Resources */,
 				664E28941AE03B1B00BE2457 /* list-100.png in Resources */,
 				660E2F741B34386400CE670E /* park-bench-100.png in Resources */,
 				664E28771AD92EC800BE2457 /* bowling-100_grey.png in Resources */,
+				6675BA611B5110AC002EB83C /* reminders-100.png in Resources */,
 				66C734FA1B28D5970026A584 /* bus-filled-blue-100.png in Resources */,
 				661202B71B01408700D93C2E /* more-green-100.png in Resources */,
 				66F0998B1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
@@ -2411,6 +2716,7 @@
 				669602B91B124910006919CB /* Settings-unselected-100.png in Resources */,
 				66D4269D199022780080F21E /* star-128.png in Resources */,
 				66D42699198FBF880080F21E /* bookmark-128.png in Resources */,
+				660716171B49CBFA00033049 /* logoutJS.js in Resources */,
 				667B98211AD3294C00C45ADF /* gym-100_grey.png in Resources */,
 				660FB2361B39E242009C30BF /* version-4-color-100.png in Resources */,
 				66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */,
@@ -2436,6 +2742,7 @@
 				6682D24B1ACE34B900F6DDF7 /* previous-green-64.png in Resources */,
 				660E2F751B34386400CE670E /* beach-100.png in Resources */,
 				666602541AED8F2600E3E392 /* all-devices.png in Resources */,
+				666BC1D71B5C259700889DD2 /* Wheels on the bus.mp3 in Resources */,
 				665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */,
 				66F1383C19976C6E00B52B6B /* app-icon-v-2.png in Resources */,
 				665885CD1B1143080044F514 /* tramAnnotation3_2.png in Resources */,
@@ -2449,17 +2756,22 @@
 				66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */,
 				66947CC018830ED500642EE1 /* InfoPlist.strings in Resources */,
 				667B981E1AD3294C00C45ADF /* Beer-100_grey.png in Resources */,
+				666BC1D41B5C259700889DD2 /* Train.mp3 in Resources */,
 				66FC547E1B23656F005B890D /* stops.json in Resources */,
+				666BC1D21B5C259700889DD2 /* Time to go 1.mp3 in Resources */,
 				66F099821AE8075D00F20D34 /* NotificationBackgroundError.png in Resources */,
 				66DAE1FC19C6112A0039081D /* tramAnnotationSmall.png in Resources */,
 				667377531ACCBE60003581B5 /* metro-logo-orange.png in Resources */,
 				664E28A31AE2AC7900BE2457 /* plugin-100.png in Resources */,
+				666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */,
 				66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */,
 				660E2F761B34386400CE670E /* Beer-100.png in Resources */,
+				660716071B45E2A700033049 /* matkakortti-full.png in Resources */,
 				661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */,
 				661202B91B01414700D93C2E /* plan-green-100.png in Resources */,
 				66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */,
 				667B98241AD3294C00C45ADF /* work-filled-100_grey.png in Resources */,
+				666BC1DA1B5C259700889DD2 /* Vibration sound.mp3 in Resources */,
 				66228CF419CAC76E00A2C47F /* currentLocation-black.png in Resources */,
 				66CB95E318E3953D00E95CE5 /* currentLocation3.png in Resources */,
 				665885B01B0A480B0044F514 /* metroVAnnot.png in Resources */,
@@ -2479,9 +2791,11 @@
 				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100_grey.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
+				660716151B49399700033049 /* Info-red-filled-50.png in Resources */,
 				669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */,
 				661ABBFB199D5DB500F93894 /* bus-orange-128.png in Resources */,
 				667B98221AD3294C00C45ADF /* city-center-100_grey.png in Resources */,
+				660716061B45E2A700033049 /* matkakortti-icon-1.png in Resources */,
 				664E28921AE03B1B00BE2457 /* current-location-green-100.png in Resources */,
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
 				666437CD19E1887600B82BE5 /* bookmark-50.png in Resources */,
@@ -2495,7 +2809,9 @@
 				66F099891AE8075D00F20D34 /* NotificationBackgroundSuccess@2x.png in Resources */,
 				66F1384B1997897700B52B6B /* walking-100.png in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
+				660716091B486DAD00033049 /* matkakortti-rounded.png in Resources */,
 				665885B91B1096580044F514 /* busAnnotation3_2.png in Resources */,
+				6607160C1B48712700033049 /* lock-50.png in Resources */,
 				661090CC1B3889BD003F2688 /* routeIcon2.png in Resources */,
 				66FC547D1B23656F005B890D /* routes.json in Resources */,
 				664E289A1AE1B14F00BE2457 /* stopAnnotation2.png in Resources */,
@@ -2563,12 +2879,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
+				66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */,
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
 				661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */,
+				66F3FAE31B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m in Sources */,
 				664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */,
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
+				66F3FAE81B4473A200DAA5B4 /* HTMLTokenizer.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
+				66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */,
 				66FC54911B24B134005B890D /* StaticStop.m in Sources */,
 				66EC18FA1ACB3D07008E045D /* ASPolylineRenderer.m in Sources */,
 				661202DC1B07DD4C00D93C2E /* LVThumbnailAnnotation.m in Sources */,
@@ -2583,18 +2903,24 @@
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
+				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStops.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
+				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
+				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
 				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
+				660716001B45CD2C00033049 /* TravelCard.m in Sources */,
+				66F3FAE41B4473A200DAA5B4 /* HTMLSelector.m in Sources */,
 				66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */,
 				66A7A9E218CF300300AC9E94 /* Line.m in Sources */,
 				66F0996A1AE6ECD700F20D34 /* TSMessage.m in Sources */,
 				664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */,
+				666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
 				66FC54811B23677B005B890D /* StaticRoute.m in Sources */,
@@ -2604,15 +2930,22 @@
 				661FAF2F18A4F2B400042074 /* BusStop.m in Sources */,
 				664E28701AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m in Sources */,
 				66CC941318E22ECB00644281 /* StopEntity.m in Sources */,
+				66F3FADA1B4473A200DAA5B4 /* HTMLComment.m in Sources */,
 				660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */,
 				66F3B1341AC86FEC0038BA78 /* RouteSearchOptions.m in Sources */,
+				66F3FADB1B4473A200DAA5B4 /* HTMLDocument.m in Sources */,
 				66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */,
 				661202D21B05085D00D93C2E /* Geometry.m in Sources */,
 				66CC941918E3452D00644281 /* MyFixedLayoutGuide.m in Sources */,
+				66F6CEDB1B511E6C00F934A2 /* RemindersTableViewController.m in Sources */,
+				660716021B45CD2C00033049 /* ValueState.m in Sources */,
+				660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */,
 				661202C51B04F5B200D93C2E /* LiveTrafficManager.m in Sources */,
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
+				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
+				66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */,
 				66CC941618E2304600644281 /* HistoryEntity.m in Sources */,
 				66947D00188C58C400642EE1 /* StopViewController.m in Sources */,
 				66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */,
@@ -2623,58 +2956,75 @@
 				66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */,
 				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
+				66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */,
+				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
+				660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */,
 				661090C71B36D037003F2688 /* LinesTableViewController.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,
 				66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */,
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
+				66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
 				664E28AC1AE2DCD900BE2457 /* SettingDetailedViewController.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
 				660FB23C1B39E5ED009C30BF /* MoreTableViewController.m in Sources */,
+				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
 				66A7A9BF18C5FD4200AC9E94 /* StopAnnotation.m in Sources */,
 				664E28A11AE2A50300BE2457 /* SettingsViewController.m in Sources */,
 				66CB961218EEE46100E95CE5 /* SWLongPressGestureRecognizer.m in Sources */,
 				661202D01B05085D00D93C2E /* BaseClass.m in Sources */,
 				664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */,
+				66F3FADF1B4473A200DAA5B4 /* HTMLEntities.m in Sources */,
+				660715FD1B45CD2C00033049 /* ProductNames.m in Sources */,
 				66F0996E1AE6EDDD00F20D34 /* HexColor.m in Sources */,
 				66CB960118EEE2B500E95CE5 /* CustomeTableViewCell.m in Sources */,
+				66F3FAEA1B4473A200DAA5B4 /* NSString+HTMLEntities.m in Sources */,
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
+				660715FE1B45CD2C00033049 /* TicketNames.m in Sources */,
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				661090CA1B374B43003F2688 /* LineDetailViewController.m in Sources */,
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
+				66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */,
 				661202D11B05085D00D93C2E /* Features.m in Sources */,
 				666602591AED933A00E3E392 /* AppManager.m in Sources */,
 				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
+				66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */,
 				66EC18FB1ACB3D07008E045D /* ASPolylineView.m in Sources */,
 				66DAE1EE19C398430039081D /* RouteLocation.m in Sources */,
+				660716011B45CD2C00033049 /* Value.m in Sources */,
 				669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */,
 				66A7A9B818C5DB9400AC9E94 /* BusStopShort.m in Sources */,
 				660FB22D1B38B0F2009C30BF /* DroppedPinManager.m in Sources */,
 				66F099A11AEC4F5D00F20D34 /* WelcomeViewController.m in Sources */,
+				660715FA1B45CD2C00033049 /* Distance.m in Sources */,
 				665885B51B0B9EA30044F514 /* HslLiveCommunicator.m in Sources */,
 				661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */,
 				660E2F831B349B0600CE670E /* EmptyWorkAddressCell.m in Sources */,
+				66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */,
 				66947CC218830ED500642EE1 /* main.m in Sources */,
 				664E288C1ADC79F800BE2457 /* FailedGeoCodeFetch.m in Sources */,
 				66FC54841B236866005B890D /* CacheManager.m in Sources */,
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
+				66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */,
 				66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */,
 				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */,
 				661202DD1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m in Sources */,
+				660715FF1B45CD2C00033049 /* Tickets.m in Sources */,
 				66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */,
 				661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */,
 				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
 				667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
+				66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */,
 				E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3003,6 +3353,10 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */,
+				66F6CEE71B529BFB00F934A2 /* Reitti 10.xcdatamodel */,
+				66F6CEE61B5297D800F934A2 /* Reitti 9.xcdatamodel */,
+				66F6CEDC1B51335400F934A2 /* Reitti 8.xcdatamodel */,
 				660FB2481B3B3A61009C30BF /* Reitti 7.xcdatamodel */,
 				66FC54851B236BBB005B890D /* Reitti 6.xcdatamodel */,
 				664E28B41AE3E7EB00BE2457 /* Reitti 5.xcdatamodel */,
@@ -3011,7 +3365,7 @@
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 660FB2481B3B3A61009C30BF /* Reitti 7.xcdatamodel */;
+			currentVersion = 66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
