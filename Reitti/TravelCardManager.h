@@ -27,6 +27,7 @@
 
 //JS Methods
 -(NSString *)loginJavaScript;
+-(NSString *)createCardJavaScript;
 -(NSString *)logoutJavaScript;
 -(NSString *)changeToFullVersionJavaScript;
 

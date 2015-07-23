@@ -4098,16 +4098,16 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0 Euro" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XW-Gh-nT8">
-                                                    <rect key="frame" x="501" y="42" width="82" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0 €" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XW-Gh-nT8">
+                                                    <rect key="frame" x="487" y="37" width="96" height="35"/>
                                                     <animations/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="JzO-GL-J74"/>
+                                                        <constraint firstAttribute="height" constant="35" id="JzO-GL-J74"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="rxI-po-JqB"/>
-                                                        <constraint firstAttribute="width" constant="82" id="sOZ-q4-b2W"/>
+                                                        <constraint firstAttribute="width" constant="96" id="sOZ-q4-b2W"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remaining days" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZs-3B-Etm">
@@ -4160,7 +4160,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My card" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLw-OT-z8R">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My card" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLw-OT-z8R">
                                                     <rect key="frame" x="17" y="8" width="566" height="21"/>
                                                     <animations/>
                                                     <constraints>
@@ -4170,7 +4170,7 @@
                                                     <color key="textColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01.01.2015 - 01.01.2015" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VTw-bE-dIS">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01.01 - 31.01" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VTw-bE-dIS">
                                                     <rect key="frame" x="418" y="114" width="165" height="21"/>
                                                     <animations/>
                                                     <constraints>
@@ -4191,7 +4191,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxR-nL-JRi">
+                                                <view alpha="0.19999999999999968" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxR-nL-JRi">
                                                     <rect key="frame" x="27" y="71" width="565" height="1"/>
                                                     <animations/>
                                                     <color key="backgroundColor" red="0.80499886775362317" green="0.80499886775362317" blue="0.80499886775362317" alpha="1" colorSpace="calibratedRGB"/>
@@ -4200,15 +4200,15 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 days" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x06-j3-gy1">
-                                                    <rect key="frame" x="501" y="81" width="82" height="21"/>
+                                                    <rect key="frame" x="501" y="81" width="82" height="33"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="BFd-7A-4kh"/>
                                                         <constraint firstAttribute="width" constant="82" id="P7M-7K-861"/>
-                                                        <constraint firstAttribute="height" constant="21" id="qUp-Kb-3bI"/>
+                                                        <constraint firstAttribute="height" constant="33" id="qUp-Kb-3bI"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -4240,7 +4240,7 @@
                                                 <constraint firstItem="DLw-OT-z8R" firstAttribute="top" secondItem="7hc-20-lPw" secondAttribute="topMargin" id="Xle-4Z-iL5"/>
                                                 <constraint firstItem="xxR-nL-JRi" firstAttribute="top" secondItem="8XW-Gh-nT8" secondAttribute="bottom" constant="8" id="YjW-Kk-lx2"/>
                                                 <constraint firstItem="Pgi-bv-bnY" firstAttribute="trailing" secondItem="7hc-20-lPw" secondAttribute="trailingMargin" constant="8" id="YzM-T5-iKa"/>
-                                                <constraint firstItem="8XW-Gh-nT8" firstAttribute="top" secondItem="Pgi-bv-bnY" secondAttribute="bottom" constant="9" id="aoN-yR-K5A"/>
+                                                <constraint firstItem="8XW-Gh-nT8" firstAttribute="top" secondItem="Pgi-bv-bnY" secondAttribute="bottom" constant="4" id="aoN-yR-K5A"/>
                                                 <constraint firstItem="8XW-Gh-nT8" firstAttribute="leading" secondItem="7hc-20-lPw" secondAttribute="leadingMargin" constant="493" id="dIa-dv-l1g"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="9cT-Uh-btQ" secondAttribute="bottom" constant="2.5" id="dwU-LY-eZI"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="VTw-bE-dIS" secondAttribute="bottom" constant="-3.5" id="fUv-wb-L64"/>
@@ -4277,51 +4277,160 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noCardsCell" id="cXZ-7M-Quv">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noCardsCell" rowHeight="210" id="cXZ-7M-Quv">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cXZ-7M-Quv" id="iUE-WD-GVv">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have not yet added any cards to 'Oma Matkakortti' service." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjw-xj-5WJ">
-                                                    <rect key="frame" x="8" y="14" width="584" height="79"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have not yet added any cards to 'Oma Matkakortti' service." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.60000000000000009" translatesAutoresizingMaskIntoConstraints="NO" id="xjw-xj-5WJ">
+                                                    <rect key="frame" x="150" y="10" width="300" height="53"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="53" id="5Ay-XB-XYj"/>
+                                                        <constraint firstAttribute="width" constant="300" id="qML-bA-fmt"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fef-Hd-eX6">
-                                                    <rect key="frame" x="194" y="101" width="213" height="30"/>
+                                                <view tag="1006" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Bo-IF-B7g">
+                                                    <rect key="frame" x="150" y="60" width="300" height="104"/>
+                                                    <subviews>
+                                                        <textField opaque="NO" clipsSubviews="YES" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Travel Card Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f3i-Jk-Tnb">
+                                                            <rect key="frame" x="21" y="17" width="259" height="30"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="done"/>
+                                                        </textField>
+                                                        <textField opaque="NO" clipsSubviews="YES" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name (Optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0gP-Wk-mVu">
+                                                            <rect key="frame" x="21" y="62" width="259" height="30"/>
+                                                            <animations/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done"/>
+                                                        </textField>
+                                                    </subviews>
                                                     <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="104" id="IjG-oq-gZ5"/>
+                                                        <constraint firstItem="f3i-Jk-Tnb" firstAttribute="top" secondItem="0Bo-IF-B7g" secondAttribute="top" constant="17" id="JWc-YM-8Ud"/>
+                                                        <constraint firstAttribute="trailing" secondItem="0gP-Wk-mVu" secondAttribute="trailing" constant="20" id="PJN-Bx-bwn"/>
+                                                        <constraint firstItem="0gP-Wk-mVu" firstAttribute="leading" secondItem="0Bo-IF-B7g" secondAttribute="leading" constant="21" id="PUe-py-NFf"/>
+                                                        <constraint firstAttribute="width" constant="300" id="a2g-QP-qO1"/>
+                                                        <constraint firstItem="f3i-Jk-Tnb" firstAttribute="leading" secondItem="0Bo-IF-B7g" secondAttribute="leading" constant="21" id="dAA-rz-HSG"/>
+                                                        <constraint firstAttribute="bottom" secondItem="0gP-Wk-mVu" secondAttribute="bottom" constant="12" id="h2A-xa-e1t"/>
+                                                        <constraint firstAttribute="trailing" secondItem="f3i-Jk-Tnb" secondAttribute="trailing" constant="20" id="n38-5r-wVU"/>
+                                                    </constraints>
+                                                </view>
+                                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fef-Hd-eX6">
+                                                    <rect key="frame" x="194" y="172" width="213" height="30"/>
+                                                    <animations/>
+                                                    <color key="backgroundColor" red="0.95686274510000002" green="0.41960784309999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="213" id="8BD-uY-UcR"/>
                                                         <constraint firstAttribute="height" constant="30" id="gDk-N5-uw6"/>
                                                     </constraints>
-                                                    <state key="normal" title="Add card in 'Oma Matkakortti' ">
-                                                        <color key="titleColor" red="0.95686274510000002" green="0.41960784309999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <state key="normal" title="ADD CARD">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="openCardsViewButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="1a5-dV-ama"/>
+                                                        <action selector="addCardButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="Sjb-nP-841"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" tag="1007" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1V-RC-GEo">
+                                                    <rect key="frame" x="155" y="172" width="140" height="30"/>
+                                                    <animations/>
+                                                    <color key="backgroundColor" red="0.0" green="0.59999999999999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="213" id="PkG-jB-Zv4"/>
+                                                        <constraint firstAttribute="width" constant="140" id="Tfd-ak-iLm"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="poX-ae-qHs"/>
+                                                        <constraint firstAttribute="height" constant="30" id="zLR-P3-g0O"/>
+                                                    </constraints>
+                                                    <state key="normal" title="CANCEL">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="PkG-jB-Zv4"/>
+                                                            <exclude reference="poX-ae-qHs"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <connections>
+                                                        <action selector="canelAddCardButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="Gaf-a1-41P"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" tag="1008" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MUB-i4-B2b">
+                                                    <rect key="frame" x="305" y="172" width="140" height="30"/>
+                                                    <animations/>
+                                                    <color key="backgroundColor" red="0.95686274510000002" green="0.41960784309999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="9qA-nB-2Wk"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="NQD-lq-cqQ"/>
+                                                        <constraint firstAttribute="width" constant="213" id="Uej-go-lPg"/>
+                                                    </constraints>
+                                                    <state key="normal" title="ADD CARD">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="Uej-go-lPg"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <connections>
+                                                        <action selector="addCardButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="E2G-EF-Ybm"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="xjw-xj-5WJ" firstAttribute="top" secondItem="iUE-WD-GVv" secondAttribute="topMargin" constant="6" id="Cfl-Ig-GgH"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Fef-Hd-eX6" secondAttribute="bottom" constant="0.5" id="NJm-9I-CRi"/>
-                                                <constraint firstItem="xjw-xj-5WJ" firstAttribute="trailing" secondItem="iUE-WD-GVv" secondAttribute="trailingMargin" id="bL9-k9-CE4"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="MUB-i4-B2b" secondAttribute="bottom" constant="-0.5" id="0lj-z2-BWC"/>
+                                                <constraint firstAttribute="centerX" secondItem="xjw-xj-5WJ" secondAttribute="centerX" id="75Y-JI-OTR"/>
+                                                <constraint firstItem="xjw-xj-5WJ" firstAttribute="top" secondItem="iUE-WD-GVv" secondAttribute="topMargin" constant="2" id="Cfl-Ig-GgH"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Fef-Hd-eX6" secondAttribute="bottom" constant="-0.5" id="NJm-9I-CRi"/>
+                                                <constraint firstAttribute="centerX" secondItem="0Bo-IF-B7g" secondAttribute="centerX" id="RQJ-9n-NK3"/>
+                                                <constraint firstItem="0Bo-IF-B7g" firstAttribute="top" secondItem="iUE-WD-GVv" secondAttribute="topMargin" constant="52" id="WAP-SR-Pan"/>
+                                                <constraint firstAttribute="centerX" secondItem="O1V-RC-GEo" secondAttribute="trailing" constant="5" id="i8a-1d-VVI"/>
+                                                <constraint firstAttribute="centerX" secondItem="MUB-i4-B2b" secondAttribute="leading" constant="-5" id="jvR-Md-kni"/>
                                                 <constraint firstAttribute="centerX" secondItem="Fef-Hd-eX6" secondAttribute="centerX" constant="-0.5" id="mqz-Gl-e3L"/>
-                                                <constraint firstItem="xjw-xj-5WJ" firstAttribute="leading" secondItem="iUE-WD-GVv" secondAttribute="leadingMargin" id="phX-iu-0Me"/>
-                                                <constraint firstItem="Fef-Hd-eX6" firstAttribute="top" secondItem="xjw-xj-5WJ" secondAttribute="bottom" constant="8" id="wU2-Cr-4k5"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="O1V-RC-GEo" secondAttribute="bottom" constant="-0.5" id="xFw-iP-aVY"/>
                                             </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="IHa-MC-pmU">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IHa-MC-pmU" id="DQK-R7-Tl4">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nca-Vm-PpF">
+                                                    <rect key="frame" x="193" y="10.5" width="213" height="30"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="213" id="DsG-bc-21u"/>
+                                                        <constraint firstAttribute="height" constant="30" id="Fhd-1w-2H7"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Add card ... ">
+                                                        <color key="titleColor" red="0.95686274510000002" green="0.41960784309999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="openCardsViewButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="yNI-qR-RUr"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="xed-pX-pa9" id="iBv-hg-hLk"/>
-                                    <outlet property="delegate" destination="xed-pX-pa9" id="CU2-Ub-vkM"/>
+                                    <outlet property="dataSource" destination="xed-pX-pa9" id="NCO-Fh-bTP"/>
+                                    <outlet property="delegate" destination="xed-pX-pa9" id="eVU-5f-hdz"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="od3-6D-LTR" userLabel="Bottom View" customClass="AMBlurView">
@@ -4644,6 +4753,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bottomToolBarView" destination="od3-6D-LTR" id="WLU-M8-JTL"/>
+                        <outlet property="cardsTableView" destination="7Ui-I6-9c2" id="rj6-6B-jNJ"/>
                         <outlet property="credentialsView" destination="8dk-1k-fO1" id="711-t3-7H8"/>
                         <outlet property="infoLabel" destination="cjW-Bm-xrz" id="61y-tD-yW4"/>
                         <outlet property="infoLabelIcon" destination="i1j-2G-yH3" id="xG4-eo-zIJ"/>
@@ -4656,7 +4766,6 @@
                         <outlet property="passwordFieldIcon" destination="bC6-cF-SFc" id="7nO-Um-Rek"/>
                         <outlet property="passwordTextbox" destination="8TB-HG-l8p" id="QfH-3n-TA6"/>
                         <outlet property="separatorLineView" destination="UMa-q1-7zO" id="QUc-Dy-uIr"/>
-                        <outlet property="tableView" destination="7Ui-I6-9c2" id="ebV-AG-wye"/>
                         <outlet property="updateTimeLabel" destination="4Rh-4B-hOX" id="uGb-Yw-iPD"/>
                         <outlet property="userFieldIcon" destination="t2V-ir-4dr" id="1YZ-Ss-GfH"/>
                         <outlet property="usernameTextbox" destination="cqJ-2o-am8" id="TB0-6U-wSr"/>

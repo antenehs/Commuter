@@ -110,6 +110,10 @@
     return [[NSBundle mainBundle] pathForResource:@"logoutJS" ofType:@"js"];
 }
 
+-(NSString *)createCardJavaScript{
+    return [[NSBundle mainBundle] pathForResource:@"createCardJS" ofType:@"js"];
+}
+
 -(NSString *)changeToFullVersionJavaScript{
     return [[NSBundle mainBundle] pathForResource:@"changeToFullVersionJS" ofType:@"js"];
 }
@@ -163,7 +167,7 @@
 +(NSString *)parseErrorMessage:(NSString *)htmlString {
     //Check if login failed
     NSString *wrongCredError = @"Wrong username or password or the new user account has not been activated";
-    NSString *defaultErrorMess = @"Loggin in to Oma Matkakortti failed. Try again later.";
+    NSString *defaultErrorMess = @"Logging into Oma Matkakortti failed. Try again later.";
     @try {
         HTMLDocument *home = [HTMLDocument documentWithString:htmlString];
         HTMLElement *validationSummary = [home firstNodeMatchingSelector:@"#Etuile_mainValidationSummary"];

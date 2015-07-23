@@ -20,26 +20,45 @@
 
 @interface TravelCardViewController ()
 
+- (BOOL)cellIsSelected:(NSIndexPath *)indexPath;
+
 @end
+
+NSString *ACCurrentProcessGetCards = @"ACCurrentProcessGetCards";
+NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
+//CGFloat KDefaultCardCellHeight = 140.0f;
 
 @implementation TravelCardViewController
 
+#define kCellHeight 140.0
+
 @synthesize refreshControl;
-@synthesize cards,tableView;
+@synthesize cards,cardsTableView;
 @synthesize username, password;
+@synthesize createCardNumber, createCardName;
+@synthesize currentProcessTask;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     webView.delegate = self;
+    self.cardsTableView.delegate = self;
     
     triedLoginAlready = NO;
     ignoreWebChangesOnce = NO;
     
+    selectedIndexes = [[NSMutableDictionary alloc] init];
+    
+    self.currentProcessTask = ACCurrentProcessGetCards;
+    
     UITapGestureRecognizer *loginViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loginViewTapped:)];
     
     [logginView addGestureRecognizer:loginViewTapRecognizer];
+    
+    UITapGestureRecognizer *tableViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTapped:)];
+    
+//    [self.cardsTableView addGestureRecognizer:tableViewTapRecognizer];
     
     [self setUpLoginView];
     [self setTableBackgroundView];
@@ -56,7 +75,8 @@
         //Load previous value
         //TODO: may be a good thing if validy and age is checked
         self.cards = [TravelCardManager getPreviousValues];
-        [self.tableView reloadData];
+        addCardMode = self.cards.count == 0;
+        [self.cardsTableView reloadData];
         
         self.username = [TravelCardManager savedUserName];
         self.password = [TravelCardManager savedPassword];
@@ -69,6 +89,11 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self setLastUpdateTime];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self setTableBackgroundView];
 }
 
 #pragma mark - view methods
@@ -105,6 +130,9 @@
 -(void)resignAllFirstResponders{
     [usernameTextbox resignFirstResponder];
     [passwordTextbox resignFirstResponder];
+    
+    [cardNumberTextbox resignFirstResponder];
+    [cardNameTextbox resignFirstResponder];
 }
 
 - (void)setTableBackgroundView {
@@ -118,14 +146,14 @@
     [bluredBackViewContainer addSubview:mapImageView];
     [bluredBackViewContainer addSubview:blurView];
     
-    self.tableView.backgroundView = bluredBackViewContainer;
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.cardsTableView.backgroundView = bluredBackViewContainer;
+    self.cardsTableView.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - TableView methods
 - (void)initRefreshControl{
     
-    tableViewController.tableView = self.tableView;
+    tableViewController.tableView = self.cardsTableView;
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(tableViewRefreshing) forControlEvents:UIControlEventValueChanged];
@@ -134,7 +162,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.cards.count > 0 ? self.cards.count : 1;
+    return addCardMode ? 1 : self.cards.count + 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -143,8 +171,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
-    if (self.cards.count > 0) {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cardCell"];
+    if (indexPath.section < self.cards.count && !addCardMode) {
+        cell = [self.cardsTableView dequeueReusableCellWithIdentifier:@"cardCell"];
         
         TravelCard *card = [self.cards objectAtIndex:indexPath.section];
         
@@ -154,8 +182,6 @@
         UILabel *ticketPeriod = (UILabel *)[cell viewWithTag:1004];
         UILabel *periodDays = (UILabel *)[cell viewWithTag:1005];
         UILabel *noPeriodLabel = (UILabel *)[cell viewWithTag:1006];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         title.text = card.name != nil ? card.name : card.internalBaseClassIdentifier;
         if (card.remainingMoney != 0 && card.remainingMoney > 0) {
@@ -183,16 +209,67 @@
             periodDays.text = @"-";
         }
     }else{
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"noCardsCell"];
+        cell = [self.cardsTableView dequeueReusableCellWithIdentifier:@"noCardsCell"];
+        UIButton *addCardButton = (UIButton *)[cell viewWithTag:1003];
+        UIButton *addCardButton2 = (UIButton *)[cell viewWithTag:1008];
+        UIButton *cancelButton = (UIButton *)[cell viewWithTag:1007];
+        
+        cardNameTextbox = (UITextField *)[cell viewWithTag:1002];
+        cardNumberTextbox = (UITextField *)[cell viewWithTag:1001];
+        
+        UILabel *titleLabel = (UILabel *)[cell viewWithTag:1000];
+        UIView *textFieldsContainer = [cell viewWithTag:1006];
+        
+        if (self.cards.count > 0) {
+            titleLabel.text = @"Add a card using the number on the back of the travel card.";
+        }else{
+            titleLabel.text = @"You have not yet added any cards to 'Oma Matkakortti' service.";
+        }
+        
+        titleLabel.hidden = !addCardMode;
+        textFieldsContainer.hidden = !addCardMode;
+        addCardButton.hidden = addCardMode;
+        addCardButton2.hidden = !addCardMode;
+        cancelButton.hidden = !addCardMode;
+        
+        addCardButton.layer.cornerRadius = 10.0f;
+        addCardButton2.layer.cornerRadius = 10.0f;
+        cancelButton.layer.cornerRadius = 10.0f;
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 80;
-//}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section < self.cards.count && !addCardMode) {
+        if([self cellIsSelected:indexPath]) {
+            return kCellHeight * 2.0;
+        }
+        return 140;
+    }else{
+        return addCardMode ? 210 : 45;
+    }
+}
+
+-(void)tableView:(UITableView *)thisTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(addCardMode){
+        [self tableViewTapped:self];
+    }else{
+        [thisTableView deselectRowAtIndexPath:indexPath animated:TRUE];
+        
+        // Toggle 'selected' state
+        BOOL isSelected = ![self cellIsSelected:indexPath];
+        
+        // Store cell 'selected' state keyed on indexPath
+        NSNumber *selectedIndex = [NSNumber numberWithBool:isSelected];
+        [selectedIndexes setObject:selectedIndex forKey:indexPath];
+        
+        // This is where magic happens...
+        [self.cardsTableView beginUpdates];
+        [self.cardsTableView endUpdates];
+    }
+}
 
 #pragma mark - WebView methods
 -(void)webViewDidStartLoad:(UIWebView *)webView {
@@ -217,22 +294,35 @@
             }
             
         }else{
+            //TODO: Handle different cases for the login
             //Check if it is mobile Version
             if ([TravelCardManager isMobileVersion:htmlString]) {
                 [self changeToFullPageVersion:YES];
             }else{
-                NSArray *tempArray = nil;
+                if (self.currentProcessTask == ACCurrentProcessGetCards) {
+                    NSArray *tempArray = nil;
+                    
+                    if ([TravelCardManager tryParseCardsFromHtmlString:htmlString returnArray:&tempArray]) {
+                        self.cards = tempArray;
+                        addCardMode = self.cards.count == 0;
+                        [self.cardsTableView reloadData];
+                        
+                        [self onLoginSuccessful];
+                        
+                        //Log out imidiately. Keep the webpage at login screen because it might time out
+                        [self logoutWebPage:NO];
+                    }else{
+                        NSLog(@"Parsing cards failed");
+                    }
+                }
                 
-                if ([TravelCardManager tryParseCardsFromHtmlString:htmlString returnArray:&tempArray]) {
-                    self.cards = tempArray;
-                    [self.tableView reloadData];
+                if (self.currentProcessTask == ACCurrentProcessCreateCard) {
+                    [self addCard];
+                    //TODO: 1: Check if card creation is successful
+                    //2: Clear text fields
+                    self.currentProcessTask = ACCurrentProcessGetCards;
                     
-                    [self onLoginSuccessful];
-                    
-                    //Log out imidiately. Keep the webpage at login screen because it might time out
-                    [self logoutWebPage:NO];
-                }else{
-                    NSLog(@"Parsing cards failed");
+                    [webView reload];
                 }
             }
         }
@@ -287,8 +377,70 @@
     [self resignAllFirstResponders];
 }
 
+-(IBAction)tableViewTapped:(id)sender{
+    [self resignAllFirstResponders];
+}
+
+- (IBAction)addCardButtonPressed:(id)sender {
+    if (!addCardMode) {
+        addCardMode = YES;
+        //1. Login
+        
+        //2. Validate if card can be created locally
+        
+        
+        [self.cardsTableView reloadData];
+    }else{
+        //Temp for testing
+//        cardNameTextbox.text = @"New Card 1";
+        
+        if ([cardNumberTextbox.text isEqualToString: @"924620001149570011"]) {
+            cardNumberTextbox.text = @"924620001111360144";
+        }else{
+            cardNumberTextbox.text = @"924620001149570011";
+        }
+        
+        self.createCardNumber = cardNumberTextbox.text;
+        self.createCardName = cardNameTextbox.text;
+        
+        if (self.createCardNumber == nil || [self.createCardNumber isEqualToString:@""]) {
+            [ReittiNotificationHelper showErrorBannerMessage:@"Travel card number is required." andContent:nil];
+            return;
+        }
+        
+        if ([self cardExistsWithNumber:self.createCardNumber]){
+            [ReittiNotificationHelper showErrorBannerMessage:@"A card with that number exists already." andContent:nil];
+            return;
+        }
+        
+        if ([self cardExistsWithName:self.createCardName]){
+            [ReittiNotificationHelper showErrorBannerMessage:@"A card with that name exists already." andContent:nil];
+            return;
+        }
+        
+        if (![self isInternetConnectionAvailable])
+            return;
+        
+        [self resignAllFirstResponders];
+        triedLoginAlready = NO;
+        self.currentProcessTask = ACCurrentProcessCreateCard;
+        [self loadLogginPage];
+        
+        [self debugButtonPressed:self];
+        
+        //TODO: Set current activity type
+    }
+}
+
+- (IBAction)canelAddCardButtonPressed:(id)sender {
+    if (addCardMode) {
+        addCardMode = NO;
+        [self.cardsTableView reloadData];
+    }
+}
+
 -(IBAction)debugButtonPressed:(id)sender{
-    tableView.hidden = !tableView.hidden;
+    cardsTableView.hidden = !cardsTableView.hidden;
 }
 
 -(void)tableViewRefreshing{
@@ -312,7 +464,7 @@
 }
 
 -(void)loadLogginPage{
-    NSURL *url = [NSURL URLWithString:@"https://omamatkakortti.hsl.fi/mobile/Login.aspx"];
+    NSURL *url = [NSURL URLWithString:@"https://omamatkakortti.hsl.fi/Login.aspx"];
     NSMutableURLRequest *requestObj = [NSMutableURLRequest requestWithURL:url];
     [requestObj setValue:[NSString stringWithFormat:@"%@ Safari/528.16", [requestObj valueForHTTPHeaderField:@"User-Agent"]] forHTTPHeaderField:@"User_Agent"];
     [webView loadRequest:requestObj];
@@ -369,6 +521,33 @@
     return !invalid;
 }
 
+-(BOOL)validateNewCardInfo{
+    return YES;
+}
+
+-(BOOL)cardExistsWithNumber:(NSString *)cardNum{
+    for (TravelCard *card in self.cards) {
+        if ([card.internalBaseClassIdentifier isEqualToString:cardNum]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+-(BOOL)cardExistsWithName:(NSString *)cardName{
+    if (cardName == nil || [cardName isEqualToString:@""])
+        return NO;
+    
+    for (TravelCard *card in self.cards) {
+        if ([card.name isEqualToString:cardName]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 -(BOOL)hasValidCredentials{
     return self.username != nil && self.password != nil;
 }
@@ -423,6 +602,18 @@
     }
 }
 
+-(void)addCard{
+    //    NSString *jsFilePath = [[NSBundle mainBundle] pathForResource:@"logginJS" ofType:@"js"];
+    NSString *jsFilePath = [[TravelCardManager sharedManager] createCardJavaScript];
+    
+    editorJsString = [NSString stringWithContentsOfFile:jsFilePath encoding:NSUTF8StringEncoding error:nil];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNUMBER##" withString:self.createCardNumber];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNAME##" withString:self.createCardName];
+    
+    //This won't reload the page
+    [webView stringByEvaluatingJavaScriptFromString:editorJsString];
+}
+
 -(void)onLoginSuccessful{
     [self hideLoginView:YES animated:YES];
     [loginActivityIndicator stopAnimating];
@@ -450,6 +641,12 @@
     }else{
         updateTimeLabel.text = [NSString stringWithFormat:@"Last updated %@", [ReittiStringFormatter formatPrittyDate:[TravelCardManager getLastUpdateTime]]];
     }
+}
+
+- (BOOL)cellIsSelected:(NSIndexPath *)indexPath {
+    // Return whether the cell at the specified index path is selected or not
+    NSNumber *selectedIndex = [selectedIndexes objectForKey:indexPath];
+    return selectedIndex == nil ? FALSE : [selectedIndex boolValue];
 }
 
 //-(NSArray *)extractCardsJsonFromScripts:(NSArray *)scriptElements{

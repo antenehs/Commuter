@@ -175,6 +175,7 @@
 		665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */; };
 		665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E7F1A05791E00797ABA /* stopIcon-dark.png */; };
 		6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */; };
+		6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08A1B5EEE2900DC20D0 /* createCardJS.js */; };
 		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		666437C919E1852E00B82BE5 /* calendar-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C719E1852E00B82BE5 /* calendar-50.png */; };
 		666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
@@ -766,6 +767,7 @@
 		6662CF7C18F719C7001CD5C1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Reitti/Default@2x.png"; sourceTree = "<group>"; };
 		6662CF7D18F719D6001CD5C1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Reitti/Default-568h@2x.png"; sourceTree = "<group>"; };
 		6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = changeToFullVersionJS.js; path = Reitti/changeToFullVersionJS.js; sourceTree = "<group>"; };
+		6663A08A1B5EEE2900DC20D0 /* createCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = createCardJS.js; path = Reitti/createCardJS.js; sourceTree = "<group>"; };
 		666437B719E1478400B82BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		666437B819E1478400B82BE5 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		666437B919E1478400B82BE5 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
@@ -2119,6 +2121,7 @@
 				66F3FAF11B44972600DAA5B4 /* logginJS.js */,
 				6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */,
 				660716161B49CBFA00033049 /* logoutJS.js */,
+				6663A08A1B5EEE2900DC20D0 /* createCardJS.js */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -2563,6 +2566,7 @@
 				667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */,
 				66F1384A1997897700B52B6B /* bus-100.png in Resources */,
 				661ABBFD199D5EC600F93894 /* bus-green-100.png in Resources */,
+				6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */,
 				6682D24F1ACE39F500F6DDF7 /* previous-gray-64.png in Resources */,
 				66F3B1271AC8592A0038BA78 /* up-right-arrow-32.png in Resources */,
 				66F0998A1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon.png in Resources */,

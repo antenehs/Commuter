@@ -16,6 +16,8 @@
     BOOL triedLoginAlready;
     BOOL ignoreWebChangesOnce;
     
+    NSMutableDictionary *selectedIndexes;
+    
     UITableViewController *tableViewController;
     
     //Login screen outlets
@@ -36,6 +38,11 @@
     
     IBOutlet NSLayoutConstraint *logginViewVerticalSpacing;
     
+    //Add card views
+    IBOutlet UITextField *cardNumberTextbox;
+    IBOutlet UITextField *cardNameTextbox;
+    BOOL addCardMode;
+    
     //Bottom toolbar view
     IBOutlet UILabel *updateTimeLabel;
     IBOutlet AMBlurView *bottomToolBarView;
@@ -46,6 +53,9 @@
 @property(nonatomic,strong) NSArray *cards;
 @property(nonatomic,strong) NSString *username;
 @property(nonatomic,strong) NSString *password;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property(nonatomic,strong) NSString *createCardNumber;
+@property(nonatomic,strong) NSString *createCardName;
+@property(nonatomic,strong) NSString *currentProcessTask;
+@property (strong, nonatomic) IBOutlet UITableView *cardsTableView;
 
 @end
