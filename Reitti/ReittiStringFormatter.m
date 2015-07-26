@@ -178,6 +178,24 @@
     
 }
 
++(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize{
+    
+    UIFont *smallerFont = [font fontWithSize:smallFontSize];
+    
+//    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+//    [numbersDict setObject:font forKey:NSFontAttributeName];
+    
+    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
+    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
+    
+    
+    NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:numberString attributes:numbersDict];
+    [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:unitString attributes:stringsDict]];
+    
+    return formattedString;
+}
+
 //Expected format is XXXXXXXX of numbers
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData{
     if (hslData.length != 8 || [hslData intValue] == 0) {

@@ -47,7 +47,7 @@
         self.routineDate = self.routine.routeDate;
         self.toneName = self.routine.toneName;
     }else{
-        self.selectedDaysList = [self allDayArray];
+        self.selectedDaysList = [ReittiRemindersManager allDayNumbersArray];
         self.routineDate = [NSDate date];
         self.toneName = [AppManager defailtToneName];
     }
@@ -205,7 +205,7 @@
         self.routine.routeDate = [datePicker date];
         self.routine.dayNames = [ReittiRemindersManager displayStringForSeletedDays:self.selectedDaysList];
         self.routine.repeatDays = [self selectedDaysList];
-        self.routine.isEnabled = YES;
+        self.routine.isEnabled = self.selectedDaysList.count > 0;
         self.routine.toneName = self.toneName;
         
         //TODO: Check if routine does not exist
@@ -298,7 +298,7 @@
 - (NSArray *)alreadySelectedValues{
     NSMutableArray *tempArray = [@[] mutableCopy];
     for (NSNumber *dayNum in self.selectedDaysList) {
-        [tempArray addObject:[EnumManager dayNameForWeekDay:[dayNum intValue]]];
+        [tempArray addObject:[EnumManager dayNameForWeekDay:(WeekDay)[dayNum intValue]]];
     }
     return tempArray;
 }

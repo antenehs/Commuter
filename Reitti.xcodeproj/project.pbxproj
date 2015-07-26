@@ -176,6 +176,8 @@
 		665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E7F1A05791E00797ABA /* stopIcon-dark.png */; };
 		6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */; };
 		6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08A1B5EEE2900DC20D0 /* createCardJS.js */; };
+		6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
+		6663A08F1B62AB5300DC20D0 /* renameCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08E1B62AB5300DC20D0 /* renameCardJS.js */; };
 		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		666437C919E1852E00B82BE5 /* calendar-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C719E1852E00B82BE5 /* calendar-50.png */; };
 		666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
@@ -768,6 +770,8 @@
 		6662CF7D18F719D6001CD5C1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Reitti/Default-568h@2x.png"; sourceTree = "<group>"; };
 		6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = changeToFullVersionJS.js; path = Reitti/changeToFullVersionJS.js; sourceTree = "<group>"; };
 		6663A08A1B5EEE2900DC20D0 /* createCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = createCardJS.js; path = Reitti/createCardJS.js; sourceTree = "<group>"; };
+		6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = deleteCardJS.js; path = Reitti/deleteCardJS.js; sourceTree = "<group>"; };
+		6663A08E1B62AB5300DC20D0 /* renameCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = renameCardJS.js; path = Reitti/renameCardJS.js; sourceTree = "<group>"; };
 		666437B719E1478400B82BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		666437B819E1478400B82BE5 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		666437B919E1478400B82BE5 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
@@ -2122,6 +2126,8 @@
 				6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */,
 				660716161B49CBFA00033049 /* logoutJS.js */,
 				6663A08A1B5EEE2900DC20D0 /* createCardJS.js */,
+				6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */,
+				6663A08E1B62AB5300DC20D0 /* renameCardJS.js */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -2589,6 +2595,7 @@
 				667B980E1AD1502600C45ADF /* expand-arrow-50.png in Resources */,
 				660E2F781B34386400CE670E /* restaurant-100.png in Resources */,
 				66F099A41AED222B00F20D34 /* dropped-pins-3.0.png in Resources */,
+				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
 				664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */,
 				66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */,
 				664749E71AE6D7E00050137E /* previous-green-100.png in Resources */,
@@ -2800,6 +2807,7 @@
 				661ABBFB199D5DB500F93894 /* bus-orange-128.png in Resources */,
 				667B98221AD3294C00C45ADF /* city-center-100_grey.png in Resources */,
 				660716061B45E2A700033049 /* matkakortti-icon-1.png in Resources */,
+				6663A08F1B62AB5300DC20D0 /* renameCardJS.js in Resources */,
 				664E28921AE03B1B00BE2457 /* current-location-green-100.png in Resources */,
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
 				666437CD19E1887600B82BE5 /* bookmark-50.png in Resources */,

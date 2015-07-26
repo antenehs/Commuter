@@ -28,6 +28,8 @@
 //JS Methods
 -(NSString *)loginJavaScript;
 -(NSString *)createCardJavaScript;
+-(NSString *)deleteCardJavaScript;
+-(NSString *)renameCardJavaScript;
 -(NSString *)logoutJavaScript;
 -(NSString *)changeToFullVersionJavaScript;
 

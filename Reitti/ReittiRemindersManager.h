@@ -29,6 +29,7 @@ extern NSString *kRoutineNotificationUniqueName;
 
 +(NSString *)displayStringForSeletedDays:(NSArray *)daysList;
 +(NSArray *)allDayNamesArray;
++(NSArray *)allDayNumbersArray;
 
 -(void)saveRoutineToCoreData:(RoutineEntity *)routine;
 -(void)deleteSavedRoutineForObjectId:(NSNumber *)objectId;

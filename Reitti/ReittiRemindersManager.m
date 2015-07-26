@@ -325,6 +325,9 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
               ![daysList containsObject:@7]){
         return @"Weekdays";
     }else{
+        //Sort day list
+        NSSortDescriptor *highestToLowest = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:YES];
+        daysList = [daysList sortedArrayUsingDescriptors:[NSArray arrayWithObject:highestToLowest]];
         NSMutableArray *tempArray = [@[] mutableCopy];
         for (NSNumber *number in daysList) {
             [tempArray addObject:[EnumManager shortDayNameForWeekDay:(WeekDay)[number intValue]]];
@@ -342,6 +345,16 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
              [EnumManager dayNameForWeekDay:WeekDayFriday],
              [EnumManager dayNameForWeekDay:WeekDaySaturday],
              [EnumManager dayNameForWeekDay:WeekDaySunday]];
+}
+
++(NSArray *)allDayNumbersArray{
+    return @[[NSNumber numberWithInt:WeekDayMonday],
+             [NSNumber numberWithInt:WeekDayTuesday],
+             [NSNumber numberWithInt:WeekDayWedensday],
+             [NSNumber numberWithInt:WeekDayThursday],
+             [NSNumber numberWithInt:WeekDayFriday],
+             [NSNumber numberWithInt:WeekDaySaturday],
+             [NSNumber numberWithInt:WeekDaySunday]];
 }
 
 #pragma mark - Core data Methods

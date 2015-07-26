@@ -198,7 +198,7 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
     _middleButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     _middleButton.frame = CGRectMake(-11, -ASAMagicVerticalOffset + 10, 22, 22);
     _middleButton.tintColor = SYSTEM_GREEN_COLOR;
-    
+    _middleButton.enabled = NO;
     [self addSubview:_middleButton];
     
     [_middleButton addTarget:self action:@selector(didTapMiddleButton) forControlEvents:UIControlEventTouchDown];
@@ -344,6 +344,10 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
         [self.primaryButtonLabel setText:durationString];
     }];
     
+}
+
+- (void)enableAddressInfoButton{
+    self.middleButton.enabled = YES;
 }
 
 - (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address{

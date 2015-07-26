@@ -275,7 +275,7 @@ NSString *const kTravelCardType = @"Type";
             NSLog(@"group1: %@", [dateString substringWithRange:group1]);
             
             NSString *timeStampString = [dateString substringWithRange:group1];
-            return [NSDate dateWithTimeIntervalSince1970:[timeStampString integerValue]/1000];
+            return [NSDate dateWithTimeIntervalSince1970:[timeStampString longLongValue]/1000];
         }
         @catch (NSException *exception) {
             return nil;

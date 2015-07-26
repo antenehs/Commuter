@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, GCThumbnailAnnotationViewState) {
 - (void)didDeselectAnnotationViewInMap:(MKMapView *)mapView;
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString;
 - (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address;
+- (void)enableAddressInfoButton;
 
 @end
 

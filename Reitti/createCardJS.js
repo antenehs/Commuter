@@ -6,8 +6,8 @@ var cardNumber = document.getElementById('add_card_id')
 var cardName = document.getElementById('add_card_name')
 
 
-cardNumber.value = '##NEWCARDNUMBER##'
-cardName.value = '##NEWCARDNAME##'
+cardNumber.value = "##NEWCARDNUMBER##"
+cardName.value = "##NEWCARDNAME##"
 
 var saveButton = document.getElementById('add_card_submit')
 saveButton.click()

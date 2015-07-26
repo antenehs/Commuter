@@ -114,6 +114,13 @@
     return [[NSBundle mainBundle] pathForResource:@"createCardJS" ofType:@"js"];
 }
 
+-(NSString *)deleteCardJavaScript{
+    return [[NSBundle mainBundle] pathForResource:@"deleteCardJS" ofType:@"js"];
+}
+-(NSString *)renameCardJavaScript{
+    return [[NSBundle mainBundle] pathForResource:@"renameCardJS" ofType:@"js"];
+}
+
 -(NSString *)changeToFullVersionJavaScript{
     return [[NSBundle mainBundle] pathForResource:@"changeToFullVersionJS" ofType:@"js"];
 }
@@ -159,6 +166,11 @@
         return NO;
     }
     
+    //Check there is no error message.
+    if ([self parseErrorMessage:htmlString] != nil) {
+        return NO;
+    }
+    
     *returnArray = [[NSArray alloc] init];
     
     return [self extractCardsJsonFromScripts:scripts parsedCards:returnArray];
@@ -167,7 +179,10 @@
 +(NSString *)parseErrorMessage:(NSString *)htmlString {
     //Check if login failed
     NSString *wrongCredError = @"Wrong username or password or the new user account has not been activated";
-    NSString *defaultErrorMess = @"Logging into Oma Matkakortti failed. Try again later.";
+    NSString *requestDataNotFound = @"The requested data was not found. Unable to establish connection to customer register.";
+    NSString *invalidCardNameError = @"Invalid card name. Card name can only contain 20 characters. The permitted symbols are numbers, letters and spaces.";
+//    NSString *cardNotFoundError = @"The requested data was not found. Unable to establish connection to customer register.";
+    NSString *defaultErrorMess = @"Error occured connecting to Oma Matkakortti. Try again later.";
     @try {
         HTMLDocument *home = [HTMLDocument documentWithString:htmlString];
         HTMLElement *validationSummary = [home firstNodeMatchingSelector:@"#Etuile_mainValidationSummary"];
@@ -183,24 +198,41 @@
                     }
                     
                     HTMLElement *firstErrorNode = errorList.childElementNodes[i];
-                    if ([firstErrorNode.innerHTML containsString:@"username"] ||
-                        [firstErrorNode.innerHTML containsString:@"password"] ||
-                        [firstErrorNode.innerHTML containsString:@"käyttäjätunnus"] ||
-                        [firstErrorNode.innerHTML containsString:@"salasana"]) {
+                    if ([[firstErrorNode.innerHTML lowercaseString] containsString:@"username"] ||
+                        [[firstErrorNode.innerHTML lowercaseString] containsString:@"password"] ||
+                        [[firstErrorNode.innerHTML lowercaseString] containsString:@"käyttäjätunnus"] ||
+                        [[firstErrorNode.innerHTML lowercaseString] containsString:@"salasana"]) {
                         
                         return wrongCredError;
+                    }
+                    
+                    if ([[firstErrorNode.innerHTML lowercaseString] containsString:@"he requested data"] ||
+                        [[firstErrorNode.innerHTML lowercaseString] containsString:@"yytämääsi tietoa ei löytynyt"]) {
+                        
+                        return requestDataNotFound;
+                    }
+                    
+                    if ([[firstErrorNode.innerHTML lowercaseString] containsString:@"nvalid card name"] ||
+                        [[firstErrorNode.innerHTML lowercaseString] containsString:@"ortin nimi ei kelpaa"]) {
+                        
+                        return invalidCardNameError;
                     }
                 }
             }else{
                 //Return default error
+                if (errorList.childElementNodes.count == 1) {
+                    HTMLElement *firstErrorNode = errorList.childElementNodes[0];
+                    return firstErrorNode.innerHTML != nil ? firstErrorNode.innerHTML : defaultErrorMess;
+                }
                 return defaultErrorMess;
             }
         }
-
     }
     @catch (NSException *exception) {
         return defaultErrorMess;
     }
+    
+    return nil;
 }
 
 +(BOOL)isLoginScreen:(NSString *)htmlString{
@@ -225,7 +257,7 @@
         if ([element.innerHTML containsString:@"parseJSON('"]) {
             scriptMachFound = YES;
             //Parse json from the inner HTML
-            NSLog(@"%@", element.innerHTML);
+//            NSLog(@"%@", element.innerHTML);
             NSString *searchedString = element.innerHTML;
             NSRange   searchedRange = NSMakeRange(0, [searchedString length]);
             NSString *pattern = @".*?parseJSON\\('(.*)'\\).*";
@@ -235,9 +267,9 @@
             NSArray* matches = [regex matchesInString:searchedString options:0 range: searchedRange];
             for (NSTextCheckingResult* match in matches) {
                 NSString* matchText = [searchedString substringWithRange:[match range]];
-                NSLog(@"match: %@", matchText);
+//                NSLog(@"match: %@", matchText);
                 NSRange group1 = [match rangeAtIndex:1];
-                NSLog(@"group1: %@", [searchedString substringWithRange:group1]);
+//                NSLog(@"group1: %@", [searchedString substringWithRange:group1]);
                 
                 NSString *jsonString = [searchedString substringWithRange:group1];
                 NSError *error = nil;

@@ -12,10 +12,12 @@
 #import "RettiDataManager.h"
 #import "Reachability.h"
 #import "ReittiNotificationHelper.h"
+#import "SVProgressHUD.h"
 //#import "HTMLReader.h"
 //#import "HTMLDocument.h"
 //#import "HTMLElement.h"
 #import "TravelCard.h"
+#import "AppManager.h"
 #import "PeriodProductState.h"
 
 @interface TravelCardViewController ()
@@ -26,16 +28,19 @@
 
 NSString *ACCurrentProcessGetCards = @"ACCurrentProcessGetCards";
 NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
+NSString *ACCurrentProcessDeleteCard = @"ACCurrentProcessDeleteCard";
+NSString *ACCurrentProcessRenameCard = @"ACCurrentProcessRenameCard";
 //CGFloat KDefaultCardCellHeight = 140.0f;
 
 @implementation TravelCardViewController
 
-#define kCellHeight 140.0
+#define kCellHeight 150.0
 
 @synthesize refreshControl;
 @synthesize cards,cardsTableView;
 @synthesize username, password;
 @synthesize createCardNumber, createCardName;
+@synthesize renameCardNumber, renameCardName, deleteCardNumber;
 @synthesize currentProcessTask;
 
 - (void)viewDidLoad {
@@ -47,6 +52,9 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     
     triedLoginAlready = NO;
     ignoreWebChangesOnce = NO;
+    userRequestedReload = NO;
+    validateCardAddition = NO;
+    validateCardDeletion = NO;
     
     selectedIndexes = [[NSMutableDictionary alloc] init];
     
@@ -55,8 +63,9 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     UITapGestureRecognizer *loginViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loginViewTapped:)];
     
     [logginView addGestureRecognizer:loginViewTapRecognizer];
+    [logginInnerContainerView addGestureRecognizer:loginViewTapRecognizer];
     
-    UITapGestureRecognizer *tableViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTapped:)];
+//    UITapGestureRecognizer *tableViewTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tableViewTapped:)];
     
 //    [self.cardsTableView addGestureRecognizer:tableViewTapRecognizer];
     
@@ -82,13 +91,21 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
         self.password = [TravelCardManager savedPassword];
         
         [self setLastUpdateTime];
-        
-        [self loadLogginPage];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [self setLastUpdateTime];
+    updateTimeLabel.text = @"Updating ...";
+    [self loadLogginPage];
+}
+
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    [self setLastUpdateTime];
+    updateTimeLabel.text = @"Updating ...";
+    [self loadLogginPage];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -172,7 +189,7 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
     if (indexPath.section < self.cards.count && !addCardMode) {
-        cell = [self.cardsTableView dequeueReusableCellWithIdentifier:@"cardCell"];
+        cell = [self.cardsTableView dequeueReusableCellWithIdentifier:@"cardCell2"];
         
         TravelCard *card = [self.cards objectAtIndex:indexPath.section];
         
@@ -181,11 +198,14 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
         UILabel *ticketName = (UILabel *)[cell viewWithTag:1003];
         UILabel *ticketPeriod = (UILabel *)[cell viewWithTag:1004];
         UILabel *periodDays = (UILabel *)[cell viewWithTag:1005];
-        UILabel *noPeriodLabel = (UILabel *)[cell viewWithTag:1006];
+//        UILabel *noPeriodLabel = (UILabel *)[cell viewWithTag:1006];
         
         title.text = card.name != nil ? card.name : card.internalBaseClassIdentifier;
         if (card.remainingMoney != 0 && card.remainingMoney > 0) {
-            balanceLabel.text = [NSString stringWithFormat:@"%@ €", [ReittiStringFormatter formatRoundedNumberFromDouble:card.remainingMoney roundDigits:2 androundUp:NO]];
+//            balanceLabel.text = [NSString stringWithFormat:@"%@ €", [ReittiStringFormatter formatRoundedNumberFromDouble:card.remainingMoney roundDigits:2 androundUp:NO]];
+            balanceLabel.attributedText = [ReittiStringFormatter formatAttributedString:[ReittiStringFormatter formatRoundedNumberFromDouble:card.remainingMoney roundDigits:2 androundUp:NO]
+                                                                               withUnit:@" €"
+                                                                               withFont:[balanceLabel font] andUnitFontSize:24];
         }else{
             balanceLabel.text = @"-";
         }
@@ -194,24 +214,41 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
             NSDate *startDate = [card getPeriodStartDate];
             NSDate *expiryDate = [card getPeriodEndDate];
             
-            periodDays.text = [NSString stringWithFormat:@"%d days", (int)[RettiDataManager daysBetweenDate:[NSDate date] andDate:expiryDate]];
+//            periodDays.text = [NSString stringWithFormat:@"%d days", (int)[RettiDataManager daysBetweenDate:[NSDate date] andDate:expiryDate]];
+            int daysFromNow = (int)[RettiDataManager daysBetweenDate:[NSDate date] andDate:expiryDate];
+            if (daysFromNow < -1) {
+                periodDays.text = @"N/A";
+            }else{
+                if(daysFromNow < 6)
+                    periodDays.textColor = [AppManager systemOrangeColor];
+                else
+                    periodDays.textColor = [UIColor blackColor];
+                NSAttributedString *daysString = [ReittiStringFormatter formatAttributedString:[NSString stringWithFormat:@"%d",daysFromNow]
+                                                                                      withUnit:@" days"
+                                                                                      withFont:[balanceLabel font] andUnitFontSize:24];
+                periodDays.attributedText = daysString;
+            }
+            
             ticketPeriod.text = [NSString stringWithFormat:@"%@ - %@",[ReittiStringFormatter formatFullDate:startDate], [ReittiStringFormatter formatFullDate:expiryDate]];
             ticketName.text = card.periodProductState.productName;
             
-            noPeriodLabel.hidden = YES;
+//            noPeriodLabel.hidden = YES;
             ticketName.hidden = NO;
-            ticketPeriod.hidden = NO;
+//            ticketPeriod.hidden = NO;
         }else{
-            noPeriodLabel.hidden = NO;
+            ticketPeriod.text = @"No valid season ticket";
+//            noPeriodLabel.hidden = NO;
             ticketName.hidden = YES;
-            ticketPeriod.hidden = YES;
+//            ticketPeriod.hidden = YES;
             
             periodDays.text = @"-";
         }
     }else{
         cell = [self.cardsTableView dequeueReusableCellWithIdentifier:@"noCardsCell"];
         UIButton *addCardButton = (UIButton *)[cell viewWithTag:1003];
+        addCardBigButton = addCardButton;
         UIButton *addCardButton2 = (UIButton *)[cell viewWithTag:1008];
+        addCardSmallButton = addCardButton2;
         UIButton *cancelButton = (UIButton *)[cell viewWithTag:1007];
         
         cardNameTextbox = (UITextField *)[cell viewWithTag:1002];
@@ -244,9 +281,9 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section < self.cards.count && !addCardMode) {
         if([self cellIsSelected:indexPath]) {
-            return kCellHeight * 2.0;
+            return kCellHeight + 35.0f;
         }
-        return 140;
+        return kCellHeight;
     }else{
         return addCardMode ? 210 : 45;
     }
@@ -269,6 +306,35 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
         [self.cardsTableView beginUpdates];
         [self.cardsTableView endUpdates];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section < self.cards.count && !addCardMode) {
+        return 30;
+    }
+    
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section < self.cards.count && !addCardMode) {
+        TravelCard *card = [self.cards objectAtIndex:section];
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
+        titleLabel.font = [titleLabel.font fontWithSize:14];
+        titleLabel.textColor = [UIColor darkGrayColor];
+        titleLabel.text = [NSString stringWithFormat:@"  %@", card.name != nil ? card.name : card.internalBaseClassIdentifier];
+        
+        titleLabel.text = [titleLabel.text uppercaseString];
+        
+        [view addSubview:titleLabel];
+        
+        return view;
+    }
+    
+    return nil;
+    
 }
 
 #pragma mark - WebView methods
@@ -311,18 +377,60 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
                         
                         //Log out imidiately. Keep the webpage at login screen because it might time out
                         [self logoutWebPage:NO];
+                        
+                        if (validateCardAddition && self.createCardNumber != nil) {
+                            if ([self cardForCardNumber:self.createCardNumber] == nil) {
+                                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Adding new card failed. Please check if the number is correct or try adding the card from Omamatkakortti.fi" andContent:nil];
+                            }
+                            
+                            validateCardAddition = NO;
+                        }
+                        
+                        if (validateCardDeletion && self.deleteCardNumber != nil) {
+                            if ([self cardForCardNumber:self.createCardNumber] != nil) {
+                                [ReittiNotificationHelper showErrorBannerMessage:@"Seems like the card is not deleted properly. Please try again from Omamatkakortti.fi" andContent:nil];
+                            }
+                        
+                            validateCardDeletion = NO;
+                        }
+                        
                     }else{
                         NSLog(@"Parsing cards failed");
+                        NSString *failureString = [TravelCardManager parseErrorMessage:htmlString];
+                        [self onCardParsingFailed:failureString withNotify:userRequestedReload];
+                        userRequestedReload = NO;
                     }
-                }
-                
-                if (self.currentProcessTask == ACCurrentProcessCreateCard) {
+                    
+                    [self indicateActivity:NO];
+                }else if (self.currentProcessTask == ACCurrentProcessCreateCard) {
                     [self addCard];
-                    //TODO: 1: Check if card creation is successful
+                    //2: Clear text fields
+                    
+                    //Only change mode if creation is successful
+                    self.currentProcessTask = ACCurrentProcessGetCards;
+                    validateCardAddition = YES;
+                    
+                    [webView reload];
+//                    [self debugButtonPressed:self];
+                }else if (self.currentProcessTask == ACCurrentProcessRenameCard) {
+                    [self renameCard];
+//                    NSString *failureString = [TravelCardManager parseErrorMessage:htmlString];
+//                    if (failureString != nil) {
+//                        [ReittiNotificationHelper showErrorBannerMessage:failureString andContent:nil];
+//                    }
                     //2: Clear text fields
                     self.currentProcessTask = ACCurrentProcessGetCards;
                     
                     [webView reload];
+//                    [self debugButtonPressed:self];
+                }else if (self.currentProcessTask == ACCurrentProcessDeleteCard) {
+                    [self deleteCard];
+                    validateCardDeletion = YES;
+                    //2: Clear text fields
+                    self.currentProcessTask = ACCurrentProcessGetCards;
+                    
+                    [webView reload];
+//                    [self debugButtonPressed:self];
                 }
             }
         }
@@ -342,7 +450,7 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     if (![self isInternetConnectionAvailable])
         return;
     
-    if (!loginActivityIndicator.isAnimating && [self hasValidCredentials]) {
+    if (/*!loginActivityIndicator.isAnimating && */[self hasValidCredentials]) {
         [loginActivityIndicator startAnimating];
         [self loadLogginPage];
         [self resignAllFirstResponders];
@@ -355,14 +463,8 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
 }
 
 - (IBAction)reloadButtonPressed:(id)sender {
-    ignoreWebChangesOnce = NO;
-    triedLoginAlready = NO;
-    [webView reload];
-    
-//    if (![self isInternetConnectionAvailable])
-//    return;
-//    
-//    [self logoutWebPage:YES];
+    userRequestedReload = YES;
+    [self reloadCards];
 }
 
 - (IBAction)createAccountButtonPressed:(id)sender {
@@ -391,20 +493,33 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
         
         [self.cardsTableView reloadData];
     }else{
+        if (![self isInternetConnectionAvailable])
+            return;
+        
         //Temp for testing
 //        cardNameTextbox.text = @"New Card 1";
         
-        if ([cardNumberTextbox.text isEqualToString: @"924620001149570011"]) {
-            cardNumberTextbox.text = @"924620001111360144";
-        }else{
-            cardNumberTextbox.text = @"924620001149570011";
-        }
+//        if ([cardNumberTextbox.text isEqualToString: @"924620001149570011"]) {
+//            cardNumberTextbox.text = @"924620001111360144";
+//        }else{
+//            cardNumberTextbox.text = @"924620001149570011";
+//        }
         
         self.createCardNumber = cardNumberTextbox.text;
         self.createCardName = cardNameTextbox.text;
         
         if (self.createCardNumber == nil || [self.createCardNumber isEqualToString:@""]) {
             [ReittiNotificationHelper showErrorBannerMessage:@"Travel card number is required." andContent:nil];
+            return;
+        }
+        
+        if (![self isValidCardNumber:self.createCardNumber]) {
+            [ReittiNotificationHelper showErrorBannerMessage:@"Invalid card number. Card number can only contain numbers and is 18 digits long." andContent:nil];
+            return;
+        }
+        
+        if (![self isValidCardName:self.createCardName]) {
+            [ReittiNotificationHelper showErrorBannerMessage:@"Invalid card name!" andContent:@"Invalid card name. Card name can only contain 20 characters. The permitted symbols are numbers, letters and spaces."];
             return;
         }
         
@@ -418,18 +533,123 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
             return;
         }
         
-        if (![self isInternetConnectionAvailable])
-            return;
-        
         [self resignAllFirstResponders];
         triedLoginAlready = NO;
         self.currentProcessTask = ACCurrentProcessCreateCard;
         [self loadLogginPage];
         
-        [self debugButtonPressed:self];
+//        [self debugButtonPressed:self];
         
-        //TODO: Set current activity type
+        [self indicateActivity:YES];
     }
+}
+
+- (IBAction)deleteCardButtonPressed:(id)sender{
+    if (![self isInternetConnectionAvailable])
+        return;
+    
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.cardsTableView];
+    NSIndexPath *indexPath = [self.cardsTableView indexPathForRowAtPoint:buttonPosition];
+    
+    if (indexPath.section < self.cards.count && !addCardMode) {
+        TravelCard *cardToEdit = [self.cards objectAtIndex:indexPath.section];
+        self.deleteCardNumber = cardToEdit.internalBaseClassIdentifier;
+    }else{
+        //Notify that renaming failed
+        return;
+    }
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to delete the card?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
+    alert.tag = 1001;
+    [alert show];
+}
+
+- (IBAction)renameCardButtonPressed:(id)sender{
+    
+    if (![self isInternetConnectionAvailable])
+        return;
+    
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.cardsTableView];
+    NSIndexPath *indexPath = [self.cardsTableView indexPathForRowAtPoint:buttonPosition];
+    
+    if (indexPath.section < self.cards.count && !addCardMode) {
+        TravelCard *cardToEdit = [self.cards objectAtIndex:indexPath.section];
+        self.renameCardNumber = cardToEdit.internalBaseClassIdentifier;
+        self.renameCardName = cardToEdit.name;
+    }else{
+        //Notify that renaming failed
+        return;
+    }
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Rename your card to" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    if (self.renameCardName != nil && self.renameCardName.length != 18) {
+        [[alert textFieldAtIndex:0] setText:self.renameCardName];
+    }
+    alert.tag = 2002;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 1001) {
+        if (buttonIndex == 1) {
+            //Go on and delete it.
+            [self completeCardDeletion];
+        }
+    }else{/*alert is from text input*/
+        if (buttonIndex == 1) {
+            NSString *newName = [[alertView textFieldAtIndex:0] text];
+            [self completeRenameCardTo:newName];
+        }
+    }
+}
+
+-(void)completeCardDeletion{
+    [self indicateActivity:YES];
+    
+    TravelCard *cardToDelete = [self cardForCardNumber:self.deleteCardNumber];
+    if (cardToDelete != nil){
+        NSMutableArray *tempArray = [self.cards mutableCopy];
+        [tempArray removeObject:cardToDelete];
+        self.cards = tempArray;
+        [self.cardsTableView reloadData];
+    }
+    
+    triedLoginAlready = NO;
+    self.currentProcessTask = ACCurrentProcessDeleteCard;
+    [self loadLogginPage];
+    
+//    [self debugButtonPressed:self];
+}
+
+-(void)completeRenameCardTo:(NSString *)newName{
+    if (![self isValidCardName:newName]) {
+        //The normal banner cant be used because it dosn't work well with the disapearing action sheet
+        [ReittiNotificationHelper showSimpleMessageWithTitle:@"Invalid card name!" andContent:@"Invalid card name. Card name can only contain 20 characters. The permitted symbols are numbers, letters and spaces."];
+        return;
+    }
+    
+    if ([self.renameCardName isEqualToString:newName]){
+//        [ReittiNotificationHelper showErrorBannerMessage:@"The new name is the same as before." andContent:nil];
+        [ReittiNotificationHelper showSimpleMessageWithTitle:@"The new name is the same as before."  andContent:nil];
+        return;
+    }
+    
+    self.renameCardName = newName;
+    
+    if ([self cardExistsWithName:self.renameCardName]){
+//        [ReittiNotificationHelper showErrorBannerMessage:@"A card with that name exists already." andContent:nil];
+        [ReittiNotificationHelper showSimpleMessageWithTitle:@"A card with that name exists already."  andContent:nil];
+        return;
+    }
+    
+    [self indicateActivity:YES];
+
+    triedLoginAlready = NO;
+    self.currentProcessTask = ACCurrentProcessRenameCard;
+    [self loadLogginPage];
+    
+//    [self debugButtonPressed:self];
 }
 
 - (IBAction)canelAddCardButtonPressed:(id)sender {
@@ -464,6 +684,11 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
 }
 
 -(void)loadLogginPage{
+    if (![self isInternetConnectionAvailable]){
+        [self setLastUpdateTime];
+        return;
+    }
+    
     NSURL *url = [NSURL URLWithString:@"https://omamatkakortti.hsl.fi/Login.aspx"];
     NSMutableURLRequest *requestObj = [NSMutableURLRequest requestWithURL:url];
     [requestObj setValue:[NSString stringWithFormat:@"%@ Safari/528.16", [requestObj valueForHTTPHeaderField:@"User-Agent"]] forHTTPHeaderField:@"User_Agent"];
@@ -478,6 +703,8 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     if (netStatus == NotReachable) {
         [ReittiNotificationHelper showErrorBannerMessage:@"No internet connection" andContent:@"Active internet connection is required to use the service."];
         toReturn = NO;
+        [self indicateActivity:NO];
+        [loginActivityIndicator stopAnimating];
     }
     
     return toReturn;
@@ -525,14 +752,18 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     return YES;
 }
 
--(BOOL)cardExistsWithNumber:(NSString *)cardNum{
+-(TravelCard *)cardForCardNumber:(NSString *)cardNum{
     for (TravelCard *card in self.cards) {
         if ([card.internalBaseClassIdentifier isEqualToString:cardNum]) {
-            return YES;
+            return card;
         }
     }
     
-    return NO;
+    return nil;
+}
+
+-(BOOL)cardExistsWithNumber:(NSString *)cardNum{
+    return [self cardForCardNumber:cardNum] != nil;
 }
 
 -(BOOL)cardExistsWithName:(NSString *)cardName{
@@ -540,7 +771,7 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
         return NO;
     
     for (TravelCard *card in self.cards) {
-        if ([card.name isEqualToString:cardName]) {
+        if ([[card.name lowercaseString] isEqualToString:[cardName lowercaseString]]) {
             return YES;
         }
     }
@@ -548,17 +779,73 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     return NO;
 }
 
+-(BOOL)isValidCardName:(NSString *)name{
+    if (name.length > 20)
+        return NO;
+    
+    NSCharacterSet *alphaSet = [NSCharacterSet alphanumericCharacterSet];
+    name  = [name stringByReplacingOccurrencesOfString:@" " withString:@""];
+    return [[name stringByTrimmingCharactersInSet:alphaSet] isEqualToString:@""];
+}
+
+-(BOOL)isValidCardNumber:(NSString *)number{
+    if (number.length != 18)
+        return NO;
+    
+    NSCharacterSet *numericSet = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+    number  = [number stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    return [[number stringByTrimmingCharactersInSet:numericSet] isEqualToString:@""];
+}
+
 -(BOOL)hasValidCredentials{
     return self.username != nil && self.password != nil;
+}
+
+-(void)reloadCards{
+    self.currentProcessTask = ACCurrentProcessGetCards;
+    ignoreWebChangesOnce = NO;
+    triedLoginAlready = NO;
+    [self loadLogginPage];
+    
+    [self indicateActivity:YES];
+}
+
+- (NSString *)stringByReplacingUnsafeCharsForJavaScriptIn:(NSString *)unsafeString{
+    /*
+     // This implementation does not work for finish characters
+    const char *chars = [unsafeString UTF8String];
+    NSMutableString *escapedString = [NSMutableString string];
+    while (*chars)
+    {
+        if (*chars == '\\')
+            [escapedString appendString:@"\\\\"];
+        else if (*chars == '"')
+            [escapedString appendString:@"\\\""];
+        else if (*chars == '\'')
+            [escapedString appendString:@"\\\'"];
+        else
+            [escapedString appendFormat:@"%c", *chars];
+        ++chars;
+    }
+    
+    return escapedString;
+    */
+    
+    unsafeString = [unsafeString stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    unsafeString = [unsafeString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    unsafeString = [unsafeString stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
+    
+    return unsafeString;
 }
 
 - (void)login {
 //    NSString *jsFilePath = [[NSBundle mainBundle] pathForResource:@"logginJS" ofType:@"js"];
     NSString *jsFilePath = [[TravelCardManager sharedManager] loginJavaScript];
     
+    //It is important to escape strings
     editorJsString = [NSString stringWithContentsOfFile:jsFilePath encoding:NSUTF8StringEncoding error:nil];
-    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##USERNAME##" withString:self.username];
-    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##PASSWORD##" withString:self.password];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##USERNAME##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.username]];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##PASSWORD##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.password]];
     
     [webView stringByEvaluatingJavaScriptFromString:editorJsString];
     
@@ -571,6 +858,8 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     triedLoginAlready = NO;
     self.password = nil;
     passwordTextbox.text = @"";
+    infoLabel.hidden = YES;
+    infoLabelIcon.hidden = YES;
     [TravelCardManager saveCredentialsWithUsername:self.username andPassword:nil];
 }
 
@@ -607,8 +896,31 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     NSString *jsFilePath = [[TravelCardManager sharedManager] createCardJavaScript];
     
     editorJsString = [NSString stringWithContentsOfFile:jsFilePath encoding:NSUTF8StringEncoding error:nil];
-    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNUMBER##" withString:self.createCardNumber];
-    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNAME##" withString:self.createCardName];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNUMBER##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.createCardNumber]];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNAME##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.createCardName]];
+    
+    //This won't reload the page
+    [webView stringByEvaluatingJavaScriptFromString:editorJsString];
+}
+
+-(void)renameCard{
+    //    NSString *jsFilePath = [[NSBundle mainBundle] pathForResource:@"logginJS" ofType:@"js"];
+    NSString *jsFilePath = [[TravelCardManager sharedManager] renameCardJavaScript];
+    
+    editorJsString = [NSString stringWithContentsOfFile:jsFilePath encoding:NSUTF8StringEncoding error:nil];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNUMBER##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.renameCardNumber]];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##NEWCARDNAME##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.renameCardName]];
+    
+    //This won't reload the page
+    [webView stringByEvaluatingJavaScriptFromString:editorJsString];
+}
+
+-(void)deleteCard{
+    //    NSString *jsFilePath = [[NSBundle mainBundle] pathForResource:@"logginJS" ofType:@"js"];
+    NSString *jsFilePath = [[TravelCardManager sharedManager] deleteCardJavaScript];
+    
+    editorJsString = [NSString stringWithContentsOfFile:jsFilePath encoding:NSUTF8StringEncoding error:nil];
+    editorJsString = [editorJsString stringByReplacingOccurrencesOfString:@"##CARDNUMBER##" withString:[self stringByReplacingUnsafeCharsForJavaScriptIn:self.deleteCardNumber]];
     
     //This won't reload the page
     [webView stringByEvaluatingJavaScriptFromString:editorJsString];
@@ -617,6 +929,8 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
 -(void)onLoginSuccessful{
     [self hideLoginView:YES animated:YES];
     [loginActivityIndicator stopAnimating];
+    [self indicateActivity:NO];
+    
     infoLabel.hidden = YES;
     infoLabelIcon.hidden = YES;
     
@@ -631,8 +945,42 @@ NSString *ACCurrentProcessCreateCard = @"ACCurrentProcessCreateCard";
     infoLabel.hidden = NO;
     infoLabelIcon.hidden = NO;
     [loginActivityIndicator stopAnimating];
+    [self indicateActivity:NO];
     
     infoLabel.text = errorMessage;
+    [self setLastUpdateTime];
+}
+
+-(void)onCardParsingFailed:(NSString *)errorMessage withNotify:(BOOL)notify{
+    infoLabel.hidden = NO;
+    infoLabelIcon.hidden = NO;
+    [loginActivityIndicator stopAnimating];
+    [self indicateActivity:NO];
+    
+    infoLabel.text = errorMessage;
+    [self setLastUpdateTime];
+    
+    if (notify) {
+        [ReittiNotificationHelper showErrorBannerMessage:errorMessage andContent:nil];
+    }
+}
+
+-(void)indicateActivity:(BOOL)inidicate{
+    //While there is activity, diable all buttons,
+    self.cardsTableView.allowsSelection = !inidicate;
+    if (addCardBigButton != nil) {
+        addCardBigButton.enabled = !inidicate;
+    }
+    
+    if (addCardSmallButton != nil) {
+        addCardSmallButton.enabled = !inidicate;
+    }
+    
+    reloadButton.enabled = !inidicate;
+    
+//    updateTimeLabel.hidden = inidicate;
+//    inidicate ? [miscActivityIndicator startAnimating] : [miscActivityIndicator stopAnimating];
+    inidicate ? [SVProgressHUD show] : [SVProgressHUD dismiss];
 }
 
 -(void)setLastUpdateTime{
