@@ -30,7 +30,7 @@
 @synthesize modalMode;
 @synthesize departures, _busStop, stopEntity;
 @synthesize _stopLinesDetail, _stopLineNames;
-@synthesize reittiDataManager, settingsManager;
+@synthesize reittiDataManager, settingsManager, reittiReminderManager;
 @synthesize stopCode, stopShortCode, stopName, stopCoords;
 @synthesize managedObjectContext;
 @synthesize backButtonText;
@@ -265,22 +265,30 @@
     }else{
         switch (buttonIndex) {
             case 0:
-                [reittiReminderManager setReminderWithMinOffset:1 andHourString:timeToSetAlarm];
+                [reittiReminderManager setNotificationWithMinOffset:1 andHourString:timeToSetAlarm];
                 break;
             case 1:
-                [reittiReminderManager setReminderWithMinOffset:5 andHourString:timeToSetAlarm];
+                [reittiReminderManager setNotificationWithMinOffset:5 andHourString:timeToSetAlarm];
                 break;
             case 2:
-                [reittiReminderManager setReminderWithMinOffset:10 andHourString:timeToSetAlarm];
+                [reittiReminderManager setNotificationWithMinOffset:10 andHourString:timeToSetAlarm];
                 break;
             case 3:
-                [reittiReminderManager setReminderWithMinOffset:15 andHourString:timeToSetAlarm];
+                [reittiReminderManager setNotificationWithMinOffset:15 andHourString:timeToSetAlarm];
                 break;
             case 4:
-                [reittiReminderManager setReminderWithMinOffset:30 andHourString:timeToSetAlarm];
+                [reittiReminderManager setNotificationWithMinOffset:30 andHourString:timeToSetAlarm];
                 break;
             default:
                 break;
+        }
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 1005){
+        if (buttonIndex == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         }
     }
 }
@@ -548,11 +556,19 @@
     UIActionSheet *actionSheet;
     switch (index) {
         case 0:{
-            if (![reittiReminderManager isAppAutorizedForReminders]) {
-                
-                [cell hideUtilityButtonsAnimated:YES];
-                break;
-            }
+//            if (![reittiReminderManager isLocalNotificationEnabled]) {
+//                
+//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Notifications Granted"                                                                                      message:@"Please grant access to Notifications from Settings to use this feature."
+//                                                                   delegate:self
+//                                                          cancelButtonTitle:@"OK"
+//                                                          otherButtonTitles:@"Settings",nil];
+//                alertView.tag = 1005;
+//                [alertView show];
+//                
+//                [cell hideUtilityButtonsAnimated:YES];
+//                break;
+//            }
+            
             actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
             //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
             actionSheet.tag = 2001;

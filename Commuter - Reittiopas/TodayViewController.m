@@ -36,12 +36,12 @@
 }
 - (IBAction)searchRouteButtonClicked:(id)sender {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?routeSearch"];
+    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?routeSearch"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 - (IBAction)openBookmarksButtonClicked:(id)sender {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?bookmarks"];
+    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?bookmarks"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 

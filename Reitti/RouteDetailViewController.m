@@ -1062,19 +1062,19 @@
         switch (buttonIndex) {
             case 0:
                 reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minute.";
-                [reittiRemindersManager setReminderWithMinOffset:1 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:1 andHourString:timeToSetAlarm];
                 break;
             case 1:
-                [reittiRemindersManager setReminderWithMinOffset:5 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:5 andHourString:timeToSetAlarm];
                 break;
             case 2:
-                [reittiRemindersManager setReminderWithMinOffset:10 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:10 andHourString:timeToSetAlarm];
                 break;
             case 3:
-                [reittiRemindersManager setReminderWithMinOffset:15 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:15 andHourString:timeToSetAlarm];
                 break;
             case 4:
-                [reittiRemindersManager setReminderWithMinOffset:30 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:30 andHourString:timeToSetAlarm];
                 break;
             default:
                 break;

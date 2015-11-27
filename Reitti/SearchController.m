@@ -94,7 +94,8 @@
     }
     
     if ([AppManager isNewInstallOrNewVersion]) {
-        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+        //Make sure to uncomment the following for other versions
+//        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
     }
     
@@ -566,7 +567,8 @@
     NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
     [self.reittiDataManager updateSavedStopsDefaultValueForStops:savedStops];
     //test
-    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+//    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
     NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 
@@ -1856,7 +1858,7 @@
     }
     
     //if there is another seleced annotation
-    if (mapView.selectedAnnotations != nil) {
+    if (mapView.selectedAnnotations != nil && mapView.selectedAnnotations.count > 0) {
         id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
         if (![annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
             return NO;
@@ -2169,7 +2171,7 @@
         if (buttonIndex == 0) {
             [self.reittiDataManager setAppOpenCountValue:-7];
         }else if(buttonIndex == 1){
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
             [self.reittiDataManager setAppOpenCountValue:-50];
         }
     }else if (alertView.tag == 1003) {

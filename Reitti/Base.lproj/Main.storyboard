@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lQM-Fk-yNv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A244d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lQM-Fk-yNv">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -2475,7 +2475,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="h4N-Mz-zAu">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="60" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="h4N-Mz-zAu">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
@@ -4430,9 +4430,9 @@
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="xFH-aU-HSW"/>
-                                                            <exclude reference="cY8-wL-uI9"/>
                                                             <exclude reference="UgY-Ge-nYN"/>
+                                                            <exclude reference="cY8-wL-uI9"/>
+                                                            <exclude reference="xFH-aU-HSW"/>
                                                         </mask>
                                                     </variation>
                                                 </label>
@@ -4721,7 +4721,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="od3-6D-LTR" userLabel="Bottom View" customClass="AMBlurView">
                                 <rect key="frame" x="-1" y="443" width="602" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePF-iA-Oci">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePF-iA-Oci">
                                         <rect key="frame" x="10" y="7" width="46" height="30"/>
                                         <animations/>
                                         <constraints>
@@ -4770,8 +4770,8 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="xvE-IF-oIy"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQg-FN-YEQ" userLabel="Login View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LQg-FN-YEQ" userLabel="Login View">
+                                <rect key="frame" x="0.0" y="500" width="600" height="536"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VNT-qb-uMF">
                                         <rect key="frame" x="140" y="55" width="320" height="334"/>
@@ -4908,7 +4908,7 @@
                                                     <action selector="loginButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="J8u-Gq-ULL"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="lDA-DJ-7pp">
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="lDA-DJ-7pp">
                                                 <rect key="frame" x="213" y="299" width="20" height="20"/>
                                                 <animations/>
                                             </activityIndicatorView>
@@ -5017,7 +5017,7 @@
                     <navigationItem key="navigationItem" title="MY CARDS" id="BMz-dD-PTf">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="sAf-Gh-2mQ">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rbv-A1-x2X">
-                                <rect key="frame" x="16" y="7" width="57" height="30"/>
+                                <rect key="frame" x="16" y="7" width="49" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <constraints>
@@ -5029,6 +5029,11 @@
                                 <state key="normal" title="Reload">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="94u-p4-ZLg"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="reloadButtonPressed:" destination="xed-pX-pa9" eventType="touchUpInside" id="LUm-rQ-8QB"/>
                                 </connections>
@@ -5037,7 +5042,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="0PW-4l-7Xo">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="r7S-Qe-84w">
-                                <rect key="frame" x="523" y="7" width="62" height="30"/>
+                                <rect key="frame" x="532" y="7" width="53" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <constraints>
@@ -8006,7 +8011,7 @@ Helsinki, Finland</string>
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reminders" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sb7-uq-gRK">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Routines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sb7-uq-gRK">
                                             <rect key="frame" x="41" y="14" width="150" height="21"/>
                                             <animations/>
                                             <constraints>
@@ -8205,22 +8210,6 @@ Helsinki, Finland</string>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CM8-jw-bli" id="rao-jq-teo">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="UTL-Ye-LSy">
-                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="InM-Zs-waq"/>
-                                                <constraint firstAttribute="height" constant="25" id="U1Q-Zu-ODE"/>
-                                                <constraint firstAttribute="width" constant="25" id="URc-7R-Mhn"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="oqt-Yc-H3e"/>
-                                            </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="InM-Zs-waq"/>
-                                                    <exclude reference="oqt-Yc-H3e"/>
-                                                </mask>
-                                            </variation>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWi-01-wZ5">
                                             <rect key="frame" x="41" y="14" width="150" height="21"/>
                                             <animations/>
@@ -8243,6 +8232,22 @@ Helsinki, Finland</string>
                                                 </mask>
                                             </variation>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="UTL-Ye-LSy">
+                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="InM-Zs-waq"/>
+                                                <constraint firstAttribute="height" constant="25" id="U1Q-Zu-ODE"/>
+                                                <constraint firstAttribute="width" constant="25" id="URc-7R-Mhn"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="oqt-Yc-H3e"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="InM-Zs-waq"/>
+                                                    <exclude reference="oqt-Yc-H3e"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
                                     </subviews>
                                     <animations/>
                                     <constraints>
@@ -8268,7 +8273,7 @@ Helsinki, Finland</string>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="99l-8d-RnV" id="896-ab-RwQ">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-logo-rounded.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wkq-c7-ZVB">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2-small.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wkq-c7-ZVB">
                                             <rect key="frame" x="9" y="13" width="23" height="23"/>
                                             <animations/>
                                             <constraints>
@@ -8724,7 +8729,7 @@ Helsinki, Finland</string>
                                     <action selector="doneButtonPressed:" destination="22G-UU-nOZ" eventType="touchUpInside" id="KOd-QT-DO7"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-logo-rounded.png" translatesAutoresizingMaskIntoConstraints="NO" id="9ui-Dl-VgS">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2-small.png" translatesAutoresizingMaskIntoConstraints="NO" id="9ui-Dl-VgS">
                                 <rect key="frame" x="16" y="21" width="25" height="25"/>
                                 <animations/>
                                 <constraints>
@@ -9044,7 +9049,7 @@ Helsinki, Finland</string>
         <image name="add-button-white.png" width="100" height="100"/>
         <image name="addIcon-green.png" width="295" height="295"/>
         <image name="alarm-clock-filled-white-100.png" width="100" height="100"/>
-        <image name="app-logo-rounded.png" width="364" height="368"/>
+        <image name="app-pro-logo-rounded2-small.png" width="100" height="101"/>
         <image name="blured-background-dark.png" width="710" height="1292"/>
         <image name="bus-75.png" width="75" height="75"/>
         <image name="busAnnotation3_2.png" width="79" height="119"/>
@@ -9098,12 +9103,12 @@ Helsinki, Finland</string>
     <inferredMetricsTieBreakers>
         <segue reference="MZY-ea-tGC"/>
         <segue reference="oJb-eU-zeZ"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="G3y-0T-rdq"/>
         <segue reference="SWb-EE-ndB"/>
-        <segue reference="ocH-Qu-aOm"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="qxY-Ak-fPt"/>
         <segue reference="EHN-bT-MQW"/>
         <segue reference="4lM-KH-B6v"/>
+        <segue reference="ocH-Qu-aOm"/>
         <segue reference="L8L-oR-GI7"/>
         <segue reference="zLX-h6-Wen"/>
         <segue reference="zx9-MZ-Ih7"/>

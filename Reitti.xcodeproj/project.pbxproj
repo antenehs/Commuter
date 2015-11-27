@@ -178,6 +178,11 @@
 		6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08A1B5EEE2900DC20D0 /* createCardJS.js */; };
 		6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
 		6663A08F1B62AB5300DC20D0 /* renameCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08E1B62AB5300DC20D0 /* renameCardJS.js */; };
+		6663A0931B652D8F00DC20D0 /* app-pro-logo-rounded-midium.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0901B652D8F00DC20D0 /* app-pro-logo-rounded-midium.png */; };
+		6663A0941B652D8F00DC20D0 /* app-pro-logo-rounded-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0911B652D8F00DC20D0 /* app-pro-logo-rounded-small.png */; };
+		6663A0951B652D8F00DC20D0 /* app-pro-logo-rounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0921B652D8F00DC20D0 /* app-pro-logo-rounded.png */; };
+		6663A0971B652F0F00DC20D0 /* launch-screen-bkgrnd-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0961B652F0F00DC20D0 /* launch-screen-bkgrnd-1.png */; };
+		6663A09B1B66D6F700DC20D0 /* app-pro-logo-rounded2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A09A1B66D6F700DC20D0 /* app-pro-logo-rounded2.png */; };
 		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		666437C919E1852E00B82BE5 /* calendar-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C719E1852E00B82BE5 /* calendar-50.png */; };
 		666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
@@ -371,6 +376,8 @@
 		66DAE1FE19C6112A0039081D /* trainAnnotationSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE1FA19C6112A0039081D /* trainAnnotationSmall.png */; };
 		66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE20019C61AF60039081D /* LocationsAnnotation.m */; };
 		66DAE20319C624E90039081D /* white-dot-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE20219C624E90039081D /* white-dot-16.png */; };
+		66E272661B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E272641B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png */; };
+		66E272671B681C8A00FB7052 /* app-pro-logo-rounded2-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E272651B681C8A00FB7052 /* app-pro-logo-rounded2-small.png */; };
 		66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E62D841AEED0F9009111B5 /* dropped-pin-100.png */; };
 		66EBADF91B1B5E5A00831812 /* Edit-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */; };
 		66EBBE4419A01B35006A2128 /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
@@ -772,6 +779,11 @@
 		6663A08A1B5EEE2900DC20D0 /* createCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = createCardJS.js; path = Reitti/createCardJS.js; sourceTree = "<group>"; };
 		6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = deleteCardJS.js; path = Reitti/deleteCardJS.js; sourceTree = "<group>"; };
 		6663A08E1B62AB5300DC20D0 /* renameCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = renameCardJS.js; path = Reitti/renameCardJS.js; sourceTree = "<group>"; };
+		6663A0901B652D8F00DC20D0 /* app-pro-logo-rounded-midium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded-midium.png"; path = "Pictures/version 4.1/app-pro-logo-rounded-midium.png"; sourceTree = "<group>"; };
+		6663A0911B652D8F00DC20D0 /* app-pro-logo-rounded-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded-small.png"; path = "Pictures/version 4.1/app-pro-logo-rounded-small.png"; sourceTree = "<group>"; };
+		6663A0921B652D8F00DC20D0 /* app-pro-logo-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded.png"; path = "Pictures/version 4.1/app-pro-logo-rounded.png"; sourceTree = "<group>"; };
+		6663A0961B652F0F00DC20D0 /* launch-screen-bkgrnd-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launch-screen-bkgrnd-1.png"; path = "Pictures/version 4.1/launch-screen-bkgrnd-1.png"; sourceTree = "<group>"; };
+		6663A09A1B66D6F700DC20D0 /* app-pro-logo-rounded2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded2.png"; path = "Pictures/version 4.1/app-pro-logo-rounded2.png"; sourceTree = "<group>"; };
 		666437B719E1478400B82BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		666437B819E1478400B82BE5 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		666437B919E1478400B82BE5 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
@@ -1057,6 +1069,8 @@
 		66DAE1FF19C61AF60039081D /* LocationsAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsAnnotation.h; sourceTree = "<group>"; };
 		66DAE20019C61AF60039081D /* LocationsAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsAnnotation.m; sourceTree = "<group>"; };
 		66DAE20219C624E90039081D /* white-dot-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "white-dot-16.png"; path = "Pictures/New Version 2.0/white-dot-16.png"; sourceTree = "<group>"; };
+		66E272641B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded2-medium.png"; path = "Pictures/version 4.1/app-pro-logo-rounded2-medium.png"; sourceTree = "<group>"; };
+		66E272651B681C8A00FB7052 /* app-pro-logo-rounded2-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded2-small.png"; path = "Pictures/version 4.1/app-pro-logo-rounded2-small.png"; sourceTree = "<group>"; };
 		66E62D841AEED0F9009111B5 /* dropped-pin-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropped-pin-100.png"; path = "Pictures/Version 2.3/dropped-pin-100.png"; sourceTree = "<group>"; };
 		66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Edit-gray-100.png"; path = "Pictures/Version 3.1/Edit-gray-100.png"; sourceTree = "<group>"; };
 		66EBBE4219A01B35006A2128 /* Transport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transport.m; sourceTree = "<group>"; };
@@ -1298,6 +1312,13 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66E272641B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png */,
+				66E272651B681C8A00FB7052 /* app-pro-logo-rounded2-small.png */,
+				6663A09A1B66D6F700DC20D0 /* app-pro-logo-rounded2.png */,
+				6663A0961B652F0F00DC20D0 /* launch-screen-bkgrnd-1.png */,
+				6663A0901B652D8F00DC20D0 /* app-pro-logo-rounded-midium.png */,
+				6663A0911B652D8F00DC20D0 /* app-pro-logo-rounded-small.png */,
+				6663A0921B652D8F00DC20D0 /* app-pro-logo-rounded.png */,
 				66F6CED71B51197500F934A2 /* reminders2-100.png */,
 				6675BA601B5110AC002EB83C /* reminders-100.png */,
 				660716141B49399700033049 /* Info-red-filled-50.png */,
@@ -2596,6 +2617,7 @@
 				660E2F781B34386400CE670E /* restaurant-100.png in Resources */,
 				66F099A41AED222B00F20D34 /* dropped-pins-3.0.png in Resources */,
 				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
+				6663A0941B652D8F00DC20D0 /* app-pro-logo-rounded-small.png in Resources */,
 				664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */,
 				66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */,
 				664749E71AE6D7E00050137E /* previous-green-100.png in Resources */,
@@ -2608,6 +2630,8 @@
 				66F1382B1992F54000B52B6B /* busStopAnnotation-small-blue.png in Resources */,
 				66F3B1311AC861ED0038BA78 /* star-line-white-100.png in Resources */,
 				66134C051B41EB320008C6D7 /* globe-filled-100.png in Resources */,
+				6663A0931B652D8F00DC20D0 /* app-pro-logo-rounded-midium.png in Resources */,
+				66E272661B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png in Resources */,
 				6682D2491ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png in Resources */,
 				66F1383A19976A5800B52B6B /* Images-2.xcassets in Resources */,
 				664E28961AE0429C00BE2457 /* map-green-100.png in Resources */,
@@ -2642,6 +2666,7 @@
 				66D6EDB519A0A5F100FEB9FD /* circle-notfilled-50.png in Resources */,
 				665885B11B0A480B0044F514 /* trainVAnnot.png in Resources */,
 				665885AF1B0A480B0044F514 /* BusVAnnot.png in Resources */,
+				6663A0971B652F0F00DC20D0 /* launch-screen-bkgrnd-1.png in Resources */,
 				664ADFF21992740F000B4F18 /* star-75.png in Resources */,
 				66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */,
 				6607160F1B4871C300033049 /* password-50.png in Resources */,
@@ -2739,6 +2764,7 @@
 				6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */,
 				66134C011B4067860008C6D7 /* dark-dotted-line-long.png in Resources */,
 				664E28751AD92DEC00BE2457 /* school-100_grey.png in Resources */,
+				6663A0951B652D8F00DC20D0 /* app-pro-logo-rounded.png in Resources */,
 				66D42695198FBB0F0080F21E /* Message-Warning-128.png in Resources */,
 				669602D71B14DC12006919CB /* Search-green-100.png in Resources */,
 				66D426A31990F7020080F21E /* busStopAnnotation.png in Resources */,
@@ -2799,10 +2825,12 @@
 				66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */,
 				66D4269B198FC0000080F21E /* disruption-info-128.png in Resources */,
 				66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */,
+				6663A09B1B66D6F700DC20D0 /* app-pro-logo-rounded2.png in Resources */,
 				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100_grey.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
 				660716151B49399700033049 /* Info-red-filled-50.png in Resources */,
+				66E272671B681C8A00FB7052 /* app-pro-logo-rounded2-small.png in Resources */,
 				669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */,
 				661ABBFB199D5DB500F93894 /* bus-orange-128.png in Resources */,
 				667B98221AD3294C00C45ADF /* city-center-100_grey.png in Resources */,
@@ -3195,7 +3223,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC1FE501124ADF8164BA63D3 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
@@ -3219,7 +3247,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;

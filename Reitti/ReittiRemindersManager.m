@@ -8,6 +8,7 @@
 
 #import "ReittiRemindersManager.h"
 #import "ReittiStringFormatter.h"
+#import "ReittiNotificationHelper.h"
 #import "CoreDataManager.h"
 #import <EventKit/EventKit.h>
 
@@ -39,14 +40,14 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 -(id)init{
-    _eventStore = [[EKEventStore alloc] init];
-    
-    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
-                                completion:^(BOOL granted, NSError *error) {
-                                    if (!granted){
-                                        NSLog(@"Access to store not granted");
-                                    }
-                                }];
+//    _eventStore = [[EKEventStore alloc] init];
+//    
+//    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
+//                                completion:^(BOOL granted, NSError *error) {
+//                                    if (!granted){
+//                                        NSLog(@"Access to store not granted");
+//                                    }
+//                                }];
     reminderMessageFormater = @"Your ride will leave in %d minutes.";
     
     self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
@@ -136,6 +137,39 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     return YES;
 }
 
+-(void)setNotificationWithMinOffset:(int)minute andHourString:(NSString *)timeString{
+    
+    if ([self isLocalNotificationEnabled]) {
+        NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minute];
+        
+        if (date == nil) {
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting notifications failed."];
+
+            return;
+        }
+        
+        if ([[NSDate date] compare:date] == NSOrderedDescending ) {
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already past."];
+        }else{
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
+            [self scheduleOneTimeNotificationForDate:date andMessage:[NSString stringWithFormat:reminderMessageFormater, minute]];
+        }
+        
+    }else{
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Notifications Granted"                                                                                      message:@"Please grant access to Notifications from Settings to use this feature."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:@"Settings",nil];
+        [alertView show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        [self openAppSettings];
+    }
+}
+
 #pragma mark - Local 
 +(BOOL)isFirstRequest{
     NSString *isAlradyRequested = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
@@ -206,7 +240,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 -(void)recreateAllNotificationsForRoutines:(NSArray *)routines{
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self cancelAllRoutineLocalNotification];
     
     for (RoutineEntity *routine in routines) {
         if (routine.isEnabled) {
@@ -293,9 +327,25 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     //    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
+-(void)scheduleOneTimeNotificationForDate:(NSDate *)date andMessage:(NSString *)body{
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.alertBody = body;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    
+    localNotification.userInfo = nil;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.fireDate = date;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
 
--(void)cancelAllLocalNotification{
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+-(void)cancelAllRoutineLocalNotification{
+    NSArray *allNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    for (UILocalNotification *notification in allNotifications) {
+        if ([self isRoutineNotification:notification]) {
+            [[UIApplication sharedApplication] cancelLocalNotification:notification];
+        }
+    }
 }
 
 -(NSString *)uniqueNameForRoutine:(RoutineEntity *)routine{
@@ -315,6 +365,10 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 #pragma mark - Static Helpers
+-(BOOL)isRoutineNotification:(UILocalNotification *)notification{
+    return notification.userInfo != nil;
+}
+
 +(NSString *)displayStringForSeletedDays:(NSArray *)daysList{
     if (daysList.count == 0) {
         return @"Never";
@@ -355,6 +409,10 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
              [NSNumber numberWithInt:WeekDayFriday],
              [NSNumber numberWithInt:WeekDaySaturday],
              [NSNumber numberWithInt:WeekDaySunday]];
+}
+
+- (void)openAppSettings{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
 
 #pragma mark - Core data Methods

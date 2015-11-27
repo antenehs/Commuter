@@ -28,7 +28,7 @@
 - (void)deletedSavedStop:(StopEntity *)busStop;
 @end
 
-@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate>{
+@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, RettiDataManagerDelegate, UIActionSheetDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate, UIAlertViewDelegate>{
     
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;
@@ -59,7 +59,6 @@
     UIButton *fullTimeTableButton;
     
     EKEventStore * _eventStore;
-    ReittiRemindersManager * reittiReminderManager;
     BOOL stopFetched;
     bool stopBookmarked;
     NSString *timeToSetAlarm;
@@ -95,6 +94,7 @@
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager * settingsManager;
+@property (strong, nonatomic) ReittiRemindersManager * reittiReminderManager;
 
 //@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 

@@ -16,12 +16,16 @@ extern NSString *kRoutineNotificationToName;
 extern NSString *kRoutineNotificationToCoords;
 extern NSString *kRoutineNotificationUniqueName;
 
-@interface ReittiRemindersManager : NSObject
+@interface ReittiRemindersManager : NSObject<UIAlertViewDelegate>
 
 +(id)sharedManger;
 
--(BOOL)isAppAutorizedForReminders;
--(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString;
+
+/*Uncomment the following to have reminders*/
+//-(BOOL)isAppAutorizedForReminders;
+//-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString;
+
+-(void)setNotificationWithMinOffset:(int)minute andHourString:(NSString *)timeString;
 
 +(BOOL)isFirstRequest;
 -(BOOL)isLocalNotificationEnabled;

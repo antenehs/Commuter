@@ -54,7 +54,8 @@
 }
 
 - (void)initUserDefaults{
-    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+//    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
 }
 
 -(void)readSelectedStops{

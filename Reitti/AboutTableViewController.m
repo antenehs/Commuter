@@ -116,7 +116,7 @@
 }
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
 }
 
 - (IBAction)openHSLSiteButtonPressed:(id)sender {
@@ -186,7 +186,7 @@
         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
         
         [controller setInitialText:@"Easy way to get HSL timetables and routes!Check Commuter out."];
-        [controller addURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+        [controller addURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
         [controller addImage:[UIImage imageNamed:@"app-icon-v-2.4.png"]];
         
         [self presentViewController:controller animated:YES completion:Nil];
@@ -207,7 +207,7 @@
         SLComposeViewController *tweetSheet = [SLComposeViewController
                                                composeViewControllerForServiceType:SLServiceTypeTwitter];
         [tweetSheet setInitialText:@"Easy way to get HSL timetables and routes!Check Commuter out."];
-        [tweetSheet addURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+        [tweetSheet addURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
         [tweetSheet addImage:[UIImage imageNamed:@"app-icon-v-2.4.png"]];
         [self presentViewController:tweetSheet animated:YES completion:nil];
     }else{

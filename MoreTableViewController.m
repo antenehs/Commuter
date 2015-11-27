@@ -126,7 +126,10 @@
     }else if (section == 1) {
         return 1;
     }else{
+        return 3;
+        /* Return 4 to add new in this version
         return 4;
+         */
     }
 }
 
@@ -154,9 +157,11 @@
     }else{
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell" forIndexPath:indexPath];
-        }else if (indexPath.row == 1) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"newInVersionCell" forIndexPath:indexPath];
-        }else if (indexPath.row == 2) {
+        }
+//        else if (indexPath.row == 1) {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"newInVersionCell" forIndexPath:indexPath];
+//        }
+        else if (indexPath.row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"contactMeCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"rateCell" forIndexPath:indexPath];
@@ -212,7 +217,7 @@
 }
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

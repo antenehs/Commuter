@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A244d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="darkGradientBkgrnd.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="6Yj-Sk-HRU">
+                <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch-screen-bkgrnd-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Yj-Sk-HRU">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                     <animations/>
                 </imageView>
@@ -23,7 +23,11 @@
                         <constraint firstAttribute="width" constant="100" id="z4I-K0-omb"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-logo-rounded.png" translatesAutoresizingMaskIntoConstraints="NO" id="DG1-Lg-mHX">
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="kPs-8U-jCa">
+                    <rect key="frame" x="231" y="405" width="20" height="20"/>
+                    <animations/>
+                </activityIndicatorView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2.png" translatesAutoresizingMaskIntoConstraints="NO" id="DG1-Lg-mHX">
                     <rect key="frame" x="150" y="70" width="180" height="180"/>
                     <animations/>
                     <constraints>
@@ -43,10 +47,6 @@
                         </mask>
                     </variation>
                 </imageView>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="kPs-8U-jCa">
-                    <rect key="frame" x="231" y="405" width="20" height="20"/>
-                    <animations/>
-                </activityIndicatorView>
             </subviews>
             <animations/>
             <color key="backgroundColor" red="0.14901960784313725" green="0.19607843137254902" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
@@ -76,8 +76,8 @@
         </view>
     </objects>
     <resources>
-        <image name="app-logo-rounded.png" width="364" height="368"/>
-        <image name="darkGradientBkgrnd.jpeg" width="707" height="1193"/>
+        <image name="app-pro-logo-rounded2.png" width="1034" height="1047"/>
         <image name="ewketapps-logo.png" width="281" height="65"/>
+        <image name="launch-screen-bkgrnd-1.png" width="3731" height="2493"/>
     </resources>
 </document>

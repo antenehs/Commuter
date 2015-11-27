@@ -41,7 +41,8 @@
     self.enoughCatchedDepartures = NO;
     [self setUpView];
     
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+//    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
     [self fetchSavedStopsFromDefaults];
     
     totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
@@ -185,17 +186,17 @@
 #pragma mark - ibactions
 - (IBAction)searchRouteButtonClicked:(id)sender {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?routeSearch"];
+    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?routeSearch"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 - (IBAction)openBookmarksButtonClicked:(id)sender {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?bookmarks"];
+    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?bookmarks"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 - (IBAction)openWidgetSettings {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterMainApp://?widgetSettings"];
+    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?widgetSettings"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
@@ -203,7 +204,7 @@
 {
     UITouch *touch = [touches anyObject];
     if (touch.view == infoLabel) {
-        NSURL *url = [NSURL URLWithString:@"CommuterMainApp://"];
+        NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://"];
         [self.extensionContext openURL:url completionHandler:nil];
     }
 }
@@ -331,7 +332,7 @@
 }
 
 -(void)openBusStop:(BusStopE *)stop{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"CommuterMainApp://?openStop-%d",[stop.code intValue]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"CommuterProMainApp://?openStop-%d",[stop.code intValue]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 

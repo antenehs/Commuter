@@ -98,6 +98,7 @@
 {
     NSString *selectedToneName = [self.dataToLoad objectAtIndex:indexPath.row];
     [self.delegate selectedTone:selectedToneName];
+    self.selectedTone = selectedToneName;
     
     if(self.checkedIndexPath && ![self.checkedIndexPath isEqual:indexPath])
     {

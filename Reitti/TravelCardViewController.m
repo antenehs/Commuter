@@ -126,8 +126,8 @@ NSString *ACCurrentProcessRenameCard = @"ACCurrentProcessRenameCard";
     }
     
     //Temporary.. for testing only
-    usernameTextbox.text = @"rebekah";
-    passwordTextbox.text = @"Bsonofgod.1";
+//    usernameTextbox.text = @"rebekah";
+//    passwordTextbox.text = @"Bsonofgod.1";
 }
 
 -(void)hideLoginView:(BOOL)hidden animated:(BOOL)animated{
