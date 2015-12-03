@@ -22,7 +22,7 @@
 @interface APIClient : NSObject
 
 -(id)init;
--(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize numberOfResults:(int)numOfResults;
+-(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate andParams:(NSDictionary *)params;
 -(void)searchGeocodeForKey:(NSString *)key;
 -(void)searchAddressForCoordinate:(NSString *)coords;
 -(void)getStopInfoForCode:(NSString *)code;

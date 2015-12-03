@@ -56,9 +56,15 @@ typedef enum
     }
     
     currentLocationText = @"Current location";
-    selectedTimeType = SelectedTimeNow;
-    selectedTime = [NSDate date];
-    selectedSearchOption = RouteSearchOptionFastest;
+//    selectedTimeType = RouteTimeNow;
+    
+    localRouteSearchOptions = [[self.settingsManager globalRouteOptions] copy];
+    if (localRouteSearchOptions == nil)
+        localRouteSearchOptions = [RouteSearchOptions defaultOptions];
+    
+    localRouteSearchOptions.date = [NSDate date];
+    localRouteSearchOptions.selectedTimeType = RouteTimeNow;
+    
     refreshingRouteTable = NO;
     nextRoutesRequested = NO;
     prevRoutesRequested = NO;
@@ -76,7 +82,6 @@ typedef enum
     [self hideToolBar:YES animated:NO];
     [self setNeedsStatusBarAppearanceUpdate];
     [self initLocationManager];
-    [self selectSystemColors];
     [self setUpMainView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -140,15 +145,18 @@ typedef enum
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationValueChanged:)
-                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
+                                                 name:userlocationChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeSearchOptionsChanged:)
+                                                 name:routeSearchOptionsChangedNotificationName object:nil];
 }
 
 
 - (void)refreshData {
     //update time to now and reload route.
     if ([[[self.routeList firstObject] getStartingTimeOfRoute] timeIntervalSinceNow] < -300) {
-        selectedTime = [NSDate date];
-        [self setSelectedTimesForDate:selectedTime];
+        localRouteSearchOptions.date = [NSDate date];
+        [self setSelectedTimesForDate:localRouteSearchOptions.date];
         [self searchRouteIfPossible];
     }
     
@@ -157,8 +165,8 @@ typedef enum
     [self setUpMergedBookmarksAndHistory];
     
     if (self.tableViewMode == TableViewModeSuggestions) {
-        selectedTime = [NSDate date];
-        [self setSelectedTimesForDate:selectedTime];
+        localRouteSearchOptions.date = [NSDate date];
+        [self setSelectedTimesForDate:localRouteSearchOptions.date];
         
         [routeResultsTableView reloadData];
     }
@@ -176,18 +184,6 @@ typedef enum
     self.savedRoutes = [NSMutableArray arrayWithArray:_savedRoutes];
     self.recentRoutes = [NSMutableArray arrayWithArray:_recentRoutes];
     self.namedBookmarks = [NSMutableArray arrayWithArray:_namedBookmarks];
-}
-
-- (void)selectSystemColors{
-    if (self.darkMode) {
-        systemBackgroundColor = [UIColor clearColor];
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor lightGrayColor];
-    }else{
-        systemBackgroundColor = nil;
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor darkGrayColor];
-    }
 }
 
 -(void)setMainTableViewMode:(TableViewMode)tblViewMode{
@@ -212,49 +208,9 @@ typedef enum
     toFieldBackView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     toFieldBackView.layer.cornerRadius = 5;
     
-    [timeSelectionView setBlurTintColor:[UIColor whiteColor]];
-    timeSelectionView.layer.borderWidth = 0.5;
-    timeSelectionView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-    
-    datePicker.tintColor = systemSubTextColor;
-    timeTypeSegmentControl.tintColor = [UIColor darkGrayColor];
-    
-    timeTypeSegmentControl.selectedSegmentIndex = (int)selectedTimeType;
-    
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"HHmm"];
-//    NSString *time = [dateFormat stringFromDate:[NSDate date]];
-//    selectedTimeString = time;
-//    
-//    
-//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-//    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-//    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
-//    selectedDateString = date;
-    
-//    [self setSelectedTimeToTimeLabel:[NSDate date] andTimeType:SelectedTimeDeparture];
-    
-//    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-//    [dateFormat3 setDateFormat:@"HH:mm"];
-//    NSString *prettyVersion = [dateFormat3 stringFromDate:[NSDate date]];
-//    
-//    selectedTimeLabel.text = [NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-    
-    selectedTimeType = SelectedTimeDeparture;
+    localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
     [self setSelectedTimesForDate:[NSDate date]];
-    
-    timeSelectionViewShadeView.frame = self.view.frame;
-    timeSelectionViewShadeView.hidden = YES;
-    
-//    searchActivityIndicator.tintColor = systemSubTextColor;
-    
-    //fromSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
-    //toSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
-    
-    searchOptionSelectionView.hidden = YES;
-    [searchOptionSelectionView setBlurTintColor:systemBackgroundColor];
-    
-//    [self hideTimeSelectionView:YES animated:NO];
+
     if (prevFromLocation != nil) {
         if ([prevFromLocation isEqualToString:currentLocationText]) {
             [self setCurrentLocationIfAvailableToFromSearchBar];
@@ -625,202 +581,87 @@ typedef enum
 
 #pragma mark - IBActions
 - (IBAction)cancelButtonPressed:(id)sender {
-//    [toSearchBar resignFirstResponder];
-//    [fromSearchBar resignFirstResponder];
-//    [SVProgressHUD dismiss];
     [self dismissViewControllerAnimated:YES completion:^{
         [self.viewCycledelegate routeSearchViewControllerDismissed];
     }];
 }
-/*
-- (IBAction)timeSElectionButtonClicked:(id)sender {
-//    [self hideTimeSelectionView:![self isTimeSelectionViewVisible] animated:YES];
-}
-
--(IBAction)tapGestureDetectedOnShade:(UIGestureRecognizer *)sender{
-//   [self hideTimeSelectionView:YES animated:YES];
-}
-*/
-
-/*
-- (IBAction)timeSelectionIsDone:(id)sender {
-    
-    [self hideTimeSelectionView:YES animated:YES];
-    NSDate *currentTime = [NSDate date];
-    NSDate *myDate;
-    if(selectedTimeType == SelectedTimeNow){
-        myDate = currentTime;
-        datePicker.date = currentTime;
-    }else{
-        myDate = datePicker.date;
-    }
-    
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:myDate];
-    selectedTimeString = time;
-    
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:myDate];
-    selectedDateString = date;
-    
-    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-    [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-    NSString *prettyVersion = [dateFormat3 stringFromDate:myDate];
-    
-    switch (selectedTimeType) {
-        case SelectedTimeNow:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
-            break;
-            
-        case SelectedTimeDeparture:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departes at: %@", prettyVersion];
-            break;
-            
-        case SelectedTimeArrival:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
-            break;
-            
-        default:
-            break;
-    }
-    
-    [self searchRouteIfPossible];
-}
-*/
-
-/*
-- (IBAction)timeTypeChanged:(id)sender {
-    selectedTimeType = (int)timeTypeSegmentControl.selectedSegmentIndex;
-    if (timeTypeSegmentControl.selectedSegmentIndex == 0) {
-        [datePicker setDate:[NSDate date]];
-    }
-}
-*/
-
-/*
-- (IBAction)datePickerValueChanged:(id)sender {
-    if (selectedTimeType == SelectedTimeNow) {
-        selectedTimeType = SelectedTimeDeparture;
-    }
-    
-    timeTypeSegmentControl.selectedSegmentIndex = (int)selectedTimeType;
-}
-
-- (IBAction)routeOptionButtonClicked:(id)sender {
-    searchOptionSelectionView.hidden = !searchOptionSelectionView.hidden;
-}
-
-- (IBAction)routeOptionSegmentControlValueChanged:(id)sender {
-    selectedSearchOption = (int)searchOptionSegmentControl.selectedSegmentIndex;
-    [self searchRouteIfPossible];
-    searchOptionSelectionView.hidden = YES;
-}
- */
 
 - (IBAction)nextRoutesButtonPressed:(id)sender {
-    if (selectedTimeType == SelectedTimeNow) {
-        selectedTimeType = SelectedTimeDeparture;
-        timeTypeSegmentControl.selectedSegmentIndex = (int)selectedTimeType;
-    }
+    if (localRouteSearchOptions.selectedTimeType == RouteTimeNow)
+        localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
     
     Route *lastRoute;
     NSDate *lastTime;
-    if(selectedTimeType == SelectedTimeArrival){
+    
+    if (self.routeList.count == 1) {
         lastRoute = [self.routeList objectAtIndex:0];
-        if (lastRoute == nil)
-            return;
-        
-        selectedTimeType = SelectedTimeDeparture;
-        nextRoutesRequested = YES;
-        
-        lastTime = lastRoute.getEndingTimeOfRoute;
-        
+        if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
+            lastTime = [lastRoute.getEndingTimeOfRoute dateByAddingTimeInterval:300];
+        }else{
+            lastTime = [lastRoute.getStartingTimeOfRoute dateByAddingTimeInterval:300];
+        }
     }else{
-        lastRoute = [self.routeList lastObject];
-        if (lastRoute == nil)
-            return;
-        lastTime = lastRoute.getStartingTimeOfRoute;
+        if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
+            lastRoute = [self.routeList objectAtIndex:0];
+            if (lastRoute == nil)
+                return;
+            
+            localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
+            nextRoutesRequested = YES;
+            
+            lastTime = lastRoute.getEndingTimeOfRoute;
+            
+        }else{
+            lastRoute = [self.routeList lastObject];
+            if (lastRoute == nil)
+                return;
+            lastTime = lastRoute.getStartingTimeOfRoute;
+        }
     }
     
     [self setSelectedTimesForDate:lastTime];
-    
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"HHmm"];
-//    NSString *time = [dateFormat stringFromDate:lastTime];
-//    selectedTimeString = time;
-//    
-//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-//    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-//    NSString *date = [dateFormat2 stringFromDate:lastTime];
-//    selectedDateString = date;
-//    
-//    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-//    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-//    NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
-//    
-//    if (selectedTimeType == SelectedTimeArrival) {
-//        selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
-//    }else{
-//        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-//    }
     
     [self searchRouteIfPossible];
 }
 
 - (IBAction)currentTimeRoutesButtonPressed:(id)sender {
-    selectedTimeType = SelectedTimeNow;
-    timeTypeSegmentControl.selectedSegmentIndex = (int)SelectedTimeNow;
+    localRouteSearchOptions.selectedTimeType = RouteTimeNow;
+//    timeTypeSegmentControl.selectedSegmentIndex = (int)RouteTimeNow;
     [self reloadCurrentSearch];
 }
 
 - (IBAction)previousRoutesButtonPressed:(id)sender {
-    if (selectedTimeType == SelectedTimeNow) {
-        selectedTimeType = SelectedTimeDeparture;
-        timeTypeSegmentControl.selectedSegmentIndex = (int)selectedTimeType;
-
-    }
+    if (localRouteSearchOptions.selectedTimeType == RouteTimeNow)
+        localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
     
     Route *lastRoute;
     NSDate *lastTime;
-    if(selectedTimeType == SelectedTimeArrival){
-        lastRoute = [self.routeList lastObject];
-        if (lastRoute == nil)
-            return;
-        lastTime = lastRoute.getEndingTimeOfRoute;
-    }else{
+    if (self.routeList.count == 1) {
         lastRoute = [self.routeList objectAtIndex:0];
-        if (lastRoute == nil)
-            return;
-        selectedTimeType = SelectedTimeArrival;
-        prevRoutesRequested = YES;
-        
-        lastTime = lastRoute.getEndingTimeOfRoute;
+        if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
+            lastTime = [lastRoute.getEndingTimeOfRoute dateByAddingTimeInterval:-300];
+        }else{
+            lastTime = [lastRoute.getStartingTimeOfRoute dateByAddingTimeInterval:-300];
+        }
+    }else{
+        if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
+            lastRoute = [self.routeList lastObject];
+            if (lastRoute == nil)
+                return;
+            lastTime = lastRoute.getEndingTimeOfRoute;
+        }else{
+            lastRoute = [self.routeList objectAtIndex:0];
+            if (lastRoute == nil)
+                return;
+            localRouteSearchOptions.selectedTimeType = RouteTimeArrival;
+            prevRoutesRequested = YES;
+            
+            lastTime = lastRoute.getEndingTimeOfRoute;
+        }
     }
     
     [self setSelectedTimesForDate:lastTime];
-    
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"HHmm"];
-//    NSString *time = [dateFormat stringFromDate:lastTime];
-//    selectedTimeString = time;
-//    
-//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-//    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-//    NSString *date = [dateFormat2 stringFromDate:lastTime];
-//    selectedDateString = date;
-//    
-//    NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-//    [self isSameDateAsToday:lastTime] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-//    NSString *prettyVersion = [dateFormat3 stringFromDate:lastTime];
-//    
-//    if (selectedTimeType == SelectedTimeArrival) {
-//        selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
-//    }else{
-//        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-//    }
-    
+
     [self searchRouteIfPossible];
 }
 
@@ -930,20 +771,14 @@ typedef enum
 
 #pragma mark - route search delegates
 - (void)routeSearchDidComplete:(NSArray *)searchedRouteList{
-    if (nextRoutesRequested) {
-        if (selectedTimeType == SelectedTimeDeparture) {
-            selectedTimeType = SelectedTimeArrival;
+    if (nextRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 1) {
+        if (localRouteSearchOptions.selectedTimeType == RouteTimeDeparture) {
+            localRouteSearchOptions.selectedTimeType = RouteTimeArrival;
             
             Route *firstRoute = [searchedRouteList objectAtIndex:0];
             Route *secondRoute = [searchedRouteList objectAtIndex:1];
             
             [self setSelectedTimesForDate:secondRoute.getEndingTimeOfRoute];
-            
-            NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-            [self isSameDateAsToday:secondRoute.getEndingTimeOfRoute] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-            NSString *prettyVersion = [dateFormat3 stringFromDate:secondRoute.getEndingTimeOfRoute];
-            
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
             
             [self.routeList removeLastObject];
             [self.routeList removeLastObject];
@@ -955,20 +790,14 @@ typedef enum
             
         }
         nextRoutesRequested = NO;
-    }else if (prevRoutesRequested){
-        if (selectedTimeType == SelectedTimeArrival){
-            selectedTimeType = SelectedTimeDeparture;
+    }else if (prevRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 1){
+        if (localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
+            localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
             
             Route *firstRoute = [searchedRouteList objectAtIndex:0];
             Route *secondRoute = [searchedRouteList objectAtIndex:1];
             
             [self setSelectedTimesForDate:secondRoute.getStartingTimeOfRoute];
-            
-            NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-            [self isSameDateAsToday:secondRoute.getStartingTimeOfRoute] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-            NSString *prettyVersion = [dateFormat3 stringFromDate:secondRoute.getStartingTimeOfRoute];
-            
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
             
             [self.routeList removeLastObject];
             [self.routeList removeLastObject];
@@ -995,9 +824,9 @@ typedef enum
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
     [self.refreshControl endRefreshing];
     
-    if (!searchOptionSelectionView.hidden) {
-        searchOptionSelectionView.hidden = YES;
-    }
+//    if (!searchOptionSelectionView.hidden) {
+//        searchOptionSelectionView.hidden = YES;
+//    }
     
     if (![fromSearchBar.text isEqualToString:currentLocationText] || ![toSearchBar.text isEqualToString:currentLocationText]) {
         [self.reittiDataManager saveRouteHistoryToCoreData:fromString fromCoords:fromCoords andToLocation:toString toCoords:toCoords];
@@ -1033,53 +862,25 @@ typedef enum
 }
 #pragma mark - routeSearchOptionSelection
 -(void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions{
-    selectedTimeType = routeOptions.selectedTimeType;
-    selectedSearchOption = routeOptions.routeSearchOption;
+    localRouteSearchOptions.selectedTimeType = routeOptions.selectedTimeType;
+    localRouteSearchOptions.selectedRouteSearchOptimization = routeOptions.selectedRouteSearchOptimization;
     
     NSDate *currentTime = [NSDate date];
     
-    if(selectedTimeType == SelectedTimeNow){
-        selectedTime = currentTime;
+    if(localRouteSearchOptions.selectedTimeType == RouteTimeNow){
+        localRouteSearchOptions.date = currentTime;
     }else{
-        selectedTime = routeOptions.date;
+        localRouteSearchOptions.date = routeOptions.date;
     }
     
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:selectedTime];
-    selectedTimeString = time;
+    localRouteSearchOptions.selectedRouteTrasportTypes = routeOptions.selectedRouteTrasportTypes;
+    localRouteSearchOptions.selectedTicketZone = routeOptions.selectedTicketZone;
+    localRouteSearchOptions.selectedChangeMargine = routeOptions.selectedChangeMargine;
+    localRouteSearchOptions.selectedWalkingSpeed = routeOptions.selectedWalkingSpeed;
     
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:selectedTime];
-    selectedDateString = date;
-    
-    [self setSelectedTimeToTimeLabel:selectedTime andTimeType:selectedTimeType];
+    [self setSelectedTimesForDate:localRouteSearchOptions.date];
     
     [self searchRouteIfPossible];
-}
-
-- (void)setSelectedTimeToTimeLabel:(NSDate *)time andTimeType:(SelectedTimeType)timeType{
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [self isSameDateAsToday:time] ? [dateFormat setDateFormat:@"HH:mm"] : [dateFormat setDateFormat:@"d.MM.yy HH:mm"];
-    NSString *prettyVersion = [dateFormat stringFromDate:time];
-    
-    switch (timeType) {
-        case SelectedTimeNow:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-            break;
-            
-        case SelectedTimeDeparture:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
-            break;
-            
-        case SelectedTimeArrival:
-            selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
-            break;
-            
-        default:
-            break;
-    }
 }
 
 #pragma mark - TableViewMethods
@@ -1584,6 +1385,14 @@ typedef enum
     [self.reittiDataManager setUserLocation:[self.settingsManager userLocation]];
 }
 
+-(void)routeSearchOptionsChanged:(id)sender {
+    localRouteSearchOptions = [[self.settingsManager globalRouteOptions] copy];
+    
+    localRouteSearchOptions.date = [NSDate date];
+    
+    [self searchRouteIfPossible];
+}
+
 #pragma mark - helper methods
 -(void)searchRouteIfPossible{
     if (fromCoords != nil && toCoords != nil && (![fromSearchBar.text isEqualToString:@""] && fromSearchBar.text != nil) && (![toSearchBar.text isEqualToString:@""] && toSearchBar.text != nil)) {
@@ -1593,26 +1402,24 @@ typedef enum
         if ([toSearchBar.text isEqualToString:currentLocationText]) {
             toCoords = [NSString stringWithFormat:@"%f,%f", self.currentUserLocation.coordinate.longitude, self.currentUserLocation.coordinate.latitude];
         }
-        NSString *timeType;
-        if (selectedTimeType == SelectedTimeNow || selectedTimeType == SelectedTimeDeparture) {
-            timeType = @"departure";
-        }else{
-            timeType = @"arrival";
-        }
+//        NSString *timeType;
+//        if (routeSearchOptions.selectedTimeType == RouteTimeNow || routeSearchOptions.selectedTimeType == RouteTimeDeparture) {
+//            timeType = @"departure";
+//        }else{
+//            timeType = @"arrival";
+//        }
         
-        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords time:selectedTimeString andDate:selectedDateString andTimeType:timeType andSearchOption:selectedSearchOption];
+        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions];
+        
         //Remove previous search result from table
         if (!nextRoutesRequested && !prevRoutesRequested) {
             self.routeList = nil;
-//            [self.view layoutSubviews];
             [routeResultsTableView reloadData];
         }
         
-//        [self hideTimeSelectionView:YES animated:YES];
         if (refreshingRouteTable) {
             refreshingRouteTable = NO;
         }else{
-//            [searchActivityIndicator startAnimating];
             [SVProgressHUD showHUDInView:self.view];
         }
         
@@ -1636,11 +1443,10 @@ typedef enum
     fromCoords = fromCoordinates;
     toCoords = toCoordinates;
     
-    selectedSearchOption = RouteSearchOptionFastest;
+    localRouteSearchOptions.selectedRouteSearchOptimization = RouteSearchOptionFastest;
+    localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
     
-    selectedTimeType = SelectedTimeDeparture;
     [self setSelectedTimesForDate:[NSDate date]];
-    
     [self searchRouteIfPossible];
 }
 
@@ -1653,17 +1459,9 @@ typedef enum
 -(void)reloadCurrentSearch{
     NSDate *currentTime = [NSDate date];
     NSDate *myDate;
-    if(selectedTimeType == SelectedTimeNow){
+    if(localRouteSearchOptions.selectedTimeType == RouteTimeNow){
         myDate = currentTime;
-//        datePicker.date = currentTime;
-        
         [self setSelectedTimesForDate:currentTime];
-        
-//        NSDateFormatter *dateFormat3 = [[NSDateFormatter alloc] init];
-//        [self isSameDateAsToday:myDate] ? [dateFormat3 setDateFormat:@"HH:mm"] : [dateFormat3 setDateFormat:@"d.MM.yy HH:mm"];
-//        NSString *prettyVersion = [dateFormat3 stringFromDate:myDate];
-//        
-//        selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
     }
     
     [self searchRouteIfPossible];
@@ -1680,9 +1478,33 @@ typedef enum
     NSString *date1 = [dateFormat2 stringFromDate:date];
     selectedDateString = date1;
     
-    [self setSelectedTimeToTimeLabel:date andTimeType:selectedTimeType];
+    localRouteSearchOptions.date = date;
     
-//    datePicker.date = date;
+    [self setSelectedTimeToTimeLabel:date andTimeType:localRouteSearchOptions.selectedTimeType];
+}
+
+
+- (void)setSelectedTimeToTimeLabel:(NSDate *)time andTimeType:(RouteTimeType)timeType{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [self isSameDateAsToday:time] ? [dateFormat setDateFormat:@"HH:mm"] : [dateFormat setDateFormat:@"d.MM.yy HH:mm"];
+    NSString *prettyVersion = [dateFormat stringFromDate:time];
+    
+    switch (timeType) {
+        case RouteTimeNow:
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
+            break;
+            
+        case RouteTimeDeparture:
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Departs at: %@", prettyVersion];
+            break;
+            
+        case RouteTimeArrival:
+            selectedTimeLabel.text =[NSString stringWithFormat:@"Arrives at: %@", prettyVersion];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 -(BOOL)isSameDateAsToday:(NSDate *)date1{
@@ -1791,7 +1613,8 @@ typedef enum
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager userlocationChangedNotificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:userlocationChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:routeSearchOptionsChangedNotificationName object:nil];
 }
 
 #pragma mark - guesture recognizer
@@ -1858,10 +1681,12 @@ typedef enum
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         RouteOptionsTableViewController *routeOptionsTableViewController = [[navigationController viewControllers] lastObject];
         
-        routeOptionsTableViewController.selectedDate = selectedTime;
-        routeOptionsTableViewController.selectedTimeType = selectedTimeType;
-        routeOptionsTableViewController.selectedSearchOption = selectedSearchOption;
-        
+//        routeOptionsTableViewController.selectedDate = self.;
+//        routeOptionsTableViewController.selectedTimeType = selectedTimeType;
+//        routeOptionsTableViewController.selectedSearchOption = selectedSearchOption;
+//        routeSearchOptions.date = selectedTime;
+        routeOptionsTableViewController.settingsManager = settingsManager;
+        routeOptionsTableViewController.routeSearchOptions = [localRouteSearchOptions copy];
         routeOptionsTableViewController.routeOptionSelectionDelegate = self;
     }
     

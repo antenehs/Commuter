@@ -32,6 +32,7 @@
     [self initDataManagerIfNull];
     
     self.iconName = @"location-75-red.png";
+    self.monochromeIconName = @"location-black-50.png";
     mapView = [[MKMapView alloc] init];
     if (viewControllerMode == ViewControllerModeAddNewAddress) {
         showMap = false;
@@ -45,6 +46,7 @@
             self.addressTypeDictionary = [self getTypeDictionaryForName:preSelectType];
             if (self.addressTypeDictionary != nil) {
                 self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
+                self.monochromeIconName = [self.addressTypeDictionary objectForKey:@"MonochromePicture"] == nil ? @"location-black-50.png" : [self.addressTypeDictionary objectForKey:@"MonochromePicture"];
             }else{
                 [self performSegueWithIdentifier:@"chooseType" sender:self];
             }
@@ -90,12 +92,14 @@
     if (viewControllerMode == ViewControllerModeAddNewAddress) {
         self.name = [self.addressTypeDictionary objectForKey:@"Name"];
         self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
+        self.monochromeIconName = [self.addressTypeDictionary objectForKey:@"MonochromePicture"] == nil ? @"location-black-50.png" : [self.addressTypeDictionary objectForKey:@"MonochromePicture"];
     }else if (viewControllerMode == ViewControllerModeViewNamedBookmark){
         self.name = self.namedBookmark.name;
         self.streetAddress = self.namedBookmark.streetAddress;
         self.city = self.namedBookmark.city;
         self.coords = self.namedBookmark.coords;
         self.iconName = self.namedBookmark.iconPictureName;
+        self.monochromeIconName = self.namedBookmark.monochromeIconName;
         self.searchedName = self.namedBookmark.searchedName;
         
         self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", [self.namedBookmark streetAddress], [self.namedBookmark city]];
@@ -111,6 +115,7 @@
         self.city = self.geoCode.city;
         self.coords = self.geoCode.coords;
         self.iconName = @"location-75-red.png";
+        self.monochromeIconName = @"location-black-50.png";
         
         self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", self.streetAddress, self.city];
     }
@@ -425,6 +430,7 @@
         newBookmark.city = self.city;
         newBookmark.coords = self.coords;
         newBookmark.iconPictureName = self.iconName;
+        newBookmark.monochromeIconName = self.monochromeIconName;
         newBookmark.searchedName = self.searchedName;
         
         BOOL dataSaved = NO;
@@ -584,6 +590,7 @@
     self.addressTypeDictionary = stopEntity;
     if (viewControllerMode == ViewControllerModeEditAddress) {
         self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
+        self.monochromeIconName = [self.addressTypeDictionary objectForKey:@"MonochromePicture"] == nil ? @"location-black-50.png" : [self.addressTypeDictionary objectForKey:@"MonochromePicture"];
     }else{
         [self updateViewData];
     }

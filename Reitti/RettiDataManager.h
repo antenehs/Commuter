@@ -108,7 +108,7 @@ typedef struct {
 -(void)resetResponseQueues;
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
 
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andSearchOption:(RouteSearchOption)searchOption;
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions;
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)searchAddressesForKey:(NSString *)key;
@@ -174,6 +174,8 @@ typedef struct {
 -(BusStopShort *)castStopEntityToBusStopShort:(StopEntity *)stopEntity;
 
 +(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
+
+-(BOOL)doVersion4_1CoreDataMigration;
 
 @property (strong, nonatomic) NSDictionary *detailLineInfo;
 @property (strong, nonatomic) NSDictionary *stopLinesInfo;

@@ -17,6 +17,11 @@ typedef enum
     SateliteMapMode = 2
 } MapMode;
 
+extern NSString * const mapModeChangedNotificationName;
+extern NSString * const userlocationChangedNotificationName;
+extern NSString * const shouldShowVehiclesNotificationName;
+extern NSString * const routeSearchOptionsChangedNotificationName;
+
 @interface SettingsManager : NSObject
 
 -(id)initWithDataManager:(RettiDataManager *)dataManager;
@@ -26,17 +31,19 @@ typedef enum
 -(BOOL)shouldShowLiveVehicles;
 -(BOOL)isClearingHistoryEnabled;
 -(int)numberOfDaysToKeepHistory;
+-(RouteSearchOptions *)globalRouteOptions;
 
 -(void)setMapMode:(MapMode)mapMode;
 -(void)setUserLocation:(Region)userLocation;
 -(void)showLiveVehicle:(BOOL)show;
 -(void)enableClearingOldHistory:(BOOL)clear;
 -(void)setNumberOfDaysToKeepHistory:(int)days;
+-(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions;
 
 //Notifications
-+(NSString *)mapModeChangedNotificationName;
-+(NSString *)userlocationChangedNotificationName;
-+(NSString *)shouldShowVehiclesNotificationName;
+//+(NSString *)mapModeChangedNotificationName;
+//+(NSString *)userlocationChangedNotificationName;
+//+(NSString *)shouldShowVehiclesNotificationName;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

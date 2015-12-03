@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "SettingDetailedViewController.h"
 #import "SettingsManager.h"
+#import "RouteOptionsTableViewController.h"
 
 @protocol SettingsDelegate <NSObject>
 - (void)settingsValueChanged;

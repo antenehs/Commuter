@@ -36,6 +36,10 @@
         self.settingsManager = homeViewController.settingsManager;
     }
     
+    //Testing
+//    [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+//    RouteSearchOptions *options = [settingsManager globalRouteOptions];
+    
     [self InitMap];
     mainTableView.backgroundColor = [UIColor clearColor];
     
@@ -85,7 +89,7 @@
     }else if (section == 2) {
         return 1;
     }else {
-        return 3;
+        return 4;
     }
 }
 
@@ -110,12 +114,14 @@
         }
         
     }else if (indexPath.section == 3) {
-        
         if (indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"routeSearchOptionsCell"];
+        }
+        else if (indexPath.row == 1) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"liveVehicleCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
             uiSwitch.on = [settingsManager shouldShowLiveVehicles];
-        }else if (indexPath.row == 1) {
+        }else if (indexPath.row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"clearHistoryCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
             uiSwitch.on = [settingsManager isClearingHistoryEnabled];
@@ -256,7 +262,6 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
 }
 
-
 #pragma mark - helper methods
 -(NSArray *)constructLocationsArray{
     
@@ -332,6 +337,16 @@
         WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[segue destinationViewController];
         
         controller.savedStops = [NSMutableArray arrayWithArray:[self.settingsManager.reittiDataManager fetchAllSavedStopsFromCoreData]];
+    }
+    
+    if ([segue.identifier isEqualToString:@"setRouteSearchOptions"]) {
+//        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[segue destinationViewController];
+//        
+//        controller.savedStops = [NSMutableArray arrayWithArray:[self.settingsManager.reittiDataManager fetchAllSavedStopsFromCoreData]];
+        RouteOptionsTableViewController *controller = (RouteOptionsTableViewController *)[segue destinationViewController];
+        controller.globalSettingsMode = YES;
+        controller.settingsManager = self.settingsManager;
+//        controller.routeSearchOptions = [[settingsManager globalRouteOptions] copy];
     }
 }
 

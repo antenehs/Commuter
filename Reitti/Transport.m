@@ -26,6 +26,7 @@
 #import "Transport.h"
 #import "RouteLegLocation.h"
 #import "ReittiStringFormatter.h"
+#import "AppManager.h"
 
 @implementation Transport
 
@@ -114,33 +115,35 @@
         }
     }
     
-    switch (routeLeg.legType) {
-        case LegTypeBus:
-            [imageView setImage:[UIImage imageNamed:@"bus-filled-light-100.png"]];
-            break;
-        case LegTypeTrain:
-            [imageView setImage:[UIImage imageNamed:@"train-filled-light-64.png"]];
-            break;
-        case LegTypeMetro:
-            [imageView setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
-            break;
-        case LegTypeTram:
-            [imageView setImage:[UIImage imageNamed:@"tram-filled-light-64.png"]];
-            break;
-        case LegTypeFerry:
-            [imageView setImage:[UIImage imageNamed:@"boat-filled-light-100.png"]];
-            break;
-        case LegTypeService:
-            [imageView setImage:[UIImage imageNamed:@"service-bus-filled-purple.png"]];
-            break;
-        case LegTypeWalk:
-            [imageView setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
-            break;
-            
-        default:
-            [imageView setImage:[UIImage imageNamed:@"bus-filled-light-100.png"]];
-            break;
-    }
+//    switch (routeLeg.legType) {
+//        case LegTypeBus:
+//            [imageView setImage:[UIImage imageNamed:@"bus-filled-light-100.png"]];
+//            break;
+//        case LegTypeTrain:
+//            [imageView setImage:[UIImage imageNamed:@"train-filled-light-64.png"]];
+//            break;
+//        case LegTypeMetro:
+//            [imageView setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
+//            break;
+//        case LegTypeTram:
+//            [imageView setImage:[UIImage imageNamed:@"tram-filled-light-64.png"]];
+//            break;
+//        case LegTypeFerry:
+//            [imageView setImage:[UIImage imageNamed:@"boat-filled-light-100.png"]];
+//            break;
+//        case LegTypeService:
+//            [imageView setImage:[UIImage imageNamed:@"service-bus-filled-purple.png"]];
+//            break;
+//        case LegTypeWalk:
+//            [imageView setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
+//            break;
+//            
+//        default:
+//            [imageView setImage:[UIImage imageNamed:@"bus-filled-light-100.png"]];
+//            break;
+//    }
+    
+    [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
     
     if (imageView.hidden && !lineNumberLabel.hidden) {
         lineNumberLabel.frame = CGRectMake(0, lineNumberLabel.frame.origin.y, self.frame.size.width, lineNumberLabel.frame.size.height);

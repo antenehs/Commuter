@@ -41,23 +41,23 @@
     IBOutlet UIButton *bookmarkRouteButton;
     
     IBOutlet UIView *searchBarsView;
-    IBOutlet UITableView *searchSuggestionsTableView;
+//    IBOutlet UITableView *searchSuggestionsTableView;
     IBOutlet UIActivityIndicatorView *searchActivityIndicator;
-    IBOutlet AMBlurView *timeSelectionView;
-    IBOutlet UISegmentedControl *timeTypeSegmentControl;
-    IBOutlet UIDatePicker *datePicker;
+//    IBOutlet AMBlurView *timeSelectionView;
+//    IBOutlet UISegmentedControl *timeTypeSegmentControl;
+//    IBOutlet UIDatePicker *datePicker;
     IBOutlet AMBlurView *selectTimeButton;
     IBOutlet UILabel *selectedTimeLabel;
-    IBOutlet UIView *timeSelectionViewShadeView;
+//    IBOutlet UIView *timeSelectionViewShadeView;
 //    UITapGestureRecognizer *timeSelectionShadeTapGestureRecognizer;
     
     UITableViewController *tableViewController;
     
-    IBOutlet AMBlurView *searchOptionSelectionView;
-    IBOutlet UISegmentedControl *searchOptionSegmentControl;
+//    IBOutlet AMBlurView *searchOptionSelectionView;
+//    IBOutlet UISegmentedControl *searchOptionSegmentControl;
     
-    IBOutlet UIScrollView *searchResultScroller;
-    IBOutlet UIButton *loadMoreButton;
+//    IBOutlet UIScrollView *searchResultScroller;
+//    IBOutlet UIButton *loadMoreButton;
     IBOutlet UITableView *routeResultsTableView;
     IBOutlet UIView *routeResultsTableContainerView;
     
@@ -73,8 +73,12 @@
     
     NSString *currentLocationText;
     
-    SelectedTimeType selectedTimeType;
-    NSDate *selectedTime;
+//    RouteTimeType selectedTimeType;
+//    NSDate *selectedTime;
+    
+//    RouteSearchOptimization selectedSearchOption;
+    RouteSearchOptions *localRouteSearchOptions;
+    
     NSString *selectedTimeString;
     NSString *selectedDateString;
     
@@ -83,8 +87,6 @@
     int timerCallCount;
     BOOL tableReloadAnimatedMode;
     int tableRowNumberForAnimation;
-    
-    RouteSearchOption selectedSearchOption;
     
     BOOL routeBookmarked;
     BOOL refreshingRouteTable;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
+#import "RouteSearchOptions.h"
 
 @interface SettingsEntity : NSManagedObject
 
@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSNumber * clearOldHistory;
 @property (nonatomic, retain) NSNumber * numberOfDaysToKeepHistory;
 @property (nonatomic, retain) NSDate   * settingsStartDate;
+@property (nonatomic, retain) RouteSearchOptions *globalRouteOptions;
 
 @end

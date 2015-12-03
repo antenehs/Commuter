@@ -9,6 +9,8 @@
 		<string>Home</string>
 		<key>Picture</key>
 		<string>home-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Home-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -17,6 +19,8 @@
 		<string>Work</string>
 		<key>Picture</key>
 		<string>work-filled-100.png</string>
+		<key>MonochromePicture</key>
+		<string>work-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -25,6 +29,8 @@
 		<string>School</string>
 		<key>Picture</key>
 		<string>school-100.png</string>
+		<key>MonochromePicture</key>
+		<string>school-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -33,6 +39,8 @@
 		<string>Shopping</string>
 		<key>Picture</key>
 		<string>shopping-cart-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Shopping-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -41,6 +49,8 @@
 		<string>Gym</string>
 		<key>Picture</key>
 		<string>gym-100.png</string>
+		<key>MonochromePicture</key>
+		<string>gym-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -49,6 +59,8 @@
 		<string>City Center</string>
 		<key>Picture</key>
 		<string>city-center-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Building-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -57,6 +69,8 @@
 		<string>Park</string>
 		<key>Picture</key>
 		<string>park-bench-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Park-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -65,6 +79,8 @@
 		<string>Beach</string>
 		<key>Picture</key>
 		<string>beach-100.png</string>
+		<key>MonochromePicture</key>
+		<string>beach-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -73,6 +89,8 @@
 		<string>Bar</string>
 		<key>Picture</key>
 		<string>Beer-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Bar-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -81,6 +99,8 @@
 		<string>Restaurant</string>
 		<key>Picture</key>
 		<string>restaurant-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Restaurant-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -89,6 +109,8 @@
 		<string>Library</string>
 		<key>Picture</key>
 		<string>books-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Library-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -97,6 +119,8 @@
 		<string>Leisure</string>
 		<key>Picture</key>
 		<string>bowling-100.png</string>
+		<key>MonochromePicture</key>
+		<string>Bowling-black-50.png</string>
 	</dict>
 	<dict>
 		<key>Name</key>
@@ -105,6 +129,8 @@
 		<string>Other</string>
 		<key>Picture</key>
 		<string>location-75-red.png</string>
+		<key>MonochromePicture</key>
+		<string>location-black-50.png</string>
 	</dict>
 </array>
 </plist>

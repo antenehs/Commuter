@@ -19,5 +19,22 @@
 @dynamic searchedName;
 @dynamic notes;
 @dynamic iconPictureName;
+@dynamic monochromeIconName;
+
++ (NSArray *)getAddressTypeList {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AddressTypeList" ofType:@"plist"];
+    return [NSArray arrayWithContentsOfFile:plistPath];
+}
+
++ (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture{
+    NSArray *addressTypes = [NamedBookmark getAddressTypeList];
+    for (NSDictionary *dict in addressTypes) {
+        if ([[dict objectForKey:@"Picture"] isEqualToString:colorPicture]) {
+            return [dict objectForKey:@"MonochromePicture"];
+        }
+    }
+    
+    return @"location-black-50.png";
+}
 
 @end

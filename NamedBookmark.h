@@ -13,6 +13,9 @@
 
 @interface NamedBookmark : ReittiManagedObjectBase
 
++ (NSArray *)getAddressTypeList;
++ (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
+
 @property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * streetAddress;
@@ -21,5 +24,6 @@
 @property (nonatomic, retain) NSString * searchedName;
 @property (nonatomic, retain) NSString * notes;
 @property (nonatomic, retain) NSString * iconPictureName;
+@property (nonatomic, retain) NSString * monochromeIconName;
 
 @end

@@ -19,7 +19,7 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *selectedList;
-@property (nonatomic, strong) UIViewController *callerViewController;
+@property (nonatomic, weak) UIViewController *callerViewController;
 
 @property (nonatomic, weak) id <MultiSelectTableViewControllerDelegate> multiSelectTableViewControllerDelegate;
 

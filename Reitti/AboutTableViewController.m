@@ -31,7 +31,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
-                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
+                                                 name:userlocationChangedNotificationName object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -265,7 +265,7 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager userlocationChangedNotificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:userlocationChangedNotificationName object:nil];
 }
 
 /*

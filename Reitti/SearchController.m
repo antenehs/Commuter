@@ -24,6 +24,7 @@
 #import "CoreDataManager.h"
 #import "DroppedPinManager.h"
 #import "GCThumbnailAnnotation.h"
+#import "ReittiAppShortcutManager.h"
 
 @interface SearchController ()
 
@@ -71,16 +72,8 @@
     [super viewDidLoad];
     
     [self initDataComponentsAndModules];
-    
-    /*init View Components*/
-    
-    [self initGuestureRecognizers];
-    [self setNeedsStatusBarAppearanceUpdate];
-    [self setNavBarApearance];
-    [self setMapModeForSettings];
-//    [self setUpToolBarWithMiddleImage:@"list-100.png"];
-//    [self setUpModeSelector];
-    [self hideNearByStopsView:YES animated:NO];
+    [self updateAppShortcuts];
+    [self initViewComponents];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
     if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
@@ -93,32 +86,14 @@
         [alertView show];
     }
     
-    if ([AppManager isNewInstallOrNewVersion]) {
-        //Make sure to uncomment the following for other versions
-//        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+    if (![AppManager isNewInstallOrNewVersion]) {
+        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
+        //Do new version migrations
+        [self.reittiDataManager doVersion4_1CoreDataMigration];
+        
+//        [AppManager setCurrentAppVersion];
     }
-    
-//    [TSMessage showNotificationInViewController:self
-//                                          title:@"Update available"
-//                                       subtitle:@"Please update the app"
-//                                          image:nil
-//                                           type:TSMessageNotificationTypeMessage
-//                                       duration:TSMessageNotificationDurationAutomatic
-//                                       callback:nil
-//                                    buttonTitle:@"Update"
-//                                 buttonCallback:^{
-//                                     NSLog(@"User tapped the button");
-//                                 }
-//                                     atPosition:TSMessageNotificationPositionTop
-//                           canBeDismissedByUser:YES];
-    
-    //Testing
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.commuterAppExtension"];
-//    
-//    [sharedDefaults setInteger:9 forKey:@"MyNumberKey"];
-//    [sharedDefaults synchronize];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -205,8 +180,8 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager userlocationChangedNotificationName] object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager mapModeChangedNotificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:userlocationChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:mapModeChangedNotificationName object:nil];
 }
 
 #pragma - mark initialization Methods
@@ -214,13 +189,28 @@
 - (void)initDataComponentsAndModules
 {
     [self initVariablesAndConstants];
-    
-//    [self selectSystemColors];
     [self initDataManagers];
-    [self initReminderStore];
     [self initializeMapComponents];
     [self initDisruptionFetching];
     [self setBookmarkedStopsToDefaults];
+}
+
+- (void)updateAppShortcuts
+{
+    if([UIApplicationShortcutItem class]){
+        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    }
+}
+
+- (void)initViewComponents
+{
+    /*init View Components*/
+    
+    [self initGuestureRecognizers];
+    [self setNeedsStatusBarAppearanceUpdate];
+    [self setNavBarApearance];
+    [self setMapModeForSettings];
+    [self hideNearByStopsView:YES animated:NO];
 }
 
 -(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext{
@@ -257,36 +247,19 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(mapModeSettingsValueChanged:)
-                                                 name:[SettingsManager mapModeChangedNotificationName] object:nil];
+                                                 name:mapModeChangedNotificationName object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
-                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
+                                                 name:userlocationChangedNotificationName object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(shouldShowVehiclesSettingsValueChanged:)
-                                                 name:[SettingsManager shouldShowVehiclesNotificationName] object:nil];
+                                                 name:shouldShowVehiclesNotificationName object:nil];
     
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
     self.cacheManager = [CacheManager sharedManager];
-}
-
-- (void)initReminderStore
-{
-    _eventStore = [[EKEventStore alloc] init];
-    
-    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
-                                completion:^(BOOL granted, NSError *error) {
-                                    if (!granted){
-                                        NSLog(@"Access to store not granted");
-                                        //                                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders later to use the reminder feature."
-                                        //                                                                                       delegate:nil
-                                        //                                                                              cancelButtonTitle:@"OK"
-                                        //                                                                              otherButtonTitles:nil];
-                                        //                                        [alertView show];
-                                    }
-                                }];
 }
 
 - (void)initGuestureRecognizers
@@ -1977,6 +1950,14 @@
 
 - (void)openRouteSearchView{
     [self performSegueWithIdentifier: @"switchToRouteSearch" sender: self];
+}
+
+- (void)openRouteViewToLocationName:(NSString *)locationName locationCoords:(NSString *)coords{
+    selectedFromLocation = @"Current location";
+    selectedAnnotationUniqeName = locationName;
+    selectedAnnotationCoords = coords;
+    
+    [self performSegueWithIdentifier: @"routeSearchController" sender: self];
 }
 
 - (void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo{

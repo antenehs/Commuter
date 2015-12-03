@@ -27,7 +27,7 @@
     self = [super init];
     
     if (self != nil) {
-        [self testLoadPage];
+//        [self testLoadPage];
     }
     
     return self;

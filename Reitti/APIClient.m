@@ -8,6 +8,7 @@
 
 #import "APIClient.h"
 #import "RKXMLReaderSerialization.h"
+#import "ReittiStringFormatter.h"
 
 @implementation APIClient
 
@@ -25,7 +26,22 @@
     return self;
 }
 
--(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andOptimize:(NSString *)optimize numberOfResults:(int)numOfResults{
+#pragma mark - Rest api helpers
++(NSString *)formatRestQueryFilterForDictionary:(NSDictionary *)paramsDictionary{
+    if (paramsDictionary == nil)
+        return @"";
+    
+    NSMutableArray *paramsArray = [@[] mutableCopy];
+    for (NSString *key in paramsDictionary.allKeys) {
+        [paramsArray addObject:[NSString stringWithFormat:@"%@=%@",key, paramsDictionary[key]]];
+    }
+    
+    return [ReittiStringFormatter commaSepStringFromArray:paramsArray withSeparator:@"&"];
+}
+
+#pragma mark - api fetch methods
+
+-(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate andParams:(NSDictionary *)params{
     //Do the API call
     NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
@@ -49,7 +65,12 @@
     toCoordinate = [toCoordinate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     toCoordinate = [toCoordinate stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
     
-    NSString *apiURL = [NSString stringWithFormat:@"%@?request=route&epsg_in=4326&epsg_out=4326&user=asacommuterroutes&pass=rebekah&format=json&detail=full&from=%@&to=%@&date=%@&time=%@&timetype=%@&optimize=%@&show=%d",apiBaseUrl, fromCoordinate,toCoordinate,date,time,timeType,optimize,numOfResults];
+    NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
+    parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+//    NSString *apiURL = [NSString stringWithFormat:@"%@?request=route&epsg_in=4326&epsg_out=4326&user=asacommuterroutes&pass=rebekah&format=json&detail=full&from=%@&to=%@&date=%@&time=%@&timetype=%@&optimize=%@&show=%d",apiBaseUrl, fromCoordinate,toCoordinate,date,time,timeType,optimize,numOfResults];
+    
+    NSString *apiURL = [NSString stringWithFormat:@"%@?request=route&epsg_in=4326&epsg_out=4326&user=asacommuterstops&pass=rebekah&format=json&from=%@&to=%@&%@",apiBaseUrl, fromCoordinate,toCoordinate,parameters];
     
     NSURL *URL = [NSURL URLWithString:apiURL];
     

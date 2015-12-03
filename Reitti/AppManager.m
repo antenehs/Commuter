@@ -168,6 +168,36 @@
     }
 }
 
++(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type{
+    switch (type) {
+        case LegTypeBus:
+            return [UIImage imageNamed:@"bus-filled-light-100.png"];
+            break;
+        case LegTypeTrain:
+            return [UIImage imageNamed:@"train-filled-light-64.png"];
+            break;
+        case LegTypeMetro:
+            return [UIImage imageNamed:@"metro-logo-orange.png"];
+            break;
+        case LegTypeTram:
+            return [UIImage imageNamed:@"tram-filled-light-64.png"];
+            break;
+        case LegTypeFerry:
+            return [UIImage imageNamed:@"boat-filled-light-100.png"];
+            break;
+        case LegTypeService:
+            return [UIImage imageNamed:@"service-bus-filled-purple.png"];
+            break;
+        case LegTypeWalk:
+            return [UIImage imageNamed:@"walking-gray-64.png"];
+            break;
+            
+        default:
+            return [UIImage imageNamed:@"bus-filled-light-100.png"];
+            break;
+    }
+}
+
 
 +(UIImage *)vehicleImageForLineType:(LineType)type{
     return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];

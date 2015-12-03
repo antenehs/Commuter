@@ -12,6 +12,7 @@
 #import "AppManager.h"
 #import "TravelCardManager.h"
 #import "ReittiRemindersManager.h"
+#import "ReittiAppShortcutManager.h"
 
 @implementation AppDelegate
 
@@ -37,37 +38,18 @@
     tabBarItem2.title = @"Route";
     tabBarItem3.title = @"Bookmarks";
     tabBarItem4.title = @"Matkakortti";
-//    tabBarItem4.title = @"Settings";
-    
-//    UIImage *image1 = [UIImage imageNamed:@"search-icon-100.png"];
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
     tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(22, 22)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-//    UIImage *image2_unselected = [UIImage imageNamed:@"Bus-unselected-100.png"];
     tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(21, 21)];
-//    tabBarItem2.image = [[self imageWithImage:image2_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-//    UIImage *image3_unselected = [UIImage imageNamed:@"Bookmark-unselected-100.png"];
     tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(24, 24)];
 //    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIImage *image4 = [UIImage imageNamed:@"matkakortti-icon-1.png"];
-//    UIImage *image4_unselected = [UIImage imageNamed:@"Settings-unselected-100.png"];
     tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(20, 20)];
-//    tabBarItem4.selectedImage = [self imageWithImage:image4 scaledToSize:CGSizeMake(26, 26)];
-//    tabBarItem4.image = [[self imageWithImage:image4_unselected scaledToSize:CGSizeMake(26, 26)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//    tabBarItem1.image = [UIImage imageNamed:@"Home-green-100.png"];
-//    tabBarItem2.image = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-//    tabBarItem3.image = [UIImage imageNamed:@"settings-green-100.png"];
-    
-//    [tabBarItem1 setFinishedSelectedImage:[UIImage imageNamed:@"home_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"home.png"]];
-//    [tabBarItem2 setFinishedSelectedImage:[UIImage imageNamed:@"maps_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"maps.png"]];
-//    [tabBarItem3 setFinishedSelectedImage:[UIImage imageNamed:@"myplan_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"myplan.png"]];
-//    [tabBarItem4 setFinishedSelectedImage:[UIImage imageNamed:@"settings_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"settings.png"]];
-    
-    //Testing - delete on sight
     
     //Init Singletons
     TravelCardManager *cm = [TravelCardManager sharedManager];
@@ -85,9 +67,52 @@
         }
     }
     
-//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    if([UIApplicationShortcutItem class]){
+        UIApplicationShortcutItem *shortcutItem = [launchOptions objectForKey:UIApplicationLaunchOptionsShortcutItemKey];
+        if(shortcutItem){
+            [self handleShortCutItem:shortcutItem];
+        }
+    }
     
     return YES;
+}
+
+- (BOOL)handleShortCutItem:(UIApplicationShortcutItem *)shortcutItem  {
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    
+    if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:NamedBookmarkShortcutType]]){
+        UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
+        tabBarController.selectedIndex = 0;
+        SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+        //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
+        [controller initDataComponentsAndModules];
+        
+        [controller dismissViewControllerAnimated:YES completion:nil];
+        
+        NSString *name = (NSString *)[shortcutItem.userInfo objectForKey:@"namedBookmarkName"];
+        NSString *coords = (NSString *)[shortcutItem.userInfo objectForKey:@"namedBookmarkCoords"];
+        
+        if (name == nil || coords == nil)
+            return NO;
+        
+        [controller openRouteViewToLocationName:name locationCoords:coords];
+        return YES;
+    }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:MoreBookmarksShortcutType]]){
+        tabBarController.selectedIndex = 2;
+    }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:AddBookmarkShortcutType]]){
+        tabBarController.selectedIndex = 2;
+        UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
+        BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
+        [controller openAddBookmarkController];
+    }
+    
+    return NO;
+}
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    NSLog(@"%@", shortcutItem.type);
+    
+    completionHandler([self handleShortCutItem:shortcutItem]);
 }
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
@@ -103,9 +128,6 @@
     NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
     NSLog(@"URL scheme:%@", [url scheme]);
     NSLog(@"URL query: %@", [url query]);
-    
-//    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main.storyboard" bundle: nil];
     
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];

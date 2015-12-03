@@ -142,7 +142,6 @@
 }
 
 - (IBAction)doneButtonPressed:(id)sender {
-    [AppManager setCurrentAppVersion];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -556,19 +556,6 @@
     UIActionSheet *actionSheet;
     switch (index) {
         case 0:{
-//            if (![reittiReminderManager isLocalNotificationEnabled]) {
-//                
-//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Notifications Granted"                                                                                      message:@"Please grant access to Notifications from Settings to use this feature."
-//                                                                   delegate:self
-//                                                          cancelButtonTitle:@"OK"
-//                                                          otherButtonTitles:@"Settings",nil];
-//                alertView.tag = 1005;
-//                [alertView show];
-//                
-//                [cell hideUtilityButtonsAnimated:YES];
-//                break;
-//            }
-            
             actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
             //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
             actionSheet.tag = 2001;

@@ -7,6 +7,7 @@
 //
 
 #import "AddressTypeTableViewController.h"
+#import "NamedBookmark.h"
 
 @interface AddressTypeTableViewController ()
 
@@ -21,8 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AddressTypeList" ofType:@"plist"];
-    self.addressTypeList = [NSArray arrayWithContentsOfFile:plistPath];
+    self.addressTypeList = [NamedBookmark getAddressTypeList];
     
     self.navigationController.toolbar.hidden = YES;
     

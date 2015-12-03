@@ -8,6 +8,11 @@
 
 #import "SettingsManager.h"
 
+NSString * const mapModeChangedNotificationName = @"SettingsManagerMapModeChangedNotification";
+NSString * const userlocationChangedNotificationName = @"SettingsManagerUserLocationChangedNotification";
+NSString * const shouldShowVehiclesNotificationName = @"SettingsManagerShowVehiclesChangedNotification";
+NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRouteSearchOptionsChangedNotification";
+
 @implementation SettingsManager
 
 @synthesize reittiDataManager, settingsEntity;
@@ -45,25 +50,30 @@
     return [self.reittiDataManager.settingsEntity.numberOfDaysToKeepHistory intValue];
 }
 
+-(RouteSearchOptions *)globalRouteOptions{
+    [self.reittiDataManager fetchSettings];
+    return self.reittiDataManager.settingsEntity.globalRouteOptions;
+}
+
 -(void)setMapMode:(MapMode)mapMode{
     [self.reittiDataManager.settingsEntity setMapMode:[NSNumber numberWithInt:mapMode]];
     [self.reittiDataManager saveSettings];
     
-    [self postNotificationWithName:[SettingsManager mapModeChangedNotificationName]];
+    [self postNotificationWithName:mapModeChangedNotificationName];
 }
 -(void)setUserLocation:(Region)userLocation{
     [self.reittiDataManager.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
     [self.reittiDataManager saveSettings];
     self.reittiDataManager.userLocation = userLocation;
     
-    [self postNotificationWithName:[SettingsManager userlocationChangedNotificationName]];
+    [self postNotificationWithName:userlocationChangedNotificationName];
 }
 
 -(void)showLiveVehicle:(BOOL)show{
     [self.reittiDataManager.settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:show]];
     [self.reittiDataManager saveSettings];
     
-    [self postNotificationWithName:[SettingsManager shouldShowVehiclesNotificationName]];
+    [self postNotificationWithName:shouldShowVehiclesNotificationName];
 }
 
 -(void)enableClearingOldHistory:(BOOL)clear{
@@ -75,17 +85,25 @@
     [self.reittiDataManager saveSettings];
 }
 
-//Notifications
-+(NSString *)mapModeChangedNotificationName{
-    return @"SettingsManagerMapModeChangedNotification";
-}
-+(NSString *)userlocationChangedNotificationName{
-    return @"SettingsManagerUserLocationChangedNotification";
+-(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions{
+    [self.reittiDataManager.settingsEntity setGlobalRouteOptions:globalRouteOptions];
+    [self.reittiDataManager saveSettings];
+    
+    [self postNotificationWithName:routeSearchOptionsChangedNotificationName];
 }
 
-+(NSString *)shouldShowVehiclesNotificationName{
-    return @"SettingsManagerShowVehiclesChangedNotification";
-}
+//Notifications
+//+(NSString *)mapModeChangedNotificationName{
+//    return @"SettingsManagerMapModeChangedNotification";
+//}
+
+//+(NSString *)userlocationChangedNotificationName{
+//    return @"SettingsManagerUserLocationChangedNotification";
+//}
+//
+//+(NSString *)shouldShowVehiclesNotificationName{
+//    return @"SettingsManagerShowVehiclesChangedNotification";
+//}
 
 -(void)postNotificationWithName:(NSString *)name{
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];

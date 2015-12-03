@@ -37,10 +37,10 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
-                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
+                                                 name:userlocationChangedNotificationName object:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated{
     [self.navigationItem setTitle:@"MORE"];
     [self.tabBarController.tabBar setHidden:NO];
     

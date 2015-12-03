@@ -31,6 +31,7 @@
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type;
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
++(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
 
 //Sounds
 +(NSArray *)toneNames;

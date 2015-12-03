@@ -17,5 +17,6 @@
 @dynamic clearOldHistory;
 @dynamic numberOfDaysToKeepHistory;
 @dynamic settingsStartDate;
+@dynamic globalRouteOptions;
 
 @end

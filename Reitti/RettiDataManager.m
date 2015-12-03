@@ -16,6 +16,7 @@
 #import "SettingsEntity.h"
 #import "ReittiManagedObjectBase.h"
 #import "CoreDataManager.h"
+#import "ReittiAppShortcutManager.h"
 //#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
@@ -176,69 +177,44 @@
 
 #pragma mark - API fetch methods
 
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords  time:(NSString *)time andDate:(NSString *)date andTimeType:(NSString *)timeType andSearchOption:(RouteSearchOption)searchOption{
-    NSString *optimizeString;
-    if (searchOption == RouteSearchOptionFastest) {
-        optimizeString = @"fastest";
-    }else if (searchOption == RouteSearchOptionLeastTransfer) {
-        optimizeString = @"least_transfers";
-    }else if (searchOption == RouteSearchOptionLeastWalking) {
-        optimizeString = @"least_walking";
-    }else{
-        optimizeString = @"default";
-    }
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult{
     
+    if (numberOfResult)
+        searchOptions.numberOfResults = [numberOfResult integerValue];
+    else
+        searchOptions.numberOfResults = kDefaultNumberOfResults;
+
     Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
     Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
     
     if (fromRegion == toRegion) {
         if (fromRegion == TRERegion) {
-            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+//            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
         }else{
-            [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+            NSDictionary *optionsDict = [self.hslCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
+            [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
         }
     }else{
 //        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-        [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+        NSDictionary *optionsDict = [self.hslCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
+        [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
     }
 }
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:[NSDate date]];
     
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
+    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
+    options.date = [NSDate date];
     
-    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords time:time andDate:date andTimeType:@"departure" andSearchOption:RouteSearchOptionFastest];
+    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:nil];
 }
 
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
     
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:[NSDate date]];
+    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
+    options.date = [NSDate date];
     
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date = [dateFormat2 stringFromDate:[NSDate date]];
-    
-    Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
-    Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
-    
-    if (fromRegion == toRegion) {
-        if (fromRegion == TRERegion) {
-            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:@"departure" andOptimize:@"fastest" numberOfResults:1];
-        }else{
-            [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:@"departure" andOptimize:@"fastest" numberOfResults:1];
-        }
-    }else{
-        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-    }
-    
-    
+    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:@1];
 }
 
 -(void)searchAddressesForKey:(NSString *)key{
@@ -884,6 +860,7 @@
     [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
     [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
     [settingsEntity setSettingsStartDate:[NSDate date]];
+    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
     
     NSError *error = nil;
     
@@ -905,6 +882,7 @@
     [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
     [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
     [settingsEntity setSettingsStartDate:[NSDate date]];
+    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
     
     NSError *error = nil;
     
@@ -1532,10 +1510,13 @@
         [self.namedBookmark setSearchedName:ndBookmark.searchedName];
         [self.namedBookmark setCoords:ndBookmark.coords];
         [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
+        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
         
         [self saveManagedObject:namedBookmark];
         
         [allNamedBookmarkNames addObject:ndBookmark.name];
+        
+        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
         return self.namedBookmark;
     }else{
         self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:ndBookmark.name];
@@ -1546,9 +1527,11 @@
         [self.namedBookmark setSearchedName:ndBookmark.searchedName];
         [self.namedBookmark setCoords:ndBookmark.coords];
         [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
+        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
         
         [self saveManagedObject:namedBookmark];
         
+        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
         return self.namedBookmark;
     }
 }
@@ -1569,6 +1552,7 @@
         [self.namedBookmark setSearchedName:ndBookmark.searchedName];
         [self.namedBookmark setCoords:ndBookmark.coords];
         [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
+        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
         
         NSError *error = nil;
         
@@ -1582,6 +1566,8 @@
     }else{
         return nil;
     }
+    
+    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
 }
 
 
@@ -1598,6 +1584,8 @@
     }
     
     [allNamedBookmarkNames removeObject:name];
+    
+    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
 }
 -(void)deleteAllNamedBookmarks{
     NSArray *bookmarksToDelete = [self fetchAllSavedNamedBookmarksFromCoreData];
@@ -1614,6 +1602,8 @@
     }
     
     [allNamedBookmarkNames removeAllObjects];
+    
+    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
 }
 -(NSArray *)fetchAllSavedNamedBookmarksFromCoreData{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -1948,6 +1938,21 @@
     }
     return retArray;
 }
+
+-(BOOL)doVersion4_1CoreDataMigration{
+    
+    //Migration due to addition of monochromepicture
+    NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
+    for (NamedBookmark *ndBookmark in namedBookmarks) {
+        if (ndBookmark.monochromeIconName == nil) {
+            ndBookmark.monochromeIconName = [NamedBookmark getMonochromePictureNameForColorPicture:ndBookmark.iconPictureName];
+            [self saveNamedBookmarkToCoreData:ndBookmark];
+        }
+    }
+    
+    return YES;
+}
+
 #pragma mark - merged delegate methods
 - (void)checkForGeoCodeFetchCompletionAndReturn{
     

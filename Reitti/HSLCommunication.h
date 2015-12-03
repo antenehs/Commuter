@@ -7,6 +7,7 @@
 //
 
 #import "APIClient.h"
+#import "RouteSearchOptions.h"
 
 @class HSLCommunication;
 
@@ -28,6 +29,8 @@
 @end
 
 @interface HSLCommunication : APIClient
+
+-(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 
 @property (nonatomic, weak) id <HSLCommunicationDelegate> delegate;
 

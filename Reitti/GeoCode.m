@@ -24,10 +24,18 @@
     @try {
         NSNumber *houseNum = [details objectForKey:@"houseNumber"];
         if (houseNum != nil){
-            if (![[houseNum stringValue] isEqualToString:@"1"])
-                return [houseNum stringValue];
-            else
-                return @"";
+            if ([houseNum isKindOfClass:[NSString class]]) {
+                if (![(NSString *)houseNum isEqualToString:@"1"])
+                    return (NSString *)houseNum;
+                else
+                    return @"";
+            }else{
+                if (![[houseNum stringValue] isEqualToString:@"1"])
+                    return [houseNum stringValue];
+                else
+                    return @"";
+            }
+            
         }else{
             return @"";
         }

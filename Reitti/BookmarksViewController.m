@@ -100,6 +100,9 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(routeSearchOptionsChanged:)
+                                                 name:routeSearchOptionsChangedNotificationName object:nil];
     
     activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     activityIndicator.alpha = 1.0;
@@ -114,7 +117,7 @@
     [self loadSavedValues];
     
     [self setUpViewForTheSelectedMode];
-    [self resetAndRequestRoutesIfNeeded];
+    [self requestRoutesIfNeeded];
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(refreshTableView:) userInfo:nil repeats:YES];
     [locationManager startUpdatingLocation];
@@ -128,7 +131,7 @@
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
-    [self resetAndRequestRoutesIfNeeded];
+    [self requestRoutesIfNeeded];
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(refreshTableView:) userInfo:nil repeats:YES];
     [locationManager startUpdatingLocation];
@@ -149,22 +152,6 @@
 {
 //    [self layoutAnimated:NO];
 }
-//
-//- (void)fetchData
-//{
-//    NSArray * __savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-//    NSArray * __savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-//    NSArray * __recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
-//    NSArray * __recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-//    NSArray * __namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-//    
-//    self.savedStops = [NSMutableArray arrayWithArray:__savedStops];
-//    self.savedRoutes = [NSMutableArray arrayWithArray:__savedRoutes];
-//    self.recentStops = [NSMutableArray arrayWithArray:__recentStops];
-//    self.recentRoutes = [NSMutableArray arrayWithArray:__recentRoutes];
-//    self.savedNamedBookmarks = [NSMutableArray arrayWithArray:__namedBookmarks];
-//}
-
 
 - (void)updateDetailStores
 {
@@ -182,22 +169,14 @@
     }
 }
 
-- (void)resetAndRequestRoutesIfNeeded{
-//    [self initDetailStores];
-    
-//    for (int i = 0; i < self.savedNamedBookmarks.count; i++) {
-//        NamedBookmark *nmdBkmrk = [self.savedNamedBookmarks objectAtIndex:i];
-//        
-//        if ([self shouldUpdateRouteInfoForBookmark:nmdBkmrk]) {
-//            [self fetchRouteForNamedBookmark:nmdBkmrk];
-//            
-//            NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:i inSection:0];
-//            
-//            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPathToUpdate, nil] withRowAnimation:UITableViewRowAnimationNone];
-//        }
-//    }
-    
+- (void)requestRoutesIfNeeded{
     [self.tableView reloadData];
+}
+
+- (void)forceResetRoutesAndRequest{
+    //Reset already searched routes to force new route fetching
+    self.namedBRouteDetail = [@{} mutableCopy];
+    [self requestRoutesIfNeeded];
 }
 
 - (void)fetchRouteForNamedBookmark:(NamedBookmark *)namedBookmark
@@ -210,17 +189,6 @@
 
 
 #pragma mark - View methods
-- (void)selectSystemColors{
-    if (self.darkMode) {
-        systemBackgroundColor = [UIColor clearColor];
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor lightGrayColor];
-    }else{
-        systemBackgroundColor = nil;
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor darkGrayColor];
-    }
-}
 
 - (void)setUpViewForTheSelectedMode{
     if (listSegmentControl.selectedSegmentIndex == 0) {
@@ -355,6 +323,9 @@
 }
 
 #pragma mark - ibactions
+-(void)routeSearchOptionsChanged:(id)sender {
+    [self forceResetRoutesAndRequest];
+}
 - (IBAction)CancelButtonPressed:(id)sender {
     [delegate viewControllerWillBeDismissed:self.mode];
     [self dismissViewControllerAnimated:YES completion:nil ];
@@ -374,8 +345,9 @@
         [actionSheet showInView:self.view];
     }    
 }
+
 - (IBAction)addBookmarkButtonPressed:(id)sender {
-    [self performSegueWithIdentifier:@"addAddress" sender:self];
+    [self openAddBookmarkController];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -904,6 +876,10 @@
 }
 */
 
+- (void)openAddBookmarkController {
+    [self performSegueWithIdentifier:@"addAddress" sender:self];
+}
+
 #pragma mark - Delegates
 
 - (void)savedStop:(BusStop *)busStop{
@@ -1074,8 +1050,6 @@
                 
                 routeSearchViewController.prevToLocation = selected.name;
                 routeSearchViewController.prevToCoords = selected.coords;
-                
-//                routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
                 
                 routeSearchViewController.delegate = self;
                 routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;

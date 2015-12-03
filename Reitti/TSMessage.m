@@ -428,12 +428,15 @@ __weak static UIViewController *_defaultViewController;
 
 + (UIViewController *)defaultViewController
 {
-    __strong UIViewController *defaultViewController = _defaultViewController;
+    __strong UIViewController *topController = _defaultViewController;
     
-    if (!defaultViewController) {
-        defaultViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if (!topController) {
+        topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        while (topController.presentedViewController) {
+            topController = topController.presentedViewController;
+        }
     }
-    return defaultViewController;
+    return topController;
 }
 
 + (BOOL)iOS7StyleEnabled

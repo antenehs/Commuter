@@ -42,7 +42,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
-                                                 name:[SettingsManager userlocationChangedNotificationName] object:nil];
+                                                 name:userlocationChangedNotificationName object:nil];
     
     CGRect scrollVFrame = mainScrollView.frame;
     scrollVFrame.size.height = self.view.frame.size.height - scrollVFrame.origin.y;
@@ -487,7 +487,7 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:[SettingsManager userlocationChangedNotificationName] object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:userlocationChangedNotificationName object:nil];
 }
 
 /*
