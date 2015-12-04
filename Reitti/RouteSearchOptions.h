@@ -37,18 +37,24 @@ extern NSInteger kDefaultNumberOfResults;
 
 -(id)copy;
 
-+(NSArray *)getTransportTypeOptions;
-+(NSArray *)getTicketZoneOptions;
-+(NSArray *)getChangeMargineOptions;
-+(NSArray *)getWalkingSpeedOptions;
+-(NSArray *)allTrasportTypeNames;
 
-+(NSInteger)getDefaultValueIndexForTicketZoneOptions;
-+(NSInteger)getDefaultValueIndexForChangeMargineOptions;
-+(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
+-(NSArray *)getTransportTypeOptions;
+-(NSArray *)getTicketZoneOptions;
+-(NSArray *)getChangeMargineOptions;
+-(NSArray *)getWalkingSpeedOptions;
+
+-(NSInteger)getDefaultValueIndexForTicketZoneOptions;
+-(NSInteger)getDefaultValueIndexForChangeMargineOptions;
+-(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
 
 -(NSInteger)getSelectedTicketZoneIndex;
 -(NSInteger)getSelectedChangeMargineIndex;
 -(NSInteger)getSelectedWalkingSpeedIndex;
+
+-(BOOL)isAllTrasportTypesSelected;
+-(BOOL)isAllTrasportTypesExcluded;
+-(NSArray *)listOfExcludedtransportTypes;
 
 @property(nonatomic,strong) NSDate *date;
 @property(nonatomic)RouteTimeType selectedTimeType;

@@ -9,6 +9,7 @@
 #import "HSLCommunication.h"
 #import "HSLLine.h"
 #import "ReittiStringFormatter.h"
+#import "AppManager.h"
 
 @interface HSLCommunication ()
 
@@ -103,7 +104,7 @@
     }
     
     if (searchOptions.numberOfResults == kDefaultNumberOfResults) {
-        [parametersDict setObject:@"5" forKey:@"show"];
+        [parametersDict setObject:@"3" forKey:@"show"];
     }else{
         [parametersDict setObject:[NSString stringWithFormat:@"%ld", (long)searchOptions.numberOfResults] forKey:@"show"];
     }
@@ -165,6 +166,60 @@
     
     return _walkingSpeedOptions;
 }
+
+#pragma mark - Route Search Options
++(NSArray *)allTrasportTypeNames{
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];
+}
+
++(NSArray *)getTransportTypeOptions{
+    return @[@{displayTextOptionKey : @"Bus", valueOptionKey : @"bus", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]},
+             @{displayTextOptionKey : @"Metro", valueOptionKey : @"metro", pictureOptionKey : [UIImage imageNamed:@"Subway-100.png"]},
+             @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTrain]},
+             @{displayTextOptionKey : @"Tram", valueOptionKey : @"tram", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTram]},
+             @{displayTextOptionKey : @"Ferry", valueOptionKey : @"ferry", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeFerry]},
+             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}];
+}
+
++(NSArray *)getTicketZoneOptions{
+    return @[@{displayTextOptionKey : @"All HSL Regions (Default)", valueOptionKey : @"whole", defaultOptionKey : @"yes"},
+             @{displayTextOptionKey : @"Regional" , valueOptionKey: @"region"},
+             @{displayTextOptionKey : @"Helsinki Internal", valueOptionKey : @"helsinki"},
+             @{displayTextOptionKey : @"Espoo Internal", valueOptionKey : @"espoo"},
+             @{displayTextOptionKey : @"Vantaa Internal", valueOptionKey : @"vantaa"}];
+}
+
++(NSInteger)getDefaultValueIndexForTicketZoneOptions{
+    return 0;
+}
+
++(NSArray *)getChangeMargineOptions{
+    return @[@{displayTextOptionKey : @"0 minute" , valueOptionKey: @"0"},
+             @{displayTextOptionKey : @"1 minute" , valueOptionKey: @"1"},
+             @{displayTextOptionKey : @"3 minutes (Default)", valueOptionKey : @"3", defaultOptionKey : @"yes"},
+             @{displayTextOptionKey : @"5 minutes", valueOptionKey : @"5"},
+             @{displayTextOptionKey : @"7 minutes", valueOptionKey : @"7"},
+             @{displayTextOptionKey : @"9 minutes", valueOptionKey : @"9"},
+             @{displayTextOptionKey : @"10 minutes", valueOptionKey : @"10"}];
+}
+
++(NSInteger)getDefaultValueIndexForChangeMargineOptions{
+    return 2;
+}
+
++(NSArray *)getWalkingSpeedOptions{
+    return @[@{displayTextOptionKey : @"Slow Walking", detailOptionKey : @"20 m/minute", valueOptionKey : @"20"},
+             @{displayTextOptionKey : @"Normal Walking (Default)" , detailOptionKey : @"70 m/minute", valueOptionKey: @"70", defaultOptionKey : @"yes"},
+             @{displayTextOptionKey : @"Fast Walking", detailOptionKey : @"150 m/minute", valueOptionKey : @"150"},
+             @{displayTextOptionKey : @"Running", detailOptionKey : @"250 m/minute", valueOptionKey : @"250"},
+             @{displayTextOptionKey : @"Fast Running", detailOptionKey : @"350 m/minute", valueOptionKey : @"350"},
+             @{displayTextOptionKey : @"Bolting", detailOptionKey : @"500 m/minute", valueOptionKey : @"500"}];
+}
+
++(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
+    return 1;
+}
+
 
 #pragma mark - Date formatters
 - (NSDateFormatter *)hourFormatter{

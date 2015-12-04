@@ -18,6 +18,7 @@
 #import "RouteSearchOptions.h"
 #import "SettingsManager.h"
 #import "RouteOptionsTableViewController.h"
+#import "JTMaterialSpinner.h"
 
 @class RouteSearchViewController;
 
@@ -43,11 +44,14 @@
     IBOutlet UIView *searchBarsView;
 //    IBOutlet UITableView *searchSuggestionsTableView;
     IBOutlet UIActivityIndicatorView *searchActivityIndicator;
+    IBOutlet JTMaterialSpinner *searchActivitySpinner;
 //    IBOutlet AMBlurView *timeSelectionView;
 //    IBOutlet UISegmentedControl *timeTypeSegmentControl;
 //    IBOutlet UIDatePicker *datePicker;
     IBOutlet AMBlurView *selectTimeButton;
     IBOutlet UILabel *selectedTimeLabel;
+    IBOutlet UILabel *routeOptionsLable;
+    
 //    IBOutlet UIView *timeSelectionViewShadeView;
 //    UITapGestureRecognizer *timeSelectionShadeTapGestureRecognizer;
     

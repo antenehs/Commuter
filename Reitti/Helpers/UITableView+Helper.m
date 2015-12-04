@@ -30,6 +30,7 @@
     [bluredBackViewContainer addSubview:blurEffectView];
     
     self.backgroundView = bluredBackViewContainer;
+    self.backgroundView.layer.zPosition -= 1;
     self.backgroundColor = [UIColor clearColor];
 }
 

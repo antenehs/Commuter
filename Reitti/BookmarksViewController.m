@@ -498,7 +498,7 @@
                 NSArray * routes = [namedBRouteDetail objectForKey:namedBookmark.coords];
                 Route *route = [routes firstObject];
                 
-                if (!route.isOnlyWalkingRoute) {
+                if (!route.isOnlyWalkingRoute && [self isValidBookmark:namedBookmark]) {
                     transportsScrollView.hidden = NO;
                     leavesTime.hidden = NO;
                     arrivesTime.hidden = NO;
@@ -716,6 +716,9 @@
 
 #pragma mark - helper methods
 - (BOOL)shouldUpdateRouteInfoForBookmark:(NamedBookmark *)namedBookmark {
+    if (![self isValidBookmark:namedBookmark])
+        return NO;
+    
     NSMutableArray *routes = [[namedBRouteDetail objectForKey:namedBookmark.coords] mutableCopy];
     
     if (routes.count == 0)
@@ -756,6 +759,8 @@
     if([self shouldUpdateRouteInfoForBookmark:namedBookmark]){
         return NO;
     }else{
+        if (![self isValidBookmark:namedBookmark])
+            return NO;
         NSMutableArray *routes = [[namedBRouteDetail objectForKey:namedBookmark.coords] mutableCopy];
         Route *route = [routes objectAtIndex:0];
         
@@ -764,6 +769,10 @@
         
         return YES;
     }
+}
+
+- (BOOL)isValidBookmark:(NamedBookmark *)nmdBookmark{
+    return [self.reittiDataManager isCoordinateInCurrentRegion:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];
 }
 
 - (NSInteger)dataIndexForIndexPath:(NSIndexPath *)indexPath
@@ -909,14 +918,55 @@
     recentRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData]];
 }
 
+- (NSArray *)sortedNamedBookmarksByLocationTo:(CLLocationCoordinate2D)coords{
+    if (self.savedNamedBookmarks == nil) {
+        return nil;
+    }
+    return [self.savedNamedBookmarks sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        if ([a isKindOfClass:[NamedBookmark class]] && [b isKindOfClass:[NamedBookmark class]]) {
+            NamedBookmark *first = (NamedBookmark *)a;
+            NamedBookmark *second = (NamedBookmark *)b;
+            
+            CLLocation *locA = [[CLLocation alloc] initWithLatitude:first.cl2dCoords.latitude longitude:first.cl2dCoords.longitude];
+            CLLocation *locB = [[CLLocation alloc] initWithLatitude:second.cl2dCoords.latitude longitude:second.cl2dCoords.longitude];
+            CLLocation *ref = [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude];
+            
+            CLLocationDistance distanceA = [locA distanceFromLocation:ref];
+            CLLocationDistance distanceB = [locB distanceFromLocation:ref];
+            
+            if (distanceA > distanceB) {
+                return NSOrderedDescending;
+            }else if (distanceB > distanceA){
+                return NSOrderedAscending;
+            }else{
+                return NSOrderedSame;
+            }
+        }
+        
+        return NSOrderedSame;
+    }];
+}
+
 #pragma mark - Route search delegate methods
 - (void)routeSearchDidComplete:(NSArray *)routeList{
     Route *first = [routeList firstObject];
-    [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
-    //Update affected row is slow in performance
-//    NSIndexPath *indexPathToUpdate = [self nsIndexForNamedBookmarkCoords:[first getDestinationCoords]];
+    //Check if namedBRouteDetails is the same number as saved bookmarks and check the results
+    //Coords are there already. If not set the route to the closest coordinate
+    if (namedBRouteDetail.count == savedNamedBookmarks.count) {
+        if ([namedBRouteDetail objectForKey:[first getDestinationCoords]]) {
+            [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
+        }else{
+            //Set it to the closest named bookmark
+            NSArray *tempSorted = [self sortedNamedBookmarksByLocationTo:[ReittiStringFormatter convertStringTo2DCoord:[first getDestinationCoords]]];
+            if (tempSorted != nil && tempSorted.count > 0) {
+                NamedBookmark *closest = tempSorted[0];
+                [namedBRouteDetail setObject:routeList forKey:closest.coords];
+            }
+        }
+    }else{
+        [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
+    }
     
-//    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPathToUpdate, nil] withRowAnimation:UITableViewRowAnimationNone];
     [self.tableView reloadData];
     [activityIndicator stopAnimating];
 }

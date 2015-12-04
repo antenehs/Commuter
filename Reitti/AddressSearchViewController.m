@@ -10,6 +10,7 @@
 #import "RouteSearchViewController.h"
 #import "CacheManager.h"
 #import "AppManager.h"
+#import "ASA_Helpers.h"
 
 @interface AddressSearchViewController ()
 
@@ -91,30 +92,9 @@
     [addressSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     
     //Set search bar text color
-    for (UIView *subView in addressSearchBar.subviews)
-    {
-        for (UIView *secondLevelSubview in subView.subviews){
-            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-            {
-                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                
-                //set font color here
-                searchBarTextField.textColor = [UIColor whiteColor];
-                
-                break;
-            }
-        }
-    }
-    
-//    if (routeSearchMode) {
-//        searchResultTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//    }else{
-//        
-//    }
+    [addressSearchBar asa_setTextColor:[UIColor whiteColor]];
     
     searchResultTableView.backgroundColor = [UIColor clearColor];
-    
-//    currentLocationContainerView.hidden = !routeSearchMode;
 }
 
 //When there is no search term and displays bookmarks

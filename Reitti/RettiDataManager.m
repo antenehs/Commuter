@@ -132,6 +132,11 @@
     return [self identifyRegionOfCoordinate:coords];
 }
 
+-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords{
+    Region *region = [self getRegionForCoords:coords];
+    return region == userLocation;
+}
+
 -(void)setUserLocationToRegion:(Region)region{
     userLocation = region;
 }
@@ -175,6 +180,66 @@
     self.tampereRegion = tampereRegionCoords;
 }
 
+#pragma mark - Route search option methods
+-(NSArray *)allTrasportTypeNames{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication allTrasportTypeNames];
+    }else{
+        return [HSLCommunication allTrasportTypeNames];
+    }
+}
+
+-(NSArray *)getTransportTypeOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getTransportTypeOptions];
+    }else{
+        return [HSLCommunication getTransportTypeOptions];
+    }
+}
+-(NSArray *)getTicketZoneOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getTicketZoneOptions];
+    }else{
+        return [HSLCommunication getTicketZoneOptions];
+    }
+}
+-(NSArray *)getChangeMargineOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getChangeMargineOptions];
+    }else{
+        return [HSLCommunication getChangeMargineOptions];
+    }
+}
+-(NSArray *)getWalkingSpeedOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getWalkingSpeedOptions];
+    }else{
+        return [HSLCommunication getWalkingSpeedOptions];
+    }
+}
+
+-(NSInteger)getDefaultValueIndexForTicketZoneOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getDefaultValueIndexForTicketZoneOptions];
+    }else{
+        return [HSLCommunication getDefaultValueIndexForTicketZoneOptions];
+    }
+}
+-(NSInteger)getDefaultValueIndexForChangeMargineOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getDefaultValueIndexForChangeMargineOptions];
+    }else{
+        return [HSLCommunication getDefaultValueIndexForChangeMargineOptions];
+    }
+}
+-(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
+    if (self.userLocation == TRERegion) {
+        return [TRECommunication getDefaultValueIndexForWalkingSpeedOptions];
+    }else{
+        return [HSLCommunication getDefaultValueIndexForWalkingSpeedOptions];
+    }
+}
+
 #pragma mark - API fetch methods
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult{
@@ -189,15 +254,18 @@
     
     if (fromRegion == toRegion) {
         if (fromRegion == TRERegion) {
-//            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords time:time andDate:date andTimeType:timeType andOptimize:optimizeString numberOfResults:5];
+            NSDictionary *optionsDict = [self.treCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
+            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
         }else{
             NSDictionary *optionsDict = [self.hslCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
             [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
         }
     }else{
-//        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-        NSDictionary *optionsDict = [self.hslCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
-        [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
+        if (fromRegion == TRERegion) {
+            [self treRouteSearchFailed:-1016];
+        }else{
+            [self hslRouteSearchFailed:-1016];
+        }
     }
 }
 

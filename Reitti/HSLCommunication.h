@@ -30,6 +30,17 @@
 
 @interface HSLCommunication : APIClient
 
++(NSArray *)allTrasportTypeNames;
+
++(NSArray *)getTransportTypeOptions;
++(NSArray *)getTicketZoneOptions;
++(NSArray *)getChangeMargineOptions;
++(NSArray *)getWalkingSpeedOptions;
+
++(NSInteger)getDefaultValueIndexForTicketZoneOptions;
++(NSInteger)getDefaultValueIndexForChangeMargineOptions;
++(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
+
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 
 @property (nonatomic, weak) id <HSLCommunicationDelegate> delegate;

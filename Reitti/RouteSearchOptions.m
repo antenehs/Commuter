@@ -8,6 +8,9 @@
 
 #import "RouteSearchOptions.h"
 #import "AppManager.h"
+#import "SettingsManager.h"
+#import "CoreDataManager.h"
+#import "RettiDataManager.h"
 
 NSString * displayTextOptionKey = @"displayText";
 NSString * detailOptionKey = @"detail";
@@ -16,6 +19,10 @@ NSString * pictureOptionKey = @"picture";
 NSString * defaultOptionKey = @"default";
 
 NSInteger kDefaultNumberOfResults = 5;
+
+@interface RouteSearchOptions ()
+@property(nonatomic, strong)RettiDataManager *reittiDataManager;
+@end
 
 @implementation RouteSearchOptions
 
@@ -28,6 +35,8 @@ NSInteger kDefaultNumberOfResults = 5;
         defaultOptions.selectedTimeType = RouteTimeNow;
         defaultOptions.selectedRouteSearchOptimization = RouteSearchOptionFastest;
         defaultOptions.date = [NSDate date];
+        
+        defaultOptions.selectedRouteTrasportTypes = [defaultOptions allTrasportTypeNames];
     }
     
     return defaultOptions;
@@ -42,52 +51,48 @@ NSInteger kDefaultNumberOfResults = 5;
     return self;
 }
 
-+(NSArray *)getTransportTypeOptions{
-    return @[@{displayTextOptionKey : @"Bus", valueOptionKey : @"bus", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]},
-             @{displayTextOptionKey : @"Metro", valueOptionKey : @"metro", pictureOptionKey : [UIImage imageNamed:@"Subway-100.png"]},
-             @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTrain]},
-             @{displayTextOptionKey : @"Tram", valueOptionKey : @"tram", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTram]},
-             @{displayTextOptionKey : @"Ferry", valueOptionKey : @"ferry", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeFerry]},
-             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}];
+-(RettiDataManager *)reittiDataManager{
+    if (!_reittiDataManager) {
+        _reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
+        
+        SettingsManager *settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        
+        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    }
+    
+    return _reittiDataManager;
 }
 
-+(NSArray *)getTicketZoneOptions{
-    return @[@{displayTextOptionKey : @"All HSL Regions (Default)", valueOptionKey : @"whole", defaultOptionKey : @"yes"},
-             @{displayTextOptionKey : @"Regional" , valueOptionKey: @"region"},
-             @{displayTextOptionKey : @"Helsinki Internal", valueOptionKey : @"helsinki"},
-             @{displayTextOptionKey : @"Espoo Internal", valueOptionKey : @"espoo"},
-             @{displayTextOptionKey : @"Vantaa Internal", valueOptionKey : @"vantaa"}];
+-(NSArray *)allTrasportTypeNames{
+    return [self.reittiDataManager allTrasportTypeNames];
 }
 
-+(NSInteger)getDefaultValueIndexForTicketZoneOptions{
-    return 0;
+-(NSArray *)getTransportTypeOptions{
+    return [self.reittiDataManager getTransportTypeOptions];
 }
 
-+(NSArray *)getChangeMargineOptions{
-    return @[@{displayTextOptionKey : @"0 minute" , valueOptionKey: @"0"},
-             @{displayTextOptionKey : @"1 minute" , valueOptionKey: @"1"},
-             @{displayTextOptionKey : @"3 minutes (Default)", valueOptionKey : @"3", defaultOptionKey : @"yes"},
-             @{displayTextOptionKey : @"5 minutes", valueOptionKey : @"5"},
-             @{displayTextOptionKey : @"7 minutes", valueOptionKey : @"7"},
-             @{displayTextOptionKey : @"9 minutes", valueOptionKey : @"9"},
-             @{displayTextOptionKey : @"10 minutes", valueOptionKey : @"10"}];
+-(NSArray *)getTicketZoneOptions{
+    return [self.reittiDataManager getTicketZoneOptions];
 }
 
-+(NSInteger)getDefaultValueIndexForChangeMargineOptions{
-    return 2;
+-(NSInteger)getDefaultValueIndexForTicketZoneOptions{
+    return [self.reittiDataManager getDefaultValueIndexForTicketZoneOptions];
 }
 
-+(NSArray *)getWalkingSpeedOptions{
-    return @[@{displayTextOptionKey : @"Slow Walking", detailOptionKey : @"20 m/minute", valueOptionKey : @"20"},
-             @{displayTextOptionKey : @"Normal Walking (Default)" , detailOptionKey : @"70 m/minute", valueOptionKey: @"70", defaultOptionKey : @"yes"},
-             @{displayTextOptionKey : @"Fast Walking", detailOptionKey : @"150 m/minute", valueOptionKey : @"150"},
-             @{displayTextOptionKey : @"Running", detailOptionKey : @"250 m/minute", valueOptionKey : @"250"},
-             @{displayTextOptionKey : @"Fast Running", detailOptionKey : @"350 m/minute", valueOptionKey : @"350"},
-             @{displayTextOptionKey : @"Bolting", detailOptionKey : @"500 m/minute", valueOptionKey : @"500"}];
+-(NSArray *)getChangeMargineOptions{
+    return [self.reittiDataManager getChangeMargineOptions];
 }
 
-+(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
-    return 1;
+-(NSInteger)getDefaultValueIndexForChangeMargineOptions{
+    return [self.reittiDataManager getDefaultValueIndexForChangeMargineOptions];
+}
+
+-(NSArray *)getWalkingSpeedOptions{
+    return [self.reittiDataManager getWalkingSpeedOptions];
+}
+
+-(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
+    return [self.reittiDataManager getDefaultValueIndexForWalkingSpeedOptions];
 }
 
 +(NSInteger)getIndexForOptionName:(NSString *)option fromOptionsList:(NSArray *)options{
@@ -102,23 +107,48 @@ NSInteger kDefaultNumberOfResults = 5;
 
 -(NSInteger)getSelectedTicketZoneIndex{
     if (self.selectedTicketZone == nil) 
-        return [RouteSearchOptions getDefaultValueIndexForTicketZoneOptions];
+        return [self getDefaultValueIndexForTicketZoneOptions];
     
-    return [RouteSearchOptions getIndexForOptionName:self.selectedTicketZone fromOptionsList:[RouteSearchOptions getTicketZoneOptions]];
+    return [RouteSearchOptions getIndexForOptionName:self.selectedTicketZone fromOptionsList:[self getTicketZoneOptions]];
 }
 
 -(NSInteger)getSelectedChangeMargineIndex{
     if (self.selectedChangeMargine == nil)
-        return [RouteSearchOptions getDefaultValueIndexForChangeMargineOptions];
+        return [self getDefaultValueIndexForChangeMargineOptions];
     
-    return [RouteSearchOptions getIndexForOptionName:self.selectedChangeMargine fromOptionsList:[RouteSearchOptions getChangeMargineOptions]];
+    return [RouteSearchOptions getIndexForOptionName:self.selectedChangeMargine fromOptionsList:[self getChangeMargineOptions]];
 }
 
 -(NSInteger)getSelectedWalkingSpeedIndex{
     if (self.selectedWalkingSpeed == nil)
-        return [RouteSearchOptions getDefaultValueIndexForWalkingSpeedOptions];
+        return [self getDefaultValueIndexForWalkingSpeedOptions];
     
-    return [RouteSearchOptions getIndexForOptionName:self.selectedWalkingSpeed fromOptionsList:[RouteSearchOptions getWalkingSpeedOptions]];
+    return [RouteSearchOptions getIndexForOptionName:self.selectedWalkingSpeed fromOptionsList:[self getWalkingSpeedOptions]];
+}
+
+
+-(BOOL)isAllTrasportTypesSelected{
+    return self.selectedRouteTrasportTypes == nil || self.selectedRouteTrasportTypes.count == [[self getTransportTypeOptions] count];
+}
+
+-(BOOL)isAllTrasportTypesExcluded{
+    return self.selectedRouteTrasportTypes != nil && self.selectedRouteTrasportTypes.count == 0;
+}
+
+-(NSArray *)listOfExcludedtransportTypes{
+    if ([self isAllTrasportTypesSelected])
+        return nil;
+
+    NSArray *transportTypes = [self getTransportTypeOptions];
+    NSMutableArray *excluded = [@[] mutableCopy];
+    
+    for (NSDictionary *dict in transportTypes) {
+        if (![self.selectedRouteTrasportTypes containsObject:[dict objectForKey:displayTextOptionKey]]) {
+            [excluded addObject:[dict objectForKey:displayTextOptionKey]];
+        }
+    }
+    
+    return excluded;
 }
 
 

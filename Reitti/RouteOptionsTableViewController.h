@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RettiDataManager.h"
 #import "RouteSearchOptions.h"
 #import "SettingsManager.h"
 #import "SingleSelectTableViewController.h"
@@ -16,15 +15,17 @@
 - (void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions;
 @end
 
-@interface RouteOptionsTableViewController : UITableViewController <SingleSelectTableViewControllerDelegate>{
-    NSInteger dateAndTimeSection, transportTypeSection, searchOptionSection, advancedOptionsSection, saveSettingsSections;
+@interface RouteOptionsTableViewController : UITableViewController <SingleSelectTableViewControllerDelegate, UIActionSheetDelegate>{
+    NSInteger dateAndTimeSection, transportTypeSection, searchOptionSection, advancedOptionsSection, saveSettingsSections, resetSettingsSections;
+    NSInteger ticketZoneRow, changeMargineRow, walkingSpeedRow;
     NSInteger ticketZoneSelectorViewIndex, changeMargineSelectorViewIndex, walkingSpeedSelectorViewIndex;
-    NSInteger numberOfSections;
+    NSInteger numberOfSections, numberOfAdvancedOptions;
     
     NSArray *trasportTypes;
     BOOL settingsChanged;
     
     IBOutlet UIButton *rememberOptionsButton;
+    IBOutlet UIButton *resetOptionsButton;
     
 }
 

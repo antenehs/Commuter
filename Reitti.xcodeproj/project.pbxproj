@@ -104,6 +104,10 @@
 		661831271C108F5600DA979E /* rabbit-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661831251C108F5600DA979E /* rabbit-light-100.png */; };
 		661831281C108F5600DA979E /* transfer-arrows-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661831261C108F5600DA979E /* transfer-arrows-100.png */; };
 		6618312A1C10907B00DA979E /* Walking-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661831291C10907B00DA979E /* Walking-light-100.png */; };
+		6618312E1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */; };
+		6618312F1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */; };
+		661831321C11C3E200DA979E /* UISearchBar+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831311C11C3E200DA979E /* UISearchBar+Helper.m */; };
+		661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831311C11C3E200DA979E /* UISearchBar+Helper.m */; };
 		661ABBF0199A924700F93894 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
 		661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
 		661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
@@ -716,6 +720,10 @@
 		661831251C108F5600DA979E /* rabbit-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rabbit-light-100.png"; path = "Pictures/version 4.1/rabbit-light-100.png"; sourceTree = "<group>"; };
 		661831261C108F5600DA979E /* transfer-arrows-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "transfer-arrows-100.png"; path = "Pictures/version 4.1/transfer-arrows-100.png"; sourceTree = "<group>"; };
 		661831291C10907B00DA979E /* Walking-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Walking-light-100.png"; path = "Pictures/version 4.1/Walking-light-100.png"; sourceTree = "<group>"; };
+		6618312C1C10FFC900DA979E /* JTMaterialSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTMaterialSpinner.h; sourceTree = "<group>"; };
+		6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTMaterialSpinner.m; sourceTree = "<group>"; };
+		661831301C11C3E200DA979E /* UISearchBar+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UISearchBar+Helper.h"; path = "Helpers/UISearchBar+Helper.h"; sourceTree = "<group>"; };
+		661831311C11C3E200DA979E /* UISearchBar+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UISearchBar+Helper.m"; path = "Helpers/UISearchBar+Helper.m"; sourceTree = "<group>"; };
 		661ABBEE199A924700F93894 /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
 		661ABBEF199A924700F93894 /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Route.m; sourceTree = "<group>"; };
 		661ABBF1199AABF900F93894 /* RouteLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLeg.h; sourceTree = "<group>"; };
@@ -1611,6 +1619,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6618312B1C10FFAF00DA979E /* JTMaterialSpinner */ = {
+			isa = PBXGroup;
+			children = (
+				6618312C1C10FFC900DA979E /* JTMaterialSpinner.h */,
+				6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */,
+			);
+			name = JTMaterialSpinner;
+			sourceTree = "<group>";
+		};
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1672,6 +1689,7 @@
 				664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */,
 				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
 				664E28811ADAC12400BE2457 /* CustomAnnotations */,
+				6618312B1C10FFAF00DA979E /* JTMaterialSpinner */,
 				66F099621AE6ECB500F20D34 /* TSMessages */,
 				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
 			);
@@ -1943,6 +1961,8 @@
 				6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */,
 				6665D7821C0CFD5700ACCC3A /* UITableView+Helper.h */,
 				6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */,
+				661831301C11C3E200DA979E /* UISearchBar+Helper.h */,
+				661831311C11C3E200DA979E /* UISearchBar+Helper.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3140,6 +3160,7 @@
 				66CC941318E22ECB00644281 /* StopEntity.m in Sources */,
 				66F3FADA1B4473A200DAA5B4 /* HTMLComment.m in Sources */,
 				660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */,
+				661831321C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,
 				66F3B1341AC86FEC0038BA78 /* RouteSearchOptions.m in Sources */,
 				66F3FADB1B4473A200DAA5B4 /* HTMLDocument.m in Sources */,
 				66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */,
@@ -3217,6 +3238,7 @@
 				660E2F831B349B0600CE670E /* EmptyWorkAddressCell.m in Sources */,
 				66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */,
 				66947CC218830ED500642EE1 /* main.m in Sources */,
+				6618312E1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */,
 				664E288C1ADC79F800BE2457 /* FailedGeoCodeFetch.m in Sources */,
 				66FC54841B236866005B890D /* CacheManager.m in Sources */,
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
@@ -3254,7 +3276,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6665D77A1C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
+				661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,
 				66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */,
+				6618312F1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */,
 				66DAC7E31A0277780002BE16 /* BusStopE.m in Sources */,
 				6665D7811C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */,
 				66DAC7E01A0276690002BE16 /* HSLAPI.m in Sources */,

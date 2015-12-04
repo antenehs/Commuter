@@ -103,12 +103,26 @@ typedef struct {
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
 -(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords;
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords;
+-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords;
 -(void)setUserLocationToRegion:(Region)region;
 -(NSString *)getNameOfRegion:(Region)region;
 -(void)resetResponseQueues;
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
 
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions;
+/* Route search options */
+-(NSArray *)allTrasportTypeNames;
+
+-(NSArray *)getTransportTypeOptions;
+-(NSArray *)getTicketZoneOptions;
+-(NSArray *)getChangeMargineOptions;
+-(NSArray *)getWalkingSpeedOptions;
+
+-(NSInteger)getDefaultValueIndexForTicketZoneOptions;
+-(NSInteger)getDefaultValueIndexForChangeMargineOptions;
+-(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
+
+/* API fetch methods */
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult;
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
 -(void)searchAddressesForKey:(NSString *)key;

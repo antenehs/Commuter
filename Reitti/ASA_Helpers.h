@@ -10,3 +10,4 @@
 #import "NSArray+Helper.h"
 #import "UITableViewCell+Helper.h"
 #import "UITableView+Helper.h"
+#import "UISearchBar+Helper.h"

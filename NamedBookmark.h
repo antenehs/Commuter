@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <MapKit/MapKit.h>
 #import "ReittiManagedObjectBase.h"
 
 
@@ -25,5 +26,7 @@
 @property (nonatomic, retain) NSString * notes;
 @property (nonatomic, retain) NSString * iconPictureName;
 @property (nonatomic, retain) NSString * monochromeIconName;
+
+@property (nonatomic, readonly) CLLocationCoordinate2D cl2dCoords;
 
 @end

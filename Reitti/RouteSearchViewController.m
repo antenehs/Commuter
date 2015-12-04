@@ -17,6 +17,7 @@
 #import "AppManager.h"
 #import "CoreDataManager.h"
 #import "DroppedPinManager.h"
+#import "ASA_Helpers.h"
 
 typedef enum
 {
@@ -120,6 +121,7 @@ typedef enum
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [routeResultsTableView reloadData];
+//    [self setTableBackgroundView];
 }
 
 -(BOOL)isModalMode{
@@ -141,6 +143,10 @@ typedef enum
         [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         
         self.droppedPinGeoCode = [[DroppedPinManager sharedManager] droppedPin];
+    }
+    
+    if (self.settingsManager == nil) {
+        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -210,7 +216,30 @@ typedef enum
     
     localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
     [self setSelectedTimesForDate:[NSDate date]];
-
+    [self setOptionsTextToRouteOptionsLabel];
+    
+    routeResultsTableView.backgroundColor = [UIColor clearColor];
+    
+    CGRect tableFrame = routeResultsTableView.frame;
+    tableFrame.size.height = self.view.bounds.size.height - routeResultsTableContainerView.frame.origin.y;
+    routeResultsTableView.frame = tableFrame;
+    
+    [self setTableBackgroundView];
+    
+    // Customize the activity indicator
+    searchActivitySpinner.hidden = YES;
+    
+    [self.refreshControl endRefreshing];
+    
+    //Set searchbar look
+    [fromSearchBar asa_removeBackgroundAndBorder];
+    [fromSearchBar setImage:[UIImage imageNamed:@"location-light-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    
+    [toSearchBar asa_removeBackgroundAndBorder];
+    [toSearchBar setImage:[UIImage imageNamed:@"finish_flag-light-50.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    
+    [self setBookmarkButtonStatus];
+    
     if (prevFromLocation != nil) {
         if ([prevFromLocation isEqualToString:currentLocationText]) {
             [self setCurrentLocationIfAvailableToFromSearchBar];
@@ -238,73 +267,8 @@ typedef enum
     if (prevToCoords != nil) {
         toCoords = prevToCoords;
     }
-    routeResultsTableView.backgroundColor = [UIColor clearColor];
-//    routeResultsTableView.layer.borderWidth = 1;
-//    routeResultsTableView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    
-    CGRect tableFrame = routeResultsTableView.frame;
-    tableFrame.size.height = self.view.bounds.size.height - routeResultsTableContainerView.frame.origin.y;
-    routeResultsTableView.frame = tableFrame;
-    
-    [self.refreshControl endRefreshing];
-//    [self initRefreshControl];
     
     [self searchRouteIfPossible];
-    
-    
-    for (UIView *firstSubView in fromSearchBar.subviews)
-    {
-        for (UIView *subview in firstSubView.subviews) {
-            // Remove the default background
-            if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
-                [subview removeFromSuperview];
-            }
-            
-            // Remove the rounded corners
-            if ([subview isKindOfClass:NSClassFromString(@"UITextField")]) {
-                UITextField *textField = (UITextField *)subview;
-                [textField setBackgroundColor:[UIColor clearColor]];
-                textField.layer.borderColor =[[UIColor lightGrayColor] CGColor];
-                textField.clearButtonMode = UITextFieldViewModeNever;
-                for (UIView *subsubview in textField.subviews) {
-                    if ([subsubview isKindOfClass:NSClassFromString(@"_UISearchBarSearchFieldBackgroundView")]) {
-                        [subsubview removeFromSuperview];
-                    }
-                }
-            }
-             
-        }
-    }
-    
-    [fromSearchBar setImage:[UIImage imageNamed:@"location-light-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    
-    for (UIView *firstSubView in toSearchBar.subviews)
-    {
-        for (UIView *subview in firstSubView.subviews) {
-            // Remove the default background
-            
-            if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
-                [subview removeFromSuperview];
-            }
-            
-            // Remove the rounded corners
-            if ([subview isKindOfClass:NSClassFromString(@"UITextField")]) {
-                UITextField *textField = (UITextField *)subview;
-                [textField setBackgroundColor:[UIColor clearColor]];
-                textField.layer.borderColor =[[UIColor lightGrayColor] CGColor];
-                textField.clearButtonMode = UITextFieldViewModeNever;
-                for (UIView *subsubview in textField.subviews) {
-                    if ([subsubview isKindOfClass:NSClassFromString(@"_UISearchBarSearchFieldBackgroundView")]) {
-                        [subsubview removeFromSuperview];
-                    }
-                }
-            }
-        }
-    }
-    
-    [toSearchBar setImage:[UIImage imageNamed:@"finish_flag-light-50.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    
-    [self setBookmarkButtonStatus];
 }
 
 -(void)setUpToolBar{
@@ -414,6 +378,7 @@ typedef enum
 -(void)clearSearchTexts{
     [fromSearchBar setText:@""];
     [toSearchBar setText:@""];
+    toString = @"";
 }
 
 -(void)setCurrentLocationIfAvailableToFromSearchBar{
@@ -817,7 +782,8 @@ typedef enum
     [routeResultsTableView reloadData];
 //    [self reloadTableViewAnimatedWithInteralSeconds:0.2];
 //    [searchActivityIndicator stopAnimating];
-    [SVProgressHUD dismissFromView:self.view];
+//    [SVProgressHUD dismissFromView:self.view];
+    [searchActivitySpinner endRefreshing];
     
     [routeResultsTableView setContentOffset:CGPointZero animated:YES];
     
@@ -858,10 +824,14 @@ typedef enum
     }
     
     [self hideToolBar:YES animated:NO];
-    [SVProgressHUD dismissFromView:self.view];
+//    [SVProgressHUD dismissFromView:self.view];
+    [searchActivitySpinner endRefreshing];
 }
 #pragma mark - routeSearchOptionSelection
 -(void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions{
+    
+//    localRouteSearchOptions = [routeOptions copy];
+    
     localRouteSearchOptions.selectedTimeType = routeOptions.selectedTimeType;
     localRouteSearchOptions.selectedRouteSearchOptimization = routeOptions.selectedRouteSearchOptimization;
     
@@ -880,6 +850,7 @@ typedef enum
     
     [self setSelectedTimesForDate:localRouteSearchOptions.date];
     
+    [self setOptionsTextToRouteOptionsLabel];
     [self searchRouteIfPossible];
 }
 
@@ -892,6 +863,7 @@ typedef enum
     [self.refreshControl addTarget:self action:@selector(tableViewRefreshing) forControlEvents:UIControlEventValueChanged];
 //    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Reload Routes"];
     tableViewController.refreshControl = self.refreshControl;
+    routeResultsTableView.backgroundView.layer.zPosition -= 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -1387,10 +1359,11 @@ typedef enum
 
 -(void)routeSearchOptionsChanged:(id)sender {
     localRouteSearchOptions = [[self.settingsManager globalRouteOptions] copy];
-    
     localRouteSearchOptions.date = [NSDate date];
     
     [self searchRouteIfPossible];
+    
+    [self setOptionsTextToRouteOptionsLabel];
 }
 
 #pragma mark - helper methods
@@ -1402,14 +1375,13 @@ typedef enum
         if ([toSearchBar.text isEqualToString:currentLocationText]) {
             toCoords = [NSString stringWithFormat:@"%f,%f", self.currentUserLocation.coordinate.longitude, self.currentUserLocation.coordinate.latitude];
         }
-//        NSString *timeType;
-//        if (routeSearchOptions.selectedTimeType == RouteTimeNow || routeSearchOptions.selectedTimeType == RouteTimeDeparture) {
-//            timeType = @"departure";
-//        }else{
-//            timeType = @"arrival";
-//        }
         
-        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions];
+        if (refreshingRouteTable) {
+            refreshingRouteTable = NO;
+        }else{
+            //[SVProgressHUD showHUDInView:self.view];
+            [searchActivitySpinner beginRefreshing];
+        }
         
         //Remove previous search result from table
         if (!nextRoutesRequested && !prevRoutesRequested) {
@@ -1417,16 +1389,12 @@ typedef enum
             [routeResultsTableView reloadData];
         }
         
-        if (refreshingRouteTable) {
-            refreshingRouteTable = NO;
-        }else{
-            [SVProgressHUD showHUDInView:self.view];
-        }
-        
         if (self.tableViewMode == TableViewModeSuggestions) {
             [self setMainTableViewMode:TableViewModeRouteResults];
             [routeResultsTableView reloadData];
         }
+        
+        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil];
     }else{
         if (refreshingRouteTable) {
             self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
@@ -1504,6 +1472,38 @@ typedef enum
             
         default:
             break;
+    }
+}
+
+- (void)setOptionsTextToRouteOptionsLabel{
+    if ([localRouteSearchOptions isAllTrasportTypesSelected]) {
+        routeOptionsLable.text = @"Including All Transport Options";
+    }else if ([localRouteSearchOptions isAllTrasportTypesExcluded]){
+        routeOptionsLable.text = @"Only Walking Routes";
+    }else{
+        NSArray *excluded = [localRouteSearchOptions listOfExcludedtransportTypes];
+        if (excluded.count > 0) {
+            routeOptionsLable.text = [NSString stringWithFormat:@"Excluding: %@", [self formatPrettyDisplayList:excluded]];
+        }else{
+            routeOptionsLable.text = @"Including All Transport Options";
+        }
+    }
+}
+
+- (void)setTableBackgroundView {
+    [routeResultsTableView setBlurredBackgroundWithImageNamed:nil];
+}
+
+-(NSString *)formatPrettyDisplayList:(NSArray *)stringArray{
+    if (stringArray.count == 0) {
+        return @"";
+    }else if (stringArray.count == 1){
+        return stringArray[0];
+    }else if (stringArray.count == 2){
+        return [NSString stringWithFormat:@"%@ and %@", stringArray[0], stringArray[1]];
+    }else{
+        NSString *commadPart = [ReittiStringFormatter commaSepStringFromArray:[stringArray subarrayWithRange:NSMakeRange(0, stringArray.count - 1)] withSeparator:@", "];
+        return [NSString stringWithFormat:@"%@ and %@", commadPart, [stringArray lastObject]];
     }
 }
 

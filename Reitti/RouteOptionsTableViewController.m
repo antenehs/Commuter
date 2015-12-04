@@ -11,8 +11,12 @@
 #import "ASA_Helpers.h"
 #import "RouteSearchOptions.h"
 #import "ReittiNotificationHelper.h"
+#import "RettiDataManager.h"
+#import "CoreDataManager.h"
 
 @interface RouteOptionsTableViewController ()
+
+@property RettiDataManager *reittiDataManager;
 
 @end
 
@@ -30,29 +34,70 @@
     
     settingsChanged = NO;
     
-    if (globalSettingsMode) {
-        dateAndTimeSection = saveSettingsSections = -1, transportTypeSection = 0, searchOptionSection = 1, advancedOptionsSection = 2;
-        numberOfSections = 3;
-        self.navigationItem.rightBarButtonItem = nil;
-    }else{
-        dateAndTimeSection = 0, transportTypeSection = 1, searchOptionSection = 2, advancedOptionsSection = 3, saveSettingsSections = 4;
-        numberOfSections = 5;
+    if (self.reittiDataManager == nil) {
+        
+        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
+        
+        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        
+        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    }
+    
+    if (self.settingsManager == nil) {
+        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
     }
     
     ticketZoneSelectorViewIndex = 4000, changeMargineSelectorViewIndex = 4001, walkingSpeedSelectorViewIndex = 4002;
     
-    if (globalSettingsMode) {
+    if (globalSettingsMode){
         routeSearchOptions = [settingsManager globalRouteOptions];
     }
     
-    if (routeSearchOptions == nil) {
+    if (routeSearchOptions == nil)
         routeSearchOptions = [RouteSearchOptions defaultOptions];
-    }
     
-    trasportTypes = [RouteSearchOptions getTransportTypeOptions];
+    if (routeSearchOptions.selectedRouteTrasportTypes == nil)
+        routeSearchOptions.selectedRouteTrasportTypes = [routeSearchOptions allTrasportTypeNames];
+
+    [self setSectionAndRowNumbers];
+    
+    trasportTypes = [routeSearchOptions getTransportTypeOptions];
     
 //    self.tableView.separatorColor = [UIColor clearColor];
     [self setTableBackgroundView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userLocationValueChanged:)
+                                                 name:userlocationChangedNotificationName object:nil];
+}
+
+- (void)setSectionAndRowNumbers {
+    int sectionNumber = 0;
+    if (globalSettingsMode) {
+        dateAndTimeSection = saveSettingsSections = -1;
+        self.navigationItem.rightBarButtonItem = nil;
+    }else{
+        dateAndTimeSection = sectionNumber++;
+    }
+    
+    transportTypeSection = [routeSearchOptions getTransportTypeOptions] != nil ? sectionNumber++ : -1;
+    searchOptionSection = sectionNumber++;
+    
+    int advancedOptionRow = 0;
+    ticketZoneRow = [routeSearchOptions getTicketZoneOptions] != nil ? advancedOptionRow++ : -1;
+    changeMargineRow = [routeSearchOptions getChangeMargineOptions] != nil ? advancedOptionRow++ : -1;
+    walkingSpeedRow = [routeSearchOptions getWalkingSpeedOptions] != nil ? advancedOptionRow++ : -1;
+    
+    numberOfAdvancedOptions = advancedOptionRow;
+    
+    advancedOptionsSection = numberOfAdvancedOptions > 0 ? sectionNumber++ : -1;
+    
+    if (!globalSettingsMode)
+        saveSettingsSections = sectionNumber++;
+    
+    resetSettingsSections = sectionNumber++;
+    
+    numberOfSections = sectionNumber;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -63,8 +108,7 @@
     [self saveOpitionsToGlobalSettings];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     [self setTableBackgroundView];
 }
 
@@ -91,7 +135,9 @@
     }else if (section == searchOptionSection){
         return 3;
     }else if (section == advancedOptionsSection){
-        return 3;
+        return numberOfAdvancedOptions;
+    }else if (section == saveSettingsSections){
+        return 1;
     }else{
         return 1;
     }
@@ -130,8 +176,6 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.textLabel.textColor = [UIColor grayColor];
         }
-        
-//        cell.imageView.bounds = CGRectInset(cell.imageView.frame, 10.0f, 10.0f);
     }else if (indexPath.section == searchOptionSection){
         cell = [tableView dequeueReusableCellWithIdentifier:@"optionCell"];
         
@@ -176,22 +220,27 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"advanceOptionCell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if (indexPath.row == 0) {
+        if (indexPath.row == ticketZoneRow) {
             cell.textLabel.text = @"Ticket Zone";
-            [self setDetailForAdvancedOptionCell:cell detailText:routeSearchOptions.selectedTicketZone selectedIndex:[routeSearchOptions getSelectedTicketZoneIndex] defaultOptionIndex:[RouteSearchOptions getDefaultValueIndexForTicketZoneOptions]];
-        }else if (indexPath.row == 1) {
+            [self setDetailForAdvancedOptionCell:cell detailText:routeSearchOptions.selectedTicketZone selectedIndex:[routeSearchOptions getSelectedTicketZoneIndex] defaultOptionIndex:[routeSearchOptions getDefaultValueIndexForTicketZoneOptions]];
+        }else if (indexPath.row == changeMargineRow) {
             cell.textLabel.text = @"Change margin";
-            [self setDetailForAdvancedOptionCell:cell detailText:routeSearchOptions.selectedChangeMargine selectedIndex:[routeSearchOptions getSelectedChangeMargineIndex] defaultOptionIndex:[RouteSearchOptions getDefaultValueIndexForChangeMargineOptions]];
+            [self setDetailForAdvancedOptionCell:cell detailText:routeSearchOptions.selectedChangeMargine selectedIndex:[routeSearchOptions getSelectedChangeMargineIndex] defaultOptionIndex:[routeSearchOptions getDefaultValueIndexForChangeMargineOptions]];
         }else{
             cell.textLabel.text = @"Walking Speed";
-            [self setDetailForAdvancedOptionCell:cell detailText:routeSearchOptions.selectedWalkingSpeed selectedIndex:[routeSearchOptions getSelectedWalkingSpeedIndex] defaultOptionIndex:[RouteSearchOptions getDefaultValueIndexForWalkingSpeedOptions]];
+            [self setDetailForAdvancedOptionCell:cell detailText:routeSearchOptions.selectedWalkingSpeed selectedIndex:[routeSearchOptions getSelectedWalkingSpeedIndex] defaultOptionIndex:[routeSearchOptions getDefaultValueIndexForWalkingSpeedOptions]];
         }
-    }else{
+    }else if (indexPath.section == saveSettingsSections){
         cell = [tableView dequeueReusableCellWithIdentifier:@"saveSettingsCell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         rememberOptionsButton = (UIButton *)[cell viewWithTag:1001];
         rememberOptionsButton.enabled = settingsChanged;
+    }else{
+        cell = [tableView dequeueReusableCellWithIdentifier:@"resetSettingsCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        resetOptionsButton = (UIButton *)[cell viewWithTag:1001];
     }
     
     // Configure the cell...
@@ -249,15 +298,21 @@
 {
     if (indexPath.section == transportTypeSection) {
         UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+        NSMutableArray *toBeModified = [routeSearchOptions.selectedRouteTrasportTypes mutableCopy];
+        if (toBeModified == nil)
+            toBeModified = [[routeSearchOptions allTrasportTypeNames] mutableCopy];
+        
         if (selectedCell.accessoryType == UITableViewCellAccessoryCheckmark) {
             selectedCell.accessoryType = UITableViewCellAccessoryNone;
             selectedCell.textLabel.textColor = [UIColor grayColor];
+            [toBeModified removeObject:selectedCell.textLabel.text];
         }else if (selectedCell.accessoryType == UITableViewCellAccessoryNone){
             selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
             selectedCell.textLabel.textColor = [UIColor blackColor];
+            [toBeModified addObject:selectedCell.textLabel.text];
         }
         
-        routeSearchOptions.selectedRouteTrasportTypes = [self getSelectedTransportTypes];
+        routeSearchOptions.selectedRouteTrasportTypes = toBeModified;
 //        [self saveOpitionsToGlobalSettings];
         [self optionsChanged];
     }
@@ -297,7 +352,6 @@
 - (IBAction)doneButtonPressed:(id)sender {
     /* not neccessary but do it anyways */
     routeSearchOptions.date = datePicker.date;
-    routeSearchOptions.selectedRouteTrasportTypes = [self getSelectedTransportTypes];
     
     [self saveOpitionsToGlobalSettings];
     
@@ -329,10 +383,35 @@
     [ReittiNotificationHelper showSuccessBannerMessage:@"Options saved!" andContent:nil];
 }
 
+- (IBAction)resetOptionsButtonPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Reset" otherButtonTitles:nil];
+    
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
+    
+    if (buttonIndex == 0) {
+        [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+        routeSearchOptions = [RouteSearchOptions defaultOptions];
+        resetOptionsButton.enabled = NO;
+        [self.tableView reloadData];
+    }
+}
+
+#pragma mark - Settings change notifications
+-(void)userLocationValueChanged:(NSNotification *)notification{
+    [self setSectionAndRowNumbers];
+    [self.tableView reloadData];
+}
+
 #pragma mark - helpers
 - (void)optionsChanged{
     settingsChanged = YES;
     rememberOptionsButton.enabled = YES;
+    resetOptionsButton.enabled = YES;
 }
 - (void)saveOpitionsToGlobalSettings {
     if (globalSettingsMode && settingsChanged) {
@@ -342,20 +421,6 @@
 
 - (void)returnRouteOptionsToDelegate {
     [self.routeOptionSelectionDelegate optionSelectionDidComplete:[routeSearchOptions copy]];
-}
-
--(NSArray *)getSelectedTransportTypes{
-    NSMutableArray *transports = [@[] mutableCopy];
-    
-    NSInteger numberOfTransportCells = [self.tableView numberOfRowsInSection:transportTypeSection];
-    for (int i = 0; i < numberOfTransportCells; i++) {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:transportTypeSection]];
-        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-            [transports addObject:cell.textLabel.text];
-        }
-    }
-    
-    return transports;
 }
 
 - (void)setDetailForAdvancedOptionAtRow:(NSInteger)row detailText:(NSString *)detail selectedIndex:(NSInteger)selectedIndex defaultOptionIndex:(NSInteger)defaultIndex{
@@ -375,11 +440,11 @@
 
 - (NSArray *)dataListForSelectorForViewControllerIndex:(NSInteger)viewControllerIndex {
     if (viewControllerIndex == ticketZoneSelectorViewIndex) {
-        return [RouteSearchOptions getTicketZoneOptions];
+        return [routeSearchOptions getTicketZoneOptions];
     }else if (viewControllerIndex == changeMargineSelectorViewIndex) {
-        return [RouteSearchOptions getChangeMargineOptions];
+        return [routeSearchOptions getChangeMargineOptions];
     }else if (viewControllerIndex == walkingSpeedSelectorViewIndex) {
-        return [RouteSearchOptions getWalkingSpeedOptions];
+        return [routeSearchOptions getWalkingSpeedOptions];
     }
     
     return nil;
@@ -387,16 +452,16 @@
 
 - (void)selectedIndex:(NSInteger)selectedIndex senderViewControllerIndex:(NSInteger)viewControllerIndex {
     if (viewControllerIndex == ticketZoneSelectorViewIndex) {
-        routeSearchOptions.selectedTicketZone = [[RouteSearchOptions getTicketZoneOptions][selectedIndex] objectForKey:@"displayText"];
+        routeSearchOptions.selectedTicketZone = [[routeSearchOptions getTicketZoneOptions][selectedIndex] objectForKey:@"displayText"];
 
-        [self setDetailForAdvancedOptionAtRow:0 detailText:routeSearchOptions.selectedTicketZone selectedIndex:selectedIndex defaultOptionIndex:[RouteSearchOptions getDefaultValueIndexForTicketZoneOptions]];
+        [self setDetailForAdvancedOptionAtRow:ticketZoneRow detailText:routeSearchOptions.selectedTicketZone selectedIndex:selectedIndex defaultOptionIndex:[routeSearchOptions getDefaultValueIndexForTicketZoneOptions]];
     }else if (viewControllerIndex == changeMargineSelectorViewIndex) {
-        routeSearchOptions.selectedChangeMargine = [[RouteSearchOptions getChangeMargineOptions][selectedIndex] objectForKey:@"displayText"];
+        routeSearchOptions.selectedChangeMargine = [[routeSearchOptions getChangeMargineOptions][selectedIndex] objectForKey:@"displayText"];
 
-        [self setDetailForAdvancedOptionAtRow:1 detailText:routeSearchOptions.selectedChangeMargine selectedIndex:selectedIndex defaultOptionIndex:[RouteSearchOptions getDefaultValueIndexForChangeMargineOptions]];
+        [self setDetailForAdvancedOptionAtRow:changeMargineRow detailText:routeSearchOptions.selectedChangeMargine selectedIndex:selectedIndex defaultOptionIndex:[routeSearchOptions getDefaultValueIndexForChangeMargineOptions]];
     }else if (viewControllerIndex == walkingSpeedSelectorViewIndex) {
-        routeSearchOptions.selectedWalkingSpeed = [[RouteSearchOptions getWalkingSpeedOptions][selectedIndex] objectForKey:@"displayText"];
-        [self setDetailForAdvancedOptionAtRow:2 detailText:routeSearchOptions.selectedWalkingSpeed selectedIndex:selectedIndex defaultOptionIndex:[RouteSearchOptions getDefaultValueIndexForWalkingSpeedOptions]];
+        routeSearchOptions.selectedWalkingSpeed = [[routeSearchOptions getWalkingSpeedOptions][selectedIndex] objectForKey:@"displayText"];
+        [self setDetailForAdvancedOptionAtRow:walkingSpeedRow detailText:routeSearchOptions.selectedWalkingSpeed selectedIndex:selectedIndex defaultOptionIndex:[routeSearchOptions getDefaultValueIndexForWalkingSpeedOptions]];
     }
     
 //    [self saveOpitionsToGlobalSettings];
@@ -427,6 +492,9 @@
     return nil;
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:userlocationChangedNotificationName object:nil];
+}
 
 #pragma mark - Navigation
 
@@ -439,9 +507,9 @@
         SingleSelectTableViewController *selectorViewController = (SingleSelectTableViewController *)segue.destinationViewController;
         selectorViewController.singleSelectTableViewControllerDelegate = self;
         
-        if (indexPath.row == 0) {
+        if (indexPath.row == ticketZoneRow) {
             selectorViewController.viewControllerIndex = ticketZoneSelectorViewIndex;
-        }else if (indexPath.row == 1) {
+        }else if (indexPath.row == changeMargineRow) {
             selectorViewController.viewControllerIndex = changeMargineSelectorViewIndex;
         }else {
             selectorViewController.viewControllerIndex = walkingSpeedSelectorViewIndex;

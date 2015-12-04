@@ -25,6 +25,7 @@
 #import "DroppedPinManager.h"
 #import "GCThumbnailAnnotation.h"
 #import "ReittiAppShortcutManager.h"
+#import "ASA_Helpers.h"
 
 @interface SearchController ()
 
@@ -386,21 +387,7 @@
     [self setNavBarSize];
     [self.navigationItem setTitle:@""];
     //Set search bar text color
-    for (UIView *subView in mainSearchBar.subviews)
-    {
-        for (UIView *secondLevelSubview in subView.subviews){
-            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-            {
-                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                
-                //set font color here
-                searchBarTextField.textColor = [UIColor whiteColor];
-                
-                break;
-            }
-        }
-    }
-    
+    [mainSearchBar asa_setTextColor:[UIColor whiteColor]];
     [mainSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     
     if (self.darkMode) {
@@ -408,7 +395,6 @@
     }else{
         mainSearchBar.keyboardAppearance = UIKeyboardAppearanceDefault;
     }
-    
 }
 
 -(int)searchViewLowerBound{

@@ -7,6 +7,7 @@
 //
 
 #import "APIClient.h"
+#import "RouteSearchOptions.h"
 
 @class TRECommunication;
 
@@ -28,6 +29,19 @@
 @end
 
 @interface TRECommunication : APIClient
+
++(NSArray *)allTrasportTypeNames;
+
++(NSArray *)getTransportTypeOptions;
++(NSArray *)getTicketZoneOptions;
++(NSArray *)getChangeMargineOptions;
++(NSArray *)getWalkingSpeedOptions;
+
++(NSInteger)getDefaultValueIndexForTicketZoneOptions;
++(NSInteger)getDefaultValueIndexForChangeMargineOptions;
++(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
+
+-(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 
 @property (nonatomic, weak) id <TRECommunicationDelegate> delegate;
 

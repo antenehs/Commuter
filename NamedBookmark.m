@@ -7,7 +7,7 @@
 //
 
 #import "NamedBookmark.h"
-
+#import "ReittiStringFormatter.h"
 
 @implementation NamedBookmark
 
@@ -35,6 +35,10 @@
     }
     
     return @"location-black-50.png";
+}
+
+- (CLLocationCoordinate2D)cl2dCoords{
+    return [ReittiStringFormatter convertStringTo2DCoord:self.coords];
 }
 
 @end
