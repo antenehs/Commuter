@@ -24,6 +24,8 @@
 
 @interface RouteDetailViewController ()
 
+@property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
+
 @end
 
 @implementation RouteDetailViewController
@@ -990,6 +992,26 @@
     double zoomExponent = log2(zoomScale);
     zoomLevel = (NSUInteger)(20 - ceil(zoomExponent));
     return zoomLevel;
+}
+
+#pragma mark - Peek and Pop actions support
+- (NSArray<id<UIPreviewActionItem>> *)previewActionItems {
+    return self.previewActions;
+}
+
+- (NSArray<id<UIPreviewActionItem>> *)previewActions {
+    if (_previewActions == nil) {
+        UIPreviewAction *printAction = [UIPreviewAction
+                                        actionWithTitle:@"Remind Me"
+                                        style:UIPreviewActionStyleDefault
+                                        handler:^(UIPreviewAction * _Nonnull action,
+                                                  UIViewController * _Nonnull previewViewController) {
+                                            RouteDetailViewController *viewController = (RouteDetailViewController *)previewViewController;
+                                            [viewController reminderButtonPressed:self];
+                                        }];
+        _previewActions = @[printAction];
+    }
+    return _previewActions;
 }
 
 #pragma mark - IB Actions

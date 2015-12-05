@@ -90,6 +90,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self setUpMapViewForBusStop];
+    [self.navigationController setToolbarHidden:YES animated:NO];
 //    [self layoutAnimated:NO];
 }
 

@@ -65,6 +65,11 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self layoutAnimated:NO];
+    [self.navigationController setToolbarHidden:NO animated:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 #pragma mark - View methods
@@ -123,7 +128,6 @@
 #pragma mark - IBActions
 - (IBAction)openInSafari:(id)sender {
     if (![[UIApplication sharedApplication] openURL:_url])
-        
         NSLog(@"%@%@",@"Failed to open url:",[_url description]);
 }
 

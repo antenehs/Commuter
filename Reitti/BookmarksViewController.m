@@ -25,6 +25,8 @@
 
 @interface BookmarksViewController ()
 
+@property (nonatomic, strong) id previewingContext;
+
 @end
 
 @implementation BookmarksViewController
@@ -109,6 +111,9 @@
     activityIndicator.hidesWhenStopped = YES;
     
     [self.navigationItem setTitle:@""];
+    
+    /* Register #D touch for Peek and Pop if available */
+    [self registerFor3DTouchIfAvailable];
     
 }
 
@@ -1055,19 +1060,8 @@
                 
                 StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
-//                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//                StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
                 StopViewController *stopViewController = (StopViewController *)segue.destinationViewController;
-                stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.busStopCode intValue]];
-                stopViewController.stopShortCode = selected.busStopShortCode;
-                stopViewController.stopName = selected.busStopName;
-                stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.busStopWgsCoords];
-                stopViewController.stopEntity = selected;
-//                stopViewController.reittiDataManager = self.reittiDataManager;
-//                stopViewController.droppedPinGeoCode = self.droppedPinGeoCode;
-                stopViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
-                stopViewController.backButtonText = self.title;
-                stopViewController.delegate = self;
+                [self configureStopViewController:stopViewController withStopEntity:selected];
             }
         }
     }else if ([segue.identifier isEqualToString:@"routeSelected"]){
@@ -1077,16 +1071,7 @@
                 RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
                 UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-                RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-                
-                routeSearchViewController.prevToLocation = selected.toLocationName;
-                routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
-                routeSearchViewController.prevFromLocation = selected.fromLocationName;
-                routeSearchViewController.prevFromCoords = selected.fromLocationCoordsString;
-//                routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
-                
-                routeSearchViewController.delegate = self;
-                routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+                [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
             }
         }
     }else if ([segue.identifier isEqualToString:@"routeToNamedBookmark"]){
@@ -1096,13 +1081,7 @@
                 NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
                 UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-                RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-                
-                routeSearchViewController.prevToLocation = selected.name;
-                routeSearchViewController.prevToCoords = selected.coords;
-                
-                routeSearchViewController.delegate = self;
-                routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+                [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
             }
         }
     }else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
@@ -1151,6 +1130,132 @@
         controller.currentUserLocation = self.currentUserLocation;
     }
 }
+
+- (void)configureRouteSearchNavigationController:(UINavigationController *)navigationController withNamedBookmark:(NamedBookmark *)namedBookmark{
+    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
+        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
+        
+        routeSearchViewController.prevToLocation = namedBookmark.name;
+        routeSearchViewController.prevToCoords = namedBookmark.coords;
+        
+        routeSearchViewController.delegate = self;
+        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+    }
+}
+
+- (void)configureRouteSearchNavigationController:(UINavigationController *)navigationController withRouteEntity:(RouteEntity *)routeEntity{
+    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
+        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
+        
+        routeSearchViewController.prevToLocation = routeEntity.toLocationName;
+        routeSearchViewController.prevToCoords = routeEntity.toLocationCoordsString;
+        routeSearchViewController.prevFromLocation = routeEntity.fromLocationName;
+        routeSearchViewController.prevFromCoords = routeEntity.fromLocationCoordsString;
+        
+        routeSearchViewController.delegate = self;
+        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+    }
+}
+
+- (void)configureStopViewController:(StopViewController *)stopViewController withStopEntity:(StopEntity *)stopEntity{
+    if ([stopViewController isKindOfClass:[StopViewController class]]) {
+        stopViewController.stopCode = [NSString stringWithFormat:@"%d", [stopEntity.busStopCode intValue]];
+        stopViewController.stopShortCode = stopEntity.busStopShortCode;
+        stopViewController.stopName = stopEntity.busStopName;
+        stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords];
+        stopViewController.stopEntity = stopEntity;
+        stopViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+        stopViewController.backButtonText = self.title;
+        stopViewController.delegate = self;
+    }
+}
+
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForRowAtPoint:location];
+    NSInteger dataIndex = [self dataIndexForIndexPath:selectedRowIndexPath];
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:selectedRowIndexPath];
+    if (cell)
+        previewingContext.sourceRect = cell.frame;
+    
+    if ((dataIndex < self.dataToLoad.count)) {
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
+            NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
+            
+            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
+            [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
+            
+            return navigationController;
+        }
+        
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+            RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
+            
+            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
+            [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
+            
+            return navigationController;
+        }
+        
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]){
+            StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
+            
+            StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
+            
+            [self configureStopViewController:stopViewController withStopEntity:selected];
+            
+            return stopViewController;
+        }
+    }
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
+    if ([viewControllerToCommit isKindOfClass:[StopViewController class]]) {
+        [self.navigationController showViewController:viewControllerToCommit sender:nil];
+    }else{
+        [self showViewController:viewControllerToCommit sender:nil];
+    }
+}
+
+-(void)registerFor3DTouchIfAvailable{
+    // Register for 3D Touch Previewing if available
+    if ([self isForceTouchAvailable])
+    {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.tableView];
+    }else{
+        NSLog(@"3D Touch is not available on this device.!");
+        
+        // handle a 3D Touch alternative (long gesture recognizer)
+    }
+}
+
+- (BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
+        }
+    }
+}
+
 
 - (void)dealloc
 {

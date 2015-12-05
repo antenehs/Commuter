@@ -29,6 +29,8 @@
 
 @interface SearchController ()
 
+@property (nonatomic, strong) id previewingContext;
+
 @end
 
 @implementation SearchController
@@ -194,6 +196,7 @@
     [self initializeMapComponents];
     [self initDisruptionFetching];
     [self setBookmarkedStopsToDefaults];
+    [self registerFor3DTouchIfAvailable];
 }
 
 - (void)updateAppShortcuts
@@ -2688,16 +2691,16 @@
         [bookmarksViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        bookmarksViewController.reittiDataManager = self.reittiDataManager;
     }
+    
     if ([segue.identifier isEqualToString:@"seeFullTimeTable"]) {
         WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
         NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
         webViewController._url = url;
         webViewController._pageTitle = _busStop.code_short;
     }
+    
     if ([segue.identifier isEqualToString:@"openStopView"] || [segue.identifier isEqualToString:@"openNearbyStop"])
     {
-//        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//        StopViewController *stopViewController =[[navigationController viewControllers] lastObject];
         StopViewController *stopViewController = (StopViewController *)segue.destinationViewController;
         
         if ([segue.identifier isEqualToString:@"openNearbyStop"]) {
@@ -2705,22 +2708,10 @@
             
             BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.row];
             
-            stopViewController.stopCode = [NSString stringWithFormat:@"%d", [selected.code intValue]];
-            stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:selected.coords];
-            stopViewController.stopShortCode = selected.codeShort;
-            stopViewController.stopName = selected.name;
+            [self configureStopViewController:stopViewController withBusStopShort:selected];
         }else{
-            stopViewController.stopCode = selectedStopCode;
-            stopViewController.stopCoords = selectedStopAnnotationCoords;
-            stopViewController.stopShortCode = selectedStopShortCode;
-            stopViewController.stopName = selectedStopName;
+            [self configureStopViewControllerWithAnnotation:stopViewController];
         }
-        
-        stopViewController.darkMode = self.darkMode;
-//        stopViewController.droppedPinGeoCode = droppedPinGeoCode;
-        stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-//        stopViewController.reittiDataManager = self.reittiDataManager;
         
     }
     if ([segue.identifier isEqualToString:@"addressSearchController"]) {
@@ -2749,6 +2740,7 @@
         [addressSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        addressSearchViewController.reittiDataManager = self.reittiDataManager;
     }
+    
     if ([segue.identifier isEqualToString:@"routeSearchController"] || [segue.identifier isEqualToString:@"switchToRouteSearch"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
@@ -2786,6 +2778,7 @@
         [routeSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 //        routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
+    
     if ([segue.identifier isEqualToString:@"infoViewSegue"]) {
         UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
         InfoViewController *infoViewController = [[navController viewControllers] lastObject];
@@ -2838,6 +2831,88 @@
             controller.viewControllerMode = ViewControllerModeViewGeoCode;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
             [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        }
+    }
+}
+
+- (void)configureStopViewController:(StopViewController *)stopViewController withBusStopShort:(BusStopShort *)busStop{
+    if ([stopViewController isKindOfClass:[StopViewController class]]) {
+        stopViewController.stopCode = [NSString stringWithFormat:@"%d", [busStop.code intValue]];
+        stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:busStop.coords];
+        stopViewController.stopShortCode = busStop.codeShort;
+        stopViewController.stopName = busStop.name;
+        
+        stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    }
+}
+
+- (void)configureStopViewControllerWithAnnotation:(StopViewController *)stopViewController{
+    if ([stopViewController isKindOfClass:[StopViewController class]]) {
+        stopViewController.stopCode = selectedStopCode;
+        stopViewController.stopCoords = selectedStopAnnotationCoords;
+        stopViewController.stopShortCode = selectedStopShortCode;
+        stopViewController.stopName = selectedStopName;
+        
+        stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    }
+}
+
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    NSIndexPath *selectedRowIndexPath = [searchResultsTable indexPathForRowAtPoint:location];
+    UITableViewCell *cell = [searchResultsTable cellForRowAtIndexPath:selectedRowIndexPath];
+    
+    BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.row];
+    if (cell && selected) {
+        previewingContext.sourceRect = cell.frame;
+        StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
+        
+        [self configureStopViewController:stopViewController withBusStopShort:selected];
+        
+        return stopViewController;
+    }
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
+    [self.navigationController showViewController:viewControllerToCommit sender:nil];
+}
+
+-(void)registerFor3DTouchIfAvailable{
+    // Register for 3D Touch Previewing if available
+    if ([self isForceTouchAvailable])
+    {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:searchResultsTable];
+    }else{
+        NSLog(@"3D Touch is not available on this device.!");
+        
+        // handle a 3D Touch alternative (long gesture recognizer)
+    }
+}
+
+- (BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:searchResultsTable];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
         }
     }
 }

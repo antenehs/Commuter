@@ -30,7 +30,7 @@
 - (void)routeSearchViewControllerDismissed;
 @end
 
-@interface RouteSearchViewController : UIViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate, RettiRouteSearchDelegate,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate, RouteOptionSelectionDelegate>{
+@interface RouteSearchViewController : UIViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate,UIActionSheetDelegate, RettiRouteSearchDelegate,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate, RouteOptionSelectionDelegate, UIViewControllerPreviewingDelegate>{
     
     IBOutlet UISearchBar *fromSearchBar;
     IBOutlet UISearchBar *toSearchBar;

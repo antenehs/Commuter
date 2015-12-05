@@ -28,6 +28,8 @@ typedef enum
 @interface RouteSearchViewController ()
 
 @property (nonatomic)TableViewMode tableViewMode;
+@property (nonatomic, strong) id previewingContext;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPress;
 
 @end
 
@@ -84,6 +86,8 @@ typedef enum
     [self setNeedsStatusBarAppearanceUpdate];
     [self initLocationManager];
     [self setUpMainView];
+    [self registerFor3DTouchIfAvailable];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
@@ -269,6 +273,15 @@ typedef enum
     }
     
     [self searchRouteIfPossible];
+}
+
+- (UILongPressGestureRecognizer *)longPress {
+    
+    if (!_longPress) {
+        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPeekFromLongPress)];
+        [routeResultsTableView addGestureRecognizer:_longPress];
+    }
+    return _longPress;
 }
 
 -(void)setUpToolBar{
@@ -676,6 +689,10 @@ typedef enum
             [delegate routeModified];
         }
     }
+}
+
+-(void)showPeekFromLongPress{
+    
 }
 
 
@@ -1663,12 +1680,7 @@ typedef enum
             
             RouteDetailViewController *destinationViewController = (RouteDetailViewController *)segue.destinationViewController;
             
-            destinationViewController.route = selectedRoute;
-            destinationViewController.routeList = self.routeList;
-            destinationViewController.selectedRouteIndex = (int)selectedRowIndexPath.row;
-            destinationViewController.toLocation = toString;
-            destinationViewController.fromLocation = fromString;
-//            destinationViewController.reittiDataManager = self.reittiDataManager;
+            [self configureDetailViewControllerWithRoute:selectedRoute andSelectedRouteIndex:(int)selectedRowIndexPath.row routeDetailViewController:destinationViewController];
             
             [self.navigationItem setTitle:@""];
             if (![self isModalMode]) {
@@ -1680,16 +1692,85 @@ typedef enum
     if ([segue.identifier isEqualToString:@"showSearchOptions"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         RouteOptionsTableViewController *routeOptionsTableViewController = [[navigationController viewControllers] lastObject];
-        
-//        routeOptionsTableViewController.selectedDate = self.;
-//        routeOptionsTableViewController.selectedTimeType = selectedTimeType;
-//        routeOptionsTableViewController.selectedSearchOption = selectedSearchOption;
-//        routeSearchOptions.date = selectedTime;
+
         routeOptionsTableViewController.settingsManager = settingsManager;
         routeOptionsTableViewController.routeSearchOptions = [localRouteSearchOptions copy];
         routeOptionsTableViewController.routeOptionSelectionDelegate = self;
     }
     
+}
+
+- (void)configureDetailViewControllerWithRoute:(Route *)selectedRoute andSelectedRouteIndex:(int)index routeDetailViewController:(RouteDetailViewController *)destinationViewController {
+    destinationViewController.route = selectedRoute;
+    destinationViewController.routeList = self.routeList;
+    destinationViewController.selectedRouteIndex = index;
+    destinationViewController.toLocation = toString;
+    destinationViewController.fromLocation = fromString;
+}
+
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    NSIndexPath *selectedRowIndexPath = [routeResultsTableView indexPathForRowAtPoint:location];
+    if ((selectedRowIndexPath.row < self.routeList.count)) {
+        Route * selectedRoute = [self.routeList objectAtIndex:selectedRowIndexPath.row];
+        
+        UITableViewCell *cell = [routeResultsTableView cellForRowAtIndexPath:selectedRowIndexPath];
+        if (cell) {
+            previewingContext.sourceRect = cell.frame;
+            RouteDetailViewController *navController = (RouteDetailViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteDetailViewController"];
+            [self configureDetailViewControllerWithRoute:selectedRoute andSelectedRouteIndex:(int)selectedRowIndexPath.row  routeDetailViewController:navController];
+            return navController;
+        }
+    }
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    
+    [self.navigationController showViewController:viewControllerToCommit sender:nil];
+    [self.navigationItem setTitle:@""];
+    if (![self isModalMode]) {
+        [self.tabBarController.tabBar setHidden:YES];
+    }
+}
+
+-(void)registerFor3DTouchIfAvailable{
+    // Register for 3D Touch Previewing if available
+    if ([self isForceTouchAvailable])
+    {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:routeResultsTableView];
+        self.longPress.enabled = NO;
+    }else{
+        NSLog(@"3D Touch is not available on this device.!");
+        
+        // handle a 3D Touch alternative (long gesture recognizer)
+        self.longPress.enabled = YES;
+    }
+}
+
+- (BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
+        }
+    }
 }
 
 
