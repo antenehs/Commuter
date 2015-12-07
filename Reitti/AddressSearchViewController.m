@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 //
 
+#import <AudioToolbox/AudioServices.h>
 #import "AddressSearchViewController.h"
 #import "RouteSearchViewController.h"
 #import "CacheManager.h"
@@ -32,6 +33,9 @@
     
     unRespondedRequestsCount = 0;
     isFinalSearch = NO;
+    streetAddressInputMode = NO;
+    addressWithoutStreetNum = @"";
+    keyboardType = AddressSearchViewControllerKeyBoardTypeText;
     topBoundary = 70.0;
     
     reittiDataManager.geocodeSearchdelegate = self;
@@ -93,6 +97,7 @@
     
     //Set search bar text color
     [addressSearchBar asa_setTextColor:[UIColor whiteColor]];
+    [self setKeyboardType:keyboardType withFeedback:NO];
     
     searchResultTableView.backgroundColor = [UIColor clearColor];
 }
@@ -250,6 +255,41 @@
     }
 }
 
+- (IBAction)selectAddressForStreetNumberPressed:(id)sender {
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:searchResultTableView];
+    NSIndexPath *indexPath = [searchResultTableView indexPathForRowAtPoint:buttonPosition];
+    if (indexPath != nil)
+    {
+        if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
+            GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];
+            //Set address of the geocode to the search bar and change keyboard
+            addressSearchBar.text = [NSString stringWithFormat:@"%@ ", [selectedGeocode name]];
+            [self setKeyboardType:AddressSearchViewControllerKeyBoardTypeNumber withFeedback:YES];
+        }
+    }
+}
+
+- (void)setKeyboardType:(AddressSearchViewControllerKeyBoardType)searchbarKeyboardType withFeedback:(BOOL)feedback{
+    keyboardType = searchbarKeyboardType;
+    if (searchbarKeyboardType == AddressSearchViewControllerKeyBoardTypeText) {
+        addressSearchBar.keyboardType = UIKeyboardTypeDefault;
+        streetAddressInputMode = NO;
+        addressWithoutStreetNum = @"";
+    }else{
+        addressSearchBar.keyboardType = UIKeyboardTypeNumberPad;
+        streetAddressInputMode = YES;
+        addressWithoutStreetNum = [addressSearchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    
+    [addressSearchBar resignFirstResponder];
+    [addressSearchBar becomeFirstResponder];
+    
+    if (feedback && !streetAddressInputMode) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    }
+}
+
+
 #pragma mark - search bar methods
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     //hide segment control
@@ -289,6 +329,12 @@
     }else {
         //Load bookmarks and history
         [self setUpMergedInitialSearchView:YES];
+    }
+    
+    if (streetAddressInputMode) {
+        if ([searchText isEqualToString:addressWithoutStreetNum]) {
+            [self setKeyboardType:AddressSearchViewControllerKeyBoardTypeText withFeedback:YES];
+        }
     }
 }
 

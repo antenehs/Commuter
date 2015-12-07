@@ -117,19 +117,22 @@
     
 }
 
--(NSString *)FullAddressString{
-    return [NSString stringWithFormat:@"%@, %@",
-            [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]],
-            self.city
-            ];
-    
+-(NSString *)fullAddressString{
+    //In case of reverse geocoding, street number and city is included in the name. So check if city name exists already
+    if ([[self getStreetAddressString] containsString:self.city]) {
+        return [self getStreetAddressString];
+    }else{
+        return [NSString stringWithFormat:@"%@, %@", [self getStreetAddressString], self.city];
+    }   
 }
 
 -(NSString *)getStreetAddressString{
-    return [NSString stringWithFormat:@"%@",
-            [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]
-            ];
-    
+    //In case of reverse geocoding, street number and city is included in the name.
+    if ([self.name containsString:self.city]) {
+        return self.name;
+    }else{
+        return [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
 }
 
 -(StopType)getStopType{

@@ -493,7 +493,7 @@
             [imageView setImage:[UIImage imageNamed:namedBookmark.iconPictureName]];
             
             title.text = namedBookmark.name;
-            subTitle.text = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress, namedBookmark.city];
+            subTitle.text = [NSString stringWithFormat:@"%@", [namedBookmark getFullAddress]];
             
             UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2004];
             UILabel *leavesTime = (UILabel *)[cell viewWithTag:2005];

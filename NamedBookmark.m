@@ -37,6 +37,13 @@
     return @"location-black-50.png";
 }
 
+-(NSString *)getFullAddress{
+    if ([self.streetAddress containsString:self.city])
+        return self.streetAddress;
+    else
+        return [NSString stringWithFormat:@"%@,\n%@", self.streetAddress, self.city];
+}
+
 - (CLLocationCoordinate2D)cl2dCoords{
     return [ReittiStringFormatter convertStringTo2DCoord:self.coords];
 }

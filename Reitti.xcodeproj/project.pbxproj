@@ -336,6 +336,7 @@
 		66C734FC1B28D5970026A584 /* tram-filled-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F81B28D5970026A584 /* tram-filled-green-100.png */; };
 		66C734FD1B28D5970026A584 /* ferry-filled-cyan-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */; };
 		66C734FF1B28DBB30026A584 /* search-icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734FE1B28DBB30026A584 /* search-icon-100.png */; };
+		66CA02AE1C14AC1000A38858 /* Up Left Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CA02AD1C14AC1000A38858 /* Up Left Filled-100.png */; };
 		66CB95E318E3953D00E95CE5 /* currentLocation3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E218E3953D00E95CE5 /* currentLocation3.png */; };
 		66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */; };
 		66CB95FE18EAC30300E95CE5 /* down_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95FD18EAC30300E95CE5 /* down_256.png */; };
@@ -1030,6 +1031,7 @@
 		66C734F81B28D5970026A584 /* tram-filled-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tram-filled-green-100.png"; path = "Pictures/Version 3.1/tram-filled-green-100.png"; sourceTree = "<group>"; };
 		66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ferry-filled-cyan-100.png"; path = "Pictures/Version 3.1/ferry-filled-cyan-100.png"; sourceTree = "<group>"; };
 		66C734FE1B28DBB30026A584 /* search-icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-icon-100.png"; path = "Pictures/Version 2.3/search-icon-100.png"; sourceTree = "<group>"; };
+		66CA02AD1C14AC1000A38858 /* Up Left Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Up Left Filled-100.png"; path = "Pictures/version 4.1/Up Left Filled-100.png"; sourceTree = "<group>"; };
 		66CB95E218E3953D00E95CE5 /* currentLocation3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = currentLocation3.png; path = Pictures/currentLocation3.png; sourceTree = "<group>"; };
 		66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sendMailbutton3.png; path = Pictures/sendMailbutton3.png; sourceTree = "<group>"; };
 		66CB95E818E4F56C00E95CE5 /* appicon1_retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon1_retina.png; path = Reitti/Pictures/appicon1_retina.png; sourceTree = "<group>"; };
@@ -1396,6 +1398,7 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66CA02AD1C14AC1000A38858 /* Up Left Filled-100.png */,
 				661831291C10907B00DA979E /* Walking-light-100.png */,
 				661831251C108F5600DA979E /* rabbit-light-100.png */,
 				661831261C108F5600DA979E /* transfer-arrows-100.png */,
@@ -2953,6 +2956,7 @@
 				66D989EF199FFC5300E0B74B /* tram-colored-75.png in Resources */,
 				6673774B1ACC9B0A003581B5 /* shoe-white-100.png in Resources */,
 				6665D76F1C0CA6B200ACCC3A /* Restaurant-black-50.png in Resources */,
+				66CA02AE1C14AC1000A38858 /* Up Left Filled-100.png in Resources */,
 				66D989F2199FFC5300E0B74B /* train-colored-75.png in Resources */,
 				66F3B1381AC8749F0038BA78 /* settings-white-100.png in Resources */,
 				66F1384C1997897700B52B6B /* ferry-100.png in Resources */,

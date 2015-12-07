@@ -102,7 +102,11 @@
         self.monochromeIconName = self.namedBookmark.monochromeIconName;
         self.searchedName = self.namedBookmark.searchedName;
         
-        self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", [self.namedBookmark streetAddress], [self.namedBookmark city]];
+        //In some cases street address could already contain the city name
+        if ([self.streetAddress containsString:self.city])
+            self.fullAddress = self.streetAddress;
+        else
+            self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", [self.namedBookmark streetAddress], [self.namedBookmark city]];
     }else if (viewControllerMode == ViewControllerModeViewGeoCode){
         if (self.geoCode.getLocationType == LocationTypePOI)
             self.name = self.geoCode.name;
@@ -117,7 +121,11 @@
         self.iconName = @"location-75-red.png";
         self.monochromeIconName = @"location-black-50.png";
         
-        self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", self.streetAddress, self.city];
+        //In some cases street address could already contain the city name
+        if ([self.streetAddress containsString:self.city])
+            self.fullAddress = self.streetAddress;
+        else
+            self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", self.streetAddress, self.city];
     }
 }
 
@@ -502,7 +510,7 @@
 
 #pragma mark - address search delegates
 - (void)setValuesFromGeoCode:(GeoCode *)selectedGeoCode {
-    self.fullAddress = [NSString stringWithFormat:@"%@,\n%@, Finland", [selectedGeoCode getStreetAddressString], [selectedGeoCode city]];
+    self.fullAddress = [NSString stringWithFormat:@"%@", [selectedGeoCode fullAddressString]];
     self.streetAddress = [selectedGeoCode getStreetAddressString];
     self.city = [selectedGeoCode city];
     self.coords = [selectedGeoCode coords];
@@ -518,7 +526,7 @@
 }
 
 -(void)searchResultSelectedAStop:(StopEntity *)stopEntity{
-    self.fullAddress = [NSString stringWithFormat:@"%@ - %@,\n%@, Finland", [stopEntity busStopName], [stopEntity busStopShortCode], [stopEntity busStopCity]];
+    self.fullAddress = [NSString stringWithFormat:@"%@ - %@,\n%@", [stopEntity busStopName], [stopEntity busStopShortCode], [stopEntity busStopCity]];
     self.streetAddress = [NSString stringWithFormat:@"%@ - %@", [stopEntity busStopName], [stopEntity busStopShortCode]];
     self.city = [stopEntity busStopCity];
     self.coords = [stopEntity busStopWgsCoords];

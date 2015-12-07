@@ -2527,7 +2527,7 @@
         [self plotGeoCodeAnnotation:geoCode];
     }
     
-    mainSearchBar.text = geoCode.FullAddressString;
+    mainSearchBar.text = geoCode.getStreetAddressString;
     prevSearchedCoords = geoCode.coords;
 }
 

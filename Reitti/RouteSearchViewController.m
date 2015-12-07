@@ -956,7 +956,7 @@ typedef enum
             [imageView setImage:[UIImage imageNamed:namedBookmark.iconPictureName]];
             
             title.text = namedBookmark.name;
-            subTitle.text = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress, namedBookmark.city];
+            subTitle.text = [NSString stringWithFormat:@"%@", [namedBookmark getFullAddress]];
             
             
             //cityName.font = CUSTOME_FONT_BOLD(19.0f);
@@ -1338,13 +1338,13 @@ typedef enum
 }
 
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
-    [self setTextToSearchBar:activeSearchBar text:geoCode.FullAddressString];
+    [self setTextToSearchBar:activeSearchBar text:geoCode.fullAddressString];
     
     if (activeSearchBar == fromSearchBar) {
-        fromString = geoCode.FullAddressString;
+        fromString = geoCode.fullAddressString;
         fromCoords = geoCode.coords;
     }else if (activeSearchBar == toSearchBar) {
-        toString = geoCode.FullAddressString;
+        toString = geoCode.fullAddressString;
         toCoords = geoCode.coords;
     }
     

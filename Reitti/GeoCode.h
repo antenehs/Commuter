@@ -25,7 +25,7 @@ typedef enum
 -(NSNumber *)getStopCode;
 -(LocationType)getLocationType;
 -(void)setLocationType:(LocationType)type;
--(NSString *)FullAddressString;
+-(NSString *)fullAddressString;
 -(NSString *)getStreetAddressString;
 -(StopType)getStopType;
 

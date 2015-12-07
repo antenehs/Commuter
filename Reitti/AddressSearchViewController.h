@@ -27,6 +27,12 @@
 - (void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm;
 @end
 
+typedef enum
+{
+    AddressSearchViewControllerKeyBoardTypeText = 1,
+    AddressSearchViewControllerKeyBoardTypeNumber = 2
+} AddressSearchViewControllerKeyBoardType;
+
 @interface AddressSearchViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UISearchBarDelegate, RettiGeocodeSearchDelegate>{
     
     IBOutlet UISearchBar *addressSearchBar;
@@ -49,8 +55,11 @@
     
     int unRespondedRequestsCount;
     BOOL isFinalSearch;
+    BOOL streetAddressInputMode;
+    NSString *addressWithoutStreetNum;
     
     BOOL isInitialMergedView;
+    AddressSearchViewControllerKeyBoardType keyboardType;
     
     float topBoundary;
 }

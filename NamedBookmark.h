@@ -17,6 +17,8 @@
 + (NSArray *)getAddressTypeList;
 + (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
 
+-(NSString *)getFullAddress;
+
 @property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * streetAddress;
