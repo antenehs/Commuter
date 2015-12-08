@@ -337,6 +337,7 @@
 		66C734FD1B28D5970026A584 /* ferry-filled-cyan-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */; };
 		66C734FF1B28DBB30026A584 /* search-icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734FE1B28DBB30026A584 /* search-icon-100.png */; };
 		66CA02AE1C14AC1000A38858 /* Up Left Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CA02AD1C14AC1000A38858 /* Up Left Filled-100.png */; };
+		66CA02B91C1637AB00A38858 /* HSLAndTRECommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA02B81C1637AB00A38858 /* HSLAndTRECommon.m */; };
 		66CB95E318E3953D00E95CE5 /* currentLocation3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E218E3953D00E95CE5 /* currentLocation3.png */; };
 		66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */; };
 		66CB95FE18EAC30300E95CE5 /* down_256.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95FD18EAC30300E95CE5 /* down_256.png */; };
@@ -1032,6 +1033,9 @@
 		66C734F91B28D5970026A584 /* ferry-filled-cyan-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ferry-filled-cyan-100.png"; path = "Pictures/Version 3.1/ferry-filled-cyan-100.png"; sourceTree = "<group>"; };
 		66C734FE1B28DBB30026A584 /* search-icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-icon-100.png"; path = "Pictures/Version 2.3/search-icon-100.png"; sourceTree = "<group>"; };
 		66CA02AD1C14AC1000A38858 /* Up Left Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Up Left Filled-100.png"; path = "Pictures/version 4.1/Up Left Filled-100.png"; sourceTree = "<group>"; };
+		66CA02AF1C15EAD000A38858 /* ApiProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiProtocols.h; sourceTree = "<group>"; };
+		66CA02B71C1637AB00A38858 /* HSLAndTRECommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLAndTRECommon.h; sourceTree = "<group>"; };
+		66CA02B81C1637AB00A38858 /* HSLAndTRECommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLAndTRECommon.m; sourceTree = "<group>"; };
 		66CB95E218E3953D00E95CE5 /* currentLocation3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = currentLocation3.png; path = Pictures/currentLocation3.png; sourceTree = "<group>"; };
 		66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sendMailbutton3.png; path = Pictures/sendMailbutton3.png; sourceTree = "<group>"; };
 		66CB95E818E4F56C00E95CE5 /* appicon1_retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon1_retina.png; path = Reitti/Pictures/appicon1_retina.png; sourceTree = "<group>"; };
@@ -1635,65 +1639,10 @@
 			isa = PBXGroup;
 			children = (
 				6665D7481C0B52CA00ACCC3A /* Helpers */,
-				66A73FDB18BA3CED00405043 /* RettiDataManager.h */,
-				66A73FDC18BA3CED00405043 /* RettiDataManager.m */,
-				664E28851ADAC90100BE2457 /* HSLCommunication.h */,
-				664E28861ADAC90100BE2457 /* HSLCommunication.m */,
-				664E28821ADAC1E400BE2457 /* TRECommunication.h */,
-				664E28831ADAC1E400BE2457 /* TRECommunication.m */,
-				661FAF23189BA5EB00042074 /* APIClient.h */,
-				661FAF24189BA5EB00042074 /* APIClient.m */,
-				661202C01B04F01E00D93C2E /* PubTransCommunicator.h */,
-				661202C11B04F01E00D93C2E /* PubTransCommunicator.m */,
-				665885B31B0B9EA30044F514 /* HslLiveCommunicator.h */,
-				665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */,
-				661202C31B04F5B200D93C2E /* LiveTrafficManager.h */,
-				661202C41B04F5B200D93C2E /* LiveTrafficManager.m */,
-				66FC54821B236866005B890D /* CacheManager.h */,
-				66FC54831B236866005B890D /* CacheManager.m */,
-				66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */,
-				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
-				66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */,
-				66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */,
-				667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */,
-				667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */,
-				664E28B11AE2FD4500BE2457 /* SettingsManager.h */,
-				664E28B21AE2FD4500BE2457 /* SettingsManager.m */,
-				66BCA3801B2F0A2B00166530 /* EnumManager.h */,
-				66BCA3811B2F0A2B00166530 /* EnumManager.m */,
-				666602571AED933A00E3E392 /* AppManager.h */,
-				666602581AED933A00E3E392 /* AppManager.m */,
-				6665D7451C088FFB00ACCC3A /* ReittiAppShortcutManager.h */,
-				6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */,
-				660FB22B1B38B0F2009C30BF /* DroppedPinManager.h */,
-				660FB22C1B38B0F2009C30BF /* DroppedPinManager.m */,
-				661202AE1AFFC12900D93C2E /* RouteViewManager.h */,
-				661202AF1AFFC12900D93C2E /* RouteViewManager.m */,
-				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
-				66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */,
-				66CC941718E3452D00644281 /* MyFixedLayoutGuide.h */,
-				66CC941818E3452D00644281 /* MyFixedLayoutGuide.m */,
-				66C59DAA1999432D00E7AC7A /* ReittiShapeMaker.h */,
-				66C59DAB1999432D00E7AC7A /* ReittiShapeMaker.m */,
-				667B98321AD5863300C45ADF /* ReittiNotificationHelper.h */,
-				667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */,
-				663B7BDE1B4DB5B9008CF187 /* Reachability.h */,
-				663B7BDF1B4DB5B9008CF187 /* Reachability.m */,
-				664E287E1ADAC09200BE2457 /* ASPolylineView */,
-				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
-				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
-				661202D41B07DD0F00D93C2E /* LVThumbnailAnnotation */,
-				66134BF21B3EE7960008C6D7 /* GeoCodeAnnotation */,
-				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
-				664E28711AD86A6600BE2457 /* APParallaxHeader */,
-				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
-				661202E31B07F9AA00D93C2E /* HMSegmentedControl */,
-				66CC93DF18DDC66400644281 /* SVPProgressHUD */,
-				664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */,
-				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
-				664E28811ADAC12400BE2457 /* CustomAnnotations */,
-				6618312B1C10FFAF00DA979E /* JTMaterialSpinner */,
-				66F099621AE6ECB500F20D34 /* TSMessages */,
+				66CA02B21C16364200A38858 /* Environments */,
+				66CA02B41C16367900A38858 /* RestAPI */,
+				66CA02B51C1636A700A38858 /* Managers */,
+				66CA02BB1C163CB200A38858 /* View Libraries */,
 				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
 			);
 			name = "Supporting Classes";
@@ -1945,6 +1894,16 @@
 		6665D7481C0B52CA00ACCC3A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
+				66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */,
+				66CC941718E3452D00644281 /* MyFixedLayoutGuide.h */,
+				66CC941818E3452D00644281 /* MyFixedLayoutGuide.m */,
+				66C59DAA1999432D00E7AC7A /* ReittiShapeMaker.h */,
+				66C59DAB1999432D00E7AC7A /* ReittiShapeMaker.m */,
+				667B98321AD5863300C45ADF /* ReittiNotificationHelper.h */,
+				667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */,
+				663B7BDE1B4DB5B9008CF187 /* Reachability.h */,
+				663B7BDF1B4DB5B9008CF187 /* Reachability.m */,
 				6665D74D1C0B538A00ACCC3A /* ASA_Helpers.h */,
 				6665D7491C0B52DE00ACCC3A /* Categories */,
 			);
@@ -2193,6 +2152,118 @@
 				666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		66CA02B01C16360800A38858 /* HSL */ = {
+			isa = PBXGroup;
+			children = (
+				664E28851ADAC90100BE2457 /* HSLCommunication.h */,
+				664E28861ADAC90100BE2457 /* HSLCommunication.m */,
+				665885B31B0B9EA30044F514 /* HslLiveCommunicator.h */,
+				665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */,
+			);
+			name = HSL;
+			sourceTree = "<group>";
+		};
+		66CA02B11C16361E00A38858 /* TRE */ = {
+			isa = PBXGroup;
+			children = (
+				664E28821ADAC1E400BE2457 /* TRECommunication.h */,
+				664E28831ADAC1E400BE2457 /* TRECommunication.m */,
+			);
+			name = TRE;
+			sourceTree = "<group>";
+		};
+		66CA02B21C16364200A38858 /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				66CA02B61C16375F00A38858 /* HSLandTRECommon */,
+				66CA02B01C16360800A38858 /* HSL */,
+				66CA02B11C16361E00A38858 /* TRE */,
+				66CA02B31C16366300A38858 /* PubTrans */,
+			);
+			name = Environments;
+			sourceTree = "<group>";
+		};
+		66CA02B31C16366300A38858 /* PubTrans */ = {
+			isa = PBXGroup;
+			children = (
+				661202C01B04F01E00D93C2E /* PubTransCommunicator.h */,
+				661202C11B04F01E00D93C2E /* PubTransCommunicator.m */,
+			);
+			name = PubTrans;
+			sourceTree = "<group>";
+		};
+		66CA02B41C16367900A38858 /* RestAPI */ = {
+			isa = PBXGroup;
+			children = (
+				66CA02AF1C15EAD000A38858 /* ApiProtocols.h */,
+				661FAF23189BA5EB00042074 /* APIClient.h */,
+				661FAF24189BA5EB00042074 /* APIClient.m */,
+			);
+			name = RestAPI;
+			sourceTree = "<group>";
+		};
+		66CA02B51C1636A700A38858 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				66A73FDB18BA3CED00405043 /* RettiDataManager.h */,
+				66A73FDC18BA3CED00405043 /* RettiDataManager.m */,
+				661202C31B04F5B200D93C2E /* LiveTrafficManager.h */,
+				661202C41B04F5B200D93C2E /* LiveTrafficManager.m */,
+				66FC54821B236866005B890D /* CacheManager.h */,
+				66FC54831B236866005B890D /* CacheManager.m */,
+				66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */,
+				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
+				66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */,
+				66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */,
+				667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */,
+				667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */,
+				664E28B11AE2FD4500BE2457 /* SettingsManager.h */,
+				664E28B21AE2FD4500BE2457 /* SettingsManager.m */,
+				66BCA3801B2F0A2B00166530 /* EnumManager.h */,
+				66BCA3811B2F0A2B00166530 /* EnumManager.m */,
+				666602571AED933A00E3E392 /* AppManager.h */,
+				666602581AED933A00E3E392 /* AppManager.m */,
+				6665D7451C088FFB00ACCC3A /* ReittiAppShortcutManager.h */,
+				6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */,
+				660FB22B1B38B0F2009C30BF /* DroppedPinManager.h */,
+				660FB22C1B38B0F2009C30BF /* DroppedPinManager.m */,
+				661202AE1AFFC12900D93C2E /* RouteViewManager.h */,
+				661202AF1AFFC12900D93C2E /* RouteViewManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		66CA02B61C16375F00A38858 /* HSLandTRECommon */ = {
+			isa = PBXGroup;
+			children = (
+				66CA02B71C1637AB00A38858 /* HSLAndTRECommon.h */,
+				66CA02B81C1637AB00A38858 /* HSLAndTRECommon.m */,
+			);
+			name = HSLandTRECommon;
+			sourceTree = "<group>";
+		};
+		66CA02BB1C163CB200A38858 /* View Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				664E287E1ADAC09200BE2457 /* ASPolylineView */,
+				66CF819A1A0EEF3F0034C9AB /* TranslucentViews */,
+				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
+				661202D41B07DD0F00D93C2E /* LVThumbnailAnnotation */,
+				66134BF21B3EE7960008C6D7 /* GeoCodeAnnotation */,
+				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
+				664E28711AD86A6600BE2457 /* APParallaxHeader */,
+				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
+				661202E31B07F9AA00D93C2E /* HMSegmentedControl */,
+				66CC93DF18DDC66400644281 /* SVPProgressHUD */,
+				664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */,
+				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
+				664E28811ADAC12400BE2457 /* CustomAnnotations */,
+				6618312B1C10FFAF00DA979E /* JTMaterialSpinner */,
+				66F099621AE6ECB500F20D34 /* TSMessages */,
+			);
+			name = "View Libraries";
 			sourceTree = "<group>";
 		};
 		66CB960218EEE46100E95CE5 /* SWTableViewCell */ = {
@@ -3257,6 +3328,7 @@
 				661202DD1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m in Sources */,
 				660715FF1B45CD2C00033049 /* Tickets.m in Sources */,
 				66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */,
+				66CA02B91C1637AB00A38858 /* HSLAndTRECommon.m in Sources */,
 				661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */,
 				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
 				667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */,

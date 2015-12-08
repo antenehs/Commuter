@@ -1189,6 +1189,8 @@
             UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
             [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
             
+            [navigationController setNavigationBarHidden:YES];
+            
             return navigationController;
         }
         
@@ -1197,6 +1199,8 @@
             
             UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
             [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
+            
+            [navigationController setNavigationBarHidden:YES];
             
             return navigationController;
         }
@@ -1217,6 +1221,10 @@
 - (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
     if ([viewControllerToCommit isKindOfClass:[StopViewController class]]) {
         [self.navigationController showViewController:viewControllerToCommit sender:nil];
+    }else if ([viewControllerToCommit isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)viewControllerToCommit;
+        [navigationController setNavigationBarHidden:NO];
+        [self showViewController:navigationController sender:nil];
     }else{
         [self showViewController:viewControllerToCommit sender:nil];
     }

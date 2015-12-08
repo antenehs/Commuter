@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "APIClient.h"
 #import "RouteSearchOptions.h"
+#import "HSLAndTRECommon.h"
+#import "ApiProtocols.h"
 
 @class TRECommunication;
 
@@ -28,18 +29,7 @@
 - (void)treDisruptionFetchFailed:(int)errorCode;
 @end
 
-@interface TRECommunication : APIClient
-
-+(NSArray *)allTrasportTypeNames;
-
-+(NSArray *)getTransportTypeOptions;
-+(NSArray *)getTicketZoneOptions;
-+(NSArray *)getChangeMargineOptions;
-+(NSArray *)getWalkingSpeedOptions;
-
-+(NSInteger)getDefaultValueIndexForTicketZoneOptions;
-+(NSInteger)getDefaultValueIndexForChangeMargineOptions;
-+(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
+@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol>
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 

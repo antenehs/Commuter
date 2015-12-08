@@ -13,5 +13,6 @@
 
 -(void)asa_removeBackgroundAndBorder;
 -(void)asa_setTextColor:(UIColor *)color;
+-(void)asa_setTextColorAndPlaceholderText:(UIColor *)color placeHolderColor:(UIColor *)placeHolderColor;
 
 @end

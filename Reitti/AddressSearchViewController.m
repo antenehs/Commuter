@@ -94,9 +94,9 @@
     }
     
     [addressSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    
     //Set search bar text color
-    [addressSearchBar asa_setTextColor:[UIColor whiteColor]];
+    [addressSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
+    
     [self setKeyboardType:keyboardType withFeedback:NO];
     
     searchResultTableView.backgroundColor = [UIColor clearColor];

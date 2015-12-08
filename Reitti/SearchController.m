@@ -390,9 +390,8 @@
     [self setNavBarSize];
     [self.navigationItem setTitle:@""];
     //Set search bar text color
-    [mainSearchBar asa_setTextColor:[UIColor whiteColor]];
+    [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     [mainSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    
     if (self.darkMode) {
         mainSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
     }else{

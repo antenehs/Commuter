@@ -33,6 +33,14 @@
     return self;
 }
 
+#pragma mark - Route search protocol implementation
+-(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock{
+    
+    NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
+    
+    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:completionBlock];
+}
+
 #pragma mark - Datasource value mapping
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions{
@@ -168,11 +176,11 @@
 }
 
 #pragma mark - Route Search Options
-+(NSArray *)allTrasportTypeNames{
+-(NSArray *)allTrasportTypeNames{
     return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];
 }
 
-+(NSArray *)getTransportTypeOptions{
+-(NSArray *)getTransportTypeOptions{
     return @[@{displayTextOptionKey : @"Bus", valueOptionKey : @"bus", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]},
              @{displayTextOptionKey : @"Metro", valueOptionKey : @"metro", pictureOptionKey : [UIImage imageNamed:@"Subway-100.png"]},
              @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTrain]},
@@ -181,7 +189,7 @@
              @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}];
 }
 
-+(NSArray *)getTicketZoneOptions{
+-(NSArray *)getTicketZoneOptions{
     return @[@{displayTextOptionKey : @"All HSL Regions (Default)", valueOptionKey : @"whole", defaultOptionKey : @"yes"},
              @{displayTextOptionKey : @"Regional" , valueOptionKey: @"region"},
              @{displayTextOptionKey : @"Helsinki Internal", valueOptionKey : @"helsinki"},
@@ -189,11 +197,11 @@
              @{displayTextOptionKey : @"Vantaa Internal", valueOptionKey : @"vantaa"}];
 }
 
-+(NSInteger)getDefaultValueIndexForTicketZoneOptions{
+-(NSInteger)getDefaultValueIndexForTicketZoneOptions{
     return 0;
 }
 
-+(NSArray *)getChangeMargineOptions{
+-(NSArray *)getChangeMargineOptions{
     return @[@{displayTextOptionKey : @"0 minute" , valueOptionKey: @"0"},
              @{displayTextOptionKey : @"1 minute" , valueOptionKey: @"1"},
              @{displayTextOptionKey : @"3 minutes (Default)", valueOptionKey : @"3", defaultOptionKey : @"yes"},
@@ -203,11 +211,11 @@
              @{displayTextOptionKey : @"10 minutes", valueOptionKey : @"10"}];
 }
 
-+(NSInteger)getDefaultValueIndexForChangeMargineOptions{
+-(NSInteger)getDefaultValueIndexForChangeMargineOptions{
     return 2;
 }
 
-+(NSArray *)getWalkingSpeedOptions{
+-(NSArray *)getWalkingSpeedOptions{
     return @[@{displayTextOptionKey : @"Slow Walking", detailOptionKey : @"20 m/minute", valueOptionKey : @"20"},
              @{displayTextOptionKey : @"Normal Walking (Default)" , detailOptionKey : @"70 m/minute", valueOptionKey: @"70", defaultOptionKey : @"yes"},
              @{displayTextOptionKey : @"Fast Walking", detailOptionKey : @"150 m/minute", valueOptionKey : @"150"},
@@ -216,7 +224,7 @@
              @{displayTextOptionKey : @"Bolting", detailOptionKey : @"500 m/minute", valueOptionKey : @"500"}];
 }
 
-+(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
+-(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
     return 1;
 }
 

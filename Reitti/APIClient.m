@@ -39,6 +39,42 @@
     return [ReittiStringFormatter commaSepStringFromArray:paramsArray withSeparator:@"&"];
 }
 
+#pragma mark - Generic fetch method
+
+-(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping andCompletionBlock:(ActionBlock)completionBlock{
+    
+    NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
+    AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
+    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
+    [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    
+    RKObjectMapping *responseMApping = [RKObjectMapping mappingForClass:[Route class]];
+    [responseMApping addAttributeMappingsFromDictionary:mapping];
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMApping method:RKRequestMethodGET pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    //Construct params query string
+    NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
+    parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];
+    
+    NSURL *URL = [NSURL URLWithString:apiURL];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
+    
+    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        completionBlock(mappingResult.array, nil);
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        completionBlock(nil, error);
+    }];
+    
+    [objectManager enqueueObjectRequestOperation:objectRequestOperation];
+}
+
+
 #pragma mark - api fetch methods
 
 -(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate andParams:(NSDictionary *)params{

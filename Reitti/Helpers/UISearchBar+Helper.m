@@ -36,7 +36,7 @@
     }
 }
 
--(void)asa_setTextColor:(UIColor *)color{
+-(void)asa_setTextColorAndPlaceholderText:(UIColor *)color placeHolderColor:(UIColor *)placeHolderColor{
     for (UIView *subView in self.subviews)
     {
         for (UIView *secondLevelSubview in subView.subviews){
@@ -46,11 +46,17 @@
                 
                 //set font color here
                 searchBarTextField.textColor = color;
-                
+                if (placeHolderColor)
+                    searchBarTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:searchBarTextField.placeholder attributes:@{NSForegroundColorAttributeName: placeHolderColor}];
+
                 break;
             }
         }
     }
+}
+
+-(void)asa_setTextColor:(UIColor *)color{
+    [self asa_setTextColorAndPlaceholderText:color placeHolderColor:nil];
 }
 
 @end

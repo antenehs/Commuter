@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "APIClient.h"
 #import "RouteSearchOptions.h"
+#import "ApiProtocols.h"
+#import "HSLAndTRECommon.h"
 
 @class HSLCommunication;
 
@@ -28,18 +29,7 @@
 - (void)hslDisruptionFetchFailed:(int)errorCode;
 @end
 
-@interface HSLCommunication : APIClient
-
-+(NSArray *)allTrasportTypeNames;
-
-+(NSArray *)getTransportTypeOptions;
-+(NSArray *)getTicketZoneOptions;
-+(NSArray *)getChangeMargineOptions;
-+(NSArray *)getWalkingSpeedOptions;
-
-+(NSInteger)getDefaultValueIndexForTicketZoneOptions;
-+(NSInteger)getDefaultValueIndexForChangeMargineOptions;
-+(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
+@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol>
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 

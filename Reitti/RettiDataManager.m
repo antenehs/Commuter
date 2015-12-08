@@ -17,6 +17,7 @@
 #import "ReittiManagedObjectBase.h"
 #import "CoreDataManager.h"
 #import "ReittiAppShortcutManager.h"
+#import "ApiProtocols.h"
 //#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
@@ -133,7 +134,7 @@
 }
 
 -(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords{
-    Region *region = [self getRegionForCoords:coords];
+    Region region = [self getRegionForCoords:coords];
     return region == userLocation;
 }
 
@@ -180,63 +181,80 @@
     self.tampereRegion = tampereRegionCoords;
 }
 
+#pragma mark - regional datasource
+-(id)getDataSourceForCurrentRegion{
+    if (userLocation == TRERegion) {
+        return self.treCommunication;
+    }else{
+        return self.hslCommunication;
+    }
+}
+
 #pragma mark - Route search option methods
 -(NSArray *)allTrasportTypeNames{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication allTrasportTypeNames];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager allTrasportTypeNames];
     }else{
-        return [HSLCommunication allTrasportTypeNames];
+        return nil;
     }
 }
 
 -(NSArray *)getTransportTypeOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getTransportTypeOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getTransportTypeOptions];
     }else{
-        return [HSLCommunication getTransportTypeOptions];
+        return nil;
     }
 }
 -(NSArray *)getTicketZoneOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getTicketZoneOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getTicketZoneOptions];
     }else{
-        return [HSLCommunication getTicketZoneOptions];
+        return nil;
     }
 }
 -(NSArray *)getChangeMargineOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getChangeMargineOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getChangeMargineOptions];
     }else{
-        return [HSLCommunication getChangeMargineOptions];
+        return nil;
     }
 }
 -(NSArray *)getWalkingSpeedOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getWalkingSpeedOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getWalkingSpeedOptions];
     }else{
-        return [HSLCommunication getWalkingSpeedOptions];
+        return nil;
     }
 }
 
 -(NSInteger)getDefaultValueIndexForTicketZoneOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getDefaultValueIndexForTicketZoneOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getDefaultValueIndexForTicketZoneOptions];
     }else{
-        return [HSLCommunication getDefaultValueIndexForTicketZoneOptions];
+        return 0;
     }
 }
 -(NSInteger)getDefaultValueIndexForChangeMargineOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getDefaultValueIndexForChangeMargineOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getDefaultValueIndexForChangeMargineOptions];
     }else{
-        return [HSLCommunication getDefaultValueIndexForChangeMargineOptions];
+        return 0;
     }
 }
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
-    if (self.userLocation == TRERegion) {
-        return [TRECommunication getDefaultValueIndexForWalkingSpeedOptions];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getDefaultValueIndexForWalkingSpeedOptions];
     }else{
-        return [HSLCommunication getDefaultValueIndexForWalkingSpeedOptions];
+        return 0;
     }
 }
 
@@ -244,27 +262,31 @@
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult{
     
-    if (numberOfResult)
-        searchOptions.numberOfResults = [numberOfResult integerValue];
-    else
-        searchOptions.numberOfResults = kDefaultNumberOfResults;
-
-    Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
-    Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
-    
-    if (fromRegion == toRegion) {
-        if (fromRegion == TRERegion) {
-            NSDictionary *optionsDict = [self.treCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
-            [self.treCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchProtocol)]) {
+        if (numberOfResult)
+            searchOptions.numberOfResults = [numberOfResult integerValue];
+        else
+            searchOptions.numberOfResults = kDefaultNumberOfResults;
+        
+        Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
+        Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
+        
+        if (fromRegion == toRegion) {
+            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(id response, NSError *error){
+                NSLog(@"Route search completed.");
+                if (!error) {
+                    [routeSearchdelegate routeSearchDidComplete:response];
+                }else{
+                    [routeSearchdelegate routeSearchDidFail:nil];
+                }
+            }];
         }else{
-            NSDictionary *optionsDict = [self.hslCommunication apiRequestParametersDictionaryForRouteOptions:searchOptions];
-            [self.hslCommunication searchRouteForCoordinates:fromCoords andToCoordinate:toCoords andParams:optionsDict];
-        }
-    }else{
-        if (fromRegion == TRERegion) {
-            [self treRouteSearchFailed:-1016];
-        }else{
-            [self hslRouteSearchFailed:-1016];
+            if (fromRegion == TRERegion) {
+                [self treRouteSearchFailed:-1016];
+            }else{
+                [self hslRouteSearchFailed:-1016];
+            }
         }
     }
 }
@@ -679,7 +701,6 @@
     for (Line * line in infoListArray) {
         [codesList addObject:[NSString stringWithFormat:@"%@", line.code]];
     }
-    
     
     NSDictionary *convertedSet = [NSDictionary dictionaryWithObjects:infoListArray forKeys:codesList];
     
