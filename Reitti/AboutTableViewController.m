@@ -176,7 +176,7 @@
 
 #pragma mark - Notifications
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
-    [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+    [self.reittiDataManager setUserLocationRegion:[settingsManager userLocation]];
 }
 
 #pragma mark - helper methods

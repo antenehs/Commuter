@@ -229,8 +229,8 @@
     }
     
     RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-    dataManger.delegate = self;
-    dataManger.routeSearchdelegate = self;
+//    dataManger.delegate = self;
+//    dataManger.routeSearchdelegate = self;
     dataManger.disruptionFetchDelegate = self;
     dataManger.reverseGeocodeSearchdelegate = self;
     dataManger.vehicleFetchDelegate = self;
@@ -529,7 +529,7 @@
     [self.reittiDataManager updateSavedStopsDefaultValueForStops:savedStops];
     //test
 //    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
+    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
     NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 
@@ -747,6 +747,7 @@
     searchResultsView.layer.borderWidth = 0.5;
     searchResultsView.layer.borderColor = [SYSTEM_GRAY_COLOR CGColor];
 }
+
 -(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim{
     if (!hidden) {
         //[self hideSearchResultView:YES];
@@ -762,7 +763,7 @@
                 searchResultsView.hidden = YES;
                 if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
                     if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
-                        [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                        [self fetchStopsInCurrentMapViewRegion];
                     }
                 }
             }
@@ -773,7 +774,7 @@
             searchResultsView.hidden = YES;
             if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
                 if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
-                    [self.reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
+                    [self fetchStopsInCurrentMapViewRegion];
                 }
             }
         }
@@ -832,11 +833,11 @@
     requestedForListing = YES;
     MKCoordinateRegion region = mapView.region;
     
-    //Evaluate region
-    if ([settingsManager userLocation] != [reittiDataManager getRegionForCoords:region.center]) {
-        [ReittiNotificationHelper showErrorBannerMessage:@"Sorry" andContent:@"Service not available in this area. Try changing the region in settings."];
-        return;
-    }
+//    //Evaluate region
+//    if ([settingsManager userLocation] != [reittiDataManager getRegionForCoords:region.center]) {
+//        [ReittiNotificationHelper showErrorBannerMessage:@"Sorry" andContent:@"Service not available in this area. Try changing the region in settings."];
+//        return;
+//    }
     
     if (region.span.latitudeDelta > 0.02) {
         region.span = span;
@@ -845,8 +846,10 @@
     if (region.span.latitudeDelta < 0.01) {
         region.span = minSpan;
     }
-    [self.reittiDataManager fetchStopsInAreaForRegion:region];
+    
     [self showProgressHUD];
+    
+    [self fetchStopsInMapViewRegion:region];
     
 //
 //    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] < 15) {
@@ -1614,7 +1617,13 @@
         
         NSString *toCoordsString = [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
         
-        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString];
+        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString andCompletionBlock:^(NSArray *result, NSString *error){
+            if (!error) {
+                [self routeSearchDidComplete:result];
+            }else{
+                [self routeSearchDidFail:error];
+            }
+        }];
     }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
@@ -1783,7 +1792,7 @@
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
         if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
-            [self.reittiDataManager fetchStopsInAreaForRegion:[_mapView region]];
+            [self fetchStopsInMapViewRegion:[_mapView region]];
         }else{
             [self removeAllStopAnnotations];
         }
@@ -2376,6 +2385,22 @@
 //    [self.refreshControl endRefreshing];
 }
 
+#pragma mark - Stops in area handler methods
+- (void)fetchStopsInCurrentMapViewRegion {
+    [self fetchStopsInMapViewRegion:mapView.region];
+}
+
+- (void)fetchStopsInMapViewRegion:(MKCoordinateRegion)region{
+    
+    [self.reittiDataManager fetchStopsInAreaForRegion:region withCompletionBlock:^(NSArray *stopsList, NSString *errorMessage){
+        if (!errorMessage) {
+            [self nearByStopFetchDidComplete:stopsList];
+        }else{
+            [self nearByStopFetchDidFail:errorMessage];
+        }
+    }];
+}
+
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{
     
     if (stopList.count > 0) {
@@ -2579,7 +2604,7 @@
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
     if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
-        [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
+        [self.reittiDataManager setUserLocationRegion:[settingsManager userLocation]];
         [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
     }
     

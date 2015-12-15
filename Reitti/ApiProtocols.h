@@ -15,6 +15,14 @@ typedef void (^ActionBlock)();
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol StopsInAreaSearchProtocol <NSObject>
+- (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock;
+@end
+
+@protocol StopDetailFetchProtocol <NSObject>
+- (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock;
+@end
+
 @protocol RouteSearchOptionProtocol <NSObject>
 -(NSArray *)allTrasportTypeNames;
 

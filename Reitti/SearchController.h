@@ -59,7 +59,7 @@ typedef enum
     MainMapViewModeStopsAndLive = 2
 } MainMapViewMode;
 
-@interface SearchController : UIViewController<RettiDataManagerDelegate,RettiRouteSearchDelegate, RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, ReittiLiveVehicleFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate, UIViewControllerPreviewingDelegate>{
+@interface SearchController : UIViewController<RettiReverseGeocodeSearchDelegate, ReittiDisruptionFetchDelegate, ReittiLiveVehicleFetchDelegate, SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate, UIViewControllerPreviewingDelegate>{
     IBOutlet UISearchBar *mainSearchBar;
     IBOutlet UIButton *currentLocationButton;
     IBOutlet UIButton *infoAndAboutButton;

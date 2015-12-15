@@ -27,7 +27,7 @@
 - (void)deletedAllHistoryStops;
 @end
 
-@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, RettiRouteSearchDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate>{
+@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate>{
     IBOutlet AMBlurView *selectorView;
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIView *bluredBackView;

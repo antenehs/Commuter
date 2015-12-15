@@ -8,6 +8,7 @@
 
 #import "WidgetSettingsViewController.h"
 #import "StopEntity.h"
+#import "AppManager.h"
 
 @interface WidgetSettingsViewController ()
 
@@ -55,7 +56,7 @@
 
 - (void)initUserDefaults{
 //    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
+    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
 }
 
 -(void)readSelectedStops{

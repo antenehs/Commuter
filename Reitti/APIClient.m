@@ -41,7 +41,7 @@
 
 #pragma mark - Generic fetch method
 
--(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping andCompletionBlock:(ActionBlock)completionBlock{
+-(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass andCompletionBlock:(ActionBlock)completionBlock{
     
     NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
@@ -49,14 +49,19 @@
     [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
-    RKObjectMapping *responseMApping = [RKObjectMapping mappingForClass:[Route class]];
+    RKObjectMapping *responseMApping = [RKObjectMapping mappingForClass:mapToClass];
+    
     [responseMApping addAttributeMappingsFromDictionary:mapping];
     
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMApping method:RKRequestMethodGET pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     //Construct params query string
     NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
-    parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if ([parameters respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
+        parameters = [parameters stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    }else{
+        parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
     
     NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];
     

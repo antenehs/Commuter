@@ -18,6 +18,10 @@
 + (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
 
 -(NSString *)getFullAddress;
+-(NSString *)getUniqueIdentifier;
+
+-(id)initWithDictionary:(NSDictionary *)dict;
+-(NSDictionary *)dictionaryRepresentation;
 
 @property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSString * name;

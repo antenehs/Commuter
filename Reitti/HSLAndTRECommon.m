@@ -18,10 +18,6 @@
     [optionsDict setValue:@"4326" forKey:@"epsg_out"];
     [optionsDict setValue:@"json" forKey:@"format"];
     
-    //TODO: Select from list
-    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
-    [optionsDict setValue:@"rebekah" forKey:@"pass"];
-    
     [optionsDict setValue:[ReittiStringFormatter convert2DCoordToString:fromCoords] forKey:@"from"];
     [optionsDict setValue:[ReittiStringFormatter convert2DCoordToString:toCoords] forKey:@"to"];
     
@@ -31,7 +27,7 @@
                                   @"legs" : @"unMappedRouteLegs"
                                   };
     
-    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[Route class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             for (Route *route in responseArray) {
                 route.routeLegs = [self mapRouteLegsFromArray:route.unMappedRouteLegs];
@@ -40,10 +36,21 @@
                 route.routeDurationInSeconds = [route.unMappedRouteDurationInSeconds objectAtIndex:0];
             }
             
-            
+            completionBlock(responseArray, nil);
+        }else{
+            completionBlock(nil, [self formattedRouteSearchErrorMessageForError:error]);
         }
-        completionBlock(responseArray, error);
     }];
+}
+
+-(NSString *)formattedRouteSearchErrorMessageForError:(NSError *)error{
+    if (error.code == -1009) {
+        return @"Internet connection appears to be offline.";
+    }else if (error.code == -1016) {
+        return @"No route information available for the selected addresses.";
+    }else{
+        return @"Unknown Error Occured.";
+    }
 }
 
 -(NSArray *)mapRouteLegsFromArray:(NSArray *)arrayResponse{
@@ -58,6 +65,127 @@
     }
     
     return legsArray;
+}
+
+#pragma mark - stop in area fetch method
+
+- (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withOptionsDictionary:(NSDictionary *)optionsDict withCompletionBlock:(ActionBlock)completionBlock{
+    
+    if (!optionsDict) 
+        optionsDict = @{};
+    
+    [optionsDict setValue:@"stops_area" forKey:@"request"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_in"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_out"];
+    [optionsDict setValue:@"json" forKey:@"format"];
+    [optionsDict setValue:@"60" forKey:@"limit"];
+    
+    [optionsDict setValue:[ReittiStringFormatter convert2DCoordToString:regionCenter] forKey:@"center_coordinate"];
+    [optionsDict setValue:[NSString stringWithFormat:@"%ld", diameter] forKey:@"diameter"];
+    
+    NSDictionary *mappingDict = @{
+                                  @"code" : @"code",
+                                  @"codeShort" : @"codeShort",
+                                  @"name" : @"name",
+                                  @"city" : @"city",
+                                  @"coords" : @"coords",
+                                  @"address" : @"address",
+                                  @"dist" : @"distance"
+                                  };
+    
+    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStopShort class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        if (!error) {
+            completionBlock(responseArray, nil);
+        }else{
+            completionBlock(nil, [self formattedNearbyStopSearchErrorMessageForError:error]);
+        }
+    }];
+}
+
+-(NSString *)formattedNearbyStopSearchErrorMessageForError:(NSError *)error{
+    NSString *errorString = @"";
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        case -1011:
+            errorString = @"Nearby stops service not available in this area.";
+            break;
+        case -1001:
+            errorString = @"Request timed out.";
+            break;
+        case -1016:
+            errorString = @"No stops information available for the selected region.";
+            break;
+        default:
+            errorString = @"Unknown Error Occured.";
+            break;
+    }
+    
+    return errorString;
+}
+
+
+#pragma mark - Stop fetch method
+
+- (void)fetchStopDetailForCode:(NSString *)stopCode  andOptionsDictionary:(NSDictionary *)optionsDict withCompletionBlock:(ActionBlock)completionBlock{
+    if (!optionsDict)
+        optionsDict = @{};
+    
+    [optionsDict setValue:@"stop" forKey:@"request"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_in"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_out"];
+    [optionsDict setValue:@"json" forKey:@"format"];
+    [optionsDict setValue:@"20" forKey:@"dep_limit"];
+    [optionsDict setValue:@"360" forKey:@"time_limit"];
+    
+    [optionsDict setValue:stopCode forKey:@"code"];
+    
+    NSDictionary *mappingDict = @{
+                                  @"code" : @"code",
+                                  @"code_short" : @"code_short",
+                                  @"name_fi" : @"name_fi",
+                                  @"name_sv" : @"name_sv",
+                                  @"city_fi" : @"city_fi",
+                                  @"city_sv" : @"city_sv",
+                                  @"lines" : @"lines",
+                                  @"coords" : @"coords",
+                                  @"wgs_coords" : @"wgs_coords",
+                                  @"accessibility" : @"accessibility",
+                                  @"departures" : @"departures",
+                                  @"timetable_link" : @"timetable_link",
+                                  @"omatlahdot_link" : @"omatlahdot_link",
+                                  @"address_fi" : @"address_fi",
+                                  @"address_sv" : @"address_sv"
+                                  };
+    
+    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStop class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        if (!error) {
+            completionBlock(responseArray, nil);
+        }else{
+            completionBlock(nil, [self formattedStopDetailFetchErrorMessageForError:error]);
+        }
+    }];
+}
+
+-(NSString *)formattedStopDetailFetchErrorMessageForError:(NSError *)error{
+    NSString *errorString = @"";
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        case -1001:
+            errorString = @"Request timed out.";
+            break;
+        case -1016:
+            errorString = @"The remote server returned nothing. Try again.";
+            break;
+        default:
+            errorString = @"Unknown Error Occured. Please try again.";
+            break;
+    }
+    
+    return errorString;
 }
 
 @end

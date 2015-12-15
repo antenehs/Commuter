@@ -20,7 +20,12 @@
     transportsContainer.layer.cornerRadius = 4;
     
     for (RouteLeg *leg in route.routeLegs) {
-        tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
+        if (route.isOnlyWalkingRoute) {
+            //Leg duration of a walking leg get freaky sometimes
+            tWidth = totalWidth * (([route.routeDurationInSeconds floatValue])/longestDuration);
+        }else{
+            tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
+        }
         Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
         CGRect frame = transportView.frame;
         transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
@@ -29,7 +34,7 @@
         x += frame.size.width;
         
         //Append waiting view if exists
-        if (leg.waitingTimeInSeconds > 0) {
+        if (leg.waitingTimeInSeconds > 0 && !route.isOnlyWalkingRoute) {
             float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
             UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
             waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];

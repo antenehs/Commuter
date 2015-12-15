@@ -18,15 +18,16 @@
 #import "CoreDataManager.h"
 #import "ReittiAppShortcutManager.h"
 #import "ApiProtocols.h"
+#import "AppManager.h"
 //#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
 
 @synthesize managedObjectContext;
-@synthesize delegate;
+//@synthesize delegate;
 @synthesize geocodeSearchdelegate;
 @synthesize reverseGeocodeSearchdelegate;
-@synthesize routeSearchdelegate;
+//@synthesize routeSearchdelegate;
 @synthesize lineSearchdelegate;
 @synthesize disruptionFetchDelegate;
 @synthesize hslCommunication, treCommunication, pubTransAPI;
@@ -43,45 +44,36 @@
 @synthesize settingsEntity;
 @synthesize allNamedBookmarkNames;
 @synthesize namedBookmark;
-@synthesize helsinkiRegion, tampereRegion, userLocation;
+@synthesize helsinkiRegion, tampereRegion, userLocationRegion;
 
 @synthesize liveTrafficManager, cacheManager;
 
 @synthesize vehicleFetchDelegate;
 
 -(id)init{
-    self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
-    
-    [self initElements];
-    
-    [self fetchSystemCookie];
-    nextObjectLID = [cookieEntity.objectLID intValue];
-    
-    [self fetchAllHistoryStopCodesFromCoreData];
-    [self fetchAllSavedStopCodesFromCoreData];
-    [self fetchAllSavedRouteCodesFromCoreData];
-    [self fetchAllRouteHistoryCodesFromCoreData];
-    [self fetchAllNamedBookmarkNamesFromCoreData];
+    self = [super init];
+    if (self) {
+        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
+        
+        [self initElements];
+        
+        [self initAndFetchCoreData];
+    }
     
     return self;
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context{
-    self.managedObjectContext = context;
-    
-    [self initElements];
-    
-    [self fetchSystemCookie];
-    nextObjectLID = [cookieEntity.objectLID intValue];
-    
-    [self fetchAllHistoryStopCodesFromCoreData];
-    [self fetchAllSavedStopCodesFromCoreData];
-    [self fetchAllSavedRouteCodesFromCoreData];
-    [self fetchAllRouteHistoryCodesFromCoreData];
-    [self fetchAllNamedBookmarkNamesFromCoreData];
+    self = [super init];
+    if (self) {
+        self.managedObjectContext = context;
+        
+        [self initElements];
+        
+        [self initAndFetchCoreData];
+    }
     
     return self;
-    
 }
 
 - (void)initElements {
@@ -95,6 +87,8 @@
     
     self.treCommunication = tCommunicator;
     
+    numberOfApis = 2;
+    
     pubTransAPI = [[PubTransCommunicator alloc] init];
     pubTransAPI.delegate = self;
 
@@ -103,8 +97,6 @@
     
     self.cacheManager = [CacheManager sharedManager];
 
-    numberOfApis = 2;
-    stopFetchFailedCount = 0;
     geocodeFetchResponseCount = 0;
     geocodeFetchFailedCount = 0;
     
@@ -113,20 +105,34 @@
     
     [self initRegionCoordinates];
     
-    userLocation = HSLandTRERegion;
+    userLocationRegion = HSLandTRERegion;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
                                                  name:@"SettingsManagerUserLocationChangedNotification" object:nil];
 }
 
+- (void)initAndFetchCoreData {
+    [self fetchSystemCookie];
+    nextObjectLID = [cookieEntity.objectLID intValue];
+    
+    [self fetchAllHistoryStopCodesFromCoreData];
+    [self fetchAllSavedStopCodesFromCoreData];
+    [self fetchAllSavedRouteCodesFromCoreData];
+    [self fetchAllRouteHistoryCodesFromCoreData];
+    [self fetchAllNamedBookmarkNamesFromCoreData];
+    
+    //Update widget ns user default values
+    [self updateNamedBookmarksUserDefaultValue];
+}
+
 -(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
-    userLocation = [self identifyRegionOfCoordinate:coords];
+    userLocationRegion = [self identifyRegionOfCoordinate:coords];
 }
 
 -(void)userLocationSettingsValueChanged:(NSNotificationCenter *)notification{
     [self fetchSettings];
-    userLocation = (Region)[self.settingsEntity.userLocation intValue];
+    userLocationRegion = (Region)[self.settingsEntity.userLocation intValue];
 }
 
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords{
@@ -135,11 +141,11 @@
 
 -(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords{
     Region region = [self getRegionForCoords:coords];
-    return region == userLocation;
+    return region == userLocationRegion;
 }
 
 -(void)setUserLocationToRegion:(Region)region{
-    userLocation = region;
+    userLocationRegion = region;
 }
 
 -(NSString *)getNameOfRegion:(Region)region{
@@ -183,10 +189,16 @@
 
 #pragma mark - regional datasource
 -(id)getDataSourceForCurrentRegion{
-    if (userLocation == TRERegion) {
+    return [self getDataSourceForRegion:userLocationRegion];
+}
+
+-(id)getDataSourceForRegion:(Region)region{
+    if (region == TRERegion) {
         return self.treCommunication;
-    }else{
+    }else if(region == HSLRegion){
         return self.hslCommunication;
+    }else{
+        return nil;
     }
 }
 
@@ -258,60 +270,162 @@
     }
 }
 
-#pragma mark - API fetch methods
+#pragma mark - Route Search methods
 
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult{
+-(BOOL)canRouteBeSearchedBetweenCoordinates:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord{
+    Region firstRegion = [self identifyRegionOfCoordinate:firstcoord];
+    Region secondRegion = [self identifyRegionOfCoordinate:secondCoord];
     
-    id dataSourceManager = [self getDataSourceForCurrentRegion];
-    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchProtocol)]) {
-        if (numberOfResult)
-            searchOptions.numberOfResults = [numberOfResult integerValue];
-        else
-            searchOptions.numberOfResults = kDefaultNumberOfResults;
-        
+    return firstRegion == secondRegion;
+}
+
+-(BOOL)canRouteBeSearchedBetweenStringCoordinates:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord{
+    return [self canRouteBeSearchedBetweenCoordinates:[ReittiStringFormatter convertStringTo2DCoord:firstcoord] andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:secondCoord]];
+}
+
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock{
+    
+    if ([self canRouteBeSearchedBetweenStringCoordinates:fromCoords andCoordinate:toCoords]) {
         Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
-        Region toRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:toCoords]];
         
-        if (fromRegion == toRegion) {
-            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(id response, NSError *error){
+        id dataSourceManager = [self getDataSourceForRegion:fromRegion];
+        
+        if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchProtocol)]) {
+            if (numberOfResult)
+                searchOptions.numberOfResults = [numberOfResult integerValue];
+            else
+                searchOptions.numberOfResults = kDefaultNumberOfResults;
+            
+            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
                 NSLog(@"Route search completed.");
                 if (!error) {
-                    [routeSearchdelegate routeSearchDidComplete:response];
+                    completionBlock(response, nil);
+                    //                    [routeSearchdelegate routeSearchDidComplete:response];
                 }else{
-                    [routeSearchdelegate routeSearchDidFail:nil];
+                    //                    [routeSearchdelegate routeSearchDidFail:nil];
+                    completionBlock(nil, error);
+                }
+            }];
+            
+        }else{
+            completionBlock(nil, @"Service not available in this area.");
+        }
+        
+    }else{
+        completionBlock(nil, @"No route information available between the selected addresses.");
+    }
+}
+
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock{
+    
+    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
+    options.date = [NSDate date];
+    
+    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:nil andCompletionBlock:completionBlock];
+}
+
+-(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock{
+    
+    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
+    options.date = [NSDate date];
+    
+    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:@1 andCompletionBlock:completionBlock];
+}
+
+
+#pragma mark - stop search methods
+
+-(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock{
+    Region centerRegion = [self identifyRegionOfCoordinate:mapRegion.center];
+    id dataSourceManager = [self getDataSourceForRegion:centerRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(StopsInAreaSearchProtocol)]) {
+        [(NSObject<StopsInAreaSearchProtocol> *)dataSourceManager fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:(mapRegion.span.longitudeDelta * 111000) withCompletionBlock:^(NSArray * response, NSString *error){
+
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
+    }else{
+        completionBlock(nil, @"Service not available in this area.");
+    }
+}
+
+-(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
+    
+    Region region = [self identifyRegionOfCoordinate:coords];
+    
+//    if (region == HSLRegion) {
+//        [self.hslCommunication getStopInfoForCode:code];
+//        stopInfoRequestedFor = HSLRegion;
+//    }else if (region == TRERegion){
+//        [self.treCommunication getStopInfoForCode:code];
+//        stopInfoRequestedFor = TRERegion;
+//    }else{ /* In case the user location in near border and the correct region cannot be determined */
+//        //TODO: There has to be a better way of handling border cases
+//        [self.hslCommunication getStopInfoForCode:code];
+//        [self.treCommunication getStopInfoForCode:code];
+//        numberOfApisStopRequestedFrom = 2;
+//        stopFetchFailedCount = 0;
+//        stopInfoRequestedFor = HSLandTRERegion;
+//    }
+    
+    if (region == OtherRegion || region == HSLandTRERegion) {
+        //This means that since the stop is found has coordinated, the region must be evaluated wrongly. So request from all datasource.
+        //TODO: There has to be a better way of handling border cases
+        
+        int __block numberOfApisStopRequestedFrom = 2;
+        int __block stopFetchFailedCount = 0;
+        
+        [self.hslCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+            
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                stopFetchFailedCount++;
+                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
+                    completionBlock(nil, error);
+                }
+            }
+        }];
+        
+        [self.treCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+            
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                stopFetchFailedCount++;
+                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
+                    completionBlock(nil, error);
+                }
+            }
+        }];
+        
+    }else{
+        id dataSourceManager = [self getDataSourceForRegion:region];
+        if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
+            [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+                
+                if (!error) {
+                    completionBlock(response, nil);
+                }else{
+                    completionBlock(nil, error);
                 }
             }];
         }else{
-            if (fromRegion == TRERegion) {
-                [self treRouteSearchFailed:-1016];
-            }else{
-                [self hslRouteSearchFailed:-1016];
-            }
+            completionBlock(nil, @"Fetching stop detail failed. Please try again later.");
         }
     }
 }
 
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
-    
-    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
-    options.date = [NSDate date];
-    
-    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:nil];
-}
-
--(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords{
-    
-    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
-    options.date = [NSDate date];
-    
-    [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:@1];
-}
+#pragma mark - Address fetch methods
 
 -(void)searchAddressesForKey:(NSString *)key{
-    geoCodeRequestedFor = userLocation;
-    if (userLocation == HSLRegion) {
+    geoCodeRequestedFor = userLocationRegion;
+    if (userLocationRegion == HSLRegion) {
         [self.hslCommunication searchGeocodeForKey:key];
-    }else if (userLocation == TRERegion) {
+    }else if (userLocationRegion == TRERegion) {
         [self.treCommunication searchGeocodeForKey:key];
     }else{
         geoCodeRequestPrioritizedFor = HSLandTRERegion;
@@ -333,42 +447,8 @@
     }
 }
 
--(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
-    
-    Region region = [self identifyRegionOfCoordinate:coords];
-    if (region == HSLRegion) {
-        [self.hslCommunication getStopInfoForCode:code];
-        stopInfoRequestedFor = HSLRegion;
-    }else if (region == TRERegion){
-        [self.treCommunication getStopInfoForCode:code];
-        stopInfoRequestedFor = TRERegion;
-    }else{
-        [self.hslCommunication getStopInfoForCode:code];
-        [self.treCommunication getStopInfoForCode:code];
-        stopFetchFailedCount = 0;
-        stopInfoRequestedFor = HSLandTRERegion;
-    }
-    
-    //[self.delegate stopFetchDidComplete:nil];
-}
-
--(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion{
-    Region region = [self identifyRegionOfCoordinate:mapRegion.center];
-    if (region == HSLRegion) {
-        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
-//        [self.pubTransAPI getStopsFromPubTransInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
-        stopInAreaRequestedFor = HSLRegion;
-    }else if (region == TRERegion){
-        [self.treCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
-        stopInAreaRequestedFor = TRERegion;
-    }else{
-        [self.hslCommunication getStopsInArea:mapRegion.center forDiameter:(mapRegion.span.longitudeDelta * 111000)];
-        stopInAreaRequestedFor = HSLRegion;
-    }
-}
-
 -(void)fetchDisruptions{
-    if (userLocation == HSLRegion) {
+    if (userLocationRegion == HSLRegion) {
         [self.hslCommunication getDisruptions];
     }else{
         [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
@@ -380,18 +460,18 @@
 }
 
 #pragma mark - HSLCommunication delegate methods
-- (void)hslRouteSearchDidComplete:(HSLCommunication *)communicator{
-    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
-}
-- (void)hslRouteSearchFailed:(int)errorCode{
-    if (errorCode == -1009) {
-        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
-    }else if (errorCode == -1016) {
-        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-    }else{
-        [routeSearchdelegate routeSearchDidFail:nil];
-    }
-}
+//- (void)hslRouteSearchDidComplete:(HSLCommunication *)communicator{
+////    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
+//}
+//- (void)hslRouteSearchFailed:(int)errorCode{
+//    if (errorCode == -1009) {
+//        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
+//    }else if (errorCode == -1016) {
+//        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
+//    }else{
+//        [routeSearchdelegate routeSearchDidFail:nil];
+//    }
+//}
 - (void)hslGeocodeSearchDidComplete:(HSLCommunication *)communicator{
     if (geoCodeRequestedFor == HSLRegion) {
         [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
@@ -444,52 +524,52 @@
     [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
 }
 
--(void)hslStopFetchDidComplete:(HSLCommunication *)communicator{
-    [self.delegate stopFetchDidComplete:communicator.stopList];
-    //    [self fetchLineInfoForCodeList:[self constructListOfLineCodesFromStopsArray:communicator.stopList]];
-    
-}
+//-(void)hslStopFetchDidComplete:(HSLCommunication *)communicator{
+//    [self.delegate stopFetchDidComplete:communicator.stopList];
+//    //    [self fetchLineInfoForCodeList:[self constructListOfLineCodesFromStopsArray:communicator.stopList]];
+//    
+//}
 
--(void)hslStopFetchFailed:(int)errorCode{
-    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApis - 1) {
-        NSString *errorString = @"";
-        switch (errorCode) {
-            case -1016:
-                errorString = @"The remote server returned nothing. Try again.";
-                break;
-            case -1009:
-                errorString = @"Internet connection appears to be offline.";
-                break;
-            default:
-                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
-                break;
-        }
-        [self.delegate stopFetchDidFail:errorString];
-        stopFetchFailedCount = 0;
-    }
-    
-    stopFetchFailedCount ++;
-}
--(void)hslStopInAreaFetchDidComplete:(HSLCommunication *)communicator{
-    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
-}
--(void)hslStopInAreaFetchFailed:(int)errorCode{
-    NSString *errorString = @"";
-    switch (errorCode) {
-        case -1009:
-            errorString = @"Internet connection appears to be offline.";
-            break;
-        case -1011:
-            errorString = @"Nearby stops service not available in this area.";
-            break;
-        case -1001:
-            errorString = @"Request timed out.";
-            break;
-        default:
-            break;
-    }
-    [self.delegate nearByStopFetchDidFail:errorString];
-}
+//-(void)hslStopFetchFailed:(int)errorCode{
+//    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApisStopRequestedFrom - 1) {
+//        NSString *errorString = @"";
+//        switch (errorCode) {
+//            case -1016:
+//                errorString = @"The remote server returned nothing. Try again.";
+//                break;
+//            case -1009:
+//                errorString = @"Internet connection appears to be offline.";
+//                break;
+//            default:
+//                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
+//                break;
+//        }
+//        [self.delegate stopFetchDidFail:errorString];
+//        stopFetchFailedCount = 0;
+//    }
+//    
+//    stopFetchFailedCount ++;
+//}
+//-(void)hslStopInAreaFetchDidComplete:(HSLCommunication *)communicator{
+//    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
+//}
+//-(void)hslStopInAreaFetchFailed:(int)errorCode{
+//    NSString *errorString = @"";
+//    switch (errorCode) {
+//        case -1009:
+//            errorString = @"Internet connection appears to be offline.";
+//            break;
+//        case -1011:
+//            errorString = @"Nearby stops service not available in this area.";
+//            break;
+//        case -1001:
+//            errorString = @"Request timed out.";
+//            break;
+//        default:
+//            break;
+//    }
+//    [self.delegate nearByStopFetchDidFail:errorString];
+//}
 
 -(void)hslDisruptionFetchComplete:(HSLCommunication *)communicator{
     [self.disruptionFetchDelegate disruptionFetchDidComplete:communicator.disruptionList];
@@ -512,49 +592,49 @@
 }
 
 #pragma mark - TRECommunication delegate methods
-- (void)treStopFetchDidComplete:(TRECommunication *)communicator{
-    [self.delegate stopFetchDidComplete:communicator.stopList];
-}
-- (void)treStopFetchFailed:(int)errorCode{
-    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApis - 1) {
-        NSString *errorString = @"";
-        switch (errorCode) {
-            case -1016:
-                errorString = @"The remote server returned nothing. Try again.";
-                break;
-            case -1009:
-                errorString = @"Internet connection appears to be offline.";
-                break;
-            default:
-                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
-                break;
-        }
-        [self.delegate stopFetchDidFail:errorString];
-        stopFetchFailedCount = 0;
-    }
-    
-    stopFetchFailedCount ++;
-}
-- (void)treStopInAreaFetchDidComplete:(TRECommunication *)communicator{
-    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
-}
-- (void)treStopInAreaFetchFailed:(int)errorCode{
-    NSString *errorString = @"";
-    switch (errorCode) {
-        case -1009:
-            errorString = @"Internet connection appears to be offline.";
-            break;
-        case -1011:
-            errorString = @"Service not available in this area.";
-            break;
-        case -1001:
-            errorString = @"Request timed out.";
-            break;
-        default:
-            break;
-    }
-    [self.delegate nearByStopFetchDidFail:errorString];
-}
+//- (void)treStopFetchDidComplete:(TRECommunication *)communicator{
+//    [self.delegate stopFetchDidComplete:communicator.stopList];
+//}
+//- (void)treStopFetchFailed:(int)errorCode{
+//    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApisStopRequestedFrom - 1) {
+//        NSString *errorString = @"";
+//        switch (errorCode) {
+//            case -1016:
+//                errorString = @"The remote server returned nothing. Try again.";
+//                break;
+//            case -1009:
+//                errorString = @"Internet connection appears to be offline.";
+//                break;
+//            default:
+//                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
+//                break;
+//        }
+//        [self.delegate stopFetchDidFail:errorString];
+//        stopFetchFailedCount = 0;
+//    }
+//    
+//    stopFetchFailedCount ++;
+//}
+//- (void)treStopInAreaFetchDidComplete:(TRECommunication *)communicator{
+//    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
+//}
+//- (void)treStopInAreaFetchFailed:(int)errorCode{
+//    NSString *errorString = @"";
+//    switch (errorCode) {
+//        case -1009:
+//            errorString = @"Internet connection appears to be offline.";
+//            break;
+//        case -1011:
+//            errorString = @"Service not available in this area.";
+//            break;
+//        case -1001:
+//            errorString = @"Request timed out.";
+//            break;
+//        default:
+//            break;
+//    }
+//    [self.delegate nearByStopFetchDidFail:errorString];
+//}
 - (void)treLineInfoFetchDidComplete:(TRECommunication *)communicator{
     //not needed yet
 }
@@ -611,18 +691,18 @@
     [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
 }
 
-- (void)treRouteSearchDidComplete:(TRECommunication *)communicator{
-    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
-}
-- (void)treRouteSearchFailed:(int)errorCode{
-    if (errorCode == -1009) {
-        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
-    }else if (errorCode == -1016) {
-        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-    }else{
-        [routeSearchdelegate routeSearchDidFail:nil];
-    }
-}
+//- (void)treRouteSearchDidComplete:(TRECommunication *)communicator{
+////    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
+//}
+//- (void)treRouteSearchFailed:(int)errorCode{
+//    if (errorCode == -1009) {
+//        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
+//    }else if (errorCode == -1016) {
+//        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
+//    }else{
+//        [routeSearchdelegate routeSearchDidFail:nil];
+//    }
+//}
 - (void)treDisruptionFetchComplete:(TRECommunication *)communicator{
     
 }
@@ -632,28 +712,28 @@
 
 #pragma mark - PubTrans Delegate Methods
 - (void)receivedStopsFromPubTrans:(NSArray *)stops{
-    [self.delegate nearByStopFetchDidComplete:stops];
+//    [self.delegate nearByStopFetchDidComplete:stops];
 }
 - (void)fetchingStopsFromPubTransFailedWithError:(NSError *)error{
-    [self.delegate nearByStopFetchDidFail:nil];
+//    [self.delegate nearByStopFetchDidFail:nil];
 }
 - (void)receivedGeoJSON:(NSData *)objectNotation{/*Not Implemented Here*/}
 
 #pragma mark - Live traffic fetch methods
 -(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes{
-    if (userLocation == HSLRegion) {
+    if (userLocationRegion == HSLRegion) {
         [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromHSLLive:lineCodes];
     }
 }
 
 -(void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes{
-    if (userLocation == HSLRegion) {
+    if (userLocationRegion == HSLRegion) {
         [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromPubTrans:lineCodes];
     }
 }
 
 -(void)fetchAllLiveVehicles{
-    if (userLocation == HSLRegion) {
+    if (userLocationRegion == HSLRegion) {
         [self.liveTrafficManager fetchAllLiveVehicles];
     }
 }
@@ -814,6 +894,22 @@
     return [allSavedStopCodes containsObject:stop.code];
 }
 
+-(void)updateNamedBookmarksUserDefaultValue{
+    
+    NSArray * namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
+    
+    NSMutableArray *namedBookmarkDictionaries = [@[] mutableCopy];
+    
+    for (NamedBookmark *nmdBookmark in namedBookmarks) {
+        [namedBookmarkDictionaries addObject:[nmdBookmark dictionaryRepresentation]];
+    }
+    
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForRoutesWidget];
+    
+    [sharedDefaults setObject:namedBookmarkDictionaries forKey:kUserDefaultsNamedBookmarksKey];
+    [sharedDefaults synchronize];
+}
+
 -(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
 
     NSString *codes = [[NSString alloc] init];
@@ -830,7 +926,7 @@
     
 //    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
 
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
 //    NSDictionary *defaults = @{@"StopCodes" : codes, };
     
     [sharedDefaults setObject:codes forKey:@"StopCodes"];
@@ -839,7 +935,7 @@
 
 -(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
 //    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
     NSString *selectedCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
     
     if (allStops == nil) {
@@ -1606,6 +1702,7 @@
         [allNamedBookmarkNames addObject:ndBookmark.name];
         
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+        [self updateNamedBookmarksUserDefaultValue];
         return self.namedBookmark;
     }else{
         self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:ndBookmark.name];
@@ -1621,6 +1718,7 @@
         [self saveManagedObject:namedBookmark];
         
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+        [self updateNamedBookmarksUserDefaultValue];
         return self.namedBookmark;
     }
 }
@@ -1651,12 +1749,13 @@
             exit(-1);  // Fail
         }
         
+        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+        [self updateNamedBookmarksUserDefaultValue];
+        
         return self.namedBookmark;
     }else{
         return nil;
     }
-    
-    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
 }
 
 
@@ -1675,6 +1774,7 @@
     [allNamedBookmarkNames removeObject:name];
     
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    [self updateNamedBookmarksUserDefaultValue];
 }
 -(void)deleteAllNamedBookmarks{
     NSArray *bookmarksToDelete = [self fetchAllSavedNamedBookmarksFromCoreData];
@@ -1693,6 +1793,7 @@
     [allNamedBookmarkNames removeAllObjects];
     
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    [self updateNamedBookmarksUserDefaultValue];
 }
 -(NSArray *)fetchAllSavedNamedBookmarksFromCoreData{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];

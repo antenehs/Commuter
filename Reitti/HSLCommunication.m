@@ -38,6 +38,10 @@
     
     NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
     
+    //TODO: Select from list
+    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:completionBlock];
 }
 
@@ -228,6 +232,35 @@
     return 1;
 }
 
+#pragma mark - Stops inn areas search protocol implementation
+- (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asacommuternearby" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
+    
+}
+
+#pragma mark - stop detail fetch protocol implementation
+- (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchStopDetailForCode:stopCode andOptionsDictionary:optionsDict withCompletionBlock:^(NSArray *fetchResult, NSString *error){
+        if (!error) {
+            if (fetchResult.count > 0) {
+                //Assuming the stop code was unique and there is only one result
+                completionBlock(fetchResult[0], nil);
+            }
+        }else{
+            completionBlock(nil, error);
+        }
+    }];
+}
 
 #pragma mark - Date formatters
 - (NSDateFormatter *)hourFormatter{

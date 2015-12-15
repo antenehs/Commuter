@@ -9,18 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "NearByStop.h"
 #import "RouteLeg.h"
+#import "AppManagerBase.h"
 
-@interface AppManager : NSObject
-
-+(BOOL)isNewInstallOrNewVersion;
-+(void)setCurrentAppVersion;
-
-//App theme
-+(UIColor *)systemGreenColor;
-+(UIColor *)systemOrangeColor;
-+(UIColor *)systemBlueColor;
-+(UIColor *)systemRedColor;
-+(UIColor *)systemCyanColor;
+@interface AppManager : AppManagerBase
 
 +(UIColor *)colorForLegType:(LegTransportType)legTransportType;
 +(UIColor *)colorForLineType:(LineType)lineType;
@@ -32,9 +23,5 @@
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
-
-//Sounds
-+(NSArray *)toneNames;
-+(NSString *)defailtToneName;
 
 @end

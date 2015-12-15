@@ -152,9 +152,34 @@
             tabBarController.selectedIndex = 2;
         }
         
-        if ([[url query] isEqualToString:@"routeSearch"]) {
-//            [controller openRouteSearchView];
+        if ([[url  query] isEqualToString:@"addBookmark"]) {
+            tabBarController.selectedIndex = 2;
+            
+            UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
+            BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
+            [controller openAddBookmarkController];
+        }
+        
+        //?routeSearch&toaddressname&toaddresscoords
+        if ([[url query] containsString:@"routeSearch"]) {
+            NSString *queryString = [[url query] stringByRemovingPercentEncoding];
+            NSArray *parametes = [queryString componentsSeparatedByString:@"&"];
             tabBarController.selectedIndex = 1;
+            if (parametes.count == 3 && [parametes[0] isEqualToString:@"routeSearch"]) {
+                SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+                //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
+                [controller initDataComponentsAndModules];
+                
+                [controller dismissViewControllerAnimated:YES completion:nil];
+                
+                NSString *name = parametes[1];
+                NSString *coords = parametes[2];
+                
+                if (name == nil || coords == nil)
+                    return NO;
+                
+                [controller openRouteViewToLocationName:name locationCoords:coords];
+            }
         }
         
         if ([[url query] containsString:@"openStop"]) {

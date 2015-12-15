@@ -80,7 +80,7 @@ typedef enum
     [self setMainTableViewMode:TableViewModeSuggestions];
     [self setUpMergedBookmarksAndHistory];
     
-    reittiDataManager.routeSearchdelegate = self;
+//    reittiDataManager.routeSearchdelegate = self;
     
     [self hideToolBar:YES animated:NO];
     [self setNeedsStatusBarAppearanceUpdate];
@@ -1362,7 +1362,7 @@ typedef enum
 }
 
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-    reittiDataManager.routeSearchdelegate = self;
+//    reittiDataManager.routeSearchdelegate = self;
 }
 
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
@@ -1371,7 +1371,7 @@ typedef enum
 
 #pragma mark - Settings change notifications
 -(void)userLocationValueChanged:(NSNotification *)notification{
-    [self.reittiDataManager setUserLocation:[self.settingsManager userLocation]];
+    [self.reittiDataManager setUserLocationRegion:[self.settingsManager userLocation]];
 }
 
 -(void)routeSearchOptionsChanged:(id)sender {
@@ -1411,7 +1411,13 @@ typedef enum
             [routeResultsTableView reloadData];
         }
         
-        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil];
+        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil andCompletionBlock:^(NSArray *result, NSString *error){
+            if (!error) {
+                [self routeSearchDidComplete:result];
+            }else{
+                [self routeSearchDidFail:error];
+            }
+        }];
     }else{
         if (refreshingRouteTable) {
             self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];

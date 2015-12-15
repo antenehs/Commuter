@@ -37,21 +37,20 @@ NSString *const kBaseClassFeatures = @"features";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.type = [self objectOrNilForKey:kBaseClassType fromDictionary:dict];
-    NSObject *receivedFeatures = [dict objectForKey:kBaseClassFeatures];
-    NSMutableArray *parsedFeatures = [NSMutableArray array];
-    if ([receivedFeatures isKindOfClass:[NSArray class]]) {
-        for (NSDictionary *item in (NSArray *)receivedFeatures) {
-            if ([item isKindOfClass:[NSDictionary class]]) {
-                [parsedFeatures addObject:[Features modelObjectWithDictionary:item]];
-            }
-       }
-    } else if ([receivedFeatures isKindOfClass:[NSDictionary class]]) {
-       [parsedFeatures addObject:[Features modelObjectWithDictionary:(NSDictionary *)receivedFeatures]];
-    }
+        self.type = [self objectOrNilForKey:kBaseClassType fromDictionary:dict];
+        NSObject *receivedFeatures = [dict objectForKey:kBaseClassFeatures];
+        NSMutableArray *parsedFeatures = [NSMutableArray array];
+        if ([receivedFeatures isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *item in (NSArray *)receivedFeatures) {
+                if ([item isKindOfClass:[NSDictionary class]]) {
+                    [parsedFeatures addObject:[Features modelObjectWithDictionary:item]];
+                }
+           }
+        } else if ([receivedFeatures isKindOfClass:[NSDictionary class]]) {
+           [parsedFeatures addObject:[Features modelObjectWithDictionary:(NSDictionary *)receivedFeatures]];
+        }
 
-    self.features = [NSArray arrayWithArray:parsedFeatures];
-
+        self.features = [NSArray arrayWithArray:parsedFeatures];
     }
     
     return self;

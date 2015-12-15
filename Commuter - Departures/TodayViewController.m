@@ -11,6 +11,7 @@
 #import "HSLAPI.h"
 #import "BusStopE.h"
 #import "ReittiStringFormatterE.h"
+#import "AppManagerBase.h"
 
 @interface TodayViewController () <NCWidgetProviding>
 
@@ -42,7 +43,7 @@
     [self setUpView];
     
 //    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterProDepartures"];
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
     [self fetchSavedStopsFromDefaults];
     
     totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];

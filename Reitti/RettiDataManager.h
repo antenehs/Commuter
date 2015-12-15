@@ -28,12 +28,12 @@
 @class SettingsEntity;
 @class LiveTrafficManager;
 
-@protocol RettiDataManagerDelegate <NSObject>
-- (void)stopFetchDidComplete:(NSArray *)stopList;
-- (void)stopFetchDidFail:(NSString *)error;
-- (void)nearByStopFetchDidComplete:(NSArray *)nearByStopList;
-- (void)nearByStopFetchDidFail:(NSString *)error;
-@end
+//@protocol RettiDataManagerDelegate <NSObject>
+//- (void)stopFetchDidComplete:(NSArray *)stopList;
+//- (void)stopFetchDidFail:(NSString *)error;
+//- (void)nearByStopFetchDidComplete:(NSArray *)nearByStopList;
+//- (void)nearByStopFetchDidFail:(NSString *)error;
+//@end
 
 @protocol RettiGeocodeSearchDelegate <NSObject>
 - (void)geocodeSearchDidComplete:(NSArray *)geocodeList isFinalResult:(BOOL)isFinalResult;
@@ -46,10 +46,10 @@
 - (void)reverseGeocodeSearchDidFail:(NSString *)error;
 @end
 
-@protocol RettiRouteSearchDelegate <NSObject>
-- (void)routeSearchDidComplete:(NSArray *)routeList;
-- (void)routeSearchDidFail:(NSString *)error;
-@end
+//@protocol RettiRouteSearchDelegate <NSObject>
+//- (void)routeSearchDidComplete:(NSArray *)routeList;
+//- (void)routeSearchDidFail:(NSString *)error;
+//@end
 
 @protocol RettiLineInfoSearchDelegate <NSObject>
 - (void)lineSearchDidComplete:(NSArray *)lines;
@@ -90,7 +90,6 @@ typedef struct {
     Region geoCodeRequestedFor;
     Region lineInfoRequestedFor;
     
-    int stopFetchFailedCount;
     int geocodeFetchResponseCount;
     int geocodeFetchFailedCount;
     
@@ -122,13 +121,18 @@ typedef struct {
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
 
 /* API fetch methods */
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult;
--(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
--(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords;
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock;
+-(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock;
+-(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock;
+-(BOOL)canRouteBeSearchedBetweenStringCoordinates:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord;
+-(BOOL)canRouteBeSearchedBetweenCoordinates:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord;
+
+-(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
+
 -(void)searchAddressesForKey:(NSString *)key;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords;
--(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords;
--(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion;
+
 -(void)fetchLineInfoForCodeList:(NSString *)codeList;
 -(void)fetchDisruptions;
 
@@ -203,10 +207,10 @@ typedef struct {
 @property (strong, nonatomic) TRECommunication *treCommunication;
 @property (strong, nonatomic) PubTransCommunicator *pubTransAPI;
 
-@property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
+//@property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
 @property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
 @property (nonatomic, weak) id <RettiReverseGeocodeSearchDelegate> reverseGeocodeSearchdelegate;
-@property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
+//@property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
 @property (nonatomic, weak) id <RettiLineInfoSearchDelegate> lineSearchdelegate;
 @property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
 @property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
@@ -222,7 +226,7 @@ typedef struct {
 @property (nonatomic) RTCoordinateRegion helsinkiRegion;
 @property (nonatomic) RTCoordinateRegion tampereRegion;
 
-@property (nonatomic) Region userLocation;
+@property (nonatomic) Region userLocationRegion;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 

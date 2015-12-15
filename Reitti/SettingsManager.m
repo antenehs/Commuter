@@ -64,7 +64,7 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
 -(void)setUserLocation:(Region)userLocation{
     [self.reittiDataManager.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
     [self.reittiDataManager saveSettings];
-    self.reittiDataManager.userLocation = userLocation;
+    self.reittiDataManager.userLocationRegion = userLocation;
     
     [self postNotificationWithName:userlocationChangedNotificationName];
 }

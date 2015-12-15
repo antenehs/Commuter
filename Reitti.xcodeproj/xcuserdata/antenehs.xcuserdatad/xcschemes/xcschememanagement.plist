@@ -23,6 +23,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>Commuter - Routes.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
 		<key>Reitti.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -47,6 +52,11 @@
 			<true/>
 		</dict>
 		<key>66947CD518830ED500642EE1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>66CA02BF1C16FC4C00A38858</key>
 		<dict>
 			<key>primary</key>
 			<true/>

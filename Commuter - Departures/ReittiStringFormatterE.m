@@ -221,4 +221,18 @@
     return offsettedDate;
 }
 
++(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    [formatter setMaximumFractionDigits:roundPoints];
+    
+    [formatter setRoundingMode: roundUp? NSNumberFormatterRoundUp : NSNumberFormatterRoundDown];
+    
+    NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:doubleVal]];
+    
+    return numberString;
+}
+
 @end

@@ -36,6 +36,10 @@
     
     NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
     
+    //TODO: Select from list
+    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:completionBlock];
 }
 
@@ -228,6 +232,38 @@
     return 1;
 }
 
+#pragma mark - Stops in areas search protocol implementation
+- (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asacommuternearby" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
+}
+
+#pragma mark - Stop fetch method
+
+- (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchStopDetailForCode:stopCode andOptionsDictionary:optionsDict withCompletionBlock:^(NSArray *fetchResult, NSString *error){
+        if (!error) {
+            if (fetchResult.count > 0) {
+                //Assuming the stop code was unique and there is only one result
+                BusStop *stop = fetchResult[0];
+                //Handlind a TRE API bug that returns incorrect coordinate format even if epsg_out is specified as 4326
+                stop.coords = stop.wgs_coords;
+                completionBlock(stop, nil);
+            }
+        }else{
+            completionBlock(nil, error);
+        }
+    }];
+}
 
 #pragma mark - Date formatters
 - (NSDateFormatter *)hourFormatter{

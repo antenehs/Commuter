@@ -24,7 +24,7 @@ typedef void (^ActionBlock)();
 
 -(id)init;
 
--(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping andCompletionBlock:(ActionBlock)completionBlock;
+-(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass andCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)searchRouteForCoordinates:(NSString *)fromCoordinate andToCoordinate:(NSString *)toCoordinate andParams:(NSDictionary *)params;
 -(void)searchGeocodeForKey:(NSString *)key;

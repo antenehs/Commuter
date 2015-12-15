@@ -71,7 +71,7 @@
         settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
     }
     
-    self.reittiDataManager.delegate = self;
+//    self.reittiDataManager.delegate = self;
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
     [self setNeedsStatusBarAppearanceUpdate];
@@ -369,14 +369,19 @@
 }
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
-    
-    [self.reittiDataManager fetchStopsForCode:code andCoords:coords];
+    [self.reittiDataManager fetchStopsForCode:code andCoords:coords withCompletionBlock:^(BusStop * stop, NSString * error){
+        if (!error) {
+            [self stopFetchDidComplete:stop];
+        }else{
+            [self stopFetchDidFail:error];
+        }
+    }];
 }
 
 - (IBAction)reloadButtonPressed:(id)sender{
     if (_busStop != nil) {
         [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]
-                                andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.wgs_coords]];
+                                andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.coords]];
     }
 }
 
@@ -597,19 +602,14 @@
 }
 
 #pragma - mark RettiDataManager Delegate methods
--(void)stopFetchDidComplete:(NSArray *)stopList{
+-(void)stopFetchDidComplete:(BusStop *)stop{
     stopFetched = YES;
-    if (stopList != nil) {
-        self._busStop = [stopList objectAtIndex:0];
+    if (stop != nil) {
+        self._busStop = stop;
         [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
         
-//        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
         [self setUpStopViewForBusStop:self._busStop];
-    }else{
-        //[self showNotificationWithMessage:@"Sorry. No stop found by that search term." messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
     }
-    //[MBProgressHUD hideHUDForView:self.view animated:YES];
-    //[SVProgressHUD dismiss];
 }
 
 -(void)stopFetchDidFail:(NSString *)error{
@@ -621,32 +621,6 @@
     [alertView show];
     
     [self dismissViewControllerAnimated:YES completion:nil ];
-}
-
-- (void)nearByStopFetchDidComplete:(NSArray *)stopList{
-//    self.nearByStopList = stopList;
-//    [self plotStopAnnotations:self.nearByStopList];
-//    if (requestedForListing) {
-//        [self displayNearByStopsList:stopList];
-//    }
-//    retryCount = 0;
-//    [SVProgressHUD dismiss];
-}
-- (void)nearByStopFetchDidFail:(NSString *)error{
-//    if (requestedForListing) {
-//        if (![error isEqualToString:@""]) {
-//            if ([error isEqualToString:@"Request timed out."] && retryCount < 1) {
-//                [self listNearbyStopsPressed:nil];
-//                retryCount++;
-//            }
-//            
-//            [self showNotificationWithMessage:error messageType:RNotificationTypeWarning forSeconds:5 keppingSearchView:YES];
-//        }
-//        
-//        requestedForListing = NO;
-//    }
-//    
-//    [SVProgressHUD dismiss];
 }
 
 #pragma mark - iAd methods

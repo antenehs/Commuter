@@ -76,7 +76,7 @@
         
         [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         
-        self.reittiDataManager.routeSearchdelegate = self;
+//        self.reittiDataManager.routeSearchdelegate = self;
     }
     
     [self loadSavedValues];
@@ -96,7 +96,7 @@
     
     self.tableView.rowHeight = 60;
     
-    [self updateDetailStores];
+    [self initNamedBookmarkRouteDictionary];
     [self initLocationManager];
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -112,7 +112,7 @@
     
     [self.navigationItem setTitle:@""];
     
-    /* Register #D touch for Peek and Pop if available */
+    /* Register 3D touch for Peek and Pop if available */
     [self registerFor3DTouchIfAvailable];
     
 }
@@ -158,20 +158,30 @@
 //    [self layoutAnimated:NO];
 }
 
-- (void)updateDetailStores
-{
+- (void)initNamedBookmarkRouteDictionary{
     //Init data
-    if (namedBRouteDetail == nil) {
+    if (namedBRouteDetail == nil)
         namedBRouteDetail = [[NSMutableDictionary alloc] init];
-    }
     
     for (NamedBookmark *nmdBkmrk in self.savedNamedBookmarks) {
-        if ([namedBRouteDetail objectForKey:nmdBkmrk.coords] == nil) {
-            if (nmdBkmrk.coords != nil) {
-                [namedBRouteDetail setObject:[[NSArray alloc] init] forKey:nmdBkmrk.coords];
-            }
+        if ([self getRoutesForNamedBookmark:nmdBkmrk] == nil) {
+            [self setRoutesForNamedBookmark:nmdBkmrk routes:[NSArray new]];
         }
     }
+}
+
+- (NSArray *)getRoutesForNamedBookmark:(NamedBookmark *)namedBookmark{
+    return [namedBRouteDetail objectForKey:[namedBookmark getUniqueIdentifier]];
+}
+
+- (void)setRoutesForNamedBookmark:(NamedBookmark *)namedBookmark routes:(NSArray *)routes{
+    if (namedBookmark && [namedBookmark getUniqueIdentifier] != nil) {
+        [namedBRouteDetail setObject:routes forKey:[namedBookmark getUniqueIdentifier]];
+    }
+}
+
+- (void)clearNamedBookmarkRouteDictionary{
+    self.namedBRouteDetail = [@{} mutableCopy];
 }
 
 - (void)requestRoutesIfNeeded{
@@ -180,15 +190,21 @@
 
 - (void)forceResetRoutesAndRequest{
     //Reset already searched routes to force new route fetching
-    self.namedBRouteDetail = [@{} mutableCopy];
+    [self clearNamedBookmarkRouteDictionary];
     [self requestRoutesIfNeeded];
 }
 
 - (void)fetchRouteForNamedBookmark:(NamedBookmark *)namedBookmark
 {
     if (self.currentUserLocation) {
-        [self.reittiDataManager searchRouteForFromCoords:[ReittiStringFormatter convert2DCoordToString:[currentUserLocation coordinate]] andToCoords:namedBookmark.coords];
         [activityIndicator startAnimating];
+        [self.reittiDataManager searchRouteForFromCoords:[ReittiStringFormatter convert2DCoordToString:[currentUserLocation coordinate]] andToCoords:namedBookmark.coords andCompletionBlock:^(NSArray *result, NSString *error){
+            if (!error) {
+                [self routeSearchDidComplete:result forBookmark:namedBookmark];
+            }else{
+                [self routeSearchDidFail:error];
+            }
+        }];
     }
 }
 
@@ -197,8 +213,6 @@
 
 - (void)setUpViewForTheSelectedMode{
     if (listSegmentControl.selectedSegmentIndex == 0) {
-//        self.title = @"BOOKMARKS";
-//        self._tintColor = SYSTEM_GREEN_COLOR;
         dataToLoad = nil;
         if (savedNamedBookmarks.count == 0) {
             EmptyHomeAddressCell *hCell = [[EmptyHomeAddressCell alloc] init];
@@ -233,41 +247,18 @@
             [dataToLoad addObjectsFromArray:savedStops];
         }
         
-        //NO need to hide the widget settings button
-//        if (self.savedStops != nil && self.savedStops.count > 0) {
-//            [self hideWidgetSettingsButton:NO];
-//        }else{
-//            [self hideWidgetSettingsButton:YES];
-//        }
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }else{
-//        self.title = @"HISTORY";
-//        self._tintColor = SYSTEM_ORANGE_COLOR;
         dataToLoad = nil;
         dataToLoad = [[NSMutableArray alloc] initWithArray:recentRoutes];
         [dataToLoad addObjectsFromArray:recentStops];
         self.dataToLoad = [self sortDataArray:dataToLoad];
         
-        //NO need to hide the widget settings button
-//        [self hideWidgetSettingsButton:YES];
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     self.tableView.backgroundColor = [UIColor clearColor];
-    [self.tableView reloadData];
-    
-//    self.navigationController.navigationBar.tintColor = self._tintColor;
-    //selectorView.tintColor = self._tintColor;
+//    [self.tableView reloadData];
 }
-
-//- (void)setUpToolbar
-//{
-//    UIToolbar* toolbar = [[UIToolbar alloc] init];
-//    toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44);
-//    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(sharePhoto:)];
-//    NSArray *buttonItems = [NSArray arrayWithObjects:shareButton,nil];
-//    [toolbar setItems:buttonItems];
-//    
-//}
 
 -(void)hideWidgetSettingsButton:(BOOL)hidden{
     NSMutableArray *toolBarButtons = [self.navigationController.toolbar.items mutableCopy];
@@ -279,7 +270,6 @@
             [toolBarButtons addObject:widgetSettingButton];
         [self.navigationController.toolbar setItems:toolBarButtons animated:YES];
     }
-    
 }
 
 #pragma mark - location services
@@ -308,7 +298,6 @@
     }
     
     return YES;
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
@@ -340,9 +329,9 @@
     if (dataToLoad.count > 0) {
         NSString * message;
         if (mode == 0) {
-            message  = @"Are you sure you want to delete all your bookmarks? This action cannot  be undone";
+            message  = @"Hold on! Are you sure you want to delete all your bookmarks? This action cannot be undone";
         }else{
-            message  = @"Are you sure you want to delete all your history? This action cannot  be undone";
+            message  = @"Hold on! Are you sure you want to delete all your history? This action cannot be undone";
         }
         
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:message delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
@@ -375,7 +364,6 @@
         }
         
         [dataToLoad removeAllObjects];
-//        [self.tableView reloadData];
         [self loadSavedValues];
         [self setUpViewForTheSelectedMode];
     }
@@ -388,7 +376,7 @@
     self.mode = (int)listSegmentControl.selectedSegmentIndex;
 }
 
-- (IBAction)refreshTableView:(id)sender {
+- (void)refreshTableView:(id)sender {
     [self.tableView reloadData];
 }
 
@@ -499,39 +487,41 @@
             UILabel *leavesTime = (UILabel *)[cell viewWithTag:2005];
             UILabel *arrivesTime = (UILabel *)[cell viewWithTag:2006];
             
-            if (![self shouldUpdateRouteInfoForBookmark:namedBookmark]) {
-                NSArray * routes = [namedBRouteDetail objectForKey:namedBookmark.coords];
-                Route *route = [routes firstObject];
-                
-                if (!route.isOnlyWalkingRoute && [self isValidBookmark:namedBookmark]) {
-                    transportsScrollView.hidden = NO;
-                    leavesTime.hidden = NO;
-                    arrivesTime.hidden = NO;
-                    
-                    for (UIView * view in transportsScrollView.subviews) {
-                        [view removeFromSuperview];
-                    }
-                    
-                    UIView *transportsView = [RouteViewManager viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:transportsScrollView.frame.size.width - 30];
-                    
-                    [transportsScrollView addSubview:transportsView];
-                    //                    transportsScrollView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);
-                    transportsScrollView.userInteractionEnabled = NO;
-                    [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
-                    
-                    leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]];
-                    arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
-                }else{
+            transportsScrollView.hidden = YES;
+            leavesTime.hidden = YES;
+            arrivesTime.hidden = YES;
+            if ([self isValidBookmarkForRouteSearch:namedBookmark]) {
+                if ([self shouldUpdateRouteInfoForBookmark:namedBookmark]) {
                     transportsScrollView.hidden = YES;
                     leavesTime.hidden = YES;
                     arrivesTime.hidden = YES;
+                    
+                    //TODO: This should be revised
+                    [self fetchRouteForNamedBookmark:namedBookmark];
+                }else{
+                    NSArray * routes = [self getRoutesForNamedBookmark:namedBookmark];
+                    Route *route = [routes firstObject];
+                    
+                    if (!route.isOnlyWalkingRoute) {
+                        transportsScrollView.hidden = NO;
+                        leavesTime.hidden = NO;
+                        arrivesTime.hidden = NO;
+                        
+                        for (UIView * view in transportsScrollView.subviews) {
+                            [view removeFromSuperview];
+                        }
+                        
+                        UIView *transportsView = [RouteViewManager viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:transportsScrollView.frame.size.width - 30];
+                        
+                        [transportsScrollView addSubview:transportsView];
+                        //                    transportsScrollView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);
+                        transportsScrollView.userInteractionEnabled = NO;
+                        [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
+                        
+                        leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]];
+                        arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+                    }
                 }
-            }else{
-                transportsScrollView.hidden = YES;
-                leavesTime.hidden = YES;
-                arrivesTime.hidden = YES;
-                
-                [self fetchRouteForNamedBookmark:namedBookmark];
             }
             
             //cityName.font = CUSTOME_FONT_BOLD(19.0f);
@@ -721,17 +711,16 @@
 
 #pragma mark - helper methods
 - (BOOL)shouldUpdateRouteInfoForBookmark:(NamedBookmark *)namedBookmark {
-    if (![self isValidBookmark:namedBookmark])
+    if (![self isValidBookmarkForRouteSearch:namedBookmark])
         return NO;
     
-    NSMutableArray *routes = [[namedBRouteDetail objectForKey:namedBookmark.coords] mutableCopy];
+    NSMutableArray *routes = [[self getRoutesForNamedBookmark:namedBookmark] mutableCopy];
     
     if (routes.count == 0)
         return YES;
     
     CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
     if (dist > 100) {
-//        [self.tableView reloadData];
         return YES;
     }
     
@@ -747,7 +736,7 @@
             }
             [routes removeObject:route];
         }else{
-            [namedBRouteDetail setObject:routes forKey:namedBookmark.coords];
+            [self setRoutesForNamedBookmark:namedBookmark routes:routes];
             return NO;
         }
         
@@ -764,9 +753,9 @@
     if([self shouldUpdateRouteInfoForBookmark:namedBookmark]){
         return NO;
     }else{
-        if (![self isValidBookmark:namedBookmark])
+        if (![self isValidBookmarkForRouteSearch:namedBookmark])
             return NO;
-        NSMutableArray *routes = [[namedBRouteDetail objectForKey:namedBookmark.coords] mutableCopy];
+        NSMutableArray *routes = [[self getRoutesForNamedBookmark:namedBookmark] mutableCopy];
         Route *route = [routes objectAtIndex:0];
         
         if (route.isOnlyWalkingRoute)
@@ -776,8 +765,15 @@
     }
 }
 
-- (BOOL)isValidBookmark:(NamedBookmark *)nmdBookmark{
-    return [self.reittiDataManager isCoordinateInCurrentRegion:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];
+/**
+ Mean that route could be searched for the bookmarks
+ */
+- (BOOL)isValidBookmarkForRouteSearch:(NamedBookmark *)nmdBookmark{
+    if (self.currentUserLocation) {
+        return NO;
+    }else{
+        return [self.reittiDataManager canRouteBeSearchedBetweenCoordinates:self.currentUserLocation.coordinate andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];
+    }
 }
 
 - (NSInteger)dataIndexForIndexPath:(NSIndexPath *)indexPath
@@ -804,18 +800,18 @@
     return dataIndex;
 }
 
-- (NSIndexPath *)nsIndexForNamedBookmarkCoords:(NSString *)namedBookmarkCoords{
-    NSIndexPath * indexPathToUpdate = [NSIndexPath indexPathForRow:0 inSection:0];
-    for (int i=0; i < self.savedNamedBookmarks.count; i++) {
-        NamedBookmark *bookmark = [self.savedNamedBookmarks objectAtIndex:i];
-        if ([bookmark.coords isEqualToString:namedBookmarkCoords]) {
-            indexPathToUpdate = [NSIndexPath indexPathForRow:i inSection:0];
-            break;
-        }
-    }
-    
-    return indexPathToUpdate;
-}
+//- (NSIndexPath *)nsIndexForNamedBookmarkCoords:(NSString *)namedBookmarkCoords{
+//    NSIndexPath * indexPathToUpdate = [NSIndexPath indexPathForRow:0 inSection:0];
+//    for (int i=0; i < self.savedNamedBookmarks.count; i++) {
+//        NamedBookmark *bookmark = [self.savedNamedBookmarks objectAtIndex:i];
+//        if ([bookmark.coords isEqualToString:namedBookmarkCoords]) {
+//            indexPathToUpdate = [NSIndexPath indexPathForRow:i inSection:0];
+//            break;
+//        }
+//    }
+//    
+//    return indexPathToUpdate;
+//}
 
 - (BOOL)isHomeAddressCreated{
     if (savedNamedBookmarks.count > 0) {
@@ -852,7 +848,7 @@
     self.recentRoutes = [NSMutableArray arrayWithArray:rRoutes];
     self.savedNamedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
     
-    [self updateDetailStores];
+    [self initNamedBookmarkRouteDictionary];
 }
 
 - (NSMutableArray *)sortDataArray:(NSMutableArray *)array{
@@ -952,25 +948,27 @@
     }];
 }
 
-#pragma mark - Route search delegate methods
-- (void)routeSearchDidComplete:(NSArray *)routeList{
-    Route *first = [routeList firstObject];
-    //Check if namedBRouteDetails is the same number as saved bookmarks and check the results
-    //Coords are there already. If not set the route to the closest coordinate
-    if (namedBRouteDetail.count == savedNamedBookmarks.count) {
-        if ([namedBRouteDetail objectForKey:[first getDestinationCoords]]) {
-            [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
-        }else{
-            //Set it to the closest named bookmark
-            NSArray *tempSorted = [self sortedNamedBookmarksByLocationTo:[ReittiStringFormatter convertStringTo2DCoord:[first getDestinationCoords]]];
-            if (tempSorted != nil && tempSorted.count > 0) {
-                NamedBookmark *closest = tempSorted[0];
-                [namedBRouteDetail setObject:routeList forKey:closest.coords];
-            }
-        }
-    }else{
-        [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
-    }
+#pragma mark - Route search handlers
+- (void)routeSearchDidComplete:(NSArray *)routeList forBookmark:(NamedBookmark *)namedBookmark{
+//    Route *first = [routeList firstObject];
+//    //Check if namedBRouteDetails is the same number as saved bookmarks and check the results
+//    //Coords are there already. If not set the route to the closest coordinate
+//    if (namedBRouteDetail.count == savedNamedBookmarks.count) {
+//        if ([namedBRouteDetail objectForKey:[namedBookmark getUniqueIdentifier]]) {
+//            [namedBRouteDetail setObject:routeList forKey:[namedBookmark getUniqueIdentifier]];
+//        }else{
+//            //Set it to the closest named bookmark
+//            NSArray *tempSorted = [self sortedNamedBookmarksByLocationTo:[ReittiStringFormatter convertStringTo2DCoord:[first getDestinationCoords]]];
+//            if (tempSorted != nil && tempSorted.count > 0) {
+//                NamedBookmark *closest = tempSorted[0];
+//                [namedBRouteDetail setObject:routeList forKey:closest.coords];
+//            }
+//        }
+//    }else{
+//        [namedBRouteDetail setObject:routeList forKey:[first getDestinationCoords]];
+//    }
+    
+    [self setRoutesForNamedBookmark:namedBookmark routes:routeList];
     
     [self.tableView reloadData];
     [activityIndicator stopAnimating];
@@ -1189,7 +1187,7 @@
             UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
             [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
             
-            [navigationController setNavigationBarHidden:YES];
+//            [navigationController setNavigationBarHidden:YES];
             
             return navigationController;
         }
@@ -1200,7 +1198,7 @@
             UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
             [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
             
-            [navigationController setNavigationBarHidden:YES];
+//            [navigationController setNavigationBarHidden:YES];
             
             return navigationController;
         }
@@ -1223,7 +1221,7 @@
         [self.navigationController showViewController:viewControllerToCommit sender:nil];
     }else if ([viewControllerToCommit isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = (UINavigationController *)viewControllerToCommit;
-        [navigationController setNavigationBarHidden:NO];
+//        [navigationController setNavigationBarHidden:NO];
         [self showViewController:navigationController sender:nil];
     }else{
         [self showViewController:viewControllerToCommit sender:nil];
