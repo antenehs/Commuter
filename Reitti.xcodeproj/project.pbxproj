@@ -134,6 +134,14 @@
 		6618312F1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */; };
 		661831321C11C3E200DA979E /* UISearchBar+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831311C11C3E200DA979E /* UISearchBar+Helper.m */; };
 		661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831311C11C3E200DA979E /* UISearchBar+Helper.m */; };
+		661AB3A31C20E0710061E1F6 /* Near Me-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661AB3A21C20E0710061E1F6 /* Near Me-100.png */; };
+		661AB3A51C20E1080061E1F6 /* Near Me Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 661AB3A41C20E1080061E1F6 /* Near Me Filled-100.png */; };
+		661AB3A91C22E2020061E1F6 /* map compas mode white.png in Resources */ = {isa = PBXBuildFile; fileRef = 661AB3A61C22E2020061E1F6 /* map compas mode white.png */; };
+		661AB3AA1C22E2020061E1F6 /* current location filled white.png in Resources */ = {isa = PBXBuildFile; fileRef = 661AB3A71C22E2020061E1F6 /* current location filled white.png */; };
+		661AB3AB1C22E2020061E1F6 /* current location filled green.png in Resources */ = {isa = PBXBuildFile; fileRef = 661AB3A81C22E2020061E1F6 /* current location filled green.png */; };
+		661AB3AE1C22E2E20061E1F6 /* UIButton+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */; };
+		661AB3AF1C22E2E30061E1F6 /* UIButton+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */; };
+		661AB3B01C22E2E30061E1F6 /* UIButton+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */; };
 		661ABBF0199A924700F93894 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
 		661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
 		661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
@@ -886,6 +894,13 @@
 		6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTMaterialSpinner.m; sourceTree = "<group>"; };
 		661831301C11C3E200DA979E /* UISearchBar+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UISearchBar+Helper.h"; path = "Helpers/UISearchBar+Helper.h"; sourceTree = "<group>"; };
 		661831311C11C3E200DA979E /* UISearchBar+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UISearchBar+Helper.m"; path = "Helpers/UISearchBar+Helper.m"; sourceTree = "<group>"; };
+		661AB3A21C20E0710061E1F6 /* Near Me-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Near Me-100.png"; path = "Pictures/version 4.1/Near Me-100.png"; sourceTree = "<group>"; };
+		661AB3A41C20E1080061E1F6 /* Near Me Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Near Me Filled-100.png"; path = "Pictures/version 4.1/Near Me Filled-100.png"; sourceTree = "<group>"; };
+		661AB3A61C22E2020061E1F6 /* map compas mode white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map compas mode white.png"; path = "Pictures/version 4.1/map compas mode white.png"; sourceTree = "<group>"; };
+		661AB3A71C22E2020061E1F6 /* current location filled white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "current location filled white.png"; path = "Pictures/version 4.1/current location filled white.png"; sourceTree = "<group>"; };
+		661AB3A81C22E2020061E1F6 /* current location filled green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "current location filled green.png"; path = "Pictures/version 4.1/current location filled green.png"; sourceTree = "<group>"; };
+		661AB3AC1C22E2E20061E1F6 /* UIButton+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+Helper.h"; path = "Helpers/UIButton+Helper.h"; sourceTree = "<group>"; };
+		661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+Helper.m"; path = "Helpers/UIButton+Helper.m"; sourceTree = "<group>"; };
 		661ABBEE199A924700F93894 /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
 		661ABBEF199A924700F93894 /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Route.m; sourceTree = "<group>"; };
 		661ABBF1199AABF900F93894 /* RouteLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLeg.h; sourceTree = "<group>"; };
@@ -1595,6 +1610,11 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				661AB3A61C22E2020061E1F6 /* map compas mode white.png */,
+				661AB3A71C22E2020061E1F6 /* current location filled white.png */,
+				661AB3A81C22E2020061E1F6 /* current location filled green.png */,
+				661AB3A41C20E1080061E1F6 /* Near Me Filled-100.png */,
+				661AB3A21C20E0710061E1F6 /* Near Me-100.png */,
 				6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */,
 				660CFE061C188FD8004D73FC /* Forward-light-100.png */,
 				660CFE071C188FD8004D73FC /* Back-light-100.png */,
@@ -2156,6 +2176,8 @@
 				661831311C11C3E200DA979E /* UISearchBar+Helper.m */,
 				667408991C1C59AE00C1E34A /* UIView+Helper.h */,
 				6674089A1C1C59AE00C1E34A /* UIView+Helper.m */,
+				661AB3AC1C22E2E20061E1F6 /* UIButton+Helper.h */,
+				661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3196,6 +3218,7 @@
 				665885B71B108EF50044F514 /* busAnnotation3.1.png in Resources */,
 				66DAE1FE19C6112A0039081D /* trainAnnotationSmall.png in Resources */,
 				664ADFF11992740F000B4F18 /* location-75.png in Resources */,
+				661AB3A91C22E2020061E1F6 /* map compas mode white.png in Resources */,
 				661831271C108F5600DA979E /* rabbit-light-100.png in Resources */,
 				66F3B1291AC859CD0038BA78 /* bookmark-filled-white-32.png in Resources */,
 				66DAE1F219C42F590039081D /* down-arrow-50.png in Resources */,
@@ -3248,6 +3271,7 @@
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
 				660E2F791B34386400CE670E /* shopping-cart-100.png in Resources */,
 				66CC93F918DF475500644281 /* humberger.png in Resources */,
+				661AB3A31C20E0710061E1F6 /* Near Me-100.png in Resources */,
 				664749E01AE5A0D50050137E /* 3-100.png in Resources */,
 				664E28731AD92B4800BE2457 /* books-100_grey.png in Resources */,
 				669602B81B124910006919CB /* Bookmark-unselected-100.png in Resources */,
@@ -3375,11 +3399,13 @@
 				661831281C108F5600DA979E /* transfer-arrows-100.png in Resources */,
 				660716071B45E2A700033049 /* matkakortti-full.png in Resources */,
 				661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */,
+				661AB3AA1C22E2020061E1F6 /* current location filled white.png in Resources */,
 				661202B91B01414700D93C2E /* plan-green-100.png in Resources */,
 				66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */,
 				667B98241AD3294C00C45ADF /* work-filled-100_grey.png in Resources */,
 				666BC1DA1B5C259700889DD2 /* Vibration sound.mp3 in Resources */,
 				66228CF419CAC76E00A2C47F /* currentLocation-black.png in Resources */,
+				661AB3A51C20E1080061E1F6 /* Near Me Filled-100.png in Resources */,
 				66CB95E318E3953D00E95CE5 /* currentLocation3.png in Resources */,
 				665885B01B0A480B0044F514 /* metroVAnnot.png in Resources */,
 				6665D7611C0CA6B200ACCC3A /* Bowling-black-50.png in Resources */,
@@ -3400,6 +3426,7 @@
 				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100_grey.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
+				661AB3AB1C22E2020061E1F6 /* current location filled green.png in Resources */,
 				660716151B49399700033049 /* Info-red-filled-50.png in Resources */,
 				66E272671B681C8A00FB7052 /* app-pro-logo-rounded2-small.png in Resources */,
 				669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */,
@@ -3644,6 +3671,7 @@
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
 				66FC54811B23677B005B890D /* StaticRoute.m in Sources */,
+				661AB3AE1C22E2E20061E1F6 /* UIButton+Helper.m in Sources */,
 				66CB961118EEE46100E95CE5 /* SWCellScrollView.m in Sources */,
 				66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */,
 				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
@@ -3791,6 +3819,7 @@
 				660CFE351C19BA4F004D73FC /* HSLandTRECommonApiClient.m in Sources */,
 				6674089C1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
 				66CA03361C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
+				661AB3B01C22E2E30061E1F6 /* UIButton+Helper.m in Sources */,
 				660CFE311C19B81A004D73FC /* RouteLegE.m in Sources */,
 				660CFE171C19A157004D73FC /* HSLAPIClient.m in Sources */,
 				660CFE2D1C19B81A004D73FC /* RouteE.m in Sources */,
@@ -3803,6 +3832,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6665D77A1C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
+				661AB3AF1C22E2E30061E1F6 /* UIButton+Helper.m in Sources */,
 				66CA03381C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */,
 				661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,
 				660CFE1A1C19A168004D73FC /* TREAPIClient.m in Sources */,

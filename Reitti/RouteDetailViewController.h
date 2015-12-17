@@ -36,6 +36,8 @@ typedef enum{
     IBOutlet UIScrollView *routeView;
     IBOutlet UIView *topViewBackView;
     
+    IBOutlet UIButton *currentLocationButton;
+    
     IBOutlet UIButton *previousRouteButton;
     IBOutlet UIButton *nextRouteButton;
     
@@ -65,6 +67,8 @@ typedef enum{
     CLLocationCoordinate2D selectedAnnotationStopCoords;
     
     BOOL mapResizedForMiddlePosition;
+    
+    BOOL ignoreMapRegionChangeForCurrentLocationButtonStatus;
     
     BOOL tableViewIsDecelerating;
     BOOL routeListViewIsGoingUp;

@@ -100,20 +100,21 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    for (UIView *subView in mainSearchBar.subviews)
-    {
-        for (UIView *secondLevelSubview in subView.subviews){
-            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-            {
-                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                
-                //set font color here
-                searchBarTextField.textColor = [UIColor whiteColor];
-                
-                break;
-            }
-        }
-    }
+//    for (UIView *subView in mainSearchBar.subviews)
+//    {
+//        for (UIView *secondLevelSubview in subView.subviews){
+//            if ([secondLevelSubview isKindOfClass:[UITextField class]])
+//            {
+//                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+//                
+//                //set font color here
+//                searchBarTextField.textColor = [UIColor whiteColor];
+//                
+//                break;
+//            }
+//        }
+//    }
+    [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     [self fetchDisruptions];
     [self hideNearByStopsView:YES animated:YES];
     [self.navigationController setToolbarHidden:YES animated:NO];
@@ -123,20 +124,22 @@
 //    [super viewDidAppear:animated];
 //    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
     
-    for (UIView *subView in mainSearchBar.subviews)
-    {
-        for (UIView *secondLevelSubview in subView.subviews){
-            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-            {
-                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                
-                //set font color here
-                searchBarTextField.textColor = [UIColor whiteColor];
-                
-                break;
-            }
-        }
-    }
+//    for (UIView *subView in mainSearchBar.subviews)
+//    {
+//        for (UIView *secondLevelSubview in subView.subviews){
+//            if ([secondLevelSubview isKindOfClass:[UITextField class]])
+//            {
+//                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+//                
+//                //set font color here
+//                searchBarTextField.textColor = [UIColor whiteColor];
+//                
+//                break;
+//            }
+//        }
+//    }
+    
+    [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
     [self setNavBarSize];
     [mainSearchBar setPlaceholder:@"address, stop or poi"];
@@ -209,6 +212,8 @@
 - (void)initViewComponents
 {
     /*init View Components*/
+    
+    [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
     
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
@@ -319,6 +324,7 @@
     lastSelectionDismissed = NO;
     ignoreRegionChange = NO;
     canShowDroppedPin = NO;
+    ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
     retryCount = 0;
     annotationAnimCounter = 0;
     
@@ -533,103 +539,6 @@
     NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 
-//#pragma - mark Command view methods
-
-/*
-- (void)setCommandViewApearance{
-//    selectedStopLabel.font = CUSTOME_FONT_BOLD(30.0f);
-    
-    [commandView setBlurTintColor:systemBackgroundColor];
-    commandView.alpha = 0.97;
-    commandView.layer.borderWidth = 0.5;
-    blurView.layer.borderColor = [[UIColor blackColor] CGColor];
-    
-    //currentLocationButton.hidden = YES;
-    listNearbyStops.hidden = NO;
-    sendEmailButton.hidden = YES;
-    
-}
-
-- (void)hideCommandView:(bool)hidden animated:(bool)anim{
-    
-    if (anim) {
-        [UIView transitionWithView:blurView duration:0.35 options:UIViewAnimationOptionTransitionNone animations:^{
-            
-            [self hideCommandView:hidden];
-            
-        } completion:^(BOOL finished) {}];
-    }else{
-        [self hideCommandView:hidden];
-    }
-    
-}
-
--(void)hideCommandView:(BOOL)hidden{
-    
-    CGRect commandViewFrame = commandView.frame;
-    CGRect cLBFrame = currentLocationButton.frame;
-    CGRect nBSBFrame = listNearbyStops.frame;
-    CGRect sEBFrame = sendEmailButton.frame;
-    
-    if (hidden) {
-        if (![self isCommandViewHidden]) {
-            [commandView setFrame:CGRectMake(0.f, [self view].bounds.size.height, commandViewFrame.size.width, commandViewFrame.size.height)];
-            [currentLocationButton setFrame:CGRectMake(cLBFrame.origin.x, cLBFrame.origin.y + commandViewFrame.size.height, cLBFrame.size.width, cLBFrame.size.height)];
-            [listNearbyStops setFrame:CGRectMake(nBSBFrame.origin.x, nBSBFrame.origin.y + commandViewFrame.size.height, nBSBFrame.size.width, nBSBFrame.size.height)];
-            [sendEmailButton setFrame:CGRectMake(sEBFrame.origin.x, sEBFrame.origin.y + commandViewFrame.size.height, sEBFrame.size.width, sEBFrame.size.height)];
-        }
-    }
-    else
-    {
-        if ([self isCommandViewHidden]) {
-            [commandView setFrame:CGRectMake(0.f, [self view].bounds.size.height - commandViewFrame.size.height, commandViewFrame.size.width, commandViewFrame.size.height)];
-            [currentLocationButton setFrame:CGRectMake(cLBFrame.origin.x, cLBFrame.origin.y - commandViewFrame.size.height, cLBFrame.size.width, cLBFrame.size.height)];
-            [listNearbyStops setFrame:CGRectMake(nBSBFrame.origin.x, nBSBFrame.origin.y - commandViewFrame.size.height, nBSBFrame.size.width, nBSBFrame.size.height)];
-            [sendEmailButton setFrame:CGRectMake(sEBFrame.origin.x, sEBFrame.origin.y - commandViewFrame.size.height, sEBFrame.size.width, sEBFrame.size.height)];
-        }
-    }
-}
-
--(BOOL)isCommandViewHidden{
-    //NSLog(@"%f",[self view].bounds.size.height);
-    //NSLog(@"%f",commandView.frame.origin.y);
-    bool hidden = commandView.frame.origin.y >= [self view].bounds.size.height;
-    return hidden;
-    
-}
-
--(void)setUpCommandViewForAnnotation:(id <MKAnnotation>)annotation{
-    selectedStopLabel.text = [annotation title];
-    selectedStopNameLabel.text = [annotation subtitle];
-    StopAnnotation *sAnnotation = (StopAnnotation *)annotation;
-    NSLog(@"%@", sAnnotation.code);
-    selectedStopCode = [NSString stringWithFormat:@"%d", [sAnnotation.code intValue]];
-    selectedStopLongCode = sAnnotation.code;
-    
-    if ([annotation isKindOfClass:[StopAnnotation class]]) {
-        selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@ (%@)", selectedStopNameLabel.text, selectedStopLabel.text];
-        selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",sAnnotation.coordinate.longitude, sAnnotation.coordinate.latitude];
-        showStopTimeTableButton.hidden = NO;
-        commandViewButtonSeparator.hidden = NO;
-    }else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
-        selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@, %@", selectedStopLabel.text, selectedStopNameLabel.text];
-        selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",sAnnotation.coordinate.longitude, sAnnotation.coordinate.latitude];
-        showStopTimeTableButton.hidden = YES;
-        commandViewButtonSeparator.hidden = NO;
-    }
-    
-    BOOL firstTime = NO;
-    if (prevSelectedStopLongCode == nil) {
-        prevSelectedStopLongCode = selectedStopLongCode;
-        firstTime = YES;
-    }
-    if (firstTime || [prevSelectedStopLongCode intValue] != [selectedStopLongCode intValue]) {
-        //[self plotStopAnnotations:self.nearByStopList];
-        prevSelectedStopLongCode = selectedStopLongCode;
-    }
-    
-}
-*/
 #pragma mark - Annotation helpers
 -(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
     selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
@@ -1080,13 +989,12 @@
     
     [mapView setRegion:region animated:YES];
     
-    
-    
-//    ///Testing only
-//    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:@"1230" andSubtitle:@"Lepasuonkatu" andCoordinate:coordinate];
-//    //newAnnotation.image = [UIImage imageNamed:@"bus_stop_hsl.png"];
-//    
-//    [mapView addAnnotation:newAnnotation];
+    //If centered on current user location
+    if (toReturn && coordinate.latitude == self.currentUserLocation.coordinate.latitude) {
+        [currentLocationButton asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
+        [mapView setUserTrackingMode:MKUserTrackingModeNone];
+        ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
+    }
     
     return toReturn;
 }
@@ -1771,8 +1679,11 @@
 ////    [self showProgressHUD];
 //}
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
-    currentLocationButton.alpha = 0.3;
+- (void)mapView:(MKMapView *)_mapView regionWillChangeAnimated:(BOOL)animated{
+    if (currentLocationButton.tag != kCompasModeCurrentLocationButtonTag) {
+        currentLocationButton.alpha = 0.3;
+    }
+    
     if (centerLocatorView != nil){
         centerLocatorView.alpha = 0.3;
     }
@@ -1784,11 +1695,8 @@
 }
 
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
-    if (!ignoreRegionChange) {
-        
-    }else{
-        ignoreRegionChange = NO;
-    }
+//    if (!ignoreRegionChange)
+//        ignoreRegionChange = NO;
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
         if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
@@ -1815,15 +1723,30 @@
     currentLocationButton.alpha = 1;
     listNearbyStops.alpha = 1;
     
+    if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag && !ignoreMapRegionChangeForCurrentLocationButtonStatus) {
+        [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
+        [mapView setUserTrackingMode:MKUserTrackingModeNone];
+    }
+    
+    if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag && mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading ) {
+        [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
+    }
+    
     if (centerLocatorView != nil){
         centerLocatorView.alpha = 1;
         [self bounceAnimateCenterLocator];
     }
+    
+    ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
 }
 
 -(BOOL)shouldShowDroppedPin{
     
     if (!canShowDroppedPin) {
+        return NO;
+    }
+    
+    if (mapView.userTrackingMode == MKUserTrackingModeFollowWithHeading) {
         return NO;
     }
     
@@ -2127,11 +2050,25 @@
 #pragma - mark IBActions
 
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
-    if (![self isLocationServiceAvailableWithNotification:NO] && locNotAvailableNotificationShow) {
-        [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
+    if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
+        [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
     }
-
-    [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
+    
+    if (![self isLocationServiceAvailableWithNotification:NO]) {
+        if (locNotAvailableNotificationShow) {
+            [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
+        }
+    }else{
+        if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
+            [currentLocationButton asa_updateAsCompassModeCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
+            ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
+            [mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
+        }else if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag) {
+            [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
+            [mapView setUserTrackingMode:MKUserTrackingModeNone];
+        }
+    }
+    
 }
 
 - (IBAction)listNearbyStopsPressed:(id)sender {

@@ -79,7 +79,7 @@
          </AdditionalOption>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../Reitti/Helsinki.gpx"
+         identifier = "../Reitti/Espoo.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>

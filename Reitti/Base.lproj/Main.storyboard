@@ -144,19 +144,16 @@
                                     <outlet property="delegate" destination="139-RC-VnC" id="oUE-EQ-iXy"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gn-os-Xrb">
-                                <rect key="frame" x="545" y="427" width="45" height="45"/>
+                            <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gn-os-Xrb">
+                                <rect key="frame" x="545" y="435" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="9Nk-0h-7PN"/>
-                                    <constraint firstAttribute="width" constant="45" id="Ffh-Ff-Vss"/>
-                                    <constraint firstAttribute="height" constant="45" id="sU2-bp-0LK"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="9Nk-0h-7PN"/>
+                                    <constraint firstAttribute="width" constant="40" id="Ffh-Ff-Vss"/>
+                                    <constraint firstAttribute="height" constant="40" id="sU2-bp-0LK"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="titleShadowOffset" width="1" height="1"/>
-                                <state key="normal" image="currentLocation3.png">
-                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                                <state key="normal" image="current location filled green.png"/>
                                 <connections>
                                     <action selector="centerCurrentLocationButtonPressed:" destination="139-RC-VnC" eventType="touchUpInside" id="v5Z-Wz-qGX"/>
                                 </connections>
@@ -349,7 +346,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="5Gn-os-Xrb" secondAttribute="trailing" constant="-6" id="4gi-YR-v0v"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5Gn-os-Xrb" secondAttribute="trailing" constant="-5" id="4gi-YR-v0v"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="leading" secondItem="658-LZ-zeV" secondAttribute="leading" id="82Y-Xi-8D5"/>
                             <constraint firstAttribute="trailing" secondItem="658-LZ-zeV" secondAttribute="trailing" id="8HY-A1-sd1"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="HFn-6S-gFZ" secondAttribute="bottom" id="GLP-4W-3Ww"/>
@@ -363,10 +360,10 @@
                             <constraint firstItem="ITd-LP-49q" firstAttribute="leading" secondItem="5Gn-os-Xrb" secondAttribute="leading" id="m3h-UD-5ih"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="HFn-6S-gFZ" secondAttribute="bottom" constant="46" id="oY8-kl-Wnv"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="trailing" secondItem="658-LZ-zeV" secondAttribute="trailing" id="q2f-uz-dPW"/>
-                            <constraint firstItem="ITd-LP-49q" firstAttribute="trailing" secondItem="5Gn-os-Xrb" secondAttribute="trailing" id="q9M-Bc-tJz"/>
-                            <constraint firstItem="hHO-Oh-PuB" firstAttribute="top" secondItem="5Gn-os-Xrb" secondAttribute="bottom" constant="20" id="qcH-kj-176"/>
+                            <constraint firstItem="ITd-LP-49q" firstAttribute="trailing" secondItem="5Gn-os-Xrb" secondAttribute="trailing" constant="5" id="q9M-Bc-tJz"/>
+                            <constraint firstItem="hHO-Oh-PuB" firstAttribute="top" secondItem="5Gn-os-Xrb" secondAttribute="bottom" constant="17" id="qcH-kj-176"/>
                             <constraint firstItem="658-LZ-zeV" firstAttribute="leading" secondItem="4Yo-N4-ctk" secondAttribute="leading" id="rk0-pb-Xtx"/>
-                            <constraint firstItem="5Gn-os-Xrb" firstAttribute="top" secondItem="ITd-LP-49q" secondAttribute="bottom" constant="15" id="vd0-yS-go3"/>
+                            <constraint firstItem="5Gn-os-Xrb" firstAttribute="top" secondItem="ITd-LP-49q" secondAttribute="bottom" constant="-85" id="vd0-yS-go3"/>
                             <constraint firstItem="658-LZ-zeV" firstAttribute="bottom" secondItem="hHO-Oh-PuB" secondAttribute="top" id="wQ9-zk-ZX5"/>
                         </constraints>
                         <variation key="default">
@@ -5698,11 +5695,11 @@
                                     <outlet property="delegate" destination="gIr-se-2dR" id="Dor-Zh-JrG"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSg-HG-jzC">
-                                <rect key="frame" x="556" y="-58" width="35" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSg-HG-jzC" userLabel="CurrentUserLocationButtons">
+                                <rect key="frame" x="551" y="-58" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="35" id="K0b-84-UnI"/>
-                                    <constraint firstAttribute="height" constant="35" id="dMK-Rg-TKD"/>
+                                    <constraint firstAttribute="width" constant="40" id="K0b-84-UnI"/>
+                                    <constraint firstAttribute="height" constant="40" id="dMK-Rg-TKD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -6303,7 +6300,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="HUW-IL-lGo" firstAttribute="top" secondItem="bSg-HG-jzC" secondAttribute="bottom" constant="78" id="3xd-aA-YuW"/>
-                            <constraint firstItem="bSg-HG-jzC" firstAttribute="bottom" secondItem="ezY-iD-2Ez" secondAttribute="top" constant="-23" id="8hF-DH-nKg"/>
+                            <constraint firstItem="bSg-HG-jzC" firstAttribute="bottom" secondItem="ezY-iD-2Ez" secondAttribute="top" constant="-18" id="8hF-DH-nKg"/>
                             <constraint firstItem="HUW-IL-lGo" firstAttribute="top" secondItem="ezY-iD-2Ez" secondAttribute="bottom" id="9jh-Ud-Ony"/>
                             <constraint firstItem="ezY-iD-2Ez" firstAttribute="top" secondItem="49K-YZ-PqY" secondAttribute="bottom" id="BUe-OA-31Y"/>
                             <constraint firstItem="38S-rn-gW8" firstAttribute="leading" secondItem="LUU-Fv-p8s" secondAttribute="leading" id="Caz-D9-E69"/>
@@ -6311,7 +6308,7 @@
                             <constraint firstItem="38S-rn-gW8" firstAttribute="leading" secondItem="ezY-iD-2Ez" secondAttribute="leading" id="Fpa-VJ-bNI"/>
                             <constraint firstItem="ezY-iD-2Ez" firstAttribute="top" secondItem="LUU-Fv-p8s" secondAttribute="top" id="ISy-US-Om7"/>
                             <constraint firstAttribute="bottomMargin" secondItem="ezY-iD-2Ez" secondAttribute="bottom" id="Ino-Tv-Uu0"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="bSg-HG-jzC" secondAttribute="trailing" constant="-7" id="NiX-f3-kmc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bSg-HG-jzC" secondAttribute="trailing" constant="-11" id="NiX-f3-kmc"/>
                             <constraint firstItem="38S-rn-gW8" firstAttribute="bottom" secondItem="HUW-IL-lGo" secondAttribute="top" id="Vpl-Fw-qqX"/>
                             <constraint firstAttribute="trailing" secondItem="38S-rn-gW8" secondAttribute="trailing" id="ccg-RT-Zyd"/>
                             <constraint firstItem="HUW-IL-lGo" firstAttribute="top" secondItem="ezY-iD-2Ez" secondAttribute="bottom" id="hID-1F-d5F"/>
@@ -6348,6 +6345,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="arrivalTimeLabel" destination="AxF-iv-uMa" id="zB1-Zl-eBW"/>
+                        <outlet property="currentLocationButton" destination="bSg-HG-jzC" id="6BN-nv-un2"/>
                         <outlet property="mapViewVerticalSpacing" destination="Dbn-pd-Rf9" id="RVq-hX-8zE"/>
                         <outlet property="nextRouteButton" destination="2UJ-Ph-TI0" id="bmP-an-2Xk"/>
                         <outlet property="previousRouteButton" destination="1bz-cn-801" id="XLr-wM-MII"/>
@@ -8726,6 +8724,7 @@ Helsinki, Finland</string>
         <image name="close-button-white.png" width="100" height="100"/>
         <image name="collapse-arrow-100.png" width="100" height="100"/>
         <image name="contact-me-color-100.png" width="100" height="100"/>
+        <image name="current location filled green.png" width="64" height="64"/>
         <image name="currentLocation-black.png" width="64" height="83"/>
         <image name="currentLocation3.png" width="285" height="284"/>
         <image name="dark-dotted-line-long.png" width="7" height="245"/>
@@ -8771,20 +8770,20 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lwh-ia-2sg"/>
-        <segue reference="MZY-ea-tGC"/>
-        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="1EI-TO-7cE"/>
+        <segue reference="DEk-ct-YDr"/>
         <segue reference="ocH-Qu-aOm"/>
         <segue reference="Tx2-4m-mRF"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="due-au-0KO"/>
+        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="X8p-rp-E0z"/>
         <segue reference="qxY-Ak-fPt"/>
-        <segue reference="XlZ-XU-H5m"/>
         <segue reference="EHN-bT-MQW"/>
+        <segue reference="XlZ-XU-H5m"/>
         <segue reference="Gru-ad-IZy"/>
-        <segue reference="zLX-h6-Wen"/>
-        <segue reference="KcY-jL-JZJ"/>
-        <segue reference="L8L-oR-GI7"/>
-        <segue reference="1EI-TO-7cE"/>
-        <segue reference="e2V-qU-oq6"/>
+        <segue reference="lwh-ia-2sg"/>
+        <segue reference="Ltu-K0-x4G"/>
         <segue reference="4dD-ZN-Yab"/>
     </inferredMetricsTieBreakers>
 </document>

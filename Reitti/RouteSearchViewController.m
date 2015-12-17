@@ -549,6 +549,7 @@ typedef enum
 
 - (void)setRouteBookmarkedState{
     [bookmarkRouteButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
+    [bookmarkRouteButton asa_bounceAnimateViewByScale:0.2];
     routeBookmarked = YES;
 }
 

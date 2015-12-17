@@ -15,6 +15,7 @@
 #import "SearchController.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "AppManager.h"
+#import "ASA_Helpers.h"
 #import "CacheManager.h"
 
 @implementation StopViewController
@@ -352,6 +353,7 @@
 #pragma mark - reminder methods
 - (void)setStopBookmarkedState{
     [bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
+    [bookmarkButton asa_bounceAnimateViewByScale:0.2];
     stopBookmarked = YES;
 }
 

@@ -20,6 +20,7 @@
 #import "CacheManager.h"
 #import "CoreDataManager.h"
 #import "Vehicle.h"
+#import "ASA_Helpers.h"
 #import "LVThumbnailAnnotation.h"
 
 @interface RouteDetailViewController ()
@@ -82,6 +83,8 @@
     detailViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragRouteList:)];
     detailViewDragGestureRecognizer.delegate = self;
     [routeListView addGestureRecognizer:detailViewDragGestureRecognizer];
+    
+    ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
     
     [self setNeedsStatusBarAppearanceUpdate];
     [self setUpMainViewForRoute];
@@ -173,6 +176,9 @@
     previousRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
     previousRouteButton.layer.borderWidth = 0.5f;
     previousRouteButton.layer.cornerRadius = 4.0f;
+    
+    [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
+    currentLocationButton.hidden = YES;
     
     [self setNextAndPrevButtonStates];
     
@@ -407,6 +413,8 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     self.currentUserLocation = [locations lastObject];
     
+    currentLocationButton.hidden = NO;
+    
 //    if (previousCenteredLocation == nil) {
 //        previousCenteredLocation = self.currentUserLocation;
 //    }
@@ -435,10 +443,8 @@
     MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
     MKCoordinateRegion region = {coord, span};
     
-    [UIView animateWithDuration:1.5 animations:^{
-        
+    [UIView animateWithDuration:0.7 animations:^{
         [routeMapView setRegion:region animated:YES];
-        
     } completion:^(BOOL finished) {
 //        if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
 //            CGPoint fakecenter = CGPointMake(self.view.bounds.size.width/2, (self.view.bounds.size.height/1.33) - 70);
@@ -446,8 +452,6 @@
 ////            [routeMapView setCenterCoordinate:coordinate animated:YES];
 //        }
     }];
-    
-    
     
     return toReturn;
 }
@@ -983,6 +987,17 @@
         
 //        [self plotLocationsAnnotation:self.route];
     }
+    
+    if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag && !ignoreMapRegionChangeForCurrentLocationButtonStatus) {
+        [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
+        [mapView setUserTrackingMode:MKUserTrackingModeNone];
+    }
+    
+    if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag && mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading ) {
+        [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
+    }
+    
+    ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
 }
 
 -(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
@@ -1065,8 +1080,23 @@
     }
 }
 - (IBAction)centerMapToCurrentLocation:(id)sender {
-    [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
-    previousCenteredLocation = self.currentUserLocation;
+    if (self.currentUserLocation) {
+        if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
+            [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
+            previousCenteredLocation = self.currentUserLocation;
+            [currentLocationButton asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
+            [routeMapView setUserTrackingMode:MKUserTrackingModeNone];
+            
+            ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
+        }else if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
+            [currentLocationButton asa_updateAsCompassModeCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
+            ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
+            [routeMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
+        }else if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag) {
+            [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
+            [routeMapView setUserTrackingMode:MKUserTrackingModeNone];
+        }
+    }
 }
 
 - (IBAction)reminderButtonPressed:(id)sender {

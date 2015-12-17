@@ -114,6 +114,7 @@ typedef enum
     BOOL firstRecievedLocation;
     BOOL userLocationUpdated;
     BOOL removeAnnotationsOnce;
+    BOOL ignoreMapRegionChangeForCurrentLocationButtonStatus;
     float topLayoutGuide;
     float bottomLayoutGuide;
     int bookmarkViewMode;

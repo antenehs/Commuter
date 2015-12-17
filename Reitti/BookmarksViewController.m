@@ -770,9 +770,9 @@
  */
 - (BOOL)isValidBookmarkForRouteSearch:(NamedBookmark *)nmdBookmark{
     if (self.currentUserLocation) {
-        return NO;
+        return [self.reittiDataManager canRouteBeSearchedBetweenCoordinates:self.currentUserLocation.coordinate andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];;
     }else{
-        return [self.reittiDataManager canRouteBeSearchedBetweenCoordinates:self.currentUserLocation.coordinate andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];
+        return NO;
     }
 }
 
