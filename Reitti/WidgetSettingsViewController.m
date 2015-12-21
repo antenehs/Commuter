@@ -143,6 +143,7 @@
             [selectedStops addObject:[unselectedStops objectAtIndex:indexPath.row]];
             [unselectedStops removeObjectAtIndex:indexPath.row];
         }
+        
         [self.tableView reloadSections:[[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationFade];
         [self updateUserDefaultsForSelectedStops:self.selectedStops];
     }
@@ -155,7 +156,6 @@
 
 #pragma mark - table view methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
     return 2;
 }
 
@@ -175,6 +175,7 @@
         stop = [selectedStops objectAtIndex:indexPath.row];
         UIButton *button = (UIButton *)[cell viewWithTag:1003];
         [button setImage:[UIImage imageNamed:@"removeIcon-red.png"] forState:UIControlStateNormal];
+        [button setTintColor:[AppManager systemRedColor]];
         
         if (selectedStops.count < 2) {
             button.enabled = NO;
@@ -186,6 +187,7 @@
         stop = [unselectedStops objectAtIndex:indexPath.row];
         UIButton *button = (UIButton *)[cell viewWithTag:1003];
         [button setImage:[UIImage imageNamed:@"addIcon-green.png"] forState:UIControlStateNormal];
+        [button setTintColor:[AppManager systemGreenColor]];
         
         if (selectedStops.count > 2) {
             button.enabled = NO;
@@ -205,10 +207,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 1) {
-        return 50;
-    }else
-        return 0;
+    return 50;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -218,23 +217,34 @@
         return 0;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section == 1) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 100, 20)];
-        label.text = @"  NOT SELECTED STOPS";
-        label.textColor = [UIColor darkGrayColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-regular" size:16];
-        
-        return label;
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    if (section == 1) {
+//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 100, 20)];
+//        label.text = @"  NOT SELECTED STOPS";
+//        label.textColor = [UIColor darkGrayColor];
+//        label.font = [UIFont fontWithName:@"HelveticaNeue-regular" size:16];
+//        
+//        return label;
+//    }
+//    
+//    return nil;
+//}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return @"SELECTED STOPS ( max 3 )";
+    }else{
+        if (unselectedStops.count > 0)
+            return @"NOT SELECTED STOPS";
+        else
+            return @"";
     }
-    
-    return nil;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 0) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 45)];
-        label.text = @"Departures from these stops will be displayed in the widget. Please note that this feature is available only in iOS 8 and above.";
+        label.text = @"Departures from these stops will be displayed in the widget.";
         label.numberOfLines = 4;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor darkGrayColor];

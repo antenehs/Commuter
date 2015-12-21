@@ -81,7 +81,8 @@
     }else if (allInMemoryRouteCache.count != 0) {
         StaticRoute *route = [allInMemoryRouteCache objectForKey:code];
         if (route != nil) {
-            if ([route.routeType isEqualToString:@"6"]) {
+            //Don't know why metro is threated differently. Could be a copied, pasted and forgotten. Added the extra check juct in case. 
+            if ([route.routeType isEqualToString:@"6"] && !route.lineEnd) {
                 //Metro
                 return @"Metro";
             }

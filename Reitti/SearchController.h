@@ -66,6 +66,8 @@ typedef enum
     IBOutlet UIView *rightNavButtonsView;
     IBOutlet UIButton *listNearbyStops;
     IBOutlet NSLayoutConstraint *nearByStopsViewTopSpacing;
+    IBOutlet JTMaterialSpinner *activityIndicator;
+    IBOutlet JTMaterialSpinner *stopFetchActivityIndicator;
     
     HMSegmentedControl *segmentedControl;
     
@@ -79,7 +81,7 @@ typedef enum
     UIButton *bookmarkButton;
     
     //Multiple searchs view
-    IBOutlet UITableView *searchResultsTable;
+    IBOutlet UITableView *nearbyStopsListsTable;
     IBOutlet UILabel *searchResultsLabel;
     IBOutlet UIButton *hideSearchResultViewButton;
     
@@ -94,6 +96,8 @@ typedef enum
     UIPanGestureRecognizer *stopViewDragGestureRecognizer;
     UIPanGestureRecognizer *searchResultViewDragGestureRecognizer;
     
+    CGPoint stopViewDragVelocity;
+    
     CLLocationManager *locationManager;
     EKEventStore * _eventStore;
     
@@ -103,6 +107,7 @@ typedef enum
     //NSTimer *notificationTimer;
     
     //local vars
+    BOOL viewApearForTheFirstTime;
     BOOL locNotAvailableNotificationShow;
     BOOL centerMap;
     BOOL isStopViewDisplayed;
@@ -120,6 +125,9 @@ typedef enum
     int bookmarkViewMode;
     int appOpenCount;
     int retryCount;
+    
+    NSString *nearbyStopsFetchErrorMessage;
+    
     NSString *timeToSetAlarm;
     NSString *selectedStopCode, *selectedStopShortCode, *selectedStopName;
     NSString *selectedAnnotationUniqeName;
@@ -185,6 +193,7 @@ typedef enum
 @property (nonatomic) bool searchViewHidden;
 @property (strong, nonatomic)NSArray * searchedStopList;
 @property (strong, nonatomic)NSArray * nearByStopList;
+@property (strong, nonatomic)NSMutableDictionary *stopDetailMap;
 @property (strong, nonatomic)NSArray * disruptionList;
 @property (nonatomic)RSearchResultViewMode searchResultListViewMode;
 @property (strong, nonatomic)CLLocation * currentUserLocation;

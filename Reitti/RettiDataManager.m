@@ -813,30 +813,6 @@
     return [difference day];
 }
 
-+(NSDictionary *)convertStopLinesArrayToDictionary:(NSArray *)lineList{
-    
-    NSMutableDictionary *lineListDict = [[NSMutableDictionary alloc] init];
-    
-    for (NSString *line in lineList) {
-        NSArray *info = [line componentsSeparatedByString:@":"];
-        [lineListDict setObject:[info objectAtIndex:1] forKey:[info objectAtIndex:0]];
-    }
-    
-    return lineListDict;
-}
-
-+(NSDictionary *)parseStopLineNamesToDictionary:(NSArray *)lineList{
-    
-    NSMutableDictionary *lineListDict = [[NSMutableDictionary alloc] init];
-    
-    for (NSString *line in lineList) {
-        NSArray *info = [line componentsSeparatedByString:@":"];
-        [lineListDict setObject:[ReittiStringFormatter parseBusNumFromLineCode:[info objectAtIndex:0]] forKey:[info objectAtIndex:0]];
-    }
-    
-    return lineListDict;
-}
-
 -(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntityToCast{
   
     return (StopEntity *)historyEntityToCast;
@@ -869,25 +845,6 @@
     castedBSS.distance = [NSNumber numberWithInt:0];
     
     return castedBSS;
-}
-
--(NSString *)constructListOfLineCodesFromStopsArray:(NSArray *)stopsListArray{
-    
-    NSString *codeListString;
-    
-    for (BusStop * stop in stopsListArray) {
-        
-        for (NSString *line in stop.lines) {
-            NSString *lineCode = [ReittiStringFormatter parseLineCodeFromLineInfoString:line];
-            if (codeListString == nil) {
-                codeListString = lineCode;
-            }else{
-                codeListString = [NSString stringWithFormat:@"%@|%@", codeListString, lineCode];
-            }
-        }
-    }
-    
-    return codeListString;
 }
 
 -(BOOL)isBusStopSaved:(BusStop *)stop{
@@ -1019,7 +976,7 @@
     
     if (tempSystemSettings.count > 0) {
         
-        NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings value is not null");
+//        NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings value is not null");
         settingsEntity = [tempSystemSettings objectAtIndex:0];
         
         //Migration to datamodel version 7
@@ -1180,7 +1137,7 @@
 }
 
 #pragma mark - stop core data methods
--(void)saveToCoreDataStop:(BusStop *)stop withLines:(NSDictionary *)lines{
+-(void)saveToCoreDataStop:(BusStop *)stop{
     NSLog(@"RettiDataManager: Saving Stop to core data!");
     self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
     //set default values
@@ -1191,7 +1148,7 @@
     [self.stopEntity setBusStopURL:stop.timetable_link];
     [self.stopEntity setBusStopCoords:stop.coords];
     [self.stopEntity setBusStopWgsCoords:stop.wgs_coords];
-    [self.stopEntity setStopLines:lines];
+    [self.stopEntity setStopLines:stop.lines];
     
     [self saveManagedObject:stopEntity];
     

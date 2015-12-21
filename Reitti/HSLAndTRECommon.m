@@ -9,6 +9,10 @@
 #import "HSLAndTRECommon.h"
 #import "ReittiStringFormatter.h"
 
+@interface HSLAndTRECommon ()
+
+@end
+
 @implementation HSLAndTRECommon
 
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptionsDictionary:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock{
@@ -186,6 +190,84 @@
     }
     
     return errorString;
+}
+
+#pragma mark - Date formatters
+- (NSDateFormatter *)hourFormatter{
+    if (!_hourFormatter) {
+        _hourFormatter = [[NSDateFormatter alloc] init];
+        [_hourFormatter setDateFormat:@"HHmm"];
+    }
+    
+    return _hourFormatter;
+}
+
+- (NSDateFormatter *)dateFormatter{
+    if (!_dateFormatter) {
+        
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"YYYYMMdd"];
+    }
+    
+    return _dateFormatter;
+}
+
+- (NSDateFormatter *)fullDateFormatter{
+    if (!_fullDateFormatter) {
+        
+        _fullDateFormatter = [[NSDateFormatter alloc] init];
+        [_fullDateFormatter setDateFormat:@"YYYYMMdd HHmm"];
+    }
+    
+    return _fullDateFormatter;
+}
+
+#pragma mark - helpers
+/**
+ Expected format @"YYYYMMdd" and @"HHmm"
+ */
+- (NSDate *)dateFromDateString:(NSString *)dateString andHourString:(NSString *)hourString{
+    @try {
+        NSString *notFormattedTime = hourString;
+        NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+
+        BOOL istommorrow = NO;
+    
+        NSArray *comp = [timeString componentsSeparatedByString:@":"];
+        int hourVal = [[comp objectAtIndex:0] intValue];
+        
+        //The api time could be greater than 24( like 2643 )
+        if (hourVal > 23) {
+            timeString = [NSString stringWithFormat:@"0%d%@", hourVal - 24, [comp objectAtIndex:1] ];
+            istommorrow = YES;
+        }else{
+            timeString = [NSString stringWithFormat:@"%d%@", hourVal, [comp objectAtIndex:1] ];
+        }
+        
+        if (timeString.length == 3)
+            timeString = [NSString stringWithFormat:@"0%@", timeString];
+        
+        NSString *fullDateString = [NSString stringWithFormat:@"%@ %@", dateString, timeString];
+        NSDate *parsedDate = [self.fullDateFormatter dateFromString:fullDateString];
+        
+        NSTimeInterval seconds;
+        if (istommorrow) {
+            seconds = (24 * 60 * 60);
+            parsedDate = [parsedDate dateByAddingTimeInterval:seconds];
+        }
+        
+        return parsedDate;
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+}
+
+/**
+ Expected format @"HHmm"
+ */
+- (NSString *)readableHoursFromApiHours:(NSString *)apiHours{
+    return nil;
 }
 
 @end

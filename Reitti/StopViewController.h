@@ -20,6 +20,7 @@
 #import "SWTableViewCell.h"
 #import "ReittiRemindersManager.h"
 #import "SettingsManager.h"
+#import "JTMaterialSpinner.h"
 
 @class StopViewController;
 
@@ -60,8 +61,9 @@
     
     EKEventStore * _eventStore;
     BOOL stopFetched;
+    BOOL stopDetailRequested;
     bool stopBookmarked;
-    NSString *timeToSetAlarm;
+    NSDate *timeToSetAlarm;
     NSIndexPath * departuresTableIndex;
     NSInteger pressTime;
     
@@ -72,7 +74,7 @@
 
 -(void)setUpStopViewForBusStop:(BusStop *)busStop;
 
-//@property (strong, nonatomic) IBOutlet UIView *StopView;
+@property (strong, nonatomic) IBOutlet JTMaterialSpinner *activityIndicator;;
 @property (strong, nonatomic) NSNumber * modalMode;
 
 @property (strong, nonatomic) NSArray * departures;
@@ -84,11 +86,6 @@
 @property (strong, nonatomic) NSString * stopName;
 @property (nonatomic) CLLocationCoordinate2D stopCoords;
 @property (strong, nonatomic) NSString * backButtonText;
-
-@property (nonatomic) bool darkMode;
-
-@property (strong, nonatomic) NSDictionary * _stopLinesDetail;
-@property (strong, nonatomic) NSDictionary * _stopLineNames;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 

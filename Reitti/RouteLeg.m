@@ -131,8 +131,4 @@
     return count;
 }
 
--(NSString *)lineName{
-    return [ReittiStringFormatter parseBusNumFromLineCode:self.lineCode];
-}
-
 @end

@@ -86,7 +86,8 @@
     if (routeSearchMode) {
         //width 257 & x = 0
         addressSearchBar.frame = CGRectMake(0, searchBarFrame.origin.y, 257, searchBarFrame.size.height);
-        [leftNavBarButton setImage:[UIImage imageNamed:@"Near Me-100.png"] forState:UIControlStateNormal];
+        [leftNavBarButton setImage:[UIImage imageNamed:@"current location filled white.png"] forState:UIControlStateNormal];
+        [leftNavBarButton setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     }else{
         //width = 219 & x = 38
         addressSearchBar.frame = CGRectMake(38, searchBarFrame.origin.y, 219, searchBarFrame.size.height);

@@ -21,8 +21,6 @@
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
 +(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize;
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;
-+(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
-+(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString;
 +(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator;
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;

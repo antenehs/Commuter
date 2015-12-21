@@ -26,6 +26,7 @@
 @interface RouteDetailViewController ()
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
+@property (nonatomic, strong) id previewingContext;
 
 @end
 
@@ -91,7 +92,9 @@
     [self initializeMapView];
     [self initMapViewForRoute:_route];
     [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
-
+    
+    /* Register 3D touch for Peek and Pop if available */
+    [self registerFor3DTouchIfAvailable];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -346,6 +349,17 @@
         nextRouteButton.enabled = NO;
         previousRouteButton.enabled = NO;
     }
+    
+    if (nextRouteButton.enabled)
+        nextRouteButton.tintColor = [AppManager systemGreenColor];
+    else
+        nextRouteButton.tintColor = [UIColor lightGrayColor];
+    
+    if (previousRouteButton.enabled)
+        previousRouteButton.tintColor = [AppManager systemGreenColor];
+    else
+        previousRouteButton.tintColor = [UIColor lightGrayColor];
+
 }
 
 -(BOOL)displayNextRouteAnimated{
@@ -611,38 +625,6 @@
     }else{
         newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:loc.locationLegType]];
     }
-//    
-//    switch (loc.locationLegType) {
-//        case LegTypeWalk:
-//            newAnnotation.imageNameForView = @"";
-//            break;
-//        case LegTypeFerry:
-//            newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
-////            newAnnotation.identifier = @"ferryAnnotIdentifier";
-//            break;
-//        case LegTypeTrain:
-//            newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
-////            newAnnotation.identifier = @"trainAnnotIdentifier";
-//            break;
-//        case LegTypeBus:
-//            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
-////            newAnnotation.identifier = @"busAnnotIdentifier";
-//            break;
-//        case LegTypeTram:
-//            newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
-////            newAnnotation.identifier = @"tramAnnotIdentifier";
-//            break;
-//        case LegTypeMetro:
-//            newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
-////            newAnnotation.identifier = @"metroAnnotIdentifier";
-//            break;
-//            
-//        default:
-//            newAnnotation.imageNameForView = @"busAnnotation3_2.png";
-//            break;
-//    }
-
-//    newAnnotation.code = loc.code;
     
     [routeMapView addAnnotation:newAnnotation];
     
@@ -684,7 +666,7 @@
                 [routeMapView addAnnotation:newAnnotation];
             }
             
-            if ([self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] >= 13) {
+            if ([self shouldShowStopAnnotations]) {
                 if (leg.legType != LegTypeWalk && locCount != 0 && locCount != leg.legLocations.count - 1) {
                     if (loc.shortCode != nil) {
                         LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
@@ -694,53 +676,118 @@
                         }else{
                             newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:loc.locationLegType]];
                         }
-//                        switch (loc.locationLegType) {
-//                            case LegTypeWalk:
-//                                newAnnotation.imageNameForView = @"";
-//                                break;
-//                            case LegTypeFerry:
-//                                newAnnotation.imageNameForView = @"ferryAnnotation3_2.png";
-////                                newAnnotation.identifier = @"ferryAnnotIdentifier";
-//                                break;
-//                            case LegTypeTrain:
-//                                newAnnotation.imageNameForView = @"trainAnnotation3_2.png";
-////                                newAnnotation.identifier = @"trainAnnotIdentifier";
-//                                break;
-//                            case LegTypeBus:
-//                                newAnnotation.imageNameForView = @"busAnnotation3_2.png";
-////                                newAnnotation.identifier = @"busAnnotIdentifier";
-//                                break;
-//                            case LegTypeTram:
-//                                newAnnotation.imageNameForView = @"tramAnnotation3_2.png";
-////                                newAnnotation.identifier = @"tramAnnotIdentifier";
-//                                break;
-//                            case LegTypeMetro:
-//                                newAnnotation.imageNameForView = @"metroAnnotation3_2.png";
-////                                newAnnotation.identifier = @"metroAnnotIdentifier";
-//                                break;
-//                                
-//                            default:
-//                                break;
-//                        }
                         
                         [routeMapView addAnnotation:newAnnotation];
                     }
                 }
             }else{
-                for (id<MKAnnotation> annotation in routeMapView.annotations) {
-                    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
-                        LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
-                        if (locAnnotation.locationType == StopLocation) {
-                            [routeMapView removeAnnotation:annotation];
-                        }
-                    }
-                }
+                [self removeAllStopLocationAnnotations];
             }
             
             locCount++;
         }
         count++;
     }
+}
+
+- (void)plotOtherStopAnnotationsForStops:(NSArray *)stopList{
+    if (![self shouldShowOtherStopAnnotations])
+        return;
+
+    @try {
+        NSMutableArray *codeList;
+        codeList = [self collectStopCodes:stopList];
+        
+        NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+        NSMutableArray *newStops = [[NSMutableArray alloc] init];
+        
+        if (stopList.count > 0) {
+            //This is to avoid the flickering effect of removing and adding annotations
+            for (id<MKAnnotation> annotation in routeMapView.annotations) {
+                if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+                    LocationsAnnotation *annot = (LocationsAnnotation *)annotation;
+                    if (annot.locationType != OtherStopLocation)
+                        continue;
+                    
+                    if (![codeList containsObject:annot.code]) {
+                        //Remove stop if it doesn't exist in the new list
+                        [annotToRemove addObject:annotation];
+                    }else{
+                        [codeList removeObject:annot.code];
+                    }
+                }
+            }
+            newStops = [NSMutableArray arrayWithArray:[self collectStopsForCodes:codeList fromStops:stopList]];
+            
+            [routeMapView removeAnnotations:annotToRemove];
+            
+            NSMutableArray *allAnots = [@[] mutableCopy];
+            for (BusStopShort *stop in newStops) {
+                //Do not plot if stop annotation is one of the onces in the route
+                if ([self isOtherStopOneOfTheLocationStops:stop])
+                    continue;
+                
+                CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+                NSString * name = stop.name;
+                NSString * codeShort = stop.codeShort;
+                
+                LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:codeShort andCoordinate:coordinate andLocationType:OtherStopLocation];
+                newAnnotation.code = [NSNumber numberWithInteger:[stop.code integerValue]];
+                newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:stop.stopType];
+                
+                [routeMapView addAnnotation:newAnnotation];
+            }
+            
+            if (allAnots.count > 0) {
+                @try {
+                    [routeMapView addAnnotations:allAnots];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"Adding annotations failed!!! Exception %@", exception);
+                }
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Adding annotations failed!!! Exception %@", exception);
+    }
+
+}
+
+- (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList
+{
+    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.code",codeList ]];
+}
+
+- (NSMutableArray *)collectStopCodes:(NSArray *)stopList
+{
+    
+    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+    for (BusStopShort *stop in stopList) {
+        [codeList addObject:stop.code];
+    }
+    return codeList;
+}
+
+- (BOOL)isOtherStopOneOfTheLocationStops:(BusStopShort *)stop{
+    for (RouteLeg *leg in self.route.routeLegs) {
+        for (RouteLegLocation *loc in leg.legLocations) {
+            if (loc.shortCode == stop.codeShort) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)shouldShowStopAnnotations{
+    return [self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] >= 13;
+}
+
+- (BOOL)shouldShowOtherStopAnnotations{
+    //15 is the level the current user location is displayed. Have to zoom more to view the other stops. 
+    return [self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] > 15 && currentRouteListViewLocation == RouteListViewLoactionBottom;
 }
 
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
@@ -889,7 +936,7 @@
             //                annotationView.centerOffset = CGPointMake(0,-19);
             
             return annotationView;
-        }else{
+        }else if (locAnnotation.locationType == StopLocation){
 //            MKAnnotationView *annotationView;
             MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
             if (annotationView == nil) {
@@ -910,6 +957,27 @@
             annotationView.centerOffset = CGPointMake(0,-15);
             
             return annotationView;
+        }else if (locAnnotation.locationType == OtherStopLocation){
+            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
+            if (annotationView == nil) {
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
+                annotationView.enabled = YES;
+                
+                annotationView.canShowCallout = YES;
+                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
+                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                }
+                
+            } else {
+                annotationView.annotation = annotation;
+            }
+            
+            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
+            [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
+            annotationView.centerOffset = CGPointMake(0,-8);
+//            annotationView.alpha = 0.95;
+            
+            return annotationView;
         }
     }
     
@@ -917,6 +985,13 @@
         
         return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
     }
+    
+//    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
+//        MKAnnotationView *annotationView = [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
+//        annotationView.alpha = 0.5;
+//        annotationView.canShowCallout = YES;
+//        return annotationView;
+//    }
     
     return nil;
 }
@@ -960,6 +1035,32 @@
     previousRegion = mapView.visibleMapRect;
 }
 
+//Stop locations are the stops in legs. Not transfer locations
+-(void)removeAllStopLocationAnnotations{
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+            LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
+            if (locAnnotation.locationType == StopLocation) {
+                [routeMapView removeAnnotation:annotation];
+            }
+        }
+    }
+}
+
+-(void)removeAllOtherStopAnnotations{
+    NSMutableArray *array = [@[] mutableCopy];
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+            LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
+            if (locAnnotation.locationType == OtherStopLocation) {
+                [array addObject:annotation];
+            }
+        }
+    }
+    
+    [routeMapView removeAnnotations:array];
+}
+
 -(void)removeAnnotationsExceptVehicles{
     NSMutableArray *array = [@[] mutableCopy];
     for (id<MKAnnotation> annotation in routeMapView.annotations) {
@@ -972,7 +1073,8 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-//    NSLog(@"Zoom level is: %lu ", (unsigned long)[self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size]);
+    NSLog(@"Zoom level is: %lu ", (unsigned long)[self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size]);
+    
     //Show detailed stop annotations when the zoom level is more than or equal to 14
     if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
 //        [mapView removeAnnotations:mapView.annotations];
@@ -984,11 +1086,20 @@
         for (RouteLeg *leg in self.route.routeLegs) {
             [self drawLineForLeg:leg];
         }
-        
-//        [self plotLocationsAnnotation:self.route];
     }
     
-    if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag && !ignoreMapRegionChangeForCurrentLocationButtonStatus) {
+    if ([self shouldShowOtherStopAnnotations]) {
+        [self.reittiDataManager fetchStopsInAreaForRegion:routeMapView.region withCompletionBlock:^(NSArray *stops, NSString *error){
+            if (!error) {
+                [self plotOtherStopAnnotationsForStops:stops];
+            }
+        }];
+    }else{
+//        [self removeAllOtherStopAnnotations];
+    }
+    
+    //the third check is because setting usertracking mode changes the region and the tag of the button might not yet be updated at that time.
+    if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag && !ignoreMapRegionChangeForCurrentLocationButtonStatus && mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading) {
         [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
         [mapView setUserTrackingMode:MKUserTrackingModeNone];
     }
@@ -1016,7 +1127,7 @@
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActions {
     if (_previewActions == nil) {
-        UIPreviewAction *printAction = [UIPreviewAction
+        UIPreviewAction *remindMeAction = [UIPreviewAction
                                         actionWithTitle:@"Remind Me"
                                         style:UIPreviewActionStyleDefault
                                         handler:^(UIPreviewAction * _Nonnull action,
@@ -1024,7 +1135,7 @@
                                             RouteDetailViewController *viewController = (RouteDetailViewController *)previewViewController;
                                             [viewController reminderButtonPressed:self];
                                         }];
-        _previewActions = @[printAction];
+        _previewActions = @[remindMeAction];
     }
     return _previewActions;
 }
@@ -1082,19 +1193,19 @@
 - (IBAction)centerMapToCurrentLocation:(id)sender {
     if (self.currentUserLocation) {
         if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
+            [routeMapView setUserTrackingMode:MKUserTrackingModeNone];
             [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
             previousCenteredLocation = self.currentUserLocation;
             [currentLocationButton asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
-            [routeMapView setUserTrackingMode:MKUserTrackingModeNone];
             
             ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
         }else if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
+            [routeMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
             [currentLocationButton asa_updateAsCompassModeCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
             ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
-            [routeMapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
         }else if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag) {
-            [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
             [routeMapView setUserTrackingMode:MKUserTrackingModeNone];
+            [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
         }
     }
 }
@@ -1109,24 +1220,24 @@
 {
 //    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     if (actionSheet.tag == 2001) {
-        NSString * timeToSetAlarm = [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute];
+//        NSString * timeToSetAlarm = [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute];
         reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minutes.";
         switch (buttonIndex) {
             case 0:
                 reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minute.";
-                [reittiRemindersManager setNotificationWithMinOffset:1 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:1 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 1:
-                [reittiRemindersManager setNotificationWithMinOffset:5 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:5 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 2:
-                [reittiRemindersManager setNotificationWithMinOffset:10 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:10 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 3:
-                [reittiRemindersManager setNotificationWithMinOffset:15 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:15 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 4:
-                [reittiRemindersManager setNotificationWithMinOffset:30 andHourString:timeToSetAlarm];
+                [reittiRemindersManager setNotificationWithMinOffset:30 andTime:self.route.getStartingTimeOfRoute];
                 break;
             default:
                 break;
@@ -1292,13 +1403,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         }else if(selectedLeg.legType == LegTypeFerry){
             lineNumberLabel.text = @"Ferry";
         }else if(selectedLeg.legType == LegTypeTrain){
-            NSString *unformattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
-            NSString *filteredOnce = [unformattedTrainNumber
-                                      stringByReplacingOccurrencesOfString:@"01" withString:@""];
-            lineNumberLabel.text = [filteredOnce
-                                    stringByReplacingOccurrencesOfString:@"02" withString:@""];
+//            NSString *unformattedTrainNumber = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
+//            NSString *filteredOnce = [unformattedTrainNumber
+//                                      stringByReplacingOccurrencesOfString:@"01" withString:@""];
+            lineNumberLabel.text = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
         }else if (selectedLeg.lineCode != nil) {
-            lineNumberLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
+            lineNumberLabel.text = selectedLeg.lineName;
         }else {
             lineNumberLabel.text = @"";
         }
@@ -1588,13 +1698,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             }else if(selectedLeg.legType == LegTypeFerry){
                 lineNumberLabel.text = @"Ferry";
             }else if(selectedLeg.legType == LegTypeTrain){
-                NSString *unformattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
-                NSString *filteredOnce = [unformattedTrainNumber
-                                          stringByReplacingOccurrencesOfString:@"01" withString:@""];
-                lineNumberLabel.text = [filteredOnce
-                                        stringByReplacingOccurrencesOfString:@"02" withString:@""];
+//                NSString *unformattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
+//                NSString *unformattedTrainNumber = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
+//                NSString *filteredOnce = [unformattedTrainNumber
+//                                          stringByReplacingOccurrencesOfString:@"01" withString:@""];
+                lineNumberLabel.text = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
             }else if (selectedLeg.lineCode != nil) {
-                lineNumberLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
+                lineNumberLabel.text = selectedLeg.lineName;
             }else {
                 lineNumberLabel.text = @"";
             }
@@ -1786,12 +1896,138 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             stopViewController.stopName = stopName;
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
-            stopViewController.darkMode = self.darkMode;
 //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
             stopViewController.reittiDataManager = self.reittiDataManager;
             stopViewController.delegate = nil;
             
             isShowingStopView = YES;
+        }
+    }
+}
+
+#pragma mark === UIViewControllerPreviewingDelegate Methods ===
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
+              viewControllerForLocation:(CGPoint)location {
+    
+    NSString *stopCode, *stopShortCode, *stopName;
+    CLLocationCoordinate2D stopCoords;
+    
+    UIView *view = [self.view hitTest:location withEvent:UIEventTypeTouches];
+    if ([view isKindOfClass:[MKAnnotationView class]]) {
+        MKAnnotationView *annotationView = (MKAnnotationView *)view;
+        if ([annotationView.annotation isKindOfClass:[StopAnnotation class]])
+        {
+            StopAnnotation *stopAnnotation = (StopAnnotation *)annotationView.annotation;
+            stopCode = [stopAnnotation.code stringValue];
+            stopCoords = stopAnnotation.coordinate;
+            stopShortCode = stopAnnotation.subtitle;
+            stopName = stopAnnotation.title;
+            
+        }else if ([annotationView.annotation isKindOfClass:[LocationsAnnotation class]])
+        {
+            LocationsAnnotation *annotation = (LocationsAnnotation *)annotationView.annotation;
+            if (annotation.locationType == StopLocation || annotation.locationType == OtherStopLocation) {
+                stopCode = [annotation.code stringValue];
+                stopCoords = annotation.coordinate;
+                stopShortCode = annotation.subtitle;
+                stopName = annotation.title;
+            }else{
+                return nil;
+            }
+            
+        }else{
+            return nil;
+        }
+    }else{
+        //Could be coming from table view cell
+        //Convert location to table view coordinate
+        CGPoint locationInTableView = [self.view convertPoint:location toView:routeListTableView];
+        
+        NSIndexPath *selectedRowIndexPath = [routeListTableView indexPathForRowAtPoint:locationInTableView];
+        
+        UITableViewCell *cell = [routeListTableView cellForRowAtIndexPath:selectedRowIndexPath];
+        if (cell){
+            CGRect convertedRect = [cell.superview convertRect:cell.frame toView:self.view];
+            previewingContext.sourceRect = convertedRect;
+        }
+        else
+            return nil;
+        
+        if (selectedRowIndexPath && selectedRowIndexPath.row <= self.routeLocationList.count) {
+            RouteLocation * selected = [self.routeLocationList objectAtIndex:selectedRowIndexPath.row];
+            stopCode = selected.stopCode;
+            stopShortCode = selected.shortCode;
+            stopName = selected.name;
+            stopCoords = CLLocationCoordinate2DMake([[selected.coordsDictionary objectForKey:@"y"] floatValue],[[selected.coordsDictionary objectForKey:@"x"] floatValue]);
+        }else{
+            return nil;
+        }
+    }
+    
+    if (stopCode != nil && ![stopCode isEqualToString:@""]) {
+        //            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        
+        StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
+        stopViewController.stopCode = stopCode;
+        stopViewController.stopShortCode = stopShortCode;
+        stopViewController.stopName = stopName;
+        stopViewController.stopCoords = stopCoords;
+        stopViewController.stopEntity = nil;
+        //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
+        stopViewController.reittiDataManager = self.reittiDataManager;
+        stopViewController.delegate = nil;
+        
+        //            isShowingStopView = YES;
+        return stopViewController;
+    }
+    
+    return nil;
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
+    if ([viewControllerToCommit isKindOfClass:[StopViewController class]]) {
+        [self.navigationController showViewController:viewControllerToCommit sender:nil];
+        isShowingStopView = YES;
+    }else if ([viewControllerToCommit isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)viewControllerToCommit;
+        //        [navigationController setNavigationBarHidden:NO];
+        [self showViewController:navigationController sender:nil];
+    }else{
+        [self showViewController:viewControllerToCommit sender:nil];
+    }
+}
+
+-(void)registerFor3DTouchIfAvailable{
+    // Register for 3D Touch Previewing if available
+    if ([self isForceTouchAvailable])
+    {
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+    }else{
+        NSLog(@"3D Touch is not available on this device.!");
+        
+        // handle a 3D Touch alternative (long gesture recognizer)
+    }
+}
+
+- (BOOL)isForceTouchAvailable {
+    BOOL isForceTouchAvailable = NO;
+    if ([self.traitCollection respondsToSelector:@selector(forceTouchCapability)]) {
+        isForceTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable;
+    }
+    return isForceTouchAvailable;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if ([self isForceTouchAvailable]) {
+        if (!self.previewingContext) {
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
+        }
+    } else {
+        if (self.previewingContext) {
+            [self unregisterForPreviewingWithContext:self.previewingContext];
+            self.previewingContext = nil;
         }
     }
 }

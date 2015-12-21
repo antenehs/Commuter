@@ -61,6 +61,30 @@
     }
 }
 
++(UIColor *)colorForStopType:(StopType)stopType{
+    switch (stopType) {
+        case StopTypeFerry:
+            return [AppManager systemCyanColor];
+            break;
+        case StopTypeTrain:
+            return [AppManager systemRedColor];
+            break;
+        case StopTypeBus:
+            return [AppManager systemBlueColor];
+            break;
+        case StopTypeTram:
+            return [AppManager systemGreenColor];
+            break;
+        case StopTypeMetro:
+            return [AppManager systemOrangeColor];
+            break;
+            
+        default:
+            return [AppManager systemBlueColor];
+            break;
+    }
+}
+
 #pragma mark - system images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType{
     return [UIImage imageNamed:[AppManager stopAnnotationImageNameForStopType:stopType]];

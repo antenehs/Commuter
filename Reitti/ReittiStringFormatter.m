@@ -213,60 +213,6 @@
     return [NSString stringWithFormat:@"%@.%@.%@", date, month, year];
 }
 
-//Expected format is XXXX(X) X
-//PArsing logic https://github.com/HSLdevcom/navigator-proto/blob/master/src/routing.coffee#L40
-+(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
-    
-    NSArray *codes = [lineCode componentsSeparatedByString:@" "];
-    NSString *code = [codes objectAtIndex:0];
-    
-    if (code.length < 4) {
-        return code;
-    }
-    
-    //Try getting from line cache
-    CacheManager *cacheManager = [CacheManager sharedManager];
-    
-    NSString * lineName = [cacheManager getRouteNameForCode:code];
-    
-    if (lineName != nil && ![lineName isEqualToString:@""]) {
-        return lineName;
-    }
-    
-    //Can be assumed a train line
-    if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
-        NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
-        if (trainLineCode != nil && trainLineCode.length > 0) {
-            return trainLineCode;
-        }
-    }
-    
-    //Can be assumed a metro
-    if ([code hasPrefix:@"1300"]) {
-        return @"Metro";
-    }
-    
-    //Can be assumed a ferry
-    if ([code hasPrefix:@"1019"]) {
-        return @"Ferry";
-    }
-    
-    NSRange second = NSMakeRange(1, 1);
-    
-    NSString *checkString = [code substringWithRange:second];
-    NSString *returnString;
-    if([checkString isEqualToString:@"0"]){
-        returnString = [code substringWithRange:NSMakeRange(2, code.length - 2)];
-    }else{
-        returnString = [code substringWithRange:NSMakeRange(1, code.length - 1)];
-    }
-    
-    if ([returnString hasPrefix:@"0"])
-        return [returnString substringWithRange:NSMakeRange(1, returnString.length - 1)];
-    else
-        return returnString;
-}
-
 //Expected format is XXXX(X) X:YYYYYYY
 +(NSString *)parseLineCodeFromLineInfoString:(NSString *)lineInfoString{
     NSArray *segments = [lineInfoString componentsSeparatedByString:@":"];
@@ -302,7 +248,10 @@
     
     NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
     
-    if (text == nil || substring == nil)
+    if (text == nil)
+        return nil;
+    
+    if (substring == nil)
         return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
     
     if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)

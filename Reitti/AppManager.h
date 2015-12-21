@@ -15,6 +15,7 @@
 
 +(UIColor *)colorForLegType:(LegTransportType)legTransportType;
 +(UIColor *)colorForLineType:(LineType)lineType;
++(UIColor *)colorForStopType:(StopType)stopType;
 
 //App images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;

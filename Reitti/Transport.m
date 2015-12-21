@@ -65,7 +65,7 @@
     float acceptableWidthForOthers = 70;
     
     if (routeLeg.lineCode != nil) {
-        lineNumberLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:routeLeg.lineCode];
+        lineNumberLabel.text = routeLeg.lineName;
         NSDictionary *fontAttr = [NSDictionary dictionaryWithObject:lineNumberLabel.font forKey:NSFontAttributeName];
         
         CGSize size = [lineNumberLabel.text sizeWithAttributes:fontAttr];
@@ -93,7 +93,7 @@
             imageView.hidden = YES;
         }
     }else if (routeLeg.legType == LegTypeTrain) {
-        NSString *formattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:routeLeg.lineCode];
+        NSString *formattedTrainNumber = routeLeg.lineName;
         
         lineNumberLabel.text = formattedTrainNumber;
         if (width < acceptableWidthForOthers) {
@@ -101,7 +101,7 @@
         }
     }else{
         if (routeLeg.lineCode != nil) {
-            lineNumberLabel.text = [ReittiStringFormatter parseBusNumFromLineCode:routeLeg.lineCode];
+            lineNumberLabel.text = routeLeg.lineName;
             
             if ((width < acceptableWidthForOthers) ) {
                 imageView.hidden = YES;

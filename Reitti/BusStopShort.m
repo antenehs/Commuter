@@ -10,6 +10,12 @@
 #import "ReittiStringFormatter.h"
 #import "CacheManager.h"
 
+@interface BusStopShort ()
+
+@property (strong, nonatomic)StaticStop *staticStop;
+
+@end
+
 @implementation BusStopShort
 
 @synthesize code;
@@ -49,9 +55,12 @@
 
 -(StopType)stopType{
     @try {
-        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
-        if (staticStop != nil) {
-            return staticStop.reittiStopType;
+        if (!_staticStop) {
+            _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+        }
+        
+        if (_staticStop != nil) {
+            return _staticStop.reittiStopType;
         }else{
             return StopTypeBus;
         }

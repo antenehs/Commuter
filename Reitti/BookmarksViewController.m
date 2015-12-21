@@ -114,7 +114,6 @@
     
     /* Register 3D touch for Peek and Pop if available */
     [self registerFor3DTouchIfAvailable];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -122,7 +121,7 @@
     [self loadSavedValues];
     
     [self setUpViewForTheSelectedMode];
-    [self requestRoutesIfNeeded];
+//    [self requestRoutesIfNeeded];
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(refreshTableView:) userInfo:nil repeats:YES];
     [locationManager startUpdatingLocation];
@@ -257,7 +256,7 @@
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     self.tableView.backgroundColor = [UIColor clearColor];
-//    [self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 -(void)hideWidgetSettingsButton:(BOOL)hidden{
@@ -496,7 +495,6 @@
                     leavesTime.hidden = YES;
                     arrivesTime.hidden = YES;
                     
-                    //TODO: This should be revised
                     [self fetchRouteForNamedBookmark:namedBookmark];
                 }else{
                     NSArray * routes = [self getRoutesForNamedBookmark:namedBookmark];
@@ -711,6 +709,8 @@
 
 #pragma mark - helper methods
 - (BOOL)shouldUpdateRouteInfoForBookmark:(NamedBookmark *)namedBookmark {
+    //TODO: Do somekind of global error detection like if there are more than n requests in 30 seconds or so.
+    
     if (![self isValidBookmarkForRouteSearch:namedBookmark])
         return NO;
     
@@ -720,7 +720,7 @@
         return YES;
     
     CLLocationDistance dist = [previousCenteredLocation distanceFromLocation:self.currentUserLocation];
-    if (dist > 100) {
+    if (dist > 150) {
         return YES;
     }
     

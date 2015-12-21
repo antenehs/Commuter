@@ -139,14 +139,21 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 
 -(void)setNotificationWithMinOffset:(int)minute andHourString:(NSString *)timeString{
     
+    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minute];
+    [self setNotificationWithMinOffset:0 andTime:date];
+}
+
+-(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date{
     if ([self isLocalNotificationEnabled]) {
-        NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minute];
-        
         if (date == nil) {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting notifications failed."];
-
+            
             return;
         }
+        
+        NSTimeInterval seconds = (minute * -60);
+        
+        date = [date dateByAddingTimeInterval:seconds];
         
         if ([[NSDate date] compare:date] == NSOrderedDescending ) {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already past."];
@@ -162,6 +169,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
                                                   otherButtonTitles:@"Settings",nil];
         [alertView show];
     }
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

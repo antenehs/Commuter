@@ -285,6 +285,10 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
     
 }
 
+- (void)setSubtitleLabelText:(NSString *)subtitleText {
+    self.subtitleLabel.text = subtitleText;
+}
+
 - (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address{
     if (address==nil) {
         self.disclosureButton.alpha = 0;

@@ -332,6 +332,13 @@
 		667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B982C1AD33A4100C45ADF /* EditAddressTableViewController.m */; };
 		667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98301AD5590D00C45ADF /* NamedBookmark.m */; };
 		667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */; };
+		66822F5D1C2451D800511BD2 /* collapse-arrow-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F5C1C2451D800511BD2 /* collapse-arrow-gray.png */; };
+		66822F611C2468A300511BD2 /* StopDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F601C2468A300511BD2 /* StopDeparture.m */; };
+		66822F621C2468A300511BD2 /* StopDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F601C2468A300511BD2 /* StopDeparture.m */; };
+		66822F631C2468A300511BD2 /* StopDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F601C2468A300511BD2 /* StopDeparture.m */; };
+		66822F661C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
+		66822F671C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
+		66822F681C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
 		6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */; };
 		6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */; };
 		6682D2491ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */; };
@@ -1118,6 +1125,12 @@
 		667B98301AD5590D00C45ADF /* NamedBookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NamedBookmark.m; path = ../NamedBookmark.m; sourceTree = "<group>"; };
 		667B98321AD5863300C45ADF /* ReittiNotificationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiNotificationHelper.h; sourceTree = "<group>"; };
 		667B98331AD5863300C45ADF /* ReittiNotificationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiNotificationHelper.m; sourceTree = "<group>"; };
+		66822F5C1C2451D800511BD2 /* collapse-arrow-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "collapse-arrow-gray.png"; path = "Pictures/version 4.1/collapse-arrow-gray.png"; sourceTree = "<group>"; };
+		66822F5F1C2468A300511BD2 /* StopDeparture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDeparture.h; sourceTree = "<group>"; };
+		66822F601C2468A300511BD2 /* StopDeparture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDeparture.m; sourceTree = "<group>"; };
+		66822F641C24695900511BD2 /* StopLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopLine.h; sourceTree = "<group>"; };
+		66822F651C24695900511BD2 /* StopLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopLine.m; sourceTree = "<group>"; };
+		66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 13.xcdatamodel"; sourceTree = "<group>"; };
 		6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sitting-filled-grey-64.png"; path = "Pictures/Version 2.3/sitting-filled-grey-64.png"; sourceTree = "<group>"; };
 		6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white2-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white2-100.png"; sourceTree = "<group>"; };
 		6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white-100.png"; sourceTree = "<group>"; };
@@ -1610,6 +1623,7 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66822F5C1C2451D800511BD2 /* collapse-arrow-gray.png */,
 				661AB3A61C22E2020061E1F6 /* map compas mode white.png */,
 				661AB3A71C22E2020061E1F6 /* current location filled white.png */,
 				661AB3A81C22E2020061E1F6 /* current location filled green.png */,
@@ -1968,10 +1982,7 @@
 				660E2F571B33627600CE670E /* Lines */,
 				661202C61B05083B00D93C2E /* GeoJSON */,
 				66CEE27419FA95810089A6F9 /* Disruption */,
-				661FAF2D18A4F2B400042074 /* BusStop.h */,
-				661FAF2E18A4F2B400042074 /* BusStop.m */,
-				66A7A9B618C5DB9400AC9E94 /* BusStopShort.h */,
-				66A7A9B718C5DB9400AC9E94 /* BusStopShort.m */,
+				66822F5E1C24688C00511BD2 /* Stops */,
 				664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */,
 				664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */,
 				66CC941118E22ECB00644281 /* StopEntity.h */,
@@ -2231,6 +2242,21 @@
 				667B981B1AD3294C00C45ADF /* Up Left-100_grey.png */,
 			);
 			name = "Address Types";
+			sourceTree = "<group>";
+		};
+		66822F5E1C24688C00511BD2 /* Stops */ = {
+			isa = PBXGroup;
+			children = (
+				661FAF2D18A4F2B400042074 /* BusStop.h */,
+				661FAF2E18A4F2B400042074 /* BusStop.m */,
+				66A7A9B618C5DB9400AC9E94 /* BusStopShort.h */,
+				66A7A9B718C5DB9400AC9E94 /* BusStopShort.m */,
+				66822F5F1C2468A300511BD2 /* StopDeparture.h */,
+				66822F601C2468A300511BD2 /* StopDeparture.m */,
+				66822F641C24695900511BD2 /* StopLine.h */,
+				66822F651C24695900511BD2 /* StopLine.m */,
+			);
+			name = Stops;
 			sourceTree = "<group>";
 		};
 		66947CA918830ED500642EE1 = {
@@ -3333,6 +3359,7 @@
 				661831241C1065E100DA979E /* Options-colored-100.png in Resources */,
 				66F099831AE8075D00F20D34 /* NotificationBackgroundError@2x.png in Resources */,
 				6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */,
+				66822F5D1C2451D800511BD2 /* collapse-arrow-gray.png in Resources */,
 				6665D7731C0CA6B200ACCC3A /* Shopping-black-50.png in Resources */,
 				66D426A8199148D10080F21E /* polyline-128.png in Resources */,
 				660F2E6919C8D35800A75987 /* bus_station-50.png in Resources */,
@@ -3643,6 +3670,7 @@
 				66134BFA1B3EE8F50008C6D7 /* GCThumbnailAnnotation.m in Sources */,
 				66CC941C18E34C6300644281 /* CookieEntity.m in Sources */,
 				660E2F801B349AD200CE670E /* EmptyHomeAddressCell.m in Sources */,
+				66822F611C2468A300511BD2 /* StopDeparture.m in Sources */,
 				665885C51B1121000044F514 /* NearByStop.m in Sources */,
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
@@ -3768,6 +3796,7 @@
 				664E288C1ADC79F800BE2457 /* FailedGeoCodeFetch.m in Sources */,
 				66FC54841B236866005B890D /* CacheManager.m in Sources */,
 				66CA02D81C17126800A38858 /* NamedBookmarkE.m in Sources */,
+				66822F661C24695900511BD2 /* StopLine.m in Sources */,
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
@@ -3823,6 +3852,8 @@
 				660CFE311C19B81A004D73FC /* RouteLegE.m in Sources */,
 				660CFE171C19A157004D73FC /* HSLAPIClient.m in Sources */,
 				660CFE2D1C19B81A004D73FC /* RouteE.m in Sources */,
+				66822F681C24695900511BD2 /* StopLine.m in Sources */,
+				66822F631C2468A300511BD2 /* StopDeparture.m in Sources */,
 				660CFE2F1C19B81A004D73FC /* RouteLegLocationE.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3840,6 +3871,7 @@
 				660CFE2E1C19B81A004D73FC /* RouteLegLocationE.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66CA02D31C16FEB000A38858 /* AppManagerBase.m in Sources */,
+				66822F671C24695900511BD2 /* StopLine.m in Sources */,
 				660CFE2C1C19B81A004D73FC /* RouteE.m in Sources */,
 				66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */,
 				660CFE1F1C19A209004D73FC /* WidgetDataManager.m in Sources */,
@@ -3853,6 +3885,7 @@
 				6665D7811C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */,
 				66DAC7E01A0276690002BE16 /* HSLAPI.m in Sources */,
 				66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */,
+				66822F621C2468A300511BD2 /* StopDeparture.m in Sources */,
 				66CA033B1C1778DD00A38858 /* KBPopupDrawableView.m in Sources */,
 				6665D7851C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */,
 				660CFE121C19A138004D73FC /* APIClient.m in Sources */,
@@ -4232,6 +4265,7 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */,
 				6665D74E1C0C9BF300ACCC3A /* Reitti 12.xcdatamodel */,
 				66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */,
 				66F6CEE71B529BFB00F934A2 /* Reitti 10.xcdatamodel */,
@@ -4245,7 +4279,7 @@
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 6665D74E1C0C9BF300ACCC3A /* Reitti 12.xcdatamodel */;
+			currentVersion = 66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

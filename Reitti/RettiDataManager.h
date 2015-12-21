@@ -140,7 +140,7 @@ typedef struct {
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;
 -(BOOL)doesNamedBookmarkExistWithName:(NSString *)name;
 
--(void)saveToCoreDataStop:(BusStop *)stop withLines:(NSDictionary *)lines;
+-(void)saveToCoreDataStop:(BusStop *)stop;
 -(void)deleteSavedStopForCode:(NSNumber *)code;
 -(void)deleteAllSavedStop;
 -(NSArray *)fetchAllSavedStopsFromCoreData;
@@ -185,8 +185,6 @@ typedef struct {
 -(void)fetchAllLiveVehicles;
 -(void)stopFetchingLiveVehicles;
 
-+(NSDictionary *)convertStopLinesArrayToDictionary:(NSArray *)lineList;
-+(NSDictionary *)parseStopLineNamesToDictionary:(NSArray *)lineList;
 -(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntity;
 -(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode;
 -(BusStopShort *)castStopEntityToBusStopShort:(StopEntity *)stopEntity;

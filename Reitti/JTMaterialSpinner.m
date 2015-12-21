@@ -47,8 +47,8 @@
     _circleLayer.strokeEnd = 0;
     
     UIColor *greenColor = [UIColor colorWithRed:31.0/255.0 green:154.0/255.0 blue:57.0/255.0 alpha:1.0];
-    UIColor *orangeColor = [UIColor colorWithRed:244.0f/255 green:107.0f/255 blue:0 alpha:1];
-    self.alternatingColors = @[[UIColor darkGrayColor], greenColor];
+//    UIColor *orangeColor = [UIColor colorWithRed:244.0f/255 green:107.0f/255 blue:0 alpha:1];
+    self.alternatingColors = @[[UIColor grayColor], greenColor];
 }
 
 - (void)layoutSubviews

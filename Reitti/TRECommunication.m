@@ -17,9 +17,6 @@
 @property (nonatomic, strong) NSDictionary *changeMargineOptions;
 @property (nonatomic, strong) NSDictionary *walkingSpeedOptions;
 
-@property (nonatomic, strong) NSDateFormatter *hourFormatter;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
-
 @end
 
 @implementation TRECommunication
@@ -40,7 +37,25 @@
     [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
-    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:completionBlock];
+    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:^(NSArray *routeArray, NSError *error){
+        if (!error) {
+            @try {
+                for (Route *route in routeArray) {
+                    for (RouteLeg *leg in route.routeLegs) {
+                        @try {
+                            leg.lineName = [TRECommunication parseBusNumFromLineCode:leg.lineCode];
+                        }
+                        @catch (NSException *exception) {
+                            leg.lineName = leg.lineCode;
+                        }
+                    }
+                }
+            }
+            @catch (NSException *exception) {}
+        }
+        
+        completionBlock(routeArray, error);
+    }];
 }
 
 #pragma mark - Datasource value mapping
@@ -257,6 +272,11 @@
                 BusStop *stop = fetchResult[0];
                 //Handlind a TRE API bug that returns incorrect coordinate format even if epsg_out is specified as 4326
                 stop.coords = stop.wgs_coords;
+                
+                //Parse lines and departures
+                [self parseStopLines:stop];
+                [self parseStopDepartures:stop];
+                
                 completionBlock(stop, nil);
             }
         }else{
@@ -265,24 +285,66 @@
     }];
 }
 
-#pragma mark - Date formatters
-- (NSDateFormatter *)hourFormatter{
-    if (!_hourFormatter) {
-        _hourFormatter = [[NSDateFormatter alloc] init];
-        [_hourFormatter setDateFormat:@"HHmm"];
+- (void)parseStopLines:(BusStop *)stop {
+    if (stop.lines) {
+        //Expected line format - 11 1:Sarankulma - Korvenkatu 44 (code direction:destination)
+        NSMutableArray *stopLinesArray = [@[] mutableCopy];
+        for (NSString *lineString in stop.lines) {
+            StopLine *line = [StopLine new];
+            NSArray *info = [lineString componentsSeparatedByString:@":"];
+            if (info.count == 2) {
+                line.name = info[1];
+                line.destination = info[1];
+                NSString *lineCode = info[0];
+                line.fullCode = lineCode;
+                NSArray *lineComps = [lineCode componentsSeparatedByString:@" "];
+                line.code = [TRECommunication parseBusNumFromLineCode:lineComps[0]];
+                if (lineComps.count > 1) {
+                    line.direction = [lineComps lastObject];
+                }
+            }
+            
+            [stopLinesArray addObject:line];
+        }
+        
+        stop.lines = stopLinesArray;
     }
-    
-    return _hourFormatter;
 }
 
-- (NSDateFormatter *)dateFormatter{
-    if (!_dateFormatter) {
+- (void)parseStopDepartures:(BusStop *)stop {
+    if (stop.departures && stop.departures.count > 0) {
+        NSMutableArray *departuresArray = [@[] mutableCopy];
+        for (NSDictionary *dictionary in stop.departures) {
+            if (![dictionary isKindOfClass:[NSDictionary class]])
+                continue;
+            
+            StopDeparture *departure = [StopDeparture modelObjectWithDictionary:dictionary];
+            if ([dictionary objectForKey:@"name1"])
+                departure.name = [dictionary objectForKey:@"name1"];
+            departure.destination = departure.name;
+            //Parse line code
+            departure.code = [TRECommunication parseBusNumFromLineCode:departure.code];
+            //Parse dates
+            departure.parsedDate = [super dateFromDateString:departure.date andHourString:departure.time];
+            if (!departure.parsedDate) {
+                //Do it the old school way. Might have a wrong date for after midnight times
+                NSString *notFormattedTime = departure.time ;
+                NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+                departure.parsedDate = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+            }
+            [departuresArray addObject:departure];
+        }
         
-        _dateFormatter = [[NSDateFormatter alloc] init];
-        [_dateFormatter setDateFormat:@"YYYYMMdd"];
+        stop.departures = departuresArray;
     }
+}
+
++(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
+    //TODO: Test with 1230 for weird numbers of the same 24 bus.
+    NSArray *codes = [lineCode componentsSeparatedByString:@" "];
+    NSString *code = [codes firstObject];
     
-    return _dateFormatter;
+    return code;
 }
 
 #pragma mark - overriden methods

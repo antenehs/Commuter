@@ -288,36 +288,39 @@ typedef enum
     UIImage *image1 = [UIImage imageNamed:@"previous-green-64.png"];
     CGRect frame = CGRectMake(0, 0, 22, 22);
     
-    UIButton* prevButton = [[UIButton alloc] initWithFrame:frame];
-    [prevButton setBackgroundImage:image1 forState:UIControlStateNormal];
+    UIButton* prevButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [prevButton setFrame:frame];
+    [prevButton setImage:image1 forState:UIControlStateNormal];
+    prevButton.tintColor = [AppManager systemGreenColor];
     
     [prevButton addTarget:self action:@selector(previousRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem* prevBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:prevButton];
-    prevBarButtonItem.tintColor = SYSTEM_GREEN_COLOR;
     
     UIBarButtonItem *firstSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     firstSpace.width = 30;
     
-    UIBarButtonItem *nowBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStylePlain target:self action:@selector(currentTimeRoutesButtonPressed:)];
-    nowBarButtonItem.tintColor = SYSTEM_GREEN_COLOR;
+    UIBarButtonItem *nowBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Now" style:UIBarButtonItemStyleDone target:self action:@selector(currentTimeRoutesButtonPressed:)];
+    nowBarButtonItem.tintColor = [AppManager systemGreenColor];
     
     UIBarButtonItem *secondSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     secondSpace.width = 30;
     
     UIImage *image2 = [UIImage imageNamed:@"next-green-100.png"];
     
-    UIButton* nextButton = [[UIButton alloc] initWithFrame:frame];
-    [nextButton setBackgroundImage:image2 forState:UIControlStateNormal];
-    
+    UIButton* nextButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [nextButton setFrame:frame];
+    [nextButton setImage:image2 forState:UIControlStateNormal];
+    nextButton.tintColor = [AppManager systemGreenColor];
     [nextButton addTarget:self action:@selector(nextRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem* nextBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:nextButton];
     
+    
     UIBarButtonItem *flexiSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStylePlain target:self action:@selector(clearSearchButtonPressed:)];
-    clearBarButtonItem.tintColor = SYSTEM_GREEN_COLOR;
+    UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleDone target:self action:@selector(clearSearchButtonPressed:)];
+    clearBarButtonItem.tintColor = [AppManager systemGreenColor];
     
     NSMutableArray *items = [[NSMutableArray alloc] init];
     [items addObject:prevBarButtonItem];

@@ -10,6 +10,7 @@
 #import "HSLLine.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
+#import "CacheManager.h"
 
 @interface HSLCommunication ()
 
@@ -17,9 +18,6 @@
 @property (nonatomic, strong) NSDictionary *ticketZoneOptions;
 @property (nonatomic, strong) NSDictionary *changeMargineOptions;
 @property (nonatomic, strong) NSDictionary *walkingSpeedOptions;
-
-@property (nonatomic, strong) NSDateFormatter *hourFormatter;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -42,7 +40,25 @@
     [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
-    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:completionBlock];
+    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:^(NSArray *routeArray, NSError *error){
+        if (!error) {
+            @try {
+                for (Route *route in routeArray) {
+                    for (RouteLeg *leg in route.routeLegs) {
+                        @try {
+                            leg.lineName = [HSLCommunication parseBusNumFromLineCode:leg.lineCode];
+                        }
+                        @catch (NSException *exception) {
+                            leg.lineName = leg.lineCode;
+                        }
+                    }
+                }
+            }
+            @catch (NSException *exception) {}
+        }
+        
+        completionBlock(routeArray, error);
+    }];
 }
 
 #pragma mark - Datasource value mapping
@@ -244,6 +260,7 @@
 }
 
 #pragma mark - stop detail fetch protocol implementation
+
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
@@ -254,7 +271,13 @@
         if (!error) {
             if (fetchResult.count > 0) {
                 //Assuming the stop code was unique and there is only one result
-                completionBlock(fetchResult[0], nil);
+                BusStop *stop = fetchResult[0];
+                
+                //Parse lines and departures
+                [self parseStopLines:stop];
+                [self parseStopDepartures:stop];
+                
+                completionBlock(stop, nil);
             }
         }else{
             completionBlock(nil, error);
@@ -262,24 +285,113 @@
     }];
 }
 
-#pragma mark - Date formatters
-- (NSDateFormatter *)hourFormatter{
-    if (!_hourFormatter) {
-        _hourFormatter = [[NSDateFormatter alloc] init];
-        [_hourFormatter setDateFormat:@"HHmm"];
+- (void)parseStopLines:(BusStop *)stop {
+    //Parse departures and lines
+    if (stop.lines) {
+        NSMutableArray *stopLinesArray = [@[] mutableCopy];
+        for (NSString *lineString in stop.lines) {
+            StopLine *line = [StopLine new];
+            NSArray *info = [lineString componentsSeparatedByString:@":"];
+            if (info.count == 2) {
+                line.name = info[1];
+                line.destination = info[1];
+                NSString *lineCode = info[0];
+                line.fullCode = lineCode;
+                NSArray *lineComps = [lineCode componentsSeparatedByString:@" "];
+                line.code = [HSLCommunication parseBusNumFromLineCode:lineComps[0]];
+                if (lineComps.count > 1) {
+                    line.direction = [lineComps lastObject];
+                }
+            }
+            
+            [stopLinesArray addObject:line];
+        }
+        
+        stop.lines = stopLinesArray;
     }
-    
-    return _hourFormatter;
 }
 
-- (NSDateFormatter *)dateFormatter{
-    if (!_dateFormatter) {
+- (void)parseStopDepartures:(BusStop *)stop{
+    if (stop.departures && stop.departures.count > 0) {
+        NSMutableArray *departuresArray = [@[] mutableCopy];
+        for (NSDictionary *dictionary in stop.departures) {
+            if (![dictionary isKindOfClass:[NSDictionary class]]) 
+                continue;
+                
+            StopDeparture *departure = [StopDeparture modelObjectWithDictionary:dictionary];
+            //Parse line code
+            NSString *lineFullCode = departure.code;
+            departure.destination = [stop destinationForLineFullCode:lineFullCode];
+            
+            departure.code = [HSLCommunication parseBusNumFromLineCode:departure.code];
+            //Parse dates
+            departure.parsedDate = [super dateFromDateString:departure.date andHourString:departure.time];
+            if (!departure.parsedDate) {
+                //Do it the old school way. Might have a wrong date for after midnight times
+                NSString *notFormattedTime = departure.time ;
+                NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+                departure.parsedDate = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+            }
+            [departuresArray addObject:departure];
+        }
         
-        _dateFormatter = [[NSDateFormatter alloc] init];
-        [_dateFormatter setDateFormat:@"YYYYMMdd"];
+        stop.departures = departuresArray;
+    }
+}
+
+//Expected format is XXXX(X) X
+//PArsing logic https://github.com/HSLdevcom/navigator-proto/blob/master/src/routing.coffee#L40
+//Original logic - http://developer.reittiopas.fi/pages/en/http-get-interface/frequently-asked-questions.php
++(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
+    //TODO: Test with 1230 for weird numbers of the same 24 bus. 
+    NSArray *codes = [lineCode componentsSeparatedByString:@" "];
+    NSString *code = [codes objectAtIndex:0];
+    
+    if (code.length < 4) {
+        return code;
     }
     
-    return _dateFormatter;
+    //Try getting from line cache
+    CacheManager *cacheManager = [CacheManager sharedManager];
+    
+    NSString * lineName = [cacheManager getRouteNameForCode:code];
+    
+    if (lineName != nil && ![lineName isEqualToString:@""]) {
+        return lineName;
+    }
+    
+    //Can be assumed a train line
+    if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
+        NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
+        if (trainLineCode != nil && trainLineCode.length > 0) {
+            return trainLineCode;
+        }
+    }
+    
+    //Can be assumed a metro
+    if ([code hasPrefix:@"1300"]) {
+        return @"Metro";
+    }
+    
+    //Can be assumed a ferry
+    if ([code hasPrefix:@"1019"]) {
+        return @"Ferry";
+    }
+    
+    NSRange second = NSMakeRange(1, 1);
+    
+    NSString *checkString = [code substringWithRange:second];
+    NSString *returnString;
+    if([checkString isEqualToString:@"0"]){
+        returnString = [code substringWithRange:NSMakeRange(2, code.length - 2)];
+    }else{
+        returnString = [code substringWithRange:NSMakeRange(1, code.length - 1)];
+    }
+    
+    if ([returnString hasPrefix:@"0"])
+        return [returnString substringWithRange:NSMakeRange(1, returnString.length - 1)];
+    else
+        return returnString;
 }
 
 #pragma mark - overriden methods

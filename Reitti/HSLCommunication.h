@@ -33,6 +33,8 @@
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 
++(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
+
 @property (nonatomic, weak) id <HSLCommunicationDelegate> delegate;
 
 @end

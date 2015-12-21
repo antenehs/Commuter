@@ -22,6 +22,8 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
 }
 
 -(void)asa_updateAsCurrentLocationButtonWithBorderColor:(UIColor *)borderColor animated:(BOOL)animated{
+    self.tag = kNormalCurrentLocationButtonTag;
+    
     [UIView animateWithDuration:animated ? 0.2 : 0 animations:^(){
         CGFloat xInset = self.frame.size.width/2;
         CGFloat yInset = self.frame.size.height/2;
@@ -37,7 +39,6 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
             self.layer.borderColor = borderColor.CGColor;
             self.layer.borderWidth = 1.0f;
             self.layer.cornerRadius = 4.0;
-            self.tag = kNormalCurrentLocationButtonTag;
             //This should be called for the inset to be animated
             [self layoutSubviews];
         } completion:^(BOOL finished) {}];
@@ -45,6 +46,8 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
 }
 
 -(void)asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:(UIColor *)backgroundColor animated:(BOOL)animated{
+    self.tag = kCenteredCurrentLocationButtonTag;
+    
     [UIView animateWithDuration:animated ? 0.2 : 0 animations:^(){
         CGFloat xInset = self.frame.size.width/2;
         CGFloat yInset = self.frame.size.height/2;
@@ -58,7 +61,6 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
             self.layer.masksToBounds = YES;
             self.backgroundColor = backgroundColor;
             self.layer.cornerRadius = 4.0;
-            self.tag = kCenteredCurrentLocationButtonTag;
             //This should be called for the inset to be animated
             [self layoutSubviews];
         } completion:^(BOOL finished) {}];
@@ -66,6 +68,9 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
 }
 
 -(void)asa_updateAsCompassModeCurrentLocationWithBackgroundColor:(UIColor *)backgroundColor animated:(BOOL)animated{
+    //Always do this outside of the animation
+    self.tag = kCompasModeCurrentLocationButtonTag;
+    
     [UIView animateWithDuration:animated ? 0.2 : 0 animations:^(){
         CGFloat xInset = self.frame.size.width/2;
         CGFloat yInset = self.frame.size.height/2;
@@ -79,7 +84,6 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
             self.layer.masksToBounds = YES;
             self.backgroundColor = backgroundColor;
             self.layer.cornerRadius = 4.0;
-            self.tag = kCompasModeCurrentLocationButtonTag;
             //This should be called for the inset to be animated
             [self layoutSubviews];
         } completion:^(BOOL finished) {}];

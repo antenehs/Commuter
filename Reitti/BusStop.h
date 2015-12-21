@@ -31,6 +31,8 @@
 
 @interface BusStop : NSObject
 
+- (NSString *)destinationForLineFullCode:(NSString *)fullCode;
+
 @property (nonatomic, retain) NSNumber * code;
 @property (nonatomic, retain) NSString * code_short;
 @property (nonatomic, retain) NSString * name_fi;
@@ -46,6 +48,8 @@
 @property (nonatomic, retain) NSString * omatlahdot_link;
 @property (nonatomic, retain) NSString * address_fi;
 @property (nonatomic, retain) NSString * address_sv;
+@property (nonatomic, retain) NSArray * lineCodes;
+@property (nonatomic, retain) NSString * linesString;
 
 @property (nonatomic) StopType stopType;
 

@@ -18,6 +18,12 @@
 #import "ASA_Helpers.h"
 #import "CacheManager.h"
 
+@interface StopViewController ()
+
+@property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
+
+@end
+
 @implementation StopViewController
 
 #define CUSTOME_FONT(s) [UIFont fontWithName:@"Aspergit" size:s]
@@ -30,14 +36,12 @@
 //@synthesize StopView;
 @synthesize modalMode;
 @synthesize departures, _busStop, stopEntity;
-@synthesize _stopLinesDetail, _stopLineNames;
 @synthesize reittiDataManager, settingsManager, reittiReminderManager;
 @synthesize stopCode, stopShortCode, stopName, stopCoords;
 @synthesize managedObjectContext;
 @synthesize backButtonText;
 @synthesize delegate;
 @synthesize refreshControl;
-@synthesize darkMode;
 //@synthesize droppedPinGeoCode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -55,6 +59,7 @@
     [self initDataManagerIfNull];
     
     stopFetched = NO;
+    stopDetailRequested = NO;
     
     stopBookmarked = NO;
     departuresTableIndex = nil;
@@ -81,18 +86,25 @@
     mapView.delegate = self;
     
 //    [self setStopViewApearance];
-    [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
-    [SVProgressHUD showHUDInView:self.view];
     [self initNotifications];
     
     [self setUpMainView];
 //    [self setUpLoadingView];
+    //    [SVProgressHUD showHUDInView:self.view];
+    
+    [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [self setUpMapViewForBusStop];
     [self.navigationController setToolbarHidden:YES animated:NO];
 //    [self layoutAnimated:NO];
+    self.activityIndicator.hidden = NO;
+    
+    //Done like this because some how when peeked with 3d it didn't work
+    if (stopDetailRequested) {
+        [self.activityIndicator beginRefreshing];
+    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -109,13 +121,6 @@
     return [[MyFixedLayoutGuide alloc] initWithLength:-bottomBarView.frame.origin.y];
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle{
-    if (darkMode) {
-        return UIStatusBarStyleLightContent;
-    }else{
-        return UIStatusBarStyleDefault;
-    }    
-}
 
 #pragma mark - initialization
 - (void)initDataManagerIfNull {
@@ -130,7 +135,8 @@
 #pragma mark - View methods
 -(void)setUpLoadingView{
 //    [activityView startAnimating];
-    [SVProgressHUD showHUDInView:self.view];
+//    [SVProgressHUD showHUDInView:self.view];
+    [self.activityIndicator beginRefreshing];
 //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     stopView.hidden = YES;
 }
@@ -152,10 +158,6 @@
     topToolBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     topToolBar.layer.borderWidth = 0.5;
     
-//    if (([settingsManager userLocation] != HSLRegion) || settingsManager == nil) {
-//        [self initAdBannerView];
-//    }
-    
     [self setUpMapViewForBusStop];
     
     [departuresTable reloadData];
@@ -173,10 +175,13 @@
 
 //This method is called after the busStop object is fetched
 -(void)setUpStopViewForBusStop:(BusStop *)busStop{
+    
     self.departures = busStop.departures;
     self._busStop = busStop;
-    self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:busStop.lines];
-    self._stopLineNames = [RettiDataManager parseStopLineNamesToDictionary:busStop.lines];
+    
+    //Update title  and subttile
+    [stopViewTitle setText:self._busStop.code_short];
+    [stopViewSubTitle setText:self._busStop.name_fi];
     
     bookmarkButton.enabled = YES;
     
@@ -196,7 +201,8 @@
     fullTimeTableButton.enabled = busStop.timetable_link != nil;
     
     //    [activityView stopAnimating];
-    [SVProgressHUD dismissFromView:self.view];
+//    [SVProgressHUD dismissFromView:self.view];
+    [self.activityIndicator endRefreshing];
     //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     [self.navigationController setNavigationBarHidden:NO animated:YES];
@@ -220,8 +226,7 @@
         [actionSheet showInView:self.view];
         
     }else{
-        self._stopLinesDetail = [RettiDataManager convertStopLinesArrayToDictionary:self._busStop.lines];
-        [self.reittiDataManager saveToCoreDataStop:self._busStop withLines:self._stopLinesDetail];
+        [self.reittiDataManager saveToCoreDataStop:self._busStop];
         
         [self setStopBookmarkedState];
         [delegate savedStop:self.stopEntity];
@@ -267,19 +272,19 @@
     }else{
         switch (buttonIndex) {
             case 0:
-                [reittiReminderManager setNotificationWithMinOffset:1 andHourString:timeToSetAlarm];
+                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:1 andTime:timeToSetAlarm];
                 break;
             case 1:
-                [reittiReminderManager setNotificationWithMinOffset:5 andHourString:timeToSetAlarm];
+                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:5 andTime:timeToSetAlarm];
                 break;
             case 2:
-                [reittiReminderManager setNotificationWithMinOffset:10 andHourString:timeToSetAlarm];
+                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:10 andTime:timeToSetAlarm];
                 break;
             case 3:
-                [reittiReminderManager setNotificationWithMinOffset:15 andHourString:timeToSetAlarm];
+                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:15 andTime:timeToSetAlarm];
                 break;
             case 4:
-                [reittiReminderManager setNotificationWithMinOffset:30 andHourString:timeToSetAlarm];
+                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:30 andTime:timeToSetAlarm];
                 break;
             default:
                 break;
@@ -293,6 +298,27 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         }
     }
+}
+
+#pragma mark - Peek and Pop actions support
+- (NSArray<id<UIPreviewActionItem>> *)previewActionItems {
+    return self.previewActions;
+}
+
+- (NSArray<id<UIPreviewActionItem>> *)previewActions {
+    if (_previewActions == nil) {
+        
+        UIPreviewAction *printAction = [UIPreviewAction
+                                        actionWithTitle:stopBookmarked ? @"UnBookmark Stop" : @"Bookmark Stop"
+                                        style:UIPreviewActionStyleDefault
+                                        handler:^(UIPreviewAction * _Nonnull action,
+                                                  UIViewController * _Nonnull previewViewController) {
+                                            StopViewController *viewController = (StopViewController *)previewViewController;
+                                            [viewController BookmarkButtonPressed:self];
+                                        }];
+        _previewActions = @[printAction];
+    }
+    return _previewActions;
 }
 
 #pragma mark - mapView methods
@@ -371,12 +397,14 @@
 }
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
+    stopDetailRequested = YES;
     [self.reittiDataManager fetchStopsForCode:code andCoords:coords withCompletionBlock:^(BusStop * stop, NSString * error){
         if (!error) {
             [self stopFetchDidComplete:stop];
         }else{
             [self stopFetchDidFail:error];
         }
+        stopDetailRequested = NO;
     }];
 }
 
@@ -433,56 +461,61 @@
         weakCell.containingTableView = tableView;
     } force:NO];
     
-    NSDictionary *departure = [self.departures objectAtIndex:indexPath.row];
-    if (departure) {
+    
+    if (self.departures.count > 0) {
+        StopDeparture *departure = [self.departures objectAtIndex:indexPath.row];
         
         @try {
             UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-            NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-            NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+//            NSString *notFormattedTime = departure.time ;
+//            NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+//            NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
             
-            if ([date timeIntervalSinceNow] < 300) {
-                timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:[ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime]
-                                                                                           substring:[ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime]
+            NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
+            
+            if ([departure.parsedDate timeIntervalSinceNow] < 300) {
+                timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
+                                                                                           substring:formattedHour
                                                                                       withNormalFont:timeLabel.font];
                 ;
             }else{
-                timeLabel.text = [ReittiStringFormatter formatHSLAPITimeToHumanTime:notFormattedTime];
+                timeLabel.text = formattedHour;
             }
             
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-            NSString *lineName;
-            if (([settingsManager userLocation] != HSLRegion)) {
-                lineName = [departure objectForKey:@"code"];
-            }else{
-                if (_stopLinesDetail != nil) {
-                    lineName = [_stopLineNames objectForKey:[departure objectForKey:@"code"]];
-                }else{
-                    NSString *notParsedCode = [departure objectForKey:@"code"];
-                    lineName = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
-                }
-            }
             
-            if (lineName == nil) {
-                lineName = [departure objectForKey:@"code"];
-            }
+//            if (([settingsManager userLocation] != HSLRegion)) {
+//                lineName = [departure objectForKey:@"code"];
+//            }else{
+//                if (_stopLinesDetail != nil) {
+//                    lineName = [_stopLineNames objectForKey:[departure objectForKey:@"code"]];
+//                }else{
+//                    NSString *notParsedCode = [departure objectForKey:@"code"];
+//                    lineName = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
+//                }
+//            }
+//            
+//            if (lineName == nil) {
+//                lineName = [departure objectForKey:@"code"];
+//            }
             
-            codeLabel.text = lineName;
-            //codeLabel.font = CUSTOME_FONT_BOLD(25.0f);
+            
+            
+            codeLabel.text = departure.code;
             
             UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
+            destinationLabel.text = departure.destination;
             //Destination is available in TRE api. Check for it first
-            if ([departure objectForKey:@"name1"] != nil) {
-                destinationLabel.text = [departure objectForKey:@"name1"];
-            }else{
-                if (_stopLinesDetail != nil) {
-                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
-                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
-                }else{
-                    destinationLabel.text = @"";
-                }
-            }
+//            if ([departure objectForKey:@"name1"] != nil) {
+//                destinationLabel.text = [departure objectForKey:@"name1"];
+//            }else{
+//                if (_stopLinesDetail != nil) {
+//                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
+//                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
+//                }else{
+//                    destinationLabel.text = @"";
+//                }
+//            }
         }
         @catch (NSException *exception) {
             if (self.departures.count == 1) {
@@ -568,9 +601,9 @@
             //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
             actionSheet.tag = 2001;
             [actionSheet showInView:self.view];
-            NSDictionary *departure = [self.departures objectAtIndex:[[departuresTable indexPathForCell:cell] row]];
-            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-            timeToSetAlarm = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+            StopDeparture *departure = [self.departures objectAtIndex:[[departuresTable indexPathForCell:cell] row]];
+//            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+            timeToSetAlarm = departure.parsedDate;
 //            timeToSetAlarm = [(UILabel *)[cell viewWithTag:1001] text];
             [cell hideUtilityButtonsAnimated:YES];
         }
@@ -691,7 +724,6 @@
         NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
         webViewController._url = url;
         webViewController._pageTitle = _busStop.code_short;
-        webViewController.darkMode = self.darkMode;
     }
     
     if ([segue.identifier isEqualToString:@"routeToHere"] || [segue.identifier isEqualToString:@"routeFromHere"]) {

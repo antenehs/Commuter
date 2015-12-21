@@ -100,45 +100,18 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-//    for (UIView *subView in mainSearchBar.subviews)
-//    {
-//        for (UIView *secondLevelSubview in subView.subviews){
-//            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-//            {
-//                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-//                
-//                //set font color here
-//                searchBarTextField.textColor = [UIColor whiteColor];
-//                
-//                break;
-//            }
-//        }
-//    }
+    
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     [self fetchDisruptions];
-    [self hideNearByStopsView:YES animated:YES];
+    if (viewApearForTheFirstTime)
+        [self hideNearByStopsView:YES animated:YES];
     [self.navigationController setToolbarHidden:YES animated:NO];
+    
+    viewApearForTheFirstTime = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:animated];
-//    [[UILabel appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
-    
-//    for (UIView *subView in mainSearchBar.subviews)
-//    {
-//        for (UIView *secondLevelSubview in subView.subviews){
-//            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-//            {
-//                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-//                
-//                //set font color here
-//                searchBarTextField.textColor = [UIColor whiteColor];
-//                
-//                break;
-//            }
-//        }
-//    }
-    
+
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
     [self setNavBarSize];
@@ -150,6 +123,9 @@
     }else{
         [self removeAllVehicleAnnotation];
     }
+    
+    stopFetchActivityIndicator.circleLayer.lineWidth = 1.5;
+    stopFetchActivityIndicator.alternatingColors = @[[AppManager systemGreenColor], [AppManager systemOrangeColor]];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -214,11 +190,13 @@
     /*init View Components*/
     
     [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
+    activityIndicator.hidden = NO;
     
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
     [self setMapModeForSettings];
+    [self setupListTableViewAppearance];
     [self hideNearByStopsView:YES animated:NO];
 }
 
@@ -273,25 +251,15 @@
 
 - (void)initGuestureRecognizers
 {
-    //    [blurView addGestureRecognizer:blurViewGestureRecognizer];
-    
-//    stopViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopViewGestureDetected:)];
-    
     stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
     
-//    [StopView addGestureRecognizer:stopViewGestureRecognizer];
-    
-    searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nearByStopsListViewGestureDetected:)];
+    searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(listNearbyStopsPressed:)];
     
     searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
-    
-//    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(dropAnnotation:)];
-//    lpgr.minimumPressDuration = 1.0; //user needs to press for 2 seconds
-//    [mapView addGestureRecognizer:lpgr];
 }
 
 - (void)initVariablesAndConstants
@@ -308,6 +276,7 @@
     smallAnnotationHeight = 37;
     
     //Default values
+    viewApearForTheFirstTime = YES;
     locNotAvailableNotificationShow = NO;
     darkMode = YES;
     centerMap = YES;
@@ -371,19 +340,6 @@
 
 
 #pragma mark - Nav bar and toolbar methods
-//- (void)selectSystemColors{
-//    if (self.darkMode) {
-////        systemBackgroundColor = [UIColor clearColor];
-//        systemBackgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
-//        systemTextColor = SYSTEM_GREEN_COLOR;
-//        systemSubTextColor = [UIColor lightGrayColor];
-//    }else{
-//        systemBackgroundColor = nil;
-//        systemTextColor = SYSTEM_GREEN_COLOR;
-//        systemSubTextColor = [UIColor darkGrayColor];
-//    }
-//}
-
 - (void)setNavBarSize {
     CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
     UIView *titleView = self.navigationItem.titleView;
@@ -502,31 +458,31 @@
 //    [self.view addSubview:segmentedControl];
 //}
 
--(void)setSegmentControlSize{
-    BOOL landscapeMode = self.view.frame.size.width > self.view.frame.size.height;
-    CGFloat height = landscapeMode ? 30 : 40;
-    [segmentedControl setFrame:CGRectMake(0, segmentedControl.hidden ? 0 - height : 0 , self.view.frame.size.width, height)];
-}
-
-- (void)hideSegmentControlView:(bool)hidden animated:(bool)anim{
-    
-    if (!hidden) {
-        segmentedControl.hidden = hidden;
-    }
-    
-    [UIView transitionWithView:self.view duration:anim?0.35:0 options:UIViewAnimationOptionTransitionNone animations:^{
-        
-        CGRect frame = segmentedControl.frame;
-        frame.origin.y = hidden ? 0 - frame.size.height : 0;
-        
-        segmentedControl.frame = frame;
-        
-    } completion:^(BOOL finished) {
-        if (hidden) {
-            segmentedControl.hidden = hidden;
-        }
-    }];
-}
+//-(void)setSegmentControlSize{
+//    BOOL landscapeMode = self.view.frame.size.width > self.view.frame.size.height;
+//    CGFloat height = landscapeMode ? 30 : 40;
+//    [segmentedControl setFrame:CGRectMake(0, segmentedControl.hidden ? 0 - height : 0 , self.view.frame.size.width, height)];
+//}
+//
+//- (void)hideSegmentControlView:(bool)hidden animated:(bool)anim{
+//    
+//    if (!hidden) {
+//        segmentedControl.hidden = hidden;
+//    }
+//    
+//    [UIView transitionWithView:self.view duration:anim?0.35:0 options:UIViewAnimationOptionTransitionNone animations:^{
+//        
+//        CGRect frame = segmentedControl.frame;
+//        frame.origin.y = hidden ? 0 - frame.size.height : 0;
+//        
+//        segmentedControl.frame = frame;
+//        
+//    } completion:^(BOOL finished) {
+//        if (hidden) {
+//            segmentedControl.hidden = hidden;
+//        }
+//    }];
+//}
 
 #pragma mark - extension methods
 - (void)setBookmarkedStopsToDefaults{
@@ -615,335 +571,355 @@
 }
 
 - (void)showProgressHUD{
-    
+    [activityIndicator beginRefreshing];
     //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //hud.labelText = @"Loading...";
-    [SVProgressHUD show];
+//    [SVProgressHUD show];
     //[SVProgressHUD setBackgroundColor:[UIColor grayColor]];
     //[SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0.95 alpha:1]];
 }
 
+#pragma mark - stop detail handling
+-(NSMutableDictionary *)stopDetailMap{
+    if (!_stopDetailMap) {
+        _stopDetailMap = [@{} mutableCopy];
+    }
+    
+    return _stopDetailMap;
+}
 
-#pragma - mark nearby stops list methods
-//-(void)displaySearchResults:(NSArray *)result{
-////    [self setupSearchResultViewForSearchResult:result];
-////    [self hideSearchResultView:NO animated:YES];
-//}
-//-(void)setupSearchResultViewForSearchResult:(NSArray *)result{
-////    [self setupSearchResultViewAppearance];
-////    
-////    self.searchResultListViewMode = RSearchResultViewModeSearchResults;
-////    searchResultsLabel.text = [NSString stringWithFormat:@"%lu stops found", (unsigned long)result.count];
-//////    searchResultsLabel.font = CUSTOME_FONT_BOLD(16.0f);
-////    [searchResultsTable reloadData];
-////    [searchResultsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-//}
--(void)displayNearByStopsList:(NSArray *)nearByStops{
+- (BusStop *)getDetailStopForBusStopShort:(BusStopShort *)shortStop{
+    return [self.stopDetailMap objectForKey:[shortStop.code stringValue]];
+}
+
+- (BusStop *)getDetailStopForTableViewCell:(NSInteger)section{
+    if (nearByStopList.count > section) {
+        BusStopShort *stopForCell = [nearByStopList objectAtIndex:section];
+        return [self getDetailStopForBusStopShort:stopForCell];
+    }
+    
+    return nil;
+}
+
+- (void)setDetailStopForBusStopShort:(BusStopShort *)shortStop busStop:(BusStop *)stop{
+    if (stop) {
+        [self.stopDetailMap setObject:stop forKey:[shortStop.code stringValue]];
+    }
+}
+
+- (void)clearStopDetailMap{
+    [self.stopDetailMap removeAllObjects];
+}
+
+- (BOOL)isthereValidDetailForShortStop:(BusStopShort *)shortStop{
+    return [self getDetailStopForBusStopShort:shortStop] != nil;
+}
+
+- (BOOL)isThereValidDetailForTableViewSection:(NSInteger)section{
+    if (nearByStopList.count > section) {
+        BusStopShort *stopForCell = [nearByStopList objectAtIndex:section];
+        return [self isthereValidDetailForShortStop:stopForCell];
+    }
+    
+    return NO;
+}
+
+#pragma mark - nearby stops list methods
+-(void)setupNearByStopsListTableviewFor:(NSArray *)nearByStops{
+    if (![self isNearByStopsListViewHidden]) {
+        if (nearByStops.count > 3) {
+            [self fetchStopsDetailsForBusStopShorts:[nearByStops objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)]]];
+        }else{
+            [self fetchStopsDetailsForBusStopShorts:nearByStops];
+        }
+        
+        [self clearStopDetailMap];
+    }
+    
     [self setupTableViewForNearByStops:nearByStops];
-    [self hideNearByStopsView:NO animated:YES];
 }
 -(void)setupTableViewForNearByStops:(NSArray *)result{
-    [self setupListTableViewAppearance];
-    
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
-    searchResultsLabel.text = @"Nearby stops";
-    [searchResultsTable reloadData];
-    [searchResultsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    searchResultsLabel.text = @"NEARBY STOPS";
+    [nearbyStopsListsTable reloadData];
+    [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 -(void)setupListTableViewAppearance{
-    searchResultsTable.backgroundColor = [UIColor clearColor];
+    nearbyStopsListsTable.backgroundColor = [UIColor clearColor];
     [searchResultsView setBlurTintColor:nil];
     searchResultsView.layer.borderWidth = 0.5;
-    searchResultsView.layer.borderColor = [SYSTEM_GRAY_COLOR CGColor];
+    searchResultsView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 -(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim{
-    if (!hidden) {
-        //[self hideSearchResultView:YES];
-        searchResultsView.hidden = NO;
-    }
-    if (anim) {
-        [UIView transitionWithView:searchResultsView duration:0.3 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            
-            [self hideNearByStopsView:hidden];
-            
-        } completion:^(BOOL finished) {
-            if (hidden) {
-                searchResultsView.hidden = YES;
-                if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
-                    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
-                        [self fetchStopsInCurrentMapViewRegion];
-                    }
-                }
-            }
-        }];
-    }else{
-        [self hideNearByStopsView:hidden];
-        if (hidden) {
-            searchResultsView.hidden = YES;
-            if (mapMode == MainMapViewModeStops || mapMode == MainMapViewModeStopsAndLive) {
-                if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 15) {
-                    [self fetchStopsInCurrentMapViewRegion];
-                }
-            }
-        }
-    }
     
-    [self hideSegmentControlView:!hidden animated:anim];
+    [UIView transitionWithView:searchResultsView duration:anim ? 0.3 : 0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self hideNearByStopsView:hidden];
+    } completion:^(BOOL finished) {
+        //For a little bounce effect
+        if (!hidden) {
+            [UIView transitionWithView:searchResultsView duration:anim ? 0.2 : 0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [self increamentNearByStopViewTopSpaceBy:10];
+            } completion:^(BOOL finished) {}];
+        }
+    }];
 }
 
 - (void)hideNearByStopsView:(BOOL)hidden{
-//    CGRect frame = searchResultsView.frame;
-//    CGRect tableFrame = searchResultsTable.frame;
-    
-    searchResultsTable.scrollEnabled = !hidden;
-    
     if (hidden) {
-//        frame.origin.y = self.view.bounds.size.height + 5;
-        nearByStopsViewTopSpacing.constant = self.view.bounds.size.height;
+        [self setNearbyStopsViewTopSpacing:self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height];
         isSearchResultsViewDisplayed = NO;
-//        [self setUpToolBarWithMiddleImage:@"list-100.png"];
     }else{
-//        frame.origin.y = blurView.frame.size.height;
-//        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
-//        frame.size.height = self.view.bounds.size.height - blurView.frame.size.height;
-        nearByStopsViewTopSpacing.constant = 0;
+        [self setNearbyStopsViewTopSpacing:self.view.frame.size.height/2 - 10];
         isSearchResultsViewDisplayed = YES;
-//        [self setUpToolBarWithMiddleImage:@"map-green-100.png"];
     }
+    
+    if(!hidden)
+        [self setupNearByStopsListTableviewFor:self.nearByStopList];
+}
+
+- (void)decelerateStopListViewFromVelocity:(CGFloat)velocity withCompletionBlock:(ActionBlock)completionBlock{
+    
+//    NSLog(@"Velocity: %f", velocity);
+    [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [self increamentNearByStopViewTopSpaceBy:velocity/4];
+    } completion:^(BOOL finished) {
+        if (completionBlock) {
+            completionBlock();
+        }
+    }];
+}
+
+- (CGFloat)nearbyStopViewTopSpacing{
+    return nearByStopsViewTopSpacing.constant;
+}
+
+- (void)setNearbyStopsViewTopSpacing:(CGFloat)topSpace{
+    if (topSpace < 0)
+        topSpace = 0;
+    
+    if (topSpace > self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height)
+        topSpace = self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height;
+
+    nearByStopsViewTopSpacing.constant = topSpace;
     [self.view layoutSubviews];
-//    searchResultsView.frame = frame;
-//    tableFrame.size.height = frame.size.height;
-//    searchResultsTable.frame = tableFrame;
-    requestedForListing = NO;
+    
+    if ([self isNearByStopsListViewHidden]) {
+        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"list-white-100.png"] forState:UIControlStateNormal];
+    }else{
+        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"collapse-arrow-gray.png"] forState:UIControlStateNormal];
+    }
+    
+    //TODO: Set center locator position and state as well
+}
+
+- (void)increamentNearByStopViewTopSpaceBy:(CGFloat)increament{
+    [self setNearbyStopsViewTopSpacing:nearByStopsViewTopSpacing.constant + increament];
+}
+
+- (BOOL)isNearByStopsListViewHidden{
+    return [self nearbyStopViewTopSpacing] > self.view.frame.size.height - 60 - self.tabBarController.tabBar.frame.size.height;
 }
 
 - (void)moveSearchResultViewByPoint:(CGPoint)displacement animated:(BOOL)anim{
     [UIView transitionWithView:searchResultsView duration:0.15 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        
-//        CGRect stopFrame = searchResultsView.frame;
-//        stopFrame.origin.y = stopFrame.origin.y + displacement.y;
-//        searchResultsView.frame = stopFrame;
-        
-        nearByStopsViewTopSpacing.constant += displacement.y;
-        [self.view layoutSubviews];
-        
+        [self increamentNearByStopViewTopSpaceBy:displacement.y];
     } completion:^(BOOL finished) {
         [self hideNearByStopsView:NO animated:YES];
     }];
 }
 
-- (void)listNearByStops{
-    
-    MKCoordinateSpan span = {.latitudeDelta =  0.02, .longitudeDelta =  0.02};
-    MKCoordinateSpan minSpan = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
-    
-    //Stop annotations are removed so request new
-    requestedForListing = YES;
-    MKCoordinateRegion region = mapView.region;
-    
-//    //Evaluate region
-//    if ([settingsManager userLocation] != [reittiDataManager getRegionForCoords:region.center]) {
-//        [ReittiNotificationHelper showErrorBannerMessage:@"Sorry" andContent:@"Service not available in this area. Try changing the region in settings."];
-//        return;
-//    }
-    
-    if (region.span.latitudeDelta > 0.02) {
-        region.span = span;
+- (void)showStopFetchActivityIndicator:(BOOL)show{
+    if ([self isNearByStopsListViewHidden]) {
+        hideSearchResultViewButton.hidden = NO;
+        [stopFetchActivityIndicator endRefreshing];
+        return;
     }
     
-    if (region.span.latitudeDelta < 0.01) {
-        region.span = minSpan;
+    hideSearchResultViewButton.hidden = show;
+    
+    if (show){
+        [stopFetchActivityIndicator beginRefreshing];
+    }else{
+        [stopFetchActivityIndicator endRefreshing];
     }
-    
-    [self showProgressHUD];
-    
-    [self fetchStopsInMapViewRegion:region];
-    
-//
-//    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] < 15) {
-//        
-//    }
-    
-//    if ([self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
-//        [self.reittiDataManager fetchStopsInAreaForRegion:region];
-//        [self showProgressHUD];
-//    }else{
-//        requestedForListing = NO;
-//        if (locNotAvailableNotificationShow) {
-//            [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
-//        }
-//        
-//        locNotAvailableNotificationShow = YES;
-//    }
 }
+
+//- (void)listNearByStops{
+//    
+//    MKCoordinateSpan span = {.latitudeDelta =  0.02, .longitudeDelta =  0.02};
+//    MKCoordinateSpan minSpan = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
+//    
+//    //Stop annotations are removed so request new
+//    requestedForListing = YES;
+//    MKCoordinateRegion region = mapView.region;
+//    
+//    if (region.span.latitudeDelta > 0.02) {
+//        region.span = span;
+//    }
+//    
+//    if (region.span.latitudeDelta < 0.01) {
+//        region.span = minSpan;
+//    }
+//    
+//    [self showProgressHUD];
+//    
+//    [self fetchStopsInMapViewRegion:region];
+//}
 
 #pragma mark - Table view datasource and delegate methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    if (self.nearByStopList.count == 0)
+        return 1;
+    
+    return self.nearByStopList.count > 30 ? 30 : self.nearByStopList.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-//    NSLog(@"Number of departures is: %lu",(unsigned long)self.departures.count);
-//    if (tableView.tag == 1000) {
-//        return self.departures.count;
-//    }else if (tableView.tag == 0){
-//        if (self.searchResultListViewMode == RSearchResultViewModeSearchResults){
-//            return self.nearByStopList.count;
-//        }else if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
-//            return self.nearByStopList.count;
-//        }
-//    }
+    if ([self isThereValidDetailForTableViewSection:section]) {
+        BusStop *detailStop = [self getDetailStopForTableViewCell:section];
+        if (detailStop && detailStop.departures) {
+            if (detailStop.departures.count == 0) {
+                return 1;
+            }else if (detailStop.departures.count == 1) {
+                return 2;
+            }else if (detailStop.departures.count == 2){
+                return 3;
+            }else{
+                return 4;
+            }
+        }
+        return 1;
+    }
     
-    return self.nearByStopList.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell;
+    
     if (nearByStopList.count > 0) {
-        UITableViewCell *cell = [searchResultsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
+        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
         
-        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
-        
-        UIImageView *imageView = (UIImageView *)[cell viewWithTag:3001];
-        [imageView setImage:[AppManager stopAnnotationImageForStopType:stop.stopType]];
-        
-        UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
-        codeLabel.text = @"";
-        
-        codeLabel.text = [stop linesString];
-        
-        //                codeLabel.font = CUSTOME_FONT_BOLD(22.0f);
-        
-        UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-        NSString *shortCode = stop.codeShort != nil && ![stop.codeShort isEqualToString:@""] ? [NSString stringWithFormat:@" - %@", stop.codeShort] : @"";
-        nameLabel.text = [NSString stringWithFormat:@"%@ %@", stop.name, shortCode];
-        //                nameLabel.font = CUSTOME_FONT_BOLD(20.0f);
-        
-        UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
-        distanceLabel.text = [NSString stringWithFormat:@"%dm", [stop.distance intValue]];
-        //                distanceLabel.font = CUSTOME_FONT_BOLD(15.0f);
-        
-//        cell.backgroundColor = [UIColor clearColor];
-        
-        return cell;
+        if (indexPath.row == 0) {
+            cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
+            
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:3001];
+            [imageView setImage:[AppManager stopAnnotationImageForStopType:stop.stopType]];
+            
+            UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
+            codeLabel.text = @"";
+            
+            NSString *shortCode = stop.codeShort != nil && ![stop.codeShort isEqualToString:@""] ? stop.codeShort : nil;
+            NSString *linesString = [stop linesString] && ![[stop linesString] isEqualToString:@""] ? [stop linesString] : nil;
+            if(linesString && shortCode){
+                codeLabel.text = [NSString stringWithFormat:@"Code: %@ · %@",shortCode, [stop linesString]];
+            }else if(linesString && !shortCode){
+                codeLabel.text = linesString;
+            }else if (!linesString && shortCode){
+                codeLabel.text = [NSString stringWithFormat:@"Code: %@", shortCode];
+            }else{
+                codeLabel.text = @"";
+            }
+            
+            //TODO: Update lines from detail stop if available
+            
+            UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
+            nameLabel.text = stop.name;
+            
+            UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
+            distanceLabel.text = [NSString stringWithFormat:@"%dm", [stop.distance intValue]];
+            
+            return cell;
+        }else{
+            cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"departureCell"];
+            
+            BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
+            
+            StopDeparture *departure = [detailStop.departures objectAtIndex:(indexPath.row - 1)];
+            
+            @try {
+                UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
+                NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
+                
+                if ([departure.parsedDate timeIntervalSinceNow] < 300) {
+                    timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
+                                                                                       substring:formattedHour
+                                                                                  withNormalFont:timeLabel.font];
+                    ;
+                }else{
+                    timeLabel.text = formattedHour;
+                }
+                
+                UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
+                
+                codeLabel.text = departure.code;
+                
+                UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
+                destinationLabel.text = departure.destination;
+                
+                return cell;
+            }
+            @catch (NSException *exception) {}
+        }
     }else{
+        cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"noStopCell"];
+        UILabel *infoLabel = (UILabel *)[cell viewWithTag:2003];
         
+        if (nearbyStopsFetchErrorMessage) {
+            infoLabel.text = nearbyStopsFetchErrorMessage;
+        }else{
+            infoLabel.text = @"No Stops Nearby";
+        }
     }
 	
-    return nil;
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (nearByStopList.count > 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
-        UILabel *codesLabel = (UILabel *)[cell viewWithTag:3004];
-        codesLabel.frame = CGRectMake(codesLabel.frame.origin.x, codesLabel.frame.origin.y, self.view.frame.size.width - 52, codesLabel.frame.size.height);
-        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.row];
-        
-        CGSize maxSize = CGSizeMake(codesLabel.bounds.size.width, CGFLOAT_MAX);
-        
-        CGRect labelSize = [stop.linesString boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
-                                                                attributes:@{
-                                                                             NSFontAttributeName :codesLabel.font
-                                                                             }
-                                                                   context:nil];;
-        if (labelSize.size.height < 26) {
-            labelSize.size.height = 26;
-        }
-        
-        if (labelSize.size.height > 75) {
-            labelSize.size.height = 75;
-        }
-        return labelSize.size.height + 40;
-    }
-    
-    return 65;
-}
-
-
-// Override to support conditional editing of the table view.
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    // Return NO if you do not want the specified item to be editable.
-//    return NO;
-//}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (tableView.tag == 0) {
-//        if (self.searchResultListViewMode == RSearchResultViewModeNearByStops){
-//            BusStopShort *selected = [self.nearByStopList objectAtIndex:indexPath.row];
-//            [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [selected.code intValue]]];
-//            [self showProgressHUD];
-//        }else if (self.searchResultListViewMode == RSearchResultViewModeSearchResults){
-//            BusStop * selected = [self.searchedStopList objectAtIndex:indexPath.row];
-//            [self displayStopView:[NSArray arrayWithObject:selected]];
+//    if (nearByStopList.count > 0) {
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
+//        UILabel *codesLabel = (UILabel *)[cell viewWithTag:3004];
+//        codesLabel.frame = CGRectMake(codesLabel.frame.origin.x, codesLabel.frame.origin.y, self.view.frame.size.width - 52, codesLabel.frame.size.height);
+//        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
+//        
+//        CGSize maxSize = CGSizeMake(codesLabel.bounds.size.width, CGFLOAT_MAX);
+//        
+//        CGRect labelSize = [stop.linesString boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+//                                                                attributes:@{
+//                                                                             NSFontAttributeName :codesLabel.font
+//                                                                             }
+//                                                                   context:nil];;
+//        if (labelSize.size.height < 26) {
+//            labelSize.size.height = 26;
 //        }
 //        
-//    }else if (tableView.tag == 1000) {
-//        CustomeTableViewCell *cell = (CustomeTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-//        if (cell != nil) {
-//            [cell showUtilityButtonsAnimated:YES];
+//        if (labelSize.size.height > 75) {
+//            labelSize.size.height = 75;
 //        }
+//        return labelSize.size.height + 40;
 //    }
-//}
+    
+    if (indexPath.row > 0) {
+        return 35;
+    }
+    
+    return 60;
+}
 
-//- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-//    UIActionSheet *actionSheet;
-//    EKAuthorizationStatus status;
-//    switch (index) {
-//        case 0:
-//            status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-//            
-//            if (status != EKAuthorizationStatusAuthorized) {
-//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-//                                                                   delegate:nil
-//                                                          cancelButtonTitle:@"OK"
-//                                                          otherButtonTitles:nil];
-//                [alertView show];
-//                [cell hideUtilityButtonsAnimated:YES];
-//                break;
-//            }
-//            actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
-//            //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-//            actionSheet.tag = 2001;
-//            [actionSheet showInView:self.view];
-//            timeToSetAlarm = [(UILabel *)[cell viewWithTag:1001] text];
-//            [cell hideUtilityButtonsAnimated:YES];
-//            
-//            break;
-//        default:
-//            break;
-//    }
-//}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 1.0;
+}
 
-//- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state{
-//    NSIndexPath *index = [departuresTable indexPathForCell:cell];
-//    if (departuresTableIndex != nil && state == kCellStateLeft && index.row != departuresTableIndex.row) {
-//        [(CustomeTableViewCell *)[departuresTable cellForRowAtIndexPath:departuresTableIndex] hideUtilityButtonsAnimated:YES];
-//    }
-//    departuresTableIndex = [departuresTable indexPathForCell:cell];
-//    
-//}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10.0;
+}
 
-
-//- (void)initRefreshControl{
-//    
-//    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-//    tableViewController.tableView = departuresTable;
-//    
-//    self.refreshControl = [[UIRefreshControl alloc] init];
-//    [self.refreshControl addTarget:self action:@selector(reloadButtonPressed:) forControlEvents:UIControlEventValueChanged];
-//    //refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-//    tableViewController.refreshControl = self.refreshControl;
-//}
-
+#pragma mark - Nearby stops list departures methods
 
 #pragma - mark Map methods
 
@@ -956,7 +932,6 @@
     [locationManager startUpdatingLocation];
     [locationManager requestWhenInUseAuthorization];
     
-//    mapView.mapType = MKMapTypeSatellite;
     mapView.showsBuildings = YES;
     mapView.pitchEnabled = YES;
     
@@ -987,14 +962,14 @@
     MKCoordinateSpan span = {.latitudeDelta =  0.005, .longitudeDelta =  0.005};
     MKCoordinateRegion region = {coordinate, span};
     
-    [mapView setRegion:region animated:YES];
-    
-    //If centered on current user location
+    //If centered on current user location. Set mode before the region is changed
     if (toReturn && coordinate.latitude == self.currentUserLocation.coordinate.latitude) {
-        [currentLocationButton asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
         [mapView setUserTrackingMode:MKUserTrackingModeNone];
+        [currentLocationButton asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
         ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
     }
+    
+    [mapView setRegion:region animated:YES];
     
     return toReturn;
 }
@@ -1096,32 +1071,7 @@
         NSMutableArray *newStops = [[NSMutableArray alloc] init];
         
         if (stopList.count > 0) {
-            //if stops are from pubtrans, only update lines and type
-//            BusStopShort *firstStop = [stopList objectAtIndex:0];
-//            if (firstStop.lines.count > 0) {
-//                for (id<MKAnnotation> annotation in mapView.annotations) {
-//                    if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-//                        JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-//                        if (annot.annotationType != NearByStopType)
-//                            continue;
-//                        
-//                        NSArray *stops = [self collectStopsForCodes:@[annot.code] fromStops:stopList];
-//                        
-//                        if (stops == nil || stops.count == 0)
-//                            continue;
-//                        
-//                        BusStopShort *stop = [stops firstObject];
-//                        
-//                        if (![annot.thumbnail.subtitle isEqualToString:stop.linesString]) {
-//                            [annotToRemove addObject:annot];
-//                            [newStops addObject:stop];
-//                        }
-//                    }
-//                }
-//            }else{
-//                
-//            }
-            
+            //This is to avoid the flickering effect of removing and adding annotations
             for (id<MKAnnotation> annotation in mapView.annotations) {
                 if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
                     JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
@@ -1153,6 +1103,7 @@
                 JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
                 stopAnT.image = stopImage;
                 stopAnT.code = stop.code;
+                stopAnT.shortCode = codeShort;
                 stopAnT.title = name;
                 stopAnT.subtitle = [stop.linesString isEqualToString:@""] || stop.linesString == nil ? codeShort : stop.linesString;
                 stopAnT.coordinate = coordinate;
@@ -1204,6 +1155,7 @@
     UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
     stopAnT.image = stopImage;
     stopAnT.code = stop.code;
+    stopAnT.shortCode = shortCode;
     stopAnT.title = name;
     stopAnT.subtitle = [stop.linesString isEqualToString:@""] || stop.linesString == nil ? shortCode : stop.linesString;;
     stopAnT.coordinate = coordinate;
@@ -1517,7 +1469,7 @@
         ignoreRegionChange = YES;
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
         selectedAnnotationView = (NSObject<JPSThumbnailAnnotationViewProtocol> *)view;
-        id<MKAnnotation> ann = [mapView.selectedAnnotations objectAtIndex:0];
+        id<MKAnnotation> ann = view.annotation;
         CLLocationCoordinate2D coord = ann.coordinate;
         NSLog(@"lat = %f, lon = %f", coord.latitude, coord.longitude);
         
@@ -1532,6 +1484,24 @@
                 [self routeSearchDidFail:error];
             }
         }];
+        
+        if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]])
+        {
+            JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
+            NSString *code = @"";
+            if([stopAnnotation.thumbnail.code isKindOfClass:[NSNumber class]])
+                code = [stopAnnotation.thumbnail.code stringValue];
+            else{
+                code = (NSString *)stopAnnotation.thumbnail.code;
+            }
+            
+            [self.reittiDataManager fetchStopsForCode:code andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
+                if (!errorString) {
+                    [self detailStopFetchCompleted:stop];
+                }
+            }];
+        }
+        
     }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
@@ -1700,13 +1670,19 @@
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
         if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
-            [self fetchStopsInMapViewRegion:[_mapView region]];
+            if (mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading) {
+                [self fetchStopsInMapViewRegion:[_mapView region]];
+            }
         }else{
             [self removeAllStopAnnotations];
+            nearByStopList = @[];
+            nearbyStopsFetchErrorMessage = @"Zoom in to get nearby stops.";
+            [self setupTableViewForNearByStops:nearByStopList];
         }
     }
     
     if ([self shouldShowDroppedPin]) {
+        //TODO: Calculate center based on stop list view location
         CGPoint centerPoint = self.mapView.center;
         CLLocationCoordinate2D coordinate = [mapView convertPoint:centerPoint toCoordinateFromView:mapView];
         
@@ -1723,7 +1699,8 @@
     currentLocationButton.alpha = 1;
     listNearbyStops.alpha = 1;
     
-    if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag && !ignoreMapRegionChangeForCurrentLocationButtonStatus) {
+    //the third check is because setting usertracking mode changes the region and the tag of the button might not yet be updated at that time.
+    if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag && !ignoreMapRegionChangeForCurrentLocationButtonStatus && mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading) {
         [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
         [mapView setUserTrackingMode:MKUserTrackingModeNone];
     }
@@ -1777,6 +1754,11 @@
     
     //Check the zoom level
     if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] < 10) {
+        return NO;
+    }
+    
+    //Do not show if the list view is taking more than 2/3 of the screen
+    if ([self nearbyStopViewTopSpacing] < self.view.frame.size.height/1.5) {
         return NO;
     }
     
@@ -2052,29 +2034,27 @@
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
     if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
+    }else if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
+        //Make sure the properties are set in this order
+        [mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
+        [currentLocationButton asa_updateAsCompassModeCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
+        ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
+    }else if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag) {
+        [mapView setUserTrackingMode:MKUserTrackingModeNone];
+        [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
     }
     
     if (![self isLocationServiceAvailableWithNotification:NO]) {
         if (locNotAvailableNotificationShow) {
             [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
         }
-    }else{
-        if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
-            [currentLocationButton asa_updateAsCompassModeCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
-            ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
-            [mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
-        }else if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag) {
-            [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
-            [mapView setUserTrackingMode:MKUserTrackingModeNone];
-        }
     }
     
 }
 
 - (IBAction)listNearbyStopsPressed:(id)sender {
-    if (searchResultsView.hidden) {
-        [self listNearByStops];
-//        [listNearbyStops setImage:[UIImage imageNamed:@"showMap-icon.png"] forState:UIControlStateNormal];
+    if ([self isNearByStopsListViewHidden]) {
+        [self hideNearByStopsView:NO animated:YES];
     }else{
         [self hideNearByStopsView:YES animated:YES];
     }
@@ -2096,123 +2076,34 @@
     }
 }
 
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
-//    if (actionSheet.tag == 1001) {
-//        switch (buttonIndex) {
-//            case 0:
-//                [self postToFacebook];
-//                [self.reittiDataManager setAppOpenCountValue:-30];
-//                break;
-//            case 1:
-//                [self sendEmailWithSubject:@"[Feature Request] - "];
-//                break;
-//            case 2:
-//                [self sendEmailWithSubject:@"[Feedback] - "];
-//                break;
-//            case 3:
-//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id861274235"]];
-//                [self.reittiDataManager setAppOpenCountValue:-30];
-//                break;
-//            default:
-//                break;
-//        }
-//        
-//        if (buttonIndex == 0) {
-//            
-//        }
-//
-//    }else{
-//        switch (buttonIndex) {
-//            case 0:
-//                [self setReminderWithMinOffset:1 andHourString:timeToSetAlarm];
-//                break;
-//            case 1:
-//                [self setReminderWithMinOffset:5 andHourString:timeToSetAlarm];
-//                break;
-//            case 2:
-//                [self setReminderWithMinOffset:10 andHourString:timeToSetAlarm];
-//                break;
-//            case 3:
-//                [self setReminderWithMinOffset:15 andHourString:timeToSetAlarm];
-//                break;
-//            case 4:
-//                [self setReminderWithMinOffset:30 andHourString:timeToSetAlarm];
-//                break;
-//            default:
-//                break;
-//        }
-//    }    
-//}
-
-/*
--(IBAction)tapGestureDetected:(UIGestureRecognizer *)sender{
-    [self.view endEditing:YES];
-    if ([self isCommandViewHidden]) {
-//        [self hideCommandView:NO animated:YES];
-    }else{
-        [self hideCommandView:YES animated:YES];
-        
-//        CGPoint p = [sender locationInView:mapView];
-//        
-//        UIView *v = [mapView hitTest:p withEvent:nil];
-//        
-//        if (![v isKindOfClass:[MKAnnotationView class]])
-//        {
-//            if (lastSelectedAnnotation != nil && lastSelectedAnnotation.isSelected) {
-//                [self mapView:mapView deselectStopAnnotation:lastSelectedAnnotation];
-//                lastSelectionDismissed = YES;
-//            }
-//        }
-        
-    }
-    
-}
- 
- */
-
-//-(IBAction)blurViewGestureDetected:(UIGestureRecognizer *)sender{
-//    self.searchViewHidden = NO;
-//}
-
-//-(IBAction)stopViewGestureDetected:(id)sender{
-//    [self.view endEditing:YES];
-//}
-
--(IBAction)nearByStopsListViewGestureDetected:(id)sender{
-    [self.view endEditing:YES];
-    [self moveSearchResultViewByPoint:CGPointMake(0, 20) animated:YES];
-}
-
 -(IBAction)dragStopView:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint translation = [recognizer translationInView:self.view];
     if ((recognizer.view.frame.origin.y + translation.y) > ([self searchViewLowerBound])  ) {
-//        recognizer.view.center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y + translation.y);
-        nearByStopsViewTopSpacing.constant += translation.y;
-        [self.view layoutSubviews];
+        [self increamentNearByStopViewTopSpaceBy:translation.y];
     }
+    
     if (recognizer.state != UIGestureRecognizerStateEnded){
         stopViewDragedDown = translation.y > 0;
+        stopViewDragVelocity = [recognizer velocityInView:self.view];
     }
     
     [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        if (recognizer.view.frame.origin.y > ([self searchViewLowerBound] + (recognizer.view.frame.size.height / 3)) && stopViewDragedDown) {
-            if (recognizer.view.tag == 0) {
-//                [self hideStopView:YES animated:YES];
-            }else{
-                [self hideNearByStopsView:YES animated:YES];
+        //Continue the drag acceleration
+//        NSLog(@"Velocity: %f", stopViewDragVelocity.x);
+        [self decelerateStopListViewFromVelocity:stopViewDragVelocity.y withCompletionBlock:^(){
+            if (recognizer.view.frame.origin.y > ([self searchViewLowerBound] + (recognizer.view.frame.size.height / 1.5)) && stopViewDragedDown) {
+                if (recognizer.view.tag == 0) {
+                    //                [self hideStopView:YES animated:YES];
+                }else{
+                    [self hideNearByStopsView:YES animated:YES];
+                }
+            }else if(recognizer.view.frame.origin.y < 0){
+                [self setNearbyStopsViewTopSpacing:0];
             }
-        }else{
-            if (recognizer.view.tag == 0) {
-//                [self hideStopView:NO animated:YES];
-            }else{
-                [self hideNearByStopsView:NO animated:YES];
-            }
-        }
+        }];
     }
 }
 
@@ -2235,22 +2126,7 @@
         
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
-//- (IBAction)reloadButtonPressed:(id)sender{
-////    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing Departures ..."];
-////    if (_busStop != nil) {
-////        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]];
-////    }
-////    justReloading = YES;
-//}
-//- (IBAction)saveStopToBookmarks {
-//    [self.reittiDataManager saveToCoreDataStop:self._busStop withLines:self._stopLinesDetail];
-//    //addBookmarkButton.hidden = YES;
-//    //[self showNotificationWithMessage:@"Bookmark added successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
-//}
 
-//- (IBAction)closeStopViewButtonPressed:(id)sender {
-////    [self hideStopView:YES animated:YES];
-//}
 - (IBAction)hideSearchResultViewPressed:(id)sender {
     [self hideNearByStopsView:YES animated:YES];
 }
@@ -2262,48 +2138,43 @@
 
 #pragma - mark Scroll View delegates
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y < 0) {
-        if (!tableViewIsDecelerating) {
-            nearByStopsViewTopSpacing.constant += -scrollView.contentOffset.y;
-            [self.view layoutSubviews];
-            stopViewDragedDown = YES;
-            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
-        }
+    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y < -1) { /* drag the stop view down if table view is fully scrolled down */
+        [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
+        stopViewDragedDown = YES;
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
         
-    }else if(scrollView.contentOffset.y == 0 ){
-//        stopViewDragedDown = NO;
-        //
-        searchResultsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        searchResultsTable.layer.borderWidth = 0;
-    }else{
-        if (nearByStopsViewTopSpacing.constant > 0) {
-            nearByStopsViewTopSpacing.constant -= scrollView.contentOffset.y;
-            [self.view layoutSubviews];
-            stopViewDragedDown = YES;
+    }else if(scrollView.contentOffset.y > 0 ){
+        if ([self nearbyStopViewTopSpacing] > 0) {
+            [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
+            stopViewDragedDown = NO;
             scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
         }else{
             stopViewDragedDown = NO;
             //
-            searchResultsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-            searchResultsTable.layer.borderWidth = 0.5;
+            nearbyStopsListsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            nearbyStopsListsTable.layer.borderWidth = 0.5;
         }
-        
+    }else{
+        nearbyStopsListsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        nearbyStopsListsTable.layer.borderWidth = 0;
     }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (nearByStopsViewTopSpacing.constant > ([self searchViewLowerBound] + (searchResultsView.frame.size.height / 4)) && stopViewDragedDown) {
-        [self hideNearByStopsView:YES animated:YES];
-    }else{
-        [self hideNearByStopsView:NO animated:YES];
+    NSLog(@"scrollViewDidEndDragging....");
+    if (stopViewDragedDown & !decelerate) { /* drag the stop view down if table view is fully scrolled down */
+        [self decelerateStopListViewFromVelocity:[scrollView.panGestureRecognizer velocityInView:nearbyStopsListsTable].y withCompletionBlock:nil];
     }
 }
 
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+     NSLog(@"scrollViewWillBeginDecelerating....");
     tableViewIsDecelerating = YES;
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    NSLog(@"scrollViewDidEndDecelerating....");
     tableViewIsDecelerating = NO;
 }
 
@@ -2314,12 +2185,12 @@
 //        [self displayStopView:self.searchedStopList];
     }
     
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
+    [self showStopFetchActivityIndicator:NO];
 }
 
 -(void)stopFetchDidFail:(NSString *)error{
-    [SVProgressHUD dismiss];
-//    [self.refreshControl endRefreshing];
+    [self showStopFetchActivityIndicator:NO];
 }
 
 #pragma mark - Stops in area handler methods
@@ -2328,7 +2199,7 @@
 }
 
 - (void)fetchStopsInMapViewRegion:(MKCoordinateRegion)region{
-    
+    nearbyStopsFetchErrorMessage = nil;
     [self.reittiDataManager fetchStopsInAreaForRegion:region withCompletionBlock:^(NSArray *stopsList, NSString *errorMessage){
         if (!errorMessage) {
             [self nearByStopFetchDidComplete:stopsList];
@@ -2336,6 +2207,27 @@
             [self nearByStopFetchDidFail:errorMessage];
         }
     }];
+}
+
+- (void)fetchStopsDetailsForBusStopShorts:(NSArray *)busStopShorts{
+    if (!busStopShorts || busStopShorts.count < 1)
+        return;
+    
+    [self showStopFetchActivityIndicator:YES];
+    __block NSInteger numberOfStops = busStopShorts.count;
+        
+    for (BusStopShort *busStopShort in busStopShorts) {
+        [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
+            if (!errorString) {
+                [self setDetailStopForBusStopShort:busStopShort busStop:stop];
+                [nearbyStopsListsTable reloadData];
+            }
+            
+            numberOfStops--;
+            if (numberOfStops == 0)
+                [self showStopFetchActivityIndicator:NO];
+        }];
+    }
 }
 
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{
@@ -2358,32 +2250,31 @@
         }
     }
     
-    if (requestedForListing) {
-        [self displayNearByStopsList:stopList];
-    }else{
-        [self plotStopAnnotations:self.nearByStopList];
-    }
+    [self setupNearByStopsListTableviewFor:stopList];
+    [self plotStopAnnotations:self.nearByStopList];
     
     retryCount = 0;
-    [SVProgressHUD dismiss];
 }
 - (void)nearByStopFetchDidFail:(NSString *)error{
-    if (requestedForListing) {
-        if (![error isEqualToString:@""]) {
-            if ([error isEqualToString:@"Request timed out."] && retryCount < 1) {
-                [self listNearbyStopsPressed:nil];
-                retryCount++;
-            }else{
-                [ReittiNotificationHelper showErrorBannerMessage:error andContent:nil];
-            }
-            
-//            [self showNotificationWithMessage:error messageType:RNotificationTypeInfo forSeconds:5 keppingSearchView:YES];
+    if (![error isEqualToString:@""]) {
+        if ([error isEqualToString:@"Request timed out."] && retryCount < 1) {
+            [self listNearbyStopsPressed:nil];
+            retryCount++;
+            return;
         }
-        
-        requestedForListing = NO;
     }
     
-    [SVProgressHUD dismiss];
+    nearbyStopsFetchErrorMessage = error;
+    self.nearByStopList = [@[] mutableCopy];
+    [self setupNearByStopsListTableviewFor:nil];
+}
+
+- (void)detailStopFetchCompleted:(BusStop *)stop{
+    //TODO: Set linesCodes to the bus stop short
+    //TODO: Check the selected anotation is the right one
+    if (selectedAnnotationView) {
+        [selectedAnnotationView setSubtitleLabelText:stop.linesString];
+    }
 }
 
 - (void)routeSearchDidComplete:(NSArray *)routeList{
@@ -2660,14 +2551,14 @@
         webViewController._pageTitle = _busStop.code_short;
     }
     
-    if ([segue.identifier isEqualToString:@"openStopView"] || [segue.identifier isEqualToString:@"openNearbyStop"])
+    if ([segue.identifier isEqualToString:@"openStopView"] || [segue.identifier isEqualToString:@"openNearbyStop"] || [segue.identifier isEqualToString:@"openNearbyStop2"])
     {
         StopViewController *stopViewController = (StopViewController *)segue.destinationViewController;
         
-        if ([segue.identifier isEqualToString:@"openNearbyStop"]) {
-            NSIndexPath *selectedRowIndexPath = [searchResultsTable indexPathForSelectedRow];
+        if ([segue.identifier isEqualToString:@"openNearbyStop"] || [segue.identifier isEqualToString:@"openNearbyStop2"] ) {
+            NSIndexPath *selectedRowIndexPath = [nearbyStopsListsTable indexPathForSelectedRow];
             
-            BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.row];
+            BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.section];
             
             [self configureStopViewController:stopViewController withBusStopShort:selected];
         }else{
@@ -2825,18 +2716,62 @@
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext
               viewControllerForLocation:(CGPoint)location {
     
-    NSIndexPath *selectedRowIndexPath = [searchResultsTable indexPathForRowAtPoint:location];
-    UITableViewCell *cell = [searchResultsTable cellForRowAtIndexPath:selectedRowIndexPath];
-    
-    BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.row];
-    if (cell && selected) {
-        previewingContext.sourceRect = cell.frame;
-        StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
+    UIView *view = [self.view hitTest:location withEvent:UIEventTypeTouches];
+    if ([view isKindOfClass:[MKAnnotationView class]]) {
+        MKAnnotationView *annotationView = (MKAnnotationView *)view;
+        NSString *stopCode, *stopShortCode, *stopName;
+        CLLocationCoordinate2D stopCoords;
         
-        [self configureStopViewController:stopViewController withBusStopShort:selected];
+        if ([annotationView.annotation isKindOfClass:[JPSThumbnailAnnotation class]])
+        {
+            JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)annotationView.annotation;
+            if (stopAnnotation.thumbnail.annotationType == NearByStopType || stopAnnotation.thumbnail.annotationType == SearchedStopType) {
+                stopCode = [NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]];
+                stopCoords = stopAnnotation.coordinate;
+                stopShortCode = stopAnnotation.thumbnail.shortCode;
+                stopName = stopAnnotation.thumbnail.title;
+            }
+            
+            if (stopCode != nil && ![stopCode isEqualToString:@""]) {
+                //            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+                
+                StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
+                stopViewController.stopCode = stopCode;
+                stopViewController.stopShortCode = stopShortCode;
+                stopViewController.stopName = stopName;
+                stopViewController.stopCoords = stopCoords;
+                stopViewController.stopEntity = nil;
+                //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
+                stopViewController.reittiDataManager = self.reittiDataManager;
+                stopViewController.delegate = nil;
+                
+                return stopViewController;
+            }else{
+                return nil;
+            }
+            
+        }else{
+            return nil;
+        }
         
-        return stopViewController;
+    }else{
+        CGPoint locationInTableView = [self.view convertPoint:location toView:nearbyStopsListsTable];
+        
+        NSIndexPath *selectedRowIndexPath = [nearbyStopsListsTable indexPathForRowAtPoint:locationInTableView];
+        UITableViewCell *cell = [nearbyStopsListsTable cellForRowAtIndexPath:selectedRowIndexPath];
+        
+        BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.section];
+        if (cell && selected) {
+            CGRect convertedRect = [cell.superview convertRect:cell.frame toView:self.view];
+            previewingContext.sourceRect = convertedRect;
+            StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
+            
+            [self configureStopViewController:stopViewController withBusStopShort:selected];
+            
+            return stopViewController;
+        }
     }
+    
     return nil;
 }
 
@@ -2848,7 +2783,7 @@
     // Register for 3D Touch Previewing if available
     if ([self isForceTouchAvailable])
     {
-        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:searchResultsTable];
+        self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
     }else{
         NSLog(@"3D Touch is not available on this device.!");
         
@@ -2868,7 +2803,7 @@
     [super traitCollectionDidChange:previousTraitCollection];
     if ([self isForceTouchAvailable]) {
         if (!self.previewingContext) {
-            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:searchResultsTable];
+            self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.view];
         }
     } else {
         if (self.previewingContext) {

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewState) {
 - (void)didSelectAnnotationViewInMap:(MKMapView *)mapView;
 - (void)didDeselectAnnotationViewInMap:(MKMapView *)mapView;
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString;
+- (void)setSubtitleLabelText:(NSString *)subtitleText;
 - (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address;
 
 @end

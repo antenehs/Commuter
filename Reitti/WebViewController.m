@@ -65,11 +65,11 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self layoutAnimated:NO];
-    [self.navigationController setToolbarHidden:NO animated:YES];
+//    [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.navigationController setToolbarHidden:YES animated:NO];
+//    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 #pragma mark - View methods

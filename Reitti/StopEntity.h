@@ -15,7 +15,7 @@
 @interface StopEntity : ReittiManagedObjectBase
 
 @property (nonatomic, retain) NSNumber * busStopCode;
-@property (nonatomic, retain) NSDictionary * stopLines;
+@property (nonatomic, retain) NSArray  * stopLines;
 @property (nonatomic, retain) NSString * busStopShortCode;
 @property (nonatomic, retain) NSString * busStopName;
 @property (nonatomic, retain) NSString * busStopCity;
