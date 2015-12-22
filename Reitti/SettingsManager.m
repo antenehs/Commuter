@@ -50,6 +50,11 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
     return [self.reittiDataManager.settingsEntity.numberOfDaysToKeepHistory intValue];
 }
 
+-(NSString *)toneName{
+    [self.reittiDataManager fetchSettings];
+    return self.reittiDataManager.settingsEntity.toneName;
+}
+
 -(RouteSearchOptions *)globalRouteOptions{
     [self.reittiDataManager fetchSettings];
     return self.reittiDataManager.settingsEntity.globalRouteOptions;
@@ -82,6 +87,11 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
 }
 -(void)setNumberOfDaysToKeepHistory:(int)days{
     [self.reittiDataManager.settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:days]];
+    [self.reittiDataManager saveSettings];
+}
+
+-(void)setToneName:(NSString *)toneName{
+    [self.reittiDataManager.settingsEntity setToneName:toneName];
     [self.reittiDataManager saveSettings];
 }
 

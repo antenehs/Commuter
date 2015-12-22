@@ -8,23 +8,32 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "SettingDetailedViewController.h"
+#import "SingleSelectTableViewController.h"
 #import "SettingsManager.h"
+#import "ToneSelectorTableViewController.h"
 #import "RouteOptionsTableViewController.h"
 
 @protocol SettingsDelegate <NSObject>
 - (void)settingsValueChanged;
 @end
 
-@interface SettingsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>{
+@interface SettingsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SingleSelectTableViewControllerDelegate, ToneSelectorTableViewControllerDelegate>{
+    
+    NSInteger mapSettingsSection, widgetSettingSection, otherSettingsSection;
+    NSInteger mapTypeRow, liveVehiclesRow, departuresWidgetRow, routeSearchOptionRow, toneSelectorRow, clearHistoryRow, clearHistoryDaysRow, locationRow;
+    NSInteger numberOfSections, mapSectionNumberOfRows, wigetSectionNumberOfRows, otherSettingsNumberOfRows;
     
     IBOutlet UITableView *mainTableView;
     IBOutlet MKMapView *backgroundMapView;
     
     UISegmentedControl *mapModeSegmentControl;
     
-    NSArray *historyTimeInDays;
-    NSArray *regions;
+    NSArray *dayNumbers;
+    NSArray *dayStrings;
+    
+    NSArray *regionOptionNumbers;
+    NSArray *regionOptionNames;
+    NSArray *regionIncludingCities;
     
 }
 

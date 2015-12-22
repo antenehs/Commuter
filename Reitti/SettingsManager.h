@@ -31,6 +31,7 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 -(BOOL)shouldShowLiveVehicles;
 -(BOOL)isClearingHistoryEnabled;
 -(int)numberOfDaysToKeepHistory;
+-(NSString *)toneName;
 -(RouteSearchOptions *)globalRouteOptions;
 
 -(void)setMapMode:(MapMode)mapMode;
@@ -38,6 +39,7 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 -(void)showLiveVehicle:(BOOL)show;
 -(void)enableClearingOldHistory:(BOOL)clear;
 -(void)setNumberOfDaysToKeepHistory:(int)days;
+-(void)setToneName:(NSString *)toneName;
 -(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions;
 
 //Notifications

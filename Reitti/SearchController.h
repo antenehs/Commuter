@@ -92,6 +92,7 @@ typedef enum
     int smallAnnotationHeight;
     
     UITapGestureRecognizer *searchResultsViewGestureRecognizer;
+    UITapGestureRecognizer *centerTapRecognizer;
     
     UIPanGestureRecognizer *stopViewDragGestureRecognizer;
     UIPanGestureRecognizer *searchResultViewDragGestureRecognizer;
@@ -163,6 +164,7 @@ typedef enum
     UIView *centerLocatorView;
     
     NSTimer *refreshTimer;
+    NSTimer *departuresRefreshTimer;
 }
 
 -(void)initDataComponentsAndModules;

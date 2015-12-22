@@ -9,6 +9,12 @@
 #import "SingleSelectTableViewController.h"
 #import "ASA_Helpers.h"
 
+NSString * kSSDataDisplayTextKey = @"displayText";
+NSString * kSSDataDetailTextKey = @"detail";
+NSString * kSSDataSubtitleTextKey = @"subtitle";
+NSString * kSSDataValueKey = @"value";
+NSString * kSSDataPictureKey = @"picture";
+
 @implementation SingleSelectTableViewController
 
 @synthesize singleSelectTableViewControllerDelegate;
@@ -61,21 +67,25 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
+    UITableViewCell *cell;
     
-//    detailCell
-    cell.textLabel.text = [dataToLoad[indexPath.row] objectForKey:@"displayText"];
-    if ([dataToLoad[indexPath.row] objectForKey:@"picture"] != nil) {
-        cell.imageView.image = [UIImage imageNamed:[dataToLoad[indexPath.row] objectForKey:@"picture"]];
+    if ([dataToLoad[indexPath.row] objectForKey:kSSDataDetailTextKey] != nil) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
+        cell.detailTextLabel.text = [dataToLoad[indexPath.row] objectForKey:kSSDataDetailTextKey];
+    }else if ([dataToLoad[indexPath.row] objectForKey:kSSDataSubtitleTextKey] != nil){
+        cell = [tableView dequeueReusableCellWithIdentifier:@"subtitleCell" forIndexPath:indexPath];
+        cell.detailTextLabel.text = [dataToLoad[indexPath.row] objectForKey:kSSDataSubtitleTextKey];
+    }else{
+        cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
+        cell.detailTextLabel.text = nil;
+    }
+    
+    cell.textLabel.text = [dataToLoad[indexPath.row] objectForKey:kSSDataDisplayTextKey];
+    if ([dataToLoad[indexPath.row] objectForKey:kSSDataPictureKey] != nil) {
+        cell.imageView.image = [UIImage imageNamed:[dataToLoad[indexPath.row] objectForKey:kSSDataPictureKey]];
         [cell adjustImageViewSize:CGSizeMake(25, 25)];
     }else{
         cell.imageView.image = nil;
-    }
-    
-    if ([dataToLoad[indexPath.row] objectForKey:@"detail"] != nil) {
-        cell.detailTextLabel.text = [dataToLoad[indexPath.row] objectForKey:@"detail"];
-    }else{
-        cell.detailTextLabel.text = nil;
     }
     
     if (selectedIndex == indexPath.row) {
@@ -94,27 +104,6 @@
 {
     [singleSelectTableViewControllerDelegate selectedIndex:indexPath.row senderViewControllerIndex:self.viewControllerIndex];
     [self.navigationController popViewControllerAnimated:YES];
-//    if (![checkedIndexPath isEqual:indexPath]) {
-//        if(checkedIndexPath)
-//        {
-//            UITableViewCell* uncheckCell = [tableView
-//                                            cellForRowAtIndexPath:checkedIndexPath];
-//            uncheckCell.accessoryType = UITableViewCellAccessoryNone;
-//            uncheckCell.textLabel.textColor = [UIColor darkGrayColor];
-//        }
-//        
-//        if([checkedIndexPath isEqual:indexPath])
-//        {
-//            //            self.checkedIndexPath = nil;
-//        }
-//        else
-//        {
-//            UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-//            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-//            cell.textLabel.textColor = [UIColor blackColor];
-//            checkedIndexPath = indexPath;
-//        }
-//    }
 }
 
 @end

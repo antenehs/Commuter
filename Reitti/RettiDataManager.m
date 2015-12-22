@@ -983,6 +983,11 @@
         if (settingsEntity.showLiveVehicle == nil) {
             [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
         }
+        
+        //Migration to datamodel version 14
+        if (settingsEntity.toneName == nil) {
+            [settingsEntity setToneName:[AppManager defailtToneName]];
+        }
     }
     else {
         NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings values is null");
@@ -1001,6 +1006,7 @@
     [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
     [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
     [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+    [settingsEntity setToneName:[AppManager defailtToneName]];
     [settingsEntity setSettingsStartDate:[NSDate date]];
     [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
     
@@ -1021,8 +1027,10 @@
     //set default values
     [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
     [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
     [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
     [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+    [settingsEntity setToneName:[AppManager defailtToneName]];
     [settingsEntity setSettingsStartDate:[NSDate date]];
     [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
     

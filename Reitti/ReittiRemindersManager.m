@@ -40,14 +40,6 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 -(id)init{
-//    _eventStore = [[EKEventStore alloc] init];
-//    
-//    [_eventStore requestAccessToEntityType:EKEntityTypeReminder
-//                                completion:^(BOOL granted, NSError *error) {
-//                                    if (!granted){
-//                                        NSLog(@"Access to store not granted");
-//                                    }
-//                                }];
     reminderMessageFormater = @"Your ride will leave in %d minutes.";
     
     self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
@@ -61,89 +53,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 
-#pragma mark - EventKit Methods
-//-(BOOL)isAppAutorizedForReminders{
-//    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-//
-//    if (status != EKAuthorizationStatusAuthorized) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//        return NO;
-//    }else{
-//        return YES;
-//    }
-//}
-
-//-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString{
-//    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-//
-//    if (status == EKAuthorizationStatusAuthorized) {
-//        if ([self createEKReminderWithMinOffset:minute andHourString:timeString]) {
-//            //[self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
-//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Got it!"
-//                                                                message:@"You will be reminded."
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"OK"
-//                                                      otherButtonTitles:nil];
-//            [alertView show];
-//        }
-//
-//    }else{
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//}
-
-//-(BOOL)createEKReminderWithMinOffset:(int)minutes andHourString:(NSString *)timeString{
-//    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minutes];
-//
-//    if (date == nil) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-oh"                                                                                      message:@"Setting reminder failed."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//        return NO;
-//    }
-//
-//    if ([[NSDate date] compare:date] == NSOrderedDescending ) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Just so you know"                                                                                      message:@"The alarm time you set has already past."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//
-//    EKReminder *reminder = [EKReminder reminderWithEventStore:_eventStore];
-//
-//    reminder.title = [NSString stringWithFormat:reminderMessageFormater, minutes];
-//
-//    reminder.calendar = [_eventStore defaultCalendarForNewReminders];
-//
-//    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:date];
-//
-//    [reminder addAlarm:alarm];
-//
-//    NSError *error = nil;
-//
-//    [_eventStore saveReminder:reminder commit:YES error:&error];
-//
-//    return YES;
-//}
-
--(void)setNotificationWithMinOffset:(int)minute andHourString:(NSString *)timeString{
-    
-    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minute];
-    [self setNotificationWithMinOffset:0 andTime:date];
-}
-
--(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date{
+-(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date andToneName:(NSString *)toneName{
     if ([self isLocalNotificationEnabled]) {
         if (date == nil) {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting notifications failed."];
@@ -159,7 +69,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already past."];
         }else{
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
-            [self scheduleOneTimeNotificationForDate:date andMessage:[NSString stringWithFormat:reminderMessageFormater, minute]];
+            [self scheduleOneTimeNotificationForDate:date andMessage:[NSString stringWithFormat:reminderMessageFormater, minute] andToneName:toneName];
         }
         
     }else{
@@ -335,10 +245,14 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     //    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
--(void)scheduleOneTimeNotificationForDate:(NSDate *)date andMessage:(NSString *)body{
+-(void)scheduleOneTimeNotificationForDate:(NSDate *)date andMessage:(NSString *)body andToneName:(NSString *)toneName{
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.alertBody = body;
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    if (toneName == UILocalNotificationDefaultSoundName) {
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+    }else{
+        localNotification.soundName = [toneName containsString:@".mp3"] ? toneName : [NSString stringWithFormat:@"%@.mp3",toneName];
+    }
     
     localNotification.userInfo = nil;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];

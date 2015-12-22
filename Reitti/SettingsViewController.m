@@ -11,6 +11,9 @@
 #import "WidgetSettingsViewController.h"
 #import "SearchController.h"
 
+NSInteger kHistoryCleaningDaysSelectionViewControllerTag = 1001;
+NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
+
 @interface SettingsViewController ()
 
 @end
@@ -36,21 +39,54 @@
         self.settingsManager = homeViewController.settingsManager;
     }
     
-    //Testing
-//    [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-//    RouteSearchOptions *options = [settingsManager globalRouteOptions];
     
     [self InitMap];
     mainTableView.backgroundColor = [UIColor clearColor];
     
-    historyTimeInDays = [self constructHistoryDatesArray];
-    regions = [self constructLocationsArray];
+    dayNumbers = @[@1, @5, @10, @15, @30, @90, @180, @365];
+    dayStrings = @[@"1 day", @"5 days", @"10 days", @"15 days", @"30 days", @"3 months", @"6 months", @"1 year"];
     
+    regionOptionNumbers = @[[NSNumber numberWithInt:HSLRegion],[NSNumber numberWithInt:TRERegion]];
+    regionOptionNames = @[@"Helsinki Region", @"Tampere Region"];
+    regionIncludingCities = @[@"Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo.",
+                              @"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi"];
+    
+    [self setRowAndSectionValues];
     [mainTableView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [mainTableView reloadData];
+}
+
+-(void)setRowAndSectionValues{
+    //Map section
+    NSInteger sectionNumber = 0;
+    
+    //----------
+    mapSectionNumberOfRows = 0;
+    mapTypeRow = mapSectionNumberOfRows++;
+    liveVehiclesRow = mapSectionNumberOfRows++;
+    
+    mapSettingsSection = sectionNumber++;
+    
+    //-----------
+    wigetSectionNumberOfRows = 0;
+    departuresWidgetRow = wigetSectionNumberOfRows++;
+    
+    widgetSettingSection = sectionNumber++;
+    
+    //-----------
+    otherSettingsNumberOfRows = 0;
+    routeSearchOptionRow = otherSettingsNumberOfRows++;
+    toneSelectorRow = otherSettingsNumberOfRows++;
+    clearHistoryRow = otherSettingsNumberOfRows++;
+    clearHistoryDaysRow = otherSettingsNumberOfRows++;
+    locationRow = otherSettingsNumberOfRows++;
+    
+    otherSettingsSection = sectionNumber++;
+    
+    numberOfSections = sectionNumber;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,77 +114,61 @@
 
 #pragma - mark table view methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
+    return numberOfSections;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 0) {
-        return 1;
-    }else if (section == 1) {
-        return 1;
-    }else if (section == 2) {
-        return 1;
-    }else {
-        return 4;
+    if (section == mapSettingsSection) {
+        return mapSectionNumberOfRows;
+    }else if (section == widgetSettingSection) {
+        return wigetSectionNumberOfRows;
+    }else if (section == otherSettingsSection) {
+        return otherSettingsNumberOfRows;
     }
+    
+    return 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
-    //mapModeCell;clearHistoryCell;clearHistoryDateCell;locationCell;widgetSettingCell
-    if (indexPath.section == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"mapModeCell"];
-        UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
-        segmentCtrl.selectedSegmentIndex = [settingsManager getMapMode];
-        segmentCtrl.selectedSegmentIndex = [self.settingsManager getMapMode];
-    }else if (indexPath.section == 1) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"widgetSettingCell"];
-    }else if (indexPath.section == 2) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
-        UILabel *label = (UILabel *)[cell viewWithTag:1001];
-        if ([settingsManager userLocation] < regions.count) {
-            NSDictionary *dict = [regions objectAtIndex:[settingsManager userLocation]];
-            label.text = [dict objectForKey:@"DisplayText"];
+
+    if (indexPath.section == mapSettingsSection) {
+        if (indexPath.row == mapTypeRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"mapModeCell"];
+            UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
+            segmentCtrl.selectedSegmentIndex = [settingsManager getMapMode];
+            segmentCtrl.selectedSegmentIndex = [self.settingsManager getMapMode];
         }else{
-            label.text = @"Unknown";
-        }
-        
-    }else if (indexPath.section == 3) {
-        if (indexPath.row == 0) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"routeSearchOptionsCell"];
-        }
-        else if (indexPath.row == 1) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"liveVehicleCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
             uiSwitch.on = [settingsManager shouldShowLiveVehicles];
-        }else if (indexPath.row == 2) {
+        }
+    }else if (indexPath.section == widgetSettingSection) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"widgetSettingCell"];
+    }else if (indexPath.section == otherSettingsSection) {
+        if (indexPath.row == routeSearchOptionRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"routeSearchOptionsCell"];
+        }else if (indexPath.row == toneSelectorRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"notificationToneCell"];
+            UILabel *toneNameLabel = (UILabel *)[cell viewWithTag:1001];
+            if ([[settingsManager toneName] isEqualToString:UILocalNotificationDefaultSoundName]) {
+                toneNameLabel.text = @"Default iOS sound";
+            }else{
+                toneNameLabel.text = [settingsManager toneName];
+            }
+        }else if (indexPath.row == clearHistoryRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"clearHistoryCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
             uiSwitch.on = [settingsManager isClearingHistoryEnabled];
-        }else{
+        }else if (indexPath.row == clearHistoryDaysRow){
             cell = [tableView dequeueReusableCellWithIdentifier:@"clearHistoryDateCell"];
             UILabel *titleLabel = (UILabel *)[cell viewWithTag:1001];
             UILabel *selectedLabel = (UILabel *)[cell viewWithTag:1002];
             
-            switch ([settingsManager numberOfDaysToKeepHistory]) {
-                case 30:
-                    selectedLabel.text = @"30 days";
-                    break;
-                    
-                case 90:
-                    selectedLabel.text = @"3 month";
-                    break;
-                    
-                case 180:
-                    selectedLabel.text = @"6 month";
-                    break;
-                    
-                case 360:
-                    selectedLabel.text = @"1 year";
-                    break;
-                default:
-                    break;
-            }
+            int savedValue = [settingsManager numberOfDaysToKeepHistory];
+            NSInteger index = [self indexForDayFromDayNumbers:savedValue];
+            
+            selectedLabel.text = dayStrings[index];
             
             if([settingsManager isClearingHistoryEnabled]){
                 cell.userInteractionEnabled = YES;
@@ -163,6 +183,16 @@
                 titleLabel.textColor = [UIColor lightGrayColor];
                 selectedLabel.textColor = [UIColor lightGrayColor];
             }
+        }else{
+            cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
+            UILabel *label = (UILabel *)[cell viewWithTag:1001];
+            if ([settingsManager userLocation] < regionOptionNumbers.count) {
+                Region savedRegion = [settingsManager userLocation];
+                NSInteger index = [self indexOfRegion:savedRegion];
+                label.text = regionOptionNames[index];
+            }else{
+                label.text = @"Unknown";
+            }
         }
     }
 //        else if (indexPath.section == 4){
@@ -175,46 +205,20 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == 1 || section == 2) {
-        return 70;
-    }else if(section == 3){
+    if (section == otherSettingsSection)
         return 50;
-    }else
+    else
         return 0;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if (section == 2) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, mainTableView.frame.size.width - 20, 35)];
-        label.text = @"Restricts address searches to the selected area. Will be updated automatically when moving to another area.";
-        label.numberOfLines = 3;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor darkGrayColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-light" size:12];
-        
-        return label;
-    }else if (section == 1) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, mainTableView.frame.size.width - 20, 55)];
-        label.text = @"Setup the stops that will be displayed in the Departures Widget in notification center. Note that this feature is available only in iOS 8 and above.";
-        label.numberOfLines = 4;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor darkGrayColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-light" size:12];
-        
-        return label;
-    }else if (section == 4) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, mainTableView.frame.size.width - 20, 55)];
-        label.text = @"The gift of 5 little starts is satisfying for both of us more than you think. ";
-        label.numberOfLines = 4;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor darkGrayColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-light" size:12];
-        
-        return label;
-    }else{
-        return nil;
-    }
-}
+//-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+//    if (section == widgetSettingSection)
+//        return @"Setup the stops that will be displayed in the Departures Widget in notification center.";
+//    else if (section == otherSettingsSection)
+//        return @"Restricts address searches to the selected area. Will be updated automatically when moving to another area.";
+//    
+//    return @"";
+//}
 
 #pragma mark - IBActions
 - (IBAction)closeButtonPressed:(id)sender {
@@ -262,39 +266,95 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
 }
 
+#pragma mark - tone selector view controller delegate
+
+-(void)selectedTone:(NSString *)selectedTone{
+    [self.settingsManager setToneName:selectedTone];
+}
+
+#pragma mark - Single select table view delegate methods
+
+-(NSArray *)dataListForSelectorForViewControllerIndex:(NSInteger)viewControllerIndex{
+    if (viewControllerIndex == kHistoryCleaningDaysSelectionViewControllerTag) {
+        return [self constructHistoryDatesArray];
+    }else{
+        return [self constructLocationsArray];
+    }
+}
+
+-(void)selectedIndex:(NSInteger)selectedIndex senderViewControllerIndex:(NSInteger)viewControllerIndex{
+    if (viewControllerIndex == kHistoryCleaningDaysSelectionViewControllerTag) {
+        [settingsManager setNumberOfDaysToKeepHistory:[dayNumbers[selectedIndex] intValue]];
+    }else{
+        [settingsManager setUserLocation:(Region)selectedIndex];
+    }
+}
+
+-(NSInteger)alreadySelectedIndexForViewControllerIndex:(NSInteger)viewControllerIndex{
+    if (viewControllerIndex == kHistoryCleaningDaysSelectionViewControllerTag) {
+        int savedValue = [settingsManager numberOfDaysToKeepHistory];
+        return [self indexForDayFromDayNumbers:savedValue];
+    }else{
+        Region savedRegion = [settingsManager userLocation];
+        return [self indexOfRegion:savedRegion];
+    }
+    
+    return 0;
+}
+
+-(NSString *)viewControllerTitleForViewControllerIndex:(NSInteger)viewControllerIndex{
+    return @"";
+}
+
 #pragma mark - helper methods
 -(NSArray *)constructLocationsArray{
     
-    NSMutableDictionary *hslRegion = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:HSLRegion] forKey:@"region"];
-    [hslRegion setObject:@"Helsinki Region" forKey:@"DisplayText"];
-    [hslRegion setObject:@"Includes municipalities Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo." forKey:@"FooterText"];
+    NSMutableArray *regionsData = [@[] mutableCopy];
+    for (int i = 0; i < regionOptionNumbers.count; i++) {
+        [regionsData addObject:[NSMutableDictionary dictionaryWithObjects:@[regionOptionNumbers[i], regionOptionNames[i], regionIncludingCities[i]] forKeys:@[kSSDataValueKey, kSSDataDisplayTextKey,kSSDataSubtitleTextKey]]];
+    }
     
-    NSMutableDictionary *treRegion = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:TRERegion] forKey:@"region"];
-    [treRegion setObject:@"Tampere Region" forKey:@"DisplayText"];
-    [treRegion setObject:@"Includes municipalities Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi" forKey:@"FooterText"];
+    return regionsData;
     
-    return [NSArray arrayWithObjects:hslRegion,treRegion, nil];
+//    NSMutableDictionary *hslRegion = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:HSLRegion] forKey:kSSDataValueKey];
+//    [hslRegion setObject:@"Helsinki Region" forKey:kSSDataDisplayTextKey];
+//    [hslRegion setObject:@"Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo." forKey:kSSDataSubtitleTextKey];
+//    
+//    NSMutableDictionary *treRegion = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:TRERegion] forKey:kSSDataValueKey];
+//    [treRegion setObject:@"Tampere Region" forKey:kSSDataDisplayTextKey];
+//    [treRegion setObject:@"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi" forKey:kSSDataSubtitleTextKey];
+//    
+//    return [NSArray arrayWithObjects:hslRegion,treRegion, nil];
     
 }
 
 -(NSArray *)constructHistoryDatesArray{
     
-    NSMutableDictionary *days_30 = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:30] forKey:@"numOfDays"];
-    [days_30 setObject:@"30 days" forKey:@"DisplayText"];
+    NSMutableArray *daysData = [@[] mutableCopy];
+    for (int i = 0; i < dayNumbers.count; i++) {
+        [daysData addObject:[NSMutableDictionary dictionaryWithObjects:@[dayNumbers[i], dayStrings[i]] forKeys:@[kSSDataValueKey, kSSDataDisplayTextKey]]];
+    }
     
-    NSMutableDictionary *days_90 = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:90] forKey:@"numOfDays"];
-    [days_90 setObject:@"3 months" forKey:@"DisplayText"];
-    
-    NSMutableDictionary *days_180 = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:180] forKey:@"numOfDays"];
-    [days_180 setObject:@"6 months" forKey:@"DisplayText"];
-    
-    NSMutableDictionary *days_360 = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:360] forKey:@"numOfDays"];
-    [days_360 setObject:@"1 year" forKey:@"DisplayText"];
-    
-    return [NSArray arrayWithObjects:days_30,days_90,days_180,days_360, nil];
-    
+    return daysData;
 }
 
+-(NSInteger)indexForDayFromDayNumbers:(int)day{
+    for (int i = 0; i < dayNumbers.count; i++) {
+        if ([dayNumbers[i] intValue] == day)
+            return i;
+    }
+    
+    return 0;
+}
+
+-(NSInteger)indexOfRegion:(Region)region{
+    for (int i = 0; i < regionOptionNumbers.count; i++) {
+        if ([regionOptionNumbers[i] intValue] == region)
+            return i;
+    }
+    
+    return 0;
+}
 
 #pragma mark - Navigation
 
@@ -302,35 +362,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"selectMaxHistoryDate"]) {
         
-        SettingDetailedViewController *controller = (SettingDetailedViewController *)[segue destinationViewController];
+        SingleSelectTableViewController *controller = (SingleSelectTableViewController *)[segue destinationViewController];
         
-        controller.dataToLoad = historyTimeInDays;
-        controller.viewControllerMode = ViewControllerModeSelectHistoryTime;
-        controller.mapRegion = self.mapRegion;
-        
-        int selectedIndex = 0;
-        if ([settingsManager numberOfDaysToKeepHistory] == 30) {
-            selectedIndex = 0;
-        }else if ([settingsManager numberOfDaysToKeepHistory] == 90) {
-            selectedIndex = 1;
-        }else if ([settingsManager numberOfDaysToKeepHistory] == 180) {
-            selectedIndex = 2;
-        }else{
-            selectedIndex = 3;
-        }
-        
-        controller.selectedIndex = selectedIndex;
-        controller.settingsManager = settingsManager;
+        controller.singleSelectTableViewControllerDelegate = self;
+        controller.viewControllerIndex = kHistoryCleaningDaysSelectionViewControllerTag;
     }
     
     if ([segue.identifier isEqualToString:@"selectRegion"]) {
-        SettingDetailedViewController *controller = (SettingDetailedViewController *)[segue destinationViewController];
+        SingleSelectTableViewController *controller = (SingleSelectTableViewController *)[segue destinationViewController];
         
-        controller.dataToLoad = regions;
-        controller.viewControllerMode = ViewControllerModeRegionSelection;
-        controller.mapRegion = self.mapRegion;
-        controller.selectedIndex = [settingsManager userLocation];
-        controller.settingsManager = settingsManager;
+        controller.singleSelectTableViewControllerDelegate = self;
+        controller.viewControllerIndex = kUserLocationRegionSelectionViewControllerTag;
     }
     
     if ([segue.identifier isEqualToString:@"widgetSettings"]) {
@@ -340,14 +382,18 @@
     }
     
     if ([segue.identifier isEqualToString:@"setRouteSearchOptions"]) {
-//        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[segue destinationViewController];
-//        
-//        controller.savedStops = [NSMutableArray arrayWithArray:[self.settingsManager.reittiDataManager fetchAllSavedStopsFromCoreData]];
         RouteOptionsTableViewController *controller = (RouteOptionsTableViewController *)[segue destinationViewController];
         controller.globalSettingsMode = YES;
         controller.settingsManager = self.settingsManager;
-//        controller.routeSearchOptions = [[settingsManager globalRouteOptions] copy];
     }
+    
+    if ([segue.identifier isEqualToString:@"selectNotificationTone"]) {
+        ToneSelectorTableViewController *toneSelectorController = (ToneSelectorTableViewController *)[segue destinationViewController];
+        
+        toneSelectorController.delegate = self;
+        toneSelectorController.selectedTone = [settingsManager toneName];
+    }
+
 }
 
 

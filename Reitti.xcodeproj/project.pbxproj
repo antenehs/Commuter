@@ -196,7 +196,6 @@
 		664E28A51AE2AF1A00BE2457 /* history-clock-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664E28A41AE2AF1A00BE2457 /* history-clock-100.png */; };
 		664E28A71AE2B0BB00BE2457 /* location-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664E28A61AE2B0BB00BE2457 /* location-gray-100.png */; };
 		664E28A91AE2B32300BE2457 /* compass-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664E28A81AE2B32300BE2457 /* compass-100.png */; };
-		664E28AC1AE2DCD900BE2457 /* SettingDetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28AB1AE2DCD900BE2457 /* SettingDetailedViewController.m */; };
 		664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28AF1AE2FC8300BE2457 /* SettingsEntity.m */; };
 		664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28B21AE2FD4500BE2457 /* SettingsManager.m */; };
 		664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
@@ -339,6 +338,12 @@
 		66822F661C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
 		66822F671C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
 		66822F681C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
+		66822F6B1C286E4700511BD2 /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
+		66822F6C1C286E4700511BD2 /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
+		66822F6D1C286E4700511BD2 /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
+		66822F6F1C28C65400511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
+		66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
+		66822F711C28C65500511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
 		6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */; };
 		6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */; };
 		6682D2491ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */; };
@@ -981,8 +986,6 @@
 		664E28A41AE2AF1A00BE2457 /* history-clock-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "history-clock-100.png"; path = "Pictures/Version 2.3/history-clock-100.png"; sourceTree = "<group>"; };
 		664E28A61AE2B0BB00BE2457 /* location-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location-gray-100.png"; path = "Pictures/Version 2.3/location-gray-100.png"; sourceTree = "<group>"; };
 		664E28A81AE2B32300BE2457 /* compass-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "compass-100.png"; path = "Pictures/Version 2.3/compass-100.png"; sourceTree = "<group>"; };
-		664E28AA1AE2DCD900BE2457 /* SettingDetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingDetailedViewController.h; sourceTree = "<group>"; };
-		664E28AB1AE2DCD900BE2457 /* SettingDetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingDetailedViewController.m; sourceTree = "<group>"; };
 		664E28AD1AE2FA2400BE2457 /* Reitti 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 4.xcdatamodel"; sourceTree = "<group>"; };
 		664E28AE1AE2FC8300BE2457 /* SettingsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsEntity.h; sourceTree = "<group>"; };
 		664E28AF1AE2FC8300BE2457 /* SettingsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsEntity.m; sourceTree = "<group>"; };
@@ -1131,6 +1134,9 @@
 		66822F641C24695900511BD2 /* StopLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopLine.h; sourceTree = "<group>"; };
 		66822F651C24695900511BD2 /* StopLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopLine.m; sourceTree = "<group>"; };
 		66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 13.xcdatamodel"; sourceTree = "<group>"; };
+		66822F6A1C286E4700511BD2 /* reload-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reload-128.png"; path = "Pictures/version 4.1/reload-128.png"; sourceTree = "<group>"; };
+		66822F6E1C28C65400511BD2 /* notification-tone-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "notification-tone-100.png"; path = "Pictures/version 4.1/notification-tone-100.png"; sourceTree = "<group>"; };
+		66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 14.xcdatamodel"; sourceTree = "<group>"; };
 		6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sitting-filled-grey-64.png"; path = "Pictures/Version 2.3/sitting-filled-grey-64.png"; sourceTree = "<group>"; };
 		6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white2-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white2-100.png"; sourceTree = "<group>"; };
 		6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white-100.png"; sourceTree = "<group>"; };
@@ -1623,6 +1629,8 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66822F6E1C28C65400511BD2 /* notification-tone-100.png */,
+				66822F6A1C286E4700511BD2 /* reload-128.png */,
 				66822F5C1C2451D800511BD2 /* collapse-arrow-gray.png */,
 				661AB3A61C22E2020061E1F6 /* map compas mode white.png */,
 				661AB3A71C22E2020061E1F6 /* current location filled white.png */,
@@ -1940,10 +1948,6 @@
 				66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */,
 				66F6CEE31B51AD0400F934A2 /* EditReminderTableViewController.h */,
 				66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */,
-				6665D77E1C0CE6C500ACCC3A /* SingleSelectTableViewController.h */,
-				6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */,
-				66F6CEE81B52A86B00F934A2 /* MultiSelectTableViewController.h */,
-				66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */,
 				666BC1C41B5C1E3700889DD2 /* ToneSelectorTableViewController.h */,
 				666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */,
 				660FB23A1B39E5ED009C30BF /* MoreTableViewController.h */,
@@ -1962,8 +1966,10 @@
 				667B98291AD32A8300C45ADF /* AddressTypeTableViewController.m */,
 				664E289F1AE2A50300BE2457 /* SettingsViewController.h */,
 				664E28A01AE2A50300BE2457 /* SettingsViewController.m */,
-				664E28AA1AE2DCD900BE2457 /* SettingDetailedViewController.h */,
-				664E28AB1AE2DCD900BE2457 /* SettingDetailedViewController.m */,
+				6665D77E1C0CE6C500ACCC3A /* SingleSelectTableViewController.h */,
+				6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */,
+				66F6CEE81B52A86B00F934A2 /* MultiSelectTableViewController.h */,
+				66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */,
 				664749DC1AE59CD70050137E /* VersionInfoViewController.h */,
 				664749DD1AE59CD70050137E /* VersionInfoViewController.m */,
 				66F0999F1AEC4F5D00F20D34 /* WelcomeViewController.h */,
@@ -3250,6 +3256,7 @@
 				66DAE1F219C42F590039081D /* down-arrow-50.png in Resources */,
 				66F099901AE8075D00F20D34 /* NotificationButtonBackground.png in Resources */,
 				664749E81AE6D7E00050137E /* next-green-100.png in Resources */,
+				66822F6F1C28C65400511BD2 /* notification-tone-100.png in Resources */,
 				66D42697198FBCFC0080F21E /* Message-Information-128.png in Resources */,
 				66D4269F199027C10080F21E /* cancel-128.png in Resources */,
 				66F099701AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json in Resources */,
@@ -3368,6 +3375,7 @@
 				669602B91B124910006919CB /* Settings-unselected-100.png in Resources */,
 				66D4269D199022780080F21E /* star-128.png in Resources */,
 				66D42699198FBF880080F21E /* bookmark-128.png in Resources */,
+				66822F6B1C286E4700511BD2 /* reload-128.png in Resources */,
 				660716171B49CBFA00033049 /* logoutJS.js in Resources */,
 				667B98211AD3294C00C45ADF /* gym-100_grey.png in Resources */,
 				660FB2361B39E242009C30BF /* version-4-color-100.png in Resources */,
@@ -3532,6 +3540,7 @@
 				66CA02E41C1715CE00A38858 /* Park-black-50.png in Resources */,
 				66CA03031C1715EB00A38858 /* school-100.png in Resources */,
 				667408981C19E1B000C1E34A /* sitting-filled-grey-64.png in Resources */,
+				66822F6D1C286E4700511BD2 /* reload-128.png in Resources */,
 				66CA03201C1715F700A38858 /* Up Left-100_grey.png in Resources */,
 				66CA02E31C1715CE00A38858 /* location-black-50.png in Resources */,
 				66CA02F71C1715EB00A38858 /* location-75-red.png in Resources */,
@@ -3540,6 +3549,7 @@
 				66CA031B1C1715F700A38858 /* park-bench-100_grey.png in Resources */,
 				66CA03021C1715EB00A38858 /* books-100.png in Resources */,
 				66CA02F91C1715EB00A38858 /* home-100.png in Resources */,
+				66822F711C28C65500511BD2 /* notification-tone-100.png in Resources */,
 				66CA02C81C16FC4C00A38858 /* MainInterface.storyboard in Resources */,
 				660CFE0D1C188FEC004D73FC /* Back-light-100.png in Resources */,
 				66CA03131C1715F700A38858 /* bowling-100_grey.png in Resources */,
@@ -3564,6 +3574,7 @@
 				66CA02EB1C1715EA00A38858 /* home-100.png in Resources */,
 				6665D7661C0CA6B200ACCC3A /* gym-black-50.png in Resources */,
 				66CA02F11C1715EA00A38858 /* cupcake-100.png in Resources */,
+				66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */,
 				6665D7601C0CA6B200ACCC3A /* beach-black-50.png in Resources */,
 				6665D77D1C0CDFB600ACCC3A /* Subway-100.png in Resources */,
 				66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */,
@@ -3574,6 +3585,7 @@
 				66CA03051C1715F600A38858 /* bowling-100_grey.png in Resources */,
 				66DAC7EA1A03F4FB0002BE16 /* search-green-50.png in Resources */,
 				66CA03091C1715F600A38858 /* restaurant-100_grey.png in Resources */,
+				66822F6C1C286E4700511BD2 /* reload-128.png in Resources */,
 				66CA030B1C1715F600A38858 /* Beer-100_grey.png in Resources */,
 				66CA030D1C1715F600A38858 /* park-bench-100_grey.png in Resources */,
 				6665D7701C0CA6B200ACCC3A /* Restaurant-black-50.png in Resources */,
@@ -3750,7 +3762,6 @@
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
-				664E28AC1AE2DCD900BE2457 /* SettingDetailedViewController.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
 				660FB23C1B39E5ED009C30BF /* MoreTableViewController.m in Sources */,
 				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
@@ -4265,6 +4276,7 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */,
 				66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */,
 				6665D74E1C0C9BF300ACCC3A /* Reitti 12.xcdatamodel */,
 				66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */,
@@ -4279,7 +4291,7 @@
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */;
+			currentVersion = 66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

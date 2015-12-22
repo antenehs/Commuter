@@ -25,8 +25,7 @@ extern NSString *kRoutineNotificationUniqueName;
 //-(BOOL)isAppAutorizedForReminders;
 //-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString;
 
--(void)setNotificationWithMinOffset:(int)minute andHourString:(NSString *)timeString;
--(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date;
+-(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date andToneName:(NSString *)toneName;
 
 +(BOOL)isFirstRequest;
 -(BOOL)isLocalNotificationEnabled;

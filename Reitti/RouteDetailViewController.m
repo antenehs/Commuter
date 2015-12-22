@@ -1225,24 +1225,28 @@
         switch (buttonIndex) {
             case 0:
                 reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minute.";
-                [reittiRemindersManager setNotificationWithMinOffset:1 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:1 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 1:
-                [reittiRemindersManager setNotificationWithMinOffset:5 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:5 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 2:
-                [reittiRemindersManager setNotificationWithMinOffset:10 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:10 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 3:
-                [reittiRemindersManager setNotificationWithMinOffset:15 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:15 andTime:self.route.getStartingTimeOfRoute];
                 break;
             case 4:
-                [reittiRemindersManager setNotificationWithMinOffset:30 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:30 andTime:self.route.getStartingTimeOfRoute];
                 break;
             default:
                 break;
         }
     }
+}
+
+-(void)setReminderForOffset:(int)offset andTime:(NSDate *)time{
+    [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:offset andTime:time andToneName:[settingsManager toneName]];
 }
 
 -(void)swipeToLeftDetected:(id)sender{

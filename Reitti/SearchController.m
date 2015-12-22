@@ -27,6 +27,8 @@
 #import "ReittiAppShortcutManager.h"
 #import "ASA_Helpers.h"
 
+CGFloat  kDeparturesRefreshInterval = 60;
+
 @interface SearchController ()
 
 @property (nonatomic, strong) id previewingContext;
@@ -110,6 +112,16 @@
     viewApearForTheFirstTime = NO;
 }
 
+- (void)appWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [self initDeparturesRefreshTimer];
+}
+
+- (void)appWillEnterBackground:(NSNotification *)notification {
+    NSLog(@"will enter foreground notification");
+    [departuresRefreshTimer invalidate];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
 
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
@@ -126,11 +138,15 @@
     
     stopFetchActivityIndicator.circleLayer.lineWidth = 1.5;
     stopFetchActivityIndicator.alternatingColors = @[[AppManager systemGreenColor], [AppManager systemOrangeColor]];
+    
+    [self initDeparturesRefreshTimer];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
     [reittiDataManager stopFetchingLiveVehicles];
     [self removeAllVehicleAnnotation];
+    
+    [departuresRefreshTimer invalidate];
 }
 
 
@@ -244,6 +260,10 @@
                                              selector:@selector(shouldShowVehiclesSettingsValueChanged:)
                                                  name:shouldShowVehiclesNotificationName object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
     self.cacheManager = [CacheManager sharedManager];
@@ -305,10 +325,14 @@
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
 }
 
+-(void)initDeparturesRefreshTimer{
+    departuresRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:kDeparturesRefreshInterval target:self selector:@selector(refreshDepartures:) userInfo:nil repeats:YES];
+}
+
 -(void)initCenterLocator:(CGPoint)point{
-    centerLocatorView = [[UIView alloc] initWithFrame:CGRectMake(point.x - 10, point.y + 10, 20, 20)];
-    centerLocatorView.layer.borderWidth = 4.0f;
-    centerLocatorView.layer.cornerRadius = 10.0f;
+    centerLocatorView = [[UIView alloc] initWithFrame:[self centerLocatorFrameForCenter:point]];
+    centerLocatorView.layer.borderWidth = 3.0f;
+    centerLocatorView.layer.cornerRadius = 12.0f;
     centerLocatorView.layer.borderColor = [UIColor whiteColor].CGColor;
     centerLocatorView.backgroundColor = [AppManager systemOrangeColor];
     
@@ -316,24 +340,46 @@
     centerLocatorView.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
     centerLocatorView.layer.shadowRadius = 1.0f;
     centerLocatorView.layer.shadowOpacity = 0.3f;
+    
+    //Add touch guesture recognizer
+    centerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(centerLocatorTapped:)];
+    [centerLocatorView addGestureRecognizer:centerTapRecognizer];
+}
+
+- (CGRect)centerLocatorFrameForCenter:(CGPoint)center{
+    return CGRectMake(center.x - 12, center.y + 12, 24, 24);
+}
+
+- (void)updateCenterLocationPosition{
+    if ([self shouldShowDroppedPin]) {
+        CGPoint centerPoint = [self visibleMapRectCenter];
+        if (centerLocatorView == nil)
+            [self initCenterLocator:centerPoint];
+        else{
+            centerLocatorView.frame = [self centerLocatorFrameForCenter:centerPoint];
+        }
+        
+        [self.view addSubview:centerLocatorView];
+    }else{
+        [centerLocatorView removeFromSuperview];
+    }
 }
 
 - (void)bounceAnimateCenterLocator {
     //Do spring animation
-    centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
+    CGRect originalFrame = centerLocatorView.frame;
+    CGRect shrinkedFrame = CGRectMake(originalFrame.origin.x + 8, originalFrame.origin.y + 8, originalFrame.size.width - 16, originalFrame.size.height - 16);
+    CGRect expandedFrame = CGRectMake(originalFrame.origin.x - 2, originalFrame.origin.y - 2, originalFrame.size.width + 4, originalFrame.size.height + 4);
+//    centerLocatorView.frame = CGRectMake(self.mapView.center.x - 12, self.mapView.center.y + 12, 24, 24);
     [UIView transitionWithView:searchResultsView duration:0.1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        centerLocatorView.frame = CGRectMake(self.mapView.center.x - 4, self.mapView.center.y + 16, 8, 8);
+        centerLocatorView.frame = shrinkedFrame;
     } completion:^(BOOL finished) {
-        //            centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
         [UIView transitionWithView:searchResultsView duration:0.1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            centerLocatorView.frame = CGRectMake(self.mapView.center.x - 11, self.mapView.center.y + 9, 22, 22);
+            centerLocatorView.frame = expandedFrame;
         } completion:^(BOOL finished) {
-            //                centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
             [UIView transitionWithView:searchResultsView duration:0.1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                centerLocatorView.frame = CGRectMake(self.mapView.center.x - 10, self.mapView.center.y + 10, 20, 20);
-            } completion:^(BOOL finished) {
-                
-            }];
+                centerLocatorView.frame = originalFrame;
+            } completion:^(BOOL finished) {}];
         }];
     }];
 }
@@ -612,7 +658,33 @@
 }
 
 - (BOOL)isthereValidDetailForShortStop:(BusStopShort *)shortStop{
-    return [self getDetailStopForBusStopShort:shortStop] != nil;
+    
+    @try {
+        BusStop *detailStop = [self getDetailStopForBusStopShort:shortStop];
+        
+        if (!detailStop || !detailStop.departures || detailStop.departures.count < 1)
+            return NO;
+        
+        NSMutableArray *departuresCopy = [detailStop.departures mutableCopy];
+        for (int i = 0; i < departuresCopy.count;i++) {
+            StopDeparture *departure = [departuresCopy objectAtIndex:i];
+            if ([departure.parsedDate timeIntervalSinceNow] < 0){
+                [departuresCopy removeObject:departure];
+            }else{
+                [detailStop setDepartures:departuresCopy];
+                return YES;
+            }
+            
+            if (i == departuresCopy.count - 1) {
+                return NO;
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        return NO;
+    }
+    
+    return NO;
 }
 
 - (BOOL)isThereValidDetailForTableViewSection:(NSInteger)section{
@@ -633,14 +705,13 @@
             [self fetchStopsDetailsForBusStopShorts:nearByStops];
         }
         
-        [self clearStopDetailMap];
+//        [self clearStopDetailMap];
     }
     
     [self setupTableViewForNearByStops:nearByStops];
 }
 -(void)setupTableViewForNearByStops:(NSArray *)result{
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
-    searchResultsLabel.text = @"NEARBY STOPS";
     [nearbyStopsListsTable reloadData];
     [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
@@ -649,6 +720,8 @@
     [searchResultsView setBlurTintColor:nil];
     searchResultsView.layer.borderWidth = 0.5;
     searchResultsView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    hideSearchResultViewButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 -(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim{
@@ -701,16 +774,25 @@
     if (topSpace > self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height)
         topSpace = self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height;
 
+    CGFloat spaceDiff = topSpace - nearByStopsViewTopSpacing.constant;
+    
     nearByStopsViewTopSpacing.constant = topSpace;
     [self.view layoutSubviews];
     
     if ([self isNearByStopsListViewHidden]) {
         [hideSearchResultViewButton setImage:[UIImage imageNamed:@"list-white-100.png"] forState:UIControlStateNormal];
+        searchResultsLabel.text = @"LIST NEARBY STOPS";
     }else{
-        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"collapse-arrow-gray.png"] forState:UIControlStateNormal];
+        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"reload-128.png"] forState:UIControlStateNormal];
+        searchResultsLabel.text = @"NEARBY STOPS";
     }
     
-    //TODO: Set center locator position and state as well
+    //Set center locator position
+    [self updateCenterLocationPosition];
+    
+    //Adjust map
+    [self scrollMapViewByPoint:CGPointMake(0, -spaceDiff/2) animated:NO];
+    
 }
 
 - (void)increamentNearByStopViewTopSpaceBy:(CGFloat)increament{
@@ -937,6 +1019,41 @@
     
 }
 
+/**
+ Region of the map not covered by the nearbylist tableview
+ */
+-(MKCoordinateRegion)visibleMapRegion{
+    return [self.mapView convertRect:[self visibleMapRect] toRegionFromView:self.mapView.superview];
+}
+
+/**
+ Rect of the map not covered by the nearbylist tableview in the self.view coordinate system
+ */
+-(CGRect)visibleMapRect{
+    CGRect fullMapFrame = self.mapView.frame;
+    CGFloat visibleHeight = [self nearbyStopViewTopSpacing];
+    
+    fullMapFrame.size.height = visibleHeight;
+    
+    return fullMapFrame;
+}
+
+-(CGPoint)visibleMapRectCenter{
+    CGRect visibleRect = [self visibleMapRect];
+    
+    return CGPointMake(visibleRect.origin.x + visibleRect.size.width/2, visibleRect.origin.y + visibleRect.size.height/2 );
+}
+
+-(void)scrollMapViewByPoint:(CGPoint)point animated:(BOOL)animated{
+    CGPoint currentCenter = [self.mapView convertCoordinate:self.mapView.region.center toPointToView:self.mapView];
+    currentCenter.x += point.x;
+    currentCenter.y += point.y;
+    
+    CLLocationCoordinate2D coordinate = [self.mapView convertPoint:currentCenter toCoordinateFromView:self.mapView];
+    ignoreRegionChange = YES;
+    [mapView setCenterCoordinate:coordinate animated:animated];
+}
+
 -(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate{
     
     BOOL toReturn = YES;
@@ -958,12 +1075,23 @@
         locNotAvailableNotificationShow = YES;
     }
     
+    CGFloat spanSize = 0.005;
+    
+    if (![self isNearByStopsListViewHidden]) {
+        //Adjust for the span difference
+        CGFloat heightRatio = [self visibleMapRect].size.height/self.mapView.frame.size.height;
+        CGFloat spanDiff = spanSize * (1 - heightRatio);
+        
+        coordinate.latitude =  coordinate.latitude - spanDiff/2;
+    }
+    
     //CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
-    MKCoordinateSpan span = {.latitudeDelta =  0.005, .longitudeDelta =  0.005};
+    MKCoordinateSpan span = {.latitudeDelta =  spanSize, .longitudeDelta =  spanSize};
     MKCoordinateRegion region = {coordinate, span};
     
-    //If centered on current user location. Set mode before the region is changed
-    if (toReturn && coordinate.latitude == self.currentUserLocation.coordinate.latitude) {
+    //If centered on current user location. Set mode before the region is changed. Longitude is used for the check,
+    //because latitude could be changed depending on nearby lists position
+    if (toReturn && coordinate.longitude == self.currentUserLocation.coordinate.longitude) {
         [mapView setUserTrackingMode:MKUserTrackingModeNone];
         [currentLocationButton asa_updateAsCenteredAtCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
         ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
@@ -1275,23 +1403,6 @@
             [mapView removeAnnotation:annotation];
         }
     }
-    
-//    CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
-//    CGPoint touchPoint = self.mapView.center;
-//    CLLocationCoordinate2D coordinate =
-//    [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
-    
-//    JPSThumbnail *annotTN = [[JPSThumbnail alloc] init];
-//    annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
-//    annotTN.title = @"Dropped pin";
-//    annotTN.subtitle = @"Searching address";
-//    annotTN.coordinate = touchMapCoordinate;
-//    annotTN.annotationType = DroppedPinType;
-//    annotTN.reuseIdentifier = @"geoLocationAnnotation";
-//    annotTN.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:touchMapCoordinate];};
-//    annotTN.secondaryButtonBlock = ^{ [self showDroppedPinGeoCode];};
-//    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:annotTN];
-//    [mapView addAnnotation:annot];
     
     GCThumbnail *annotTN = [[GCThumbnail alloc] init];
     annotTN.image = [UIImage imageNamed:@"dropped-pin-annotation.png"];
@@ -1650,6 +1761,9 @@
 //}
 
 - (void)mapView:(MKMapView *)_mapView regionWillChangeAnimated:(BOOL)animated{
+    if (ignoreRegionChange)
+        return;
+    
     if (currentLocationButton.tag != kCompasModeCurrentLocationButtonTag) {
         currentLocationButton.alpha = 0.3;
     }
@@ -1665,13 +1779,15 @@
 }
 
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
-//    if (!ignoreRegionChange)
-//        ignoreRegionChange = NO;
+    if (ignoreRegionChange){
+        ignoreRegionChange = NO;
+        return;
+    }
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
         if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
             if (mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading) {
-                [self fetchStopsInMapViewRegion:[_mapView region]];
+                [self fetchStopsInMapViewRegion:[self visibleMapRegion]];
             }
         }else{
             [self removeAllStopAnnotations];
@@ -1681,20 +1797,7 @@
         }
     }
     
-    if ([self shouldShowDroppedPin]) {
-        //TODO: Calculate center based on stop list view location
-        CGPoint centerPoint = self.mapView.center;
-        CLLocationCoordinate2D coordinate = [mapView convertPoint:centerPoint toCoordinateFromView:mapView];
-        
-        if (centerLocatorView == nil) {
-            [self initCenterLocator:centerPoint];
-        }
-        
-        [self.mapView addSubview:centerLocatorView];
-        [self dropAnnotation:coordinate];
-    }else{
-        [centerLocatorView removeFromSuperview];
-    }
+    [self updateCenterLocationPosition];
     
     currentLocationButton.alpha = 1;
     listNearbyStops.alpha = 1;
@@ -1758,7 +1861,7 @@
     }
     
     //Do not show if the list view is taking more than 2/3 of the screen
-    if ([self nearbyStopViewTopSpacing] < self.view.frame.size.height/1.5) {
+    if ([self nearbyStopViewTopSpacing] < self.view.frame.size.height/3) {
         return NO;
     }
     
@@ -1902,125 +2005,7 @@
 }
 
 #pragma mark - helper methods
-//- (void)sendEmailWithSubject:(NSString *)subject{
-//    // Email Subject
-//    NSString *emailTitle = subject;
-//    // Email Content
-//    NSString *messageBody = @"";
-//    // To address
-//    NSArray *toRecipents = [NSArray arrayWithObject:@"ewketapps@gmail.com"];
-//    
-//    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-//    mc.mailComposeDelegate = self;
-//    [mc setSubject:emailTitle];
-//    [mc setMessageBody:messageBody isHTML:NO];
-//    [mc setToRecipients:toRecipents];
-//    
-//    // Present mail view controller on screen
-//    [self presentViewController:mc animated:YES completion:NULL];
-//    
-//}
 
-//- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-//{
-//    switch (result)
-//    {
-//        case MFMailComposeResultCancelled:
-//            NSLog(@"Mail cancelled");
-//            break;
-//        case MFMailComposeResultSaved:
-//            NSLog(@"Mail saved");
-//            break;
-//        case MFMailComposeResultSent:
-//            NSLog(@"Mail sent");
-////            [self.reittiDataManager setAppOpenCountValue:-100];
-//            break;
-//        case MFMailComposeResultFailed:
-//            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
-//            break;
-//        default:
-//            break;
-//    }
-//    
-//    // Close the Mail Interface
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//}
-
-//-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString{
-//    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
-//    
-//    if (status == EKAuthorizationStatusAuthorized) {
-//        if ([self createEKReminderWithMinOffset:minute andHourString:timeString]) {
-////            [self showNotificationWithMessage:@"Reminder set successfully!" messageType:RNotificationTypeConfirmation forSeconds:5 keppingSearchView:YES];
-//        }
-//        
-//    }else{
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Reminders app"                                                                                      message:@"Please grant access to the Reminders app from Settings/Privacy/Reminders to use this feature."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//}
-
-//-(BOOL)createEKReminderWithMinOffset:(int)minutes andHourString:(NSString *)timeString{
-//    NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:minutes];
-//    
-//    if (date == nil) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-oh"                                                                                      message:@"Setting reminder failed."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//        return NO;
-//    }
-//    
-//    if ([[NSDate date] compare:date] == NSOrderedDescending ) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Just so you know"                                                                                      message:@"The alarm time you set has already past."
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//    
-//    EKReminder *reminder = [EKReminder reminderWithEventStore:_eventStore];
-//    
-//    reminder.title = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minutes];
-//    
-//    reminder.calendar = [_eventStore defaultCalendarForNewReminders];
-//    
-//    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:date];
-//    
-//    [reminder addAlarm:alarm];
-//    
-//    NSError *error = nil;
-//    
-//    [_eventStore saveReminder:reminder commit:YES error:&error];
-//    
-//    return YES;
-//}
-
-
-//- (void)postToFacebook {
-//    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-//        
-//        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-//        
-//        [controller setInitialText:@"Easy way to get HSL timetables and stop locations!Check Commuter out."];
-//        [controller addURL:[NSURL URLWithString:@"http://itunes.com/apps/antenehseifu"]];
-//        [controller addImage:[UIImage imageNamed:@"appicon4.png"]];
-//        
-//        [self presentViewController:controller animated:YES completion:Nil];
-//        
-//    }else{
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-//                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
-//                                                           delegate:nil
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil];
-//        [alertView show];
-//    }
-//}
 
 - (GeoCode *)castNamedBookmarkToGeoCode:(NamedBookmark *)namedBookmark{
     GeoCode * newGeoCode = [[GeoCode alloc] init];
@@ -2036,7 +2021,7 @@
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
     }else if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
         //Make sure the properties are set in this order
-        [mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading];
+        [mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
         [currentLocationButton asa_updateAsCompassModeCurrentLocationWithBackgroundColor:[AppManager systemGreenColor] animated:YES];
         ignoreMapRegionChangeForCurrentLocationButtonStatus = YES;
     }else if (currentLocationButton.tag == kCompasModeCurrentLocationButtonTag) {
@@ -2056,9 +2041,32 @@
     if ([self isNearByStopsListViewHidden]) {
         [self hideNearByStopsView:NO animated:YES];
     }else{
-        [self hideNearByStopsView:YES animated:YES];
+//        [self hideNearByStopsView:YES animated:YES];
+        [departuresRefreshTimer invalidate];
+        [self initDeparturesRefreshTimer];
+        [self refreshDepartures:self];
     }
+}
+
+- (IBAction)refreshDepartures:(id)sender{
+    if(![self isNearByStopsListViewHidden]){
+        //Show activity indicator no matter what
+        [self showStopFetchActivityIndicator:YES];
+        [self performSelector:@selector(showStopFetchActivityIndicator:) withObject:NO afterDelay:1];
+        
+        [self setupNearByStopsListTableviewFor:self.nearByStopList];
+        
+    }
+}
+
+- (void)centerLocatorTapped:(id)sender{
+    CGPoint mapCenter = centerLocatorView.center;
+    //The center has to be moved up from the center so that the annotation will be positioned right above it.
+    mapCenter.y -= 20;
     
+    CLLocationCoordinate2D coordinate = [mapView convertPoint:mapCenter toCoordinateFromView:mapView];
+    
+    [self dropAnnotation:coordinate];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -2138,7 +2146,7 @@
 
 #pragma - mark Scroll View delegates
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
+//    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y < -1) { /* drag the stop view down if table view is fully scrolled down */
         [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
         stopViewDragedDown = YES;
@@ -2195,7 +2203,7 @@
 
 #pragma mark - Stops in area handler methods
 - (void)fetchStopsInCurrentMapViewRegion {
-    [self fetchStopsInMapViewRegion:mapView.region];
+    [self fetchStopsInMapViewRegion:[self visibleMapRegion]];
 }
 
 - (void)fetchStopsInMapViewRegion:(MKCoordinateRegion)region{
@@ -2213,10 +2221,15 @@
     if (!busStopShorts || busStopShorts.count < 1)
         return;
     
-    [self showStopFetchActivityIndicator:YES];
-    __block NSInteger numberOfStops = busStopShorts.count;
+    __block NSInteger numberOfStops = 0;
         
     for (BusStopShort *busStopShort in busStopShorts) {
+        if ([self isthereValidDetailForShortStop:busStopShort])
+            continue;
+
+        [self showStopFetchActivityIndicator:YES];
+        numberOfStops ++;
+        
         [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString) {
                 [self setDetailStopForBusStopShort:busStopShort busStop:stop];
@@ -2762,7 +2775,7 @@
         
         BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.section];
         if (cell && selected) {
-            CGRect convertedRect = [cell.superview convertRect:cell.frame toView:self.view];
+            CGRect convertedRect = [cell.superview convertRect:[nearbyStopsListsTable rectForSection:selectedRowIndexPath.section] toView:self.view];
             previewingContext.sourceRect = convertedRect;
             StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
             

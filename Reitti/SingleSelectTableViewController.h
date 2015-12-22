@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString * kSSDataDisplayTextKey;
+extern NSString * kSSDataDetailTextKey;
+extern NSString * kSSDataSubtitleTextKey;
+extern NSString * kSSDataValueKey;
+extern NSString * kSSDataPictureKey;
 
 @protocol SingleSelectTableViewControllerDelegate <NSObject>
 - (NSArray *)dataListForSelectorForViewControllerIndex:(NSInteger)viewControllerIndex;

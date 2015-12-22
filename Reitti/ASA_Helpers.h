@@ -13,6 +13,7 @@
 #import "UISearchBar+Helper.h"
 #import "UIView+Helper.h"
 #import "UIButton+Helper.h"
+#import "UIScrollView+APParallaxHeader.h"
 #import "ReittiStringFormatter.h"
 #import "MyFixedLayoutGuide.h"
 #import "ReittiShapeMaker.h"

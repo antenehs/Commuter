@@ -272,24 +272,28 @@
     }else{
         switch (buttonIndex) {
             case 0:
-                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:1 andTime:timeToSetAlarm];
+                [self setReminderForOffset:1 andTime:timeToSetAlarm];
                 break;
             case 1:
-                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:5 andTime:timeToSetAlarm];
+                [self setReminderForOffset:5 andTime:timeToSetAlarm];
                 break;
             case 2:
-                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:10 andTime:timeToSetAlarm];
+                [self setReminderForOffset:10 andTime:timeToSetAlarm];
                 break;
             case 3:
-                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:15 andTime:timeToSetAlarm];
+                [self setReminderForOffset:15 andTime:timeToSetAlarm];
                 break;
             case 4:
-                [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:30 andTime:timeToSetAlarm];
+                [self setReminderForOffset:30 andTime:timeToSetAlarm];
                 break;
             default:
                 break;
         }
     }
+}
+
+-(void)setReminderForOffset:(int)offset andTime:(NSDate *)time{
+    [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:offset andTime:time andToneName:[settingsManager toneName]];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

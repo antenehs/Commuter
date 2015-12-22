@@ -9,6 +9,7 @@
 #import "ToneSelectorTableViewController.h"
 #import "AppManager.h"
 #import "AMBlurView.h"
+#import "ASA_Helpers.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface ToneSelectorTableViewController ()
@@ -50,18 +51,8 @@
 }
 
 - (void)setTableBackgroundView {
-    UIView *bluredBackViewContainer = [[UIView alloc] initWithFrame:self.view.bounds];
-    bluredBackViewContainer.backgroundColor = [UIColor whiteColor];
-    UIImageView *mapImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_background.png"]];
-    mapImageView.frame = bluredBackViewContainer.frame;
-    mapImageView.alpha = 0.5;
-    AMBlurView *blurView = [[AMBlurView alloc] initWithFrame:bluredBackViewContainer.frame];
     
-    [bluredBackViewContainer addSubview:mapImageView];
-    [bluredBackViewContainer addSubview:blurView];
-    
-    self.tableView.backgroundView = bluredBackViewContainer;
-    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.tableView setBlurredBackgroundWithImageNamed:nil];
 }
 
 #pragma mark - Table view data source
@@ -119,40 +110,6 @@
         [self playMp3AudioNamed:selectedToneName];
     }
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Audio related methods
 - (void)playMp3AudioNamed:(NSString *)audioName{
