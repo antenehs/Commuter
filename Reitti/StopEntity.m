@@ -7,6 +7,8 @@
 //
 
 #import "StopEntity.h"
+#import "StopLine.h"
+#import "ReittiStringFormatter.h"
 #import "CacheManager.h"
 
 @implementation StopEntity
@@ -36,6 +38,32 @@
 
 -(void)setStopType:(StopType)stopType{
     self.stopType = stopType;
+}
+
+-(NSArray *)lineCodes{
+    //Prior version from 4.1 stop lines as dictionary. So ignore them
+    if (![self.stopLines isKindOfClass:[NSArray class]])
+        return nil;
+    
+    if (self.stopLines && self.stopLines.count > 0) {
+        if ([self.stopLines[0] isKindOfClass:[StopLine class]]) {
+            NSMutableArray *lineCodeArray = [@[] mutableCopy];
+            for (StopLine *line in self.stopLines) {
+                [lineCodeArray addObject:line.code];
+            }
+            
+            return lineCodeArray;
+        }
+    }
+    
+    return nil;
+}
+
+-(NSString *)linesString{
+    if (!self.lineCodes) {
+        return @"";
+    }
+    return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
 }
 
 @end

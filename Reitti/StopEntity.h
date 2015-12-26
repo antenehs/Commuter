@@ -24,5 +24,7 @@
 @property (nonatomic, retain) NSString * busStopWgsCoords;
 
 @property (nonatomic) StopType stopType;
+@property (nonatomic, retain, readonly) NSArray * lineCodes;
+@property (nonatomic, retain, readonly) NSString * linesString;
 
 @end

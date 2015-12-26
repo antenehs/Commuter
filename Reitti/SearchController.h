@@ -109,7 +109,6 @@ typedef enum
     
     //local vars
     BOOL viewApearForTheFirstTime;
-    BOOL locNotAvailableNotificationShow;
     BOOL centerMap;
     BOOL isStopViewDisplayed;
     BOOL isSearchResultsViewDisplayed;
@@ -141,6 +140,8 @@ typedef enum
     
     CLLocationCoordinate2D selectedStopAnnotationCoords;
     
+    CLLocation *previousValidLocation;
+    
     NSString * selectedFromLocation;
     NSString * selectedFromCoords;
     
@@ -171,10 +172,12 @@ typedef enum
 -(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext;
 -(void)openRouteSearchView;
 -(void)openRouteViewToLocationName:(NSString *)locationName locationCoords:(NSString *)coords;
+-(void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName;
+-(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute;
 -(void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo;
 -(void)openBookmarksView;
 -(void)openWidgetSettingsView;
--(void)openStopViewForCode:(NSNumber *)code;
+-(void)openStopViewForCode:(NSString *)code;
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 

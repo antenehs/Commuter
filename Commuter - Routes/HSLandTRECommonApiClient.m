@@ -30,13 +30,13 @@
     
     [self.apiClient doApiFetchWithParams:optionsDict andCompletionBlock:^(NSData *responseData, NSError *error){
         if (!error) {
-            NSError *error = nil;
-            NSArray *responseArray = [self routeFromJSON:responseData error:&error];
+            NSError *localError = nil;
+            NSArray *responseArray = [self routeFromJSON:responseData error:&localError];
             
             if (responseArray) {
                 completionBlock(responseArray, nil);
             }else{
-                completionBlock(nil, error);
+                completionBlock(nil, localError);
             }
         }else{
             completionBlock(nil, error);

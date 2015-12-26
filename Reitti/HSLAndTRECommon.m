@@ -52,6 +52,8 @@
         return @"Internet connection appears to be offline.";
     }else if (error.code == -1016) {
         return @"No route information available for the selected addresses.";
+    }else if (error.code == -1001) {
+        return @"Connection to the data provider could not be established. Please try again later.";
     }else{
         return @"Unknown Error Occured.";
     }
@@ -179,7 +181,7 @@
             errorString = @"Internet connection appears to be offline.";
             break;
         case -1001:
-            errorString = @"Request timed out.";
+            errorString = @"Connection to the data provider could not be established. Please try again later.";
             break;
         case -1016:
             errorString = @"The remote server returned nothing. Try again.";

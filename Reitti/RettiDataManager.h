@@ -137,6 +137,7 @@ typedef struct {
 -(void)fetchDisruptions;
 
 -(BOOL)isBusStopSaved:(BusStop *)stop;
+-(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode;
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;
 -(BOOL)doesNamedBookmarkExistWithName:(NSString *)name;
 
@@ -157,6 +158,7 @@ typedef struct {
 -(void)saveRouteToCoreData:(NSString *)fromLocation fromCoords:(NSString *)fromCoords andToLocation:(NSString *)toLocation andToCoords:(NSString *)toCoords;
 -(void)deleteSavedRouteForCode:(NSString *)code;
 -(void)deleteAllSavedroutes;
+-(RouteEntity *)fetchSavedRouteFromCoreDataForCode:(NSString *)code;
 -(NSArray *)fetchAllSavedRoutesFromCoreData;
 
 -(BOOL)saveRouteHistoryToCoreData:(NSString *)fromLocation fromCoords:(NSString *)fromCoords andToLocation:(NSString *)toLocation toCoords:(NSString *)toCoords;
@@ -169,6 +171,7 @@ typedef struct {
 -(void)deleteNamedBookmarkForName:(NSString *)name;
 -(void)deleteAllNamedBookmarks;
 -(NSArray *)fetchAllSavedNamedBookmarksFromCoreData;
+-(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
 
 -(SettingsEntity *)fetchSettings;

@@ -25,6 +25,7 @@
 #import "DroppedPinManager.h"
 #import "GCThumbnailAnnotation.h"
 #import "ReittiAppShortcutManager.h"
+#import "ReittiSearchManager.h"
 #import "ASA_Helpers.h"
 
 CGFloat  kDeparturesRefreshInterval = 60;
@@ -78,6 +79,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [self initDataComponentsAndModules];
     [self updateAppShortcuts];
+    [self reindexSavedDataForSpotlight];
     [self initViewComponents];
     
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
@@ -95,10 +97,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
         //Do new version migrations
+        //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
         [self.reittiDataManager doVersion4_1CoreDataMigration];
         
-//        [AppManager setCurrentAppVersion];
+        [AppManager setCurrentAppVersion];
     }
+    
+    //Testing
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -201,6 +206,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
+- (void)reindexSavedDataForSpotlight{
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+}
+
 - (void)initViewComponents
 {
     /*init View Components*/
@@ -297,7 +306,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     //Default values
     viewApearForTheFirstTime = YES;
-    locNotAvailableNotificationShow = NO;
     darkMode = YES;
     centerMap = YES;
     isStopViewDisplayed = NO;
@@ -603,11 +611,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self performSegueWithIdentifier:@"openStopView" sender:nil];
 }
 
--(void)openStopViewForCode:(NSNumber *)code{
+-(void)openStopViewForCode:(NSString *)code{
     StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:code];
+    if (!stop)
+        return;
     [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
 }
-
 
 #pragma - mark StopView methods
 
@@ -694,6 +703,22 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     return NO;
+}
+
+- (NSInteger)busStopShortIndexForCode:(NSNumber *)code{
+    NSInteger index = 0;
+    @try {
+        for (BusStopShort *stop in nearByStopList) {
+            if ([stop.code integerValue] == [code integerValue]) {
+                return index;
+            }
+            
+            index++;
+        }
+    }
+    @catch (NSException *exception) {}
+    
+    return NSNotFound;
 }
 
 #pragma mark - nearby stops list methods
@@ -1059,7 +1084,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     BOOL toReturn = YES;
     
     
-    if (![self isLocationServiceAvailableWithNotification:!locNotAvailableNotificationShow]) {
+    if (![self isLocationServiceAvailableWithNotification:NO]) {
         if ([settingsManager userLocation] == HSLRegion) {
             //Helsinki center location
             CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
@@ -1071,8 +1096,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
         
         toReturn = NO;
-        
-        locNotAvailableNotificationShow = YES;
     }
     
     CGFloat spanSize = 0.005;
@@ -1110,10 +1133,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (!locationServicesEnabled) {
         if (notify) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                                message:@"Looks like location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."
-                                                               delegate:nil
+                                                                message:@"Looks like location services is not enabled. Enable it from Settings."
+                                                               delegate:self
                                                       cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
+                                                      otherButtonTitles:@"Settings", nil];
+            alertView.tag = 2003;
             [alertView show];
         }
         
@@ -1123,10 +1147,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (!accessGranted) {
         if (notify) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                                message:@"Looks like access is not granted to this app for location services. Grant access from Settings/Privacy/Location Services to get nearby stops suggestions."
-                                                               delegate:nil
+                                                                message:@"Looks like access is not granted to this app for location services. Grant access from Settings."
+                                                               delegate:self
                                                       cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
+                                                      otherButtonTitles:@"Settings", nil];
+            alertView.tag = 2003;
             [alertView show];
         }
     
@@ -1614,7 +1639,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
         
     }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
-        ignoreRegionChange = YES;
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
     }else if ([view conformsToProtocol:@protocol(LVThumbnailAnnotationViewProtocol)]) {
 //        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
@@ -1753,12 +1777,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.mapView removeAnnotations:tempArray];
 }
 
-//- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-////    StopAnnotation *stopAnnotation = (StopAnnotation*)view.annotation;
-//    
-////    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]]];
-////    [self showProgressHUD];
-//}
+-(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
+    canShowDroppedPin = YES;
+}
 
 - (void)mapView:(MKMapView *)_mapView regionWillChangeAnimated:(BOOL)animated{
     if (ignoreRegionChange)
@@ -1774,9 +1795,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self removeAllGeocodeAnnotation];
 }
 
--(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
-    canShowDroppedPin = YES;
-}
+
 
 - (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
     if (ignoreRegionChange){
@@ -1785,9 +1804,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
-        if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14) {
-            if (mapView.userTrackingMode != MKUserTrackingModeFollowWithHeading) {
+        if ([self shouldShowNearByStops]) {
+            if ([self shouldUpdateNearByStops]){
                 [self fetchStopsInMapViewRegion:[self visibleMapRegion]];
+                //If the location is valid, save the center
+                previousValidLocation = [[CLLocation alloc] initWithLatitude:self.mapView.region.center.latitude longitude:self.mapView.region.center.longitude];
             }
         }else{
             [self removeAllStopAnnotations];
@@ -1866,6 +1887,28 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     return YES;
+}
+
+-(BOOL)shouldShowNearByStops{
+    //Check the zoom level
+    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14)
+        return YES;
+    
+    return NO;
+}
+
+-(BOOL)shouldUpdateNearByStops{
+    
+    CLLocation *currentCenteredLocation = [[CLLocation alloc] initWithLatitude:self.mapView.region.center.latitude longitude:self.mapView.region.center.longitude];
+
+    if (!previousValidLocation || !currentCenteredLocation)
+        return YES;
+    
+    CLLocationDistance dist = [previousValidLocation distanceFromLocation:currentCenteredLocation];
+    if (dist > 70)
+        return YES;
+    
+    return NO;
 }
 
 -(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
@@ -1965,6 +2008,29 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self performSegueWithIdentifier: @"routeSearchController" sender: self];
 }
 
+- (void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName{
+    NamedBookmark *bookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForName:bookmarkName];
+    if (bookmark) {
+        selectedFromLocation = @"Current location";
+        selectedAnnotationUniqeName = bookmark.name;
+        selectedAnnotationCoords = bookmark.coords;
+        
+        [self performSegueWithIdentifier: @"routeSearchController" sender: self];
+    }
+}
+
+-(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute{
+    RouteEntity *route = [self.reittiDataManager fetchSavedRouteFromCoreDataForCode:savedRoute];
+    if (route) {
+        selectedFromLocation = route.fromLocationName;
+        selectedFromCoords = route.fromLocationCoordsString;
+        selectedAnnotationUniqeName = route.toLocationName;
+        selectedAnnotationCoords = route.toLocationCoordsString;
+        
+        [self performSegueWithIdentifier: @"routeSearchController" sender: self];
+    }
+}
+
 - (void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo{
     MKMapItem *source = directionsInfo.source;
     if (source.isCurrentLocation) {
@@ -2017,6 +2083,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 #pragma - mark IBActions
 
 - (IBAction)centerCurrentLocationButtonPressed:(id)sender {
+    [self isLocationServiceAvailableWithNotification:YES];
+    
     if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
     }else if (currentLocationButton.tag == kCenteredCurrentLocationButtonTag) {
@@ -2029,19 +2097,20 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:YES];
     }
     
-    if (![self isLocationServiceAvailableWithNotification:NO]) {
-        if (locNotAvailableNotificationShow) {
-            [ReittiNotificationHelper showErrorBannerMessage:@"Uh-Oh" andContent:@"Location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."];
-        }
-    }
-    
 }
 
 - (IBAction)listNearbyStopsPressed:(id)sender {
     if ([self isNearByStopsListViewHidden]) {
         [self hideNearByStopsView:NO animated:YES];
     }else{
-//        [self hideNearByStopsView:YES animated:YES];
+        [self hideNearByStopsView:YES animated:YES];
+    }
+}
+
+- (IBAction)refreshOrShowListButtonPressed:(id)sender{
+    if ([self isNearByStopsListViewHidden]) {
+        [self listNearbyStopsPressed:self];
+    }else{
         [departuresRefreshTimer invalidate];
         [self initDeparturesRefreshTimer];
         [self refreshDepartures:self];
@@ -2081,6 +2150,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if (buttonIndex == 0) {
             [self openSettingsButtonPressed:self];
         }
+    }else if (alertView.tag == 2003) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }
 }
 
@@ -2233,7 +2304,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString) {
                 [self setDetailStopForBusStopShort:busStopShort busStop:stop];
-                [nearbyStopsListsTable reloadData];
+                //TODO: better was to find the index
+                NSInteger index = [self busStopShortIndexForCode:busStopShort.code];
+                if (index != NSNotFound) /* Update with animation */
+                    [nearbyStopsListsTable reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationBottom];
+                else
+                    [nearbyStopsListsTable reloadData];
             }
             
             numberOfStops--;
@@ -2311,7 +2387,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
     
     if ([droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
-        ignoreRegionChange = YES;
+//        ignoreRegionChange = YES;
 //        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) enableAddressInfoButton];
     }

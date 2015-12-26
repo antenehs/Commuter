@@ -54,6 +54,9 @@
 }
 
 -(void)setUpViewForRoute:(RouteLeg *)routeLeg andWidth:(float)width{
+    if (isnan(width))
+        width = 0;
+    
     if (width < 30 && routeLeg.legType != LegTypeWalk) {
         width = 30;
     }

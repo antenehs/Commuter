@@ -17,7 +17,9 @@
 #import "ReittiManagedObjectBase.h"
 #import "CoreDataManager.h"
 #import "ReittiAppShortcutManager.h"
+#import "ReittiSearchManager.h"
 #import "ApiProtocols.h"
+#import "ASA_Helpers.h"
 #import "AppManager.h"
 //#import "LiveTrafficManager.h"
 
@@ -356,21 +358,6 @@
     
     Region region = [self identifyRegionOfCoordinate:coords];
     
-//    if (region == HSLRegion) {
-//        [self.hslCommunication getStopInfoForCode:code];
-//        stopInfoRequestedFor = HSLRegion;
-//    }else if (region == TRERegion){
-//        [self.treCommunication getStopInfoForCode:code];
-//        stopInfoRequestedFor = TRERegion;
-//    }else{ /* In case the user location in near border and the correct region cannot be determined */
-//        //TODO: There has to be a better way of handling border cases
-//        [self.hslCommunication getStopInfoForCode:code];
-//        [self.treCommunication getStopInfoForCode:code];
-//        numberOfApisStopRequestedFrom = 2;
-//        stopFetchFailedCount = 0;
-//        stopInfoRequestedFor = HSLandTRERegion;
-//    }
-    
     if (region == OtherRegion || region == HSLandTRERegion) {
         //This means that since the stop is found has coordinated, the region must be evaluated wrongly. So request from all datasource.
         //TODO: There has to be a better way of handling border cases
@@ -409,6 +396,11 @@
                 
                 if (!error) {
                     completionBlock(response, nil);
+                    [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
+                        if ([self isBusStopSavedWithCode:response.code]) { //Update the saved data with new data. Lines could be changed
+                            [self saveToCoreDataStop:response];
+                        }
+                    }];
                 }else{
                     completionBlock(nil, error);
                 }
@@ -851,6 +843,10 @@
     return [allSavedStopCodes containsObject:stop.code];
 }
 
+-(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode{
+    return [allSavedStopCodes containsObject:stopCode];
+}
+
 -(void)updateNamedBookmarksUserDefaultValue{
     
     NSArray * namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
@@ -934,6 +930,7 @@
 }
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
+    [self fetchAllSavedRouteCodesFromCoreData];
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
 
@@ -1162,9 +1159,12 @@
     
     [allSavedStopCodes addObject:stop.code];
     [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 -(void)deleteSavedStopForCode:(NSNumber *)code{
+    if (!code) return;
+    
     StopEntity *stopToDelete = [self fetchSavedStopFromCoreDataForCode:code];
     
     [self.managedObjectContext deleteObject:stopToDelete];
@@ -1180,6 +1180,7 @@
     NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
     [self updateSavedStopsDefaultValueForStops:savedSt];
     [self updateSelectedStopListForDeletedStop:[code intValue] andAllStops:savedSt];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 -(void)deleteAllSavedStop{
@@ -1200,6 +1201,7 @@
     NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
     [self updateSavedStopsDefaultValueForStops:savedSt];
     [self updateSelectedStopListForDeletedStop:0 andAllStops:savedSt];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 //Return array of set dictionaries
@@ -1518,6 +1520,7 @@
     [self saveManagedObject:self.routeEntity];
     
     [allSavedRouteCodes addObject:self.routeEntity.routeUniqueName];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 -(void)deleteSavedRouteForCode:(NSString *)code{
@@ -1533,6 +1536,7 @@
     }
     
     [allSavedRouteCodes removeObject:code];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 -(void)deleteAllSavedroutes{
@@ -1550,6 +1554,7 @@
     }
     
     [allSavedRouteCodes removeAllObjects];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 -(NSArray *)fetchAllSavedRoutesFromCoreData{
@@ -1667,6 +1672,7 @@
         [allNamedBookmarkNames addObject:ndBookmark.name];
         
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
         [self updateNamedBookmarksUserDefaultValue];
         return self.namedBookmark;
     }else{
@@ -1683,6 +1689,7 @@
         [self saveManagedObject:namedBookmark];
         
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
         [self updateNamedBookmarksUserDefaultValue];
         return self.namedBookmark;
     }
@@ -1715,6 +1722,7 @@
         }
         
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
         [self updateNamedBookmarksUserDefaultValue];
         
         return self.namedBookmark;
@@ -1739,6 +1747,7 @@
     [allNamedBookmarkNames removeObject:name];
     
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
 }
 -(void)deleteAllNamedBookmarks{
@@ -1758,6 +1767,7 @@
     [allNamedBookmarkNames removeAllObjects];
     
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
 }
 -(NSArray *)fetchAllSavedNamedBookmarksFromCoreData{
@@ -2084,8 +2094,6 @@
     }
 }
 
-
-
 -(NSMutableArray *)simplifyCoreDataDictionaryArray:(NSArray *)array withKey:(NSString *)key{
     NSMutableArray *retArray = [[NSMutableArray alloc] init];
     for (NSDictionary * dict in array) {
@@ -2102,6 +2110,16 @@
         if (ndBookmark.monochromeIconName == nil) {
             ndBookmark.monochromeIconName = [NamedBookmark getMonochromePictureNameForColorPicture:ndBookmark.iconPictureName];
             [self saveNamedBookmarkToCoreData:ndBookmark];
+        }
+    }
+    
+    //migration due to stopLines array format change
+    NSArray *savedStops = [self fetchAllSavedStopsFromCoreData];
+    for (StopEntity *stop in savedStops) {
+        if (stop.stopLines && stop.stopLines.count > 0 && [stop.stopLines isKindOfClass:[NSDictionary class]]) {
+            //Stops lines were just the dictionary and there were not used anywhere anyways. So just remove them
+            stop.stopLines = @[];
+            [self saveManagedObject:stop];
         }
     }
     

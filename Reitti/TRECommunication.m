@@ -136,7 +136,7 @@
     }
     
     if (searchOptions.numberOfResults == kDefaultNumberOfResults) {
-        [parametersDict setObject:@"3" forKey:@"show"];
+        [parametersDict setObject:@"5" forKey:@"show"];
     }else{
         [parametersDict setObject:[NSString stringWithFormat:@"%ld", (long)searchOptions.numberOfResults] forKey:@"show"];
     }

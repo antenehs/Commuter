@@ -20,12 +20,17 @@
     transportsContainer.layer.cornerRadius = 4;
     
     for (RouteLeg *leg in route.routeLegs) {
-        if (route.isOnlyWalkingRoute) {
-            //Leg duration of a walking leg get freaky sometimes
-            tWidth = totalWidth * (([route.routeDurationInSeconds floatValue])/longestDuration);
+        //Check for dividing by zero. Duration could be zero
+        if (longestDuration != 0) {
+            if (route.isOnlyWalkingRoute) {//Leg duration of a walking leg get freaky sometimes
+                tWidth = totalWidth * (([route.routeDurationInSeconds floatValue])/longestDuration);
+            }else{
+                tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
+            }
         }else{
-            tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
+            tWidth = 150;
         }
+
         Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
         CGRect frame = transportView.frame;
         transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);

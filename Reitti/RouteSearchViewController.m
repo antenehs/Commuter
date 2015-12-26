@@ -437,9 +437,10 @@ typedef enum
         if(showMessage){
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Looks like location services is not enabled"
                                                                 message:@"Enable it from Settings/Privacy/Location Services to get route searches from current location (which makes your life way easier BTW)."
-                                                               delegate:nil
+                                                               delegate:self
                                                       cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
+                                                      otherButtonTitles:@"Settings", nil];
+            alertView.tag = 1243;
             [alertView show];
         }
         
@@ -450,9 +451,10 @@ typedef enum
         if(showMessage){
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Looks like access is not granted to this app for location services."
                                                                 message:@"Grant access from Settings/Privacy/Location Services to get route searches from current location (which makes your life way easier BTW)."
-                                                               delegate:nil
+                                                               delegate:self
                                                       cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
+                                                      otherButtonTitles:@"Settings", nil];
+            alertView.tag = 1243;
             [alertView show];
         }
         
@@ -710,50 +712,6 @@ typedef enum
         [self performSegueWithIdentifier: @"searchToAddress" sender: self];
     }
 }
-/*
-- (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
-    //Show segment control if there is no text in seach field
-    if (thisSearchBar.text == nil || [thisSearchBar.text isEqualToString:@""]){
-        //[self hideSuggestionTableView:YES animated:YES];
-    }
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    isFinalSearch = NO;
-    if (searchText.length > 2){
-        [reittiDataManager searchAddressesForKey:searchText];
-        unRespondedRequestsCount++;
-    }else if(searchText.length > 0) {
-        dataToLoad = [self searchFromBookmarkAndHistoryForKey:searchText];
-        [searchSuggestionsTableView reloadData];
-    }else {
-        //Load bookmarks and history
-        [self setUpMergedInitialSearchView:YES];
-    }
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    isFinalSearch = YES;
-    if (searchBar.text.length > 2){
-        [reittiDataManager searchAddressesForKey:searchBar.text];
-        unRespondedRequestsCount++;
-        [searchActivityIndicator startAnimating];
-    }
-    else {
-        dataToLoad = [ self searchFromBookmarkAndHistoryForKey:searchBar.text];
-        [searchSuggestionsTableView reloadData];
-        
-        //Message that search term is short
-        if (isFinalSearch) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"At least 3 letters, that's the rule."                                                                                      message:@"The search term is too short. Minimum length is 3."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        }
-    }
-}
-*/
 
 #pragma mark - route search delegates
 - (void)routeSearchDidComplete:(NSArray *)searchedRouteList{
@@ -1014,19 +972,10 @@ typedef enum
             
             //durations
             UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
-            durationLabel.attributedText = [ReittiStringFormatter formatAttributedDurationString:[route.routeDurationInSeconds integerValue] withFont:durationLabel.font];
-//            durationLabel.text = [NSString stringWithFormat:@"%d", (int)([route.routeDurationInSeconds integerValue]/60)];
+            NSInteger duration = [route.routeDurationInSeconds integerValue];
+            durationLabel.attributedText = [ReittiStringFormatter formatAttributedDurationString:duration withFont:durationLabel.font];
             
-//            UILabel *walkingDistLabel = (UILabel *)[cell viewWithTag:2004];
             CGFloat walkingKm = route.getTotalWalkLength/1000.0;
-            
-//            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-//            
-//            [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-//            
-//            [formatter setMaximumFractionDigits:2];
-//            
-//            [formatter setRoundingMode: NSNumberFormatterRoundUp];
             
             NSString *numberString = [ReittiStringFormatter formatRoundedNumberFromDouble:walkingKm roundDigits:2 androundUp:YES];
             
@@ -1168,31 +1117,11 @@ typedef enum
     CGFloat longestDuration = 0.0;
     CGFloat totalDuration = 0.0;
     for (Route *route in routes) {
-        if ([route.routeDurationInSeconds floatValue] > longestDuration) {
+        if ([route.routeDurationInSeconds floatValue] > longestDuration)
             longestDuration = [route.routeDurationInSeconds floatValue];
-        }
+
         totalDuration += [route.routeDurationInSeconds floatValue];
     }
-    
-    /*
-    //Adjust so that each none walking leg is longer than 30
-    CGFloat largestMultiplier = 1.0;
-    for (Route *route in routes) {
-        for (RouteLeg *leg in route.routeLegs) {
-            if (leg.legType != LegTypeWalk) {
-                CGFloat tWidth = *totalWidth_p * (([leg.legDurationInSeconds floatValue] - leg.waitingTimeInSeconds)/longestDuration);
-                if (tWidth < 30) {
-                    if (largestMultiplier < 30/tWidth) {
-                        largestMultiplier = 30/tWidth;
-                    }
-                }
-            }
-        }
-    }
-    
-    *totalWidth_p = *totalWidth_p * largestMultiplier;
-    
-    */
     
     //Adjust so that there is no one long route and the others are made very short to fit the longest.
     CGFloat meanDuration;
@@ -1310,6 +1239,13 @@ typedef enum
 //    if (scrollView.contentOffset.y + scrollView.frame.size.height < scrollView.contentSize.height - 150) {
 //        [self hideToolBar:YES animated:YES];
 //    }
+}
+
+#pragma mark - UIAlertView delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 1243) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }
 }
 
 #pragma mark - address search view controller

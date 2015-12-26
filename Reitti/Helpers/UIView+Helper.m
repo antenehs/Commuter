@@ -7,6 +7,7 @@
 //
 
 #import "UIView+Helper.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation UIView (Helper)
 
@@ -36,6 +37,16 @@
         self.frame = origFrame;
     } completion:^(BOOL finished) {
     }];
+}
+
+- (UIImage *)asa_convertToImage{
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0.0f);
+    
+    [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:NO];
+    UIImage * snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return snapshotImage;
 }
 
 @end

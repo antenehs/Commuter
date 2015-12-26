@@ -85,14 +85,11 @@
     mapView = [[MKMapView alloc] init];
     mapView.delegate = self;
     
-//    [self setStopViewApearance];
     [self initNotifications];
     
-    [self setUpMainView];
-//    [self setUpLoadingView];
-    //    [SVProgressHUD showHUDInView:self.view];
-    
     [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
+    
+    [self setUpMainView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -162,6 +159,16 @@
     
     [departuresTable reloadData];
     [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    
+    @try { //Number conversions could be problematic
+        NSNumber *codeNumber = [NSNumber numberWithInteger:[self.stopCode integerValue]];
+        if ([self.reittiDataManager isBusStopSavedWithCode:codeNumber]) {
+            [self setStopBookmarkedState];
+        }else{
+            [self setStopNotBookmarkedState];
+        }
+    }
+    @catch (NSException *exception) {}
 }
 
 - (void)setUpMapViewForBusStop{
@@ -266,7 +273,8 @@
         if (buttonIndex == 0) {
             
             [self setStopNotBookmarkedState];
-            [self.reittiDataManager deleteSavedStopForCode:self._busStop.code];
+            NSNumber *codeNumber = self._busStop ? self._busStop.code : [NSNumber numberWithInteger:[self.stopCode integerValue]];
+            [self.reittiDataManager deleteSavedStopForCode:codeNumber];
             [delegate deletedSavedStop:self.stopEntity];
         }
     }else{
@@ -645,9 +653,10 @@
     stopFetched = YES;
     if (stop != nil) {
         self._busStop = stop;
-        [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
         
         [self setUpStopViewForBusStop:self._busStop];
+        
+        [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
     }
 }
 

@@ -344,6 +344,12 @@
 		66822F6F1C28C65400511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
 		66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
 		66822F711C28C65500511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
+		66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F761C29999E00511BD2 /* ReittiSearchManager.m */; };
+		66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F791C29EE1D00511BD2 /* UIImage+Helper.m */; };
+		66822F7C1C29F50900511BD2 /* go-from-here-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F7B1C29F50900511BD2 /* go-from-here-100.png */; };
+		66822F7F1C2B6C4000511BD2 /* NSObject+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */; };
+		66822F801C2B6C4100511BD2 /* NSObject+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */; };
+		66822F811C2B6C4100511BD2 /* NSObject+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */; };
 		6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */; };
 		6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */; };
 		6682D2491ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */; };
@@ -1137,6 +1143,13 @@
 		66822F6A1C286E4700511BD2 /* reload-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reload-128.png"; path = "Pictures/version 4.1/reload-128.png"; sourceTree = "<group>"; };
 		66822F6E1C28C65400511BD2 /* notification-tone-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "notification-tone-100.png"; path = "Pictures/version 4.1/notification-tone-100.png"; sourceTree = "<group>"; };
 		66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 14.xcdatamodel"; sourceTree = "<group>"; };
+		66822F751C29999E00511BD2 /* ReittiSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiSearchManager.h; sourceTree = "<group>"; };
+		66822F761C29999E00511BD2 /* ReittiSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiSearchManager.m; sourceTree = "<group>"; };
+		66822F781C29EE1D00511BD2 /* UIImage+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Helper.h"; path = "Helpers/UIImage+Helper.h"; sourceTree = "<group>"; };
+		66822F791C29EE1D00511BD2 /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Helper.m"; path = "Helpers/UIImage+Helper.m"; sourceTree = "<group>"; };
+		66822F7B1C29F50900511BD2 /* go-from-here-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "go-from-here-100.png"; path = "Pictures/version 4.1/go-from-here-100.png"; sourceTree = "<group>"; };
+		66822F7D1C2B6C4000511BD2 /* NSObject+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Helper.h"; path = "Helpers/NSObject+Helper.h"; sourceTree = "<group>"; };
+		66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Helper.m"; path = "Helpers/NSObject+Helper.m"; sourceTree = "<group>"; };
 		6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sitting-filled-grey-64.png"; path = "Pictures/Version 2.3/sitting-filled-grey-64.png"; sourceTree = "<group>"; };
 		6682D2441ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white2-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white2-100.png"; sourceTree = "<group>"; };
 		6682D2451ACE34B900F6DDF7 /* alarm-clock-filled-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alarm-clock-filled-white-100.png"; path = "Pictures/Version 2.3/alarm-clock-filled-white-100.png"; sourceTree = "<group>"; };
@@ -1629,6 +1642,7 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66822F7B1C29F50900511BD2 /* go-from-here-100.png */,
 				66822F6E1C28C65400511BD2 /* notification-tone-100.png */,
 				66822F6A1C286E4700511BD2 /* reload-128.png */,
 				66822F5C1C2451D800511BD2 /* collapse-arrow-gray.png */,
@@ -2195,6 +2209,10 @@
 				6674089A1C1C59AE00C1E34A /* UIView+Helper.m */,
 				661AB3AC1C22E2E20061E1F6 /* UIButton+Helper.h */,
 				661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */,
+				66822F781C29EE1D00511BD2 /* UIImage+Helper.h */,
+				66822F791C29EE1D00511BD2 /* UIImage+Helper.m */,
+				66822F7D1C2B6C4000511BD2 /* NSObject+Helper.h */,
+				66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2526,6 +2544,8 @@
 				66CA02D11C16FEB000A38858 /* AppManagerBase.m */,
 				6665D7451C088FFB00ACCC3A /* ReittiAppShortcutManager.h */,
 				6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */,
+				66822F751C29999E00511BD2 /* ReittiSearchManager.h */,
+				66822F761C29999E00511BD2 /* ReittiSearchManager.m */,
 				660FB22B1B38B0F2009C30BF /* DroppedPinManager.h */,
 				660FB22C1B38B0F2009C30BF /* DroppedPinManager.m */,
 				661202AE1AFFC12900D93C2E /* RouteViewManager.h */,
@@ -3351,6 +3371,7 @@
 				66F1384D1997897700B52B6B /* train-100.png in Resources */,
 				660FB2381B39E242009C30BF /* disruptions-color-100.png in Resources */,
 				660CFE091C188FD8004D73FC /* Back-light-100.png in Resources */,
+				66822F7C1C29F50900511BD2 /* go-from-here-100.png in Resources */,
 				66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */,
 				6665D7751C0CA6B200ACCC3A /* work-black-50.png in Resources */,
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
@@ -3687,6 +3708,7 @@
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
+				66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */,
 				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
@@ -3732,6 +3754,7 @@
 				661202C51B04F5B200D93C2E /* LiveTrafficManager.m in Sources */,
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
+				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
@@ -3750,6 +3773,7 @@
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
+				66822F7F1C2B6C4000511BD2 /* NSObject+Helper.m in Sources */,
 				660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */,
 				661090C71B36D037003F2688 /* LinesTableViewController.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,
@@ -3858,6 +3882,7 @@
 				66CA03281C17466E00A38858 /* ASABubbleView.m in Sources */,
 				660CFE351C19BA4F004D73FC /* HSLandTRECommonApiClient.m in Sources */,
 				6674089C1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
+				66822F811C2B6C4100511BD2 /* NSObject+Helper.m in Sources */,
 				66CA03361C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				661AB3B01C22E2E30061E1F6 /* UIButton+Helper.m in Sources */,
 				660CFE311C19B81A004D73FC /* RouteLegE.m in Sources */,
@@ -3880,6 +3905,7 @@
 				660CFE1A1C19A168004D73FC /* TREAPIClient.m in Sources */,
 				660CFE161C19A157004D73FC /* HSLAPIClient.m in Sources */,
 				660CFE2E1C19B81A004D73FC /* RouteLegLocationE.m in Sources */,
+				66822F801C2B6C4100511BD2 /* NSObject+Helper.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66CA02D31C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66822F671C24695900511BD2 /* StopLine.m in Sources */,

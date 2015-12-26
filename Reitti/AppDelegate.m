@@ -13,6 +13,8 @@
 #import "TravelCardManager.h"
 #import "ReittiRemindersManager.h"
 #import "ReittiAppShortcutManager.h"
+#import "ReittiSearchManager.h"
+#import <CoreSpotlight/CoreSpotlight.h>
 
 @implementation AppDelegate
 
@@ -99,11 +101,13 @@
         return YES;
     }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:MoreBookmarksShortcutType]]){
         tabBarController.selectedIndex = 2;
+        return YES;
     }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:AddBookmarkShortcutType]]){
         tabBarController.selectedIndex = 2;
         UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
         BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
         [controller openAddBookmarkController];
+        return YES;
     }
     
     return NO;
@@ -206,6 +210,76 @@
     return NO;
 }
 
+-(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
+    NSLog(@"UserInfo: %@", userActivity.userInfo);
+    if ([userActivity.activityType isEqualToString:CSSearchableItemActionType]) {
+        NSString *uniqueIdentifier = userActivity.userInfo[CSSearchableItemActivityIdentifier];
+        switch ([ReittiSearchManager spotlightObjectTypeForIdentifier:uniqueIdentifier]) {
+            case SearchableNamedBookmarkType:
+                [self openRouteForNamedBookmarkNamed:[ReittiSearchManager uniqueObjectNameForIdentifier:uniqueIdentifier]];
+                break;
+                
+            case SearchableSavedStopType:
+                [self openStopDetailForStopWithCode:[ReittiSearchManager uniqueObjectNameForIdentifier:uniqueIdentifier]];
+                break;
+                
+            case SearchableSavedRouteType:
+                [self openRouteForSavedRouteNamed:[ReittiSearchManager uniqueObjectNameForIdentifier:uniqueIdentifier]];
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    return YES;
+}
+
+-(void)openRouteForNamedBookmarkNamed:(NSString *)bookmarkName{
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
+    
+    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+    
+    if (tabBarController.selectedIndex != 0) {
+        tabBarController.selectedIndex = 0;
+    }
+    
+    [controller.navigationController popToRootViewControllerAnimated:NO];
+    [controller openRouteViewToNamedBookmarkNamed:bookmarkName];
+}
+
+-(void)openRouteForSavedRouteNamed:(NSString *)routeUniqueName{
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
+    
+    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+    
+    if (tabBarController.selectedIndex != 0) {
+        tabBarController.selectedIndex = 0;
+    }
+    
+    [controller.navigationController popToRootViewControllerAnimated:NO];
+    [controller openRouteViewForSavedRouteWithName:routeUniqueName];
+}
+
+-(void)openStopDetailForStopWithCode:(NSString *)stopCode{
+    if (!stopCode)
+        return;
+    
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
+    
+    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+    
+    if (tabBarController.selectedIndex != 0) {
+        tabBarController.selectedIndex = 0;
+    }
+    
+    [controller.navigationController popToRootViewControllerAnimated:NO];
+    [controller openStopViewForCode:stopCode];
+}
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     UIApplicationState applicationState = application.applicationState;
@@ -221,16 +295,14 @@
     }
 }
 
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    
-//}
 
 -(void)searchRouteFromRoutineNotification:(UILocalNotification *)locationNotification{
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController * routeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:1];
     
     RouteSearchViewController *routeViewController = (RouteSearchViewController *)[[routeViewNavController viewControllers] firstObject];
+    
+    tabBarController.selectedIndex = 1;
     
     if (routeViewController.isViewLoaded) {
         [routeViewController searchRouteForFromLocation:locationNotification.userInfo[kRoutineNotificationFromName]
@@ -243,8 +315,6 @@
         routeViewController.prevToLocation = locationNotification.userInfo[kRoutineNotificationToName];
         routeViewController.prevToCoords = locationNotification.userInfo[kRoutineNotificationToCoords];
     }
-    
-    tabBarController.selectedIndex = 1;
 }
 
 -(void)getAndInitHomeViewController{
