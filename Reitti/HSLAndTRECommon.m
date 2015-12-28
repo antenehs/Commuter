@@ -208,7 +208,7 @@
     if (!_dateFormatter) {
         
         _dateFormatter = [[NSDateFormatter alloc] init];
-        [_dateFormatter setDateFormat:@"YYYYMMdd"];
+        [_dateFormatter setDateFormat:@"yyyyMMdd"];
     }
     
     return _dateFormatter;
@@ -218,7 +218,7 @@
     if (!_fullDateFormatter) {
         
         _fullDateFormatter = [[NSDateFormatter alloc] init];
-        [_fullDateFormatter setDateFormat:@"YYYYMMdd HHmm"];
+        [_fullDateFormatter setDateFormat:@"yyyyMMdd HHmm"];
     }
     
     return _fullDateFormatter;

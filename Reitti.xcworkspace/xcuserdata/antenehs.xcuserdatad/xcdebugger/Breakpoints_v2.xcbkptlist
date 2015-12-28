@@ -3808,7 +3808,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/APIClient.m"
@@ -4771,13 +4771,13 @@
                   symbolName = "-[RettiDataManager fetchStopsForCode:andCoords:withCompletionBlock:]"
                   moduleName = "Reitti"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter%20v4.1/Reitti/RettiDataManager.m"
-                  timestampString = "472608294.017361"
+                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter%20v4.1_BACKUP%202/Reitti/RettiDataManager.m"
+                  timestampString = "472957885.341267"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "368"
                   endingLineNumber = "368"
-                  offsetFromSymbolStart = "212">
+                  offsetFromSymbolStart = "221">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -4786,13 +4786,13 @@
                   symbolName = "__68-[RettiDataManager fetchStopsForCode:andCoords:withCompletionBlock:]_block_invoke"
                   moduleName = "Reitti"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter%20v4.1/Reitti/RettiDataManager.m"
-                  timestampString = "472608294.017792"
+                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter%20v4.1_BACKUP%202/Reitti/RettiDataManager.m"
+                  timestampString = "472957885.341525"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "368"
                   endingLineNumber = "368"
-                  offsetFromSymbolStart = "72">
+                  offsetFromSymbolStart = "67">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -7152,7 +7152,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/Helpers/NSObject+Helper.m"
@@ -7226,6 +7226,38 @@
             startingLineNumber = "107"
             endingLineNumber = "107"
             landmarkName = "-viewDidAppear:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/HSLAndTRECommon.m"
+            timestampString = "472956060.769595"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "-searchRouteForFromCoords:andToCoords:withOptionsDictionary:andCompletionBlock:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/HSLCommunication.m"
+            timestampString = "472957670.112212"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-apiRequestParametersDictionaryForRouteOptions:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
