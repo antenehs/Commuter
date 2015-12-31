@@ -34,14 +34,30 @@
     [self initDataManagerIfNull];
     [self initBounds];
     
-    [self setTitle:self.staticRoute.shortName];
-    nameLabel.text = self.staticRoute.longName;
-    
     bottomTabBarView.layer.borderColor = [UIColor grayColor].CGColor;
     bottomTabBarView.layer.borderWidth = 0.5f;
     
-    [self.reittiDataManager fetchLineInfoForCodeList:self.staticRoute.code];
-    [SVProgressHUD show];
+//    [self.reittiDataManager fetchLineInfoForCodeList:self.staticRoute.code];
+//    [SVProgressHUD show];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self setUpViewForLine];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
+-(void)setUpViewForLine{
+    if (self.line) {
+        [self setTitle:self.line.codeShort];
+        nameLabel.text = self.line.name;
+        
+        [self drawLineOnMap];
+        [self plotStopAnnotation];
+        [self centerMapRegionToViewRoute];
+    }else{
+        [self lineSearchDidFail:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -250,7 +266,7 @@
         NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line reterned");
     }
     
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     
     self.line = [lines objectAtIndex:0];
     [self drawLineOnMap];
@@ -259,8 +275,9 @@
 }
 
 -(void)lineSearchDidFail:(NSString *)error{
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     [ReittiNotificationHelper showErrorBannerMessage:@"Fetching line detail failed" andContent:nil];
+    [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@3];
     [self performSelector:@selector(popViewController) withObject:nil afterDelay:2];
 }
 

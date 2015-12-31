@@ -64,6 +64,8 @@
     }else{
         [self.navigationItem setTitle:@"Add Routine"];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -211,7 +213,9 @@
         //TODO: Check if routine does not exist
         [self.remindersManager saveRoutineToCoreData:routine];
         
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSavedRoutine label:nil value:nil];
+        }];
     }
 }
 

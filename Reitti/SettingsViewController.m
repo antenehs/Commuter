@@ -10,6 +10,7 @@
 #import "RettiDataManager.h"
 #import "WidgetSettingsViewController.h"
 #import "SearchController.h"
+#import "AppManager.h"
 
 NSInteger kHistoryCleaningDaysSelectionViewControllerTag = 1001;
 NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
@@ -28,9 +29,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    if (![self isModalMode]) {
-        self.navigationItem.leftBarButtonItem = nil;
-    }
+//    self.advancedSettingsMode = YES;
     
     if (settingsManager == nil) {
         UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
@@ -38,10 +37,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         
         self.settingsManager = homeViewController.settingsManager;
     }
-    
-    
-    [self InitMap];
-    mainTableView.backgroundColor = [UIColor clearColor];
     
     dayNumbers = @[@1, @5, @10, @15, @30, @90, @180, @365];
     dayStrings = @[@"1 day", @"5 days", @"10 days", @"15 days", @"30 days", @"3 months", @"6 months", @"1 year"];
@@ -51,42 +46,83 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     regionIncludingCities = @[@"Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo.",
                               @"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi"];
     
-    [self setRowAndSectionValues];
-    [mainTableView reloadData];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [mainTableView reloadData];
+    [self setUpViewForTheMode];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(void)setRowAndSectionValues{
     //Map section
     NSInteger sectionNumber = 0;
     
-    //----------
-    mapSectionNumberOfRows = 0;
-    mapTypeRow = mapSectionNumberOfRows++;
-    liveVehiclesRow = mapSectionNumberOfRows++;
-    
-    mapSettingsSection = sectionNumber++;
-    
-    //-----------
-    wigetSectionNumberOfRows = 0;
-    departuresWidgetRow = wigetSectionNumberOfRows++;
-    
-    widgetSettingSection = sectionNumber++;
-    
-    //-----------
-    otherSettingsNumberOfRows = 0;
-    routeSearchOptionRow = otherSettingsNumberOfRows++;
-    toneSelectorRow = otherSettingsNumberOfRows++;
-    clearHistoryRow = otherSettingsNumberOfRows++;
-    clearHistoryDaysRow = otherSettingsNumberOfRows++;
-    locationRow = otherSettingsNumberOfRows++;
-    
-    otherSettingsSection = sectionNumber++;
+    if (!self.advancedSettingsMode) {
+        //----------
+        mapSectionNumberOfRows = 0;
+        mapTypeRow = mapSectionNumberOfRows++;
+        liveVehiclesRow = mapSectionNumberOfRows++;
+        
+        mapSettingsSection = sectionNumber++;
+        
+        //-----------
+        wigetSectionNumberOfRows = 0;
+        departuresWidgetRow = wigetSectionNumberOfRows++;
+        
+        widgetSettingSection = sectionNumber++;
+        
+        //-----------
+        otherSettingsNumberOfRows = 0;
+        routeSearchOptionRow = otherSettingsNumberOfRows++;
+        toneSelectorRow = otherSettingsNumberOfRows++;
+        clearHistoryRow = otherSettingsNumberOfRows++;
+        clearHistoryDaysRow = otherSettingsNumberOfRows++;
+        
+        otherSettingsSection = sectionNumber++;
+        
+        //-----------
+        advancedSectionNumberOfRows = 0;
+        advancedSetttingsRow = advancedSectionNumberOfRows++;
+        
+        advancedSettingSection = sectionNumber++;
+        
+        advancedModeNumberOfRows = -1;
+    }else{
+        advancedModeNumberOfRows = 0;
+        locationRow = advancedModeNumberOfRows++;
+        trackingOptionRow = advancedModeNumberOfRows++;
+        
+        advancedModeSection = sectionNumber++;
+        mapSettingsSection = widgetSettingSection = otherSettingsSection = advancedSettingSection = -1;
+    }
     
     numberOfSections = sectionNumber;
+}
+
+- (void)setUpViewForTheMode{
+    if (![self isModalMode]) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }else{
+        if (self.advancedSettingsMode) {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
+    }
+    
+    [self InitMap];
+    mainTableView.backgroundColor = [UIColor clearColor];
+    
+    if (self.advancedSettingsMode) {
+        self.title = @"ADVANCED";
+    }else{
+        self.title = @"SETTINGS";
+    }
+    
+    [self setRowAndSectionValues];
+    [mainTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,6 +160,10 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         return wigetSectionNumberOfRows;
     }else if (section == otherSettingsSection) {
         return otherSettingsNumberOfRows;
+    }else if (section == advancedSettingSection){
+        return advancedSectionNumberOfRows;
+    }else if (section == advancedModeSection){
+        return advancedModeNumberOfRows;
     }
     
     return 0;
@@ -183,7 +223,13 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
                 titleLabel.textColor = [UIColor lightGrayColor];
                 selectedLabel.textColor = [UIColor lightGrayColor];
             }
-        }else{
+        }
+    }else if (indexPath.section == advancedSettingSection){
+        if (indexPath.row == advancedSetttingsRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"advancedSettingCell"];
+        }
+    }else if (indexPath.section == advancedModeSection){
+        if (indexPath.row == locationRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
             UILabel *label = (UILabel *)[cell viewWithTag:1001];
             if ([settingsManager userLocation] < regionOptionNumbers.count) {
@@ -193,22 +239,26 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
             }else{
                 label.text = @"Unknown";
             }
+        }else if (indexPath.row == trackingOptionRow){
+            cell = [tableView dequeueReusableCellWithIdentifier:@"trackingCell"];
+            UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
+            uiSwitch.on = [SettingsManager isAnalyticsEnabled];
         }
     }
-//        else if (indexPath.section == 4){
-//        cell = [tableView dequeueReusableCellWithIdentifier:@"rateAppCell"];
-//    }else{
-//        cell = [tableView dequeueReusableCellWithIdentifier:@"versionInfoCell"];
-//    }
     
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == otherSettingsSection)
-        return 50;
-    else
-        return 0;
+    
+    if (!self.advancedSettingsMode) {
+        if (section == advancedSettingSection)
+            return 50;
+        else
+            return 0;
+    }else{
+        return 100;
+    }
 }
 
 //-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
@@ -220,11 +270,42 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 //    return @"";
 //}
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    if (section == advancedModeSection && trackingOptionRow > -1 && self.advancedSettingsMode) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 70)];
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40, 50)];
+        textLabel.font = [textLabel.font fontWithSize:10];
+        textLabel.textColor = [UIColor darkGrayColor];
+        textLabel.numberOfLines = 0;
+        textLabel.textAlignment = NSTextAlignmentCenter;
+        textLabel.text = @"Commuter collects totally anonymous feature usage data that cannot be liked to you in any way";
+        
+        UIButton *moreInfoButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 100)/2, 45, 100, 20)];
+        moreInfoButton.titleEdgeInsets = UIEdgeInsetsMake(3, 0, 3, 0);
+        [moreInfoButton setTitle:@"Learn more" forState:UIControlStateNormal];
+        [moreInfoButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+        [moreInfoButton addTarget:self action:@selector(showTrackingInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        moreInfoButton.tintColor = [AppManager systemGreenColor];
+        [moreInfoButton setTitleColor:[AppManager systemGreenColor] forState:UIControlStateNormal];
+        [view addSubview:moreInfoButton];
+        
+        [view addSubview:textLabel];
+        
+        return view;
+    }
+    
+    return nil;
+}
+
 #pragma mark - IBActions
 - (IBAction)closeButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
         [delegate settingsValueChanged];
     }];
+}
+
+- (IBAction)showTrackingInfoButtonPressed:(id)sender{
+    [self performSegueWithIdentifier:@"showTrackingInfo" sender:self];
 }
 
 - (IBAction)mapModeChanged:(id)sender {
@@ -248,12 +329,16 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         default:
             break;
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedMapMode label:nil value:nil];
 }
 
 - (IBAction)showLiveVehicleSwitchValueChanged:(id)sender {
     UISwitch *uiSwith = (UISwitch *)sender;
     [settingsManager showLiveVehicle:uiSwith.isOn];
     [mainTableView reloadData];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedLiveVehicleOption label:uiSwith.isOn ? @"On" : @"Off" value:nil];
 }
 
 - (IBAction)historyClearingSwitchValueChanged:(id)sender {
@@ -261,6 +346,14 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     [settingsManager enableClearingOldHistory:uiSwith.isOn];
     [mainTableView reloadData];
 }
+
+- (IBAction)featureTrackingOptionChanged:(id)sender {
+    UISwitch *uiSwith = (UISwitch *)sender;
+    [SettingsManager enableAnalytics:uiSwith.isOn];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedAnalyticsOption label:uiSwith.isOn ? @"On" : @"Off" value:nil];
+}
+
 
 - (IBAction)rateAppCellPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
@@ -270,6 +363,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 -(void)selectedTone:(NSString *)selectedTone{
     [self.settingsManager setToneName:selectedTone];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedReminderTone label:selectedTone value:nil];
 }
 
 #pragma mark - Single select table view delegate methods
@@ -285,8 +380,10 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 -(void)selectedIndex:(NSInteger)selectedIndex senderViewControllerIndex:(NSInteger)viewControllerIndex{
     if (viewControllerIndex == kHistoryCleaningDaysSelectionViewControllerTag) {
         [settingsManager setNumberOfDaysToKeepHistory:[dayNumbers[selectedIndex] intValue]];
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedHistoryCleaningDay label:dayStrings[selectedIndex] value:nil];
     }else{
         [settingsManager setUserLocation:(Region)selectedIndex];
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedUserLocation label:nil value:nil];
     }
 }
 
@@ -315,17 +412,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     }
     
     return regionsData;
-    
-//    NSMutableDictionary *hslRegion = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:HSLRegion] forKey:kSSDataValueKey];
-//    [hslRegion setObject:@"Helsinki Region" forKey:kSSDataDisplayTextKey];
-//    [hslRegion setObject:@"Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo." forKey:kSSDataSubtitleTextKey];
-//    
-//    NSMutableDictionary *treRegion = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:TRERegion] forKey:kSSDataValueKey];
-//    [treRegion setObject:@"Tampere Region" forKey:kSSDataDisplayTextKey];
-//    [treRegion setObject:@"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi" forKey:kSSDataSubtitleTextKey];
-//    
-//    return [NSArray arrayWithObjects:hslRegion,treRegion, nil];
-    
 }
 
 -(NSArray *)constructHistoryDatesArray{
@@ -392,6 +478,23 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         
         toneSelectorController.delegate = self;
         toneSelectorController.selectedTone = [settingsManager toneName];
+    }
+    
+    if ([segue.identifier isEqualToString:@"showAdvancedSettings"]) {
+        SettingsViewController *settingsController = (SettingsViewController *)[segue destinationViewController];
+        
+        settingsController.advancedSettingsMode = YES;
+        settingsController.settingsManager = self.settingsManager;
+    }
+    
+    if ([segue.identifier isEqualToString:@"showTrackingInfo"]) {
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        WebViewController *webViewController = (WebViewController *)[navController.viewControllers lastObject];
+        NSURL *url = [NSURL URLWithString:@"http://ewketapps.weebly.com/commuter-usage-tracking.html"];
+        
+        webViewController.modalMode = YES;
+        webViewController._url = url;
+        webViewController._pageTitle = @"Feature Tracking";
     }
 
 }

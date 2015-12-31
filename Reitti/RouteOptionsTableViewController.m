@@ -102,6 +102,8 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [self.navigationItem setTitle:@"ROUTE OPTIONS"];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -412,6 +414,8 @@
     settingsChanged = YES;
     rememberOptionsButton.enabled = YES;
     resetOptionsButton.enabled = YES;
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedRouteSearchOption label:@"All" value:nil];
 }
 - (void)saveOpitionsToGlobalSettings {
     if (globalSettingsMode && settingsChanged) {

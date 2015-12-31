@@ -12,43 +12,60 @@
 #import "EnumManager.h"
 #import "AppManager.h"
 #import "LineDetailViewController.h"
+#import "CoreDataManager.h"
+#import "ASA_Helpers.h"
+#import "Line.h"
+#import "LinesManager.h"
+#import "ReittiStringFormatter.h"
 
 @interface LinesTableViewController ()
+
+@property (nonatomic, strong) NSArray *lineCodesFromSavedStops;
+@property (nonatomic, strong) NSArray *lineCodesFromNearbyStops;
 
 @end
 
 @implementation LinesTableViewController
 
-@synthesize busLines, trainLines, tramLines, ferryLines, metroLines, allLines;
+//@synthesize busLines, trainLines, tramLines, ferryLines, metroLines, allLines;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
+    
+    linesFromStopsRequested = linesFromNearByStopsRequested = wasShowingLineDetail = NO;
+    
+    [self initDataManagers];
+    
+    self.searchedLines = [@[] mutableCopy];
+    self.linesFromSavedStops = [@[] mutableCopy];
+    self.linesFromNearStops = [@[] mutableCopy];
+    
+//    [self fetchInitialData];
     
     [self setUpMainView];
     
-    self.busLines = [[NSMutableArray alloc] init];
-    self.ferryLines = [[NSMutableArray alloc] init];
-    self.metroLines = [[NSMutableArray alloc] init];
-    self.tramLines = [[NSMutableArray alloc] init];
-    self.trainLines = [[NSMutableArray alloc] init];
-    
-    self.allLines = [[CacheManager sharedManager] allInMemoryUniqueRouteList];
-    
-    [self groupLinesByType:allLines];
-    
-    [self.tableView reloadData];
-    
     scrollingShouldResignFirstResponder = YES;
     tableIsScrolling = NO;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    if (!wasShowingLineDetail) {
+        [self fetchInitialData];
+        
+        [self.tableView reloadData];
+    }else{
+        wasShowingLineDetail = NO;
+    }
     
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setTableBackgroundView];
+    [self setNavBarSize];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,43 +73,50 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(NSArray *)lineCodesFromSavedStops{
+    return [[LinesManager sharedManager] getLineCodesFromSavedStops];
+}
+
+#pragma mark - init components methods
+-(void)initDataManagers{
+    self.reittiDataManager = [[RettiDataManager alloc] init];
+    
+    SettingsManager *settingManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    [self.reittiDataManager setUserLocationToRegion:[settingManager userLocation]];
+}
+
 #pragma mark - view methods
 -(void)setUpMainView{
     [self setTitle:@"Lines"];
+    
     [self setTableBackgroundView];
     
-    //Set search bar text color
-    for (UIView *subView in addressSearchBar.subviews)
-    {
-        for (UIView *secondLevelSubview in subView.subviews){
-            if ([secondLevelSubview isKindOfClass:[UITextField class]])
-            {
-                UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                
-                //set font color here
-                searchBarTextField.textColor = [UIColor whiteColor];
-                
-                break;
-            }
-        }
-    }
+    [self setNavBarSize];
     
+    //Set search bar text color
+    [addressSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
+    [addressSearchBar setImage:[UIImage imageNamed:@"search-icon-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+
     addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
+    
+    searchActivityIndicator.circleLayer.lineWidth = 1.5;
+    searchActivityIndicator.circleLayer.strokeColor = [UIColor lightTextColor].CGColor;
+    searchActivityIndicator.alternatingColors = nil;
+    
+    [self.tableView reloadData];
+}
+
+- (void)setNavBarSize {
+    CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
+    UIView *titleView = self.navigationItem.titleView;
+    CGRect titleViewFrame = titleView.frame;
+    titleViewFrame.size.width = navigationBarSize.width;
+    self.navigationItem.titleView.frame = titleViewFrame;
 }
 
 - (void)setTableBackgroundView {
-    UIView *bluredBackViewContainer = [[UIView alloc] initWithFrame:self.view.bounds];
-    bluredBackViewContainer.backgroundColor = [UIColor whiteColor];
-    UIImageView *mapImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_background.png"]];
-    mapImageView.frame = bluredBackViewContainer.frame;
-    mapImageView.alpha = 0.5;
-    AMBlurView *blurView = [[AMBlurView alloc] initWithFrame:bluredBackViewContainer.frame];
     
-    [bluredBackViewContainer addSubview:mapImageView];
-    [bluredBackViewContainer addSubview:blurView];
-    
-    self.tableView.backgroundView = bluredBackViewContainer;
-    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.tableView setBlurredBackgroundWithImageNamed:nil];
 }
 
 #pragma mark - search bar methods
@@ -104,89 +128,173 @@
         scrollingShouldResignFirstResponder = YES;
     }
     
+    if (searchBar.text.length == 0) {
+        //TODO: Setup initial view
+    }
+    
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
     //Show segment control if there is no text in seach field
     if (thisSearchBar.text == nil || [thisSearchBar.text isEqualToString:@""]){
-        //List all
+        //TODO: Setup initial view
     }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSMutableArray *searched = [self searchForLinesForString:searchText];
-    [self groupLinesByType:searched];
+//    NSMutableArray *searched = [self searchForLinesForString:searchText];
+//    [self groupLinesByType:searched];
     
-    [self.tableView reloadData];
+    [self searchLinesForSearchtext:searchText];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-   
+    
+}
+
+#pragma mark - search methods
+
+- (void)searchLinesForSearchtext:(NSString *)searchText{
+    
+    [searchActivityIndicator beginRefreshing];
+    [self.reittiDataManager fetchLinesForSearchTerm:searchText withCompletionBlock:^(NSArray *lines, NSString* searchTerm, NSString *error){
+        if (!error) {
+            self.searchedLines = [lines mutableCopy];
+            [self.tableView reloadData];
+        }else{
+            self.searchedLines = [@[] mutableCopy];
+            [self.tableView reloadData];
+        }
+        
+        if ([searchTerm isEqualToString:addressSearchBar.text])
+            [searchActivityIndicator endRefreshing];
+    }];
+}
+
+-(void)fetchInitialData{
+    if (self.lineCodesFromSavedStops.count > 0) {
+        linesFromStopsRequested = YES;
+        
+//        NSString *codes = [ReittiStringFormatter commaSepStringFromArray:self.lineCodesFromSavedStops withSeparator:@"|"];
+//        
+//        [self.reittiDataManager fetchLinesForSearchTerm:codes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+//            if (!errorString) {
+//                self.linesFromSavedStops = [[self filterInvalidLines:lines] mutableCopy];
+//            }else{
+//                self.linesFromSavedStops = [@[] mutableCopy];
+//            }
+//            
+//            linesFromStopsRequested = NO;
+//            [self.tableView reloadData];
+//        }];
+        
+        [self fetchLinesForCodes:self.lineCodesFromSavedStops WithCompletionBlock:^(NSArray *lines){
+            self.linesFromSavedStops = [lines mutableCopy];
+            
+            linesFromStopsRequested = NO;
+            [self.tableView reloadData];
+        }];
+    }
+    
+    linesFromNearByStopsRequested = YES;
+    [[LinesManager sharedManager] getLineCodesFromNearByStopsWithCompletionBlock:^(NSArray *lineCodes){
+        if (lineCodes.count > 0) {
+            [self fetchLinesForCodes:lineCodes WithCompletionBlock:^(NSArray *lines){
+                self.linesFromNearStops = [lines mutableCopy];
+                
+                linesFromNearByStopsRequested = NO;
+                [self.tableView reloadData];
+            }];
+        }
+    }];
+}
+
+-(void)fetchLinesForCodes:(NSArray *)lineCodes WithCompletionBlock:(ActionBlock)completionBlock{
+    NSString *codes = [ReittiStringFormatter commaSepStringFromArray:lineCodes withSeparator:@"|"];
+    
+    [self.reittiDataManager fetchLinesForSearchTerm:codes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+        if (!errorString) {
+            completionBlock([[self filterInvalidLines:lines] mutableCopy]);
+        }else{
+            completionBlock([@[] mutableCopy]);
+        }
+    }];
 }
 
 #pragma mark - Table view data source
+-(void)setSectionAndRowNumbers{
+    NSInteger sectionNumber = 0;
+    
+    numberOfSearchedLines = self.searchedLines.count > 0 ? self.searchedLines.count : 0;
+    searchedLinesSection = numberOfSearchedLines > 0 ? sectionNumber++ : -1;
+    
+    numberOfLinesFromSavedStops = self.linesFromSavedStops.count > 0 ? self.linesFromSavedStops.count : 0;
+    linesFromSavedStopsSection = numberOfLinesFromSavedStops > 0 || linesFromStopsRequested ? sectionNumber++ : -1;
+    
+    numberOfLinesFromNearbyStops = self.linesFromNearStops.count > 0 ? self.linesFromNearStops.count : 0;
+    linesFromNearbyStopsSection = numberOfLinesFromNearbyStops > 0 || linesFromNearByStopsRequested ? sectionNumber++ : -1;
+    
+    numberOfSections = sectionNumber;
+    
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 5;
+    [self setSectionAndRowNumbers];
+    return numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-//    switch (section) {
-//        case 0:
-//            return self.trainLines.count;
-//            break;
-//            
-//        case 1:
-//            return self.tramLines.count;
-//            break;
-//            
-//        case 2:
-//            return self.metroLines.count;
-//            break;
-//            
-//        case 3:
-//            return self.ferryLines.count;
-//            break;
-//            
-//        case 4:
-//            return self.busLines.count;
-//            break;
-//            
-//        default:
-//            return 0;
-//            break;
-//    }
+    if (section == linesFromSavedStopsSection) {
+        if (numberOfLinesFromSavedStops == 0 && linesFromStopsRequested)
+            return 1;
+        
+        return numberOfLinesFromSavedStops;
+    }else if (section == linesFromNearbyStopsSection) {
+        if (numberOfLinesFromNearbyStops == 0 && linesFromNearByStopsRequested)
+            return 1;
+        
+        return numberOfLinesFromNearbyStops;
+    }else if (section == searchedLinesSection) {
+        return numberOfSearchedLines;
+    }
     
-    return [self dataSourceForSection:section].count;
+    return 0;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"lineCell" forIndexPath:indexPath];
+    UITableViewCell *cell = nil;
     
-    StaticRoute *routeForCell;
+    if ((indexPath.section == linesFromSavedStopsSection && numberOfLinesFromSavedStops == 0 && linesFromStopsRequested) ||
+        (indexPath.section == linesFromNearbyStopsSection && numberOfLinesFromNearbyStops == 0 && linesFromNearByStopsRequested)) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+        
+        JTMaterialSpinner *spinner = (JTMaterialSpinner *)[cell viewWithTag:1001];
+        spinner.circleLayer.lineWidth = 1.5;
+        [spinner beginRefreshing];
+        
+        cell.backgroundColor = [UIColor clearColor];
+    }else{
+        cell = [tableView dequeueReusableCellWithIdentifier:@"lineCell" forIndexPath:indexPath];
+        Line *lineForCell = [self lineForIndexPath:indexPath];
+        
+        UILabel *numberLabel = (UILabel *)[cell viewWithTag:1001];
+        UILabel *nameLabel = (UILabel *)[cell viewWithTag:1002];
+        UIView *imageContainerView = [cell viewWithTag:1003];
+        UIImageView *imageView = [imageContainerView viewWithTag:1004];
+        
+        numberLabel.text = lineForCell.codeShort;
+        nameLabel.text = [NSString stringWithFormat:@"%@ - %@", lineForCell.lineStart, lineForCell.lineEnd];
+        
+        imageContainerView.layer.cornerRadius = imageContainerView.frame.size.width/2;
+        imageContainerView.layer.borderWidth = 0.5;
+        imageContainerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        imageContainerView.backgroundColor = [UIColor whiteColor];
+        [imageView setImage:[AppManager vehicleImageForLineType:lineForCell.lineType]];
+        
+        cell.backgroundColor = [UIColor clearColor];
+    }
     
-    routeForCell = [[self dataSourceForSection:indexPath.section] objectAtIndex:indexPath.row];
-    
-    UILabel *numberLabel = (UILabel *)[cell viewWithTag:1001];
-    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1002];
-    
-//    UIImageView *typeImageView = (UIImageView *)[cell viewWithTag:1003];
-    
-    numberLabel.text = routeForCell.shortName;
-//    numberLabel.textColor = [AppManager colorForLineType:[EnumManager lineTypeForHSLLineTypeId:routeForCell.routeType]];
-//    numberLabel.textColor = [UIColor darkGrayColor];
-    if (indexPath.section == 0) {
-        nameLabel.text = [NSString stringWithFormat:@"%@ - %@", routeForCell.lineStart, routeForCell.lineEnd];
-    }else
-        nameLabel.text = routeForCell.longName;
-    
-//    typeImageView.image = [AppManager vehicleImageForLineType:[EnumManager lineTypeForHSLLineTypeId:routeForCell.routeType]];
-    
-    // Configure the cell...
-//    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -203,43 +311,51 @@
 //        return 30;
 //    }
     
-    if ([self dataSourceForSection:section].count != 0) {
-        return 30;
-    }
+//    if ([self dataSourceForSection:section].count != 0) {
+//        return 30;
+//    }
     
-    return 0;
+    return 30;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
     UIImageView *typeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 6, 18, 18)];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 0, self.view.frame.size.width - 60, 30)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
     titleLabel.font = [titleLabel.font fontWithSize:14];
     titleLabel.textColor = [UIColor darkGrayColor];
-    if (section == 0) {
-        titleLabel.text = @"   TRAIN";
-        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTrain];
-    }else if (section == 1){
-        titleLabel.text = @"   TRAM";
-        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTram];
-    }else if (section == 2){
-        titleLabel.text = @"   METRO";
-        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeMetro];
-    }else if (section == 3){
-        titleLabel.text = @"   FERRY";
-        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeFerry];
+    if (section == linesFromSavedStopsSection) {
+        titleLabel.text = @"    LINES FROM SAVED STOPS";
+//        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTrain];
+    }else if (section == linesFromNearbyStopsSection){
+        titleLabel.text = @"    LINES FROM STOPS NEAR YOU";
+//        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTram];
+    }else if (section == searchedLinesSection){
+        titleLabel.text = @"    SEARCHED LINES";
+//        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeMetro];
     }else{
-        titleLabel.text = @"   BUS";
-        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeBus];
+        return nil;
     }
     
     [view addSubview:typeImageView];
     [view addSubview:titleLabel];
     
-    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
+    view.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
     
     return view;
 }
+
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    if (section == linesFromSavedStopsSection) {
+//        return @"LINES FROM SAVED STOPS";
+//    }else if (section == linesFromNearbyStopsSection) {
+//        return @"LINES FROM STOPS NEAR YOU";
+//    }else if (section == searchedLinesSection) {
+//        return @"SEARCHED LINES";
+//    }
+//    
+//    return nil;
+//}
 
 
 // Override to support conditional editing of the table view.
@@ -278,57 +394,52 @@
 - (NSMutableArray *)dataSourceForSection:(NSInteger)section{
     switch (section) {
         case 0:
-            return self.trainLines;
-            break;
-            
-        case 1:
-            return self.tramLines;
-            break;
-            
-        case 2:
-            return self.metroLines;
-            break;
-            
-        case 3:
-            return self.ferryLines;
-            break;
-            
-        case 4:
-            return self.busLines;
+            return self.linesFromSavedStops;
             break;
             
         default:
-            return allLines;
+            return self.searchedLines;
             break;
     }
 }
 
-- (void)groupLinesByType:(NSArray *)lines{
-    [self.busLines removeAllObjects];
-    [self.ferryLines removeAllObjects];
-    [self.metroLines removeAllObjects];
-    [self.tramLines removeAllObjects];
-    [self.trainLines removeAllObjects];
-    
-    for (StaticRoute *route in lines) {
-        if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeBus) {
-            [self.busLines addObject:route];
-        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeFerry) {
-            [self.ferryLines addObject:route];
-        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeMetro) {
-            [self.metroLines addObject:route];
-        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeTram) {
-            [self.tramLines addObject:route];
-        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeTrain) {
-            [self.trainLines addObject:route];
+//- (void)groupLinesByType:(NSArray *)lines{
+//    [self.busLines removeAllObjects];
+//    [self.ferryLines removeAllObjects];
+//    [self.metroLines removeAllObjects];
+//    [self.tramLines removeAllObjects];
+//    [self.trainLines removeAllObjects];
+//    
+//    for (StaticRoute *route in lines) {
+//        if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeBus) {
+//            [self.busLines addObject:route];
+//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeFerry) {
+//            [self.ferryLines addObject:route];
+//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeMetro) {
+//            [self.metroLines addObject:route];
+//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeTram) {
+//            [self.tramLines addObject:route];
+//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeTrain) {
+//            [self.trainLines addObject:route];
+//        }
+//    }
+//    
+//    self.busLines = [self sortRouteArray:self.busLines];
+//    self.ferryLines = [self sortRouteArray:self.ferryLines];
+//    self.metroLines = [self sortRouteArray:self.metroLines];
+//    self.tramLines = [self sortRouteArray:self.tramLines];
+//    self.trainLines = [self sortRouteArray:self.trainLines];
+//}
+
+- (NSArray *)filterInvalidLines:(NSArray *)lines{
+    NSMutableArray *filteredLines = [@[] mutableCopy];
+    for (Line *line in lines) {
+        if (line.isValidNow) {
+            [filteredLines addObject:line];
         }
     }
     
-    self.busLines = [self sortRouteArray:self.busLines];
-    self.ferryLines = [self sortRouteArray:self.ferryLines];
-    self.metroLines = [self sortRouteArray:self.metroLines];
-    self.tramLines = [self sortRouteArray:self.tramLines];
-    self.trainLines = [self sortRouteArray:self.trainLines];
+    return filteredLines;
 }
 
 - (NSMutableArray *)sortRouteArray:(NSMutableArray *)array{
@@ -341,23 +452,45 @@
 }
 
 - (NSMutableArray *)searchForLinesForString:(NSString *)key{
-    NSMutableArray * searched = [[NSMutableArray alloc] init];
-    key = [key lowercaseString];
-    key = [key stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    if (key == nil || [key isEqualToString:@""]) {
-        return self.allLines;
+//    NSMutableArray * searched = [[NSMutableArray alloc] init];
+//    key = [key lowercaseString];
+//    key = [key stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//    
+//    if (key == nil || [key isEqualToString:@""]) {
+//        return self.allLines;
+//    }
+//    
+//    for (StaticRoute *route in self.allLines) {
+//        if ([[route.shortName lowercaseString] containsString:key]) {
+//            [searched addObject:route];
+//        }else if ([[route.longName lowercaseString] containsString:key]) {
+//            [searched addObject:route];
+//        }
+//    }
+//    
+//    return searched;
+    return nil;
+}
+
+- (Line *)lineForIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == linesFromSavedStopsSection) {
+        if (indexPath.row < self.linesFromSavedStops.count)
+            return self.linesFromSavedStops[indexPath.row];
+        else
+            return nil;
+    }else if (indexPath.section == linesFromNearbyStopsSection) {
+        if (indexPath.row < self.linesFromNearStops.count)
+            return self.linesFromNearStops[indexPath.row];
+        else
+            return nil;
+    }else if (indexPath.section == searchedLinesSection) {
+        if (indexPath.row < self.searchedLines.count)
+            return self.searchedLines[indexPath.row];
+        else
+            return nil;
     }
     
-    for (StaticRoute *route in self.allLines) {
-        if ([[route.shortName lowercaseString] containsString:key]) {
-            [searched addObject:route];
-        }else if ([[route.longName lowercaseString] containsString:key]) {
-            [searched addObject:route];
-        }
-    }
-    
-    return searched;
+    return nil;
 }
 
 #pragma mark - Navigation
@@ -368,7 +501,8 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         LineDetailViewController * lineDetailViewController = (LineDetailViewController *)[segue destinationViewController];
         
-        lineDetailViewController.staticRoute = [[self dataSourceForSection:indexPath.section] objectAtIndex:indexPath.row];
+        lineDetailViewController.line = [self lineForIndexPath:indexPath];
+        wasShowingLineDetail = YES;
     }
 }
 

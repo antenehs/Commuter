@@ -12,6 +12,7 @@
 #import "CacheManager.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
+#import "ReittiAnalyticsManager.h"
 
 @interface AddressSearchViewController ()
 
@@ -61,6 +62,8 @@
         savedRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
         [searchResultTableView reloadData];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
     
 }
 
@@ -394,8 +397,10 @@
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
             [alertView show];
+            
+            [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@5];
         }else{
-             alertView = [[UIAlertView alloc] initWithTitle:@"Looks like there is a free street name."                                                                                      message:@"The search returned nothing for that search term."
+             alertView = [[UIAlertView alloc] initWithTitle:@"Looks like there is a free address name."                                                                                      message:@"The search returned nothing for that search term."
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];

@@ -62,6 +62,10 @@
     [self setUpMainView];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 //    [self.tableView reloadData];
@@ -447,7 +451,9 @@
             if (![self.reittiDataManager doesNamedBookmarkExistWithName:newBookmark.name]) {
                 self.namedBookmark = [self.reittiDataManager saveNamedBookmarkToCoreData:newBookmark];
                 dataSaved = YES;
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [self dismissViewControllerAnimated:YES completion:^(){
+                    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmark.name value:nil];
+                }];
             }else{
                 [ReittiNotificationHelper showSimpleMessageWithTitle:@"Bookmark with the name exists already" andContent:@"Please give another name."];
             }

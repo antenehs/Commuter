@@ -194,6 +194,80 @@
     return errorString;
 }
 
+#pragma mark - line fetch methods
+- (void)fetchLineDetailForSearchterm:(NSString *)searchTerm andOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock{
+    if (!optionsDict)
+        optionsDict = @{};
+    
+    [optionsDict setValue:@"lines" forKey:@"request"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_in"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_out"];
+    [optionsDict setValue:@"json" forKey:@"format"];
+    
+    [optionsDict setValue:searchTerm forKey:@"query"];
+    
+    [super doApiFetchWithOutMappingWithParams:optionsDict andCompletionBlock:^(NSData *responseData, NSError *error){
+        if (!error) {
+            NSError *localError = nil;
+            NSArray *lines = [self lineFromJSON:responseData error:&localError];
+            
+            if (lines != nil) {
+                completionBlock(lines, nil);
+            }else{
+                completionBlock(nil, @"Fetching lines failed");
+            }
+        }else{
+            completionBlock(nil, [self formattedLineDetailFetchErrorMessageForError:error]);
+        }
+    }];
+}
+
+-(NSString *)formattedLineDetailFetchErrorMessageForError:(NSError *)error{
+    NSString *errorString = @"";
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        case -1001:
+            errorString = @"Connection to the data provider could not be established. Please try again later.";
+            break;
+        case -1016:
+            errorString = @"The remote server returned nothing. Try again.";
+            break;
+        default:
+            errorString = @"Unknown Error Occured. Please try again.";
+            break;
+    }
+    
+    return errorString;
+}
+
+-(NSArray *)lineFromJSON:(NSData *)objectNotation error:(NSError **)error{
+    NSError *localError = nil;
+    NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
+    
+    if (localError != nil) {
+        *error = localError;
+        return nil;
+    }
+    
+    NSMutableArray *lines = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *lineDict in parsedObject) {
+        HSLLine *hslLine = [[HSLLine alloc] initWithDictionary:lineDict];
+        
+        Line *line = [[Line alloc] initFromHSLLine:hslLine];
+        if (line != nil) {
+            //Parse dates
+            line.parsedDateFrom = line.dateFrom ? [self.dateFormatter dateFromString:line.dateFrom] : nil;
+            line.parsedDateTo = line.dateTo ? [self.dateFormatter dateFromString:line.dateTo] : nil;
+            [lines addObject:line];
+        }
+    }
+    
+    return lines;
+}
+
 #pragma mark - Date formatters
 - (NSDateFormatter *)hourFormatter{
     if (!_hourFormatter) {

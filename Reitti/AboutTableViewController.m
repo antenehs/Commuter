@@ -34,6 +34,10 @@
                                                  name:userlocationChangedNotificationName object:nil];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

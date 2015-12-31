@@ -47,7 +47,9 @@
     if (thereIsDisruptions != [self areThereDisruptions] ) {
         thereIsDisruptions = [self areThereDisruptions];
         [self.tableView reloadData];
-    };
+    }
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

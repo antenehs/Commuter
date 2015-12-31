@@ -93,7 +93,7 @@
 
 +(NSString *)formatHSLDateFromDate:(NSDate *)date{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYYMMdd"];
+    [formatter setDateFormat:@"yyyyMMdd"];
     
     return [formatter stringFromDate:date];
 }

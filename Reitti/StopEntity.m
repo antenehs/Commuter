@@ -59,6 +59,26 @@
     return nil;
 }
 
+-(NSArray *)fullLineCodes{
+
+    //Prior version from 4.1 stop lines as dictionary. So ignore them
+    if (![self.stopLines isKindOfClass:[NSArray class]])
+        return nil;
+    
+    if (self.stopLines && self.stopLines.count > 0) {
+        if ([self.stopLines[0] isKindOfClass:[StopLine class]]) {
+            NSMutableArray *lineCodeArray = [@[] mutableCopy];
+            for (StopLine *line in self.stopLines) {
+                [lineCodeArray addObject:line.fullCode];
+            }
+            
+            return lineCodeArray;
+        }
+    }
+    
+    return nil;
+}
+
 -(NSString *)linesString{
     if (!self.lineCodes) {
         return @"";

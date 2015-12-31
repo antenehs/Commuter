@@ -49,6 +49,7 @@
 @property (nonatomic, retain) NSString * address_fi;
 @property (nonatomic, retain) NSString * address_sv;
 @property (nonatomic, retain) NSArray * lineCodes;
+@property (nonatomic, retain) NSArray * lineFullCodes;
 @property (nonatomic, retain) NSString * linesString;
 
 @property (nonatomic) StopType stopType;

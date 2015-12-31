@@ -22,6 +22,8 @@ typedef void (^ActionBlock)();
 
 - (void)fetchStopDetailForCode:(NSString *)stopCode  andOptionsDictionary:(NSDictionary *)optionsDict withCompletionBlock:(ActionBlock)completionBlock;
 
+- (void)fetchLineDetailForSearchterm:(NSString *)searchTerm andOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock;
+
 //Helpers
 - (NSDate *)dateFromDateString:(NSString *)date andHourString:(NSString *)hour;
 - (NSString *)readableHoursFromApiHours:(NSString *)apiHours;

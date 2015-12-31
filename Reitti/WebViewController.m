@@ -7,6 +7,7 @@
 //
 
 #import "WebViewController.h"
+#import "ReittiAnalyticsManager.h"
 
 @interface WebViewController ()
 
@@ -34,18 +35,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self selectSystemColors];
-//    [self setUpTopBarApearance];
-//    [self initAdBannerView];
-    
     _webView.delegate = self;
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:_url];
     [_webView loadRequest:requestObj];
     
-//    CGRect webVFrame = _webView.frame;
-//    webVFrame.size.height = self.view.bounds.size.height - topBarView.frame.size.height;
-//    _webView.frame = webVFrame;
+    [self setUpTopBarApearance];
     
 }
 
@@ -65,7 +59,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self layoutAnimated:NO];
-//    [self.navigationController setToolbarHidden:NO animated:YES];
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -73,27 +67,27 @@
 }
 
 #pragma mark - View methods
-- (void)selectSystemColors{
-    if (self.darkMode) {
-        systemBackgroundColor = [UIColor clearColor];
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor lightGrayColor];
-    }else{
-        systemBackgroundColor = nil;
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor darkGrayColor];
-    }
-}
+//- (void)selectSystemColors{
+//    if (self.darkMode) {
+//        systemBackgroundColor = [UIColor clearColor];
+//        systemTextColor = SYSTEM_GREEN_COLOR;
+//        systemSubTextColor = [UIColor lightGrayColor];
+//    }else{
+//        systemBackgroundColor = nil;
+//        systemTextColor = SYSTEM_GREEN_COLOR;
+//        systemSubTextColor = [UIColor darkGrayColor];
+//    }
+//}
 
 - (void)setUpTopBarApearance{
-//    topBarView.layer.borderWidth = 0.5;
-//    topBarView.layer.borderColor = [[UIColor blackColor] CGColor];
-//    [topBarView setBlurTintColor:systemBackgroundColor];
+    if (!self.modalMode) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }
     
     if (_pageTitle != nil) {
-        titleLabel.text = _pageTitle;
+        self.title = _pageTitle;
     }else{
-        titleLabel.text = @"";
+        self.title = @"";
     }
 }
 
@@ -126,6 +120,10 @@
 }
 
 #pragma mark - IBActions
+- (IBAction)closeButtonPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil ];
+}
+
 - (IBAction)openInSafari:(id)sender {
     if (![[UIApplication sharedApplication] openURL:_url])
         NSLog(@"%@%@",@"Failed to open url:",[_url description]);

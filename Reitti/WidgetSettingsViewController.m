@@ -9,6 +9,7 @@
 #import "WidgetSettingsViewController.h"
 #import "StopEntity.h"
 #import "AppManager.h"
+#import "ReittiAnalyticsManager.h"
 
 @interface WidgetSettingsViewController ()
 
@@ -48,6 +49,10 @@
         [self initUserDefaults];
         [self readSelectedStops];
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(BOOL)isModalMode{

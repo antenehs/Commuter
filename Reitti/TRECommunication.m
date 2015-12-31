@@ -9,6 +9,7 @@
 #import "TRECommunication.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
+#import "ReittiAnalyticsManager.h"
 
 @interface TRECommunication ()
 
@@ -56,6 +57,8 @@
         
         completionBlock(routeArray, error);
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRouteFromApi label:@"TRE" value:nil];
 }
 
 #pragma mark - Datasource value mapping
@@ -255,6 +258,8 @@
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedNearbyStopsFromApi label:@"TRE" value:nil];
 }
 
 #pragma mark - Stop fetch method
@@ -283,7 +288,16 @@
             completionBlock(nil, error);
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedStopFromApi label:@"TRE" value:nil];
 }
+
+#pragma mark - Line detail fetch protocol implementation
+-(void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
+    
+}
+
+#pragma mark - helpers
 
 - (void)parseStopLines:(BusStop *)stop {
     if (stop.lines) {

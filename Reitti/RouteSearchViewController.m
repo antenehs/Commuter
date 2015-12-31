@@ -107,6 +107,8 @@ typedef enum
         [self hideToolBar:NO animated:YES];
     }
     [self refreshData];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
@@ -678,6 +680,7 @@ typedef enum
             [self setRouteBookmarkedState];
             
             [delegate routeModified];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionBookmarkedARoute label:@"All" value:nil];
         }
     }
     
@@ -805,6 +808,8 @@ typedef enum
     [self hideToolBar:YES animated:NO];
 //    [SVProgressHUD dismissFromView:self.view];
     [searchActivitySpinner endRefreshing];
+    
+    [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@1];
 }
 #pragma mark - routeSearchOptionSelection
 -(void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions{
@@ -1216,6 +1221,8 @@ typedef enum
             
             [self searchRouteIfPossible];
         }
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved location" value:nil];
     }
     
 }
@@ -1399,15 +1406,15 @@ typedef enum
 }
 
 -(void)setSelectedTimesForDate:(NSDate *)date{
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HHmm"];
-    NSString *time = [dateFormat stringFromDate:date];
-    selectedTimeString = time;
-    
-    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-    [dateFormat2 setDateFormat:@"YYYYMMdd"];
-    NSString *date1 = [dateFormat2 stringFromDate:date];
-    selectedDateString = date1;
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"HHmm"];
+//    NSString *time = [dateFormat stringFromDate:date];
+//    selectedTimeString = time;
+//    
+//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
+//    [dateFormat2 setDateFormat:@"yyyyMMdd"];
+//    NSString *date1 = [dateFormat2 stringFromDate:date];
+//    selectedDateString = date1;
     
     localRouteSearchOptions.date = date;
     
@@ -1665,6 +1672,8 @@ typedef enum
         
         UITableViewCell *cell = [routeResultsTableView cellForRowAtIndexPath:selectedRowIndexPath];
         if (cell) {
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Route Detail Preview" value:nil];
+            
             previewingContext.sourceRect = cell.frame;
             RouteDetailViewController *navController = (RouteDetailViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteDetailViewController"];
             [self configureDetailViewControllerWithRoute:selectedRoute andSelectedRouteIndex:(int)selectedRowIndexPath.row  routeDetailViewController:navController];

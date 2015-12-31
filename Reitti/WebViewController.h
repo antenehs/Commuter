@@ -19,9 +19,9 @@
     BOOL doneLoading;
     NSTimer *myTimer;
     
-    UIColor *systemBackgroundColor;
-    UIColor *systemTextColor;
-    UIColor *systemSubTextColor;
+//    UIColor *systemBackgroundColor;
+//    UIColor *systemTextColor;
+//    UIColor *systemSubTextColor;
     
     ADBannerView *_bannerView;
 }
@@ -31,5 +31,6 @@
 @property (strong, nonatomic) IBOutlet UIWebView *_webView;
 
 @property (nonatomic) bool darkMode;
+@property (nonatomic) bool modalMode;
 
 @end

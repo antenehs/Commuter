@@ -102,19 +102,26 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
     [self postNotificationWithName:routeSearchOptionsChangedNotificationName];
 }
 
-//Notifications
-//+(NSString *)mapModeChangedNotificationName{
-//    return @"SettingsManagerMapModeChangedNotification";
-//}
+#pragma mark - Settings in NSUserDefaults
++(BOOL)isAnalyticsEnabled{
+    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:@"IsAnalyticsSettingEnabled"];
+    
+    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
+        return YES;
+    
+    return [savedValue boolValue];
+}
 
-//+(NSString *)userlocationChangedNotificationName{
-//    return @"SettingsManagerUserLocationChangedNotification";
-//}
-//
-//+(NSString *)shouldShowVehiclesNotificationName{
-//    return @"SettingsManagerShowVehiclesChangedNotification";
-//}
++(void)enableAnalytics:(BOOL)enable{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithBool:enable] forKey:@"IsAnalyticsSettingEnabled"];
+        [standardUserDefaults synchronize];
+    }
+}
 
+#pragma mark - Helpers
 -(void)postNotificationWithName:(NSString *)name{
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
 }

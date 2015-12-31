@@ -100,6 +100,8 @@ NSString *ACCurrentProcessRenameCard = @"ACCurrentProcessRenameCard";
     [self setLastUpdateTime];
     updateTimeLabel.text = @"Updating ...";
     [self loadLogginPage];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification {

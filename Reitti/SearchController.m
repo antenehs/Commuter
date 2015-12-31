@@ -27,6 +27,7 @@
 #import "ReittiAppShortcutManager.h"
 #import "ReittiSearchManager.h"
 #import "ASA_Helpers.h"
+#import "ReittiAnalyticsManager.h"
 
 CGFloat  kDeparturesRefreshInterval = 60;
 
@@ -93,7 +94,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [alertView show];
     }
     
-    if (![AppManager isNewInstallOrNewVersion]) {
+    if ([AppManager isNewInstallOrNewVersion]) {
+        if ([AppManager isNewInstall]) {
+            [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
+        }
+        
         [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
         //Do new version migrations
@@ -392,7 +397,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-
 #pragma mark - Nav bar and toolbar methods
 - (void)setNavBarSize {
     CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
@@ -419,125 +423,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return self.view.bounds.origin.y;
 }
 
-//-(void)setUpToolBarWithMiddleImage:(NSString *)imageName{
-//    CGRect frame = CGRectMake(0, 0, 25, 26);
-//    CGRect settingsFrame = CGRectMake(0, 0, 26, 26);
-//    CGRect liveFrame = CGRectMake(0, 0, 28, 26);
-////    CGRect middleButFrame = CGRectMake(0, 0, 30, 25);
-//    CGRect middleButFrame = CGRectMake(0, 0, 26, 25);
-//    
-//    UIImage *image1 = [UIImage imageNamed:@"settings-green-100.png"];
-//    settingsBut = [[UIButton alloc] initWithFrame:settingsFrame];
-//    [settingsBut setBackgroundImage:image1 forState:UIControlStateNormal];
-//    
-//    [settingsBut addTarget:self action:@selector(openSettingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem* locBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsBut];
-//    
-//    
-//    UIBarButtonItem *flexiSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-//    
-////    UIImage *image2 = [UIImage imageNamed:imageName];
-//    UIImage *image2 = [UIImage imageNamed:@"plan-green-100.png"];
-//    
-//    listButton = [[UIButton alloc] initWithFrame:middleButFrame];
-//    [listButton setBackgroundImage:image2 forState:UIControlStateNormal];
-//    
-//    [listButton addTarget:self action:@selector(listNearbyStopsPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem* listBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:listButton];
-//    
-//    UIBarButtonItem *flexiSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-//    
-//    UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-//    
-//    bookmarkButton = [[UIButton alloc] initWithFrame:frame];
-//    [bookmarkButton setBackgroundImage:image3 forState:UIControlStateNormal];
-//    
-//    [bookmarkButton addTarget:self action:@selector(openBookmarkedButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:bookmarkButton];
-//    
-//    UIBarButtonItem *flexiSpace3 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-//    
-//    UIImage *image4 = [UIImage imageNamed:@"more-green-100.png"];
-//    
-//    UIButton *moreButton = [[UIButton alloc] initWithFrame:liveFrame];
-//    [moreButton setBackgroundImage:image4 forState:UIControlStateNormal];
-//    [moreButton addTarget:self action:@selector(openMoreViewButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIBarButtonItem* moreBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreButton];
-//    
-//    NSMutableArray *items = [[NSMutableArray alloc] init];
-//    [items addObject:bookmarkBarButtonItem];
-//    [items addObject:flexiSpace1];
-//    [items addObject:listBarButtonItem];
-//    [items addObject:flexiSpace2];
-//    [items addObject:locBarButtonItem];
-//    [items addObject:flexiSpace3];
-//    [items addObject:moreBarButtonItem];
-//    self.toolbarItems = items;
-//}
-
-//-(void)setUpModeSelector{
-//    //     Segmented control with more customization and indexChangeBlock
-//    segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Stops", @"Live"]];
-//    [self setSegmentControlSize];
-//    [segmentedControl setIndexChangeBlock:^(NSInteger index) {
-////        NSLog(@"Selected index %ld (via block)", (long)index);
-//        mapMode = (int)index;
-//        if (mapMode == MainMapViewModeStops) {
-//            [reittiDataManager fetchStopsInAreaForRegion:[mapView region]];
-//            [mapView removeAnnotations:mapView.annotations];
-//            [reittiDataManager stopFetchingLiveVehicles];
-//            
-//        }else{
-//            [mapView removeAnnotations:mapView.annotations];
-//            [reittiDataManager fetchAllLiveVehicles];
-//        }
-//    }];
-////    [segmentedControl addTarget:self action:@selector(mapModeSegmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
-//    segmentedControl.selectionIndicatorHeight = 4.0f;
-//    segmentedControl.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
-//    segmentedControl.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:17.0f]};
-////    segmentedControl.titleTextAttributes = @{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f]};
-//    segmentedControl.selectionIndicatorColor = [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
-//    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleBox;
-//    segmentedControl.selectedSegmentIndex = mapMode;
-//    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-//    segmentedControl.shouldAnimateUserSelection = YES;
-//    segmentedControl.tag = 2;
-//    segmentedControl.layer.borderWidth = 0.5;
-//    segmentedControl.layer.borderColor = [[UIColor grayColor] CGColor];
-//    [self.view addSubview:segmentedControl];
-//}
-
-//-(void)setSegmentControlSize{
-//    BOOL landscapeMode = self.view.frame.size.width > self.view.frame.size.height;
-//    CGFloat height = landscapeMode ? 30 : 40;
-//    [segmentedControl setFrame:CGRectMake(0, segmentedControl.hidden ? 0 - height : 0 , self.view.frame.size.width, height)];
-//}
-//
-//- (void)hideSegmentControlView:(bool)hidden animated:(bool)anim{
-//    
-//    if (!hidden) {
-//        segmentedControl.hidden = hidden;
-//    }
-//    
-//    [UIView transitionWithView:self.view duration:anim?0.35:0 options:UIViewAnimationOptionTransitionNone animations:^{
-//        
-//        CGRect frame = segmentedControl.frame;
-//        frame.origin.y = hidden ? 0 - frame.size.height : 0;
-//        
-//        segmentedControl.frame = frame;
-//        
-//    } completion:^(BOOL finished) {
-//        if (hidden) {
-//            segmentedControl.hidden = hidden;
-//        }
-//    }];
-//}
-
 #pragma mark - extension methods
 - (void)setBookmarkedStopsToDefaults{
     
@@ -554,6 +439,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
     selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
     [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
 }
 
 -(void)openRouteForNamedAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
@@ -561,6 +448,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (droppedPinGeoCode != nil) {
         if ([title isEqualToString:@"Dropped pin"]) {
             selectedAnnotationUniqeName = [droppedPinGeoCode getStreetAddressString];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
+        }else{
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
         }
     }
     
@@ -569,6 +459,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     selectedFromLocation = nil;
     selectedFromCoords = nil;
     [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
 }
 
 -(void)openRouteFromAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
@@ -584,6 +476,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     selectedAnnotationUniqeName = nil;
     selectedAnnotationCoords = nil;
     [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
 }
 
 -(void)showNamedBookmark:(NamedBookmark *)namedBookmark{
@@ -601,6 +495,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         selectedGeoCode = droppedPinGeoCode;
         [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenGeoLocationFromDroppedPin label:nil value:nil];
 }
 
 -(void)openStopViewForCode:(NSNumber *)code shortCode:(NSString *)shortCode name:(NSString *)name andCoords:(CLLocationCoordinate2D)coords{
@@ -2102,6 +1998,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (IBAction)listNearbyStopsPressed:(id)sender {
     if ([self isNearByStopsListViewHidden]) {
         [self hideNearByStopsView:NO animated:YES];
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionListNearByStops label:nil value:nil];
     }else{
         [self hideNearByStopsView:YES animated:YES];
     }
@@ -2650,8 +2547,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
             BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.section];
             
             [self configureStopViewController:stopViewController withBusStopShort:selected];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From nearby list" value:nil];
         }else{
             [self configureStopViewControllerWithAnnotation:stopViewController];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From annotation" value:nil];
         }
         
     }
@@ -2834,6 +2733,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 stopViewController.reittiDataManager = self.reittiDataManager;
                 stopViewController.delegate = nil;
                 
+                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Stop Annotation" value:nil];
+                
                 return stopViewController;
             }else{
                 return nil;
@@ -2856,6 +2757,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
             StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
             
             [self configureStopViewController:stopViewController withBusStopShort:selected];
+            
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Nearby list" value:nil];
             
             return stopViewController;
         }

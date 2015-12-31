@@ -102,6 +102,8 @@
     if (stopDetailRequested) {
         [self.activityIndicator beginRefreshing];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -237,6 +239,7 @@
         
         [self setStopBookmarkedState];
         [delegate savedStop:self.stopEntity];
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionBookmarkedStop label:@"All" value:nil];
     }
 }
 
@@ -297,6 +300,8 @@
             default:
                 break;
         }
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetDepartureReminder label:@"All" value:nil];
     }
 }
 
@@ -668,7 +673,9 @@
                                               otherButtonTitles:nil];
     [alertView show];
     
-    [self dismissViewControllerAnimated:YES completion:nil ];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@2];
+    }];
 }
 
 #pragma mark - iAd methods
@@ -737,6 +744,8 @@
         NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
         webViewController._url = url;
         webViewController._pageTitle = _busStop.code_short;
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedFullTimeTable label:nil value:nil];
     }
     
     if ([segue.identifier isEqualToString:@"routeToHere"] || [segue.identifier isEqualToString:@"routeFromHere"]) {
@@ -769,6 +778,8 @@
         
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
         //        routeSearchViewController.reittiDataManager = self.reittiDataManager;
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From stop" value:nil];
     }
 }
 

@@ -54,6 +54,8 @@
     
     notificationIsAllowed = [self isNotificationsEnabled];
     [self.tableView reloadData];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification {

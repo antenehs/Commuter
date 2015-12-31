@@ -65,6 +65,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self layoutAnimated:NO];
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

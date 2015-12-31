@@ -17,6 +17,7 @@
 #import "FailedGeoCodeFetch.h"
 #import "LiveTrafficManager.h"
 #import "CacheManager.h"
+#import "ReittiAnalyticsManager.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -133,7 +134,7 @@ typedef struct {
 -(void)searchAddressesForKey:(NSString *)key;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords;
 
--(void)fetchLineInfoForCodeList:(NSString *)codeList;
+-(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchDisruptions;
 
 -(BOOL)isBusStopSaved:(BusStop *)stop;

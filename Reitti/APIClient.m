@@ -79,6 +79,29 @@
     [objectManager enqueueObjectRequestOperation:objectRequestOperation];
 }
 
+-(void)doApiFetchWithOutMappingWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock{
+    
+    //Construct params query string
+    NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
+    if ([parameters respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
+        parameters = [parameters stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    }else{
+        parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
+    
+    NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];
+    
+    NSURL *url = [NSURL URLWithString:apiURL];
+    //    NSLog(@"%@", urlAsString);
+    
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(data, error);
+        });
+    }];
+}
+
 
 #pragma mark - api fetch methods
 
@@ -449,41 +472,6 @@
             });
         }
     }];
-    
-//    
-//    NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
-//    AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
-//    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
-//    [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
-//    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-//    
-//    RKObjectMapping *setMapping = [RKObjectMapping mappingForClass:[LineInfo class]];
-//    [setMapping addAttributeMappingsFromDictionary:@{
-//                                                     @"code_short" : @"code_short"
-//                                                     }];
-//    
-//    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:setMapping method:RKRequestMethodGET pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-//    
-//    codeList = [codeList stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
-//    
-//    NSString *apiURL = [NSString stringWithFormat:@"%@?request=lines&user=asareitti&pass=rebekah&format=txt&query=%@",apiBaseUrl,codeList];
-//    
-//    NSURL *URL = [NSURL URLWithString:apiURL];
-//    
-//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-//    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[ responseDescriptor ]];
-//    
-//    [objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-//        self.lineInfoList = mappingResult.array;
-//        [self LineInfoFetchDidComplete];
-//        
-//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-//        RKLogError(@"Operation failed with error: %@", error);
-//        NSLog(@"Response ERROR ASA:%@", error);
-//        [self LineInfoFetchFailed];
-//    }];
-//    
-//    [objectManager enqueueObjectRequestOperation:objectRequestOperation];
 }
 
 #pragma mark - PubTrans Methods

@@ -23,6 +23,10 @@ typedef void (^ActionBlock)();
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol LineDetailFetchProtocol <NSObject>
+- (void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
+@end
+
 @protocol RouteSearchOptionProtocol <NSObject>
 -(NSArray *)allTrasportTypeNames;
 

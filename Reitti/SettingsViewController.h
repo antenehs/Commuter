@@ -19,9 +19,9 @@
 
 @interface SettingsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SingleSelectTableViewControllerDelegate, ToneSelectorTableViewControllerDelegate>{
     
-    NSInteger mapSettingsSection, widgetSettingSection, otherSettingsSection;
-    NSInteger mapTypeRow, liveVehiclesRow, departuresWidgetRow, routeSearchOptionRow, toneSelectorRow, clearHistoryRow, clearHistoryDaysRow, locationRow;
-    NSInteger numberOfSections, mapSectionNumberOfRows, wigetSectionNumberOfRows, otherSettingsNumberOfRows;
+    NSInteger mapSettingsSection, widgetSettingSection, otherSettingsSection, advancedSettingSection, advancedModeSection;
+    NSInteger mapTypeRow, liveVehiclesRow, departuresWidgetRow, routeSearchOptionRow, toneSelectorRow, clearHistoryRow, clearHistoryDaysRow, locationRow, advancedSetttingsRow, trackingOptionRow;
+    NSInteger numberOfSections, mapSectionNumberOfRows, wigetSectionNumberOfRows, otherSettingsNumberOfRows, advancedSectionNumberOfRows, advancedModeNumberOfRows;
     
     IBOutlet UITableView *mainTableView;
     IBOutlet MKMapView *backgroundMapView;
@@ -38,6 +38,8 @@
 }
 
 @property (nonatomic) MKCoordinateRegion mapRegion;
+
+@property (nonatomic) BOOL advancedSettingsMode;
 
 @property (nonatomic, strong)SettingsManager *settingsManager;
 

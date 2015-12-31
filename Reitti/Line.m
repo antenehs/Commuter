@@ -45,6 +45,17 @@
     return self;
 }
 
+-(BOOL)isValidNow{
+    if (self.parsedDateFrom && self.parsedDateTo) {
+        NSDate *currentDate = [NSDate date];
+        
+        return ([currentDate compare:self.parsedDateTo] == NSOrderedAscending || [currentDate compare:self.parsedDateTo] == NSOrderedSame)
+                && ([currentDate compare:self.parsedDateFrom] == NSOrderedDescending || [currentDate compare:self.parsedDateFrom] == NSOrderedSame);
+    }
+    
+    return YES;
+}
+
 #pragma mark - static helpers
 +(NSArray *)parseCoordinatesFromHSLShapeString:(NSString *)shapeString{
     NSMutableArray *tempArray = [@[] mutableCopy];

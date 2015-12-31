@@ -369,6 +369,10 @@
             
             if (!error) {
                 completionBlock(response, nil);
+                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
+                    //Update the saved data with new data. Lines could be changed
+                    [self updateSavedStopIfItExists:response];
+                }];
             }else{
                 stopFetchFailedCount++;
                 if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
@@ -381,6 +385,10 @@
             
             if (!error) {
                 completionBlock(response, nil);
+                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
+                    //Update the saved data with new data. Lines could be changed
+                    [self updateSavedStopIfItExists:response];
+                }];
             }else{
                 stopFetchFailedCount++;
                 if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
@@ -397,9 +405,8 @@
                 if (!error) {
                     completionBlock(response, nil);
                     [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-                        if ([self isBusStopSavedWithCode:response.code]) { //Update the saved data with new data. Lines could be changed
-                            [self saveToCoreDataStop:response];
-                        }
+                        //Update the saved data with new data. Lines could be changed
+                        [self updateSavedStopIfItExists:response];
                     }];
                 }else{
                     completionBlock(nil, error);
@@ -408,6 +415,24 @@
         }else{
             completionBlock(nil, @"Fetching stop detail failed. Please try again later.");
         }
+    }
+}
+
+-(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
+    
+    id dataSourceManager = [self getDataSourceForRegion:userLocationRegion];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(LineDetailFetchProtocol)]) {
+        [(NSObject<LineDetailFetchProtocol> *)dataSourceManager fetchLineForSearchterm:searchTerm withCompletionBlock:^(NSArray * response, NSString *error){
+            
+            if (!error) {
+                completionBlock(response, searchTerm, nil);
+            }else{
+                completionBlock(nil, searchTerm, error);
+            }
+        }];
+    }else{
+        completionBlock(nil, @"Service not available in the current region.");
     }
 }
 
@@ -445,10 +470,6 @@
     }else{
         [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
     }
-}
-
--(void)fetchLineInfoForCodeList:(NSString *)codeList{
-    [self.hslCommunication getLineInformation:codeList];
 }
 
 #pragma mark - HSLCommunication delegate methods
@@ -840,10 +861,11 @@
 }
 
 -(BOOL)isBusStopSaved:(BusStop *)stop{
-    return [allSavedStopCodes containsObject:stop.code];
+    return [self isBusStopSavedWithCode:stop.code];
 }
 
 -(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode{
+    [self fetchAllSavedStopCodesFromCoreData];
     return [allSavedStopCodes containsObject:stopCode];
 }
 
@@ -1144,6 +1166,10 @@
 #pragma mark - stop core data methods
 -(void)saveToCoreDataStop:(BusStop *)stop{
     NSLog(@"RettiDataManager: Saving Stop to core data!");
+    if ([self isBusStopSavedWithCode:stop.code]) {
+        [self deleteSavedStopForCode:stop.code];
+    }
+    
     self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
     //set default values
     [self.stopEntity setBusStopCode:stop.code];
@@ -1160,6 +1186,13 @@
     [allSavedStopCodes addObject:stop.code];
     [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+}
+
+-(void)updateSavedStopIfItExists:(BusStop *)stop{
+    if ([self isBusStopSavedWithCode:stop.code]) {
+        [self deleteSavedStopForCode:stop.code];
+        [self saveToCoreDataStop:stop];
+    }
 }
 
 -(void)deleteSavedStopForCode:(NSNumber *)code{

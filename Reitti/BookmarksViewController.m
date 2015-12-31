@@ -127,6 +127,8 @@
     [locationManager startUpdatingLocation];
     
     [self.navigationController setToolbarHidden:NO];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 //- (void)appDidBecomeActive:(NSNotification *)notification {
@@ -373,6 +375,10 @@
     [self setUpViewForTheSelectedMode];
     
     self.mode = (int)listSegmentControl.selectedSegmentIndex;
+    
+    if (listSegmentControl.selectedSegmentIndex == 1) {
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionInteractWithHistoryObject label:nil value:nil];
+    }
 }
 
 - (void)refreshTableView:(id)sender {
@@ -1062,6 +1068,8 @@
                 [self configureStopViewController:stopViewController withStopEntity:selected];
             }
         }
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From saved stop" value:nil];
     }else if ([segue.identifier isEqualToString:@"routeSelected"]){
         if (dataIndex < self.dataToLoad.count){
             if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
@@ -1072,6 +1080,8 @@
                 [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
             }
         }
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved route" value:nil];
     }else if ([segue.identifier isEqualToString:@"routeToNamedBookmark"]){
         if (dataIndex < self.dataToLoad.count){
             if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
@@ -1082,11 +1092,15 @@
                 [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
             }
         }
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From named bookmark" value:nil];
     }else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
         
         controller.savedStops = self.savedStops;
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenedWidgetSettingsFromBookmarks label:@"All" value:nil];
         
     }else if([segue.identifier isEqualToString:@"addAddress"] ||
              [segue.identifier isEqualToString:@"setHomeAddress"] ||
@@ -1182,6 +1196,8 @@
     
     if ((dataIndex < self.dataToLoad.count)) {
         if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Route to named bookmark" value:nil];
+            
             NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
             
             UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
@@ -1193,6 +1209,8 @@
         }
         
         if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Viewed saved route" value:nil];
+            
             RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
             
             UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
@@ -1204,6 +1222,7 @@
         }
         
         if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]){
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Viewed saved stop" value:nil];
             StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
             
             StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];

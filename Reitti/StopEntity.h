@@ -25,6 +25,7 @@
 
 @property (nonatomic) StopType stopType;
 @property (nonatomic, retain, readonly) NSArray * lineCodes;
+@property (nonatomic, strong, readonly) NSArray * fullLineCodes;
 @property (nonatomic, retain, readonly) NSString * linesString;
 
 @end

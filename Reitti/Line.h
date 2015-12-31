@@ -25,6 +25,10 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSArray *shapeCoordinates;
 
+@property (nonatomic, strong) NSDate *parsedDateFrom;
+@property (nonatomic, strong) NSDate *parsedDateTo;
+@property (nonatomic, readonly) BOOL isValidNow;
+
 -(id)initFromHSLLine:(HSLLine *)hslLine;
 
 @end

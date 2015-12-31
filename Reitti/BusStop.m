@@ -67,6 +67,23 @@
     return nil;
 }
 
+-(NSArray *)lineFullCodes{
+    if (!_lineFullCodes) {
+        if (self.lines && self.lines.count > 0) {
+            if ([lines[0] isKindOfClass:[StopLine class]]) {
+                NSMutableArray *lineCodeArray = [@[] mutableCopy];
+                for (StopLine *line in lines) {
+                    [lineCodeArray addObject:line.fullCode];
+                }
+                
+                return lineCodeArray;
+            }
+        }
+    }
+    
+    return _lineFullCodes;
+}
+
 - (NSString *)destinationForLineFullCode:(NSString *)fullCode{
     if (self.lines && self.lines.count > 0) {
         if ([lines[0] isKindOfClass:[StopLine class]]) {

@@ -83,8 +83,8 @@
 //    RouteSearchOptimization selectedSearchOption;
     RouteSearchOptions *localRouteSearchOptions;
     
-    NSString *selectedTimeString;
-    NSString *selectedDateString;
+//    NSString *selectedTimeString;
+//    NSString *selectedDateString;
     
     NSTimer *tableLoadTimer;
     NSMutableArray *routeListCopy;

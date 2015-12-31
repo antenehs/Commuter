@@ -11,6 +11,7 @@
 #import "AMBlurView.h"
 #import "ASA_Helpers.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "ReittiAnalyticsManager.h"
 
 @interface ToneSelectorTableViewController ()
 
@@ -38,6 +39,10 @@
     checkedIndexPath = [self indexPathForTone:self.selectedTone];
     
     [self setTableBackgroundView];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

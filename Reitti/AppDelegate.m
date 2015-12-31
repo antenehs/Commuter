@@ -15,6 +15,8 @@
 #import "ReittiAppShortcutManager.h"
 #import "ReittiSearchManager.h"
 #import <CoreSpotlight/CoreSpotlight.h>
+#import "ReittiAnalyticsManager.h"
+#import "LinesManager.h"
 
 @implementation AppDelegate
 
@@ -39,22 +41,24 @@
     tabBarItem1.title = @"Map";
     tabBarItem2.title = @"Route";
     tabBarItem3.title = @"Bookmarks";
-    tabBarItem4.title = @"Matkakortti";
+    tabBarItem4.title = @"Lines";
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(22, 22)];
+    tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(23, 23)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-    tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(21, 21)];
+    tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(23, 23)];
     
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(24, 24)];
+    tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(24, 26)];
 //    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    UIImage *image4 = [UIImage imageNamed:@"matkakortti-icon-1.png"];
-    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(20, 20)];
+    UIImage *image4 = [UIImage imageNamed:@"transit-line.png"];
+    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(24, 20)];
     
     //Init Singletons
-    TravelCardManager *cm = [TravelCardManager sharedManager];
+//    [TravelCardManager sharedManager]; //Travel card manger
+    [ReittiAnalyticsManager sharedManager]; //Google Analytics
+    [LinesManager sharedManager];
     
     //Check if notification is allowed.
     if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
@@ -79,10 +83,19 @@
     return YES;
 }
 
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 - (BOOL)handleShortCutItem:(UIApplicationShortcutItem *)shortcutItem  {
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     
     if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:NamedBookmarkShortcutType]]){
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromAppShortcut label:@"Named bookmark" value:nil];
         UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
         tabBarController.selectedIndex = 0;
         SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
@@ -100,9 +113,11 @@
         [controller openRouteViewToLocationName:name locationCoords:coords];
         return YES;
     }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:MoreBookmarksShortcutType]]){
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromAppShortcut label:@"More bookmarks" value:nil];
         tabBarController.selectedIndex = 2;
         return YES;
     }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:AddBookmarkShortcutType]]){
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromAppShortcut label:@"Add bookmark" value:nil];
         tabBarController.selectedIndex = 2;
         UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
         BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
@@ -119,14 +134,6 @@
     completionHandler([self handleShortCutItem:shortcutItem]);
 }
 
-- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
@@ -140,6 +147,7 @@
 //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
     [controller initDataComponentsAndModules];
     if ([MKDirectionsRequest isDirectionsRequestURL:url]) {
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromMapsApp label:nil value:nil];
         MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
         // TO DO: Plot and display the route using the
         //   source and destination properties of directionsInfo.
@@ -154,6 +162,7 @@
         if ([[url query] isEqualToString:@"bookmarks"]) {
 //            [controller openBookmarksView];
             tabBarController.selectedIndex = 2;
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"bookmarks" value:nil];
         }
         
         if ([[url  query] isEqualToString:@"addBookmark"]) {
@@ -162,6 +171,7 @@
             UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
             BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
             [controller openAddBookmarkController];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromRoutesWidget label:@"addBookmark" value:nil];
         }
         
         //?routeSearch&toaddressname&toaddresscoords
@@ -183,6 +193,7 @@
                     return NO;
                 
                 [controller openRouteViewToLocationName:name locationCoords:coords];
+                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromRoutesWidget label:@"routeSearch" value:nil];
             }
         }
         
@@ -195,11 +206,14 @@
                 
                 [controller.navigationController popToRootViewControllerAnimated:NO];
                 [controller openStopViewForCode:parts[1]];
+                
+                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"openStop" value:nil];
             }
         }
         
         if ([[url query] isEqualToString:@"widgetSettings"]) {
             [controller openWidgetSettingsView];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"widgetSettings" value:nil];
         }
         
         //    [self.window.rootViewController presentViewController: controller animated:YES completion:nil];
@@ -230,6 +244,7 @@
             default:
                 break;
         }
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromSpotlightSearch label:uniqueIdentifier value:nil];
     }
     
     return YES;
@@ -286,6 +301,7 @@
     if (application.applicationState == UIApplicationStateInactive || applicationState == UIApplicationStateBackground) {
 //        [application presentLocalNotificationNow:notification];
         [self searchRouteFromRoutineNotification:notification];
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
     }else if (application.applicationState == UIApplicationStateActive) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertTitle
                                                         message:notification.alertBody

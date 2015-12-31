@@ -20,7 +20,11 @@ extern NSString *urlSpaceEscapingString;
 @interface AppManagerBase : NSObject
 
 +(BOOL)isNewInstallOrNewVersion;
++(BOOL)isNewInstall;
 +(void)setCurrentAppVersion;
+
++(NSString *)iosDeviceModel;
++(NSString *)iosVersionNumber;
 
 //App theme
 +(UIColor *)systemGreenColor;

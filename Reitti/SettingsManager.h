@@ -42,10 +42,9 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 -(void)setToneName:(NSString *)toneName;
 -(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions;
 
-//Notifications
-//+(NSString *)mapModeChangedNotificationName;
-//+(NSString *)userlocationChangedNotificationName;
-//+(NSString *)shouldShowVehiclesNotificationName;
+//NSUserDefaults settings
++(BOOL)isAnalyticsEnabled;
++(void)enableAnalytics:(BOOL)enable;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

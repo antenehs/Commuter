@@ -102,6 +102,8 @@
         isShowingStopView = NO;
         [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -1242,6 +1244,8 @@
             default:
                 break;
         }
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetRouteReminder label:@"All" value:nil];
     }
 }
 
@@ -1904,6 +1908,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             stopViewController.reittiDataManager = self.reittiDataManager;
             stopViewController.delegate = nil;
             
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From route" value:nil];
+            
             isShowingStopView = YES;
         }
     }
@@ -1970,7 +1976,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     }
     
     if (stopCode != nil && ![stopCode isEqualToString:@""]) {
-        //            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Route Stop Preview" value:nil];
         
         StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
         stopViewController.stopCode = stopCode;

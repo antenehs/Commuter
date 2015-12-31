@@ -11,6 +11,7 @@
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
 #import "CacheManager.h"
+#import "ReittiAnalyticsManager.h"
 
 @interface HSLCommunication ()
 
@@ -59,6 +60,8 @@
         
         completionBlock(routeArray, error);
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRouteFromApi label:@"HSL" value:nil];
 }
 
 #pragma mark - Datasource value mapping
@@ -248,7 +251,7 @@
     return 1;
 }
 
-#pragma mark - Stops inn areas search protocol implementation
+#pragma mark - Stops in areas search protocol implementation
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
@@ -256,6 +259,8 @@
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedNearbyStopsFromApi label:@"HSL" value:nil];
     
 }
 
@@ -283,8 +288,26 @@
             completionBlock(nil, error);
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedStopFromApi label:@"HSL" value:nil];
 }
 
+#pragma mark - Line detail fetch protocol implementation
+-(void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asareitti" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+//    [optionsDict setValue:@"1" forKey:@"filter_variants"];
+//    [optionsDict setValue:@"1" forKey:@"include_sort_id"];
+    
+    [super fetchLineDetailForSearchterm:searchTerm andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"HSL" value:nil];
+}
+
+
+#pragma mark - Helpers
 - (void)parseStopLines:(BusStop *)stop {
     //Parse departures and lines
     if (stop.lines) {
@@ -415,14 +438,14 @@
 }
 
 - (void)LineInfoFetchDidComplete:(NSData *)objectNotation{
-    NSError *error = nil;
-    NSArray *lines = [HSLCommunication lineFromJSON:objectNotation error:&error];
-    
-    if (lines != nil) {
-        [delegate hslLineInfoFetchDidComplete:lines];
-    }else{
-        [delegate hslLineInfoFetchFailed:error];
-    }
+//    NSError *error = nil;
+//    NSArray *lines = [HSLCommunication lineFromJSON:objectNotation error:&error];
+//    
+//    if (lines != nil) {
+//        [delegate hslLineInfoFetchDidComplete:lines];
+//    }else{
+//        [delegate hslLineInfoFetchFailed:error];
+//    }
     
 }
 - (void)LineInfoFetchFailed:(NSError *)error{
@@ -455,27 +478,6 @@
 }
 
 #pragma mark - Helper methods
-+ (NSArray *)lineFromJSON:(NSData *)objectNotation error:(NSError **)error{
-    NSError *localError = nil;
-    NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
-    
-    if (localError != nil) {
-        *error = localError;
-        return nil;
-    }
-    
-    NSMutableArray *lines = [[NSMutableArray alloc] init];
-    
-    for (NSDictionary *lineDict in parsedObject) {
-        HSLLine *hslLine = [[HSLLine alloc] initWithDictionary:lineDict];
-        
-        Line *line = [[Line alloc] initFromHSLLine:hslLine];
-        if (line != nil) {
-            [lines addObject:line];
-        }
-    }
-    
-    return lines;
-}
+
 
 @end

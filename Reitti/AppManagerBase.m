@@ -19,10 +19,19 @@ NSString *urlSpaceEscapingString = @"%20";
 @implementation AppManagerBase
 
 +(BOOL)isNewInstallOrNewVersion{
+    if ([self isNewInstall])
+        return YES;
+
     NSString *currentBundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *previousBundleVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
     
     return ![currentBundleVersion isEqualToString:previousBundleVersion];
+}
+
++(BOOL)isNewInstall{
+    NSString *previousBundleVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
+    
+    return previousBundleVersion == nil;
 }
 
 +(void)setCurrentAppVersion{
@@ -33,6 +42,14 @@ NSString *urlSpaceEscapingString = @"%20";
         [standardUserDefaults setObject:currentBundleVersion forKey:@"PreviousBundleVersion"];
         [standardUserDefaults synchronize];
     }
+}
+
++(NSString *)iosDeviceModel{
+    return [[UIDevice currentDevice] model];
+}
+
++(NSString *)iosVersionNumber{
+    return [[UIDevice currentDevice] systemVersion];
 }
 
 //#1F9A39

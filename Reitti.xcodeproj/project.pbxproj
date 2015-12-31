@@ -55,6 +55,18 @@
 		660CFE321C19B9D2004D73FC /* ReittiStringFormatterE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */; };
 		660CFE351C19BA4F004D73FC /* HSLandTRECommonApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE341C19BA4F004D73FC /* HSLandTRECommonApiClient.m */; };
 		660CFE361C19BD02004D73FC /* HSLandTRECommonApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE341C19BA4F004D73FC /* HSLandTRECommonApiClient.m */; };
+		660D31171C31743E0051DDAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 660D31161C31743E0051DDAA /* GoogleService-Info.plist */; };
+		660D31181C31743E0051DDAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 660D31161C31743E0051DDAA /* GoogleService-Info.plist */; };
+		660D31191C31743E0051DDAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 660D31161C31743E0051DDAA /* GoogleService-Info.plist */; };
+		660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D311C1C317B1A0051DDAA /* ReittiAnalyticsManager.m */; };
+		660D31221C32E3AC0051DDAA /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
+		660D31231C32E3AC0051DDAA /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
+		660D31241C32E3AC0051DDAA /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
+		660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
+		660D31261C32E3AC0051DDAA /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
+		660D31271C32E3AC0051DDAA /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
+		660D312A1C3425F60051DDAA /* LinesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D31291C3425F60051DDAA /* LinesManager.m */; };
+		660D312C1C34464D0051DDAA /* transit-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D312B1C34464C0051DDAA /* transit-line.png */; };
 		660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5A1B33630C00CE670E /* HSLLine.m */; };
 		660E2F5E1B33630C00CE670E /* LineStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStops.m */; };
 		660E2F6F1B34386400CE670E /* location-75-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F611B34386400CE670E /* location-75-red.png */; };
@@ -264,7 +276,6 @@
 		6665D77C1C0CDFB600ACCC3A /* Subway-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D77B1C0CDFB600ACCC3A /* Subway-100.png */; };
 		6665D77D1C0CDFB600ACCC3A /* Subway-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D77B1C0CDFB600ACCC3A /* Subway-100.png */; };
 		6665D7801C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */; };
-		6665D7811C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */; };
 		6665D7841C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
 		6665D7851C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
 		666602501AED831600E3E392 /* Features.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6666024F1AED831600E3E392 /* Features.xib */; };
@@ -799,6 +810,14 @@
 		660CFE2B1C19B81A004D73FC /* RouteLegLocationE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegLocationE.h; sourceTree = "<group>"; };
 		660CFE331C19BA4F004D73FC /* HSLandTRECommonApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLandTRECommonApiClient.h; sourceTree = "<group>"; };
 		660CFE341C19BA4F004D73FC /* HSLandTRECommonApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLandTRECommonApiClient.m; sourceTree = "<group>"; };
+		660D31161C31743E0051DDAA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		660D311B1C317B1A0051DDAA /* ReittiAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiAnalyticsManager.h; sourceTree = "<group>"; };
+		660D311C1C317B1A0051DDAA /* ReittiAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiAnalyticsManager.m; sourceTree = "<group>"; };
+		660D31201C32E3AC0051DDAA /* advanced-setting-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "advanced-setting-100.png"; path = "Pictures/version 4.1/advanced-setting-100.png"; sourceTree = "<group>"; };
+		660D31211C32E3AC0051DDAA /* Bar Chart-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bar Chart-100.png"; path = "Pictures/version 4.1/Bar Chart-100.png"; sourceTree = "<group>"; };
+		660D31281C3425F60051DDAA /* LinesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinesManager.h; sourceTree = "<group>"; };
+		660D31291C3425F60051DDAA /* LinesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinesManager.m; sourceTree = "<group>"; };
+		660D312B1C34464C0051DDAA /* transit-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "transit-line.png"; path = "Pictures/version 4.1/transit-line.png"; sourceTree = "<group>"; };
 		660E2F591B33630C00CE670E /* HSLLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLLine.h; sourceTree = "<group>"; };
 		660E2F5A1B33630C00CE670E /* HSLLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLLine.m; sourceTree = "<group>"; };
 		660E2F5B1B33630C00CE670E /* LineStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineStops.h; sourceTree = "<group>"; };
@@ -1642,6 +1661,9 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				660D312B1C34464C0051DDAA /* transit-line.png */,
+				660D31201C32E3AC0051DDAA /* advanced-setting-100.png */,
+				660D31211C32E3AC0051DDAA /* Bar Chart-100.png */,
 				66822F7B1C29F50900511BD2 /* go-from-here-100.png */,
 				66822F6E1C28C65400511BD2 /* notification-tone-100.png */,
 				66822F6A1C286E4700511BD2 /* reload-128.png */,
@@ -2348,6 +2370,7 @@
 				66947CC718830ED500642EE1 /* Main.storyboard */,
 				66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */,
 				661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */,
+				660D31161C31743E0051DDAA /* GoogleService-Info.plist */,
 				66A73FD618B645CF00405043 /* XIB */,
 				66947CD018830ED500642EE1 /* Images.xcassets */,
 				66947CED1885D71F00642EE1 /* Pictures */,
@@ -2550,6 +2573,10 @@
 				660FB22C1B38B0F2009C30BF /* DroppedPinManager.m */,
 				661202AE1AFFC12900D93C2E /* RouteViewManager.h */,
 				661202AF1AFFC12900D93C2E /* RouteViewManager.m */,
+				660D311B1C317B1A0051DDAA /* ReittiAnalyticsManager.h */,
+				660D311C1C317B1A0051DDAA /* ReittiAnalyticsManager.m */,
+				660D31281C3425F60051DDAA /* LinesManager.h */,
+				660D31291C3425F60051DDAA /* LinesManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -3233,6 +3260,7 @@
 				66CF81971A0ED8E30034C9AB /* circle-light-50.png in Resources */,
 				661090CE1B388D1C003F2688 /* routeHistoryIcon.png in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
+				660D31221C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66CB961F18F1FEF000E95CE5 /* list_nearBy.png in Resources */,
 				661202BF1B04152E00D93C2E /* dark-dotted-line.png in Resources */,
 				664E287C1AD9985B00BE2457 /* walking-gray-64.png in Resources */,
@@ -3269,6 +3297,7 @@
 				66F1382F19938A3000B52B6B /* idea-75.png in Resources */,
 				665885B71B108EF50044F514 /* busAnnotation3.1.png in Resources */,
 				66DAE1FE19C6112A0039081D /* trainAnnotationSmall.png in Resources */,
+				660D31171C31743E0051DDAA /* GoogleService-Info.plist in Resources */,
 				664ADFF11992740F000B4F18 /* location-75.png in Resources */,
 				661AB3A91C22E2020061E1F6 /* map compas mode white.png in Resources */,
 				661831271C108F5600DA979E /* rabbit-light-100.png in Resources */,
@@ -3313,9 +3342,11 @@
 				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
 				6648D0791AF0306F00C2482F /* Images-4.xcassets in Resources */,
 				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
+				660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				66134BFF1B3F1BFC0008C6D7 /* goFromHere.png in Resources */,
 				66134BFD1B3F167D0008C6D7 /* goToHere.png in Resources */,
 				6665D76D1C0CA6B200ACCC3A /* Park-black-50.png in Resources */,
+				660D312C1C34464D0051DDAA /* transit-line.png in Resources */,
 				66228CF619CB31C300A2C47F /* previous-48.png in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
@@ -3537,6 +3568,7 @@
 				667408921C19E13400C1E34A /* train-filled-light-64.png in Resources */,
 				66CA03191C1715F700A38858 /* Beer-100_grey.png in Resources */,
 				66CA03001C1715EB00A38858 /* restaurant-100.png in Resources */,
+				660D31191C31743E0051DDAA /* GoogleService-Info.plist in Resources */,
 				66CA031E1C1715F700A38858 /* home-100_grey.png in Resources */,
 				66CA02E61C1715CE00A38858 /* school-black-50.png in Resources */,
 				667408971C19E13400C1E34A /* bus-filled-light-100.png in Resources */,
@@ -3545,6 +3577,7 @@
 				66CA02FA1C1715EB00A38858 /* city-center-100.png in Resources */,
 				66CA02E51C1715CE00A38858 /* Restaurant-black-50.png in Resources */,
 				66CA03171C1715F700A38858 /* restaurant-100_grey.png in Resources */,
+				660D31241C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				660CFE0C1C188FEC004D73FC /* Forward-light-100.png in Resources */,
 				66CA02FB1C1715EB00A38858 /* gym-100.png in Resources */,
 				66CA02E11C1715CE00A38858 /* Home-black-50.png in Resources */,
@@ -3569,6 +3602,7 @@
 				66CA02DC1C1715CE00A38858 /* Bar-black-50.png in Resources */,
 				66CA031B1C1715F700A38858 /* park-bench-100_grey.png in Resources */,
 				66CA03021C1715EB00A38858 /* books-100.png in Resources */,
+				660D31271C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				66CA02F91C1715EB00A38858 /* home-100.png in Resources */,
 				66822F711C28C65500511BD2 /* notification-tone-100.png in Resources */,
 				66CA02C81C16FC4C00A38858 /* MainInterface.storyboard in Resources */,
@@ -3611,6 +3645,7 @@
 				66CA030D1C1715F600A38858 /* park-bench-100_grey.png in Resources */,
 				6665D7701C0CA6B200ACCC3A /* Restaurant-black-50.png in Resources */,
 				66CA02E91C1715EA00A38858 /* location-75-red.png in Resources */,
+				660D31231C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66CA02EA1C1715EA00A38858 /* work-filled-100.png in Resources */,
 				66CA02F31C1715EA00A38858 /* shopping-cart-100.png in Resources */,
 				6665D7761C0CA6B200ACCC3A /* work-black-50.png in Resources */,
@@ -3618,9 +3653,11 @@
 				66CA030A1C1715F600A38858 /* cupcake-100_grey.png in Resources */,
 				6665D75E1C0CA6B200ACCC3A /* Bar-black-50.png in Resources */,
 				66CA02F61C1715EA00A38858 /* bowling-100.png in Resources */,
+				660D31181C31743E0051DDAA /* GoogleService-Info.plist in Resources */,
 				66CA03061C1715F600A38858 /* school-100_grey.png in Resources */,
 				66DAC7E91A03F4FB0002BE16 /* bookmark-green-50.png in Resources */,
 				66CA03071C1715F600A38858 /* books-100_grey.png in Resources */,
+				660D31261C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				6665D7621C0CA6B200ACCC3A /* Bowling-black-50.png in Resources */,
 				6665D76C1C0CA6B200ACCC3A /* location-black-50.png in Resources */,
 				66CA02F41C1715EA00A38858 /* books-100.png in Resources */,
@@ -3705,6 +3742,7 @@
 				660E2F801B349AD200CE670E /* EmptyHomeAddressCell.m in Sources */,
 				66822F611C2468A300511BD2 /* StopDeparture.m in Sources */,
 				665885C51B1121000044F514 /* NearByStop.m in Sources */,
+				660D312A1C3425F60051DDAA /* LinesManager.m in Sources */,
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
@@ -3786,6 +3824,7 @@
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
+				660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
 				660FB23C1B39E5ED009C30BF /* MoreTableViewController.m in Sources */,
 				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
@@ -3919,7 +3958,6 @@
 				66CA02D91C17126800A38858 /* NamedBookmarkE.m in Sources */,
 				66CA03271C17466E00A38858 /* ASABubbleView.m in Sources */,
 				66CA03351C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
-				6665D7811C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */,
 				66DAC7E01A0276690002BE16 /* HSLAPI.m in Sources */,
 				66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */,
 				66822F621C2468A300511BD2 /* StopDeparture.m in Sources */,
@@ -4083,6 +4121,7 @@
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
@@ -4107,6 +4146,7 @@
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
