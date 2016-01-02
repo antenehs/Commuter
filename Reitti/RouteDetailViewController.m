@@ -174,13 +174,13 @@
     [nextRouteButton setImage:[UIImage imageNamed:@"next-lgray-100.png"] forState:UIControlStateDisabled];
     [previousRouteButton setImage:[UIImage imageNamed:@"previous-lgray-100.png"] forState:UIControlStateDisabled];
     
-    nextRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
-    nextRouteButton.layer.borderWidth = 0.5f;
-    nextRouteButton.layer.cornerRadius = 4.0f;
-    
-    previousRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
-    previousRouteButton.layer.borderWidth = 0.5f;
-    previousRouteButton.layer.cornerRadius = 4.0f;
+//    nextRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
+//    nextRouteButton.layer.borderWidth = 0.5f;
+//    nextRouteButton.layer.cornerRadius = 4.0f;
+//    
+//    previousRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
+//    previousRouteButton.layer.borderWidth = 0.5f;
+//    previousRouteButton.layer.cornerRadius = 4.0f;
     
     [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
     currentLocationButton.hidden = YES;
@@ -296,6 +296,7 @@
 //    CGFloat tabBarHeight = self.tabBarController != nil ? self.tabBarController.tabBar.frame.size.height : 0;
     
     if (location == RouteListViewLoactionBottom) {
+        [self hideNavigationBar:NO animated:YES];
 //        [self.navigationController setNavigationBarHidden:NO animated:YES];
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y;
@@ -305,6 +306,7 @@
         [self centerMapRegionToViewRoute];
         mapResizedForMiddlePosition = NO;
     }else if (location == RouteListViewLoactionMiddle) {
+        [self hideNavigationBar:NO animated:YES];
 //        [self.navigationController setNavigationBarHidden:NO animated:YES];
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         routeLIstViewVerticalSpacing.constant = self.view.frame.size.height/2;
@@ -323,12 +325,33 @@
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"collapse-arrow-100.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
+        [self hideNavigationBar:YES animated:YES];
 //        [self.navigationController setNavigationBarHidden:YES animated:YES];
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 //        [self.tabBarController.tabBar setHidden:YES];
     }
     
     [routeListTableView reloadData];
+}
+
+-(void)hideNavigationBar:(BOOL)hidded animated:(BOOL)animated{
+    if (hidded) {
+        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, 20)];
+        view.tag = 7654;
+        view.backgroundColor=[AppManager systemGreenColor];
+        [self.view addSubview:view];
+        view.hidden = NO;
+    }else{
+        while ([self.view viewWithTag:7654]) {
+            UIView *view = [self.view viewWithTag:7654];
+            [view removeFromSuperview];
+                
+            view.hidden = YES;
+            view = nil;
+        }
+    }
+    
+    [self.navigationController setNavigationBarHidden:hidded animated:animated];
 }
 
 -(BOOL)isRouteListViewVisible{

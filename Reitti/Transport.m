@@ -191,6 +191,7 @@
         self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     }else{
         self.backgroundColor = [UIColor colorWithWhite:0.28 alpha:1];
+//        self.backgroundColor = [AppManager colorForLegType:routeLeg.legType];
     }
     
     //Center views

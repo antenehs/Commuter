@@ -432,7 +432,7 @@
             }
         }];
     }else{
-        completionBlock(nil, @"Service not available in the current region.");
+        completionBlock(nil, searchTerm, @"Service not available in the current region.");
     }
 }
 
@@ -1164,13 +1164,15 @@
 }
 
 #pragma mark - stop core data methods
+//@ Updates a saved stop if it exists or insert a new one.
 -(void)saveToCoreDataStop:(BusStop *)stop{
     NSLog(@"RettiDataManager: Saving Stop to core data!");
-    if ([self isBusStopSavedWithCode:stop.code]) {
-        [self deleteSavedStopForCode:stop.code];
+    self.stopEntity = [self fetchSavedStopFromCoreDataForCode:stop.code];
+    
+    if (!self.stopEntity) {
+        self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
     }
     
-    self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
     //set default values
     [self.stopEntity setBusStopCode:stop.code];
     [self.stopEntity setBusStopShortCode:stop.code_short];
@@ -1190,7 +1192,6 @@
 
 -(void)updateSavedStopIfItExists:(BusStop *)stop{
     if ([self isBusStopSavedWithCode:stop.code]) {
-        [self deleteSavedStopForCode:stop.code];
         [self saveToCoreDataStop:stop];
     }
 }
@@ -1199,6 +1200,9 @@
     if (!code) return;
     
     StopEntity *stopToDelete = [self fetchSavedStopFromCoreDataForCode:code];
+    
+    if (!stopToDelete)
+        return;
     
     [self.managedObjectContext deleteObject:stopToDelete];
     

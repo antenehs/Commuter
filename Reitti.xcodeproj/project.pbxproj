@@ -67,6 +67,8 @@
 		660D31271C32E3AC0051DDAA /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
 		660D312A1C3425F60051DDAA /* LinesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D31291C3425F60051DDAA /* LinesManager.m */; };
 		660D312C1C34464D0051DDAA /* transit-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D312B1C34464C0051DDAA /* transit-line.png */; };
+		660D31301C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
+		660D31311C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
 		660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5A1B33630C00CE670E /* HSLLine.m */; };
 		660E2F5E1B33630C00CE670E /* LineStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStops.m */; };
 		660E2F6F1B34386400CE670E /* location-75-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F611B34386400CE670E /* location-75-red.png */; };
@@ -818,6 +820,8 @@
 		660D31281C3425F60051DDAA /* LinesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinesManager.h; sourceTree = "<group>"; };
 		660D31291C3425F60051DDAA /* LinesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinesManager.m; sourceTree = "<group>"; };
 		660D312B1C34464C0051DDAA /* transit-line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "transit-line.png"; path = "Pictures/version 4.1/transit-line.png"; sourceTree = "<group>"; };
+		660D312E1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		660E2F591B33630C00CE670E /* HSLLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLLine.h; sourceTree = "<group>"; };
 		660E2F5A1B33630C00CE670E /* HSLLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLLine.m; sourceTree = "<group>"; };
 		660E2F5B1B33630C00CE670E /* LineStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineStops.h; sourceTree = "<group>"; };
@@ -1738,6 +1742,15 @@
 			name = RouteModels;
 			sourceTree = "<group>";
 		};
+		660D312D1C36FC080051DDAA /* CollectionViewLayout */ = {
+			isa = PBXGroup;
+			children = (
+				660D312E1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.h */,
+				660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */,
+			);
+			name = CollectionViewLayout;
+			sourceTree = "<group>";
+		};
 		660E2F571B33627600CE670E /* Lines */ = {
 			isa = PBXGroup;
 			children = (
@@ -2593,6 +2606,7 @@
 		66CA02BB1C163CB200A38858 /* View Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				660D312D1C36FC080051DDAA /* CollectionViewLayout */,
 				66CA033D1C1778E300A38858 /* KBPopupBubble */,
 				66CA03231C17465100A38858 /* BubbleView */,
 				664E287E1ADAC09200BE2457 /* ASPolylineView */,
@@ -3802,6 +3816,7 @@
 				66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */,
 				66F099691AE6ECD700F20D34 /* TSBlurView.m in Sources */,
 				66F0996B1AE6ECD700F20D34 /* TSMessageView.m in Sources */,
+				660D31301C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				660FB2451B39F30E009C30BF /* AboutTableViewController.m in Sources */,
 				66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */,
 				66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */,
@@ -3945,6 +3960,7 @@
 				660CFE161C19A157004D73FC /* HSLAPIClient.m in Sources */,
 				660CFE2E1C19B81A004D73FC /* RouteLegLocationE.m in Sources */,
 				66822F801C2B6C4100511BD2 /* NSObject+Helper.m in Sources */,
+				660D31311C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66CA02D31C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66822F671C24695900511BD2 /* StopLine.m in Sources */,

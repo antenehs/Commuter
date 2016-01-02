@@ -43,7 +43,7 @@
     self.linesFromNearStops = [@[] mutableCopy];
     
 //    [self fetchInitialData];
-    
+    isSearching = NO;
     [self setUpMainView];
     
     scrollingShouldResignFirstResponder = YES;
@@ -129,9 +129,14 @@
     }
     
     if (searchBar.text.length == 0) {
-        //TODO: Setup initial view
+        isSearching = NO;
+        self.searchedLines = [@[] mutableCopy];
+        [self.tableView reloadData];
+    }else{
+        isSearching = YES;
     }
     
+    [searchBar setShowsCancelButton:YES animated:YES];
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
@@ -139,17 +144,34 @@
     if (thisSearchBar.text == nil || [thisSearchBar.text isEqualToString:@""]){
         //TODO: Setup initial view
     }
+    
+    [thisSearchBar setShowsCancelButton:NO animated:YES];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
 //    NSMutableArray *searched = [self searchForLinesForString:searchText];
 //    [self groupLinesByType:searched];
+    if(searchText.length > 0){
+       [self searchLinesForSearchtext:searchText];
+        isSearching = YES;
+        [searchBar setShowsCancelButton:YES animated:YES];
+    }else{
+        isSearching = NO;
+        self.searchedLines = [@[] mutableCopy];
+        [self.tableView reloadData];
+    }
     
-    [self searchLinesForSearchtext:searchText];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    isSearching = NO;
+    self.searchedLines = [@[] mutableCopy];
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [self.tableView reloadData];
 }
 
 #pragma mark - search methods
@@ -229,10 +251,10 @@
     searchedLinesSection = numberOfSearchedLines > 0 ? sectionNumber++ : -1;
     
     numberOfLinesFromSavedStops = self.linesFromSavedStops.count > 0 ? self.linesFromSavedStops.count : 0;
-    linesFromSavedStopsSection = numberOfLinesFromSavedStops > 0 || linesFromStopsRequested ? sectionNumber++ : -1;
+    linesFromSavedStopsSection = (numberOfLinesFromSavedStops > 0 || linesFromStopsRequested) && !isSearching ? sectionNumber++ : -1;
     
     numberOfLinesFromNearbyStops = self.linesFromNearStops.count > 0 ? self.linesFromNearStops.count : 0;
-    linesFromNearbyStopsSection = numberOfLinesFromNearbyStops > 0 || linesFromNearByStopsRequested ? sectionNumber++ : -1;
+    linesFromNearbyStopsSection = (numberOfLinesFromNearbyStops > 0 || linesFromNearByStopsRequested) && !isSearching ? sectionNumber++ : -1;
     
     numberOfSections = sectionNumber;
     

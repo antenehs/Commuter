@@ -34,4 +34,19 @@
     self.backgroundColor = [UIColor clearColor];
 }
 
+-(void)asa_reloadDataAnimated{
+    [CATransaction begin];
+    
+    [CATransaction setCompletionBlock:^{
+        // animation has finished
+        [self reloadData];
+    }];
+    
+    [self beginUpdates];
+    // do some work
+    [self endUpdates];
+    
+    [CATransaction commit];
+}
+
 @end

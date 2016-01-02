@@ -349,9 +349,10 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 - (IBAction)featureTrackingOptionChanged:(id)sender {
     UISwitch *uiSwith = (UISwitch *)sender;
-    [SettingsManager enableAnalytics:uiSwith.isOn];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedAnalyticsOption label:uiSwith.isOn ? @"On" : @"Off" value:nil];
+    
+    [SettingsManager enableAnalytics:uiSwith.isOn];
 }
 
 
@@ -363,8 +364,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 -(void)selectedTone:(NSString *)selectedTone{
     [self.settingsManager setToneName:selectedTone];
-    
-    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedReminderTone label:selectedTone value:nil];
 }
 
 #pragma mark - Single select table view delegate methods

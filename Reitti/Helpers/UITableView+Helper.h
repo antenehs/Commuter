@@ -12,5 +12,6 @@
 @interface UITableView (Helper)
 
 - (void)setBlurredBackgroundWithImageNamed:(NSString *)imageName;
+- (void)asa_reloadDataAnimated;
 
 @end

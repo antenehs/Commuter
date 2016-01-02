@@ -27,11 +27,8 @@
 - (void)deletedAllHistoryStops;
 @end
 
-@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate>{
-    IBOutlet AMBlurView *selectorView;
+@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
     IBOutlet UISegmentedControl *listSegmentControl;
-    IBOutlet UIView *bluredBackView;
-//    IBOutlet UIBarButtonItem *addBookmarkButton;
     IBOutlet UIBarButtonItem *widgetSettingButton;
     
     UIColor *systemBackgroundColor;
@@ -42,9 +39,12 @@
     
     NSTimer *refreshTimer;
     
-    UIActivityIndicatorView *activityIndicator;
+    UIActivityIndicatorView *boomarkActivityIndicator;
+    UIActivityIndicatorView *stopActivityIndicator;
     
     BOOL firstTimeLocation;
+    
+    NSInteger namedBookmarkSection, savedStopsSection, savedRouteSection;
 }
 
 - (void)openAddBookmarkController;
@@ -60,6 +60,7 @@
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
 @property (strong, nonatomic) NSMutableDictionary *namedBRouteDetail;
+@property (strong, nonatomic)NSMutableDictionary *stopDetailMap;
 
 @property (strong, nonatomic) UIColor * _tintColor;
 

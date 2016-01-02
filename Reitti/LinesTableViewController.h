@@ -19,6 +19,8 @@
     BOOL scrollingShouldResignFirstResponder;
     BOOL tableIsScrolling;
     
+    BOOL isSearching;
+    
     BOOL linesFromStopsRequested;
     BOOL linesFromNearByStopsRequested;
     

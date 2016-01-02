@@ -113,6 +113,9 @@ typedef enum
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
+    if (self.navigationController.visibleViewController != self)
+        return;
+
     [self refreshData];
 }
 
@@ -1585,6 +1588,7 @@ typedef enum
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:userlocationChangedNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:routeSearchOptionsChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 #pragma mark - guesture recognizer
