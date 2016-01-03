@@ -816,7 +816,7 @@ const NSInteger kTimerRefreshInterval = 15;
     UILabel *timeLabel = (UILabel *)[cell viewWithTag:3002];
     
     lineName.text = departure.code;
-    lineName.textColor = [UIColor darkGrayColor];
+    lineName.textColor = [UIColor blackColor];
     
     NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
     

@@ -48,7 +48,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 #define SYSTEM_ORANGE_COLOR [UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0];
 
 @synthesize managedObjectContext;
-@synthesize reittiDataManager, settingsManager, cacheManager;
+@synthesize reittiDataManager, settingsManager;
 //@synthesize stopViewController;
 @synthesize searchViewHidden;
 @synthesize searchedStopList;
@@ -279,8 +279,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-    
-    self.cacheManager = [CacheManager sharedManager];
 }
 
 - (void)initGuestureRecognizers
@@ -817,12 +815,17 @@ CGFloat  kDeparturesRefreshInterval = 60;
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
             codeLabel.text = @"";
             
+            NSString *linesString = nil;
+            if ([self isThereValidDetailForTableViewSection:indexPath.section]) {
+                BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
+                linesString = detailStop.linesString;
+            }
+            
             NSString *shortCode = stop.codeShort != nil && ![stop.codeShort isEqualToString:@""] ? stop.codeShort : nil;
-            NSString *linesString = [stop linesString] && ![[stop linesString] isEqualToString:@""] ? [stop linesString] : nil;
             if(linesString && shortCode){
-                codeLabel.text = [NSString stringWithFormat:@"Code: %@ · %@",shortCode, [stop linesString]];
+                codeLabel.text = [NSString stringWithFormat:@"Code: %@ · %@",shortCode, linesString];
             }else if(linesString && !shortCode){
-                codeLabel.text = linesString;
+                codeLabel.text = [NSString stringWithFormat:@"Code: %@", linesString];
             }else if (!linesString && shortCode){
                 codeLabel.text = [NSString stringWithFormat:@"Code: %@", shortCode];
             }else{
@@ -1147,14 +1150,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 
                 CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
                 NSString * name = stop.name;
-                NSString * codeShort = stop.codeShort;
+                NSString * codeShort = stop.codeShort ? stop.codeShort : @"";
                 
                 JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
                 stopAnT.image = stopImage;
                 stopAnT.code = stop.code;
                 stopAnT.shortCode = codeShort;
                 stopAnT.title = name;
-                stopAnT.subtitle = [stop.linesString isEqualToString:@""] || stop.linesString == nil ? codeShort : stop.linesString;
+                stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", codeShort];
                 stopAnT.coordinate = coordinate;
                 stopAnT.annotationType = NearByStopType;
                 stopAnT.stopType = stop.stopType;
@@ -1198,7 +1201,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
     
     NSString * name = stop.name;
-    NSString * shortCode = stop.codeShort;
+    NSString * shortCode = stop.codeShort ? stop.codeShort : @"";
     
     JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
     UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
@@ -1206,7 +1209,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopAnT.code = stop.code;
     stopAnT.shortCode = shortCode;
     stopAnT.title = name;
-    stopAnT.subtitle = [stop.linesString isEqualToString:@""] || stop.linesString == nil ? shortCode : stop.linesString;;
+    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", shortCode];
     stopAnT.coordinate = coordinate;
     stopAnT.annotationType = SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
@@ -1533,6 +1536,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 }
             }];
         }
+        
+//        [centerLocatorView removeFromSuperview];
         
     }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
@@ -2203,7 +2208,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 [self setDetailStopForBusStopShort:busStopShort busStop:stop];
                 //TODO: better was to find the index
                 NSInteger index = [self busStopShortIndexForCode:busStopShort.code];
-                if (index != NSNotFound) /* Update with animation */
+                if (index != NSNotFound && index < 30) /* Update with animation */
                     [nearbyStopsListsTable reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationBottom];
                 else
                     [nearbyStopsListsTable reloadData];
@@ -2259,7 +2264,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //TODO: Set linesCodes to the bus stop short
     //TODO: Check the selected anotation is the right one
     if (selectedAnnotationView) {
-        [selectedAnnotationView setSubtitleLabelText:stop.linesString];
+        [selectedAnnotationView setSubtitleLabelText:[NSString stringWithFormat:@"Lines: %@", stop.linesString]];
     }
 }
 

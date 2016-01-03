@@ -13,4 +13,10 @@
 
 -(UIImage *)asa_addCircleBackgroundWithColor:(UIColor *)color andImageSize:(CGSize)size andInset:(CGPoint)inset andOffset:(CGPoint)offset;
 
++(UIImage *)asa_imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
+
++(UIImage *)asa_dottedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor;
++(UIImage *)asa_dashedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor;
++(UIImage *)asa_dashedRoundedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor;
+
 @end

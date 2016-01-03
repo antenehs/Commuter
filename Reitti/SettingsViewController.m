@@ -278,7 +278,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         textLabel.textColor = [UIColor darkGrayColor];
         textLabel.numberOfLines = 0;
         textLabel.textAlignment = NSTextAlignmentCenter;
-        textLabel.text = @"Commuter collects totally anonymous feature usage data that cannot be liked to you in any way";
+        textLabel.text = @"Help Commuter by providing totally anonymous feature usage data that cannot be liked to you in any way";
         
         UIButton *moreInfoButton = [[UIButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 100)/2, 45, 100, 20)];
         moreInfoButton.titleEdgeInsets = UIEdgeInsetsMake(3, 0, 3, 0);
@@ -495,6 +495,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         webViewController._url = url;
         webViewController._pageTitle = @"Feature Tracking";
     }
+    
+    self.title = @"";
 
 }
 

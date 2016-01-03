@@ -73,6 +73,8 @@ typedef enum{
     BOOL tableViewIsDecelerating;
     BOOL routeListViewIsGoingUp;
     RouteListViewLoaction currentRouteListViewLocation;
+    
+    NSMutableDictionary *lineDetailMap;
 }
 
 @property (strong, nonatomic) Route *route;

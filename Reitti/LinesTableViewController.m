@@ -160,7 +160,6 @@
         self.searchedLines = [@[] mutableCopy];
         [self.tableView reloadData];
     }
-    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
@@ -169,9 +168,10 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     isSearching = NO;
-    self.searchedLines = [@[] mutableCopy];
+    [searchBar resignFirstResponder];
+//    self.searchedLines = [@[] mutableCopy];
     [searchBar setShowsCancelButton:NO animated:YES];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 #pragma mark - search methods
@@ -196,19 +196,6 @@
 -(void)fetchInitialData{
     if (self.lineCodesFromSavedStops.count > 0) {
         linesFromStopsRequested = YES;
-        
-//        NSString *codes = [ReittiStringFormatter commaSepStringFromArray:self.lineCodesFromSavedStops withSeparator:@"|"];
-//        
-//        [self.reittiDataManager fetchLinesForSearchTerm:codes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
-//            if (!errorString) {
-//                self.linesFromSavedStops = [[self filterInvalidLines:lines] mutableCopy];
-//            }else{
-//                self.linesFromSavedStops = [@[] mutableCopy];
-//            }
-//            
-//            linesFromStopsRequested = NO;
-//            [self.tableView reloadData];
-//        }];
         
         [self fetchLinesForCodes:self.lineCodesFromSavedStops WithCompletionBlock:^(NSArray *lines){
             self.linesFromSavedStops = [lines mutableCopy];
@@ -309,10 +296,16 @@
         nameLabel.text = [NSString stringWithFormat:@"%@ - %@", lineForCell.lineStart, lineForCell.lineEnd];
         
         imageContainerView.layer.cornerRadius = imageContainerView.frame.size.width/2;
-        imageContainerView.layer.borderWidth = 0.5;
+        imageContainerView.layer.borderWidth = 1;
         imageContainerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         imageContainerView.backgroundColor = [UIColor whiteColor];
-        [imageView setImage:[AppManager vehicleImageForLineType:lineForCell.lineType]];
+        if (lineForCell.lineType == LineTypeTram) { /* the tram picture is smaller than others */
+            [imageView setImage:[AppManager vehicleImageForLineType:lineForCell.lineType]];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+        }else{
+            [imageView setImage:[UIImage asa_imageWithImage:[AppManager vehicleImageForLineType:lineForCell.lineType] scaledToSize:CGSizeMake(imageView.frame.size.width - 4, imageView.frame.size.height - 4)]];
+             imageView.contentMode = UIViewContentModeCenter;
+        }
         
         cell.backgroundColor = [UIColor clearColor];
     }
@@ -344,8 +337,8 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
     UIImageView *typeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 6, 18, 18)];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
-    titleLabel.font = [titleLabel.font fontWithSize:14];
-    titleLabel.textColor = [UIColor darkGrayColor];
+    titleLabel.font = [titleLabel.font fontWithSize:13];
+    titleLabel.textColor = [AppManager systemGreenColor];
     if (section == linesFromSavedStopsSection) {
         titleLabel.text = @"    LINES FROM SAVED STOPS";
 //        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTrain];

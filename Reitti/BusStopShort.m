@@ -47,9 +47,9 @@
 }
 
 -(NSString *)linesString{
-    if (self.lines == nil) {
-        return @"";
-    }
+    if (!self.lines)
+        return nil;
+
     return [ReittiStringFormatter commaSepStringFromArray:self.lines withSeparator:@","];
 }
 
@@ -71,17 +71,18 @@
 }
 
 -(NSArray *)lines{
-    @try {
-        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
-        if (staticStop != nil) {
-            return staticStop.lineNames;
-        }else{
-            return @[];
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
+//    @try {
+//        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+//        if (staticStop != nil) {
+//            return staticStop.lineNames;
+//        }else{
+//            return @[];
+//        }
+//    }
+//    @catch (NSException *exception) {
+//        
+//    }
+    return @[];
 }
 
 @end

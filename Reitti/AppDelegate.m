@@ -17,6 +17,7 @@
 #import <CoreSpotlight/CoreSpotlight.h>
 #import "ReittiAnalyticsManager.h"
 #import "LinesManager.h"
+#import "ASA_Helpers.h"
 
 @implementation AppDelegate
 
@@ -43,17 +44,17 @@
     tabBarItem3.title = @"Bookmarks";
     tabBarItem4.title = @"Lines";
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [self imageWithImage:image1 scaledToSize:CGSizeMake(23, 23)];
+    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(23, 23)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-    tabBarItem2.image = [self imageWithImage:image2 scaledToSize:CGSizeMake(23, 23)];
+    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(23, 23)];
     
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    tabBarItem3.image = [self imageWithImage:image3 scaledToSize:CGSizeMake(24, 26)];
+    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(24, 26)];
 //    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIImage *image4 = [UIImage imageNamed:@"transit-line.png"];
-    tabBarItem4.image = [self imageWithImage:image4 scaledToSize:CGSizeMake(24, 20)];
+    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(24, 20)];
     
     //Init Singletons
 //    [TravelCardManager sharedManager]; //Travel card manger
@@ -83,13 +84,13 @@
     return YES;
 }
 
-- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
+//- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+//    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+//    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return newImage;
+//}
 
 - (BOOL)handleShortCutItem:(UIApplicationShortcutItem *)shortcutItem  {
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;

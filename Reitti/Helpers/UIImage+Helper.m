@@ -33,4 +33,103 @@
     return finalImage;
 }
 
++(UIImage *)asa_imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
++ (UIImage *)asa_dottedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor{
+    BOOL isVertical = rect.size.width < rect.size.height;
+    
+    CGFloat rectHeight = rect.size.height;
+    CGFloat rectWidth = rect.size.width;
+    
+    CGFloat lineThickness = isVertical ? rectWidth : rectHeight;
+    
+    CGPoint startPoint = CGPointMake(lineThickness/(isVertical ? 2 : 1), lineThickness/(isVertical ? 1 : 2));
+    CGPoint endPoint = CGPointMake(rectWidth/(isVertical ? 2 : 1), rectHeight/(isVertical ? 1 : 2));
+    
+    UIBezierPath * path = [[UIBezierPath alloc] init];
+    [path moveToPoint:startPoint];
+    [path addLineToPoint:endPoint];
+    [path setLineWidth:lineThickness];
+    
+    CGFloat dashes[] = { path.lineWidth * 0, path.lineWidth * 2 };
+    [path setLineDash:dashes count:2 phase:0];
+    [path setLineCapStyle:kCGLineCapRound];
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(rectWidth, rectHeight), false, 2);
+    if (fillColor)
+        [fillColor setStroke];
+    
+    [path stroke];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
++(UIImage *)asa_dashedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor{
+    BOOL isVertical = rect.size.width < rect.size.height;
+    
+    CGFloat rectHeight = rect.size.height;
+    CGFloat rectWidth = rect.size.width;
+    
+    CGFloat lineThickness = isVertical ? rectWidth : rectHeight;
+    
+    CGPoint startPoint = CGPointMake(lineThickness/(isVertical ? 2 : 1), lineThickness/(isVertical ? 1 : 2));
+    CGPoint endPoint = CGPointMake(rectWidth/(isVertical ? 2 : 1), rectHeight/(isVertical ? 1 : 2));
+    
+    UIBezierPath * path = [[UIBezierPath alloc] init];
+    [path moveToPoint:startPoint];
+    [path addLineToPoint:endPoint];
+    [path setLineWidth:lineThickness];
+    
+    CGFloat dashes[] = { path.lineWidth, path.lineWidth * 2 };
+    [path setLineDash:dashes count:2 phase:0];
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(rectWidth, rectHeight), false, 2);
+    if (fillColor)
+        [fillColor setStroke];
+    
+    [path stroke];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
++(UIImage *)asa_dashedRoundedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor{
+    BOOL isVertical = rect.size.width < rect.size.height;
+    
+    CGFloat rectHeight = rect.size.height;
+    CGFloat rectWidth = rect.size.width;
+    
+    CGFloat lineThickness = isVertical ? rectWidth : rectHeight;
+    
+    CGPoint startPoint = CGPointMake(lineThickness/(isVertical ? 2 : 1), lineThickness/(isVertical ? 1 : 2));
+    CGPoint endPoint = CGPointMake(rectWidth/(isVertical ? 2 : 1), rectHeight/(isVertical ? 1 : 2));
+    
+    UIBezierPath * path = [[UIBezierPath alloc] init];
+    [path moveToPoint:startPoint];
+    [path addLineToPoint:endPoint];
+    [path setLineWidth:lineThickness];
+    
+    CGFloat dashes[] = { path.lineWidth, path.lineWidth * 2 };
+    [path setLineDash:dashes count:2 phase:0];
+    [path setLineCapStyle:kCGLineCapRound];
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(rectWidth, rectHeight), false, 2);
+    if (fillColor)
+        [fillColor setStroke];
+    
+    [path stroke];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
 @end
