@@ -175,13 +175,13 @@
     [nextRouteButton setImage:[UIImage imageNamed:@"next-lgray-100.png"] forState:UIControlStateDisabled];
     [previousRouteButton setImage:[UIImage imageNamed:@"previous-lgray-100.png"] forState:UIControlStateDisabled];
     
-//    nextRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
-//    nextRouteButton.layer.borderWidth = 0.5f;
-//    nextRouteButton.layer.cornerRadius = 4.0f;
-//    
-//    previousRouteButton.layer.borderColor = [UIColor grayColor].CGColor;
-//    previousRouteButton.layer.borderWidth = 0.5f;
-//    previousRouteButton.layer.cornerRadius = 4.0f;
+    nextRouteButton.layer.borderColor = [AppManager systemGreenColor].CGColor;
+    nextRouteButton.layer.borderWidth = 0.5f;
+    nextRouteButton.layer.cornerRadius = 4.0f;
+    
+    previousRouteButton.layer.borderColor = [AppManager systemGreenColor].CGColor;
+    previousRouteButton.layer.borderWidth = 0.5f;
+    previousRouteButton.layer.cornerRadius = 4.0f;
     
     [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
     currentLocationButton.hidden = YES;
@@ -194,20 +194,29 @@
     UIView * titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, [self isLandScapeOrientation] ? 20 : 40)];
     titleView.clipsToBounds = YES;
     
-    NSMutableDictionary *toStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:16] forKey:NSFontAttributeName];
-    [toStringDict setObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+    NSMutableDictionary *fromStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-light" size:15] forKey:NSFontAttributeName];
+    [fromStringDict setObject:[UIColor colorWithWhite:0.85 alpha:1] forKey:NSForegroundColorAttributeName];
     
-     NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17] forKey:NSFontAttributeName];
+    NSMutableDictionary *addressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17] forKey:NSFontAttributeName];
     [addressStringDict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     
-    NSMutableAttributedString *toAddressString = [[NSMutableAttributedString alloc] initWithString:@"To " attributes:toStringDict];
+    NSMutableDictionary *destAddressStringDict = [NSMutableDictionary dictionaryWithObject:[UIFont systemFontOfSize:15] forKey:NSFontAttributeName];
+    [destAddressStringDict setObject:[UIColor colorWithWhite:0.9 alpha:1] forKey:NSForegroundColorAttributeName];
     
-    NSMutableAttributedString *addressString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",toLocation] attributes:addressStringDict];
+    NSMutableAttributedString *addressString = [[NSMutableAttributedString alloc] initWithString:toLocation attributes:addressStringDict];
     
-    [toAddressString appendAttributedString:addressString];
+    NSMutableAttributedString *fromAddressString = [[NSMutableAttributedString alloc] initWithString:@"\nfrom " attributes:fromStringDict];
     
-    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 20)];
-    label.attributedText = toAddressString;
+    [addressString appendAttributedString:fromAddressString];
+    
+    NSMutableAttributedString *destAddressString = [[NSMutableAttributedString alloc] initWithString:fromLocation attributes:destAddressStringDict];
+    
+    [addressString appendAttributedString:destAddressString];
+    
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
+    label.numberOfLines = 0;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.attributedText = addressString;
     [label sizeToFit];
     self.navigationItem.titleView = label;
     
@@ -328,15 +337,11 @@
 }
 
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location animated:(BOOL)animated{
-    if (animated) {
-        [UIView transitionWithView:routeListView duration:0.2 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            
-            [self moveRouteViewToLocation:location];
-            
-        } completion:^(BOOL finished) {}];
-    }else{
+    [UIView transitionWithView:routeListView duration:animated ? 0.2 : 0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        
         [self moveRouteViewToLocation:location];
-    }
+        
+    } completion:^(BOOL finished) {}];
 }
 
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location{
@@ -346,7 +351,7 @@
     
     if (location == RouteListViewLoactionBottom) {
         [self hideNavigationBar:NO animated:YES];
-        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y;
+        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y + 15;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
@@ -416,16 +421,21 @@
         previousRouteButton.enabled = NO;
     }
     
-    if (nextRouteButton.enabled)
+    if (nextRouteButton.enabled){
         nextRouteButton.tintColor = [AppManager systemGreenColor];
-    else
+        nextRouteButton.layer.borderColor = [AppManager systemGreenColor].CGColor;
+    }else{
         nextRouteButton.tintColor = [UIColor lightGrayColor];
+        nextRouteButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
     
-    if (previousRouteButton.enabled)
+    if (previousRouteButton.enabled){
         previousRouteButton.tintColor = [AppManager systemGreenColor];
-    else
+        previousRouteButton.layer.borderColor = [AppManager systemGreenColor].CGColor;
+    }else{
         previousRouteButton.tintColor = [UIColor lightGrayColor];
-
+        previousRouteButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
 }
 
 -(BOOL)displayNextRouteAnimated{
@@ -1379,23 +1389,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 - (void)snapRouteListView {
     CGFloat viewHeight = routeListView.frame.size.height;
     CGFloat curPos = routeLIstViewVerticalSpacing.constant;
-    /*
-    if (routeListViewIsGoingUp) {
-        if (routeLIstViewVerticalSpacing.constant > (routeListView.frame.size.height / 1.33)) {
-            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
-        }else if (routeLIstViewVerticalSpacing.constant > (routeListView.frame.size.height / 4)) {
-            [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
-        }else{
-            [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
-        }
-    }else{
-        if (routeLIstViewVerticalSpacing.constant > (routeListView.frame.size.height / 5)) {
-            [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:YES];
-        }else{
-            [self moveRouteViewToLocation:RouteListViewLoactionTop animated:YES];
-        }
-    }
-     */
  
     if (routeListViewIsGoingUp) {
         if ( curPos > (viewHeight / 1.2)) {
@@ -1444,165 +1437,183 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UIColor *darkerGrayColor = [UIColor colorWithWhite:0.28 alpha:1];
+    
     RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
     RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
     UITableViewCell *cell;
     if (loc.isHeaderLocation) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"legHeaderCell"];
-//        NSLog(@"%@", cell.backgroundColor);
         
         UILabel *locNameLabel = (UILabel *)[cell viewWithTag:1002];
         UIImageView *legTypeImage = (UIImageView *)[cell viewWithTag:1001];
-//        UIImageView *detailIndicatorImage = (UIImageView *)[cell viewWithTag:1004];
         UIButton *detailDesclosureButton = (UIButton *)[cell viewWithTag:1004];
-        UILabel *lineNumberLabel = (UILabel *)[cell viewWithTag:1005];
         UILabel *moreInfoLabel = (UILabel *)[cell viewWithTag:1006];
         
-        UIView *prevDottedLine = (UIView *)[cell viewWithTag:2005];
-        UIView *nextDottedLine = (UIView *)[cell viewWithTag:2006];
-        UIView *prevLegLine = (UIView *)[cell viewWithTag:2007];
+        UILabel *lineNumberLabel = (UILabel *)[cell viewWithTag:1000];
+        UIView *transportCircleBackView = [cell viewWithTag:2010];
+        
+        UIImageView *prevLegLine = (UIImageView *)[cell viewWithTag:2007];
         UIView *dotView = (UIView *)[cell viewWithTag:2009];
-        UIView *nextLegLine = (UIView *)[cell viewWithTag:2008];
+        UIImageView *nextLegLine = (UIImageView *)[cell viewWithTag:2008];
         
-        UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 2, 100)];
-        lineView.image = [UIImage asa_dottedLineImageWithFrame:lineView.frame andColor:[UIColor lightGrayColor]];
-        [cell addSubview:lineView];
+        UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
+        startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
         
-        prevLegLine.backgroundColor = [UIColor darkGrayColor];
-        nextLegLine.backgroundColor = [UIColor darkGrayColor];
+        [legTypeImage setImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType]];
+        legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
+        
         dotView.backgroundColor = [UIColor whiteColor];
-        dotView.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+        dotView.layer.borderColor = [darkerGrayColor CGColor];
         dotView.layer.borderWidth = 3.0;
         dotView.layer.cornerRadius = 6.f;
         
-        if(selectedLeg.legType == LegTypeMetro){
-            lineNumberLabel.text = @"Metro";
-        }else if(selectedLeg.legType == LegTypeFerry){
-            lineNumberLabel.text = @"Ferry";
-        }else if(selectedLeg.legType == LegTypeTrain){
-            lineNumberLabel.text = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
-        }else if (selectedLeg.lineCode != nil) {
-            lineNumberLabel.text = selectedLeg.lineName;
-        }else {
-            lineNumberLabel.text = @"";
-        }
+        transportCircleBackView.layer.cornerRadius = 17.5f;
+        transportCircleBackView.layer.borderColor = [UIColor colorWithWhite:0.85 alpha:1].CGColor;
         
-        if (indexPath.row == self.routeLocationList.count - 1) {
+        prevLegLine.backgroundColor = darkerGrayColor;
+        nextLegLine.backgroundColor = darkerGrayColor;
+        
+        if (indexPath.row == 0) {
+            locNameLabel.text = self.fromLocation;
+            detailDesclosureButton.hidden = NO;
+            nextLegLine.hidden = NO;
+            prevLegLine.hidden = YES;
+            transportCircleBackView.hidden = NO;
+            lineNumberLabel.hidden = NO;
+            moreInfoLabel.hidden = NO;
+            
+            dotView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        }else if (indexPath.row == self.routeLocationList.count - 1) {
             locNameLabel.text = self.toLocation;
-//            [legTypeImage setImage:[UIImage imageNamed:@"finish_flag-50.png"]];
-//            detailIndicatorImage.hidden = YES;
             detailDesclosureButton.hidden = YES;
             nextLegLine.hidden = YES;
-            nextDottedLine.hidden = YES;
             prevLegLine.hidden = NO;
-            prevDottedLine.hidden = NO;
-//            [cell addSubview:line];
-//            line.frame = CGRectMake(0, 69.5, self.view.frame.size.width, 0.5);
+            transportCircleBackView.hidden = YES;
+            [legTypeImage setImage:nil];
+            lineNumberLabel.hidden = YES;
+            moreInfoLabel.hidden = YES;
             
-        }else if (indexPath.row == 0) {
-//            locNameLabel.text = @"Start location";
-            locNameLabel.text = self.fromLocation;
-//            detailIndicatorImage.hidden = NO;
-            detailDesclosureButton.hidden = NO;
-            nextLegLine.hidden = NO;
-            nextDottedLine.hidden = NO;
-            prevLegLine.hidden = YES;
-            prevDottedLine.hidden = YES;
+            dotView.layer.borderColor = [[AppManager systemGreenColor] CGColor];
         }else{
             locNameLabel.text = loc.name == nil || loc.name == (id)[NSNull null] ? @"" : loc.name;
-//            detailIndicatorImage.hidden = NO;
             detailDesclosureButton.hidden = NO;
             nextLegLine.hidden = NO;
-            nextDottedLine.hidden = NO;
             prevLegLine.hidden = NO;
-            prevDottedLine.hidden = NO;
-//            [cell addSubview:line];
+            transportCircleBackView.hidden = NO;
+            lineNumberLabel.hidden = NO;
+            moreInfoLabel.hidden = NO;
         }
+        
+        if (loc.locationLegType == LegTypeWalk) {
+            transportCircleBackView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+            transportCircleBackView.layer.borderWidth = 1;
+            
+            lineNumberLabel.text = @"Walk";
+            
+            nextLegLine.image = [UIImage asa_dottedLineImageWithFrame:nextLegLine.frame andColor:[UIColor lightGrayColor]];
+            nextLegLine.backgroundColor = [UIColor clearColor];
+            
+            moreInfoLabel.text = [NSString stringWithFormat:@"Walk for %ld meters \nAbout %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+        }else{
+            transportCircleBackView.backgroundColor = darkerGrayColor;
+            transportCircleBackView.layer.borderWidth = 0;
+            
+            lineNumberLabel.text = [selectedLeg.lineDisplayName capitalizedString];
+            
+            if (selectedLeg.legType != LegTypeTram) { /* the tram picture is smaller than others */
+                [legTypeImage setImage:[UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)]];
+                legTypeImage.contentMode = UIViewContentModeCenter;
+            }
+            
+            NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
+            NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
+            if (destination != nil) {
+                moreInfoLabel.text = [NSString stringWithFormat:@"Towards %@ \n%@", destination, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+                moreInfoLabel.textColor = [UIColor darkGrayColor];
+            }else{
+                moreInfoLabel.text = [NSString stringWithFormat:@"%d %@ \n%@", [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatFullDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+                moreInfoLabel.textColor = [UIColor lightGrayColor];
+            }
+        }
+        
+//        if (indexPath.row == self.routeLocationList.count - 1) {
+//            nextLegLine.hidden = YES;
+//            [legTypeImage setImage:nil];
+//        }
         
         if (indexPath.row > 0) {
             RouteLegLocation *prevLoc = [self.routeLocationList objectAtIndex:indexPath.row - 1];
             switch (prevLoc.locationLegType) {
                 case LegTypeWalk:
-                    prevDottedLine.hidden = NO;
-                    prevLegLine.hidden = YES;
+                    prevLegLine.image = [UIImage asa_dottedLineImageWithFrame:prevLegLine.frame andColor:[UIColor lightGrayColor]];
+                    prevLegLine.backgroundColor = [UIColor clearColor];
                     break;
                     
                 default:
-                    prevDottedLine.hidden = YES;
-                    prevLegLine.hidden = NO;
+                    prevLegLine.backgroundColor = darkerGrayColor;
+                    prevLegLine.image = nil;
                     break;
             }
         }
         
-        nextDottedLine.hidden = YES;
-        nextLegLine.hidden = NO;
-        
-        [legTypeImage setImage:[AppManager vehicleImageForLegTrasnportType:loc.locationLegType]];
-        if (loc.locationLegType == LegTypeWalk) {
-            nextDottedLine.hidden = NO;
-            nextLegLine.hidden = YES;
-        }
-        
         if (indexPath.row == self.routeLocationList.count - 1) {
-            nextLegLine.hidden = YES;
-            nextDottedLine.hidden = YES;
-            [legTypeImage setImage:nil];
-        }
-
-        if (indexPath.row == self.routeLocationList.count - 1) {
-            //Position the label in the middle
-            moreInfoLabel.text = @"";
+//            moreInfoLabel.text = @"";
+//            lineNumberLabel.hidden = YES;
         }else if (selectedLeg.legType == LegTypeWalk) {
-            moreInfoLabel.text = [NSString stringWithFormat:@"Walk %ld meters · %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+//            moreInfoLabel.text = [NSString stringWithFormat:@"Walk for %ld meters \nAbout %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+//            lineNumberLabel.hidden = NO;
+//            lineNumberLabel.text = @"Walk";
         }else{
-            NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
-            NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
-            if (destination != nil) {
-                moreInfoLabel.text = [NSString stringWithFormat:@"%@ towards %@ · %d %@ · %@", selectedLeg.lineName, destination, [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-            }else{
-                moreInfoLabel.text = [NSString stringWithFormat:@"%@ · %d %@ · %@", selectedLeg.lineName, [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-            }
+//            lineNumberLabel.hidden = NO;
+//            lineNumberLabel.text = [selectedLeg.lineDisplayName capitalizedString];
+//            NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
+//            NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
+//            if (destination != nil) {
+//                moreInfoLabel.text = [NSString stringWithFormat:@"Towards %@ \n%@", destination, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+//                moreInfoLabel.textColor = [UIColor darkGrayColor];
+//            }else{
+//                moreInfoLabel.text = [NSString stringWithFormat:@"%d %@ \n%@", [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatFullDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
+//                moreInfoLabel.textColor = [UIColor lightGrayColor];
+//            }
         }
         
         [detailDesclosureButton setTitle:[self disclosureButtontextForLeg:selectedLeg] forState:UIControlStateNormal];
         detailDesclosureButton.userInteractionEnabled = NO;
         
-        UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
-        startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
-        
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }else if (!loc.isHeaderLocation) {
-        if (loc.locationLegType == LegTypeWalk) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"legWalkLocationCell"];
-        }else{
-            cell = [tableView dequeueReusableCellWithIdentifier:@"legstopLocationCell"];
-        }
         
-        UIView *typeLine = (UIView *)[cell viewWithTag:2001];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"legstopLocationCell"];
+        
+        UIImageView *typeLine = (UIImageView *)[cell viewWithTag:2001];
+        UILabel *locNameLabel = (UILabel *)[cell viewWithTag:2002];
+        UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:2003];
         UIView *dotView = (UIView *)[cell viewWithTag:2004];
+
+        if (loc.name == nil || loc.name == (id)[NSNull null])
+            locNameLabel.text = @"";
+        else
+            locNameLabel.text = loc.name;
+
+        if (loc.stopCode == nil || loc.stopCode == (id)[NSNull null])
+            cell.accessoryType = UITableViewCellAccessoryNone;
         
-        typeLine.backgroundColor = [UIColor darkGrayColor];
-        dotView.backgroundColor = [UIColor darkGrayColor];
-        
+        dotView.backgroundColor = darkerGrayColor;
         dotView.layer.cornerRadius = 3.5f;
         
-//        cell.backgroundColor = [UIColor clearColor];
-        
-        UILabel *locNameLabel = (UILabel *)[cell viewWithTag:2002];
-        if (loc.name == nil || loc.name == (id)[NSNull null]) {
-            locNameLabel.text = @"";
+        if (loc.locationLegType == LegTypeWalk) {
+            typeLine.backgroundColor = [UIColor clearColor];
+            typeLine.image = [UIImage asa_dottedLineImageWithFrame:typeLine.frame andColor:[UIColor lightGrayColor]];
+            dotView.hidden = YES;
+            startTimeLabel.hidden = YES;
         }else{
-            locNameLabel.text = loc.name;
-        }
-        
-        if (loc.locationLegType != LegTypeWalk) {
-            UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:2003];
+            typeLine.backgroundColor = darkerGrayColor;
+            typeLine.image = nil;
+            dotView.hidden = NO;
+            startTimeLabel.hidden = NO;
             startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
-        }
-        
-        if (loc.stopCode == nil || loc.stopCode == (id)[NSNull null]){
-            cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -1614,10 +1625,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
     
+    //This numbers are critical so that the dotted lines match
     if (loc.isHeaderLocation) {
-        return 100.0;
+        return 138.0;
     }else{
-        return 25.0;
+        return 24.0;
     }
 }
 

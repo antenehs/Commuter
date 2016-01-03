@@ -1185,9 +1185,9 @@ typedef enum
         if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]){
             StopEntity *stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             
-            [self setTextToSearchBar:toSearchBar text:[NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode]];
+            [self setTextToSearchBar:toSearchBar text:stopEntity.busStopName];
             
-            toString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
+            toString = stopEntity.busStopName;
             toCoords = stopEntity.busStopWgsCoords;
             
             [self searchRouteIfPossible];
@@ -1260,13 +1260,13 @@ typedef enum
 
 #pragma mark - address search view controller
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
-    [self setTextToSearchBar:activeSearchBar text:[NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode]];
+    [self setTextToSearchBar:activeSearchBar text:stopEntity.busStopName];
     
     if (activeSearchBar == fromSearchBar) {
-        fromString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
+        fromString = stopEntity.busStopName;
         fromCoords = stopEntity.busStopWgsCoords;
     }else if (activeSearchBar == toSearchBar) {
-        toString = [NSString stringWithFormat:@"%@ %@", stopEntity.busStopName, stopEntity.busStopShortCode];
+        toString = stopEntity.busStopName;
         toCoords = stopEntity.busStopWgsCoords;
     }
     

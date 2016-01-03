@@ -49,4 +49,6 @@
 @property (nonatomic) bool showDetailed;
 @property (nonatomic) int legOrder;
 
+@property (nonatomic, readonly) NSString * lineDisplayName;
+
 @end

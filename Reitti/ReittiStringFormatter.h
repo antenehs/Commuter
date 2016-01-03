@@ -18,6 +18,7 @@
 +(NSString *)formatFullDate:(NSDate *)date;
 +(NSString *)formatHourStringFromDate:(NSDate *)date;
 +(NSString *)formatDurationString:(NSInteger)seconds;
++(NSString *)formatFullDurationString:(NSInteger)seconds;
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
 +(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize;
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;

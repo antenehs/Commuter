@@ -131,4 +131,36 @@
     return count;
 }
 
+-(NSString *)lineDisplayName{
+    switch (self.legType) {
+        case LegTypeBus:
+            return [NSString stringWithFormat:@"Bus %@", self.lineName];
+            break;
+            
+        case LegTypeTram:
+            return [NSString stringWithFormat:@"Tram %@", self.lineName];
+            break;
+            
+        case LegTypeTrain:
+            return [NSString stringWithFormat:@"Train %@", self.lineName];
+            break;
+            
+        case LegTypeFerry:
+            return @"Ferry";
+            break;
+        
+        case LegTypeMetro:
+            return @"Metro";
+            break;
+            
+        case LegTypeWalk:
+            return @"Walk";
+            break;
+            
+        default:
+            return self.lineName;
+            break;
+    }
+}
+
 @end

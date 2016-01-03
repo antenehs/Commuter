@@ -314,22 +314,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    if (section == 0 && trainLines.count != 0) {
-//        return 30;
-//    }else if (section == 1 && tramLines.count != 0){
-//        return 30;
-//    }else if (section == 2 && metroLines.count != 0){
-//        return 30;
-//    }else if (section == 3 && ferryLines.count != 0){
-//        return 30;
-//    }else if (section == 4 && busLines.count != 0){
-//        return 30;
-//    }
-    
-//    if ([self dataSourceForSection:section].count != 0) {
-//        return 30;
-//    }
-    
     return 30;
 }
 

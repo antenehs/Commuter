@@ -148,6 +148,17 @@
     
 }
 
++(NSString *)formatFullDurationString:(NSInteger)seconds{
+    int minutes = (int)(seconds/60);
+    
+    if (minutes > 59) {
+        return [NSString stringWithFormat:@"%dhour %d minutes", (int)(minutes/60), minutes % 60];
+    }else{
+        return [NSString stringWithFormat:@"%d minutes", minutes];
+    }
+    
+}
+
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font{
     
     UIFont *smallerFont = [font fontWithSize:16.0];
