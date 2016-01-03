@@ -301,12 +301,25 @@
     
     [optionsDict setValue:@"asareitti" forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
-//    [optionsDict setValue:@"1" forKey:@"filter_variants"];
-//    [optionsDict setValue:@"1" forKey:@"include_sort_id"];
     
     [super fetchLineDetailForSearchterm:searchTerm andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"HSL" value:nil];
+}
+
+#pragma mark - Reverse geocode fetch protocol implementation
+-(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"commuterreversegeo" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
+    [optionsDict setValue:coordStrings forKey:@"coordinate"];
+    
+    [super fetchRevereseGeocodeWithOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"HSL" value:nil];
 }
 
 
@@ -325,10 +338,8 @@
                 line.fullCode = lineCode;
                 line.code = [HSLCommunication parseBusNumFromLineCode:lineCode];
                 
-                //TODO:Parse the direction someother way since it is not always like this
-                NSArray *lineComps = [lineCode componentsSeparatedByString:@" "];
-                if (lineComps.count > 1) {
-                    line.direction = [lineComps lastObject];
+                if (lineCode.length == 7) {
+                    line.direction = [lineCode substringWithRange:NSMakeRange(6, 1)];
                 }
             }
             
@@ -426,21 +437,6 @@
         return [NSString stringWithFormat:@"%@%@", codePart, firstLetterVariant];
     
     return [NSString stringWithFormat:@"%@%@%@", codePart, firstLetterVariant, secondLetterVariant];
-    
-//    NSRange second = NSMakeRange(1, 1);
-//    
-//    NSString *checkString = [code substringWithRange:second];
-//    NSString *returnString;
-//    if([checkString isEqualToString:@"0"]){
-//        returnString = [code substringWithRange:NSMakeRange(2, code.length - 2)];
-//    }else{
-//        returnString = [code substringWithRange:NSMakeRange(1, code.length - 1)];
-//    }
-//    
-//    if ([returnString hasPrefix:@"0"])
-//        return [returnString substringWithRange:NSMakeRange(1, returnString.length - 1)];
-//    else
-//        return returnString;
 }
 
 #pragma mark - overriden methods

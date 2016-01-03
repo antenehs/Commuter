@@ -436,6 +436,42 @@
     }
 }
 
+#pragma mark - Reverse geocode methods
+
+-(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
+    Region region = [self identifyRegionOfCoordinate:coords];
+    
+    id dataSourceManager = [self getDataSourceForRegion:region];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(ReverseGeocodeProtocol)]) {
+        [(NSObject<ReverseGeocodeProtocol> *)dataSourceManager searchAddresseForCoordinate:coords withCompletionBlock:^(GeoCode * response, NSString *error){
+            
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
+    }else{
+        completionBlock(nil, @"Service not available in the current region.");
+    }
+    
+//    NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
+//    if (region == HSLRegion) {
+//        [self.hslCommunication searchAddressForCoordinate:coordStrings];
+//    }else if (region == TRERegion){
+//        [self.treCommunication searchAddressForCoordinate:coordStrings];
+//    }else{
+//        [self.hslCommunication searchAddressForCoordinate:coordStrings];
+//    }
+}
+
+-(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords{
+    [self searchAddresseForCoordinate:coords withCompletionBlock:^(GeoCode *geoCode, NSString *error){
+        
+    }];
+}
+
 #pragma mark - Address fetch methods
 
 -(void)searchAddressesForKey:(NSString *)key{
@@ -450,18 +486,6 @@
         [self.treCommunication searchGeocodeForKey:key];
     }
     
-}
-
--(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords{
-    Region region = [self identifyRegionOfCoordinate:coords];
-    NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
-    if (region == HSLRegion) {
-        [self.hslCommunication searchAddressForCoordinate:coordStrings];
-    }else if (region == TRERegion){
-        [self.treCommunication searchAddressForCoordinate:coordStrings];
-    }else{
-        [self.hslCommunication searchAddressForCoordinate:coordStrings];
-    }
 }
 
 -(void)fetchDisruptions{

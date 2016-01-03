@@ -24,6 +24,8 @@ typedef void (^ActionBlock)();
 
 - (void)fetchLineDetailForSearchterm:(NSString *)searchTerm andOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock;
 
+- (void)fetchRevereseGeocodeWithOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock;
+
 //Helpers
 - (NSDate *)dateFromDateString:(NSString *)date andHourString:(NSString *)hour;
 - (NSString *)readableHoursFromApiHours:(NSString *)apiHours;

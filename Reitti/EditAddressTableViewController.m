@@ -55,7 +55,7 @@
     }
     
     requestedForSaving = NO;
-    [self.reittiDataManager searchAddresseForCoordinate:self.currentUserLocation.coordinate];
+    [self searchReverseGeocodeForCoordinate:self.currentUserLocation.coordinate];
     
     [self updateViewData];
     
@@ -547,7 +547,7 @@
     if (self.currentLocationGeoCode != nil) {
         [self setValuesFromGeoCode:currentLocationGeoCode];
     }else{
-        [self.reittiDataManager searchAddresseForCoordinate:self.currentUserLocation.coordinate];
+        [self searchReverseGeocodeForCoordinate:self.currentUserLocation.coordinate];
         //TODO: Do some indication
         requestedForSaving = YES;
     }
@@ -568,7 +568,17 @@
     
 }
 
-#pragma mark - reverse geo delegate
+#pragma mark - reverse geocode search handler methods
+- (void)searchReverseGeocodeForCoordinate:(CLLocationCoordinate2D)coordinate{
+    [self.reittiDataManager searchAddresseForCoordinate:coordinate withCompletionBlock:^(GeoCode *geocode, NSString *errorString){
+        if (!errorString && geocode) {
+            [self reverseGeocodeSearchDidComplete:geocode];
+        }else{
+            [self reverseGeocodeSearchDidFail:errorString];
+        }
+    }];
+}
+
 - (void)reverseGeocodeSearchDidComplete:(GeoCode *)_geoCode{
     currentLocationGeoCode = _geoCode;
     if (requestedForSaving) {
@@ -577,7 +587,8 @@
 }
 
 - (void)reverseGeocodeSearchDidFail:(NSString *)error{
-    [ReittiNotificationHelper showErrorBannerMessage:@"Current location cannot be determined." andContent:nil];
+    if (requestedForSaving)
+        [ReittiNotificationHelper showErrorBannerMessage:@"Current location cannot be determined." andContent:nil];
 }
 
 #pragma mark - uitextview delegate methods

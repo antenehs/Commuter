@@ -304,6 +304,21 @@
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"TRE" value:nil];
 }
 
+#pragma mark - Reverse geocode fetch protocol implementation
+-(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"commuterreversegeo" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
+    [optionsDict setValue:coordStrings forKey:@"coordinate"];
+    
+    [super fetchRevereseGeocodeWithOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"HSL" value:nil];
+}
+
 #pragma mark - helpers
 
 - (void)parseStopLines:(BusStop *)stop {
@@ -318,6 +333,7 @@
                 line.destination = info[1];
                 NSString *lineCode = info[0];
                 line.fullCode = lineCode;
+                
                 NSArray *lineComps = [lineCode componentsSeparatedByString:@" "];
                 line.code = [TRECommunication parseBusNumFromLineCode:lineComps[0]];
                 if (lineComps.count > 1) {

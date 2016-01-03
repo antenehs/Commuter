@@ -1353,7 +1353,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
     
-    [self.reittiDataManager searchAddresseForCoordinate:coordinate];
+    [self searchReverseGeocodeForCoordinate:coordinate];
 }
 
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
@@ -2277,6 +2277,17 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 - (void)routeSearchDidFail:(NSString *)error{
     
+}
+
+#pragma mark - reverse geocode search handler methods
+- (void)searchReverseGeocodeForCoordinate:(CLLocationCoordinate2D)coordinate{
+    [self.reittiDataManager searchAddresseForCoordinate:coordinate withCompletionBlock:^(GeoCode *geocode, NSString *errorString){
+        if (!errorString && geocode) {
+            [self reverseGeocodeSearchDidComplete:geocode];
+        }else{
+            [self reverseGeocodeSearchDidFail:errorString];
+        }
+    }];
 }
 
 - (void)reverseGeocodeSearchDidComplete:(GeoCode *)geoCode{

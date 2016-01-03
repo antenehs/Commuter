@@ -268,6 +268,55 @@
     return lines;
 }
 
+#pragma mark - Reverse geocode fetch methods
+- (void)fetchRevereseGeocodeWithOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock{
+    if (!optionsDict)
+        optionsDict = @{};
+    
+    [optionsDict setValue:@"reverse_geocode" forKey:@"request"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_in"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_out"];
+    [optionsDict setValue:@"json" forKey:@"format"];
+    
+    NSDictionary *mappingDict = @{
+                                      @"locType" : @"locType",
+                                      @"locTypeId" : @"locTypeId",
+                                      @"name" : @"name",
+                                      @"city" : @"city",
+                                      @"lang" : @"lang",
+                                      @"coords" : @"coords",
+                                      @"details" : @"details"
+                                  };
+    
+    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        if (!error) {
+            if (responseArray && responseArray.count > 0) {
+                //TODO: Parse details before returning
+                completionBlock(responseArray[0], nil);
+            }else{
+                completionBlock(nil, @"No address was found for the coordinates");
+            }
+            
+        }else{
+            completionBlock(nil, [self formattedReverseGeocodeFetchErrorMessageForError:error]);
+        }
+    }];
+}
+
+-(NSString *)formattedReverseGeocodeFetchErrorMessageForError:(NSError *)error{
+    NSString *errorString = @"";
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        default:
+            errorString = @"No address was found for the coordinates";
+            break;
+    }
+    
+    return errorString;
+}
+
 #pragma mark - Date formatters
 - (NSDateFormatter *)hourFormatter{
     if (!_hourFormatter) {

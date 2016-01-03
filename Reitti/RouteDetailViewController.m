@@ -113,6 +113,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    [self hideNavigationBar:NO animated:NO];
     [self moveRouteViewToLocation:currentRouteListViewLocation animated:NO];
 //    [routeListTableView reloadData];
     [self setUpMainViewForRoute];
@@ -374,7 +375,7 @@
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"collapse-arrow-100.png"] forState:UIControlStateNormal];
         [self.view layoutIfNeeded];
-        [self hideNavigationBar:YES animated:YES];
+        [self hideNavigationBar:![self isLandScapeOrientation] animated:YES];
     }
     
     [routeListTableView reloadData];

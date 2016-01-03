@@ -132,7 +132,7 @@ typedef struct {
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)searchAddressesForKey:(NSString *)key;
--(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords;
+-(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchDisruptions;
