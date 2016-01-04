@@ -285,6 +285,7 @@
 		666602551AED8F2600E3E392 /* joint-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602521AED8F2600E3E392 /* joint-100.png */; };
 		666602561AED8F2600E3E392 /* bug-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 666602531AED8F2600E3E392 /* bug-100.png */; };
 		666602591AED933A00E3E392 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
+		666A2C371C3B266000053481 /* matkakortiLogoRounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 666A2C361C3B266000053481 /* matkakortiLogoRounded.png */; };
 		666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */; };
 		666BC1D21B5C259700889DD2 /* Time to go 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */; };
 		666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C81B5C259700889DD2 /* Horse whinny.mp3 */; };
@@ -1098,6 +1099,7 @@
 		666602531AED8F2600E3E392 /* bug-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bug-100.png"; path = "Pictures/Version 2.3/bug-100.png"; sourceTree = "<group>"; };
 		666602571AED933A00E3E392 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
 		666602581AED933A00E3E392 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
+		666A2C361C3B266000053481 /* matkakortiLogoRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = matkakortiLogoRounded.png; sourceTree = "<group>"; };
 		666BC1C41B5C1E3700889DD2 /* ToneSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToneSelectorTableViewController.h; sourceTree = "<group>"; };
 		666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToneSelectorTableViewController.m; sourceTree = "<group>"; };
 		666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 1.mp3"; path = "Sounds/Time to go 1.mp3"; sourceTree = "<group>"; };
@@ -1665,6 +1667,7 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				666A2C361C3B266000053481 /* matkakortiLogoRounded.png */,
 				660D312B1C34464C0051DDAA /* transit-line.png */,
 				660D31201C32E3AC0051DDAA /* advanced-setting-100.png */,
 				660D31211C32E3AC0051DDAA /* Bar Chart-100.png */,
@@ -1961,7 +1964,6 @@
 				6665D7481C0B52CA00ACCC3A /* Helpers */,
 				66CA02B21C16364200A38858 /* Environments */,
 				66CA02B41C16367900A38858 /* RestAPI */,
-				66CA02B51C1636A700A38858 /* Managers */,
 				66CA02BB1C163CB200A38858 /* View Libraries */,
 				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
 			);
@@ -2378,6 +2380,7 @@
 				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
 				661FAF22189BA59F00042074 /* View Controllers */,
 				664FA7EA198EB11900C6A5B0 /* Views */,
+				66CA02B51C1636A700A38858 /* Managers */,
 				661FAF21189BA57B00042074 /* Supporting Classes */,
 				661FAF26189E8ACB00042074 /* Models */,
 				66947CC718830ED500642EE1 /* Main.storyboard */,
@@ -3458,6 +3461,7 @@
 				66D42695198FBB0F0080F21E /* Message-Warning-128.png in Resources */,
 				669602D71B14DC12006919CB /* Search-green-100.png in Resources */,
 				660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */,
+				666A2C371C3B266000053481 /* matkakortiLogoRounded.png in Resources */,
 				66D426A31990F7020080F21E /* busStopAnnotation.png in Resources */,
 				66F099971AEADCF300F20D34 /* Thumbs Up-50.png in Resources */,
 				66F099841AE8075D00F20D34 /* NotificationBackgroundErrorIcon.png in Resources */,

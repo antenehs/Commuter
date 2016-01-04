@@ -175,7 +175,7 @@ const NSInteger kTimerRefreshInterval = 15;
 
 - (void)setRoutesForNamedBookmark:(NamedBookmark *)namedBookmark routes:(NSArray *)routes{
     if (namedBookmark && [namedBookmark getUniqueIdentifier] != nil) {
-        [namedBRouteDetail setObject:routes forKey:[namedBookmark getUniqueIdentifier]];
+        [namedBRouteDetail setValue:routes forKey:[namedBookmark getUniqueIdentifier]];
     }
 }
 
@@ -598,19 +598,6 @@ const NSInteger kTimerRefreshInterval = 15;
                 leavesTime.hidden = YES;
                 arrivesTime.hidden = YES;
             }
-            
-//            if ([self isValidBookmarkForRouteSearch:namedBookmark]) {
-//                if ([self shouldUpdateRouteInfoForBookmark:namedBookmark]) {
-//                    
-//                    
-//                    [self fetchRouteForNamedBookmark:namedBookmark];
-//                }else{
-//                    
-//                    }
-//                }
-//            }
-            
-            //cityName.font = CUSTOME_FONT_BOLD(19.0f);
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
             
@@ -662,7 +649,15 @@ const NSInteger kTimerRefreshInterval = 15;
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]) {
             return [self bookmarkHasValidRouteInfo:[self.dataToLoad objectAtIndex:dataIndex]] ? 135 : 60;
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]) {
-            return [self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]] ? 150 : 60;
+            if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]]){
+                BusStop *stop = [self getDetailStopForBusStop:[self.dataToLoad objectAtIndex:dataIndex]];
+                if (!stop.departures || stop.departures.count < 3) {
+                    return 110;
+                }else{
+                    return 150;
+                }
+            }
+            return 60;
         }else{
             return 60;
         }
@@ -688,7 +683,7 @@ const NSInteger kTimerRefreshInterval = 15;
             titleLabel.text = @"   LOCATIONS";
             boomarkActivityIndicator.center = CGPointMake(self.view.frame.size.width - 30, 15);
             [view addSubview:boomarkActivityIndicator];
-        }else if (section == savedRoutes){
+        }else if (section == savedRouteSection){
             titleLabel.text = @"   SAVED ROUTES";
         }else{
             titleLabel.text = @"   SAVED STOPS";
@@ -901,6 +896,9 @@ const NSInteger kTimerRefreshInterval = 15;
  Mean that route could be searched for the bookmarks
  */
 - (BOOL)isValidBookmarkForRouteSearch:(NamedBookmark *)nmdBookmark{
+    if (![nmdBookmark isKindOfClass:[NamedBookmark class]])
+        return NO;
+    
     if (self.currentUserLocation) {
         return [self.reittiDataManager canRouteBeSearchedBetweenCoordinates:self.currentUserLocation.coordinate andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];;
     }else{
@@ -948,7 +946,7 @@ const NSInteger kTimerRefreshInterval = 15;
 
 - (void)setDetailStopForBusStop:(StopEntity *)stopEntity busStop:(BusStop *)stop{
     if (stop) {
-        [self.stopDetailMap setObject:stop forKey:[stopEntity.busStopCode stringValue]];
+        [self.stopDetailMap setValue:stop forKey:[stopEntity.busStopCode stringValue]];
     }
 }
 

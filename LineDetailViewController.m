@@ -34,11 +34,9 @@
     [self initDataManagerIfNull];
     [self initBounds];
     
-    bottomTabBarView.layer.borderColor = [UIColor grayColor].CGColor;
-    bottomTabBarView.layer.borderWidth = 0.5f;
+    [self hideStopsListView:YES animated:NO];
     
-//    [self.reittiDataManager fetchLineInfoForCodeList:self.staticRoute.code];
-//    [SVProgressHUD show];
+    viewApearForTheFirstTime = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -47,17 +45,10 @@
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
--(void)setUpViewForLine{
-    if (self.line) {
-        [self setTitle:self.line.codeShort];
-        nameLabel.text = self.line.name;
-        
-        [self drawLineOnMap];
-        [self plotStopAnnotation];
-        [self centerMapRegionToViewRoute];
-    }else{
-        [self lineSearchDidFail:nil];
-    }
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self hideStopsListView:[self isStopsListViewHidden] animated:NO];
+    
+    titleSeparatorView.frame = CGRectMake(0, stopsTableView.frame.origin.y - 0.5, self.view.frame.size.width, 0.5);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,6 +79,143 @@
     leftBound = _left;
     CLLocationCoordinate2D _right = {.latitude =  0, .longitude =  -180.0};
     rightBound = _right;
+}
+
+#pragma mark - View methods
+
+-(void)setUpViewForLine{
+    if (self.line) {
+        [self setNavigationTitleView];
+        
+        [self drawLineOnMap];
+        [self plotStopAnnotation];
+        if (viewApearForTheFirstTime){
+            [self centerMapRegionToViewRoute];
+            [self hideStopsListView:YES animated:NO];
+        }
+        
+        tableViewContainerView.layer.borderColor = [UIColor grayColor].CGColor;
+        tableViewContainerView.layer.borderWidth = 0.5f;
+        
+        titleSeparatorView.frame = CGRectMake(0, stopsTableView.frame.origin.y - 0.5, self.view.frame.size.width, 0.5);
+        titleSeparatorView.backgroundColor = [UIColor lightGrayColor];
+        
+        [stopsTableView reloadData];
+    }else{
+        [self lineSearchDidFail:nil];
+    }
+    
+    viewApearForTheFirstTime = NO;
+}
+
+-(void)setNavigationTitleView{
+    UIView * titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, [self isLandScapeOrientation] ? 20 : 40)];
+    titleView.clipsToBounds = YES;
+    
+    NSMutableDictionary *lineCodeDict = [NSMutableDictionary dictionaryWithObject:[UIFont fontWithName:@"HelveticaNeue-Medium" size:17] forKey:NSFontAttributeName];
+    [lineCodeDict setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    
+    NSMutableDictionary *lineNameDict = [NSMutableDictionary dictionaryWithObject:[UIFont systemFontOfSize:15] forKey:NSFontAttributeName];
+    [lineNameDict setObject:[UIColor colorWithWhite:0.9 alpha:1] forKey:NSForegroundColorAttributeName];
+    
+    NSMutableAttributedString *lineCodeString = [[NSMutableAttributedString alloc] initWithString:self.line.codeShort attributes:lineCodeDict];
+    
+    NSMutableAttributedString *lineNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@", self.line.name] attributes:lineNameDict];
+    
+    [lineCodeString appendAttributedString:lineNameString];
+    
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 600, 40)];
+    label.numberOfLines = 0;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.attributedText = lineCodeString;
+    [label sizeToFit];
+    self.navigationItem.titleView = label;
+}
+
+-(BOOL)isLandScapeOrientation{
+    return self.view.frame.size.height < self.view.frame.size.width;
+}
+
+-(void)hideStopsListView:(BOOL)hidden animated:(BOOL)anim{
+    
+    [UIView transitionWithView:tableViewContainerView duration:anim ? 0.2 : 0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self hideStopsListView:hidden];
+    } completion:^(BOOL finished) {}];
+}
+
+- (void)hideStopsListView:(BOOL)hidden{
+    if (hidden) {
+        tableViewTopSpacingConstraint.constant = self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height;
+        stopsListHeaderLabel.text = @"SHOW LINE STOPS";
+    }else{
+        tableViewTopSpacingConstraint.constant = 0;
+        stopsListHeaderLabel.text = @"LINE STOPS";
+    }
+    
+    [self.view layoutSubviews];
+}
+
+- (BOOL)isStopsListViewHidden{
+    return tableViewTopSpacingConstraint.constant > 100;
+}
+
+#pragma mark - Table view methods
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return line.lineStops ? line.lineStops.count : 0;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [stopsTableView dequeueReusableCellWithIdentifier:@"lineStopCell"];
+    
+    LineStops *lineStop = self.line.lineStops[indexPath.row];
+    
+    UILabel *stopNameLabel = (UILabel *)[cell viewWithTag:1001];
+    UILabel *stopDetailLabel = (UILabel *)[cell viewWithTag:1002];
+    UILabel *timeLabel = (UILabel *)[cell viewWithTag:1003];
+    
+    stopNameLabel.text = lineStop.name;
+    if (lineStop.platformNumber) {
+        stopDetailLabel.text = [NSString stringWithFormat:@"Code: %@ - Platform: %@ - %@", lineStop.codeShort, lineStop.platformNumber, lineStop.cityName];
+    }else{
+        stopDetailLabel.text = [NSString stringWithFormat:@"Code: %@ - %@", lineStop.codeShort, lineStop.cityName];
+    }
+    
+    if (indexPath.row == 0)
+        timeLabel.text = [NSString stringWithFormat:@"%d min", (int)lineStop.time];
+    else
+        timeLabel.text = [NSString stringWithFormat:@"+%d min", (int)lineStop.time];
+    
+    UIView *prevLine = [cell viewWithTag:2001];
+    UIView *dotView = [cell viewWithTag:2002];
+    UIView *nextLine = [cell viewWithTag:2003];
+    
+    prevLine.backgroundColor = [AppManager systemGreenColor];
+    nextLine.backgroundColor = [AppManager systemGreenColor];
+    
+    dotView.layer.borderWidth = 3;
+    dotView.layer.borderColor = [AppManager systemGreenColor].CGColor;
+    dotView.backgroundColor = [UIColor whiteColor];
+    dotView.layer.cornerRadius = dotView.frame.size.width/2;
+    
+    if (indexPath.row == 0) {
+        prevLine.hidden = YES;
+        nextLine.hidden = NO;
+    }else if (indexPath.row == self.line.lineStops.count - 1){
+        prevLine.hidden = NO;
+        nextLine.hidden = YES;
+    }else{
+        prevLine.hidden = NO;
+        nextLine.hidden = NO;
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
 }
 
 #pragma mark - map view methods
@@ -285,6 +413,12 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - IBActions
+
+- (IBAction)showOrHideStopsViewButtonPressed:(id)sender {
+    [self hideStopsListView:![self isStopsListViewHidden] animated:YES];
+}
+
 #pragma mark - helper methods
 - (void)evaluateBoundsForCoordsArray:(CLLocationCoordinate2D *)coords andCount:(int)count{
     for (int i = 0; i < count; i++) {
@@ -336,6 +470,23 @@
             stopViewController.delegate = nil;
         }
     }
+    
+    if ([segue.identifier isEqualToString:@"showStopFromStopList"]) {
+        NSIndexPath *selectedRowIndexPath = [stopsTableView indexPathForSelectedRow];
+        
+        LineStops *lineStop = self.line.lineStops[selectedRowIndexPath.row];
+        
+        if (lineStop) {
+            StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
+            stopViewController.stopCode = lineStop.code;
+            stopViewController.stopShortCode = lineStop.codeShort;
+            stopViewController.stopName = lineStop.name;
+            stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:lineStop.coords];
+            stopViewController.reittiDataManager = self.reittiDataManager;
+        }
+    }
+    
+    [self.navigationItem setTitle:@""];
 }
 
 @end

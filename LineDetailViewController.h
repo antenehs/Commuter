@@ -14,7 +14,7 @@
 #import "StaticRoute.h"
 #import "AMBlurView.h"
 
-@interface LineDetailViewController : UIViewController<MKMapViewDelegate, RettiLineInfoSearchDelegate>{
+@interface LineDetailViewController : UIViewController<MKMapViewDelegate, RettiLineInfoSearchDelegate, UITableViewDataSource, UITableViewDelegate>{
     IBOutlet MKMapView *routeMapView;
     
     CLLocationCoordinate2D upperBound;
@@ -27,7 +27,15 @@
     CLLocationCoordinate2D selectedAnnotationStopCoords;
     
     IBOutlet UILabel *nameLabel;
-    IBOutlet AMBlurView *bottomTabBarView;
+    IBOutlet AMBlurView *tableViewContainerView;
+    
+    IBOutlet UITableView *stopsTableView;
+    IBOutlet UILabel *stopsListHeaderLabel;
+    IBOutlet UIView *titleSeparatorView;
+    
+    IBOutlet NSLayoutConstraint *tableViewTopSpacingConstraint;
+    
+    BOOL viewApearForTheFirstTime;
 }
 
 @property (strong, nonatomic) StaticRoute *staticRoute;

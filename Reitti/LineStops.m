@@ -35,7 +35,6 @@ NSString *const kLineStopsName = @"name";
 @synthesize cityName = _cityName;
 @synthesize name = _name;
 
-
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
 {
     return [[self alloc] initWithDictionary:dict];

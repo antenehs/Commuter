@@ -30,10 +30,9 @@
     [self initDataManager];
     
     thereIsDisruptions = [self areThereDisruptions];
-    canShowLines = YES;
     canShowDisruptions = YES;
     
-    [self checkForLinesAndDisruptionAvailability];
+    [self checkForDisruptionAvailability];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
@@ -97,18 +96,16 @@
     return moreTabBarItem.badgeValue != nil;
 }
 
-- (void)checkForLinesAndDisruptionAvailability {
+- (void)checkForDisruptionAvailability {
     if (([self.settingsManager userLocation] != HSLRegion)) {
-        canShowLines = NO;
         canShowDisruptions = NO;
     }else{
-        canShowLines = YES;
         canShowDisruptions = YES;
     }
 }
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
-    [self checkForLinesAndDisruptionAvailability];
+    [self checkForDisruptionAvailability];
     
     thereIsDisruptions = [self areThereDisruptions];
     
@@ -124,7 +121,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return canShowLines ? 3 : 2;
+        return canShowDisruptions ? 3 : 2;
     }else if (section == 1) {
         return 1;
     }else{
@@ -142,15 +139,13 @@
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"remindersCell" forIndexPath:indexPath];
         }
-        else if (indexPath.row == 1 && canShowLines) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"linesCell" forIndexPath:indexPath];
+        else if (indexPath.row == 1) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"matkakorttiCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
             
             UIView *disruptionsView = [cell viewWithTag:1003];
             disruptionsView.layer.cornerRadius = 12.5;
-//            disruptionsView.layer.borderWidth = 0.5;
-//            disruptionsView.layer.borderColor = [UIColor darkGrayColor].CGColor;
             
             disruptionsView.hidden = !thereIsDisruptions || !canShowDisruptions;
         }
@@ -220,6 +215,11 @@
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
+}
+
+- (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
+    //TODO: Check if the app exists locally and open it with a url
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1036411677"]];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

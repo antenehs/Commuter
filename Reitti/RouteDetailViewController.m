@@ -1438,7 +1438,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIColor *darkerGrayColor = [UIColor colorWithWhite:0.28 alpha:1];
+//    UIColor *darkerGrayColor = [UIColor colorWithWhite:0.28 alpha:1];
+    UIColor *darkerGrayColor = [UIColor darkGrayColor];
     
     RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
     RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
@@ -1474,6 +1475,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         
         prevLegLine.backgroundColor = darkerGrayColor;
         nextLegLine.backgroundColor = darkerGrayColor;
+        
+        moreInfoLabel.textColor = [UIColor darkGrayColor];
         
         if (indexPath.row == 0) {
             locNameLabel.text = self.fromLocation;
@@ -1527,14 +1530,15 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                 legTypeImage.contentMode = UIViewContentModeCenter;
             }
             
+            nextLegLine.backgroundColor = darkerGrayColor;
+            nextLegLine.image = nil;
+            
             NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
             NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
             if (destination != nil) {
                 moreInfoLabel.text = [NSString stringWithFormat:@"Towards %@ \n%@", destination, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-                moreInfoLabel.textColor = [UIColor darkGrayColor];
             }else{
                 moreInfoLabel.text = [NSString stringWithFormat:@"%d %@ \n%@", [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatFullDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-                moreInfoLabel.textColor = [UIColor lightGrayColor];
             }
         }
         

@@ -48,6 +48,8 @@
     
     scrollingShouldResignFirstResponder = YES;
     tableIsScrolling = NO;
+    
+//    self.title = @"";
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -60,6 +62,10 @@
     }
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.title = @"Lines";
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -503,6 +509,8 @@
         lineDetailViewController.line = [self lineForIndexPath:indexPath];
         wasShowingLineDetail = YES;
     }
+    
+    [self.navigationItem setTitle:@""];
 }
 
 @end
