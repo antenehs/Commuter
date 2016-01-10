@@ -60,7 +60,13 @@
 }
 
 - (void)updateBearing:(NSNumber *)bearing {
+    self.thumbnail.bearing = bearing;
    [self.view setBearing:bearing];
+}
+
+- (void)updateVehicleImage:(UIImage *)image{
+    self.thumbnail.image = image;
+    [self.view updateAnnotationImageFromThumbnail:self.thumbnail];
 }
 
 

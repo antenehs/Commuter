@@ -123,6 +123,22 @@
     }
 }
 
++(UIImage *)vehicleImageWithNoBearingForVehicleType:(VehicleType)type{
+    if (type == VehicleTypeTram) {
+        return [UIImage imageNamed:@"tramVAnnot-no-bearing.png"];
+    }else if (type == VehicleTypeTrain) {
+        return [UIImage imageNamed:@"trainVAnnot-no-bearing.png"];
+    }else if (type == VehicleTypeMetro) {
+        return [UIImage imageNamed:@"metroVAnnot-no-bearing.png"];
+    }else if (type == VehicleTypeBus) {
+        return [UIImage imageNamed:@"BusVAnnot-no-bearing.png"];
+    }else if (type == VehicleTypeLongDistanceTrain) {
+        return [UIImage imageNamed:@"trainVAnnot-no-bearing.png"];
+    }else {
+        return [UIImage imageNamed:@"tramVAnnot-no-bearing.png"];
+    }
+}
+
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type{
     switch (type) {
         case LegTypeWalk:

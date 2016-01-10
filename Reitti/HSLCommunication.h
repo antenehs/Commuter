@@ -29,7 +29,7 @@
 - (void)hslDisruptionFetchFailed:(int)errorCode;
 @end
 
-@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, ReverseGeocodeProtocol>
+@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, ReverseGeocodeProtocol, DisruptionFetchProtocol>
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 

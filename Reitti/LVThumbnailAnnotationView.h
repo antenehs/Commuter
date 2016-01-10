@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, LVThumbnailAnnotationViewState) {
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString;
 - (void)setGeoCodeAddress:(MKMapView *)mapView address:(NSString *)address;
 - (void)setBearing:(NSNumber *)bearing;
+- (void)updateAnnotationImageFromThumbnail:(LVThumbnail *)thumbnail;
 
 @end
 

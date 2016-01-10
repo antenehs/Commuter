@@ -21,6 +21,7 @@
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;
 +(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType;
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type;
++(UIImage *)vehicleImageWithNoBearingForVehicleType:(VehicleType)type;
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;

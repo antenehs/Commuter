@@ -23,6 +23,9 @@
 #import "ASA_Helpers.h"
 #import "LVThumbnailAnnotation.h"
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiansToDegrees(x) (x * 180.0 / M_PI)
+
 @interface RouteDetailViewController ()
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
@@ -312,11 +315,11 @@
     NSMutableArray *tempTrainArray = [@[] mutableCopy];
     NSMutableArray *tempOthersArray = [@[] mutableCopy];
     for (RouteLeg *leg in self.route.routeLegs) {
-        if (leg.legType == LegTypeTrain) {
-            [tempTrainArray addObject:leg.lineCode];
-        }
+//        if (leg.legType == LegTypeTrain) {
+//            [tempTrainArray addObject:leg.lineCode];
+//        }
         
-        if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram) {
+        if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram || leg.legType == LegTypeBus || leg.legType == LegTypeTrain ) {
             [tempOthersArray addObject:leg.lineCode];
         }
     }
@@ -881,6 +884,22 @@
     return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
 }
 
+- (double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
+{
+    double fLat = degreesToRadians(fromLoc.latitude);
+    double fLng = degreesToRadians(fromLoc.longitude);
+    double tLat = degreesToRadians(toLoc.latitude);
+    double tLng = degreesToRadians(toLoc.longitude);
+    
+    double degree = radiansToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
+    
+    if (degree >= 0) {
+        return degree;
+    } else {
+        return 360+degree;
+    }
+}
+
 -(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
     
     NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
@@ -893,15 +912,15 @@
         if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             
-            if (isTrain) {
-                if (annot.vehicleType != VehicleTypeTrain) {
-                    continue;
-                }
-            }else{
-                if (annot.vehicleType == VehicleTypeTrain) {
-                    continue;
-                }
-            }
+//            if (isTrain) {
+//                if (annot.vehicleType != VehicleTypeTrain) {
+//                    continue;
+//                }
+//            }else{
+//                if (annot.vehicleType == VehicleTypeTrain) {
+//                    continue;
+//                }
+//            }
             
             if (![codeList containsObject:annot.code]) {
                 [annotToRemove addObject:annotation];
@@ -917,9 +936,25 @@
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             @try {
                 Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                
+                if (vehicleToUpdate.vehicleType == VehicleTypeBus) {
+                    double bearing = [self getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
+                    if (vehicleToUpdate.vehicleType == VehicleTypeBus) {
+                        //vehicle didn't move.
+                        if (bearing != 0) {
+                            vehicleToUpdate.bearing = bearing;
+                            [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:vehicleToUpdate.vehicleType]];
+                        }else{
+                            vehicleToUpdate.bearing = -1; //Do not update
+                        }
+                    }
+                }
+                
                 annot.coordinate = vehicleToUpdate.coords;
-                //                annot.thumbnail.bearing = [NSNumber numberWithDouble:vehicleToUpdate.bearing];
-                [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+                
+                if (vehicleToUpdate.bearing != -1) {
+                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+                }
             }
             @catch (NSException *exception) {
                 NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
@@ -935,8 +970,15 @@
     
     for (Vehicle *vehicle in newVehicles) {
         LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
+//        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
         vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
         vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        if (vehicle.bearing != -1 ) {
+            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        }else{
+            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
+        }
         vehicleAnT.code = vehicle.vehicleId;
         vehicleAnT.title = vehicle.vehicleName;
         vehicleAnT.lineId = vehicle.vehicleLineId;

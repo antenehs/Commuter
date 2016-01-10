@@ -31,6 +31,10 @@ typedef void (^ActionBlock)();
 - (void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol DisruptionFetchProtocol <NSObject>
+- (void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock;
+@end
+
 @protocol RouteSearchOptionProtocol <NSObject>
 -(NSArray *)allTrasportTypeNames;
 

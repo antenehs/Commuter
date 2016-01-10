@@ -123,6 +123,8 @@
 
 @property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 
+@property (strong, nonatomic) NSArray * disruptionsList;
+
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
 @property (strong, nonatomic) CLLocation * currentUserLocation;

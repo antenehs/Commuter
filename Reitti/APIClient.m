@@ -41,19 +41,17 @@
 
 #pragma mark - Generic fetch method
 
--(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass andCompletionBlock:(ActionBlock)completionBlock{
-    
+-(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath isJsonResponse:(BOOL)isJson andCompletionBlock:(ActionBlock)completionBlock{
     NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
-    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
-    [RKMIMETypeSerialization registerClass:[RKNSJSONSerialization class] forMIMEType:@"text/plain"];
+    [client setDefaultHeader:@"Accept" value:isJson ? RKMIMETypeJSON : RKMIMETypeXML];
+    [RKMIMETypeSerialization registerClass:isJson ? [RKNSJSONSerialization class] : [RKXMLReaderSerialization class] forMIMEType:isJson ? @"text/plain" : @"text/xml"];
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
     RKObjectMapping *responseMApping = [RKObjectMapping mappingForClass:mapToClass];
-    
     [responseMApping addAttributeMappingsFromDictionary:mapping];
     
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMApping method:RKRequestMethodGET pathPattern:nil keyPath:@"" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMApping method:RKRequestMethodGET pathPattern:nil keyPath:keyPath statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     //Construct params query string
     NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
@@ -77,6 +75,15 @@
     }];
     
     [objectManager enqueueObjectRequestOperation:objectRequestOperation];
+}
+
+-(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock{
+    
+    [self doApiFetchWithParams:params mappingDictionary:mapping mapToClass:mapToClass mapKeyPath:keyPath isJsonResponse:YES andCompletionBlock:completionBlock];
+}
+
+-(void)doXmlApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock{
+    [self doApiFetchWithParams:params mappingDictionary:mapping mapToClass:mapToClass mapKeyPath:keyPath isJsonResponse:NO andCompletionBlock:completionBlock];
 }
 
 -(void)doApiFetchWithOutMappingWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock{
@@ -476,6 +483,7 @@
 
 #pragma mark - PubTrans Methods
 - (void)getAllLiveVehiclesFromPubTrans:(NSString *)lineCodes{
+    //Get all vehicles except trams and longdistancetrains
     NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0"];
     if (lineCodes != nil) {
         //convert unsafe strings in search string
@@ -502,31 +510,31 @@
 }
 
 #pragma mark - HSL Live Methods
-- (void)getAllLiveVehiclesFromHSLLive:(NSString *)lineCodes{
-    
-    NSString *urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5"];
-    
-    if (lineCodes != nil) {
-        urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5&lines=%@", lineCodes];
-    }
-    
-    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
-//    NSLog(@"%@", urlAsString);
-    
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self VehiclesFetchFromHslLiveFailed:error];
-            });
-            
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self VehiclesFetchFromHslLiveComplete:data];
-            });
-        }
-    }];
-}
+//- (void)getAllLiveVehiclesFromHSLLive:(NSString *)lineCodes{
+//    
+//    NSString *urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5"];
+//    
+//    if (lineCodes != nil) {
+//        urlAsString = [NSString stringWithFormat:@"http://83.145.232.209:10001/?type=vehicles&lng1=22&lat1=59&lng2=26&lat2=62&online=1&vehicletype=0,1,2,3,5&lines=%@", lineCodes];
+//    }
+//    
+//    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
+////    NSLog(@"%@", urlAsString);
+//    
+//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//        
+//        if (error) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self VehiclesFetchFromHslLiveFailed:error];
+//            });
+//            
+//        } else {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self VehiclesFetchFromHslLiveComplete:data];
+//            });
+//        }
+//    }];
+//}
 
 
 #pragma mark - Test method
@@ -594,8 +602,8 @@
 - (void)StopInAreaFetchFromPubtransFailed:(NSError *)error{}
 - (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{}
 - (void)VehiclesFetchFromPubtransFailed:(NSError *)error{}
-- (void)VehiclesFetchFromHslLiveComplete:(NSData *)objectNotation{}
-- (void)VehiclesFetchFromHslLiveFailed:(NSError *)error{}
+//- (void)VehiclesFetchFromHslLiveComplete:(NSData *)objectNotation{}
+//- (void)VehiclesFetchFromHslLiveFailed:(NSError *)error{}
 
 - (void)dealloc
 {

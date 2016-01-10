@@ -5939,6 +5939,20 @@
                                                                 </mask>
                                                             </variation>
                                                         </label>
+                                                        <button opaque="NO" tag="3001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flE-fd-JFY">
+                                                            <rect key="frame" x="553" y="93" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="rAo-6g-20Y"/>
+                                                                <constraint firstAttribute="width" constant="30" id="urg-a8-gdi"/>
+                                                            </constraints>
+                                                            <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                                            <state key="normal" image="warning-exclamation.png">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <segue destination="5XB-T8-OMS" kind="show" id="9x7-C0-VCu"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="kPS-LZ-G6a" firstAttribute="leading" secondItem="4zF-Yx-DgM" secondAttribute="leadingMargin" constant="-6" id="0L6-5A-tci"/>
@@ -5963,10 +5977,12 @@
                                                         <constraint firstItem="kPS-LZ-G6a" firstAttribute="leading" secondItem="4zF-Yx-DgM" secondAttribute="leadingMargin" constant="10" id="Wkp-vk-D9V"/>
                                                         <constraint firstItem="xzV-FH-iel" firstAttribute="bottom" secondItem="4zF-Yx-DgM" secondAttribute="bottomMargin" constant="3" id="XHn-1i-b1w"/>
                                                         <constraint firstItem="ru8-Wz-rxD" firstAttribute="leading" secondItem="4zF-Yx-DgM" secondAttribute="leadingMargin" id="XUE-lG-ihO"/>
+                                                        <constraint firstItem="flE-fd-JFY" firstAttribute="top" secondItem="bSu-xj-TJg" secondAttribute="bottom" constant="2" id="cCG-Fs-3U4"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="rY9-N3-UUh" secondAttribute="bottom" constant="1.5" id="fb9-46-LSn"/>
                                                         <constraint firstItem="xzV-FH-iel" firstAttribute="top" secondItem="ru8-Wz-rxD" secondAttribute="bottom" constant="18" id="it3-9A-Mxv"/>
                                                         <constraint firstItem="kPS-LZ-G6a" firstAttribute="top" secondItem="4zF-Yx-DgM" secondAttribute="topMargin" constant="93" id="jE8-3s-b47"/>
                                                         <constraint firstItem="kPS-LZ-G6a" firstAttribute="top" secondItem="ru8-Wz-rxD" secondAttribute="bottom" constant="25" id="lrx-bK-Max"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="flE-fd-JFY" secondAttribute="trailing" constant="9" id="oUZ-3r-JlK"/>
                                                         <constraint firstItem="xzV-FH-iel" firstAttribute="leading" secondItem="4zF-Yx-DgM" secondAttribute="leadingMargin" constant="15" id="qan-OE-Zqi"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="xzV-FH-iel" secondAttribute="trailing" constant="115" id="rSs-CJ-aOY"/>
                                                         <constraint firstItem="xzV-FH-iel" firstAttribute="leading" secondItem="4zF-Yx-DgM" secondAttribute="leadingMargin" constant="29" id="vlT-KN-Wpl"/>
@@ -9465,24 +9481,26 @@ Helsinki, Finland</string>
         <image name="user-50.png" width="50" height="50"/>
         <image name="version-4-color-100.png" width="100" height="100"/>
         <image name="walking-gray-64.png" width="64" height="64"/>
+        <image name="warning-exclamation.png" width="48" height="48"/>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="U9A-P0-Va2"/>
-        <segue reference="G3y-0T-rdq"/>
-        <segue reference="SWb-EE-ndB"/>
-        <segue reference="YpZ-AP-yAo"/>
-        <segue reference="4lM-KH-B6v"/>
-        <segue reference="fk8-2d-CEg"/>
-        <segue reference="XlZ-XU-H5m"/>
-        <segue reference="gyd-GV-CrX"/>
-        <segue reference="ocH-Qu-aOm"/>
         <segue reference="Oy7-Ij-ap3"/>
-        <segue reference="X8p-rp-E0z"/>
+        <segue reference="SWb-EE-ndB"/>
         <segue reference="DEk-ct-YDr"/>
-        <segue reference="oJb-eU-zeZ"/>
         <segue reference="due-au-0KO"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="X8p-rp-E0z"/>
         <segue reference="lwh-ia-2sg"/>
         <segue reference="e2V-qU-oq6"/>
+        <segue reference="9x7-C0-VCu"/>
+        <segue reference="G3y-0T-rdq"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="XlZ-XU-H5m"/>
+        <segue reference="4lM-KH-B6v"/>
+        <segue reference="fk8-2d-CEg"/>
+        <segue reference="gyd-GV-CrX"/>
     </inferredMetricsTieBreakers>
 </document>

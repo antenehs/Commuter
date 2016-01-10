@@ -42,6 +42,7 @@ typedef enum
 @synthesize locationManager, currentUserLocation;
 @synthesize refreshControl;
 @synthesize managedObjectContext;
+@synthesize disruptionsList;
 
 #define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
 //#008411
@@ -1011,13 +1012,6 @@ typedef enum
             
             CGFloat totalWidth = self.view.frame.size.width - 75;
             
-//            UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, totalWidth , 36)];
-//            transportsContainer.clipsToBounds = YES;
-//            transportsContainer.tag = 1987;
-//            transportsContainer.layer.cornerRadius = 4;
-            
-//            float tWidth = 70;
-            
             CGFloat longestDuration;
             NSArray *routes;
             if (routeListCopy != nil && routeListCopy.count > routeList.count) {
@@ -1038,6 +1032,14 @@ typedef enum
             
             transportsScrollView.userInteractionEnabled = NO;
             [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
+            
+            //Disruptions
+            UIButton *disruptionsButton = (UIButton *)[cell viewWithTag:3001];
+            BOOL thereAreDisruptions = [self isThereDisruptionForRoute:route];
+            disruptionsButton.hidden = !thereAreDisruptions;
+            if (thereAreDisruptions) {
+                disruptionsButton.layer.cornerRadius = disruptionsButton.frame.size.width/2;
+            }
         }
         
         UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 129.5, self.view.frame.size.width, 0.5)];
@@ -1319,6 +1321,45 @@ typedef enum
     
 }
 
+#pragma mark - Disruptions fetching
+- (void)fetchDisruptions{
+    self.disruptionsList = @[];
+    [self.reittiDataManager fetchDisruptionsWithCompletionBlock:^(NSArray *disruption, NSString *errorString){
+        if (!errorString) {
+            self.disruptionsList = disruption;
+            [routeResultsTableView reloadData];
+        }else{
+            self.disruptionsList = @[];
+        }
+    }];
+}
+
+- (BOOL)isThereDisruptionForRoute:(Route *)route{
+    if (!route || !self.disruptionsList)
+        return NO;
+    
+    //Collect route lines
+    NSMutableArray *lines = [@[] mutableCopy];
+    for (RouteLeg *leg in route.routeLegs) {
+        if (leg.legType != LegTypeWalk && leg.lineName)
+            [lines addObject:leg.lineName];
+    }
+    
+    if (lines.count == 0)
+        return NO;
+    
+    for (Disruption *disruption in self.disruptionsList) {
+        if (!disruption.lineName)
+            continue;
+        
+        if ([lines containsObject:disruption.lineName]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 #pragma mark - Settings change notifications
 -(void)userLocationValueChanged:(NSNotification *)notification{
     [self.reittiDataManager setUserLocationRegion:[self.settingsManager userLocation]];
@@ -1364,6 +1405,7 @@ typedef enum
         [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil andCompletionBlock:^(NSArray *result, NSString *error){
             if (!error) {
                 [self routeSearchDidComplete:result];
+                [self fetchDisruptions];
             }else{
                 [self routeSearchDidFail:error];
             }
@@ -1654,6 +1696,8 @@ typedef enum
         routeOptionsTableViewController.routeSearchOptions = [localRouteSearchOptions copy];
         routeOptionsTableViewController.routeOptionSelectionDelegate = self;
     }
+    
+    [self.navigationItem setTitle:@""];
     
 }
 

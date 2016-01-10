@@ -273,6 +273,10 @@ static CGFloat const kLVThumbnailAnnotationViewAnimationDuration = 0.25f;
         } completion:^(BOOL finished) {}];
 }
 
+- (void)updateAnnotationImageFromThumbnail:(LVThumbnail *)thumbnail{
+    self.imageView.image = thumbnail.image;
+}
+
 #pragma mark - Geometry
 
 - (CGPathRef)newBubbleWithRect:(CGRect)rect {

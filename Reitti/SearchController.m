@@ -29,6 +29,9 @@
 #import "ASA_Helpers.h"
 #import "ReittiAnalyticsManager.h"
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiansToDegrees(x) (x * 180.0 / M_PI)
+
 CGFloat  kDeparturesRefreshInterval = 60;
 
 @interface SearchController ()
@@ -99,7 +102,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
             [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
         }
         
-        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+        //TODO: Uncomment this when testing is done
+//        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
@@ -112,6 +116,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     [self fetchDisruptions];
@@ -133,6 +138,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
@@ -157,6 +163,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self removeAllVehicleAnnotation];
     
     [departuresRefreshTimer invalidate];
+    
+    [super viewDidDisappear:animated];
 }
 
 
@@ -506,10 +514,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)openStopViewForCode:(NSString *)code{
-    StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:code];
+    NSInteger intCode = [code integerValue];
+    
+    NSNumber *codeNumber = [NSNumber numberWithInteger:intCode];
+    
+    StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:codeNumber];
     if (!stop)
         return;
-    [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
+    [self openStopViewForCode:codeNumber shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
 }
 
 #pragma - mark StopView methods
@@ -1371,6 +1383,22 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
 }
 
+- (double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
+{
+    double fLat = degreesToRadians(fromLoc.latitude);
+    double fLng = degreesToRadians(fromLoc.longitude);
+    double tLat = degreesToRadians(toLoc.latitude);
+    double tLng = degreesToRadians(toLoc.longitude);
+    
+    double degree = radiansToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
+    
+    if (degree >= 0) {
+        return degree;
+    } else {
+        return 360+degree;
+    }
+}
+
 -(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
 //    for (id<MKAnnotation> annotation in mapView.annotations) {
 //        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
@@ -1389,15 +1417,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             
-            if (isTrain) {
-                if (annot.vehicleType != VehicleTypeTrain) {
-                    continue;
-                }
-            }else{
-                if (annot.vehicleType == VehicleTypeTrain) {
-                    continue;
-                }
-            }
+//            if (isTrain) {
+//                if (annot.vehicleType != VehicleTypeTrain) {
+//                    continue;
+//                }
+//            }else{
+//                if (annot.vehicleType == VehicleTypeTrain) {
+//                    continue;
+//                }
+//            }
             
             if (![codeList containsObject:annot.code]) {
                 [annotToRemove addObject:annotation];
@@ -1413,9 +1441,22 @@ CGFloat  kDeparturesRefreshInterval = 60;
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             @try {
                 Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                
+                if (vehicleToUpdate.vehicleType == VehicleTypeBus ) {
+                    vehicleToUpdate.bearing = [self getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
+                    //Vehicle did not move
+                    if (vehicleToUpdate.bearing == 0) {
+                        vehicleToUpdate.bearing = [annot.thumbnail.bearing doubleValue];
+                    }else{
+                        [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:vehicleToUpdate.vehicleType]];
+                    }
+                }
+                
                 annot.coordinate = vehicleToUpdate.coords;
-//                annot.thumbnail.bearing = [NSNumber numberWithDouble:vehicleToUpdate.bearing];
-                [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+                
+                if (vehicleToUpdate.bearing != -1) {
+                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+                }
             }
             @catch (NSException *exception) {
                 NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
@@ -1432,8 +1473,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     for (Vehicle *vehicle in newVehicles) {
         LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
-        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
         vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        if (vehicle.bearing != -1 ) {
+            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        }else{
+            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
+        }
         vehicleAnT.code = vehicle.vehicleId;
         vehicleAnT.title = vehicle.vehicleName;
         vehicleAnT.lineId = vehicle.vehicleLineId;
@@ -1826,12 +1871,18 @@ CGFloat  kDeparturesRefreshInterval = 60;
 #pragma mark - disruptions methods
 - (void)initDisruptionFetching{
     //init a timer
-    [self.reittiDataManager fetchDisruptions];
+    [self fetchDisruptions];
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(fetchDisruptions) userInfo:nil repeats:YES];
 }
 
 - (void)fetchDisruptions{
-    [self.reittiDataManager fetchDisruptions];
+    [self.reittiDataManager fetchDisruptionsWithCompletionBlock:^(NSArray *disruption, NSString *errorString){
+        if (!errorString) {
+            [self disruptionFetchDidComplete:disruption];
+        }else{
+            [self disruptionFetchDidFail:errorString];
+        }
+    }];
 }
 
 - (void)showDisruptionCustomBadge:(bool)show{

@@ -30,6 +30,8 @@ typedef void (^ActionBlock)();
 - (NSDate *)dateFromDateString:(NSString *)date andHourString:(NSString *)hour;
 - (NSString *)readableHoursFromApiHours:(NSString *)apiHours;
 
++ (NSString *)lineJoreCodeForCode:(NSString *)code andDirection:(NSString *)direction;
+
 @property (nonatomic, strong) NSDateFormatter *hourFormatter;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDateFormatter *fullDateFormatter;

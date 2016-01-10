@@ -147,19 +147,19 @@
     SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
 //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
     [controller initDataComponentsAndModules];
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    
     if ([MKDirectionsRequest isDirectionsRequestURL:url]) {
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromMapsApp label:nil value:nil];
         MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
         // TO DO: Plot and display the route using the
         //   source and destination properties of directionsInfo.
-        [controller dismissViewControllerAnimated:YES completion:nil];
         [controller openRouteViewForFromLocation:directionsInfo];
         
         return YES;
     }
     else {
         NSLog(@"Search controller is : %@",controller);
-        [controller dismissViewControllerAnimated:YES completion:nil];
         if ([[url query] isEqualToString:@"bookmarks"]) {
 //            [controller openBookmarksView];
             tabBarController.selectedIndex = 2;
@@ -320,6 +320,7 @@
     RouteSearchViewController *routeViewController = (RouteSearchViewController *)[[routeViewNavController viewControllers] firstObject];
     
     tabBarController.selectedIndex = 1;
+    [routeViewController.navigationController popToRootViewControllerAnimated:NO];
     
     if (routeViewController.isViewLoaded) {
         [routeViewController searchRouteForFromLocation:locationNotification.userInfo[kRoutineNotificationFromName]

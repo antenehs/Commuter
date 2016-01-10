@@ -135,7 +135,7 @@ typedef struct {
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
--(void)fetchDisruptions;
+-(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock;
 
 -(BOOL)isBusStopSaved:(BusStop *)stop;
 -(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode;

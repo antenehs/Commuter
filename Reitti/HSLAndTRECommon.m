@@ -31,7 +31,7 @@
                                   @"legs" : @"unMappedRouteLegs"
                                   };
     
-    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[Route class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[Route class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             for (Route *route in responseArray) {
                 route.routeLegs = [self mapRouteLegsFromArray:route.unMappedRouteLegs];
@@ -99,7 +99,7 @@
                                   @"dist" : @"distance"
                                   };
     
-    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStopShort class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStopShort class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             completionBlock(responseArray, nil);
         }else{
@@ -165,7 +165,7 @@
                                   @"address_sv" : @"address_sv"
                                   };
     
-    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStop class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStop class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             completionBlock(responseArray, nil);
         }else{
@@ -288,7 +288,7 @@
                                       @"details" : @"details"
                                   };
     
-    [super doApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             if (responseArray && responseArray.count > 0) {
                 //TODO: Parse details before returning
@@ -393,6 +393,22 @@
  */
 - (NSString *)readableHoursFromApiHours:(NSString *)apiHours{
     return nil;
+}
+
++ (NSString *)lineJoreCodeForCode:(NSString *)code andDirection:(NSString *)direction{
+    
+    if (!code)
+        return nil;
+    
+    if (!direction || direction.length == 0)
+        return code;
+    
+    return [NSString stringWithFormat:@"%@%@%@%@",
+            code,
+            code.length < 5 ? @" " : @"",
+            code.length < 6 ? @" " : @"",
+            direction];
+    
 }
 
 @end

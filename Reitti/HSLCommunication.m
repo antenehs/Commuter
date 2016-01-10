@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSDictionary *changeMargineOptions;
 @property (nonatomic, strong) NSDictionary *walkingSpeedOptions;
 
+@property (nonatomic, strong) APIClient *poikkeusInfoApi;
+
 @end
 
 @implementation HSLCommunication
@@ -29,6 +31,10 @@
 -(id)init{
     self = [super init];
     super.apiBaseUrl = @"http://api.reittiopas.fi/hsl/1_2_0/";
+    
+    self.poikkeusInfoApi = [[APIClient alloc] init];
+    self.poikkeusInfoApi.apiBaseUrl = @"http://www.poikkeusinfo.fi/xml/v2/en";
+    
     return self;
 }
 
@@ -320,6 +326,31 @@
     [super fetchRevereseGeocodeWithOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"HSL" value:nil];
+}
+
+#pragma mark - Disruption fetching
+-(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock{
+    //TODO: Not so good mapping. Targets could be an array if there are more than one lines affected
+    NSDictionary *mappingDict = @{
+                                  @"id" : @"disruptionId",
+                                  @"type" : @"disruptionType",
+                                  @"source" : @"disruptionSource",
+                                  @"INFO.TEXT.text" : @"disruptionInfo",
+                                  @"VALIDITY.from" : @"disruptionStartTime",
+                                  @"VALIDITY.to" : @"disruptionEndTime",
+                                  @"TARGETS.LINE.id" : @"lineId",
+                                  @"TARGETS.LINE.direction" : @"lineDirection",
+                                  @"TARGETS.LINE.linetype" : @"lineType",
+                                  @"TARGETS.LINE.text" : @"lineName"
+                                  };
+    
+    [self.poikkeusInfoApi doXmlApiFetchWithParams:nil mappingDictionary:mappingDict mapToClass:[Disruption class] mapKeyPath:@"DISRUPTIONS.DISRUPTION" andCompletionBlock:^(NSArray *disruptions, NSError *error){
+        if (!error) {
+            completionBlock(disruptions, nil);
+        }else{
+            completionBlock(nil, @"Disruption fetch failed.");
+        }
+    }];
 }
 
 

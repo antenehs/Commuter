@@ -455,21 +455,6 @@
     }else{
         completionBlock(nil, @"Service not available in the current region.");
     }
-    
-//    NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
-//    if (region == HSLRegion) {
-//        [self.hslCommunication searchAddressForCoordinate:coordStrings];
-//    }else if (region == TRERegion){
-//        [self.treCommunication searchAddressForCoordinate:coordStrings];
-//    }else{
-//        [self.hslCommunication searchAddressForCoordinate:coordStrings];
-//    }
-}
-
--(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords{
-    [self searchAddresseForCoordinate:coords withCompletionBlock:^(GeoCode *geoCode, NSString *error){
-        
-    }];
 }
 
 #pragma mark - Address fetch methods
@@ -488,12 +473,33 @@
     
 }
 
--(void)fetchDisruptions{
-    if (userLocationRegion == HSLRegion) {
-        [self.hslCommunication getDisruptions];
+//-(void)fetchDisruptions{
+//    [self fetchDisruptionsWithCompletionBlock:nil];
+//}
+
+-(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock{
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(DisruptionFetchProtocol)]) {
+        [(NSObject<DisruptionFetchProtocol> *)dataSourceManager fetchTrafficDisruptionsWithCompletionBlock:^(NSArray *response, NSString *error){
+            
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
     }else{
-        [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
+        completionBlock(nil, @"Service not available in the current region.");
     }
+    
+//    if (userLocationRegion == HSLRegion) {
+//        [self.hslCommunication fetchTrafficDisruptionsWithCompletionBlock:^(NSArray *disruptions, NSString *errorString){
+//            
+//        }];
+//    }else{
+//        [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
+//    }
 }
 
 #pragma mark - HSLCommunication delegate methods

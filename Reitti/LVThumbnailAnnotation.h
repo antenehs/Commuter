@@ -13,6 +13,7 @@
 - (MKAnnotationView *)annotationViewInMap:(MKMapView *)mapView;
 - (void)updateThumbnail:(LVThumbnail *)thumbnail animated:(BOOL)animated;
 - (void)updateBearing:(NSNumber *)bearing;
+- (void)updateVehicleImage:(UIImage *)image;
 
 @end
 
