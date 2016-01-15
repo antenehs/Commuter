@@ -304,6 +304,20 @@
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"TRE" value:nil];
 }
 
+#pragma mark - Geocode search protocol implementation
+-(void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asareitti" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [optionsDict setValue:searchTerm forKey:@"key"];
+    
+    [super fetchGeocodeWithOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedAddressFromApi label:@"TRE" value:nil];
+}
+
 #pragma mark - Reverse geocode fetch protocol implementation
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];

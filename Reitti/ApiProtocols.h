@@ -27,6 +27,10 @@ typedef void (^ActionBlock)();
 - (void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol GeocodeProtocol <NSObject>
+- (void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
+@end
+
 @protocol ReverseGeocodeProtocol <NSObject>
 - (void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 @end

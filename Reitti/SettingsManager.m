@@ -13,6 +13,9 @@ NSString * const userlocationChangedNotificationName = @"SettingsManagerUserLoca
 NSString * const shouldShowVehiclesNotificationName = @"SettingsManagerShowVehiclesChangedNotification";
 NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRouteSearchOptionsChangedNotification";
 
+NSString * const kAnalyticsSettingsNsDefaultsKey = @"IsAnalyticsSettingEnabled";
+NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
+
 @implementation SettingsManager
 
 @synthesize reittiDataManager, settingsEntity;
@@ -104,7 +107,7 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
 
 #pragma mark - Settings in NSUserDefaults
 +(BOOL)isAnalyticsEnabled{
-    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:@"IsAnalyticsSettingEnabled"];
+    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kAnalyticsSettingsNsDefaultsKey];
     
     if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
         return YES;
@@ -116,7 +119,25 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
     if (standardUserDefaults) {
-        [standardUserDefaults setObject:[NSNumber numberWithBool:enable] forKey:@"IsAnalyticsSettingEnabled"];
+        [standardUserDefaults setObject:[NSNumber numberWithBool:enable] forKey:kAnalyticsSettingsNsDefaultsKey];
+        [standardUserDefaults synchronize];
+    }
+}
+
++(NSInteger)getStartingIndexTab{
+    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kStartingTabNsDefaultsKey];
+    
+    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
+        return 0;
+    
+    return [savedValue integerValue];
+}
+
++(void)setStartingIndexTab:(NSInteger)index{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithInteger:index] forKey:kStartingTabNsDefaultsKey];
         [standardUserDefaults synchronize];
     }
 }

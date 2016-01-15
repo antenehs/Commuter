@@ -46,7 +46,7 @@
     [optionsDict setValue:@"26" forKey:@"lng2"];
     [optionsDict setValue:@"62" forKey:@"lat2"];
     [optionsDict setValue:@"1" forKey:@"online"];
-    [optionsDict setValue:@"0,1,2,3,5" forKey:@"vehicletype"];
+    [optionsDict setValue:@"0,1,2,3,5" forKey:@"vehicletype"]; //Excluding 4 - train
     
     if (lineCodes != nil && lineCodes.count > 0) {
         NSMutableArray *tempArray = [@[] mutableCopy];
@@ -72,11 +72,12 @@
     [self.hslLiveApiClient doApiFetchWithOutMappingWithParams:optionsDict andCompletionBlock:^(NSData *response, NSError *error){
         if (!error) {
 //            [self.delegate receivedVehiclesCSV:response];
-            NSArray *vehicles = [self parseCSVVehiclesFromData:response];
+            NSString *parsingError = nil;
+            NSArray *vehicles = [self parseCSVVehiclesFromData:response error:&parsingError];
             if (vehicles && vehicles.count != 0) {
                 completionBlock(vehicles, nil);
             }else{
-                completionBlock(nil, @"No vehicles found");
+                completionBlock(nil, parsingError);
             }
         }else{
              completionBlock(nil, @"Fetching vehicles from HSL live failed.");
@@ -101,22 +102,6 @@
             NSArray *segments = [lineCode componentsSeparatedByString:@" "];
             NSString * formattedCode = [segments firstObject];
             
-//            if (lineCodes != nil && lineCodes.count > 0) {
-//                NSMutableArray *tempArray = [@[] mutableCopy];
-//                
-//                for (NSString *lineCode in lineCodes) {
-//                    
-//                }
-//                
-//                if (tempArray.count > 0) {
-//                    NSString *codesString = [ReittiStringFormatter commaSepStringFromArray:tempArray withSeparator:@"_"];
-//                    [optionsDict setValue:codesString forKey:@"lineRef"];
-//                }else{
-//                    completionBlock(nil, @"Invalid line code provided.");
-//                    return;
-//                }
-//            }
-            
             [optionsDict setValue:formattedCode forKey:@"lineRef"];
             
             [self.hslDevApiClient doApiFetchWithOutMappingWithParams:optionsDict andCompletionBlock:^(NSData *response, NSError *error){
@@ -124,7 +109,7 @@
                 if (!error) {
                     //Parse response and add to vehicles array
                     NSError *parsingError = nil;
-                    NSArray *vehicles = [self parseJsonVehiclesFromHslDev:response error:&parsingError];
+                    NSArray *vehicles = [self parseTrainJsonVehiclesFromHslDev:response error:&parsingError];
                     
                     if (!parsingError && vehicles) {
                         [vehicleResponses addObjectsFromArray:vehicles];
@@ -146,7 +131,11 @@
             if (!error) {
                 //Parse response and add to vehicles array
                 NSError *parsingError = nil;
-                NSArray *vehicles = [self parseJsonVehiclesFromHslDev:response error:&parsingError];
+                NSArray *vehicles = nil;
+                @try {
+                     vehicles = [self parseTrainJsonVehiclesFromHslDev:response error:&parsingError];
+                }
+                @catch (NSException *exception) {}
                 
                 if (!parsingError && vehicles) {
                     completionBlock(vehicles, nil);
@@ -162,12 +151,11 @@
 
 #pragma mark - Helper methods
 
--(NSArray *)parseCSVVehiclesFromData:(NSData *)objectNotation{
-    NSString *errorString = nil;
+-(NSArray *)parseCSVVehiclesFromData:(NSData *)objectNotation error:(NSString **)errorString{
     NSString* vehiclesString =  [[NSString alloc] initWithData:objectNotation encoding:NSUTF8StringEncoding];
     
     if (vehiclesString == nil) {
-        errorString = @"csv string is empty.";
+        *errorString = @"csv string is empty.";
         return nil;
     }
     
@@ -176,17 +164,22 @@
     NSArray *allLines = [vehiclesString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     
     for (NSString *csvLine in allLines) {
-        Vehicle *vehicle = [[Vehicle alloc] initWithCSV:csvLine];
-        //        NSLog(@"CSV line: %@", csvLine);
-        if (vehicle != nil) {
-            [vehicles addObject:vehicle];
+        @try {
+            Vehicle *vehicle = [[Vehicle alloc] initWithCSV:csvLine];
+            if (vehicle != nil) {
+                [vehicles addObject:vehicle];
+            }
+        }
+        @catch (NSException *exception) {
+            *errorString = [NSString stringWithFormat:@"parsing csv line - %@ - threw an exception", csvLine];
+            return nil;
         }
     }
     
     return vehicles;
 }
 
--(NSArray *)parseJsonVehiclesFromHslDev:(NSData *)objectNotation error:(NSError **)error{
+-(NSArray *)parseTrainJsonVehiclesFromHslDev:(NSData *)objectNotation error:(NSError **)error{
     
     NSError *localError = nil;
     NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
@@ -212,7 +205,7 @@
                     if (devVehicle) {
                         Vehicle *vehicle = [[Vehicle alloc] initWithHslDevVehicle:devVehicle];
                         
-                        if (vehicle) {
+                        if (vehicle && vehicle.vehicleType == VehicleTypeTrain) {
                             [vehicles addObject:vehicle];
                         }
                     }

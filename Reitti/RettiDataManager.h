@@ -131,7 +131,7 @@ typedef struct {
 -(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
 
--(void)searchAddressesForKey:(NSString *)key;
+-(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
@@ -184,7 +184,7 @@ typedef struct {
 
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 
--(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes;
+-(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes;
 -(void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes;
 -(void)fetchAllLiveVehicles;
 -(void)stopFetchingLiveVehicles;

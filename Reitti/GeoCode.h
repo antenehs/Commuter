@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
+#import <MapKit/MapKit.h>
 
 typedef enum
 {
@@ -18,6 +19,8 @@ typedef enum
 } LocationType;
 
 @interface GeoCode : NSObject
+
+-(id)initWithMapItem:(MKMapItem *)mapItem;
 
 -(NSString *)getHouseNumber;
 -(NSString *)getAddress;

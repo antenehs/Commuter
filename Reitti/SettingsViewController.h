@@ -19,9 +19,9 @@
 
 @interface SettingsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, SingleSelectTableViewControllerDelegate, ToneSelectorTableViewControllerDelegate>{
     
-    NSInteger mapSettingsSection, widgetSettingSection, otherSettingsSection, advancedSettingSection, advancedModeSection;
-    NSInteger mapTypeRow, liveVehiclesRow, departuresWidgetRow, routeSearchOptionRow, toneSelectorRow, clearHistoryRow, clearHistoryDaysRow, locationRow, advancedSetttingsRow, trackingOptionRow;
-    NSInteger numberOfSections, mapSectionNumberOfRows, wigetSectionNumberOfRows, otherSettingsNumberOfRows, advancedSectionNumberOfRows, advancedModeNumberOfRows;
+    NSInteger mapSettingsSection, widgetSettingSection, otherSettingsSection, startingTabSection, advancedSettingSection, advancedModeSection;
+    NSInteger mapTypeRow, liveVehiclesRow, departuresWidgetRow, routeSearchOptionRow, toneSelectorRow, clearHistoryRow, clearHistoryDaysRow, startingTabRow, locationRow, advancedSetttingsRow, trackingOptionRow;
+    NSInteger numberOfSections, mapSectionNumberOfRows, wigetSectionNumberOfRows, otherSettingsNumberOfRows, startingTabSectionNumberOfRows, advancedSectionNumberOfRows, advancedModeNumberOfRows;
     
     IBOutlet UITableView *mainTableView;
     IBOutlet MKMapView *backgroundMapView;

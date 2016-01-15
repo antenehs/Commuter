@@ -54,7 +54,7 @@
     [addressSearchBar becomeFirstResponder];
     if (![self.prevSearchTerm isEqualToString:@""] && self.prevSearchTerm != nil) {
         addressSearchBar.text = self.prevSearchTerm;
-        [reittiDataManager searchAddressesForKey:addressSearchBar.text];
+        [self searchAddressForSearchTerm:addressSearchBar.text];
         unRespondedRequestsCount++;
     }
     
@@ -323,7 +323,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     isFinalSearch = NO;
     if (searchText.length > 2){
-        [reittiDataManager searchAddressesForKey:searchText];
+        [self searchAddressForSearchTerm:searchText];
         unRespondedRequestsCount++;
         isInitialMergedView = NO;
     }else if(searchText.length > 0) {
@@ -345,7 +345,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     isFinalSearch = YES;
     if (searchBar.text.length > 2){
-        [reittiDataManager searchAddressesForKey:searchBar.text];
+        [self searchAddressForSearchTerm:searchBar.text];
         unRespondedRequestsCount++;
         searchActivityIndicator.hidden = NO;
         [searchActivityIndicator startAnimating];
@@ -366,7 +366,21 @@
 }
 
 #pragma mark - reitti data manager delegates
-- (void)geocodeSearchDidComplete:(NSArray *)geocodeList  isFinalResult:(BOOL)isFinalResult{
+- (void)searchAddressForSearchTerm:(NSString *)searchTerm{
+    [self.reittiDataManager searchAddressesForKey:searchTerm withCompletionBlock:^(NSArray *response, NSString *searchTerm, NSString *errorString){
+        if (!errorString) {
+            if (response.count > 0) {
+                [self geocodeSearchDidComplete:response isFinalResult:[searchTerm isEqualToString:addressSearchBar.text]];
+            }else{
+                [self geocodeSearchDidFail:nil forRequest:searchTerm];
+            }
+        }else{
+            [self geocodeSearchDidFail:errorString forRequest:searchTerm];
+        }
+    }];
+}
+
+- (void)geocodeSearchDidComplete:(NSArray *)geocodeList isFinalResult:(BOOL)isFinalResult{
     unRespondedRequestsCount--;
     if (!isInitialMergedView) {
         dataToLoad = [self searchFromBookmarkAndHistoryForKey:addressSearchBar.text];
@@ -462,13 +476,6 @@
         
         title.attributedText = [ReittiStringFormatter highlightSubstringInString:stopEntity.busStopName substring:addressSearchBar.text withNormalFont:title.font];
         subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity] substring:addressSearchBar.text withNormalFont:subTitle.font];
-        
-//        StaticStop *sStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", stopEntity.busStopCode]];
-//        if (sStop != nil) {
-//            
-//        }else{
-//            imageView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
-//        }
         
         cell.backgroundColor = [UIColor clearColor];
         return cell;

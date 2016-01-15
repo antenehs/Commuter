@@ -203,6 +203,7 @@
     [optionsDict setValue:@"4326" forKey:@"epsg_in"];
     [optionsDict setValue:@"4326" forKey:@"epsg_out"];
     [optionsDict setValue:@"json" forKey:@"format"];
+    [optionsDict setValue:@"1" forKey:@"filter_variants"];
     
     [optionsDict setValue:searchTerm forKey:@"query"];
     
@@ -268,6 +269,55 @@
     return lines;
 }
 
+#pragma mark - geocode fetch methods
+- (void)fetchGeocodeWithOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock{
+    if (!optionsDict)
+        optionsDict = @{};
+    
+    [optionsDict setValue:@"geocode" forKey:@"request"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_in"];
+    [optionsDict setValue:@"4326" forKey:@"epsg_out"];
+    [optionsDict setValue:@"json" forKey:@"format"];
+    
+    NSDictionary *mappingDict = @{
+                                  @"locType" : @"locType",
+                                  @"locTypeId" : @"locTypeId",
+                                  @"name" : @"name",
+                                  @"city" : @"city",
+                                  @"matchedName" : @"matchedName",
+                                  @"lang" : @"lang",
+                                  @"coords" : @"coords",
+                                  @"details" : @"details"
+                                  };
+    
+    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        if (!error) {
+            if (responseArray && responseArray.count > 0) {
+                completionBlock(responseArray, nil);
+            }else{
+                completionBlock(nil, @"No address was found for the search term");
+            }
+            
+        }else{
+            completionBlock(nil, [self formattedGeocodeFetchErrorMessageForError:error]);
+        }
+    }];
+}
+
+-(NSString *)formattedGeocodeFetchErrorMessageForError:(NSError *)error{
+    NSString *errorString = @"";
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        default:
+            errorString = nil;
+            break;
+    }
+    
+    return errorString;
+}
+
 #pragma mark - Reverse geocode fetch methods
 - (void)fetchRevereseGeocodeWithOptionsDictionary:(NSDictionary *)optionsDict withcompletionBlock:(ActionBlock)completionBlock{
     if (!optionsDict)
@@ -291,7 +341,7 @@
     [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             if (responseArray && responseArray.count > 0) {
-                //TODO: Parse details before returning
+                //Parse details before returning
                 completionBlock(responseArray[0], nil);
             }else{
                 completionBlock(nil, @"No address was found for the coordinates");

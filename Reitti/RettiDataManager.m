@@ -459,18 +459,112 @@
 
 #pragma mark - Address fetch methods
 
--(void)searchAddressesForKey:(NSString *)key{
+-(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
     geoCodeRequestedFor = userLocationRegion;
-    if (userLocationRegion == HSLRegion) {
-        [self.hslCommunication searchGeocodeForKey:key];
-    }else if (userLocationRegion == TRERegion) {
-        [self.treCommunication searchGeocodeForKey:key];
-    }else{
-        geoCodeRequestPrioritizedFor = HSLandTRERegion;
-        [self.hslCommunication searchGeocodeForKey:key];
-        [self.treCommunication searchGeocodeForKey:key];
-    }
+//    if (userLocationRegion == HSLRegion) {
+//        [self.hslCommunication searchGeocodeForKey:key];
+//    }else if (userLocationRegion == TRERegion) {
+//        [self.treCommunication searchGeocodeForKey:key];
+//    }else{
+//        geoCodeRequestPrioritizedFor = HSLandTRERegion;
+//        [self.hslCommunication searchGeocodeForKey:key];
+//        [self.treCommunication searchGeocodeForKey:key];
+//    }
     
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(GeocodeProtocol)]) {
+        __block NSInteger requestCalls = 2;
+        __block NSMutableArray *allResults = [@[] mutableCopy];
+        __block NSArray *poiResults = @[];
+        __block NSArray *reitiopasResults = @[];
+        
+        [(NSObject<GeocodeProtocol> *)dataSourceManager searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
+            requestCalls--;
+            
+            if (!error) {
+//                [allResults addObjectsFromArray:response];
+                reitiopasResults = response;
+            }
+            
+            if (requestCalls == 0){
+                allResults = [@[] mutableCopy];
+                [allResults addObjectsFromArray:reitiopasResults];
+                [allResults addObjectsFromArray:poiResults];
+                completionBlock(allResults, key , error);
+            }
+        }];
+        
+        [self searchPoiFromAppleForKey:key withCompletionBlock:^(NSArray *response, NSString *searchKey){
+            requestCalls--;
+            
+            if (response && response.count > 0) {
+//                [allResults addObjectsFromArray:response];
+                poiResults = response;
+            }
+            
+            if (requestCalls == 0){
+                allResults = [@[] mutableCopy];
+                [allResults addObjectsFromArray:reitiopasResults];
+                [allResults addObjectsFromArray:poiResults];
+                completionBlock(allResults, searchKey, nil);
+            }
+        }];
+    }else{
+        __block NSInteger requestCount = 2;
+        __block NSMutableArray *combinedResults = [@[] mutableCopy];
+        [self.hslCommunication searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
+            requestCount--;
+            
+            if (!error) {
+                [combinedResults addObjectsFromArray:response];
+            }
+            
+            if (requestCount == 0){
+                completionBlock(combinedResults, key, error);
+            }
+        }];
+        
+        [self.treCommunication searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
+            requestCount--;
+            
+            if (!error) {
+                [combinedResults addObjectsFromArray:response];
+            }
+            
+            if (requestCount == 0){
+                completionBlock(combinedResults, key, error);
+            }
+        }];
+    }
+}
+
+-(void)searchPoiFromAppleForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
+    // Create and initialize a search request object.
+    MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
+    request.naturalLanguageQuery = key;
+    request.region = [self regionForCurrentUserLocation];
+    
+    // Create and initialize a search object.
+    MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
+    
+    // Start the search and display the results as annotations on the map.
+    [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error)
+     {
+         NSMutableArray *geocodes = [NSMutableArray array];
+         for (MKMapItem *item in response.mapItems) {
+             if (!item.placemark.addressDictionary[@"CountryCode"] ||
+                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"])
+                 continue;
+             
+             GeoCode *geoCode =[[GeoCode alloc] initWithMapItem:item];
+             
+             if (geoCode)
+                 [geocodes addObject:geoCode];
+         }
+         
+         completionBlock(geocodes, key);
+     }];
 }
 
 //-(void)fetchDisruptions{
@@ -763,9 +857,9 @@
 - (void)receivedGeoJSON:(NSData *)objectNotation{/*Not Implemented Here*/}
 
 #pragma mark - Live traffic fetch methods
--(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes{
+-(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes{
     if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromHSLLive:lineCodes];
+        [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromHSLLive:lineCodes andTrainCodes:trainCodes];
     }
 }
 
@@ -1007,6 +1101,25 @@
         return YES;
     }else
         return NO;
+}
+
+-(MKCoordinateRegion)mapRegionForRtCoordinateRegion:(RTCoordinateRegion)coordRegion{
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake((coordRegion.topLeftCorner.latitude + coordRegion.bottomRightCorner.latitude)/2 , (coordRegion.topLeftCorner.longitude + coordRegion.bottomRightCorner.longitude)/2 );
+    
+    CLLocationDegrees latitudeDelta = coordRegion.topLeftCorner.latitude - coordRegion.bottomRightCorner.latitude;
+    CLLocationDegrees longtudeDelta = coordRegion.bottomRightCorner.longitude - coordRegion.topLeftCorner.longitude;
+    
+    return MKCoordinateRegionMake(center, MKCoordinateSpanMake(latitudeDelta, longtudeDelta));
+}
+
+-(MKCoordinateRegion)regionForCurrentUserLocation{
+    if ([self userLocationRegion] == HSLRegion) {
+        return [self mapRegionForRtCoordinateRegion:helsinkiRegion];
+    }else if ([self userLocationRegion] == TRERegion){
+        return [self mapRegionForRtCoordinateRegion:tampereRegion];
+    }else{
+        return MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
+    }
 }
 
 #pragma mark - Settings Methods

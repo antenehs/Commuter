@@ -16,6 +16,10 @@
 #import "StopViewController.h"
 #import "SVProgressHUD.h"
 #import "ReittiNotificationHelper.h"
+#import "LVThumbnailAnnotation.h"
+
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiansToDegrees(x) (x * 180.0 / M_PI)
 
 @interface LineDetailViewController ()
 
@@ -36,6 +40,8 @@
     
     [self hideStopsListView:YES animated:NO];
     
+    [self startFetchingLiveVehicles];
+    
     viewApearForTheFirstTime = YES;
 }
 
@@ -43,6 +49,10 @@
     [self setUpViewForLine];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self stopFetchingVehicles];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -64,6 +74,7 @@
         
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
         self.reittiDataManager.lineSearchdelegate = self;
+        self.reittiDataManager.vehicleFetchDelegate = self;
         self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
         
         [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -326,6 +337,117 @@
     }
 }
 
+- (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
+{
+    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+    for (Vehicle *vehicle in vehicleList) {
+        [codeList addObject:vehicle.vehicleId];
+    }
+    return codeList;
+}
+
+- (NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList
+{
+    return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
+}
+
+- (double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
+{
+    double fLat = degreesToRadians(fromLoc.latitude);
+    double fLng = degreesToRadians(fromLoc.longitude);
+    double tLat = degreesToRadians(toLoc.latitude);
+    double tLng = degreesToRadians(toLoc.longitude);
+    
+    double degree = radiansToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
+    
+    if (degree >= 0) {
+        return degree;
+    } else {
+        return 360+degree;
+    }
+}
+
+-(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
+    
+    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
+    
+    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
+    
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            
+            if (![codeList containsObject:annot.code]) {
+                [annotToRemove addObject:annotation];
+            }else{
+                [codeList removeObject:annot.code];
+                [existingVehicles addObject:annotation];
+            }
+        }
+    }
+    
+    for (id<MKAnnotation> annotation in existingVehicles) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            @try {
+                Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                
+                if (vehicleToUpdate.vehicleType == VehicleTypeBus) {
+                    double bearing = [self getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
+                    if (vehicleToUpdate.vehicleType == VehicleTypeBus) {
+                        //vehicle didn't move.
+                        if (bearing != 0) {
+                            vehicleToUpdate.bearing = bearing;
+                            [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:vehicleToUpdate.vehicleType]];
+                        }else{
+                            vehicleToUpdate.bearing = -1; //Do not update
+                        }
+                    }
+                }
+                
+                annot.coordinate = vehicleToUpdate.coords;
+                
+                if (vehicleToUpdate.bearing != -1) {
+                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+                }
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
+                [annotToRemove addObject:annot];
+                [codeList addObject:annot.code];
+            }
+        }
+    }
+    
+    [routeMapView removeAnnotations:annotToRemove];
+    
+    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
+    
+    for (Vehicle *vehicle in newVehicles) {
+        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
+        //        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        if (vehicle.bearing != -1 ) {
+            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        }else{
+            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
+        }
+        vehicleAnT.code = vehicle.vehicleId;
+        vehicleAnT.title = vehicle.vehicleName;
+        vehicleAnT.lineId = vehicle.vehicleLineId;
+        vehicleAnT.vehicleType = vehicle.vehicleType;
+        vehicleAnT.coordinate = vehicle.coords;
+        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
+        
+        [routeMapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
+    }
+}
+
+
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     
     static NSString *locationIdentifier = @"location";
@@ -353,10 +475,10 @@
         return annotationView;
     }
     
-//    if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
-//        
-//        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
-//    }
+    if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
+        
+        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:_mapView];
+    }
     
     return nil;
 }
@@ -388,6 +510,7 @@
     
 }
 
+
 #pragma mark - ReittiDataManager delegates
 -(void)lineSearchDidComplete:(NSArray *)lines{
     if (lines.count > 1) {
@@ -411,6 +534,27 @@
 
 -(void)popViewController{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - live vehicle delegates
+- (void)startFetchingLiveVehicles{
+    if (line.lineType == LineTypeTrain) {
+        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:nil andTrainCodes:@[self.line.code]];
+    }else{
+        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:@[self.line.code] andTrainCodes:nil];
+    }
+}
+
+- (void)stopFetchingVehicles{
+    //Remove all vehicle annotations
+    [self.reittiDataManager stopFetchingLiveVehicles];
+}
+
+- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
+    [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+}
+- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
+    
 }
 
 #pragma mark - IBActions

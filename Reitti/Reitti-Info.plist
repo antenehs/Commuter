@@ -123,5 +123,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>matkakorttimonitorapp</string>
+	</array>
 </dict>
 </plist>

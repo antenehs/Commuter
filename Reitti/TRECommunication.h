@@ -29,7 +29,7 @@
 - (void)treDisruptionFetchFailed:(int)errorCode;
 @end
 
-@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, ReverseGeocodeProtocol>
+@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol>
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 

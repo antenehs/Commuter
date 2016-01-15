@@ -8,6 +8,7 @@
 
 #import "GeoCode.h"
 #import "CacheManager.h"
+#import "ReittiStringFormatter.h"
 
 @implementation GeoCode
 
@@ -15,10 +16,26 @@
 @synthesize locTypeId;
 @synthesize name;
 @synthesize matchedName;
-@synthesize city;
 @synthesize lang;
 @synthesize coords;
 @synthesize details;
+
+-(id)initWithMapItem:(MKMapItem *)mapItem{
+    self = [super init];
+    
+    if (self) {
+        self.name = [NSString stringWithFormat:@"a %@", mapItem.name];
+        self.locTypeId = @5;
+        self.coords = [ReittiStringFormatter convert2DCoordToString:mapItem.placemark.coordinate];
+        
+        self.city = mapItem.placemark.addressDictionary[@"City"] ? mapItem.placemark.addressDictionary[@"City"] : mapItem.name;
+        NSLog(@"%@", mapItem.placemark.addressDictionary);
+        self.details = @{ @"address" : mapItem.placemark.addressDictionary[@"Street"] ? mapItem.placemark.addressDictionary[@"Street"] : mapItem.name};
+        
+    }
+    
+    return self;
+}
 
 -(NSString *)getHouseNumber{
     @try {

@@ -1581,8 +1581,65 @@
                                                     <segue destination="WA8-ns-SDB" kind="show" identifier="selectMaxHistoryDate" id="ACN-TL-M4P"/>
                                                 </connections>
                                             </tableViewCell>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="selectStartTab" rowHeight="85" id="sep-Zs-Rq1">
+                                                <rect key="frame" x="0.0" y="399.5" width="600" height="85"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sep-Zs-Rq1" id="c3b-aR-IzV">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="84.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Empty Flag-96.png" translatesAutoresizingMaskIntoConstraints="NO" id="c3Q-KR-oPh">
+                                                            <rect key="frame" x="9" y="13" width="25" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="25" id="Dku-h6-gkQ"/>
+                                                                <constraint firstAttribute="width" constant="25" id="F8J-eL-kX7"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open tab when app starts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rae-gd-9Un">
+                                                            <rect key="frame" x="44" y="14" width="212" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="21" id="VMg-Jk-hG3"/>
+                                                                <constraint firstAttribute="width" constant="212" id="ejx-ZO-Y3p"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <segmentedControl opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Sep-eh-xDI">
+                                                            <rect key="frame" x="44" y="46.5" width="548" height="29"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="260" id="RHw-0O-pE6"/>
+                                                            </constraints>
+                                                            <segments>
+                                                                <segment title="Map"/>
+                                                                <segment title="Route"/>
+                                                                <segment title="Bookmarks"/>
+                                                                <segment title="Lines"/>
+                                                            </segments>
+                                                            <color key="tintColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="RHw-0O-pE6"/>
+                                                                </mask>
+                                                            </variation>
+                                                            <connections>
+                                                                <action selector="startingTabIndexChanged:" destination="MbC-iB-tLX" eventType="valueChanged" id="ulH-i5-Dgg"/>
+                                                            </connections>
+                                                        </segmentedControl>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="leading" secondItem="c3b-aR-IzV" secondAttribute="leadingMargin" constant="36" id="46d-Pm-0y6"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="Sep-eh-xDI" secondAttribute="trailing" id="6My-K3-u3q"/>
+                                                        <constraint firstItem="c3Q-KR-oPh" firstAttribute="top" secondItem="c3b-aR-IzV" secondAttribute="topMargin" constant="5" id="GDh-QB-rAE"/>
+                                                        <constraint firstItem="rae-gd-9Un" firstAttribute="leading" secondItem="c3Q-KR-oPh" secondAttribute="trailing" constant="10" id="SQZ-yl-V79"/>
+                                                        <constraint firstItem="rae-gd-9Un" firstAttribute="top" secondItem="c3b-aR-IzV" secondAttribute="topMargin" constant="6" id="Vix-rk-vJI"/>
+                                                        <constraint firstItem="c3Q-KR-oPh" firstAttribute="leading" secondItem="c3b-aR-IzV" secondAttribute="leadingMargin" constant="1" id="bME-Pb-HUS"/>
+                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="bottom" secondItem="c3b-aR-IzV" secondAttribute="bottomMargin" constant="-2" id="tfW-Fd-BKy"/>
+                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="top" secondItem="rae-gd-9Un" secondAttribute="bottom" constant="11.5" id="vAO-fe-xAG"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="advancedSettingCell" id="5tP-cY-sMZ">
-                                                <rect key="frame" x="0.0" y="399.5" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="484.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5tP-cY-sMZ" id="Kw0-Az-Ebv">
                                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
@@ -1618,7 +1675,7 @@
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="trackingCell" id="p92-cU-y2F">
-                                                <rect key="frame" x="0.0" y="449.5" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="534.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p92-cU-y2F" id="sai-7h-Hrl">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -1661,7 +1718,7 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="locationCell" id="lZA-gR-0wW">
-                                                <rect key="frame" x="0.0" y="499.5" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="584.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lZA-gR-0wW" id="g1a-bT-cRF">
                                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
@@ -9423,6 +9480,7 @@ Helsinki, Finland</string>
     <resources>
         <image name="Bar Chart-100.png" width="100" height="100"/>
         <image name="Edit-gray-100.png" width="100" height="100"/>
+        <image name="Empty Flag-96.png" width="96" height="96"/>
         <image name="Info-red-filled-50.png" width="50" height="50"/>
         <image name="Options-colored-100.png" width="100" height="100"/>
         <image name="Up Left Filled-100.png" width="100" height="100"/>
@@ -9488,15 +9546,15 @@ Helsinki, Finland</string>
         <segue reference="Oy7-Ij-ap3"/>
         <segue reference="SWb-EE-ndB"/>
         <segue reference="DEk-ct-YDr"/>
-        <segue reference="due-au-0KO"/>
         <segue reference="oJb-eU-zeZ"/>
+        <segue reference="due-au-0KO"/>
         <segue reference="X8p-rp-E0z"/>
         <segue reference="lwh-ia-2sg"/>
-        <segue reference="e2V-qU-oq6"/>
         <segue reference="9x7-C0-VCu"/>
         <segue reference="G3y-0T-rdq"/>
         <segue reference="U9A-P0-Va2"/>
         <segue reference="ocH-Qu-aOm"/>
+        <segue reference="1sX-4y-Zdn"/>
         <segue reference="YpZ-AP-yAo"/>
         <segue reference="XlZ-XU-H5m"/>
         <segue reference="4lM-KH-B6v"/>

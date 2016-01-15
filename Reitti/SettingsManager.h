@@ -45,6 +45,8 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 //NSUserDefaults settings
 +(BOOL)isAnalyticsEnabled;
 +(void)enableAnalytics:(BOOL)enable;
++(NSInteger)getStartingIndexTab;
++(void)setStartingIndexTab:(NSInteger)index;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

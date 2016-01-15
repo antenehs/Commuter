@@ -112,20 +112,21 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [AppManager setCurrentAppVersion];
     }
     
-    //Testing
+    [self.navigationController setToolbarHidden:YES animated:NO];
+    [self fetchDisruptions];
+    
+    NSInteger startingIndex = [SettingsManager getStartingIndexTab];
+    if (startingIndex >= 0 && startingIndex <= 3) {
+        self.tabBarController.selectedIndex = startingIndex;
+    }
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
-    [self fetchDisruptions];
-    if (viewApearForTheFirstTime)
-        [self hideNearByStopsView:YES animated:YES];
-    [self.navigationController setToolbarHidden:YES animated:NO];
-    
-    viewApearForTheFirstTime = NO;
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    
+//    [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
+//    
+//}
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
@@ -155,7 +156,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopFetchActivityIndicator.circleLayer.lineWidth = 1.5;
     stopFetchActivityIndicator.alternatingColors = @[[AppManager systemGreenColor], [AppManager systemOrangeColor]];
     
+    if (viewApearForTheFirstTime){
+        [self hideNearByStopsView:YES animated:YES];
+    }
+    
     [self initDeparturesRefreshTimer];
+    
+    viewApearForTheFirstTime = NO;
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

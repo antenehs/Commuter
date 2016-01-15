@@ -183,8 +183,11 @@
 }
 
 - (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
-    //TODO: Check if the app exists locally and open it with a url
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1036411677"]];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"matkakorttimonitorapp://?"]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"matkakorttimonitorapp://"]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1036411677"]];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

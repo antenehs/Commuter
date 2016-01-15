@@ -315,9 +315,9 @@
     NSMutableArray *tempTrainArray = [@[] mutableCopy];
     NSMutableArray *tempOthersArray = [@[] mutableCopy];
     for (RouteLeg *leg in self.route.routeLegs) {
-//        if (leg.legType == LegTypeTrain) {
-//            [tempTrainArray addObject:leg.lineCode];
-//        }
+        if (leg.legType == LegTypeTrain) {
+            [tempTrainArray addObject:leg.lineCode];
+        }
         
         if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram || leg.legType == LegTypeBus || leg.legType == LegTypeTrain ) {
             [tempOthersArray addObject:leg.lineCode];
@@ -331,7 +331,7 @@
     
     if (tempOthersArray.count > 0) {
         self.reittiDataManager.vehicleFetchDelegate = self;
-        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray];
+        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray andTrainCodes:tempTrainArray];
     }
 }
 

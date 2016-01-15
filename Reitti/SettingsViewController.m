@@ -85,6 +85,11 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         otherSettingsSection = sectionNumber++;
         
         //-----------
+        startingTabSectionNumberOfRows = 1;
+        startingTabRow = 0;
+        startingTabSection = sectionNumber++;
+        
+        //-----------
         advancedSectionNumberOfRows = 0;
         advancedSetttingsRow = advancedSectionNumberOfRows++;
         
@@ -97,7 +102,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         trackingOptionRow = advancedModeNumberOfRows++;
         
         advancedModeSection = sectionNumber++;
-        mapSettingsSection = widgetSettingSection = otherSettingsSection = advancedSettingSection = -1;
+        mapSettingsSection = widgetSettingSection = otherSettingsSection = startingTabSection = advancedSettingSection = -1;
     }
     
     numberOfSections = sectionNumber;
@@ -160,6 +165,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         return wigetSectionNumberOfRows;
     }else if (section == otherSettingsSection) {
         return otherSettingsNumberOfRows;
+    }else if (section == startingTabSection){
+        return startingTabSectionNumberOfRows;
     }else if (section == advancedSettingSection){
         return advancedSectionNumberOfRows;
     }else if (section == advancedModeSection){
@@ -176,7 +183,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         if (indexPath.row == mapTypeRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"mapModeCell"];
             UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
-            segmentCtrl.selectedSegmentIndex = [settingsManager getMapMode];
             segmentCtrl.selectedSegmentIndex = [self.settingsManager getMapMode];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"liveVehicleCell"];
@@ -224,6 +230,12 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
                 selectedLabel.textColor = [UIColor lightGrayColor];
             }
         }
+    }else if (indexPath.section == startingTabSection){
+        if (indexPath.row == startingTabRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"selectStartTab"];
+            UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
+            segmentCtrl.selectedSegmentIndex = [SettingsManager getStartingIndexTab];
+        }
     }else if (indexPath.section == advancedSettingSection){
         if (indexPath.row == advancedSetttingsRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"advancedSettingCell"];
@@ -247,6 +259,14 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     }
     
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == startingTabSection) {
+        return 85;
+    }else{
+        return 50;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -331,6 +351,13 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     }
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedMapMode label:nil value:nil];
+}
+
+- (IBAction)startingTabIndexChanged:(id)sender {
+    UISegmentedControl *segmentControl = (UISegmentedControl *)sender;
+    if (segmentControl) {
+        [SettingsManager setStartingIndexTab:segmentControl.selectedSegmentIndex];
+    }
 }
 
 - (IBAction)showLiveVehicleSwitchValueChanged:(id)sender {
