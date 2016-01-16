@@ -145,7 +145,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
             
             UIView *disruptionsView = [cell viewWithTag:1003];
-            disruptionsView.layer.cornerRadius = 12.5;
+            disruptionsView.layer.cornerRadius = 10;
             
             disruptionsView.hidden = !thereIsDisruptions || !canShowDisruptions;
         }

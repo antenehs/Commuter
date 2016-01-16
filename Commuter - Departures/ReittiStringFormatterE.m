@@ -119,39 +119,52 @@
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
     
     @try {
-        NSArray *codes = [lineCode componentsSeparatedByString:@" "];
-        NSString *code = [codes objectAtIndex:0];
+        //Line codes from HSL live could be only 4 characters
+        if (lineCode.length < 4)
+            return lineCode;
         
-        if (code.length < 4) {
-            return code;
-        }
+        //Can be assumed a metro
+        if ([lineCode hasPrefix:@"1300"])
+            return @"Metro";
+        
+        //Can be assumed a ferry
+        if ([lineCode hasPrefix:@"1019"])
+            return @"Ferry";
         
         //Can be assumed a train line
-        if (([code hasPrefix:@"3001"] || [code hasPrefix:@"3002"]) && code.length > 4) {
-            NSString * trainLineCode = [code substringWithRange:NSMakeRange(4, code.length - 4)];
-            if (trainLineCode != nil && trainLineCode.length > 0) {
+        if (([lineCode hasPrefix:@"3001"] || [lineCode hasPrefix:@"3002"]) && lineCode.length > 4) {
+            NSString * trainLineCode = [lineCode substringWithRange:NSMakeRange(4, 1)];
+            if (trainLineCode != nil && trainLineCode.length > 0)
                 return trainLineCode;
-            }
         }
         
-        NSRange second = NSMakeRange(1, 1);
-        
-        if (code.length > 1) {
-            NSString *checkString = [code substringWithRange:second];
-            
-            if([checkString isEqualToString:@"0"]){
-                return [code substringWithRange:NSMakeRange(2, code.length - 2)];
-            }else{
-                return [code substringWithRange:NSMakeRange(1, code.length - 1)];
-            }
-        }else{
-            return code;
+        //2-4. character = line code (e.g. 102)
+        NSString *codePart = [lineCode substringWithRange:NSMakeRange(1, 3)];
+        while ([codePart hasPrefix:@"0"]) {
+            codePart = [codePart substringWithRange:NSMakeRange(1, codePart.length - 1)];
         }
+        
+        if (lineCode.length <= 4)
+            return codePart;
+        
+        //5 character = letter variant (e.g. T)
+        NSString *firstLetterVariant = [lineCode substringWithRange:NSMakeRange(4, 1)];
+        if ([firstLetterVariant isEqualToString:@" "])
+            return codePart;
+        
+        if (lineCode.length <= 5)
+            return [NSString stringWithFormat:@"%@%@", codePart, firstLetterVariant];
+        
+        //6 character = letter variant or numeric variant (ignore number variant)
+        NSString *secondLetterVariant = [lineCode substringWithRange:NSMakeRange(5, 1)];
+        if ([secondLetterVariant isEqualToString:@" "] || [secondLetterVariant intValue])
+            return [NSString stringWithFormat:@"%@%@", codePart, firstLetterVariant];
+        
+        return [NSString stringWithFormat:@"%@%@%@", codePart, firstLetterVariant, secondLetterVariant];
     }
     @catch (NSException *exception) {
         return lineCode;
     }
-    
 }
 
 //Expected format is XXXX(X) X:YYYYYYY

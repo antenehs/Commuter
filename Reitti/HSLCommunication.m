@@ -33,7 +33,7 @@
     super.apiBaseUrl = @"http://api.reittiopas.fi/hsl/1_2_0/";
     
     self.poikkeusInfoApi = [[APIClient alloc] init];
-    self.poikkeusInfoApi.apiBaseUrl = @"http://www.poikkeusinfo.fi/xml/v2/en";
+    self.poikkeusInfoApi.apiBaseUrl = @"http://www.poikkeusinfo.fi/xml/v2";
     
     return self;
 }
@@ -345,20 +345,43 @@
 #pragma mark - Disruption fetching
 -(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock{
     //TODO: Not so good mapping. Targets could be an array if there are more than one lines affected
-    NSDictionary *mappingDict = @{
-                                  @"id" : @"disruptionId",
-                                  @"type" : @"disruptionType",
-                                  @"source" : @"disruptionSource",
-                                  @"INFO.TEXT.text" : @"disruptionInfo",
-                                  @"VALIDITY.from" : @"disruptionStartTime",
-                                  @"VALIDITY.to" : @"disruptionEndTime",
-                                  @"TARGETS.LINE.id" : @"lineId",
-                                  @"TARGETS.LINE.direction" : @"lineDirection",
-                                  @"TARGETS.LINE.linetype" : @"lineType",
-                                  @"TARGETS.LINE.text" : @"lineName"
-                                  };
+    RKObjectMapping* textMapping = [RKObjectMapping mappingForClass:[DisruptionText class] ];
+    [textMapping addAttributeMappingsFromDictionary: @{ @"text" : @"text",
+                                                        @"lang" : @"language"
+                                                        }];
     
-    [self.poikkeusInfoApi doXmlApiFetchWithParams:nil mappingDictionary:mappingDict mapToClass:[Disruption class] mapKeyPath:@"DISRUPTIONS.DISRUPTION" andCompletionBlock:^(NSArray *disruptions, NSError *error){
+    RKObjectMapping* lineMapping = [RKObjectMapping mappingForClass:[DisruptionLine class] ];
+    [lineMapping addAttributeMappingsFromDictionary: @{ @"id" : @"lineId",
+                                                        @"direction" : @"lineDirection",
+                                                        @"linetype" : @"lineType",
+                                                        @"text" : @"lineName"
+                                                     }];
+    
+    RKObjectMapping* disruptionMapping = [RKObjectMapping mappingForClass:[Disruption class] ];
+    [disruptionMapping addAttributeMappingsFromDictionary:@{
+                                                         @"id" : @"disruptionId",
+                                                         @"type" : @"disruptionType",
+                                                         @"source" : @"disruptionSource",
+                                                         @"INFO.TEXT.text" : @"disruptionInfo",
+                                                         @"VALIDITY.from" : @"disruptionStartTime",
+                                                         @"VALIDITY.to" : @"disruptionEndTime"
+                                                         }];
+    
+    [disruptionMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"INFO.TEXT"
+                                                                                   toKeyPath:@"disruptionTexts"
+                                                                                 withMapping:textMapping]];
+    
+    [disruptionMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"TARGETS.LINE"
+                                                                                      toKeyPath:@"disruptionLines"
+                                                                                    withMapping:lineMapping]];
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:disruptionMapping
+                                                                                            method:RKRequestMethodAny
+                                                                                       pathPattern:nil
+                                                                                           keyPath:@"DISRUPTIONS.DISRUPTION"
+                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    [self.poikkeusInfoApi doXmlApiFetchWithParams:nil responseDescriptor:responseDescriptor andCompletionBlock:^(NSArray *disruptions, NSError *error){
         if (!error) {
             completionBlock(disruptions, nil);
         }else{

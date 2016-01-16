@@ -12,6 +12,11 @@
 #import "RettiDataManager.h"
 #import "SettingsManager.h"
 
+typedef enum{
+    InfoViewModeLiveAllDisruptions = 0,
+    InfoViewModeStaticRouteDisruptions = 1
+}InfoViewControllerMode;
+
 @interface InfoViewController : UIViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ReittiDisruptionFetchDelegate, ADBannerViewDelegate>{
     
     IBOutlet UITableView *disruptionsTableView;
@@ -32,10 +37,11 @@
     IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
     
     ADBannerView *_bannerView;
-    
 }
 
 @property (strong, nonatomic) NSArray * disruptionsList;
+
+@property (nonatomic) InfoViewControllerMode viewControllerMode;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 

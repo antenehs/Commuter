@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
 #import <MapKit/MapKit.h>
+#import "GeoCodeDetail.h"
 
 typedef enum
 {
@@ -39,6 +40,7 @@ typedef enum
 @property (nonatomic, retain) NSString * city;
 @property (nonatomic, retain) NSString * lang;
 @property (nonatomic, retain) NSString * coords;
-@property (nonatomic, retain) NSDictionary * details;
+//@property (nonatomic, retain) NSDictionary * details;
+@property (nonatomic, retain) GeoCodeDetail *details;
 
 @end

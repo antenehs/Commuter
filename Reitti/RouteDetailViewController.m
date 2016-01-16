@@ -324,15 +324,8 @@
         }
     }
     
-    if (tempTrainArray.count > 0) {
-        self.reittiDataManager.vehicleFetchDelegate = self;
-        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromPubTrans:tempTrainArray];
-    }
-    
-    if (tempOthersArray.count > 0) {
-        self.reittiDataManager.vehicleFetchDelegate = self;
-        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray andTrainCodes:tempTrainArray];
-    }
+    self.reittiDataManager.vehicleFetchDelegate = self;
+    [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray andTrainCodes:tempTrainArray];
 }
 
 - (void)stopFetchingVehicles{

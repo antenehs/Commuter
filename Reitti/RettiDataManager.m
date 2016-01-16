@@ -461,15 +461,6 @@
 
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
     geoCodeRequestedFor = userLocationRegion;
-//    if (userLocationRegion == HSLRegion) {
-//        [self.hslCommunication searchGeocodeForKey:key];
-//    }else if (userLocationRegion == TRERegion) {
-//        [self.treCommunication searchGeocodeForKey:key];
-//    }else{
-//        geoCodeRequestPrioritizedFor = HSLandTRERegion;
-//        [self.hslCommunication searchGeocodeForKey:key];
-//        [self.treCommunication searchGeocodeForKey:key];
-//    }
     
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
@@ -483,7 +474,6 @@
             requestCalls--;
             
             if (!error) {
-//                [allResults addObjectsFromArray:response];
                 reitiopasResults = response;
             }
             
@@ -499,7 +489,6 @@
             requestCalls--;
             
             if (response && response.count > 0) {
-//                [allResults addObjectsFromArray:response];
                 poiResults = response;
             }
             
@@ -554,7 +543,9 @@
          NSMutableArray *geocodes = [NSMutableArray array];
          for (MKMapItem *item in response.mapItems) {
              if (!item.placemark.addressDictionary[@"CountryCode"] ||
-                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"])
+                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"] ||
+                 ![self isCoordinateInCurrentRegion:item.placemark.coordinate] ||
+                 !item.phoneNumber)
                  continue;
              
              GeoCode *geoCode =[[GeoCode alloc] initWithMapItem:item];

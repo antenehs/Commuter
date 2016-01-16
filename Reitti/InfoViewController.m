@@ -51,13 +51,13 @@
     [disruptionsTableView reloadData];
     disruptionsTableView.backgroundColor = [UIColor clearColor];
     
-//    [self setupScrollView];
-    
-    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(checkDisruptionsButtonPressed:) userInfo:nil repeats:YES];
-    if ([settingsManager userLocation] == HSLRegion) {
-        [self fetchDisruptions];
-    }else{
-        [self disruptionFetchDidFail:nil];
+    if (self.viewControllerMode != InfoViewModeStaticRouteDisruptions) {
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(checkDisruptionsButtonPressed:) userInfo:nil repeats:YES];
+        if ([settingsManager userLocation] == HSLRegion) {
+            [self fetchDisruptions];
+        }else{
+            [self disruptionFetchDidFail:nil];
+        }
     }
     
 //    [self initAdBannerView];
@@ -146,11 +146,11 @@
         Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
         
         UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
-        infoLabel.text = disruption.disruptionInfo;
+        infoLabel.text = [disruption localizedText];
         
         CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
         
-        CGRect labelSize = [disruption.disruptionInfo boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+        CGRect labelSize = [[disruption localizedText] boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
                                                                 attributes:@{
                                                                              NSFontAttributeName : infoLabel.font
                                                                              }
@@ -184,7 +184,7 @@
         
         CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
         
-        CGRect labelSize = [disruption.disruptionInfo boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+        CGRect labelSize = [[disruption localizedText] boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
                                                                 attributes:@{
                                                                              NSFontAttributeName :infoLabel.font
                                                                              }
@@ -225,7 +225,7 @@
     //Filter out disruptions with no info text
     NSMutableArray *tempArray = [@[] mutableCopy];
     for (Disruption *disruption in disList) {
-        if (disruption.disruptionInfo != nil) {
+        if (disruption.localizedText != nil) {
             [tempArray addObject:disruption];
         }
     }

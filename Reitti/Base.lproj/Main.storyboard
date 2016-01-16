@@ -1127,9 +1127,9 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No traffic disruptions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhe-Vw-8Wb">
-                                                    <rect key="frame" x="24" y="21" width="135" height="22"/>
+                                                    <rect key="frame" x="24" y="21" width="172" height="22"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="135" id="8em-XJ-erA"/>
+                                                        <constraint firstAttribute="width" constant="172" id="8em-XJ-erA"/>
                                                         <constraint firstAttribute="height" constant="22" id="Nk6-1C-fuD"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="15"/>
@@ -1610,7 +1610,7 @@
                                                                 <constraint firstAttribute="width" constant="260" id="RHw-0O-pE6"/>
                                                             </constraints>
                                                             <segments>
-                                                                <segment title="Map"/>
+                                                                <segment title=" Map "/>
                                                                 <segment title="Route"/>
                                                                 <segment title="Bookmarks"/>
                                                                 <segment title="Lines"/>
@@ -8633,19 +8633,19 @@ Helsinki, Finland</string>
                                             </variation>
                                         </imageView>
                                         <view tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WR1-qb-yNI">
-                                            <rect key="frame" x="560" y="12" width="25" height="25"/>
+                                            <rect key="frame" x="563" y="15" width="20" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Jp2-f5-5FX">
-                                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" red="0.95686274509803915" green="0.41960784313725491" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="D06-3x-W9C"/>
-                                                <constraint firstAttribute="height" constant="25" id="HEj-7C-eEh"/>
+                                                <constraint firstAttribute="width" constant="20" id="D06-3x-W9C"/>
+                                                <constraint firstAttribute="height" constant="20" id="HEj-7C-eEh"/>
                                                 <constraint firstItem="Jp2-f5-5FX" firstAttribute="top" secondItem="WR1-qb-yNI" secondAttribute="top" id="Hix-hA-uzr"/>
                                                 <constraint firstItem="Jp2-f5-5FX" firstAttribute="leading" secondItem="WR1-qb-yNI" secondAttribute="leading" id="PKX-Am-GS1"/>
                                                 <constraint firstAttribute="bottom" secondItem="Jp2-f5-5FX" secondAttribute="bottom" id="Pc2-EF-NiG"/>
@@ -8655,12 +8655,12 @@ Helsinki, Finland</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="leading" secondItem="zJ4-L2-zCT" secondAttribute="trailing" constant="8" id="JyB-KV-DUS"/>
-                                        <constraint firstItem="WR1-qb-yNI" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="4" id="Ryg-ti-aS6"/>
+                                        <constraint firstItem="WR1-qb-yNI" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="7" id="Ryg-ti-aS6"/>
                                         <constraint firstItem="zJ4-L2-zCT" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="4" id="VBB-4C-SZQ"/>
                                         <constraint firstItem="zJ4-L2-zCT" firstAttribute="leading" secondItem="M0E-MS-YSK" secondAttribute="leadingMargin" id="Ypf-wI-9rF"/>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="leading" secondItem="zJ4-L2-zCT" secondAttribute="trailing" constant="9" id="ee6-Os-t6m"/>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="6" id="kNc-Iw-3SG"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="WR1-qb-yNI" secondAttribute="trailing" constant="7" id="qHu-GD-RKP"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="WR1-qb-yNI" secondAttribute="trailing" constant="9" id="qHu-GD-RKP"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -9550,11 +9550,11 @@ Helsinki, Finland</string>
         <segue reference="due-au-0KO"/>
         <segue reference="X8p-rp-E0z"/>
         <segue reference="lwh-ia-2sg"/>
-        <segue reference="9x7-C0-VCu"/>
         <segue reference="G3y-0T-rdq"/>
+        <segue reference="F7i-cJ-TYg"/>
         <segue reference="U9A-P0-Va2"/>
         <segue reference="ocH-Qu-aOm"/>
-        <segue reference="1sX-4y-Zdn"/>
+        <segue reference="tOp-kj-7Qb"/>
         <segue reference="YpZ-AP-yAo"/>
         <segue reference="XlZ-XU-H5m"/>
         <segue reference="4lM-KH-B6v"/>

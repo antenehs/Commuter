@@ -64,7 +64,8 @@
     float acceptableWidthForOthers = 70;
     
     if (routeLeg.lineCode != nil) {
-        lineNumberLabel.text = [ReittiStringFormatterE parseBusNumFromLineCode:routeLeg.lineCode];
+//        lineNumberLabel.text = [ReittiStringFormatterE parseBusNumFromLineCode:routeLeg.lineCode];
+        lineNumberLabel.text = routeLeg.lineName;
         NSDictionary *fontAttr = [NSDictionary dictionaryWithObject:lineNumberLabel.font forKey:NSFontAttributeName];
         
         CGSize size = [lineNumberLabel.text sizeWithAttributes:fontAttr];

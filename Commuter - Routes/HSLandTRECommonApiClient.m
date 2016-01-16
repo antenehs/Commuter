@@ -8,6 +8,8 @@
 
 #import "HSLandTRECommonApiClient.h"
 #import "RouteE.h"
+#import "ReittiStringFormatterE.h"
+
 @interface HSLandTRECommonApiClient ()
 
 @end
@@ -34,6 +36,22 @@
             NSArray *responseArray = [self routeFromJSON:responseData error:&localError];
             
             if (responseArray) {
+                @try {
+                    for (RouteE *route in responseArray) {
+                        for (RouteLegE *leg in route.routeLegs) {
+                            @try {
+                                if (!leg.lineCode)
+                                    continue;
+                                
+                                leg.lineName = [ReittiStringFormatterE parseBusNumFromLineCode:leg.lineCode];
+                            }
+                            @catch (NSException *exception) {
+                                leg.lineName = leg.lineCode;
+                            }
+                        }
+                    }
+                }
+                @catch (NSException *exception) {}
                 completionBlock(responseArray, nil);
             }else{
                 completionBlock(nil, localError);

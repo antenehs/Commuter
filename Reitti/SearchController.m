@@ -119,6 +119,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (startingIndex >= 0 && startingIndex <= 3) {
         self.tabBarController.selectedIndex = startingIndex;
     }
+    
+    //Test
 }
 
 //-(void)viewWillAppear:(BOOL)animated{
@@ -386,6 +388,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
         
         [self.view addSubview:centerLocatorView];
+        
+        CLLocationCoordinate2D coordinate = [mapView convertPoint:centerLocatorView.center toCoordinateFromView:mapView];
+        [self searchReverseGeocodeForCoordinate:coordinate];
     }else{
         [centerLocatorView removeFromSuperview];
     }
@@ -1879,7 +1884,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)initDisruptionFetching{
     //init a timer
     [self fetchDisruptions];
-    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(fetchDisruptions) userInfo:nil repeats:YES];
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:90 target:self selector:@selector(fetchDisruptions) userInfo:nil repeats:YES];
 }
 
 - (void)fetchDisruptions{
@@ -2349,17 +2354,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (void)reverseGeocodeSearchDidComplete:(GeoCode *)geoCode{
-    if (droppedPinAnnotationView == nil)
-        return;
-    
     droppedPinGeoCode = geoCode;
     [droppedPinGeoCode setLocationType:LocationTypeDroppedPin];
     
     [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
     
-    if ([droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
-//        ignoreRegionChange = YES;
-//        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
+    if (droppedPinAnnotationView && [droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) enableAddressInfoButton];
     }
     
@@ -2367,14 +2367,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 }
 - (void)reverseGeocodeSearchDidFail:(NSString *)error{
-    if (droppedPinAnnotationView == nil)
-        return;
-    
-//    if ([droppedPinAnnotationView conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
-//        ignoreRegionChange = YES;
-//        [mapView setSelectedAnnotations:[NSArray arrayWithObjects:droppedPinAnnotationView.annotation,nil]];
-//        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) setGeoCodeAddress:mapView address:nil];
-//    }
+    self.droppedPinGeoCode = nil;
+    [[DroppedPinManager sharedManager] setDroppedPin:nil];
+ 
 }
 
 //- (void)vehicleFetchDidComplete:(NSArray *)vehicleList{

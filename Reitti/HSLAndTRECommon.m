@@ -279,18 +279,7 @@
     [optionsDict setValue:@"4326" forKey:@"epsg_out"];
     [optionsDict setValue:@"json" forKey:@"format"];
     
-    NSDictionary *mappingDict = @{
-                                  @"locType" : @"locType",
-                                  @"locTypeId" : @"locTypeId",
-                                  @"name" : @"name",
-                                  @"city" : @"city",
-                                  @"matchedName" : @"matchedName",
-                                  @"lang" : @"lang",
-                                  @"coords" : @"coords",
-                                  @"details" : @"details"
-                                  };
-    
-    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doJsonApiFetchWithParams:optionsDict responseDescriptor:[self responseDescriptorForGeoCode] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             if (responseArray && responseArray.count > 0) {
                 completionBlock(responseArray, nil);
@@ -328,17 +317,7 @@
     [optionsDict setValue:@"4326" forKey:@"epsg_out"];
     [optionsDict setValue:@"json" forKey:@"format"];
     
-    NSDictionary *mappingDict = @{
-                                      @"locType" : @"locType",
-                                      @"locTypeId" : @"locTypeId",
-                                      @"name" : @"name",
-                                      @"city" : @"city",
-                                      @"lang" : @"lang",
-                                      @"coords" : @"coords",
-                                      @"details" : @"details"
-                                  };
-    
-    [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[GeoCode class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [super doJsonApiFetchWithParams:optionsDict responseDescriptor:[self responseDescriptorForGeoCode] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error) {
             if (responseArray && responseArray.count > 0) {
                 //Parse details before returning
@@ -351,6 +330,37 @@
             completionBlock(nil, [self formattedReverseGeocodeFetchErrorMessageForError:error]);
         }
     }];
+}
+
+-(RKResponseDescriptor *)responseDescriptorForGeoCode{
+    RKObjectMapping* detailMapping = [RKObjectMapping mappingForClass:[GeoCodeDetail class] ];
+    [detailMapping addAttributeMappingsFromDictionary: @{@"address" : @"address",
+                                                         @"code" : @"code",
+                                                         @"shortCode" : @"shortCode",
+                                                         @"lines" : @"lines",
+                                                         @"transportTypeId" : @"transport_type_id",
+                                                         @"terminalCode" : @"terminal_code",
+                                                         @"terminalName" : @"terminal_name",
+                                                         @"houseNumber" : @"houseNumber",
+                                                         @"poiType" : @"poiType",
+                                                         @"shortName" : @"short_name",
+                                                         @"platformNumber" : @"platform_number"
+                                                         }];
+    
+    RKObjectMapping* geoCodeMapping = [RKObjectMapping mappingForClass:[GeoCode class] ];
+    [geoCodeMapping addAttributeMappingsFromArray:@[ @"locType", @"locTypeId", @"name", @"city", @"matchedName", @"lang", @"coords" ]];
+    
+    [geoCodeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"details"
+                                                                                   toKeyPath:@"details"
+                                                                                 withMapping:detailMapping]];
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:geoCodeMapping
+                                                                                            method:RKRequestMethodAny
+                                                                                       pathPattern:nil
+                                                                                           keyPath:@""
+                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    return responseDescriptor;
 }
 
 -(NSString *)formattedReverseGeocodeFetchErrorMessageForError:(NSError *)error{

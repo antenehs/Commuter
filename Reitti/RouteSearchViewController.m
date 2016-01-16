@@ -10,6 +10,7 @@
 #import "RouteSearchViewController.h"
 #import "Transport.h"
 #import "RouteDetailViewController.h"
+#import "InfoViewController.h"
 #import "SVProgressHUD.h"
 #import "RouteViewManager.h"
 #import "SearchController.h"
@@ -1035,7 +1036,7 @@ typedef enum
             
             //Disruptions
             UIButton *disruptionsButton = (UIButton *)[cell viewWithTag:3001];
-            BOOL thereAreDisruptions = [self isThereDisruptionForRoute:route];
+            BOOL thereAreDisruptions = [self disruptionsForRoute:route] != nil;
             disruptionsButton.hidden = !thereAreDisruptions;
             if (thereAreDisruptions) {
                 disruptionsButton.layer.cornerRadius = disruptionsButton.frame.size.width/2;
@@ -1334,30 +1335,21 @@ typedef enum
     }];
 }
 
-- (BOOL)isThereDisruptionForRoute:(Route *)route{
-    if (!route || !self.disruptionsList)
-        return NO;
+- (NSArray *)disruptionsForRoute:(Route *)route{
+    if (!route || !self.disruptionsList || self.disruptionsList.count < 1)
+        return nil;
     
-    //Collect route lines
-    NSMutableArray *lines = [@[] mutableCopy];
+    NSMutableArray *disruptions = [@[] mutableCopy];
     for (RouteLeg *leg in route.routeLegs) {
-        if (leg.legType != LegTypeWalk && leg.lineName)
-            [lines addObject:leg.lineName];
-    }
-    
-    if (lines.count == 0)
-        return NO;
-    
-    for (Disruption *disruption in self.disruptionsList) {
-        if (!disruption.lineName)
-            continue;
-        
-        if ([lines containsObject:disruption.lineName]) {
-            return YES;
+        if (leg.legType != LegTypeWalk && leg.lineName){
+            for (Disruption *disruption in self.disruptionsList) {
+                if ([disruption affectsLineWithShortName:leg.lineName])
+                    [disruptions addObject:disruption];
+            }
         }
     }
     
-    return NO;
+    return disruptions.count > 0 ? disruptions : nil;
 }
 
 #pragma mark - Settings change notifications
@@ -1695,6 +1687,17 @@ typedef enum
         routeOptionsTableViewController.settingsManager = settingsManager;
         routeOptionsTableViewController.routeSearchOptions = [localRouteSearchOptions copy];
         routeOptionsTableViewController.routeOptionSelectionDelegate = self;
+    }
+    
+    if ([segue.identifier isEqualToString:@"showRouteDisruptions"]) {
+        NSIndexPath *selectedRowIndexPath = [routeResultsTableView indexPathForSelectedRow];
+        if (selectedRowIndexPath.row < self.routeList.count) {
+            Route * selectedRoute = [self.routeList objectAtIndex:selectedRowIndexPath.row];
+            
+            InfoViewController *destinationViewController = (InfoViewController *)segue.destinationViewController;
+            destinationViewController.disruptionsList = [self disruptionsForRoute:selectedRoute];
+            destinationViewController.viewControllerMode = InfoViewModeStaticRouteDisruptions;
+        }
     }
     
     [self.navigationItem setTitle:@""];

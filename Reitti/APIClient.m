@@ -40,18 +40,12 @@
 }
 
 #pragma mark - Generic fetch method
-
--(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath isJsonResponse:(BOOL)isJson andCompletionBlock:(ActionBlock)completionBlock{
+-(void)doApiFetchWithParams:(NSDictionary *)params responseDiscriptor:(RKResponseDescriptor *)responseDescriptor isJsonResponse:(BOOL)isJson andCompletionBlock:(ActionBlock)completionBlock{
     NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
     [client setDefaultHeader:@"Accept" value:isJson ? RKMIMETypeJSON : RKMIMETypeXML];
     [RKMIMETypeSerialization registerClass:isJson ? [RKNSJSONSerialization class] : [RKXMLReaderSerialization class] forMIMEType:isJson ? @"text/plain" : @"text/xml"];
     RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    
-    RKObjectMapping *responseMApping = [RKObjectMapping mappingForClass:mapToClass];
-    [responseMApping addAttributeMappingsFromDictionary:mapping];
-    
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMApping method:RKRequestMethodGET pathPattern:nil keyPath:keyPath statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     //Construct params query string
     NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
@@ -75,6 +69,25 @@
     }];
     
     [objectManager enqueueObjectRequestOperation:objectRequestOperation];
+}
+
+-(void)doJsonApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock{
+    
+    [self doApiFetchWithParams:params responseDiscriptor:responseDescriptor isJsonResponse:YES andCompletionBlock:completionBlock];
+}
+
+-(void)doXmlApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock{
+    
+    [self doApiFetchWithParams:params responseDiscriptor:responseDescriptor isJsonResponse:NO andCompletionBlock:completionBlock];
+}
+
+-(void)doApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath isJsonResponse:(BOOL)isJson andCompletionBlock:(ActionBlock)completionBlock{
+    RKObjectMapping *responseMApping = [RKObjectMapping mappingForClass:mapToClass];
+    [responseMApping addAttributeMappingsFromDictionary:mapping];
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMApping method:RKRequestMethodGET pathPattern:nil keyPath:keyPath statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    [self doApiFetchWithParams:params responseDiscriptor:responseDescriptor isJsonResponse:isJson andCompletionBlock:completionBlock];
 }
 
 -(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock{

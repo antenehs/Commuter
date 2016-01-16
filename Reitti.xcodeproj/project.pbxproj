@@ -25,6 +25,7 @@
 		66056E7A1C42E5C600C011FB /* metroVAnnot-no-bearing.png in Resources */ = {isa = PBXBuildFile; fileRef = 66056E761C42E5C600C011FB /* metroVAnnot-no-bearing.png */; };
 		66056E7B1C42E5C600C011FB /* BusVAnnot-no-bearing.png in Resources */ = {isa = PBXBuildFile; fileRef = 66056E771C42E5C600C011FB /* BusVAnnot-no-bearing.png */; };
 		66056E7D1C46E39A00C011FB /* Empty Flag-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 66056E7C1C46E39900C011FB /* Empty Flag-96.png */; };
+		66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E811C497E4300C011FB /* GeoCodeDetail.m */; };
 		660715FA1B45CD2C00033049 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715E91B45CD2C00033049 /* Distance.m */; };
 		660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715EB1B45CD2C00033049 /* InactiveReasons.m */; };
 		660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715ED1B45CD2C00033049 /* PeriodProductState.m */; };
@@ -421,6 +422,8 @@
 		66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9C318C65DC000AC9E94 /* MBProgressHUD.m */; };
 		66A7A9C618C65FA900AC9E94 /* bus_stop_hsl_orig.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A7A9C518C65FA900AC9E94 /* bus_stop_hsl_orig.png */; };
 		66A7A9E218CF300300AC9E94 /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9E118CF300300AC9E94 /* Line.m */; };
+		66B2465E1C4AAB4400FED24D /* DisruptionText.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B2465D1C4AAB4400FED24D /* DisruptionText.m */; };
+		66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B246601C4AABE600FED24D /* DisruptionLine.m */; };
 		66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
 		66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
@@ -805,6 +808,8 @@
 		66056E761C42E5C600C011FB /* metroVAnnot-no-bearing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "metroVAnnot-no-bearing.png"; path = "Pictures/Version 3.1/metroVAnnot-no-bearing.png"; sourceTree = "<group>"; };
 		66056E771C42E5C600C011FB /* BusVAnnot-no-bearing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BusVAnnot-no-bearing.png"; path = "Pictures/Version 3.1/BusVAnnot-no-bearing.png"; sourceTree = "<group>"; };
 		66056E7C1C46E39900C011FB /* Empty Flag-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Empty Flag-96.png"; path = "Pictures/version 4.1/Empty Flag-96.png"; sourceTree = "<group>"; };
+		66056E801C497E4300C011FB /* GeoCodeDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCodeDetail.h; sourceTree = "<group>"; };
+		66056E811C497E4300C011FB /* GeoCodeDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoCodeDetail.m; sourceTree = "<group>"; };
 		660715E81B45CD2C00033049 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distance.h; sourceTree = "<group>"; };
 		660715E91B45CD2C00033049 /* Distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Distance.m; sourceTree = "<group>"; };
 		660715EA1B45CD2C00033049 /* InactiveReasons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InactiveReasons.h; sourceTree = "<group>"; };
@@ -1296,6 +1301,10 @@
 		66A7A9C518C65FA900AC9E94 /* bus_stop_hsl_orig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bus_stop_hsl_orig.png; path = Pictures/bus_stop_hsl_orig.png; sourceTree = "<group>"; };
 		66A7A9E018CF300300AC9E94 /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
 		66A7A9E118CF300300AC9E94 /* Line.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Line.m; sourceTree = "<group>"; };
+		66B2465C1C4AAB4400FED24D /* DisruptionText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisruptionText.h; sourceTree = "<group>"; };
+		66B2465D1C4AAB4400FED24D /* DisruptionText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisruptionText.m; sourceTree = "<group>"; };
+		66B2465F1C4AABE600FED24D /* DisruptionLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisruptionLine.h; sourceTree = "<group>"; };
+		66B246601C4AABE600FED24D /* DisruptionLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisruptionLine.m; sourceTree = "<group>"; };
 		66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
@@ -1708,6 +1717,30 @@
 			name = HslDevVehicle;
 			sourceTree = "<group>";
 		};
+		66056E7E1C497DF600C011FB /* GeoCode */ = {
+			isa = PBXGroup;
+			children = (
+				664ADFF419929DF5000B4F18 /* GeoCode.h */,
+				664ADFF519929DF5000B4F18 /* GeoCode.m */,
+				66056E801C497E4300C011FB /* GeoCodeDetail.h */,
+				66056E811C497E4300C011FB /* GeoCodeDetail.m */,
+			);
+			name = GeoCode;
+			sourceTree = "<group>";
+		};
+		66056E7F1C497E1900C011FB /* Route */ = {
+			isa = PBXGroup;
+			children = (
+				661ABBEE199A924700F93894 /* Route.h */,
+				661ABBEF199A924700F93894 /* Route.m */,
+				661ABBF1199AABF900F93894 /* RouteLeg.h */,
+				661ABBF2199AABF900F93894 /* RouteLeg.m */,
+				661ABBF4199AB04100F93894 /* RouteLegLocation.h */,
+				661ABBF5199AB04100F93894 /* RouteLegLocation.m */,
+			);
+			name = Route;
+			sourceTree = "<group>";
+		};
 		660715E71B45CCA300033049 /* TravelCard */ = {
 			isa = PBXGroup;
 			children = (
@@ -2116,6 +2149,8 @@
 				661202C61B05083B00D93C2E /* GeoJSON */,
 				66CEE27419FA95810089A6F9 /* Disruption */,
 				66822F5E1C24688C00511BD2 /* Stops */,
+				66056E7E1C497DF600C011FB /* GeoCode */,
+				66056E7F1C497E1900C011FB /* Route */,
 				664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */,
 				664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */,
 				66CC941118E22ECB00644281 /* StopEntity.h */,
@@ -2132,14 +2167,6 @@
 				66CC941B18E34C6300644281 /* CookieEntity.m */,
 				664E28AE1AE2FC8300BE2457 /* SettingsEntity.h */,
 				664E28AF1AE2FC8300BE2457 /* SettingsEntity.m */,
-				664ADFF419929DF5000B4F18 /* GeoCode.h */,
-				664ADFF519929DF5000B4F18 /* GeoCode.m */,
-				661ABBEE199A924700F93894 /* Route.h */,
-				661ABBEF199A924700F93894 /* Route.m */,
-				661ABBF1199AABF900F93894 /* RouteLeg.h */,
-				661ABBF2199AABF900F93894 /* RouteLeg.m */,
-				661ABBF4199AB04100F93894 /* RouteLegLocation.h */,
-				661ABBF5199AB04100F93894 /* RouteLegLocation.m */,
 				66FC54891B237F00005B890D /* RouteCacheEntity.h */,
 				66FC548A1B237F00005B890D /* RouteCacheEntity.m */,
 				66DAE1EC19C398430039081D /* RouteLocation.h */,
@@ -2791,6 +2818,10 @@
 			children = (
 				66CEE27519FA96380089A6F9 /* Disruption.h */,
 				66CEE27619FA96380089A6F9 /* Disruption.m */,
+				66B2465C1C4AAB4400FED24D /* DisruptionText.h */,
+				66B2465D1C4AAB4400FED24D /* DisruptionText.m */,
+				66B2465F1C4AABE600FED24D /* DisruptionLine.h */,
+				66B246601C4AABE600FED24D /* DisruptionLine.m */,
 			);
 			name = Disruption;
 			sourceTree = "<group>";
@@ -3829,6 +3860,7 @@
 				66056E6C1C42AAFE00C011FB /* DirectionRef.m in Sources */,
 				66F3FAE81B4473A200DAA5B4 /* HTMLTokenizer.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
+				66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
 				66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */,
 				66FC54911B24B134005B890D /* StaticStop.m in Sources */,
@@ -3894,6 +3926,7 @@
 				660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */,
 				661202C51B04F5B200D93C2E /* LiveTrafficManager.m in Sources */,
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
+				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
 				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
@@ -3938,6 +3971,7 @@
 				66A7A9BF18C5FD4200AC9E94 /* StopAnnotation.m in Sources */,
 				6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
 				664E28A11AE2A50300BE2457 /* SettingsViewController.m in Sources */,
+				66B2465E1C4AAB4400FED24D /* DisruptionText.m in Sources */,
 				66CB961218EEE46100E95CE5 /* SWLongPressGestureRecognizer.m in Sources */,
 				661202D01B05085D00D93C2E /* BaseClass.m in Sources */,
 				664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */,

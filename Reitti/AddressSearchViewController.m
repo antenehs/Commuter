@@ -520,7 +520,7 @@
             [imageView setImage:[UIImage imageNamed:@"location-75.png"]];
             
             title.attributedText = [ReittiStringFormatter highlightSubstringInString:geoCode.name substring:addressSearchBar.text withNormalFont:title.font];
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
+            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", [geoCode fullAddressString]] substring:addressSearchBar.text withNormalFont:subTitle.font];
         }else if (geoCode.getLocationType  == LocationTypeAddress) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"addressLocationCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:2002];

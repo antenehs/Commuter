@@ -9,6 +9,7 @@
 @import QuartzCore;
 #import "JPSThumbnailAnnotationView.h"
 #import "JPSThumbnail.h"
+#import "AppManager.h"
 
 NSString * const kJPSThumbnailAnnotationViewReuseID = @"JPSThumbnailAnnotationView";
 
@@ -109,24 +110,25 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 //It is the button on the left side with route
 - (void)setupPrimaryButton {
     _primaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    _primaryButton.tintColor = SYSTEM_GREEN_COLOR;
-    _primaryButton.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    _primaryButton.tintColor = [AppManager systemGreenColor];
+    _primaryButton.backgroundColor = [UIColor colorWithWhite:0.93 alpha:1];
+//    _primaryButton.backgroundColor = [UIColor clearColor];
     
     _primaryButton.frame = CGRectMake(0, 0, 55.0f, 55.5f);
     
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(-132.0f, -55.5f, 72.0f, 55.0f)];
     containerView.clipsToBounds = YES;
-    containerView.layer.cornerRadius = 17.5;
+    containerView.layer.cornerRadius = 8.0;
     
     _primaryButtonSmall = [UIButton buttonWithType:UIButtonTypeSystem];
     UIImage *image = [UIImage imageNamed:@"bus-filled-gray-100.png"];
     [_primaryButtonSmall setImage:image forState:UIControlStateNormal];
-    _primaryButtonSmall.tintColor = SYSTEM_GREEN_COLOR;
+    _primaryButtonSmall.tintColor = [AppManager systemGreenColor];
     _primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
     
     _primaryButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake(8.0f, 32.0f, 40.0f, 20.0f)];
-    _primaryButtonLabel.textColor = SYSTEM_GREEN_COLOR;
-    _primaryButtonLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12.0f];
+    _primaryButtonLabel.textColor = [AppManager systemGreenColor];
+    _primaryButtonLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:12.0f];
     _primaryButtonLabel.textAlignment = NSTextAlignmentCenter;
     _primaryButtonLabel.adjustsFontSizeToFitWidth = YES;
     
@@ -304,7 +306,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 
 - (CGPathRef)newBubbleWithRect:(CGRect)rect {
     CGFloat stroke = 1.0f;
-	CGFloat radius = 17.5f;
+	CGFloat radius = 8.f;
 	CGMutablePathRef path = CGPathCreateMutable();
 	CGFloat parentX = rect.origin.x + rect.size.width/2.0f;
     
