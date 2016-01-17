@@ -26,8 +26,6 @@
 
 @implementation HSLCommunication
 
-@synthesize delegate;
-
 -(id)init{
     self = [super init];
     super.apiBaseUrl = @"http://api.reittiopas.fi/hsl/1_2_0/";
@@ -362,7 +360,6 @@
                                                          @"id" : @"disruptionId",
                                                          @"type" : @"disruptionType",
                                                          @"source" : @"disruptionSource",
-                                                         @"INFO.TEXT.text" : @"disruptionInfo",
                                                          @"VALIDITY.from" : @"disruptionStartTime",
                                                          @"VALIDITY.to" : @"disruptionEndTime"
                                                          }];
@@ -508,64 +505,64 @@
 }
 
 #pragma mark - overriden methods
-- (void)StopFetchDidComplete{
-    [delegate hslStopFetchDidComplete:self];
-}
-- (void)StopFetchFailed:(int)errorCode{
-    [self.delegate hslStopFetchFailed:errorCode];
-}
-- (void)StopInAreaFetchDidComplete{
-    [delegate hslStopInAreaFetchDidComplete:self];
-}
-- (void)StopInAreaFetchFailed:(int)errorCode{
-    [self.delegate hslStopInAreaFetchFailed:errorCode];
-}
-- (void)LineInfoFetchDidComplete{
-//    [delegate hslLineInfoFetchDidComplete:self];
-}
-- (void)LineInfoFetchFailed{
-//    [delegate hslLineInfoFetchFailed:self];
-}
-
-- (void)LineInfoFetchDidComplete:(NSData *)objectNotation{
-//    NSError *error = nil;
-//    NSArray *lines = [HSLCommunication lineFromJSON:objectNotation error:&error];
-//    
-//    if (lines != nil) {
-//        [delegate hslLineInfoFetchDidComplete:lines];
-//    }else{
-//        [delegate hslLineInfoFetchFailed:error];
-//    }
-    
-}
-- (void)LineInfoFetchFailed:(NSError *)error{
-    [delegate hslLineInfoFetchFailed:error];
-}
-
-- (void)GeocodeSearchDidComplete{
-    [delegate hslGeocodeSearchDidComplete:self];
-}
-- (void)GeocodeSearchFailed:(int)errorCode{
-    [self.delegate hslGeocodeSearchFailed:errorCode];
-}
-- (void)ReverseGeocodeSearchDidComplete{
-    [self.delegate hslReverseGeocodeSearchDidComplete:self];
-}
-- (void)ReverseGeocodeSearchFailed:(int)errorCode{
-    [self.delegate hslReverseGeocodeSearchFailed:errorCode];
-}
-- (void)RouteSearchDidComplete{
-    [delegate hslRouteSearchDidComplete:self];
-}
-- (void)RouteSearchFailed:(int)errorCode{
-    [self.delegate hslRouteSearchFailed:errorCode];
-}
-- (void)DisruptionFetchComplete{
-    [delegate hslDisruptionFetchComplete:self];
-}
-- (void)DisruptionFetchFailed:(int)errorCode{
-    [self.delegate hslDisruptionFetchFailed:errorCode];
-}
+//- (void)StopFetchDidComplete{
+//    [delegate hslStopFetchDidComplete:self];
+//}
+//- (void)StopFetchFailed:(int)errorCode{
+//    [self.delegate hslStopFetchFailed:errorCode];
+//}
+//- (void)StopInAreaFetchDidComplete{
+//    [delegate hslStopInAreaFetchDidComplete:self];
+//}
+//- (void)StopInAreaFetchFailed:(int)errorCode{
+//    [self.delegate hslStopInAreaFetchFailed:errorCode];
+//}
+//- (void)LineInfoFetchDidComplete{
+////    [delegate hslLineInfoFetchDidComplete:self];
+//}
+//- (void)LineInfoFetchFailed{
+////    [delegate hslLineInfoFetchFailed:self];
+//}
+//
+//- (void)LineInfoFetchDidComplete:(NSData *)objectNotation{
+////    NSError *error = nil;
+////    NSArray *lines = [HSLCommunication lineFromJSON:objectNotation error:&error];
+////
+////    if (lines != nil) {
+////        [delegate hslLineInfoFetchDidComplete:lines];
+////    }else{
+////        [delegate hslLineInfoFetchFailed:error];
+////    }
+//
+//}
+//- (void)LineInfoFetchFailed:(NSError *)error{
+//    [delegate hslLineInfoFetchFailed:error];
+//}
+//
+//- (void)GeocodeSearchDidComplete{
+//    [delegate hslGeocodeSearchDidComplete:self];
+//}
+//- (void)GeocodeSearchFailed:(int)errorCode{
+//    [self.delegate hslGeocodeSearchFailed:errorCode];
+//}
+//- (void)ReverseGeocodeSearchDidComplete{
+//    [self.delegate hslReverseGeocodeSearchDidComplete:self];
+//}
+//- (void)ReverseGeocodeSearchFailed:(int)errorCode{
+//    [self.delegate hslReverseGeocodeSearchFailed:errorCode];
+//}
+//- (void)RouteSearchDidComplete{
+//    [delegate hslRouteSearchDidComplete:self];
+//}
+//- (void)RouteSearchFailed:(int)errorCode{
+//    [self.delegate hslRouteSearchFailed:errorCode];
+//}
+//- (void)DisruptionFetchComplete{
+//    [delegate hslDisruptionFetchComplete:self];
+//}
+//- (void)DisruptionFetchFailed:(int)errorCode{
+//    [self.delegate hslDisruptionFetchFailed:errorCode];
+//}
 
 #pragma mark - Helper methods
 

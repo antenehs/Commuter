@@ -36,11 +36,13 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedReminderTone label:self.selectedTone value:nil];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

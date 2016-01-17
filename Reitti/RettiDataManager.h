@@ -36,31 +36,31 @@
 //- (void)nearByStopFetchDidFail:(NSString *)error;
 //@end
 
-@protocol RettiGeocodeSearchDelegate <NSObject>
-- (void)geocodeSearchDidComplete:(NSArray *)geocodeList isFinalResult:(BOOL)isFinalResult;
-- (void)geocodeSearchAddedResults:(NSArray *)geocodeList  isFinalResult:(BOOL)isFinalResult;
-- (void)geocodeSearchDidFail:(NSString *)error forRequest:(NSString *)requestedKey;
-@end
+//@protocol RettiGeocodeSearchDelegate <NSObject>
+//- (void)geocodeSearchDidComplete:(NSArray *)geocodeList isFinalResult:(BOOL)isFinalResult;
+//- (void)geocodeSearchAddedResults:(NSArray *)geocodeList  isFinalResult:(BOOL)isFinalResult;
+//- (void)geocodeSearchDidFail:(NSString *)error forRequest:(NSString *)requestedKey;
+//@end
 
-@protocol RettiReverseGeocodeSearchDelegate <NSObject>
-- (void)reverseGeocodeSearchDidComplete:(GeoCode *)geoCode;
-- (void)reverseGeocodeSearchDidFail:(NSString *)error;
-@end
+//@protocol RettiReverseGeocodeSearchDelegate <NSObject>
+//- (void)reverseGeocodeSearchDidComplete:(GeoCode *)geoCode;
+//- (void)reverseGeocodeSearchDidFail:(NSString *)error;
+//@end
 
 //@protocol RettiRouteSearchDelegate <NSObject>
 //- (void)routeSearchDidComplete:(NSArray *)routeList;
 //- (void)routeSearchDidFail:(NSString *)error;
 //@end
 
-@protocol RettiLineInfoSearchDelegate <NSObject>
-- (void)lineSearchDidComplete:(NSArray *)lines;
-- (void)lineSearchDidFail:(NSString *)error;
-@end
+//@protocol RettiLineInfoSearchDelegate <NSObject>
+//- (void)lineSearchDidComplete:(NSArray *)lines;
+//- (void)lineSearchDidFail:(NSString *)error;
+//@end
 
-@protocol ReittiDisruptionFetchDelegate <NSObject>
-- (void)disruptionFetchDidComplete:(NSArray *)disList;
-- (void)disruptionFetchDidFail:(NSString *)error;
-@end
+//@protocol ReittiDisruptionFetchDelegate <NSObject>
+//- (void)disruptionFetchDidComplete:(NSArray *)disList;
+//- (void)disruptionFetchDidFail:(NSString *)error;
+//@end
 
 @protocol ReittiLiveVehicleFetchDelegate <NSObject>
 - (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList;
@@ -82,22 +82,22 @@ typedef struct {
     CLLocationCoordinate2D bottomRightCorner;
 } RTCoordinateRegion;
 
-@interface RettiDataManager : NSObject <HSLCommunicationDelegate,TRECommunicationDelegate, PubTransCommunicatorDelegate, LiveTraficManagerDelegate>{
+@interface RettiDataManager : NSObject <PubTransCommunicatorDelegate, LiveTraficManagerDelegate>{
     int nextObjectLID;
     
-    Region stopInAreaRequestedFor;
-    Region stopInfoRequestedFor;
+//    Region stopInAreaRequestedFor;
+//    Region stopInfoRequestedFor;
     Region geoCodeRequestPrioritizedFor;
-    Region geoCodeRequestedFor;
-    Region lineInfoRequestedFor;
+//    Region geoCodeRequestedFor;
+//    Region lineInfoRequestedFor;
     
-    int geocodeFetchResponseCount;
-    int geocodeFetchFailedCount;
+//    int geocodeFetchResponseCount;
+//    int geocodeFetchFailedCount;
     
     NSMutableArray *HSLGeocodeResposeQueue;
     NSMutableArray *TREGeocodeResponseQueue;
     
-    int numberOfApis;
+//    int numberOfApis;
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
@@ -197,8 +197,8 @@ typedef struct {
 
 -(BOOL)doVersion4_1CoreDataMigration;
 
-@property (strong, nonatomic) NSDictionary *detailLineInfo;
-@property (strong, nonatomic) NSDictionary *stopLinesInfo;
+//@property (strong, nonatomic) NSDictionary *detailLineInfo;
+//@property (strong, nonatomic) NSDictionary *stopLinesInfo;
 @property (strong, nonatomic) NSMutableArray *allHistoryStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedRouteCodes;
@@ -210,11 +210,11 @@ typedef struct {
 @property (strong, nonatomic) PubTransCommunicator *pubTransAPI;
 
 //@property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
-@property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
-@property (nonatomic, weak) id <RettiReverseGeocodeSearchDelegate> reverseGeocodeSearchdelegate;
-//@property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
-@property (nonatomic, weak) id <RettiLineInfoSearchDelegate> lineSearchdelegate;
-@property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
+//@property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
+//@property (nonatomic, weak) id <RettiReverseGeocodeSearchDelegate> reverseGeocodeSearchdelegate;
+////@property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
+//@property (nonatomic, weak) id <RettiLineInfoSearchDelegate> lineSearchdelegate;
+//@property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
 @property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
 
 @property (strong, nonatomic) StopEntity *stopEntity;

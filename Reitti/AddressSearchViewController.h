@@ -33,7 +33,7 @@ typedef enum
     AddressSearchViewControllerKeyBoardTypeNumber = 2
 } AddressSearchViewControllerKeyBoardType;
 
-@interface AddressSearchViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UISearchBarDelegate, RettiGeocodeSearchDelegate>{
+@interface AddressSearchViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UISearchBarDelegate>{
     
     IBOutlet UISearchBar *addressSearchBar;
     IBOutlet UIButton *cancelButton;

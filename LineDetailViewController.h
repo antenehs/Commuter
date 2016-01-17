@@ -14,7 +14,7 @@
 #import "StaticRoute.h"
 #import "AMBlurView.h"
 
-@interface LineDetailViewController : UIViewController<MKMapViewDelegate, RettiLineInfoSearchDelegate, UITableViewDataSource, UITableViewDelegate, ReittiLiveVehicleFetchDelegate>{
+@interface LineDetailViewController : UIViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, ReittiLiveVehicleFetchDelegate>{
     IBOutlet MKMapView *routeMapView;
     
     CLLocationCoordinate2D upperBound;

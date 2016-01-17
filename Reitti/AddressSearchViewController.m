@@ -39,7 +39,7 @@
     keyboardType = AddressSearchViewControllerKeyBoardTypeText;
     topBoundary = 70.0;
     
-    reittiDataManager.geocodeSearchdelegate = self;
+//    reittiDataManager.geocodeSearchdelegate = self;
     [reittiDataManager resetResponseQueues];
     
     [self selectSystemColors];
@@ -49,7 +49,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    reittiDataManager.geocodeSearchdelegate = self;
+//    reittiDataManager.geocodeSearchdelegate = self;
     
     [addressSearchBar becomeFirstResponder];
     if (![self.prevSearchTerm isEqualToString:@""] && self.prevSearchTerm != nil) {

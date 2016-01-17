@@ -48,6 +48,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self fetchSavedData];
     
     [self.navigationItem setTitle:@"ROUTINES"];

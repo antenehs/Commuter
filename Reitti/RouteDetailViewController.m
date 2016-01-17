@@ -860,7 +860,7 @@
 
 - (BOOL)shouldShowOtherStopAnnotations{
     //15 is the level the current user location is displayed. Have to zoom more to view the other stops. 
-    return [self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] > 15 && currentRouteListViewLocation == RouteListViewLoactionBottom;
+    return [self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] > 14 && currentRouteListViewLocation == RouteListViewLoactionBottom;
 }
 
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList

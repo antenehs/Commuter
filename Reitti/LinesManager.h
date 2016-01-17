@@ -14,6 +14,9 @@
 +(id)sharedManager;
 -(id)init;
 
+-(NSArray *)getRecentLineCodes;
+-(void)saveRecentLine:(Line *)line;
+
 -(NSArray *)getLineCodesFromSavedStops;
 -(void)getLineCodesFromNearByStopsWithCompletionBlock:(ActionBlock)completionBlock;
 

@@ -19,7 +19,7 @@
 @synthesize disruptionLines;
 
 -(NSString *)localizedText{
-    NSLog(@"%@", [NSLocale preferredLanguages]);
+//    NSLog(@"%@", [NSLocale preferredLanguages]);
     NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
     
     if ([language hasPrefix:@"fi"]) {

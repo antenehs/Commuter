@@ -266,7 +266,7 @@
             NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern: pattern options:0 error:&error];
             NSArray* matches = [regex matchesInString:searchedString options:0 range: searchedRange];
             for (NSTextCheckingResult* match in matches) {
-                NSString* matchText = [searchedString substringWithRange:[match range]];
+//                NSString* matchText = [searchedString substringWithRange:[match range]];
 //                NSLog(@"match: %@", matchText);
                 NSRange group1 = [match rangeAtIndex:1];
 //                NSLog(@"group1: %@", [searchedString substringWithRange:group1]);
@@ -283,33 +283,33 @@
     return scriptMachFound;
 }
 
--(void)testLoadPage{
-    // Load a web page.
-    NSURL *URL = [NSURL URLWithString:@"https://omamatkakortti.hsl.fi/mobile/Login.aspx"];
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:URL completionHandler:
-      ^(NSData *data, NSURLResponse *response, NSError *error) {
-          NSString *contentType = nil;
-          if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-              NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
-              contentType = headers[@"Content-Type"];
-          }
-          HTMLDocument *home = [HTMLDocument documentWithData:data
-                                            contentTypeHeader:contentType];
-          HTMLElement *loginForm = [home firstNodeMatchingSelector:@"#aspnetForm"];
-          HTMLElement *userName = [home firstNodeMatchingSelector:@"#Etuile_MainContent_LoginControl_LoginForm_UserName"];
-          HTMLElement *password = [home firstNodeMatchingSelector:@"#Etuile_MainContent_LoginControl_LoginForm_Password"];
-          
-          HTMLElement *loginButton = [home firstNodeMatchingSelector:@"#Etuile_MainContent_LoginControl_LoginForm_LoginButton"];
-          
-          userName.textContent = @"antenehs";
-          password.textContent = @"Bsonofgod.1";
-          
-          NSString * onClick = loginButton.attributes[@"onclick"];
-//          NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-//          NSLog(@"%@", [div.textContent stringByTrimmingCharactersInSet:whitespace]);
-          // => A WHATWG-compliant HTML parser in Objective-C.
-      }] resume];
-}
+//-(void)testLoadPage{
+//    // Load a web page.
+//    NSURL *URL = [NSURL URLWithString:@"https://omamatkakortti.hsl.fi/mobile/Login.aspx"];
+//    NSURLSession *session = [NSURLSession sharedSession];
+//    [[session dataTaskWithURL:URL completionHandler:
+//      ^(NSData *data, NSURLResponse *response, NSError *error) {
+//          NSString *contentType = nil;
+//          if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+//              NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
+//              contentType = headers[@"Content-Type"];
+//          }
+//          HTMLDocument *home = [HTMLDocument documentWithData:data
+//                                            contentTypeHeader:contentType];
+//          HTMLElement *loginForm = [home firstNodeMatchingSelector:@"#aspnetForm"];
+//          HTMLElement *userName = [home firstNodeMatchingSelector:@"#Etuile_MainContent_LoginControl_LoginForm_UserName"];
+//          HTMLElement *password = [home firstNodeMatchingSelector:@"#Etuile_MainContent_LoginControl_LoginForm_Password"];
+//          
+//          HTMLElement *loginButton = [home firstNodeMatchingSelector:@"#Etuile_MainContent_LoginControl_LoginForm_LoginButton"];
+//          
+//          userName.textContent = @"antenehs";
+//          password.textContent = @"Bsonofgod.1";
+//          
+//          NSString * onClick = loginButton.attributes[@"onclick"];
+////          NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+////          NSLog(@"%@", [div.textContent stringByTrimmingCharactersInSet:whitespace]);
+//          // => A WHATWG-compliant HTML parser in Objective-C.
+//      }] resume];
+//}
 
 @end

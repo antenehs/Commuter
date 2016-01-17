@@ -18,8 +18,21 @@
 #import "LinesManager.h"
 #import "ReittiStringFormatter.h"
 
+@interface NSString (LineCodeHelper)
+- (NSComparisonResult)asa_recentLineIsEarlierthan:(NSString *)string;
+@end
+
+@implementation NSString (LineCodeHelper)
+
+- (NSComparisonResult)asa_recentLineIsEarlierthan:(NSString *)string{
+    return NSOrderedAscending;
+}
+
+@end
+
 @interface LinesTableViewController ()
 
+@property (nonatomic, strong) NSArray *recentLineCodes;
 @property (nonatomic, strong) NSArray *lineCodesFromSavedStops;
 @property (nonatomic, strong) NSArray *lineCodesFromNearbyStops;
 
@@ -34,10 +47,11 @@
     
     self.clearsSelectionOnViewWillAppear = YES;
     
-    linesFromStopsRequested = linesFromNearByStopsRequested = wasShowingLineDetail = NO;
+    linesForRecentLinesRequested = linesFromStopsRequested = linesFromNearByStopsRequested = wasShowingLineDetail = NO;
     
     [self initDataManagers];
     
+    self.recentLines = [@[] mutableCopy];
     self.searchedLines = [@[] mutableCopy];
     self.linesFromSavedStops = [@[] mutableCopy];
     self.linesFromNearStops = [@[] mutableCopy];
@@ -48,18 +62,16 @@
     
     scrollingShouldResignFirstResponder = YES;
     tableIsScrolling = NO;
-    
-//    self.title = @"";
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     if (!wasShowingLineDetail) {
         [self fetchInitialData];
-        
-        [self.tableView reloadData];
     }else{
         wasShowingLineDetail = NO;
     }
+    
+    [self.tableView reloadData];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
@@ -77,6 +89,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSArray *)recentLineCodes{
+    NSArray *lineCodes = [[LinesManager sharedManager] getRecentLineCodes];
+    return lineCodes ? lineCodes : [@[] mutableCopy];
 }
 
 -(NSArray *)lineCodesFromSavedStops{
@@ -200,6 +217,18 @@
 }
 
 -(void)fetchInitialData{
+    if (self.recentLineCodes && self.recentLineCodes.count > 0) {
+        linesForRecentLinesRequested = YES;
+        
+        [self fetchLinesForCodes:self.recentLineCodes WithCompletionBlock:^(NSArray *lines){
+            self.recentLines = [lines mutableCopy];
+            [self sortRecentLines]; //Order is not garantied so needs to be sorted.
+            
+            linesForRecentLinesRequested = NO;
+            [self.tableView reloadData];
+        }];
+    }
+    
     if (self.lineCodesFromSavedStops.count > 0) {
         linesFromStopsRequested = YES;
         
@@ -243,6 +272,9 @@
     numberOfSearchedLines = self.searchedLines.count > 0 ? self.searchedLines.count : 0;
     searchedLinesSection = numberOfSearchedLines > 0 ? sectionNumber++ : -1;
     
+    numberOfRecentLines = self.recentLines.count > 0 ? self.recentLines.count : 0;
+    recentLinesSection = (numberOfRecentLines > 0 || linesForRecentLinesRequested) && !isSearching ? sectionNumber++ : -1;
+    
     numberOfLinesFromSavedStops = self.linesFromSavedStops.count > 0 ? self.linesFromSavedStops.count : 0;
     linesFromSavedStopsSection = (numberOfLinesFromSavedStops > 0 || linesFromStopsRequested) && !isSearching ? sectionNumber++ : -1;
     
@@ -260,7 +292,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == linesFromSavedStopsSection) {
+    if (section == recentLinesSection) {
+        if (numberOfRecentLines == 0 && linesForRecentLinesRequested)
+            return 1;
+        
+        return numberOfRecentLines;
+    }else if (section == linesFromSavedStopsSection) {
         if (numberOfLinesFromSavedStops == 0 && linesFromStopsRequested)
             return 1;
         
@@ -280,7 +317,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = nil;
     
-    if ((indexPath.section == linesFromSavedStopsSection && numberOfLinesFromSavedStops == 0 && linesFromStopsRequested) ||
+    if ((indexPath.section == recentLinesSection && numberOfRecentLines == 0 && linesForRecentLinesRequested) ||
+        (indexPath.section == linesFromSavedStopsSection && numberOfLinesFromSavedStops == 0 && linesFromStopsRequested) ||
         (indexPath.section == linesFromNearbyStopsSection && numberOfLinesFromNearbyStops == 0 && linesFromNearByStopsRequested)) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
         
@@ -329,7 +367,9 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
     titleLabel.font = [titleLabel.font fontWithSize:13];
     titleLabel.textColor = [AppManager systemGreenColor];
-    if (section == linesFromSavedStopsSection) {
+    if (section == recentLinesSection) {
+        titleLabel.text = @"    RECENT LINES";
+    }else if (section == linesFromSavedStopsSection) {
         titleLabel.text = @"    LINES FROM SAVED STOPS";
 //        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTrain];
     }else if (section == linesFromNearbyStopsSection){
@@ -365,10 +405,8 @@
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
     return NO;
 }
-
 
 /*
 // Override to support editing the table view.
@@ -447,38 +485,37 @@
     return filteredLines;
 }
 
-- (NSMutableArray *)sortRouteArray:(NSMutableArray *)array{
+- (void)sortRecentLines{
     NSArray *sortedArray;
     
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"shortName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    sortedArray = [array sortedArrayUsingDescriptors:@[sort]];
+    NSArray *linesCodes = [self recentLineCodes];
+    sortedArray = [self.recentLines sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        //We can cast all types to ReittiManagedObjectBase since we are only interested in the date modified property
+        NSInteger first = [linesCodes indexOfObject:[(Line *)a code]];
+        NSInteger second = [linesCodes indexOfObject:[(Line *)b code]];
+        
+        if (first == NSNotFound)
+            return NSOrderedDescending;
+        
+        //Decending by date - latest to earliest
+        if (second > first)
+            return NSOrderedAscending;
+        else if (first > second)
+            return NSOrderedDescending;
+        else
+            return NSOrderedSame;
+    }];
     
-    return [NSMutableArray arrayWithArray:sortedArray];
-}
-
-- (NSMutableArray *)searchForLinesForString:(NSString *)key{
-//    NSMutableArray * searched = [[NSMutableArray alloc] init];
-//    key = [key lowercaseString];
-//    key = [key stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    
-//    if (key == nil || [key isEqualToString:@""]) {
-//        return self.allLines;
-//    }
-//    
-//    for (StaticRoute *route in self.allLines) {
-//        if ([[route.shortName lowercaseString] containsString:key]) {
-//            [searched addObject:route];
-//        }else if ([[route.longName lowercaseString] containsString:key]) {
-//            [searched addObject:route];
-//        }
-//    }
-//    
-//    return searched;
-    return nil;
+    self.recentLines = [NSMutableArray arrayWithArray:sortedArray];
 }
 
 - (Line *)lineForIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == linesFromSavedStopsSection) {
+    if (indexPath.section == recentLinesSection) {
+        if (indexPath.row < self.recentLines.count)
+            return self.recentLines[indexPath.row];
+        else
+            return nil;
+    }else if (indexPath.section == linesFromSavedStopsSection) {
         if (indexPath.row < self.linesFromSavedStops.count)
             return self.linesFromSavedStops[indexPath.row];
         else
@@ -506,8 +543,20 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         LineDetailViewController * lineDetailViewController = (LineDetailViewController *)[segue destinationViewController];
         
-        lineDetailViewController.line = [self lineForIndexPath:indexPath];
+        Line *selectedLine = [self lineForIndexPath:indexPath];
+        
+        lineDetailViewController.line = selectedLine;
         wasShowingLineDetail = YES;
+        
+        //Add the line to the recent list
+        for (int i = 0 ; i < self.recentLines.count ; i++) {
+            Line *line = self.recentLines[i];
+            if ([line.code isEqualToString:selectedLine.code]) {
+                [self.recentLines removeObject:line];
+            }
+        }
+        
+        [self.recentLines insertObject:selectedLine atIndex:0];
     }
     
     [self.navigationItem setTitle:@""];

@@ -35,7 +35,7 @@
         [self.reittiDataManager setUserLocationToRegion:[self.settingsManager userLocation]];
     }
     
-    self.reittiDataManager.disruptionFetchDelegate = self;
+//    self.reittiDataManager.disruptionFetchDelegate = self;
     if (settingsManager == nil) {
         settingsManager =[[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
     }

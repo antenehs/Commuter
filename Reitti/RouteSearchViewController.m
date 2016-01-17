@@ -1701,7 +1701,6 @@ typedef enum
     }
     
     [self.navigationItem setTitle:@""];
-    
 }
 
 - (void)configureDetailViewControllerWithRoute:(Route *)selectedRoute andSelectedRouteIndex:(int)index routeDetailViewController:(RouteDetailViewController *)destinationViewController {

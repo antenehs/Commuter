@@ -21,13 +21,14 @@
     
     BOOL isSearching;
     
+    BOOL linesForRecentLinesRequested;
     BOOL linesFromStopsRequested;
     BOOL linesFromNearByStopsRequested;
     
     BOOL wasShowingLineDetail;
     
-    NSInteger numberOfSections, linesFromSavedStopsSection, linesFromNearbyStopsSection, searchedLinesSection;
-    NSInteger numberOfLinesFromSavedStops, numberOfLinesFromNearbyStops, numberOfSearchedLines;
+    NSInteger numberOfSections, recentLinesSection, linesFromSavedStopsSection, linesFromNearbyStopsSection, searchedLinesSection;
+    NSInteger numberOfRecentLines, numberOfLinesFromSavedStops, numberOfLinesFromNearbyStops, numberOfSearchedLines;
 }
 
 
@@ -38,6 +39,7 @@
 //@property (strong, nonatomic) NSMutableArray * trainLines;
 //@property (strong, nonatomic) NSMutableArray * allLines;
 
+@property (strong, nonatomic) NSMutableArray * recentLines;
 @property (strong, nonatomic) NSMutableArray * linesFromSavedStops;
 @property (strong, nonatomic) NSMutableArray * linesFromNearStops;
 @property (strong, nonatomic) NSMutableArray * searchedLines;

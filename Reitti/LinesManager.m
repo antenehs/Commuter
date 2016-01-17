@@ -11,6 +11,8 @@
 #import "SettingsManager.h"
 #import "StopEntity.h"
 
+NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
+
 @interface LinesManager ()<CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -82,6 +84,43 @@
 }
 
 #pragma mark - get lines methods
+-(NSArray *)getRecentLineCodes{
+    NSArray *recentLineCodes = [[NSUserDefaults standardUserDefaults] objectForKey:kRecentLinesNsDefaultsKey];
+    
+    if (!recentLineCodes || recentLineCodes.count < 1)
+        return nil;
+    
+    return recentLineCodes;
+}
+
+-(void)saveRecentLine:(Line *)line{
+    if (!line)
+        return;
+
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        NSArray *recentLineCodes = [[NSUserDefaults standardUserDefaults] objectForKey:kRecentLinesNsDefaultsKey];
+        
+        if (!recentLineCodes)
+            recentLineCodes = @[];
+        
+        NSMutableArray *mutableLinesCopy = [recentLineCodes mutableCopy];
+        if (mutableLinesCopy.count > 3) {
+            [mutableLinesCopy removeObjectsInRange:NSMakeRange(3, mutableLinesCopy.count - 3)];
+        }
+        
+        [mutableLinesCopy insertObject:line.code atIndex:0];
+        
+        [standardUserDefaults setObject:mutableLinesCopy forKey:kRecentLinesNsDefaultsKey];
+        [standardUserDefaults synchronize];
+    }
+}
+
+-(void)removeRecentLine:(Line *)line{
+    
+}
+
 -(NSArray *)getLineCodesFromSavedStops{
     NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
     

@@ -26,15 +26,13 @@
 @implementation RettiDataManager
 
 @synthesize managedObjectContext;
-//@synthesize delegate;
-@synthesize geocodeSearchdelegate;
-@synthesize reverseGeocodeSearchdelegate;
-//@synthesize routeSearchdelegate;
-@synthesize lineSearchdelegate;
-@synthesize disruptionFetchDelegate;
+//@synthesize geocodeSearchdelegate;
+//@synthesize reverseGeocodeSearchdelegate;
+//@synthesize lineSearchdelegate;
+//@synthesize disruptionFetchDelegate;
 @synthesize hslCommunication, treCommunication, pubTransAPI;
-@synthesize detailLineInfo;
-@synthesize stopLinesInfo;
+//@synthesize detailLineInfo;
+//@synthesize stopLinesInfo;
 @synthesize allHistoryStopCodes;
 @synthesize allSavedStopCodes;
 @synthesize allRouteHistoryCodes, allSavedRouteCodes;
@@ -80,16 +78,14 @@
 
 - (void)initElements {
     HSLCommunication *hCommunicator = [[HSLCommunication alloc] init];
-    hCommunicator.delegate = self;
     
     self.hslCommunication = hCommunicator;
     
     TRECommunication *tCommunicator = [[TRECommunication alloc] init];
-    tCommunicator.delegate = self;
     
     self.treCommunication = tCommunicator;
     
-    numberOfApis = 2;
+//    numberOfApis = 2;
     
     pubTransAPI = [[PubTransCommunicator alloc] init];
     pubTransAPI.delegate = self;
@@ -99,8 +95,8 @@
     
     self.cacheManager = [CacheManager sharedManager];
 
-    geocodeFetchResponseCount = 0;
-    geocodeFetchFailedCount = 0;
+//    geocodeFetchResponseCount = 0;
+//    geocodeFetchFailedCount = 0;
     
     HSLGeocodeResposeQueue = [@[] mutableCopy];
     TREGeocodeResponseQueue = [@[] mutableCopy];
@@ -460,7 +456,7 @@
 #pragma mark - Address fetch methods
 
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
-    geoCodeRequestedFor = userLocationRegion;
+//    geoCodeRequestedFor = userLocationRegion;
     
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
@@ -558,10 +554,6 @@
      }];
 }
 
-//-(void)fetchDisruptions{
-//    [self fetchDisruptionsWithCompletionBlock:nil];
-//}
-
 -(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock{
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
@@ -600,57 +592,57 @@
 //        [routeSearchdelegate routeSearchDidFail:nil];
 //    }
 //}
-- (void)hslGeocodeSearchDidComplete:(HSLCommunication *)communicator{
-    if (geoCodeRequestedFor == HSLRegion) {
-        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
-    }else if(geoCodeRequestedFor == HSLandTRERegion){
-        [HSLGeocodeResposeQueue addObject:communicator.geoCodeList];
-        
-        [self checkForGeoCodeFetchCompletionAndReturn];
-    }
-    
-}
+//- (void)hslGeocodeSearchDidComplete:(HSLCommunication *)communicator{
+//    if (geoCodeRequestedFor == HSLRegion) {
+//        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
+//    }else if(geoCodeRequestedFor == HSLandTRERegion){
+//        [HSLGeocodeResposeQueue addObject:communicator.geoCodeList];
+//
+//        [self checkForGeoCodeFetchCompletionAndReturn];
+//    }
+//
+//}
 
-- (void)hslGeocodeSearchFailed:(int)errorCode{
-    //The last one to fail sends the message
-    NSString *errorMessage = nil;
-    if (errorCode == -1009) {
-        errorMessage = @"Internet connection appears to be offline.";
-    }
-    
-    if (geoCodeRequestedFor == HSLRegion) {
-        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
-    }else if (geoCodeRequestedFor == HSLandTRERegion){
-        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
-        failed.errorCode = errorCode;
-        failed.textForError = errorMessage;
-        
-        [HSLGeocodeResposeQueue addObject:failed];
-        [self checkForGeoCodeFetchCompletionAndReturn];
-    }
-}
-
--(void)hslReverseGeocodeSearchDidComplete:(HSLCommunication *)communicator{
-    if (communicator.reverseGeoCodeList.count > 0) {
-        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
-    }else{
-        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
-    }
-}
-
--(void)hslReverseGeocodeSearchFailed:(int)errorCode{
-    NSString *errorString = @"";
-    switch (errorCode) {
-        case -1009:
-            errorString = @"Internet connection appears to be offline.";
-            break;
-        default:
-            errorString = @"No address was found for the coordinates";
-            break;
-    }
-    
-    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
-}
+//- (void)hslGeocodeSearchFailed:(int)errorCode{
+//    //The last one to fail sends the message
+//    NSString *errorMessage = nil;
+//    if (errorCode == -1009) {
+//        errorMessage = @"Internet connection appears to be offline.";
+//    }
+//
+//    if (geoCodeRequestedFor == HSLRegion) {
+//        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
+//    }else if (geoCodeRequestedFor == HSLandTRERegion){
+//        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
+//        failed.errorCode = errorCode;
+//        failed.textForError = errorMessage;
+//
+//        [HSLGeocodeResposeQueue addObject:failed];
+//        [self checkForGeoCodeFetchCompletionAndReturn];
+//    }
+//}
+//
+//-(void)hslReverseGeocodeSearchDidComplete:(HSLCommunication *)communicator{
+//    if (communicator.reverseGeoCodeList.count > 0) {
+//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
+//    }else{
+//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
+//    }
+//}
+//
+//-(void)hslReverseGeocodeSearchFailed:(int)errorCode{
+//    NSString *errorString = @"";
+//    switch (errorCode) {
+//        case -1009:
+//            errorString = @"Internet connection appears to be offline.";
+//            break;
+//        default:
+//            errorString = @"No address was found for the coordinates";
+//            break;
+//    }
+//
+//    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
+//}
 
 //-(void)hslStopFetchDidComplete:(HSLCommunication *)communicator{
 //    [self.delegate stopFetchDidComplete:communicator.stopList];
@@ -699,25 +691,25 @@
 //    [self.delegate nearByStopFetchDidFail:errorString];
 //}
 
--(void)hslDisruptionFetchComplete:(HSLCommunication *)communicator{
-    [self.disruptionFetchDelegate disruptionFetchDidComplete:communicator.disruptionList];
-}
-
--(void)hslDisruptionFetchFailed:(int)errorCode{
-    [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
-}
-
--(void)hslLineInfoFetchDidComplete:(NSArray *)lines{
-//    self.detailLineInfo = [self convertListInfoArrayToDictionary:communicator.lineInfoList];
-    //[self.delegate stopFetchDidComplete:communicator.stopList];
-    [self.lineSearchdelegate lineSearchDidComplete:lines];
-}
-
--(void)hslLineInfoFetchFailed:(NSError *)error{
-    //[self.delegate stopFetchDidFail:nil];
-    //TODO: evaluate error string
-    [self.lineSearchdelegate lineSearchDidFail:@"Line fetch failed"];
-}
+//-(void)hslDisruptionFetchComplete:(HSLCommunication *)communicator{
+//    [self.disruptionFetchDelegate disruptionFetchDidComplete:communicator.disruptionList];
+//}
+//
+//-(void)hslDisruptionFetchFailed:(int)errorCode{
+//    [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
+//}
+//
+//-(void)hslLineInfoFetchDidComplete:(NSArray *)lines{
+////    self.detailLineInfo = [self convertListInfoArrayToDictionary:communicator.lineInfoList];
+//    //[self.delegate stopFetchDidComplete:communicator.stopList];
+//    [self.lineSearchdelegate lineSearchDidComplete:lines];
+//}
+//
+//-(void)hslLineInfoFetchFailed:(NSError *)error{
+//    //[self.delegate stopFetchDidFail:nil];
+//    //TODO: evaluate error string
+//    [self.lineSearchdelegate lineSearchDidFail:@"Line fetch failed"];
+//}
 
 #pragma mark - TRECommunication delegate methods
 //- (void)treStopFetchDidComplete:(TRECommunication *)communicator{
@@ -763,61 +755,61 @@
 //    }
 //    [self.delegate nearByStopFetchDidFail:errorString];
 //}
-- (void)treLineInfoFetchDidComplete:(TRECommunication *)communicator{
-    //not needed yet
-}
-- (void)treLineInfoFetchFailed:(TRECommunication *)communicator{
-    //not needed yet
-}
-- (void)treGeocodeSearchDidComplete:(TRECommunication *)communicator{
-    if (geoCodeRequestedFor == TRERegion) {
-        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
-    }else if(geoCodeRequestedFor == HSLandTRERegion){
-        [TREGeocodeResponseQueue addObject:communicator.geoCodeList];
-        
-        [self checkForGeoCodeFetchCompletionAndReturn];
-    }
-}
-- (void)treGeocodeSearchFailed:(int)errorCode{
-    //The last one to fail sends the message
-    NSString *errorMessage = nil;
-    if (errorCode == -1009) {
-        errorMessage = @"Internet connection appears to be offline.";
-    }
-    
-    if (geoCodeRequestedFor == TRERegion) {
-        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
-    }else if (geoCodeRequestedFor == HSLandTRERegion){
-        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
-        failed.errorCode = errorCode;
-        failed.textForError = errorMessage;
-        
-        [TREGeocodeResponseQueue addObject:failed];
-        [self checkForGeoCodeFetchCompletionAndReturn];
-    }
-}
+//- (void)treLineInfoFetchDidComplete:(TRECommunication *)communicator{
+//    //not needed yet
+//}
+//- (void)treLineInfoFetchFailed:(TRECommunication *)communicator{
+//    //not needed yet
+//}
+//- (void)treGeocodeSearchDidComplete:(TRECommunication *)communicator{
+//    if (geoCodeRequestedFor == TRERegion) {
+//        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
+//    }else if(geoCodeRequestedFor == HSLandTRERegion){
+//        [TREGeocodeResponseQueue addObject:communicator.geoCodeList];
+//
+//        [self checkForGeoCodeFetchCompletionAndReturn];
+//    }
+//}
+//- (void)treGeocodeSearchFailed:(int)errorCode{
+//    //The last one to fail sends the message
+//    NSString *errorMessage = nil;
+//    if (errorCode == -1009) {
+//        errorMessage = @"Internet connection appears to be offline.";
+//    }
+//
+//    if (geoCodeRequestedFor == TRERegion) {
+//        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
+//    }else if (geoCodeRequestedFor == HSLandTRERegion){
+//        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
+//        failed.errorCode = errorCode;
+//        failed.textForError = errorMessage;
+//
+//        [TREGeocodeResponseQueue addObject:failed];
+//        [self checkForGeoCodeFetchCompletionAndReturn];
+//    }
+//}
 
--(void)treReverseGeocodeSearchDidComplete:(TRECommunication *)communicator{
-    if (communicator.reverseGeoCodeList.count > 0) {
-        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
-    }else{
-        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
-    }
-}
+//-(void)treReverseGeocodeSearchDidComplete:(TRECommunication *)communicator{
+//    if (communicator.reverseGeoCodeList.count > 0) {
+//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
+//    }else{
+//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
+//    }
+//}
 
--(void)treReverseGeocodeSearchFailed:(int)errorCode{
-    NSString *errorString = @"";
-    switch (errorCode) {
-        case -1009:
-            errorString = @"Internet connection appears to be offline.";
-            break;
-        default:
-            errorString = @"No address was found for the coordinates";
-            break;
-    }
-    
-    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
-}
+//-(void)treReverseGeocodeSearchFailed:(int)errorCode{
+//    NSString *errorString = @"";
+//    switch (errorCode) {
+//        case -1009:
+//            errorString = @"Internet connection appears to be offline.";
+//            break;
+//        default:
+//            errorString = @"No address was found for the coordinates";
+//            break;
+//    }
+//
+//    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
+//}
 
 //- (void)treRouteSearchDidComplete:(TRECommunication *)communicator{
 ////    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
@@ -831,12 +823,12 @@
 //        [routeSearchdelegate routeSearchDidFail:nil];
 //    }
 //}
-- (void)treDisruptionFetchComplete:(TRECommunication *)communicator{
-    
-}
-- (void)treDisruptionFetchFailed:(int)errorCode{
-    
-}
+//- (void)treDisruptionFetchComplete:(TRECommunication *)communicator{
+//
+//}
+//- (void)treDisruptionFetchFailed:(int)errorCode{
+//
+//}
 
 #pragma mark - PubTrans Delegate Methods
 - (void)receivedStopsFromPubTrans:(NSArray *)stops{
@@ -2298,47 +2290,47 @@
 }
 
 #pragma mark - merged delegate methods
-- (void)checkForGeoCodeFetchCompletionAndReturn{
-    
-    if (HSLGeocodeResposeQueue.count > 0 && TREGeocodeResponseQueue.count > 0) {
-        NSMutableArray *respose = [@[] mutableCopy];
-        if (geoCodeRequestPrioritizedFor == TRERegion) {
-            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
-            }
-            
-            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
-            }
-        }else{
-            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
-            }
-            
-            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
-            }
-        }
-        
-        if (respose.count == 0){
-            //Failed case. Respond the error
-            FailedGeoCodeFetch *failedObject;
-            if (geoCodeRequestPrioritizedFor == TRERegion)
-                failedObject = [TREGeocodeResponseQueue firstObject];
-            else
-                failedObject = [HSLGeocodeResposeQueue firstObject];
-            
-            [geocodeSearchdelegate geocodeSearchDidFail:failedObject.textForError forRequest:nil];
-            
-        }else{
-            [geocodeSearchdelegate geocodeSearchDidComplete:respose  isFinalResult:YES];
-        }
-        
-        [TREGeocodeResponseQueue removeObjectAtIndex:0];
-        [HSLGeocodeResposeQueue removeObjectAtIndex:0];
-    }
-    
-}
+//- (void)checkForGeoCodeFetchCompletionAndReturn{
+//    
+//    if (HSLGeocodeResposeQueue.count > 0 && TREGeocodeResponseQueue.count > 0) {
+//        NSMutableArray *respose = [@[] mutableCopy];
+//        if (geoCodeRequestPrioritizedFor == TRERegion) {
+//            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+//                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
+//            }
+//            
+//            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+//                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
+//            }
+//        }else{
+//            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+//                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
+//            }
+//            
+//            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
+//                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
+//            }
+//        }
+//        
+//        if (respose.count == 0){
+//            //Failed case. Respond the error
+//            FailedGeoCodeFetch *failedObject;
+//            if (geoCodeRequestPrioritizedFor == TRERegion)
+//                failedObject = [TREGeocodeResponseQueue firstObject];
+//            else
+//                failedObject = [HSLGeocodeResposeQueue firstObject];
+//            
+//            [geocodeSearchdelegate geocodeSearchDidFail:failedObject.textForError forRequest:nil];
+//            
+//        }else{
+//            [geocodeSearchdelegate geocodeSearchDidComplete:respose  isFinalResult:YES];
+//        }
+//        
+//        [TREGeocodeResponseQueue removeObjectAtIndex:0];
+//        [HSLGeocodeResposeQueue removeObjectAtIndex:0];
+//    }
+//    
+//}
 
 - (void)dealloc {
     NSLog(@"RettiDataManager:Dealloced");

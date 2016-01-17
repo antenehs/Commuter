@@ -22,7 +22,7 @@ typedef enum
     ViewControllerModeViewGeoCode = 4
 } EditAddressViewControllerMode;
 
-@interface EditAddressTableViewController : UITableViewController<AddressSearchViewControllerDelegate, AddressTypeViewControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate, RettiReverseGeocodeSearchDelegate>{
+@interface EditAddressTableViewController : UITableViewController<AddressSearchViewControllerDelegate, AddressTypeViewControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate>{
     
     IBOutlet UITextField *nameTextView;
     IBOutlet UILabel *nameLabel;

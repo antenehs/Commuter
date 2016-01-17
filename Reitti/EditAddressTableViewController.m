@@ -63,6 +63,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
@@ -88,7 +89,7 @@
         
         [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         
-        self.reittiDataManager.reverseGeocodeSearchdelegate = self;
+//        self.reittiDataManager.reverseGeocodeSearchdelegate = self;
     }
 }
 

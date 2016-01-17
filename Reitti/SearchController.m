@@ -180,17 +180,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setNavBarSize];
-    [centerLocatorView removeFromSuperview];
-//    centerLocatorView = nil;
     
-//    [self initCenterLocator:mapView.center];
+    [self hideNearByStopsView:[self isNearByStopsListViewHidden] animated:YES];
+    
+    [centerLocatorView removeFromSuperview];
     [mapView addSubview:centerLocatorView];
-//    [self setSegmentControlSize];
 }
-
-//- (id<UILayoutSupport>)topLayoutGuide {
-//    return [[MyFixedLayoutGuide alloc]initWithLength:0];
-//}
 
 - (id<UILayoutSupport>)bottomLayoutGuide {
     return [[MyFixedLayoutGuide alloc]initWithLength:bottomLayoutGuide];
@@ -261,8 +256,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
 //    dataManger.delegate = self;
 //    dataManger.routeSearchdelegate = self;
-    dataManger.disruptionFetchDelegate = self;
-    dataManger.reverseGeocodeSearchdelegate = self;
+//    dataManger.disruptionFetchDelegate = self;
+//    dataManger.reverseGeocodeSearchdelegate = self;
     dataManger.vehicleFetchDelegate = self;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
@@ -1377,7 +1372,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
     
-    [self searchReverseGeocodeForCoordinate:coordinate];
+    //Find the coordinate for the center. Not the annotation
+    CLLocationCoordinate2D coords = [mapView convertPoint:centerLocatorView.center toCoordinateFromView:mapView];
+    [self searchReverseGeocodeForCoordinate:coords];
 }
 
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
@@ -1530,10 +1527,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
         if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
-//            GCThumbnailAnnotation *annot = (GCThumbnailAnnotation *)annotation;
-//            if (annot.annotationType == DroppedPinType) {
-                droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-//            }
+            droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
         }
         
         return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
@@ -1594,7 +1588,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
             }];
         }
         
-//        [centerLocatorView removeFromSuperview];
+        [centerLocatorView removeFromSuperview];
+        if (droppedPinAnnotationView)
+            [mapView removeAnnotation:droppedPinAnnotationView.annotation];
         
     }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];

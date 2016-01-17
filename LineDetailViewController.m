@@ -17,6 +17,7 @@
 #import "SVProgressHUD.h"
 #import "ReittiNotificationHelper.h"
 #import "LVThumbnailAnnotation.h"
+#import "LinesManager.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -46,6 +47,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self setUpViewForLine];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
@@ -53,6 +55,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [self stopFetchingVehicles];
+    [super viewWillDisappear:animated];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
@@ -73,7 +76,7 @@
     if (self.reittiDataManager == nil) {
         
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        self.reittiDataManager.lineSearchdelegate = self;
+//        self.reittiDataManager.lineSearchdelegate = self;
         self.reittiDataManager.vehicleFetchDelegate = self;
         self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
         
@@ -112,6 +115,8 @@
         titleSeparatorView.backgroundColor = [UIColor lightGrayColor];
         
         [stopsTableView reloadData];
+        
+        [[LinesManager sharedManager] saveRecentLine:self.line];
     }else{
         [self lineSearchDidFail:nil];
     }
