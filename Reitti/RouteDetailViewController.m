@@ -240,7 +240,7 @@
         [view removeFromSuperview];
     }
     
-    UIView *transportsView = [RouteViewManager viewForRoute:self.route longestDuration:[self.route.routeDurationInSeconds floatValue] width:self.view.frame.size.width - 150];
+    UIView *transportsView = [RouteViewManager viewForRoute:self.route longestDuration:[self.route.routeDurationInSeconds floatValue] width:self.view.frame.size.width - 150 alwaysShowVehicle:NO];
     
     [routeView addSubview:transportsView];
     routeView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);

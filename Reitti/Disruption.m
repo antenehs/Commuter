@@ -71,4 +71,19 @@
     return NO;
 }
 
+-(BOOL)affectsLineWithFullCode:(NSString *)lineFullCode{
+    if (!self.disruptionLines || self.disruptionLines.count < 1)
+        return NO;
+    
+    for (DisruptionLine *line in self.disruptionLines) {
+        if (!line.lineFullCode)
+            continue;
+        
+        if ([lineFullCode isEqualToString:line.lineFullCode])
+            return YES;
+    }
+    
+    return NO;
+}
+
 @end

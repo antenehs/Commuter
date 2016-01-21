@@ -67,7 +67,7 @@
     
     for (RouteLeg *leg in route.routeLegs) {
         if (leg.legType != LegTypeWalk) {
-            Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:1.0];
+            Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:1.0 alwaysShowVehicle: YES];
             CGRect frame = transportView.frame;
             transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
             [transportsContainer addSubview:transportView];

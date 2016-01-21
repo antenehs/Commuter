@@ -412,6 +412,27 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ((viewControllerMode == ViewControllerModeViewGeoCode || viewControllerMode == ViewControllerModeViewNamedBookmark) && indexPath.row == 1) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+    return (action == @selector(copy:));
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+    if (action == @selector(copy:)){
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = self.fullAddress;
+    }
+}
+
 #pragma mark - IB Actions
 -(IBAction)bookmarkAddressButtonPressed:(id)sender{
     if (self.viewControllerMode == ViewControllerModeViewGeoCode && self.geoCode != nil) {

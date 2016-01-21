@@ -12,6 +12,6 @@
 
 @interface RouteViewManager : NSObject
 
-+ (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth;
++ (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth alwaysShowVehicle:(BOOL)alwaysShow;
 
 @end

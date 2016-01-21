@@ -380,6 +380,11 @@
     
     [self.poikkeusInfoApi doXmlApiFetchWithParams:nil responseDescriptor:responseDescriptor andCompletionBlock:^(NSArray *disruptions, NSError *error){
         if (!error) {
+            for (Disruption *disruption in disruptions) {
+                for (DisruptionLine *line in disruption.disruptionLines) {
+                    line.lineFullCode = [HSLAndTRECommon lineJoreCodeForCode:line.lineId andDirection:[line.lineDirection stringValue]];
+                }
+            }
             completionBlock(disruptions, nil);
         }else{
             completionBlock(nil, @"Disruption fetch failed.");

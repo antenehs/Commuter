@@ -1011,20 +1011,28 @@ typedef enum
                 }
             }
             
+            UIView *shortestRouteIndicator = [cell viewWithTag:2099];
+            if ([self isShortestRoute:route fromListOfRoutes:routeList]) {
+                shortestRouteIndicator.hidden = NO;
+            }else{
+                shortestRouteIndicator.hidden = YES;
+            }
+            
             CGFloat totalWidth = self.view.frame.size.width - 75;
             
-            CGFloat longestDuration;
-            NSArray *routes;
-            if (routeListCopy != nil && routeListCopy.count > routeList.count) {
-                routes = [NSArray arrayWithArray:routeListCopy];
-            }else{
-                routes = [NSArray arrayWithArray:routeList];
+            CGFloat longestDuration = [route.routeDurationInSeconds floatValue];
+
+            if (totalWidth > 500) {
+                NSArray *routes;
+                if (routeListCopy != nil && routeListCopy.count > routeList.count) {
+                    routes = [NSArray arrayWithArray:routeListCopy];
+                }else{
+                    routes = [NSArray arrayWithArray:routeList];
+                }
+                longestDuration = [self adjustedWidthForNoTruncation:&totalWidth forListOfRoutes:routes];
             }
-            longestDuration = [self adjustedWidthForNoTruncation:&totalWidth forListOfRoutes:routes];
             
-//            float x;
-//            [self viewForRoute:transportsContainer longestDuration:longestDuration width:totalWidth route:route];
-            UIView *transportsContainer = [RouteViewManager viewForRoute:route longestDuration:longestDuration width:totalWidth];
+            UIView *transportsContainer = [RouteViewManager viewForRoute:route longestDuration:longestDuration width:totalWidth alwaysShowVehicle:YES];
 //            [transportsContainer addSubview:routeView];
             
             transportsContainer.frame = CGRectMake(12, 0, transportsContainer.frame.size.width, transportsContainer.frame.size.height);
@@ -1121,6 +1129,15 @@ typedef enum
 //        }
 //    }
 //}
+
+- (BOOL)isShortestRoute:(Route *)aRoute fromListOfRoutes:(NSArray *)routes{
+    for (Route *route in routes) {
+        if ([route.routeDurationInSeconds floatValue] < [aRoute.routeDurationInSeconds floatValue])
+            return NO;
+    }
+    
+    return YES;
+}
 
 - (CGFloat)adjustedWidthForNoTruncation:(CGFloat *)totalWidth_p forListOfRoutes:(NSArray *)routes
 {
@@ -1341,9 +1358,9 @@ typedef enum
     
     NSMutableArray *disruptions = [@[] mutableCopy];
     for (RouteLeg *leg in route.routeLegs) {
-        if (leg.legType != LegTypeWalk && leg.lineName){
+        if (leg.legType != LegTypeWalk && leg.lineCode){
             for (Disruption *disruption in self.disruptionsList) {
-                if ([disruption affectsLineWithShortName:leg.lineName])
+                if ([disruption affectsLineWithFullCode:leg.lineCode])
                     [disruptions addObject:disruption];
             }
         }
@@ -1690,7 +1707,8 @@ typedef enum
     }
     
     if ([segue.identifier isEqualToString:@"showRouteDisruptions"]) {
-        NSIndexPath *selectedRowIndexPath = [routeResultsTableView indexPathForSelectedRow];
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:routeResultsTableView];
+        NSIndexPath *selectedRowIndexPath = [routeResultsTableView indexPathForRowAtPoint:buttonPosition];
         if (selectedRowIndexPath.row < self.routeList.count) {
             Route * selectedRoute = [self.routeList objectAtIndex:selectedRowIndexPath.row];
             

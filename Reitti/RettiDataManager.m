@@ -2100,7 +2100,8 @@
     NSLog(@"RettiDataManager: Saving route history to core data!");
     //Check for existence here first
     
-    if (fromLocation == nil || fromCoords == nil || toLocation == nil || toCoords == nil) {
+    if (fromLocation == nil || fromCoords == nil || toLocation == nil || toCoords == nil ||
+        fromLocation.length == 0 || fromCoords.length == 0 || toLocation.length == 0 || toCoords.length == 0) {
         return NO;
     }
     

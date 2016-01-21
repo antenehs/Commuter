@@ -584,7 +584,7 @@ const NSInteger kTimerRefreshInterval = 15;
                         [view removeFromSuperview];
                     }
                     
-                    UIView *transportsView = [RouteViewManager viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:transportsScrollView.frame.size.width - 30];
+                    UIView *transportsView = [RouteViewManager viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:transportsScrollView.frame.size.width - 30 alwaysShowVehicle:NO];
                     
                     [transportsScrollView addSubview:transportsView];
                     transportsScrollView.userInteractionEnabled = NO;
@@ -789,8 +789,8 @@ const NSInteger kTimerRefreshInterval = 15;
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if ([self isthereValidDetailForStop:self.savedStops[0]]) {
-        int row = [collectionView.restorationIdentifier intValue];
+    int row = [collectionView.restorationIdentifier intValue];
+    if ([self isthereValidDetailForStop:self.savedStops[row]]) {
         BusStop *stop = [self getDetailStopForBusStop:self.savedStops[row]];
         return stop.departures ? stop.departures.count : 0;
     }

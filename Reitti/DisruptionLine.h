@@ -14,5 +14,6 @@
 @property (nonatomic, retain) NSNumber * lineDirection;
 @property (nonatomic, retain) NSNumber * lineType;
 @property (nonatomic, retain) NSString * lineName;
+@property (nonatomic, retain) NSString * lineFullCode;
 
 @end

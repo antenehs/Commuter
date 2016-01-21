@@ -10,7 +10,7 @@
 
 @implementation RouteViewManager
 
-+ (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth
++ (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth alwaysShowVehicle:(BOOL)alwaysShow
 {
     float tWidth  = 70;
     float x = 0;
@@ -31,7 +31,7 @@
             tWidth = 150;
         }
 
-        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
+        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1 alwaysShowVehicle:alwaysShow];
         CGRect frame = transportView.frame;
         transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
         transportView.clipsToBounds = YES;

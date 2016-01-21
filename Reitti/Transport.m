@@ -39,7 +39,7 @@
 
 //#define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
 
--(id)initWithRouteLeg:(RouteLeg *)routeLeg andWidth:(float)width{
+-(id)initWithRouteLeg:(RouteLeg *)routeLeg andWidth:(float)width alwaysShowVehicle:(BOOL)alwaysShow{
     self = [super init];
     if (self) {
         NSArray* nibViews = [[NSBundle mainBundle] loadNibNamed:@"Transport" owner:self options:nil];
@@ -47,16 +47,17 @@
         [self addSubview:mainView];
         self.frame = mainView.frame;
         //self.backgroundColor = SYSTEM_GRAY_COLOR;
-        [self setUpViewForRoute:routeLeg andWidth:width];
+        [self setUpViewForRoute:routeLeg andWidth:width alwaysShowVehicle:alwaysShow];
     }
     
     return self;
 }
 
--(void)setUpViewForRoute:(RouteLeg *)routeLeg andWidth:(float)width{
+-(void)setUpViewForRoute:(RouteLeg *)routeLeg andWidth:(float)width alwaysShowVehicle:(BOOL)alwaysShow{
     if (isnan(width))
         width = 0;
     
+    //If width is < 30, start by setting it to 30
     if (width < 30 && routeLeg.legType != LegTypeWalk) {
         width = 30;
     }
@@ -67,14 +68,20 @@
     float acceptableWidthForMetroAndFerry = 70;
     float acceptableWidthForOthers = 70;
     
-    if (routeLeg.lineCode != nil) {
+    if (routeLeg.lineName != nil) {
         lineNumberLabel.text = routeLeg.lineName;
         NSDictionary *fontAttr = [NSDictionary dictionaryWithObject:lineNumberLabel.font forKey:NSFontAttributeName];
-        
         CGSize size = [lineNumberLabel.text sizeWithAttributes:fontAttr];
         
         if (size.width < lineNumberLabel.bounds.size.width) {
+            //Acceptable width is the size of the text plus imageview width
             acceptableWidthForOthers = size.width + 27;
+        }
+        
+        if (alwaysShow && routeLeg.legType != LegTypeWalk && routeLeg.legType != LegTypeFerry && routeLeg.legType != LegTypeMetro) {
+            if (width < size.width + 35) {
+                width = size.width + 35;
+            }
         }
     }
     
@@ -95,21 +102,13 @@
         if (width < minWidthForWalkLeg) {
             imageView.hidden = YES;
         }
-    }else if (routeLeg.legType == LegTypeTrain) {
-        NSString *formattedTrainNumber = routeLeg.lineName;
-        
-        lineNumberLabel.text = formattedTrainNumber;
-        if (width < acceptableWidthForOthers) {
-            imageView.hidden = YES;
-        }
     }else{
-        if (routeLeg.lineCode != nil) {
+        if (routeLeg.lineName != nil) {
             lineNumberLabel.text = routeLeg.lineName;
             
             if ((width < acceptableWidthForOthers) ) {
                 imageView.hidden = YES;
             }
-            
         }else {
             lineNumberLabel.text = @"";
             if (width < acceptableWidthForOthers) {
@@ -117,34 +116,6 @@
             }
         }
     }
-    
-//    switch (routeLeg.legType) {
-//        case LegTypeBus:
-//            [imageView setImage:[UIImage imageNamed:@"bus-filled-light-100.png"]];
-//            break;
-//        case LegTypeTrain:
-//            [imageView setImage:[UIImage imageNamed:@"train-filled-light-64.png"]];
-//            break;
-//        case LegTypeMetro:
-//            [imageView setImage:[UIImage imageNamed:@"metro-logo-orange.png"]];
-//            break;
-//        case LegTypeTram:
-//            [imageView setImage:[UIImage imageNamed:@"tram-filled-light-64.png"]];
-//            break;
-//        case LegTypeFerry:
-//            [imageView setImage:[UIImage imageNamed:@"boat-filled-light-100.png"]];
-//            break;
-//        case LegTypeService:
-//            [imageView setImage:[UIImage imageNamed:@"service-bus-filled-purple.png"]];
-//            break;
-//        case LegTypeWalk:
-//            [imageView setImage:[UIImage imageNamed:@"walking-gray-64.png"]];
-//            break;
-//            
-//        default:
-//            [imageView setImage:[UIImage imageNamed:@"bus-filled-light-100.png"]];
-//            break;
-//    }
     
     [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
     
@@ -159,39 +130,13 @@
     if ((width > 15) && (size.width < lineNumberLabel.bounds.size.width) ) {
          lineNumberLabel.frame = CGRectMake(lineNumberLabel.frame.origin.x, lineNumberLabel.frame.origin.y, size.width, lineNumberLabel.frame.size.height);
     }else{
-//        lineNumberLabel.hidden = YES;
-        
-//        switch (routeLeg.legType) {
-//            case LegTypeWalk:
-//                self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-//                break;
-//            case LegTypeFerry:
-//                self.backgroundColor = SYSTEM_CYAN_COLOR;
-//                break;
-//            case LegTypeTrain:
-//                self.backgroundColor = SYSTEM_RED_COLOR;
-//                break;
-//            case LegTypeBus:
-//                self.backgroundColor = SYSTEM_BLUE_COLOR;
-//                break;
-//            case LegTypeTram:
-//                self.backgroundColor = SYSTEM_GREEN_COLOR;
-//                break;
-//            case LegTypeMetro:
-//                self.backgroundColor = SYSTEM_ORANGE_COLOR;
-//                break;
-//                
-//            default:
-//                self.backgroundColor = SYSTEM_BLUE_COLOR;
-//                break;
-//        }
     }
     
+    //Set background color
     if (routeLeg.legType == LegTypeWalk) {
         self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     }else{
         self.backgroundColor = [UIColor colorWithWhite:0.28 alpha:1];
-//        self.backgroundColor = [AppManager colorForLegType:routeLeg.legType];
     }
     
     //Center views
@@ -207,25 +152,6 @@
         imageView.frame = CGRectMake(orign, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
         lineNumberLabel.frame = CGRectMake(orign + imageView.frame.size.width + 7, lineNumberLabel.frame.origin.y, lineNumberLabel.frame.size.width, lineNumberLabel.frame.size.height);
     }
-
-    
-//    //Append waiting view if exists
-//    if (routeLeg.waitingTimeInSeconds > 0) {
-//        float scale = width /[routeLeg.legDurationInSeconds integerValue];
-//        float waitingWidth = scale * routeLeg.waitingTimeInSeconds;
-//        
-//        UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, waitingWidth, self.frame.size.height)];
-//        waitingView.backgroundColor = [UIColor lightTextColor];
-//        
-//        //Shift all subview
-//        self.frame = CGRectMake(0, 0, self.frame.size.width + waitingWidth, self.frame.size.height);
-//        for (UIView *view in self.subviews) {
-//            self.frame = CGRectMake(view.frame.origin.x + waitingWidth , view.frame.origin.y , view.frame.size.width, self.frame.size.height);
-//        }
-//        
-//        [self addSubview:waitingView];
-//    }
-    
 }
 
 
