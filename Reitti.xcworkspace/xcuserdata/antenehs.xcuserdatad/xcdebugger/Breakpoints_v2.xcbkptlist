@@ -172,13 +172,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/SearchController.m"
-            timestampString = "474665484.478904"
+            timestampString = "475362645.805538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
-            landmarkName = "-updateCenterLocationPosition"
-            landmarkType = "5">
+            startingLineNumber = "389"
+            endingLineNumber = "389">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -188,13 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/SearchController.m"
-            timestampString = "474665484.478904"
+            timestampString = "475362645.805538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2344"
-            endingLineNumber = "2344"
-            landmarkName = "-searchReverseGeocodeForCoordinate:"
-            landmarkType = "5">
+            startingLineNumber = "2345"
+            endingLineNumber = "2345">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -348,13 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/SearchController.m"
-            timestampString = "474664195.690429"
+            timestampString = "475362645.805538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
+            endingLineNumber = "123">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -540,13 +534,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteSearchViewController.m"
-            timestampString = "475107160.791602"
+            timestampString = "475365477.678169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1709"
-            endingLineNumber = "1709"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "5">
+            startingLineNumber = "1714"
+            endingLineNumber = "1714">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -556,13 +548,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteSearchViewController.m"
-            timestampString = "475107160.791602"
+            timestampString = "475365477.678169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1709"
-            endingLineNumber = "1709"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "5">
+            startingLineNumber = "1714"
+            endingLineNumber = "1714">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -572,13 +562,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteSearchViewController.m"
-            timestampString = "475107160.791602"
+            timestampString = "475365477.678169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1362"
-            endingLineNumber = "1362"
-            landmarkName = "-disruptionsForRoute:"
-            landmarkType = "5">
+            startingLineNumber = "1367"
+            endingLineNumber = "1367">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -624,9 +612,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1021"
-            endingLineNumber = "1021"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            endingLineNumber = "1021">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -796,13 +782,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/SearchController.m"
-            timestampString = "475243739.719495"
+            timestampString = "475362645.805538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1092"
-            endingLineNumber = "1092"
-            landmarkName = "-locationManager:didUpdateLocations:"
-            landmarkType = "5">
+            startingLineNumber = "1093"
+            endingLineNumber = "1093">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1004,13 +988,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/SearchController.m"
-            timestampString = "475338242.867154"
+            timestampString = "475362645.805538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2326"
-            endingLineNumber = "2326"
-            landmarkName = "-detailStopFetchCompleted:"
-            landmarkType = "5">
+            startingLineNumber = "2327"
+            endingLineNumber = "2327">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1026,6 +1008,52 @@
             startingLineNumber = "297"
             endingLineNumber = "297"
             landmarkName = "-mailComposeController:didFinishWithResult:error:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/SearchController.m"
+            timestampString = "475361697.567866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Commuter - Departures/TodayViewController.m"
+            timestampString = "475363127.2993"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/WelcomeViewController.m"
+            timestampString = "475366505.977334"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "-setUpScrollView"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
