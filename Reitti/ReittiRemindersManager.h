@@ -20,7 +20,6 @@ extern NSString *kRoutineNotificationUniqueName;
 
 +(id)sharedManger;
 
-
 /*Uncomment the following to have reminders*/
 //-(BOOL)isAppAutorizedForReminders;
 //-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString;
@@ -42,6 +41,8 @@ extern NSString *kRoutineNotificationUniqueName;
 -(NSArray *)fetchAllSavedRoutinesFromCoreData;
 -(void)fetchAllSavedRoutineIdsFromCoreData;
 -(RoutineEntity *)fetchSavedRoutineFromCoreDataForId:(NSNumber *)code;
+
+-(void)updateRoutineForDeletedBookmarkNamed:(NSString *)bookmarkName;
 
 @property(nonatomic, strong)NSMutableArray *allRoutines;
 @property(nonatomic, strong)NSMutableArray *allSavedRoutineIds;

@@ -14,4 +14,6 @@
 - (void)asa_bounceAnimateViewByScale:(double)scale;
 - (void)asa_growHorizontalAnimationFromZero:(NSTimeInterval)animationSeconds;
 - (UIImage *)asa_convertToImage;
+
+- (void)asa_SetBlurredBackgroundWithImageNamed:(NSString *)imageName;
 @end

@@ -17,7 +17,7 @@ typedef enum{
     InfoViewModeStaticRouteDisruptions = 1
 }InfoViewControllerMode;
 
-@interface InfoViewController : UIViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ADBannerViewDelegate>{
+@interface InfoViewController : UIViewController<UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ADBannerViewDelegate>{
     
     IBOutlet UITableView *disruptionsTableView;
     IBOutlet UIScrollView *mainScrollView;

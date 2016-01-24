@@ -74,6 +74,7 @@ extern NSString *kActionChangedUserLocation;
 extern NSString *kActionChangedMapMode;
 extern NSString *kActionChangedHistoryCleaningDay;
 extern NSString *kActionChangedAnalyticsOption;
+extern NSString *kActionChangedStartingTabOption;
 
 //Api use Actions
 extern NSString *kActionSearchedRouteFromApi;

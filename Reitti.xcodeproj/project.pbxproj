@@ -342,6 +342,35 @@
 		6674089E1C1CDE9E00C1E34A /* bookmarks-colored-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */; };
 		6674089F1C1CDE9E00C1E34A /* bookmarks-colored-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */; };
 		6675BA611B5110AC002EB83C /* reminders-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6675BA601B5110AC002EB83C /* reminders-100.png */; };
+		66780D831C5407BC00C838AA /* salesPointAnnotation@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780D821C5407BC00C838AA /* salesPointAnnotation@3x.png */; };
+		66780D851C54081900C838AA /* servicePointAnnotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780D841C54081900C838AA /* servicePointAnnotation@2x.png */; };
+		66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D871C54088100C838AA /* ServicePointsViewController.m */; };
+		66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D8A1C5408E300C838AA /* HSLServicePointManager.m */; };
+		66780D8E1C5408E300C838AA /* ServicePointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D8C1C5408E300C838AA /* ServicePointAnnotation.m */; };
+		66780D901C54097200C838AA /* HSLCardServicePoints.json in Resources */ = {isa = PBXBuildFile; fileRef = 66780D8F1C54097200C838AA /* HSLCardServicePoints.json */; };
+		66780D961C5409F800C838AA /* ServicePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D921C5409F800C838AA /* ServicePoint.m */; };
+		66780D971C5409F800C838AA /* Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D931C5409F800C838AA /* Attributes.m */; };
+		66780D9C1C540ABD00C838AA /* salesPointAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780D981C540ABD00C838AA /* salesPointAnnotation.png */; };
+		66780D9D1C540ABD00C838AA /* salesPointAnnotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780D991C540ABD00C838AA /* salesPointAnnotation@2x.png */; };
+		66780D9E1C540ABD00C838AA /* servicePointAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780D9A1C540ABD00C838AA /* servicePointAnnotation.png */; };
+		66780D9F1C540ABD00C838AA /* servicePointAnnotation@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780D9B1C540ABD00C838AA /* servicePointAnnotation@3x.png */; };
+		66780DA11C540D7700C838AA /* goTolocation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DA01C540D7700C838AA /* goTolocation.png */; };
+		66780DA31C54295700C838AA /* launch-screen-bkgrnd-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DA21C54295700C838AA /* launch-screen-bkgrnd-3.png */; };
+		66780DA51C542BED00C838AA /* version-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DA41C542BED00C838AA /* version-2.png */; };
+		66780DB11C55061100C838AA /* new3dPeekandPop.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DA71C55061100C838AA /* new3dPeekandPop.png */; };
+		66780DB21C55061100C838AA /* new3dTouchShortcuts.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DA81C55061100C838AA /* new3dTouchShortcuts.png */; };
+		66780DB31C55061100C838AA /* newAutomaticDepartures.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DA91C55061100C838AA /* newAutomaticDepartures.png */; };
+		66780DB41C55061100C838AA /* newBusinessSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAA1C55061100C838AA /* newBusinessSearch.png */; };
+		66780DB51C55061100C838AA /* newLinesView.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAB1C55061100C838AA /* newLinesView.png */; };
+		66780DB61C55061100C838AA /* newLiveVehiclesInLines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAC1C55061100C838AA /* newLiveVehiclesInLines.png */; };
+		66780DB71C55061100C838AA /* newNearbyDepartures.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAD1C55061100C838AA /* newNearbyDepartures.png */; };
+		66780DB81C55061100C838AA /* newRoutesWidget@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAE1C55061100C838AA /* newRoutesWidget@3x.png */; };
+		66780DB91C55061100C838AA /* newServicePoints.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAF1C55061100C838AA /* newServicePoints.png */; };
+		66780DBA1C55061100C838AA /* routeDisruptions.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DB01C55061100C838AA /* routeDisruptions.png */; };
+		66780DBC1C55143F00C838AA /* newRoutesWidget@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DBB1C55143F00C838AA /* newRoutesWidget@2x.png */; };
+		66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */; };
+		66780DC11C55577700C838AA /* Like Filled-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DC01C55577700C838AA /* Like Filled-96.png */; };
+		66780DC31C55601A00C838AA /* version-5.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DC21C55601A00C838AA /* version-5.png */; };
 		6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
 		667B98091AD00FE000C45ADF /* hsl-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 667B98081AD00FE000C45ADF /* hsl-region.geojson */; };
 		667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */; };
@@ -1179,6 +1208,41 @@
 		6674089A1C1C59AE00C1E34A /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "Helpers/UIView+Helper.m"; sourceTree = "<group>"; };
 		6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bookmarks-colored-100.png"; path = "Pictures/version 4.1/bookmarks-colored-100.png"; sourceTree = "<group>"; };
 		6675BA601B5110AC002EB83C /* reminders-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reminders-100.png"; path = "Pictures/version 4.1/reminders-100.png"; sourceTree = "<group>"; };
+		66780D821C5407BC00C838AA /* salesPointAnnotation@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salesPointAnnotation@3x.png"; sourceTree = "<group>"; };
+		66780D841C54081900C838AA /* servicePointAnnotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "servicePointAnnotation@2x.png"; sourceTree = "<group>"; };
+		66780D861C54088100C838AA /* ServicePointsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointsViewController.h; sourceTree = "<group>"; };
+		66780D871C54088100C838AA /* ServicePointsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointsViewController.m; sourceTree = "<group>"; };
+		66780D891C5408E300C838AA /* HSLServicePointManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLServicePointManager.h; sourceTree = "<group>"; };
+		66780D8A1C5408E300C838AA /* HSLServicePointManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLServicePointManager.m; sourceTree = "<group>"; };
+		66780D8B1C5408E300C838AA /* ServicePointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointAnnotation.h; sourceTree = "<group>"; };
+		66780D8C1C5408E300C838AA /* ServicePointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointAnnotation.m; sourceTree = "<group>"; };
+		66780D8F1C54097200C838AA /* HSLCardServicePoints.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HSLCardServicePoints.json; sourceTree = "<group>"; };
+		66780D921C5409F800C838AA /* ServicePoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePoint.m; sourceTree = "<group>"; };
+		66780D931C5409F800C838AA /* Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attributes.m; sourceTree = "<group>"; };
+		66780D941C5409F800C838AA /* Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attributes.h; sourceTree = "<group>"; };
+		66780D951C5409F800C838AA /* ServicePoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePoint.h; sourceTree = "<group>"; };
+		66780D981C540ABD00C838AA /* salesPointAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = salesPointAnnotation.png; sourceTree = "<group>"; };
+		66780D991C540ABD00C838AA /* salesPointAnnotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salesPointAnnotation@2x.png"; sourceTree = "<group>"; };
+		66780D9A1C540ABD00C838AA /* servicePointAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = servicePointAnnotation.png; sourceTree = "<group>"; };
+		66780D9B1C540ABD00C838AA /* servicePointAnnotation@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "servicePointAnnotation@3x.png"; sourceTree = "<group>"; };
+		66780DA01C540D7700C838AA /* goTolocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goTolocation.png; sourceTree = "<group>"; };
+		66780DA21C54295700C838AA /* launch-screen-bkgrnd-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launch-screen-bkgrnd-3.png"; path = "Pictures/version 4.1/launch-screen-bkgrnd-3.png"; sourceTree = "<group>"; };
+		66780DA41C542BED00C838AA /* version-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "version-2.png"; path = "Pictures/version 4.1/version-2.png"; sourceTree = "<group>"; };
+		66780DA71C55061100C838AA /* new3dPeekandPop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = new3dPeekandPop.png; path = "Pictures/5.0 Screen shots/new3dPeekandPop.png"; sourceTree = "<group>"; };
+		66780DA81C55061100C838AA /* new3dTouchShortcuts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = new3dTouchShortcuts.png; path = "Pictures/5.0 Screen shots/new3dTouchShortcuts.png"; sourceTree = "<group>"; };
+		66780DA91C55061100C838AA /* newAutomaticDepartures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newAutomaticDepartures.png; path = "Pictures/5.0 Screen shots/newAutomaticDepartures.png"; sourceTree = "<group>"; };
+		66780DAA1C55061100C838AA /* newBusinessSearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newBusinessSearch.png; path = "Pictures/5.0 Screen shots/newBusinessSearch.png"; sourceTree = "<group>"; };
+		66780DAB1C55061100C838AA /* newLinesView.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newLinesView.png; path = "Pictures/5.0 Screen shots/newLinesView.png"; sourceTree = "<group>"; };
+		66780DAC1C55061100C838AA /* newLiveVehiclesInLines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newLiveVehiclesInLines.png; path = "Pictures/5.0 Screen shots/newLiveVehiclesInLines.png"; sourceTree = "<group>"; };
+		66780DAD1C55061100C838AA /* newNearbyDepartures.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNearbyDepartures.png; path = "Pictures/5.0 Screen shots/newNearbyDepartures.png"; sourceTree = "<group>"; };
+		66780DAE1C55061100C838AA /* newRoutesWidget@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "newRoutesWidget@3x.png"; path = "Pictures/5.0 Screen shots/newRoutesWidget@3x.png"; sourceTree = "<group>"; };
+		66780DAF1C55061100C838AA /* newServicePoints.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newServicePoints.png; path = "Pictures/5.0 Screen shots/newServicePoints.png"; sourceTree = "<group>"; };
+		66780DB01C55061100C838AA /* routeDisruptions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = routeDisruptions.png; path = "Pictures/5.0 Screen shots/routeDisruptions.png"; sourceTree = "<group>"; };
+		66780DBB1C55143F00C838AA /* newRoutesWidget@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "newRoutesWidget@2x.png"; path = "Pictures/5.0 Screen shots/newRoutesWidget@2x.png"; sourceTree = "<group>"; };
+		66780DBD1C553E8D00C838AA /* ReittiEmailAndShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiEmailAndShareManager.h; sourceTree = "<group>"; };
+		66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiEmailAndShareManager.m; sourceTree = "<group>"; };
+		66780DC01C55577700C838AA /* Like Filled-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Like Filled-96.png"; path = "Pictures/version 4.1/Like Filled-96.png"; sourceTree = "<group>"; };
+		66780DC21C55601A00C838AA /* version-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "version-5.png"; path = "Pictures/version 4.1/version-5.png"; sourceTree = "<group>"; };
 		6679ADC619C1CA3700DD38DD /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
 		667B98081AD00FE000C45ADF /* hsl-region.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "hsl-region.geojson"; sourceTree = "<group>"; };
@@ -1769,6 +1833,18 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				66780DC01C55577700C838AA /* Like Filled-96.png */,
+				66780DA61C55053B00C838AA /* New in 4.1 */,
+				66780DA41C542BED00C838AA /* version-2.png */,
+				66780DC21C55601A00C838AA /* version-5.png */,
+				66780DA21C54295700C838AA /* launch-screen-bkgrnd-3.png */,
+				66780DA01C540D7700C838AA /* goTolocation.png */,
+				66780D981C540ABD00C838AA /* salesPointAnnotation.png */,
+				66780D991C540ABD00C838AA /* salesPointAnnotation@2x.png */,
+				66780D9A1C540ABD00C838AA /* servicePointAnnotation.png */,
+				66780D9B1C540ABD00C838AA /* servicePointAnnotation@3x.png */,
+				66780D841C54081900C838AA /* servicePointAnnotation@2x.png */,
+				66780D821C5407BC00C838AA /* salesPointAnnotation@3x.png */,
 				66056E7C1C46E39900C011FB /* Empty Flag-96.png */,
 				666A2C381C3D8A5100053481 /* warning-exclamation.png */,
 				666A2C361C3B266000053481 /* matkakortiLogoRounded.png */,
@@ -2135,6 +2211,8 @@
 				66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */,
 				669602B11B1224B3006919CB /* TabBarViewController.h */,
 				669602B21B1224B3006919CB /* TabBarViewController.m */,
+				66780D861C54088100C838AA /* ServicePointsViewController.h */,
+				66780D871C54088100C838AA /* ServicePointsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -2151,6 +2229,7 @@
 				66822F5E1C24688C00511BD2 /* Stops */,
 				66056E7E1C497DF600C011FB /* GeoCode */,
 				66056E7F1C497E1900C011FB /* Route */,
+				66780D911C5409B900C838AA /* Service Points */,
 				664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */,
 				664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */,
 				66CC941118E22ECB00644281 /* StopEntity.h */,
@@ -2242,6 +2321,8 @@
 		664E28811ADAC12400BE2457 /* CustomAnnotations */ = {
 			isa = PBXGroup;
 			children = (
+				66780D8B1C5408E300C838AA /* ServicePointAnnotation.h */,
+				66780D8C1C5408E300C838AA /* ServicePointAnnotation.m */,
 				66F1383319939B3600B52B6B /* GeoCodeAnnotation.h */,
 				66F1383219939B3600B52B6B /* GeoCodeAnnotation.m */,
 				66A7A9BD18C5FD4200AC9E94 /* StopAnnotation.h */,
@@ -2385,6 +2466,35 @@
 				6674088E1C19D54100C1E34A /* TransportE.xib */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		66780D911C5409B900C838AA /* Service Points */ = {
+			isa = PBXGroup;
+			children = (
+				66780D921C5409F800C838AA /* ServicePoint.m */,
+				66780D931C5409F800C838AA /* Attributes.m */,
+				66780D941C5409F800C838AA /* Attributes.h */,
+				66780D951C5409F800C838AA /* ServicePoint.h */,
+			);
+			name = "Service Points";
+			sourceTree = "<group>";
+		};
+		66780DA61C55053B00C838AA /* New in 4.1 */ = {
+			isa = PBXGroup;
+			children = (
+				66780DBB1C55143F00C838AA /* newRoutesWidget@2x.png */,
+				66780DA71C55061100C838AA /* new3dPeekandPop.png */,
+				66780DA81C55061100C838AA /* new3dTouchShortcuts.png */,
+				66780DA91C55061100C838AA /* newAutomaticDepartures.png */,
+				66780DAA1C55061100C838AA /* newBusinessSearch.png */,
+				66780DAB1C55061100C838AA /* newLinesView.png */,
+				66780DAC1C55061100C838AA /* newLiveVehiclesInLines.png */,
+				66780DAD1C55061100C838AA /* newNearbyDepartures.png */,
+				66780DAE1C55061100C838AA /* newRoutesWidget@3x.png */,
+				66780DAF1C55061100C838AA /* newServicePoints.png */,
+				66780DB01C55061100C838AA /* routeDisruptions.png */,
+			);
+			name = "New in 4.1";
 			sourceTree = "<group>";
 		};
 		667B980F1AD3243A00C45ADF /* Address Types */ = {
@@ -2696,6 +2806,10 @@
 				660D311C1C317B1A0051DDAA /* ReittiAnalyticsManager.m */,
 				660D31281C3425F60051DDAA /* LinesManager.h */,
 				660D31291C3425F60051DDAA /* LinesManager.m */,
+				66780D891C5408E300C838AA /* HSLServicePointManager.h */,
+				66780D8A1C5408E300C838AA /* HSLServicePointManager.m */,
+				66780DBD1C553E8D00C838AA /* ReittiEmailAndShareManager.h */,
+				66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -3164,6 +3278,7 @@
 		66FC547A1B236545005B890D /* Static Data */ = {
 			isa = PBXGroup;
 			children = (
+				66780D8F1C54097200C838AA /* HSLCardServicePoints.json */,
 				66FC547F1B23677B005B890D /* StaticRoute.h */,
 				66FC54801B23677B005B890D /* StaticRoute.m */,
 				66FC547B1B23656F005B890D /* routes.json */,
@@ -3329,6 +3444,7 @@
 				66CF81961A0ED8E30034C9AB /* finish_flag-light-50.png in Resources */,
 				6604F2761B433A2C007489D1 /* new-bookmarks.png in Resources */,
 				66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */,
+				66780D9D1C540ABD00C838AA /* salesPointAnnotation@2x.png in Resources */,
 				665A1E7A1A0558C300797ABA /* removeIcon-red.png in Resources */,
 				66F3B12D1AC861620038BA78 /* back-arrow-white-100.png in Resources */,
 				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
@@ -3432,21 +3548,25 @@
 				664749E81AE6D7E00050137E /* next-green-100.png in Resources */,
 				66822F6F1C28C65400511BD2 /* notification-tone-100.png in Resources */,
 				66D42697198FBCFC0080F21E /* Message-Information-128.png in Resources */,
+				66780D9F1C540ABD00C838AA /* servicePointAnnotation@3x.png in Resources */,
 				66D4269F199027C10080F21E /* cancel-128.png in Resources */,
 				66F099701AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json in Resources */,
 				66F0998F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				66CEE28419FAF2400089A6F9 /* warningIconRounded.png in Resources */,
+				66780DA11C540D7700C838AA /* goTolocation.png in Resources */,
 				6618312A1C10907B00DA979E /* Walking-light-100.png in Resources */,
 				66947CD118830ED500642EE1 /* Images.xcassets in Resources */,
 				6673774F1ACC9FB2003581B5 /* bus-filled-light-100.png in Resources */,
 				66EC18ED1AC9D706008E045D /* location-filled-green-32.png in Resources */,
 				667B98091AD00FE000C45ADF /* hsl-region.geojson in Resources */,
 				660E2F711B34386400CE670E /* home-100.png in Resources */,
+				66780DB31C55061100C838AA /* newAutomaticDepartures.png in Resources */,
 				66C59DA519993CC300E7AC7A /* Transport.xib in Resources */,
 				6665D7691C0CA6B200ACCC3A /* Library-black-50.png in Resources */,
 				66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */,
 				66F099951AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg in Resources */,
 				660FB2471B3A1238009C30BF /* compas-100.png in Resources */,
+				66780DB41C55061100C838AA /* newBusinessSearch.png in Resources */,
 				66D0BA5A18BF3785002DDC7B /* Aspergit Bold.otf in Resources */,
 				66D6EDB519A0A5F100FEB9FD /* circle-notfilled-50.png in Resources */,
 				665885B11B0A480B0044F514 /* trainVAnnot.png in Resources */,
@@ -3473,6 +3593,7 @@
 				66134BFD1B3F167D0008C6D7 /* goToHere.png in Resources */,
 				6665D76D1C0CA6B200ACCC3A /* Park-black-50.png in Resources */,
 				660D312C1C34464D0051DDAA /* transit-line.png in Resources */,
+				66780DA31C54295700C838AA /* launch-screen-bkgrnd-3.png in Resources */,
 				66228CF619CB31C300A2C47F /* previous-48.png in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
@@ -3483,6 +3604,7 @@
 				66CC93F918DF475500644281 /* humberger.png in Resources */,
 				661AB3A31C20E0710061E1F6 /* Near Me-100.png in Resources */,
 				664749E01AE5A0D50050137E /* 3-100.png in Resources */,
+				66780D9C1C540ABD00C838AA /* salesPointAnnotation.png in Resources */,
 				664E28731AD92B4800BE2457 /* books-100_grey.png in Resources */,
 				669602B81B124910006919CB /* Bookmark-unselected-100.png in Resources */,
 				660E2F721B34386400CE670E /* city-center-100.png in Resources */,
@@ -3498,6 +3620,7 @@
 				660E2F7C1B34386400CE670E /* bowling-100.png in Resources */,
 				667B98231AD3294C00C45ADF /* home-100_grey.png in Resources */,
 				66EC18F21ACA8BED008E045D /* trash-filled-green-32.png in Resources */,
+				66780DB11C55061100C838AA /* new3dPeekandPop.png in Resources */,
 				66EC18F31ACA8BED008E045D /* add-button-white.png in Resources */,
 				664ADFF31992740F000B4F18 /* clock-75.png in Resources */,
 				66D426AB1991789B0080F21E /* back-128.png in Resources */,
@@ -3519,6 +3642,7 @@
 				664E28941AE03B1B00BE2457 /* list-100.png in Resources */,
 				660E2F741B34386400CE670E /* park-bench-100.png in Resources */,
 				664E28771AD92EC800BE2457 /* bowling-100_grey.png in Resources */,
+				66780DB61C55061100C838AA /* newLiveVehiclesInLines.png in Resources */,
 				6665D7651C0CA6B200ACCC3A /* gym-black-50.png in Resources */,
 				6675BA611B5110AC002EB83C /* reminders-100.png in Resources */,
 				66C734FA1B28D5970026A584 /* bus-filled-blue-100.png in Resources */,
@@ -3531,9 +3655,12 @@
 				66822F7C1C29F50900511BD2 /* go-from-here-100.png in Resources */,
 				66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */,
 				6665D7751C0CA6B200ACCC3A /* work-black-50.png in Resources */,
+				66780D851C54081900C838AA /* servicePointAnnotation@2x.png in Resources */,
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
 				66D6EDB619A0A5F100FEB9FD /* finish_flag-50.png in Resources */,
 				660FB2391B39E242009C30BF /* lines-color-100.png in Resources */,
+				66780DB51C55061100C838AA /* newLinesView.png in Resources */,
+				66780DBC1C55143F00C838AA /* newRoutesWidget@2x.png in Resources */,
 				6665D75F1C0CA6B200ACCC3A /* beach-black-50.png in Resources */,
 				66F0998E1AE8075D00F20D34 /* NotificationBackgroundWarningIcon.png in Resources */,
 				66EBADF91B1B5E5A00831812 /* Edit-gray-100.png in Resources */,
@@ -3541,6 +3668,8 @@
 				664E28A71AE2B0BB00BE2457 /* location-gray-100.png in Resources */,
 				667B981C1AD3294C00C45ADF /* restaurant-100_grey.png in Resources */,
 				660FB2401B39EDE8009C30BF /* live-vehicle-color-100.png in Resources */,
+				66780D831C5407BC00C838AA /* salesPointAnnotation@3x.png in Resources */,
+				66780DB81C55061100C838AA /* newRoutesWidget@3x.png in Resources */,
 				661831241C1065E100DA979E /* Options-colored-100.png in Resources */,
 				66F099831AE8075D00F20D34 /* NotificationBackgroundError@2x.png in Resources */,
 				6682D2481ACE34B900F6DDF7 /* alarm-clock-filled-white2-100.png in Resources */,
@@ -3558,6 +3687,7 @@
 				667B98211AD3294C00C45ADF /* gym-100_grey.png in Resources */,
 				660FB2361B39E242009C30BF /* version-4-color-100.png in Resources */,
 				66C59DA719993F7100E7AC7A /* walking-black-75.png in Resources */,
+				66780DB71C55061100C838AA /* newNearbyDepartures.png in Resources */,
 				669602BB1B124C82006919CB /* Settings-Filled-2-100.png in Resources */,
 				66C734FB1B28D5970026A584 /* train-filled-red-100.png in Resources */,
 				66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */,
@@ -3566,6 +3696,7 @@
 				6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */,
 				66134C011B4067860008C6D7 /* dark-dotted-line-long.png in Resources */,
 				664E28751AD92DEC00BE2457 /* school-100_grey.png in Resources */,
+				66780D9E1C540ABD00C838AA /* servicePointAnnotation.png in Resources */,
 				6663A0951B652D8F00DC20D0 /* app-pro-logo-rounded.png in Resources */,
 				66D42695198FBB0F0080F21E /* Message-Warning-128.png in Resources */,
 				669602D71B14DC12006919CB /* Search-green-100.png in Resources */,
@@ -3599,6 +3730,7 @@
 				66CF81991A0ED9EE0034C9AB /* location-light-25.png in Resources */,
 				66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */,
 				66947CC018830ED500642EE1 /* InfoPlist.strings in Resources */,
+				66780D901C54097200C838AA /* HSLCardServicePoints.json in Resources */,
 				667B981E1AD3294C00C45ADF /* Beer-100_grey.png in Resources */,
 				666BC1D41B5C259700889DD2 /* Train.mp3 in Resources */,
 				66FC547E1B23656F005B890D /* stops.json in Resources */,
@@ -3607,6 +3739,7 @@
 				66DAE1FC19C6112A0039081D /* tramAnnotationSmall.png in Resources */,
 				667377531ACCBE60003581B5 /* metro-logo-orange.png in Resources */,
 				664E28A31AE2AC7900BE2457 /* plugin-100.png in Resources */,
+				66780DA51C542BED00C838AA /* version-2.png in Resources */,
 				666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */,
 				66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */,
 				660E2F761B34386400CE670E /* Beer-100.png in Resources */,
@@ -3634,6 +3767,7 @@
 				6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */,
 				66EC18FD1ACB58D4008E045D /* collapse-arrow-100.png in Resources */,
 				66D06A7719A40EFB00424A4A /* map_background.png in Resources */,
+				66780DC31C55601A00C838AA /* version-5.png in Resources */,
 				66C734FC1B28D5970026A584 /* tram-filled-green-100.png in Resources */,
 				66F3B13D1AC89FC60038BA78 /* app-logo-rounded.png in Resources */,
 				66D4269B198FC0000080F21E /* disruption-info-128.png in Resources */,
@@ -3643,6 +3777,8 @@
 				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100_grey.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
+				66780DB91C55061100C838AA /* newServicePoints.png in Resources */,
+				66780DBA1C55061100C838AA /* routeDisruptions.png in Resources */,
 				661AB3AB1C22E2020061E1F6 /* current location filled green.png in Resources */,
 				660716151B49399700033049 /* Info-red-filled-50.png in Resources */,
 				66E272671B681C8A00FB7052 /* app-pro-logo-rounded2-small.png in Resources */,
@@ -3653,6 +3789,7 @@
 				6663A08F1B62AB5300DC20D0 /* renameCardJS.js in Resources */,
 				664E28921AE03B1B00BE2457 /* current-location-green-100.png in Resources */,
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
+				66780DB21C55061100C838AA /* new3dTouchShortcuts.png in Resources */,
 				666437CD19E1887600B82BE5 /* bookmark-50.png in Resources */,
 				664ADFF01992740F000B4F18 /* search-75.png in Resources */,
 				66CEE29C1A01AF650089A6F9 /* annotationFrame.png in Resources */,
@@ -3664,6 +3801,7 @@
 				666602551AED8F2600E3E392 /* joint-100.png in Resources */,
 				66F099891AE8075D00F20D34 /* NotificationBackgroundSuccess@2x.png in Resources */,
 				66F1384B1997897700B52B6B /* walking-100.png in Resources */,
+				66780DC11C55577700C838AA /* Like Filled-96.png in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
 				660716091B486DAD00033049 /* matkakortti-rounded.png in Resources */,
 				665885B91B1096580044F514 /* busAnnotation3_2.png in Resources */,
@@ -3850,6 +3988,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66780D961C5409F800C838AA /* ServicePoint.m in Sources */,
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */,
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
@@ -3886,6 +4025,7 @@
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStops.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
+				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
 				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
@@ -3929,6 +4069,7 @@
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
 				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
+				66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */,
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
@@ -3949,6 +4090,7 @@
 				66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */,
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
+				66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
 				66822F7F1C2B6C4000511BD2 /* NSObject+Helper.m in Sources */,
 				660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */,
@@ -3987,6 +4129,7 @@
 				66CA03371C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */,
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				661090CA1B374B43003F2688 /* LineDetailViewController.m in Sources */,
+				66780D971C5409F800C838AA /* Attributes.m in Sources */,
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
 				66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */,
 				661202D11B05085D00D93C2E /* Features.m in Sources */,
@@ -4030,6 +4173,7 @@
 				66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */,
 				66CA02B91C1637AB00A38858 /* HSLAndTRECommon.m in Sources */,
 				661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */,
+				66780D8E1C5408E300C838AA /* ServicePointAnnotation.m in Sources */,
 				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
 				667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */,
 				661831221C0DE22000DA979E /* NSDate+Helper.m in Sources */,

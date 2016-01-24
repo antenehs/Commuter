@@ -11,6 +11,8 @@
 #import "RettiDataManager.h"
 #import "SettingsManager.h"
 #import "CoreDataManager.h"
+#import "ReittiEmailAndShareManager.h"
+#import "AppManager.h"
 
 @interface MoreTableViewController ()
 
@@ -30,9 +32,9 @@
     [self initDataManager];
     
     thereIsDisruptions = [self areThereDisruptions];
-    canShowDisruptions = YES;
+//    canShowDisruptions = YES;
     
-    [self checkForDisruptionAvailability];
+//    [self checkForDisruptionAvailability];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
@@ -96,16 +98,16 @@
     return moreTabBarItem.badgeValue != nil;
 }
 
-- (void)checkForDisruptionAvailability {
-    if (([self.settingsManager userLocation] != HSLRegion)) {
-        canShowDisruptions = NO;
-    }else{
-        canShowDisruptions = YES;
-    }
-}
+//- (void)checkForDisruptionAvailability {
+//    if (([self.settingsManager userLocation] != HSLRegion)) {
+//        canShowDisruptions = NO;
+//    }else{
+//        canShowDisruptions = YES;
+//    }
+//}
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
-    [self checkForDisruptionAvailability];
+//    [self checkForDisruptionAvailability];
     
     thereIsDisruptions = [self areThereDisruptions];
     
@@ -113,33 +115,48 @@
 }
 
 #pragma mark - Table view data source
+- (void)setSectionAndRowNumbers{
+    
+    numberOfSection = 0;
+    
+    numberOfMoreFeatures = 0;
+    routinesRow = numberOfMoreFeatures++;
+    ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    matkakorttiRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    disruptionsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    
+    moreFeaturesSection = numberOfMoreFeatures > 0 ? numberOfSection++ : -1;
+    
+    settingsSection = numberOfSection++;
+    commuterSection = numberOfSection++;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 3;
+    [self setSectionAndRowNumbers];
+    return numberOfSection;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return canShowDisruptions ? 3 : 2;
-    }else if (section == 1) {
+    if (section == moreFeaturesSection) {
+        return numberOfMoreFeatures;
+    }else if (section == settingsSection) {
         return 1;
-    }else{
-        return 3;
-        /* Return 4 to add new in this version
-        return 4;
-         */
+    }else if(section == commuterSection){
+        return 5;
     }
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
+    if (indexPath.section == moreFeaturesSection) {
+        if (indexPath.row == routinesRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"remindersCell" forIndexPath:indexPath];
-        }
-        else if (indexPath.row == 1) {
+        }else if (indexPath.row == ticketsSalesPointsRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"ticketSellPointCell" forIndexPath:indexPath];
+        }else if (indexPath.row == matkakorttiRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"matkakorttiCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
@@ -147,21 +164,28 @@
             UIView *disruptionsView = [cell viewWithTag:1003];
             disruptionsView.layer.cornerRadius = 10;
             
-            disruptionsView.hidden = !thereIsDisruptions || !canShowDisruptions;
+            disruptionsView.hidden = !thereIsDisruptions;
         }
-    }else if (indexPath.section == 1){
+    }else if (indexPath.section == settingsSection){
         cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell" forIndexPath:indexPath];
     }else{
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell" forIndexPath:indexPath];
+            
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
+            imageView.image = [AppManager roundedAppLogoSmall];
+        }else if (indexPath.row == 1) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"newInVersionCell" forIndexPath:indexPath];
+            
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
+            imageView.image = [AppManager appVersionPicture];
         }
-//        else if (indexPath.row == 1) {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"newInVersionCell" forIndexPath:indexPath];
-//        }
         else if (indexPath.row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"contactMeCell" forIndexPath:indexPath];
-        }else{
+        }else if (indexPath.row == 3){
             cell = [tableView dequeueReusableCellWithIdentifier:@"rateCell" forIndexPath:indexPath];
+        }else{
+            cell = [tableView dequeueReusableCellWithIdentifier:@"shareCell" forIndexPath:indexPath];
         }
     }
     
@@ -178,15 +202,22 @@
     [actionSheet showInView:self.view];
 }
 
+- (IBAction)shareButtonPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"They say sharing is caring, right?." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share on Facebook",@"Share on Twitter", nil];
+    //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
+    actionSheet.tag = 1001;
+    [actionSheet showInView:self.view];
+}
+
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
 }
 
 - (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"matkakorttimonitorapp://?"]]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"matkakorttimonitorapp://"]];
     } else {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1036411677"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager matkakorttiAppAppstoreUrl]]];
     }
 }
 
@@ -195,13 +226,25 @@
     if (actionSheet.tag == 1002){
         switch (buttonIndex) {
             case 0:
-                [self sendEmailWithSubject:@"[Feature Request] - "];
+                [self sendFeatureRequestEmail];
                 break;
             case 1:
-                [self sendEmailWithSubject:@"[Bug Report] - "];
+                [self sendBugReportEmail];
                 break;
             case 2:
-                [self sendEmailWithSubject:@"Hi - "];
+                [self sendHiEmail];
+                break;
+            default:
+                break;
+        }
+    }else{
+        switch (buttonIndex) {
+            case 0:
+                [self postToFacebook];
+                break;
+            case 1:
+                [self postToTwitter];
+                //                [self sendEmailWithSubject:@"[Feature Request] - "];
                 break;
             default:
                 break;
@@ -209,26 +252,47 @@
     }
 }
 
-- (void)sendEmailWithSubject:(NSString *)subject{
-    // Email Subject
-    NSString *emailTitle = subject;
-    // Email Content
-    NSString *messageBody = @"";
-    // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"ewketapps@gmail.com"];
-    
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+- (void)sendFeatureRequestEmail{
+    MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForFeatureRequestEmail];
     mc.mailComposeDelegate = self;
-    [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:NO];
-    [mc setToRecipients:toRecipents];
     
-    // Present mail view controller on screen
     [self presentViewController:mc animated:YES completion:NULL];
-    
 }
 
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+- (void)sendBugReportEmail{
+    MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForBugReportEmail];
+    mc.mailComposeDelegate = self;
+    
+    [self presentViewController:mc animated:YES completion:NULL];
+}
+
+- (void)sendHiEmail{
+    MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForHiEmail];
+    mc.mailComposeDelegate = self;
+    
+    [self presentViewController:mc animated:YES completion:NULL];
+}
+
+//- (void)sendEmailWithSubject:(NSString *)subject{
+//    // Email Subject
+//    NSString *emailTitle = subject;
+//    // Email Content
+//    NSString *messageBody = @"";
+//    // To address
+//    NSArray *toRecipents = [NSArray arrayWithObject:@"ewketapps@gmail.com"];
+//    
+//    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+//    mc.mailComposeDelegate = self;
+//    [mc setSubject:emailTitle];
+//    [mc setMessageBody:messageBody isHTML:NO];
+//    [mc setToRecipients:toRecipents];
+//    
+//    // Present mail view controller on screen
+//    [self presentViewController:mc animated:YES completion:NULL];
+//    
+//}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     switch (result)
     {
@@ -253,7 +317,37 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+- (void)postToFacebook {
+    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        
+        SLComposeViewController *controller = [[ReittiEmailAndShareManager sharedManager] slComposeVcForFacebook];
+        
+        [self presentViewController:controller animated:YES completion:Nil];
+        
+    }else{
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
 
+- (void)postToTwitter {
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        SLComposeViewController *tweetSheet = [[ReittiEmailAndShareManager sharedManager] slComposeVcForTwitter];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }else{
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                            message:@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
 
 #pragma mark - Navigation
 

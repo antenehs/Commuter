@@ -37,6 +37,11 @@
                BlueprintName = "ReittiTests"
                ReferencedContainer = "container:Reitti.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ReittiTests/testExample">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

@@ -75,6 +75,7 @@ NSString *kActionChangedUserLocation = @"ChangedUserLocation";
 NSString *kActionChangedMapMode = @"ChangedMapMode";
 NSString *kActionChangedHistoryCleaningDay = @"ChangedHistoryCleaningDay";
 NSString *kActionChangedAnalyticsOption = @"ChangedAnalyticsOption";
+NSString *kActionChangedStartingTabOption = @"ChangedStartingTabOption";
 
 //Api use Actions
 NSString *kActionSearchedRouteFromApi = @"SearchedRouteFromApi";

@@ -29,7 +29,12 @@
 //- (void)hslDisruptionFetchFailed:(int)errorCode;
 //@end
 
-@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, DisruptionFetchProtocol>
+@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, DisruptionFetchProtocol>{
+    
+    NSArray *hslApiUserNames;
+    NSInteger nextApiUsernameIndex;
+    
+}
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 

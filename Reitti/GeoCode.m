@@ -49,12 +49,12 @@
         NSNumber *houseNum = self.details.houseNumber;
         if (houseNum != nil){
             if ([houseNum isKindOfClass:[NSString class]]) {
-                if (![(NSString *)houseNum isEqualToString:@"1"])
+                if (![(NSString *)houseNum isEqualToString:@"1"] && ![(NSString *)houseNum isEqualToString:@"0"])
                     return (NSString *)houseNum;
                 else
                     return @"";
             }else{
-                if (![[houseNum stringValue] isEqualToString:@"1"])
+                if (![[houseNum stringValue] isEqualToString:@"1"] && ![[houseNum stringValue] isEqualToString:@"0"])
                     return [houseNum stringValue];
                 else
                     return @"";

@@ -33,6 +33,14 @@
     self.poikkeusInfoApi = [[APIClient alloc] init];
     self.poikkeusInfoApi.apiBaseUrl = @"http://www.poikkeusinfo.fi/xml/v2";
     
+    hslApiUserNames = @[@"asacommuterstops", @"asacommuterstops2", @"asacommuterstops3", @"asacommuterstops4", @"asacommuterstops5",                        @"asacommuterstops6", @"asacommuterstops7", @"asacommuterstops8",
+                        @"asacommuterroutes", @"asacommuterroutes2", @"asacommuterroutes3", @"asacommuterroutes4", @"asacommuterroutes5", @"asacommuterroutes6", @"asacommuterroutes7", @"asacommuterroutes8",
+                        @"asacommuternearby", @"asacommuternearby2", @"asacommuternearby3", @"asacommuternearby4", @"asacommuternearby5", @"asacommuternearby6", @"asacommuternearby7", @"asacommuternearby8",
+                        @"asacommutersearch", @"asacommutersearch2", @"asacommutersearch3", @"asacommutersearch4", @"asacommutersearch5", @"asacommutersearch6", @"asacommutersearch7", @"asacommutersearch8",
+                        @"asacommuter", @"asacommuter2", @"asacommuter3", @"asacommuter4", @"commuterreversegeo" ];
+    
+    nextApiUsernameIndex = arc4random_uniform((int)hslApiUserNames.count);
+    
     return self;
 }
 
@@ -41,8 +49,9 @@
     
     NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
     
-    //TODO: Select from list
-    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:^(NSArray *routeArray, NSError *error){
@@ -260,9 +269,12 @@
 
 #pragma mark - Stops in areas search protocol implementation
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock{
+    
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asacommuternearby" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
@@ -276,7 +288,9 @@
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchStopDetailForCode:stopCode andOptionsDictionary:optionsDict withCompletionBlock:^(NSArray *fetchResult, NSString *error){
@@ -303,7 +317,9 @@
 -(void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asareitti" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchLineDetailForSearchterm:searchTerm andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
@@ -315,7 +331,9 @@
 -(void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asareitti" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [optionsDict setValue:searchTerm forKey:@"key"];
@@ -329,7 +347,9 @@
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"commuterreversegeo" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
@@ -394,6 +414,22 @@
 
 
 #pragma mark - Helpers
+- (NSString *)getRandomUsername{
+    int r = arc4random_uniform((int)hslApiUserNames.count);
+    
+    return hslApiUserNames[r];
+}
+
+- (NSString *)getApiUsername{
+    
+    if (nextApiUsernameIndex < hslApiUserNames.count - 1)
+        nextApiUsernameIndex++;
+    else
+        nextApiUsernameIndex = 0;
+    
+    return hslApiUserNames[nextApiUsernameIndex];
+}
+
 - (void)parseStopLines:(BusStop *)stop {
     //Parse departures and lines
     if (stop.lines) {

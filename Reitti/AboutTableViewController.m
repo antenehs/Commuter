@@ -9,6 +9,8 @@
 #import "AboutTableViewController.h"
 #import "CoreDataManager.h"
 #import <Social/Social.h>
+#import "ReittiEmailAndShareManager.h"
+#import "AppManager.h"
 
 @interface AboutTableViewController ()
 
@@ -120,7 +122,7 @@
 }
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
 }
 
 - (IBAction)openHSLSiteButtonPressed:(id)sender {
@@ -164,13 +166,13 @@
     }else if (actionSheet.tag == 1002){
         switch (buttonIndex) {
             case 0:
-                [self sendEmailWithSubject:@"[Feature Request] - "];
+                [self sendFeatureRequestEmail];
                 break;
             case 1:
-                [self sendEmailWithSubject:@"[Bug Report] - "];
+                [self sendBugReportEmail];
                 break;
             case 2:
-                [self sendEmailWithSubject:@"Hi - "];
+                [self sendHiEmail];
                 break;
             default:
                 break;
@@ -187,11 +189,7 @@
 - (void)postToFacebook {
     if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         
-        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        
-        [controller setInitialText:@"Easy way to get HSL timetables and routes!Check Commuter out."];
-        [controller addURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
-        [controller addImage:[UIImage imageNamed:@"app-icon-v-2.4.png"]];
+        SLComposeViewController *controller = [[ReittiEmailAndShareManager sharedManager] slComposeVcForFacebook];
         
         [self presentViewController:controller animated:YES completion:Nil];
         
@@ -208,11 +206,7 @@
 - (void)postToTwitter {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
     {
-        SLComposeViewController *tweetSheet = [SLComposeViewController
-                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
-        [tweetSheet setInitialText:@"Easy way to get HSL timetables and routes!Check Commuter out."];
-        [tweetSheet addURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
-        [tweetSheet addImage:[UIImage imageNamed:@"app-icon-v-2.4.png"]];
+        SLComposeViewController *tweetSheet = [[ReittiEmailAndShareManager sharedManager] slComposeVcForTwitter];
         [self presentViewController:tweetSheet animated:YES completion:nil];
     }else{
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
@@ -222,6 +216,27 @@
                                                   otherButtonTitles:nil];
         [alertView show];
     }
+}
+
+- (void)sendFeatureRequestEmail{
+    MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForFeatureRequestEmail];
+    mc.mailComposeDelegate = self;
+    
+    [self presentViewController:mc animated:YES completion:NULL];
+}
+
+- (void)sendBugReportEmail{
+    MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForBugReportEmail];
+    mc.mailComposeDelegate = self;
+    
+    [self presentViewController:mc animated:YES completion:NULL];
+}
+
+- (void)sendHiEmail{
+    MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForHiEmail];
+    mc.mailComposeDelegate = self;
+    
+    [self presentViewController:mc animated:YES completion:NULL];
 }
 
 - (void)sendEmailWithSubject:(NSString *)subject{

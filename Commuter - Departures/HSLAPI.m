@@ -66,7 +66,7 @@
         if (code.length < 5) {
             searchURL = [NSString stringWithFormat:@"http://api.publictransport.tampere.fi/1_0_3/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuterwidget&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
         }else{
-            searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/1_2_0/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuter&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
+            searchURL = [NSString stringWithFormat:@"http://api.reittiopas.fi/hsl/1_2_0/?request=stop&epsg_in=4326&epsg_out=4326&user=asacommuterwidget&pass=rebekah&dep_limit=20&time_limit=360&format=json&code=%@", code];
         }
         
         NSError *error = nil;

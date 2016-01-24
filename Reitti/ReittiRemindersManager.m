@@ -477,6 +477,24 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 -(RoutineEntity *)fetchSavedRoutineFromCoreDataForId:(NSNumber *)code{
+    
+    NSString *predString = [NSString stringWithFormat:@"objectLID == %@", code];
+    
+    NSArray *routines = [self fetchAllSavedRoutinesFromCoreDataForPredicateString:predString];
+    
+    if (routines && routines.count > 0)
+        return routines[0];
+    
+    return nil;
+}
+
+-(NSArray *)fetchAllSavedRoutinesFromCoreDataForFromOrToName:(NSString *)displayName{
+    NSString *predString = [NSString stringWithFormat:@"toDisplayName == '%@' || fromDisplayName == '%@'", displayName, displayName];
+    
+    return [self fetchAllSavedRoutinesFromCoreDataForPredicateString:predString];
+}
+
+-(NSArray *)fetchAllSavedRoutinesFromCoreDataForPredicateString:(NSString *)predString{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity =
@@ -485,9 +503,6 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     
     [request setEntity:entity];
     
-    NSString *predString = [NSString stringWithFormat:
-                            @"objectLID == %@", code];
-    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
     [request setPredicate:predicate];
     
@@ -495,17 +510,24 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     
     NSArray *savedRoutines = [self.managedObjectContext executeFetchRequest:request error:&error];
     
-    if ([savedRoutines count] != 0) {
-        
-        NSLog(@"RemindersManager: Fetched saved routine values is NOT null");
-        return [savedRoutines objectAtIndex:0];
-        
-    }
-    else {
-        NSLog(@"RemindersManager: Fetched saved routine values is null");
-    }
+    return savedRoutines;
+}
+
+-(void)updateRoutineForDeletedBookmarkNamed:(NSString *)bookmarkName{
+    if (!bookmarkName)
+        return;
     
-    return nil;
+    NSArray *routines = [self fetchAllSavedRoutinesFromCoreDataForFromOrToName:bookmarkName];
+    
+    for (RoutineEntity *routine in routines) {
+        if ([routine.toDisplayName isEqualToString:bookmarkName])
+            routine.toDisplayName = routine.toLocationName;
+        
+        if ([routine.fromDisplayName isEqualToString:bookmarkName])
+            routine.fromDisplayName = routine.fromLocationName;
+        
+        [self saveRoutineToCoreData:routine];
+    }
 }
 
 -(NSMutableArray *)simplifyCoreDataDictionaryArray:(NSArray *)array withKey:(NSString *)key{

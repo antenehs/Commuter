@@ -12,8 +12,12 @@
 @interface MoreTableViewController : UITableViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate>{
     BOOL thereIsDisruptions;
     
+    NSInteger moreFeaturesSection, settingsSection, commuterSection;
+    NSInteger routinesRow, ticketsSalesPointsRow, matkakorttiRow, disruptionsRow;
+    NSInteger numberOfMoreFeatures, numberOfSection;
+    
     BOOL canShowLines;
-    BOOL canShowDisruptions;
+//    BOOL canShowDisruptions;
 }
 
 @end

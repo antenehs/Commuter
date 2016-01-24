@@ -17,14 +17,28 @@ extern NSString *kUserDefaultsSavedStopsKey;
 
 extern NSString *urlSpaceEscapingString;
 
+extern NSString *kAppFullName;
+extern NSString *kAppAppstoreLink;
+
 @interface AppManagerBase : NSObject
 
 +(BOOL)isNewInstallOrNewVersion;
 +(BOOL)isNewInstall;
 +(void)setCurrentAppVersion;
++(NSString *)currentAppVersion;
 
 +(NSString *)iosDeviceModel;
 +(NSString *)iosVersionNumber;
+
++(UIImage *)roundedAppLogoSmall;
++(UIImage *)roundedAppLogoLarge;
+
++(UIImage *)appVersionPicture;
+
++(NSString *)appAppstoreLink;
++(NSString *)matkakorttiAppAppstoreUrl;
+
++(NSString *)mainAppUrl;
 
 //App theme
 +(UIColor *)systemGreenColor;

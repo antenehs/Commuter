@@ -187,17 +187,17 @@
 #pragma mark - ibactions
 - (IBAction)searchRouteButtonClicked:(id)sender {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?routeSearch"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?routeSearch", [AppManagerBase mainAppUrl]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 - (IBAction)openBookmarksButtonClicked:(id)sender {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?bookmarks"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?bookmarks", [AppManagerBase mainAppUrl]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 - (IBAction)openWidgetSettings {
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?widgetSettings"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?widgetSettings", [AppManagerBase mainAppUrl]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
@@ -205,7 +205,7 @@
 {
     UITouch *touch = [touches anyObject];
     if (touch.view == infoLabel) {
-        NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://"];
+        NSURL *url = [NSURL URLWithString:[AppManagerBase mainAppUrl]];
         [self.extensionContext openURL:url completionHandler:nil];
     }
 }
@@ -333,7 +333,7 @@
 }
 
 -(void)openBusStop:(BusStopE *)stop{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"CommuterProMainApp://?openStop-%d",[stop.code intValue]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?openStop-%d",[AppManagerBase mainAppUrl], [stop.code intValue]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 

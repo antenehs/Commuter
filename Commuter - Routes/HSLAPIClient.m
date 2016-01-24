@@ -29,7 +29,7 @@
     }
     
     //TODO: Select from list
-    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    [optionsDict setValue:@"asacommuterwidget2" forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptions:optionsDict andCompletionBlock:completionBlock];

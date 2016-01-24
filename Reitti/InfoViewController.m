@@ -60,11 +60,13 @@
         }
     }
     
+    [self.navigationController setToolbarHidden:YES];
 //    [self initAdBannerView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [self layoutAnimated:NO];
+    
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 

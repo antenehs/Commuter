@@ -21,6 +21,7 @@
 #import "ApiProtocols.h"
 #import "ASA_Helpers.h"
 #import "AppManager.h"
+#import "ReittiRemindersManager.h"
 //#import "LiveTrafficManager.h"
 
 @implementation RettiDataManager
@@ -1671,7 +1672,14 @@
 }
 
 -(void)saveRouteToCoreData:(NSString *)fromLocation fromCoords:(NSString *)fromCoords andToLocation:(NSString *)toLocation andToCoords:(NSString *)toCoords{
-    NSLog(@"RettiDataManager: Saving Route to core data!");
+    
+    if (fromLocation == nil || fromCoords == nil || toLocation == nil || toCoords == nil ||
+        fromLocation.length == 0 || fromCoords.length == 0 || toLocation.length == 0 || toCoords.length == 0) {
+        return;
+    }
+    
+//    NSLog(@"RettiDataManager: Saving Route to core data!");
+    
     self.routeEntity= (RouteEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"RouteEntity" inManagedObjectContext:self.managedObjectContext];
     //set default values
     [self.routeEntity setFromLocationName:fromLocation];
@@ -1781,6 +1789,26 @@
 }
 
 -(RouteEntity *)fetchSavedRouteFromCoreDataForCode:(NSString *)code{
+    
+    NSString *predString = [NSString stringWithFormat:
+                            @"routeUniqueName == '%@'", code];
+    
+    NSArray *savedRoutes = [self fetchSavedRouteFromCoreDataForPredicateString:predString];
+    
+    if (savedRoutes && savedRoutes.count > 0)
+        return savedRoutes[0];
+
+    return nil;
+}
+
+-(NSArray *)fetchSavedRouteFromCoreDataForNamedBookmarkName:(NSString *)bookmarkName{
+    NSString *predString = [NSString stringWithFormat:
+                            @"fromLocationName == '%@' || toLocationName == '%@'", bookmarkName, bookmarkName];
+    
+    return [self fetchSavedRouteFromCoreDataForPredicateString:predString];
+}
+
+-(NSArray *)fetchSavedRouteFromCoreDataForPredicateString:(NSString *)predString{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity =
@@ -1789,9 +1817,6 @@
     
     [request setEntity:entity];
     
-    NSString *predString = [NSString stringWithFormat:
-                            @"routeUniqueName == '%@'", code];
-    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
     [request setPredicate:predicate];
     
@@ -1799,17 +1824,7 @@
     
     NSArray *savedRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
-    if ([savedRoutes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched saved routes values is NOT null");
-        return [savedRoutes objectAtIndex:0];
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched saved routes values is null");
-    }
-    
-    return nil;
+    return savedRoutes;
 }
 
 #pragma mark - named bookmark methods
@@ -1837,6 +1852,8 @@
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
         [[ReittiSearchManager sharedManager] updateSearchableIndexes];
         [self updateNamedBookmarksUserDefaultValue];
+        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
+        
         return self.namedBookmark;
     }else{
         self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:ndBookmark.name];
@@ -1854,6 +1871,8 @@
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
         [[ReittiSearchManager sharedManager] updateSearchableIndexes];
         [self updateNamedBookmarksUserDefaultValue];
+        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
+        
         return self.namedBookmark;
     }
 }
@@ -1887,6 +1906,7 @@
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
         [[ReittiSearchManager sharedManager] updateSearchableIndexes];
         [self updateNamedBookmarksUserDefaultValue];
+        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
         
         return self.namedBookmark;
     }else{
@@ -1897,6 +1917,11 @@
 
 -(void)deleteNamedBookmarkForName:(NSString *)name{
     NamedBookmark *bookmarkToDelete = [self fetchSavedNamedBookmarkFromCoreDataForName:name];
+    
+    if (!bookmarkToDelete)
+        return;
+    
+    [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmarkToDelete];
     
     [self.managedObjectContext deleteObject:bookmarkToDelete];
     
@@ -1913,10 +1938,13 @@
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
 }
+
 -(void)deleteAllNamedBookmarks{
     NSArray *bookmarksToDelete = [self fetchAllSavedNamedBookmarksFromCoreData];
     
     for (NamedBookmark *bookmark in bookmarksToDelete) {
+        [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmark];
+        
         [self.managedObjectContext deleteObject:bookmark];
     }
     
@@ -1933,6 +1961,59 @@
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
 }
+
+-(void)deleteSavedAndHistoryRoutesForNamedBookmark:(NamedBookmark *)bookmark{
+    NSArray *savedRoutes = [self fetchSavedRouteFromCoreDataForNamedBookmarkName:bookmark.name];
+    
+    for (RouteEntity *entity in savedRoutes) {
+        [self deleteSavedRouteForCode:entity.routeUniqueName];
+    }
+    
+    NSArray *historyRoutes = [self fetchRouteHistoryFromCoreDataForNamedBookmarkName:bookmark.name];
+    
+    for (RouteHistoryEntity *entity in historyRoutes) {
+        [self deleteHistoryRouteForCode:entity.routeUniqueName];
+    }
+    
+    [[ReittiRemindersManager sharedManger] updateRoutineForDeletedBookmarkNamed:bookmark.name];
+}
+
+-(void)updateSavedAndHistoryRoutesForNamedBookmark:(NamedBookmark *)bookmark{
+    NSArray *savedRoutes = [self fetchSavedRouteFromCoreDataForNamedBookmarkName:bookmark.name];
+    
+    for (RouteEntity *entity in savedRoutes) {
+        if ([entity.toLocationName isEqualToString:bookmark.name]) {
+            entity.toLocationCoordsString = bookmark.coords;
+        }
+        
+        if ([entity.fromLocationName isEqualToString:bookmark.name]) {
+            entity.fromLocationCoordsString = bookmark.coords;
+        }
+        
+        [self saveManagedObject:entity];
+    }
+    
+    NSArray *historyRoutes = [self fetchRouteHistoryFromCoreDataForNamedBookmarkName:bookmark.name];
+    
+    for (RouteHistoryEntity *entity in historyRoutes) {
+        if ([entity.toLocationName isEqualToString:bookmark.name]) {
+            entity.toLocationCoordsString = bookmark.coords;
+        }
+        
+        if ([entity.fromLocationName isEqualToString:bookmark.name]) {
+            entity.fromLocationCoordsString = bookmark.coords;
+        }
+        
+        [self saveManagedObject:entity];
+    }
+    
+    [[ReittiRemindersManager sharedManger] updateRoutineForDeletedBookmarkNamed:bookmark.name];
+}
+
+-(void)updateRoutinesForChangeInNamedBookmarkNamed:(NSString *)bookmarkName{
+    
+}
+
 -(NSArray *)fetchAllSavedNamedBookmarksFromCoreData{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
@@ -2195,6 +2276,26 @@
 }
 
 -(RouteHistoryEntity *)fetchRouteHistoryFromCoreDataForCode:(NSString *)code{
+    
+    NSString *predString = [NSString stringWithFormat:
+                            @"routeUniqueName == '%@'", code];
+    
+    NSArray *routesEntities = [self fetchRouteHistoryFromCoreDataForPredicateString:predString];
+    
+    if (routesEntities && routesEntities.count > 0)
+        return routesEntities[0];
+    
+    return nil;
+}
+
+-(NSArray *)fetchRouteHistoryFromCoreDataForNamedBookmarkName:(NSString *)bookmarkName{
+    NSString *predString = [NSString stringWithFormat:
+                            @"fromLocationName == '%@' || toLocationName == '%@'", bookmarkName, bookmarkName];
+    
+    return [self fetchRouteHistoryFromCoreDataForPredicateString:predString];
+}
+
+-(NSArray *)fetchRouteHistoryFromCoreDataForPredicateString:(NSString *)predString{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity =
@@ -2203,9 +2304,6 @@
     
     [request setEntity:entity];
     
-    NSString *predString = [NSString stringWithFormat:
-                            @"routeUniqueName == '%@'", code];
-    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
     [request setPredicate:predicate];
     
@@ -2213,17 +2311,7 @@
     
     NSArray *recentRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
-    if ([recentRoutes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history routes values is NOT null");
-        return [recentRoutes objectAtIndex:0];
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched history route values is null");
-    }
-    
-    return nil;
+    return recentRoutes;
 }
 
 -(void)fetchAllRouteHistoryCodesFromCoreData{

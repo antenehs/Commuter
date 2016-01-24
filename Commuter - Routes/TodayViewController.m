@@ -515,7 +515,8 @@
     UIButton *bookmarkButton = (UIButton *)sender;
     [bookmarkButton asa_bounceAnimateViewByScale:0.2];
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?addBookmark"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?addBookmark", [AppManagerBase mainAppUrl]]];
+//    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?addBookmark"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
@@ -523,7 +524,8 @@
     UIButton *bookmarkButton = (UIButton *)sender;
     [bookmarkButton asa_bounceAnimateViewByScale:0.2];
     // Open the main app
-    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?bookmarks"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?bookmarks", [AppManagerBase mainAppUrl]]];
+//    NSURL *url = [NSURL URLWithString:@"CommuterProMainApp://?bookmarks"];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
@@ -531,7 +533,7 @@
     NamedBookmarkE *bookmark = [self namedBookmarkForTheCurrentButton];
     if (bookmark) {
         //Escape space in name
-        NSString *urlString = [NSString stringWithFormat:@"CommuterProMainApp://?routeSearch&%@&%@", bookmark.name, bookmark.coords];
+        NSString *urlString = [NSString stringWithFormat:@"%@?routeSearch&%@&%@",[AppManagerBase mainAppUrl], bookmark.name, bookmark.coords];
         if ([urlString respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
             urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         }else{

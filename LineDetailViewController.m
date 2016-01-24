@@ -116,7 +116,9 @@
         
         [stopsTableView reloadData];
         
-        [[LinesManager sharedManager] saveRecentLine:self.line];
+        if (self.reittiDataManager.userLocationRegion == HSLRegion) { //TRE lines does not have unique ids. Eg. 13 2
+            [[LinesManager sharedManager] saveRecentLine:self.line];
+        }
     }else{
         [self lineSearchDidFail:nil];
     }

@@ -8,6 +8,7 @@
 
 #import "AppManagerBase.h"
 
+//group.com.ewketApps.commuterDepartures
 NSString *kUserDefaultsSuitNameForDeparturesWidget = @"group.com.ewketApps.commuterProDepartures";
 NSString *kUserDefaultsSuitNameForRoutesWidget = @"group.com.ewketApps.commuterProRoutes";
 
@@ -15,6 +16,10 @@ NSString *kUserDefaultsNamedBookmarksKey = @"namedBookmarksDictionary";
 NSString *kUserDefaultsSavedStopsKey = @"savedStopsCodesList";
 
 NSString *urlSpaceEscapingString = @"%20";
+
+NSString *kAppFullName = @"Commuter Pro";
+//
+NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
 
 @implementation AppManagerBase
 
@@ -44,6 +49,10 @@ NSString *urlSpaceEscapingString = @"%20";
     }
 }
 
++(NSString *)currentAppVersion{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+}
+
 +(NSString *)iosDeviceModel{
     return [[UIDevice currentDevice] model];
 }
@@ -52,10 +61,36 @@ NSString *urlSpaceEscapingString = @"%20";
     return [[UIDevice currentDevice] systemVersion];
 }
 
-//#1CAC78
++(UIImage *)roundedAppLogoSmall{
+    return [UIImage imageNamed:@"app-pro-logo-rounded2-small.png"];
+}
+
++(UIImage *)roundedAppLogoLarge{
+    return [UIImage imageNamed:@"app-pro-logo-rounded2.png"];
+}
+
++(UIImage *)appVersionPicture{
+//    return [UIImage imageNamed:@"version-5.png"];
+    return [UIImage imageNamed:@"version-2.png"];
+}
+
++(NSString *)appAppstoreLink{
+    return kAppAppstoreLink;
+}
+
++(NSString *)matkakorttiAppAppstoreUrl{
+    return @"itms-apps://itunes.apple.com/app/id1036411677";
+}
+
++(NSString *)mainAppUrl{
+//    return @"CommuterMainApp://";
+    return @"CommuterProMainApp://";
+}
+
+//#1CAC7F
 +(UIColor *)systemGreenColor{
     //    return [UIColor colorWithRed:31.0/255.0 green:154.0/255.0 blue:57.0/255.0 alpha:1.0];
-    return [UIColor colorWithRed:28.0/255.0 green:172.0/255.0 blue:120.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:28.0/255.0 green:172.0/255.0 blue:127.0/255.0 alpha:1.0];
 }
 
 //#F46B00

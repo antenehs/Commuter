@@ -27,6 +27,14 @@
 -(id)init{
     self = [super init];
     super.apiBaseUrl = @"http://api.publictransport.tampere.fi/1_0_3/";
+    
+    treApiUserNames = @[@"asacommuterstops", @"asacommuterstops2", @"asacommuterstops3", @"asacommuterstops4",
+                        @"asacommuterroutes", @"asacommuterroutes2", @"asacommuterroutes3", @"asacommuterroutes4",
+                        @"asacommuternearby", @"asacommuternearby2", @"asacommuternearby3", @"asacommuternearby4",
+                        @"commuterreversegeo", @"asareitti"];
+    
+    nextApiUsernameIndex = arc4random_uniform((int)treApiUserNames.count);
+    
     return self;
 }
 
@@ -34,8 +42,9 @@
     
     NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
     
-    //TODO: Select from list
-    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:^(NSArray *routeArray, NSError *error){
@@ -254,7 +263,9 @@
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asacommuternearby" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
@@ -267,7 +278,9 @@
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asacommuterstops" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchStopDetailForCode:stopCode andOptionsDictionary:optionsDict withCompletionBlock:^(NSArray *fetchResult, NSString *error){
@@ -296,7 +309,9 @@
 -(void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asareitti" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [super fetchLineDetailForSearchterm:searchTerm andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
@@ -308,7 +323,9 @@
 -(void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"asareitti" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     [optionsDict setValue:searchTerm forKey:@"key"];
@@ -322,7 +339,9 @@
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"commuterreversegeo" forKey:@"user"];
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
     [optionsDict setValue:@"rebekah" forKey:@"pass"];
     
     NSString *coordStrings = [NSString stringWithFormat:@"%f,%f", coords.longitude, coords.latitude];
@@ -334,6 +353,21 @@
 }
 
 #pragma mark - helpers
+- (NSString *)getRandomUsername{
+    int r = arc4random_uniform((int)treApiUserNames.count);
+    
+    return treApiUserNames[r];
+}
+
+- (NSString *)getApiUsername{
+    
+    if (nextApiUsernameIndex < treApiUserNames.count - 1)
+        nextApiUsernameIndex++;
+    else
+        nextApiUsernameIndex = 0;
+    
+    return treApiUserNames[nextApiUsernameIndex];
+}
 
 - (void)parseStopLines:(BusStop *)stop {
     if (stop.lines) {

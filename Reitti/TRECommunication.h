@@ -29,7 +29,11 @@
 //- (void)treDisruptionFetchFailed:(int)errorCode;
 //@end
 
-@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol>
+@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol> {
+    
+    NSArray *treApiUserNames;
+    NSInteger nextApiUsernameIndex;
+}
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 

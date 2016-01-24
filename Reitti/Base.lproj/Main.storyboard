@@ -1581,31 +1581,15 @@
                                                     <segue destination="WA8-ns-SDB" kind="show" identifier="selectMaxHistoryDate" id="ACN-TL-M4P"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="selectStartTab" rowHeight="85" id="sep-Zs-Rq1">
-                                                <rect key="frame" x="0.0" y="399.5" width="600" height="85"/>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="selectStartTab" rowHeight="50" id="sep-Zs-Rq1">
+                                                <rect key="frame" x="0.0" y="399.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sep-Zs-Rq1" id="c3b-aR-IzV">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="84.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Empty Flag-96.png" translatesAutoresizingMaskIntoConstraints="NO" id="c3Q-KR-oPh">
-                                                            <rect key="frame" x="9" y="13" width="25" height="25"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="25" id="Dku-h6-gkQ"/>
-                                                                <constraint firstAttribute="width" constant="25" id="F8J-eL-kX7"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open tab when app starts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rae-gd-9Un">
-                                                            <rect key="frame" x="44" y="14" width="212" height="21"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="21" id="VMg-Jk-hG3"/>
-                                                                <constraint firstAttribute="width" constant="212" id="ejx-ZO-Y3p"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <segmentedControl opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Sep-eh-xDI">
-                                                            <rect key="frame" x="44" y="46.5" width="548" height="29"/>
+                                                        <segmentedControl opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Sep-eh-xDI">
+                                                            <rect key="frame" x="13" y="10.5" width="579" height="29"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="260" id="RHw-0O-pE6"/>
                                                             </constraints>
@@ -1627,19 +1611,14 @@
                                                         </segmentedControl>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="leading" secondItem="c3b-aR-IzV" secondAttribute="leadingMargin" constant="36" id="46d-Pm-0y6"/>
+                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="leading" secondItem="c3b-aR-IzV" secondAttribute="leadingMargin" constant="5" id="46d-Pm-0y6"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="Sep-eh-xDI" secondAttribute="trailing" id="6My-K3-u3q"/>
-                                                        <constraint firstItem="c3Q-KR-oPh" firstAttribute="top" secondItem="c3b-aR-IzV" secondAttribute="topMargin" constant="5" id="GDh-QB-rAE"/>
-                                                        <constraint firstItem="rae-gd-9Un" firstAttribute="leading" secondItem="c3Q-KR-oPh" secondAttribute="trailing" constant="10" id="SQZ-yl-V79"/>
-                                                        <constraint firstItem="rae-gd-9Un" firstAttribute="top" secondItem="c3b-aR-IzV" secondAttribute="topMargin" constant="6" id="Vix-rk-vJI"/>
-                                                        <constraint firstItem="c3Q-KR-oPh" firstAttribute="leading" secondItem="c3b-aR-IzV" secondAttribute="leadingMargin" constant="1" id="bME-Pb-HUS"/>
-                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="bottom" secondItem="c3b-aR-IzV" secondAttribute="bottomMargin" constant="-2" id="tfW-Fd-BKy"/>
-                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="top" secondItem="rae-gd-9Un" secondAttribute="bottom" constant="11.5" id="vAO-fe-xAG"/>
+                                                        <constraint firstItem="Sep-eh-xDI" firstAttribute="top" secondItem="c3b-aR-IzV" secondAttribute="topMargin" constant="2.5" id="rjC-Wb-G4Z"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="advancedSettingCell" id="5tP-cY-sMZ">
-                                                <rect key="frame" x="0.0" y="484.5" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="449.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5tP-cY-sMZ" id="Kw0-Az-Ebv">
                                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
@@ -1675,7 +1654,7 @@
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="trackingCell" id="p92-cU-y2F">
-                                                <rect key="frame" x="0.0" y="534.5" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="499.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p92-cU-y2F" id="sai-7h-Hrl">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -1718,7 +1697,7 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="locationCell" id="lZA-gR-0wW">
-                                                <rect key="frame" x="0.0" y="584.5" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="549.5" width="600" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lZA-gR-0wW" id="g1a-bT-cRF">
                                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
@@ -3322,7 +3301,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="7SZ-Ux-txh">
                         <rect key="frame" x="0.0" y="556" width="600" height="44"/>
@@ -3383,10 +3362,10 @@
                                     <action selector="BackButtonPressed:" destination="2Jo-uz-fgw" eventType="touchUpInside" id="n6P-8c-aay"/>
                                 </connections>
                             </button>
-                            <view autoresizesSubviews="NO" contentMode="center" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-as-SV8" customClass="AMBlurView">
+                            <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-as-SV8" customClass="AMBlurView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-dS-zax">
+                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-dS-zax">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="483" id="M07-Nw-XA1"/>
@@ -3439,10 +3418,10 @@
                                             <constraint firstAttribute="trailing" secondItem="kWh-jL-E5H" secondAttribute="trailing" constant="10" id="uUV-Z7-1px"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-rv-JAJ" userLabel="Table Back Blur View" customClass="AMBlurView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-rv-JAJ" userLabel="Table Back Blur View" customClass="AMBlurView">
                                         <rect key="frame" x="0.0" y="44" width="600" height="448"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="56" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hPa-bf-CaO">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="56" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hPa-bf-CaO">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="448"/>
                                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                                 <prototypes>
@@ -3905,7 +3884,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="din-aV-pCW">
@@ -3938,7 +3917,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J5A-bJ-DOt">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="62"/>
-                                        <color key="backgroundColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="62" id="04w-7A-Wif"/>
                                         </constraints>
@@ -4634,7 +4613,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -6554,10 +6533,10 @@
                                 </connections>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSg-HG-jzC" userLabel="CurrentUserLocationButtons">
-                                <rect key="frame" x="545" y="-55" width="40" height="40"/>
+                                <rect key="frame" x="550" y="-50" width="35" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="K0b-84-UnI"/>
-                                    <constraint firstAttribute="height" constant="40" id="dMK-Rg-TKD"/>
+                                    <constraint firstAttribute="width" constant="35" id="K0b-84-UnI"/>
+                                    <constraint firstAttribute="height" constant="35" id="dMK-Rg-TKD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -7776,7 +7755,7 @@ Helsinki, Finland</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="N6e-pF-uoZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -7800,7 +7779,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="P2A-zI-1ku">
@@ -7823,7 +7802,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -7846,7 +7825,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -7869,7 +7848,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -7882,6 +7861,60 @@ Helsinki, Finland</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E9p-4a-1p4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7044" y="-389"/>
+        </scene>
+        <!--Service Points View Controller-->
+        <scene sceneID="gcJ-6s-Ij4">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="sba-0P-Iup" customClass="ServicePointsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WsX-wW-5du"/>
+                        <viewControllerLayoutGuide type="bottom" id="NAo-IW-AEy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Euk-sL-isX">
+                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jUi-hV-UQe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                            </mapView>
+                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-Hs-Bhd">
+                                <rect key="frame" x="550" y="437" width="35" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="0Eh-Zr-PkX"/>
+                                    <constraint firstAttribute="width" constant="35" id="KzP-BK-X7r"/>
+                                </constraints>
+                                <color key="tintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                <size key="titleShadowOffset" width="1" height="1"/>
+                                <state key="normal" image="current location filled green.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="currentLocationButtonTapped:" destination="sba-0P-Iup" eventType="touchUpInside" id="Uuk-q8-2oG"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jUi-hV-UQe" firstAttribute="leading" secondItem="Euk-sL-isX" secondAttribute="leading" id="My9-rq-q9s"/>
+                            <constraint firstAttribute="trailing" secondItem="jUi-hV-UQe" secondAttribute="trailing" id="QH3-CO-NUx"/>
+                            <constraint firstAttribute="bottom" secondItem="jUi-hV-UQe" secondAttribute="bottom" id="QuN-9W-9BF"/>
+                            <constraint firstItem="NAo-IW-AEy" firstAttribute="top" secondItem="wPj-Hs-Bhd" secondAttribute="bottom" constant="15" id="Rwy-lg-Pcu"/>
+                            <constraint firstItem="jUi-hV-UQe" firstAttribute="top" secondItem="WsX-wW-5du" secondAttribute="bottom" id="VLv-wj-fqC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wPj-Hs-Bhd" secondAttribute="trailing" constant="-5" id="vff-fw-Wj0"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <connections>
+                        <outlet property="currentLocationButton" destination="wPj-Hs-Bhd" id="ZIH-7k-t7m"/>
+                        <outlet property="mainMapView" destination="jUi-hV-UQe" id="v35-Mc-vW7"/>
+                        <segue destination="5jX-TA-pDV" kind="presentation" identifier="showDirectionsToServicePoint" id="jpb-bi-pHf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vBU-7z-ibd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4666" y="-4373"/>
         </scene>
         <!--ROUTINES-->
         <scene sceneID="1d3-9r-AMm">
@@ -8473,66 +8506,66 @@ Helsinki, Finland</string>
                                     <segue destination="kp9-Yc-MXa" kind="show" id="Wy6-jZ-o0L"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="linesCell" id="FQ2-Eh-R0o">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ticketSellPointCell" id="sB6-vj-4t6">
                                 <rect key="frame" x="0.0" y="99.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FQ2-Eh-R0o" id="gjx-bI-2gf">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sB6-vj-4t6" id="aZf-bA-MK9">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lines-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="MU7-HR-Yp5">
-                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="servicePointAnnotation.png" translatesAutoresizingMaskIntoConstraints="NO" id="W9k-d4-8Mf">
+                                            <rect key="frame" x="8" y="12" width="25" height="27.5"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="45u-X5-drZ"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="OBy-hq-dUs"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="aRu-ax-VyA"/>
-                                                <constraint firstAttribute="height" constant="25" id="fBR-Fx-95q"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="WMT-m3-hcG"/>
+                                                <constraint firstAttribute="width" constant="25" id="cdi-Vf-vkE"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="fGl-q7-0Mh"/>
+                                                <constraint firstAttribute="height" constant="27.5" id="w5y-n5-Tso"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="OBy-hq-dUs"/>
-                                                    <exclude reference="aRu-ax-VyA"/>
+                                                    <exclude reference="fGl-q7-0Mh"/>
+                                                    <exclude reference="WMT-m3-hcG"/>
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAJ-7A-4Jt">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ticket Sales Points" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXy-zf-yye">
                                             <rect key="frame" x="41" y="14" width="150" height="21"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="ARW-Gp-TMb"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Aos-tM-dkJ"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="O5m-It-Scp"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="dYI-yf-FRO"/>
-                                                <constraint firstAttribute="height" constant="21" id="u5S-CG-Y7V"/>
-                                                <constraint firstAttribute="width" constant="150" id="x9L-Os-SVc"/>
+                                                <constraint firstAttribute="width" constant="150" id="F0D-oF-Vvp"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="K3d-t6-X6j"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="KDH-Y5-1Z8"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="bob-am-uhP"/>
+                                                <constraint firstAttribute="height" constant="21" id="iS0-wo-vpe"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="qmO-5t-6Tw"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="ARW-Gp-TMb"/>
-                                                    <exclude reference="Aos-tM-dkJ"/>
-                                                    <exclude reference="O5m-It-Scp"/>
-                                                    <exclude reference="dYI-yf-FRO"/>
+                                                    <exclude reference="bob-am-uhP"/>
+                                                    <exclude reference="KDH-Y5-1Z8"/>
+                                                    <exclude reference="qmO-5t-6Tw"/>
+                                                    <exclude reference="K3d-t6-X6j"/>
                                                 </mask>
                                             </variation>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="mAJ-7A-4Jt" firstAttribute="top" secondItem="gjx-bI-2gf" secondAttribute="topMargin" constant="6" id="KNN-P5-1s9"/>
-                                        <constraint firstItem="mAJ-7A-4Jt" firstAttribute="leading" secondItem="MU7-HR-Yp5" secondAttribute="trailing" constant="9" id="Ke7-3K-jnF"/>
-                                        <constraint firstItem="MU7-HR-Yp5" firstAttribute="top" secondItem="gjx-bI-2gf" secondAttribute="topMargin" constant="4" id="ZKX-DH-Wz7"/>
-                                        <constraint firstItem="mAJ-7A-4Jt" firstAttribute="leading" secondItem="MU7-HR-Yp5" secondAttribute="trailing" constant="8" id="eXd-ay-m9z"/>
-                                        <constraint firstItem="MU7-HR-Yp5" firstAttribute="leading" secondItem="gjx-bI-2gf" secondAttribute="leadingMargin" id="rW7-GD-P7s"/>
+                                        <constraint firstItem="uXy-zf-yye" firstAttribute="leading" secondItem="W9k-d4-8Mf" secondAttribute="trailing" constant="9" id="9aU-Rc-Uhh"/>
+                                        <constraint firstItem="W9k-d4-8Mf" firstAttribute="top" secondItem="aZf-bA-MK9" secondAttribute="topMargin" constant="4" id="U8P-QC-tBE"/>
+                                        <constraint firstItem="uXy-zf-yye" firstAttribute="leading" secondItem="W9k-d4-8Mf" secondAttribute="trailing" constant="8" id="Wuv-F0-C4Z"/>
+                                        <constraint firstItem="uXy-zf-yye" firstAttribute="top" secondItem="aZf-bA-MK9" secondAttribute="topMargin" constant="6" id="XwL-P2-bSV"/>
+                                        <constraint firstItem="W9k-d4-8Mf" firstAttribute="leading" secondItem="aZf-bA-MK9" secondAttribute="leadingMargin" id="j9B-jj-L3H"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="Ke7-3K-jnF"/>
+                                            <exclude reference="9aU-Rc-Uhh"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="y2U-q4-MvT" kind="show" identifier="showLines" id="SWb-EE-ndB"/>
+                                    <segue destination="sba-0P-Iup" kind="show" id="qiG-bz-XmN"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="matkakorttiCell" id="8D1-U1-tiT">
@@ -8557,15 +8590,15 @@ Helsinki, Finland</string>
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Matkakortti" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wea-yC-Quh">
-                                            <rect key="frame" x="41" y="14" width="135" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matkakortti Monitor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wea-yC-Quh">
+                                            <rect key="frame" x="41" y="14" width="161" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="2ZP-Za-HgY"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="8sH-cG-o0P"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Hnk-yv-O3T"/>
                                                 <constraint firstAttribute="height" constant="21" id="NQg-wF-i0M"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="blI-t7-4WN"/>
-                                                <constraint firstAttribute="width" constant="135" id="t1g-qy-GRN"/>
+                                                <constraint firstAttribute="width" constant="161" id="t1g-qy-GRN"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -8580,7 +8613,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIu-Yy-FtL">
-                                            <rect key="frame" x="0.0" y="1.5" width="600" height="48"/>
+                                            <rect key="frame" x="0.0" y="1" width="600" height="48"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -8758,7 +8791,7 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2-small.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wkq-c7-ZVB">
+                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2-small.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wkq-c7-ZVB">
                                             <rect key="frame" x="9" y="13" width="23" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="23" id="WeL-vA-jMw"/>
@@ -8773,7 +8806,7 @@ Helsinki, Finland</string>
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Commuter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g52-DS-FHA">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About Commuter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g52-DS-FHA">
                                             <rect key="frame" x="41" y="14" width="150" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="AFh-an-wka"/>
@@ -8819,13 +8852,13 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="version-4-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="bbt-Ib-D1B">
-                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
+                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="version-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="bbt-Ib-D1B">
+                                            <rect key="frame" x="6" y="10" width="30" height="30"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="KhH-aQ-iwn"/>
+                                                <constraint firstAttribute="width" constant="30" id="KhH-aQ-iwn"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="Um4-St-Mrg"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="YwQ-cx-OtV"/>
-                                                <constraint firstAttribute="height" constant="25" id="dQn-4A-d2l"/>
+                                                <constraint firstAttribute="height" constant="30" id="dQn-4A-d2l"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -8859,9 +8892,9 @@ Helsinki, Finland</string>
                                     <constraints>
                                         <constraint firstItem="896-gp-o5r" firstAttribute="top" secondItem="6Xm-mM-lGq" secondAttribute="topMargin" constant="6" id="41G-bA-uqu"/>
                                         <constraint firstItem="896-gp-o5r" firstAttribute="leading" secondItem="bbt-Ib-D1B" secondAttribute="trailing" constant="9" id="UOJ-so-f1J"/>
-                                        <constraint firstItem="896-gp-o5r" firstAttribute="leading" secondItem="bbt-Ib-D1B" secondAttribute="trailing" constant="8" id="YPg-WA-dtd"/>
-                                        <constraint firstItem="bbt-Ib-D1B" firstAttribute="top" secondItem="6Xm-mM-lGq" secondAttribute="topMargin" constant="4" id="mPd-Cv-IuD"/>
-                                        <constraint firstItem="bbt-Ib-D1B" firstAttribute="leading" secondItem="6Xm-mM-lGq" secondAttribute="leadingMargin" id="oz8-ae-UNw"/>
+                                        <constraint firstItem="896-gp-o5r" firstAttribute="leading" secondItem="bbt-Ib-D1B" secondAttribute="trailing" constant="5" id="YPg-WA-dtd"/>
+                                        <constraint firstItem="bbt-Ib-D1B" firstAttribute="top" secondItem="6Xm-mM-lGq" secondAttribute="topMargin" constant="2" id="mPd-Cv-IuD"/>
+                                        <constraint firstItem="bbt-Ib-D1B" firstAttribute="leading" secondItem="6Xm-mM-lGq" secondAttribute="leadingMargin" constant="-2" id="oz8-ae-UNw"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -8944,8 +8977,80 @@ Helsinki, Finland</string>
                                     </variation>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rateCell" id="FcN-tF-dfQ">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="shareCell" id="FQ2-Eh-R0o">
                                 <rect key="frame" x="0.0" y="449.5" width="600" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FQ2-Eh-R0o" id="gjx-bI-2gf">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Like Filled-96.png" translatesAutoresizingMaskIntoConstraints="NO" id="MU7-HR-Yp5">
+                                            <rect key="frame" x="9" y="13" width="23" height="23"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="23" id="45u-X5-drZ"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="OBy-hq-dUs"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="aRu-ax-VyA"/>
+                                                <constraint firstAttribute="height" constant="23" id="fBR-Fx-95q"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="OBy-hq-dUs"/>
+                                                    <exclude reference="aRu-ax-VyA"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Spread the love" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAJ-7A-4Jt">
+                                            <rect key="frame" x="41" y="14" width="150" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="ARW-Gp-TMb"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Aos-tM-dkJ"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="O5m-It-Scp"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="dYI-yf-FRO"/>
+                                                <constraint firstAttribute="height" constant="21" id="u5S-CG-Y7V"/>
+                                                <constraint firstAttribute="width" constant="150" id="x9L-Os-SVc"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="ARW-Gp-TMb"/>
+                                                    <exclude reference="Aos-tM-dkJ"/>
+                                                    <exclude reference="O5m-It-Scp"/>
+                                                    <exclude reference="dYI-yf-FRO"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jtZ-Pw-sDF">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="48.5"/>
+                                            <connections>
+                                                <action selector="shareButtonPressed:" destination="Rnq-ES-eJ5" eventType="touchUpInside" id="O2n-J2-q3D"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="mAJ-7A-4Jt" firstAttribute="top" secondItem="gjx-bI-2gf" secondAttribute="topMargin" constant="6" id="KNN-P5-1s9"/>
+                                        <constraint firstItem="mAJ-7A-4Jt" firstAttribute="leading" secondItem="MU7-HR-Yp5" secondAttribute="trailing" constant="9" id="Ke7-3K-jnF"/>
+                                        <constraint firstAttribute="bottom" secondItem="jtZ-Pw-sDF" secondAttribute="bottom" constant="1" id="T9O-JD-nwS"/>
+                                        <constraint firstItem="MU7-HR-Yp5" firstAttribute="top" secondItem="gjx-bI-2gf" secondAttribute="topMargin" constant="5" id="ZKX-DH-Wz7"/>
+                                        <constraint firstItem="mAJ-7A-4Jt" firstAttribute="leading" secondItem="MU7-HR-Yp5" secondAttribute="trailing" constant="9" id="eXd-ay-m9z"/>
+                                        <constraint firstItem="jtZ-Pw-sDF" firstAttribute="top" secondItem="gjx-bI-2gf" secondAttribute="top" id="osQ-h2-oGr"/>
+                                        <constraint firstItem="MU7-HR-Yp5" firstAttribute="leading" secondItem="gjx-bI-2gf" secondAttribute="leadingMargin" constant="1" id="rW7-GD-P7s"/>
+                                        <constraint firstAttribute="trailing" secondItem="jtZ-Pw-sDF" secondAttribute="trailing" id="vua-wv-HF9"/>
+                                        <constraint firstItem="jtZ-Pw-sDF" firstAttribute="leading" secondItem="gjx-bI-2gf" secondAttribute="leading" id="z82-CO-O1e"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="Ke7-3K-jnF"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="y2U-q4-MvT" kind="show" identifier="showLines" id="SWb-EE-ndB"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rateCell" id="FcN-tF-dfQ">
+                                <rect key="frame" x="0.0" y="499.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FcN-tF-dfQ" id="r1l-4o-QIr">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -9037,7 +9142,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="0.98266955389999999" green="0.98266955389999999" blue="0.98266955389999999" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
@@ -9153,9 +9258,6 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.19999999999999968" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="darkGradientBkgrnd.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="H0B-Gr-XAP">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUC-Gw-Ska">
                                 <rect key="frame" x="60" y="60" width="480" height="480"/>
                                 <connections>
@@ -9172,8 +9274,8 @@ Helsinki, Finland</string>
                                     <action selector="pageControlValueChanged:" destination="22G-UU-nOZ" eventType="valueChanged" id="JUs-XS-zBF"/>
                                 </connections>
                             </pageControl>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-M9-Xvv">
-                                <rect key="frame" x="531" y="20" width="68" height="25"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-M9-Xvv">
+                                <rect key="frame" x="531" y="21" width="68" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="1vq-ql-fm4"/>
                                     <constraint firstAttribute="width" constant="68" id="CFi-qf-lHN"/>
@@ -9210,19 +9312,15 @@ Helsinki, Finland</string>
                             <constraint firstItem="9ui-Dl-VgS" firstAttribute="leading" secondItem="Vht-3u-AZe" secondAttribute="leadingMargin" id="6c3-fc-BVU"/>
                             <constraint firstItem="wUC-Gw-Ska" firstAttribute="width" secondItem="Vht-3u-AZe" secondAttribute="width" multiplier="0.8" id="8oV-qf-A7k"/>
                             <constraint firstAttribute="centerX" secondItem="mds-5v-6WT" secondAttribute="centerX" id="8t5-QD-3gu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="H0B-Gr-XAP" secondAttribute="trailing" constant="-16" id="9kM-sG-f6Q"/>
-                            <constraint firstItem="gVg-M9-Xvv" firstAttribute="top" secondItem="4yO-IH-QaE" secondAttribute="bottom" id="BOu-Tx-jrl"/>
+                            <constraint firstItem="gVg-M9-Xvv" firstAttribute="top" secondItem="4yO-IH-QaE" secondAttribute="bottom" constant="1" id="BOu-Tx-jrl"/>
                             <constraint firstItem="8sX-Uq-vFd" firstAttribute="top" secondItem="4yO-IH-QaE" secondAttribute="bottom" constant="2" id="Blg-Gi-S4D"/>
                             <constraint firstItem="8sX-Uq-vFd" firstAttribute="leading" secondItem="9ui-Dl-VgS" secondAttribute="trailing" constant="14" id="EaP-Vk-aaC"/>
                             <constraint firstAttribute="centerX" secondItem="wUC-Gw-Ska" secondAttribute="centerX" id="FrG-ib-uxb"/>
                             <constraint firstItem="9ui-Dl-VgS" firstAttribute="top" secondItem="4yO-IH-QaE" secondAttribute="bottom" constant="1" id="IAl-Kh-3aT"/>
                             <constraint firstItem="mds-5v-6WT" firstAttribute="top" secondItem="wUC-Gw-Ska" secondAttribute="bottom" constant="-5" id="J50-hl-vub"/>
-                            <constraint firstItem="ddC-X6-D5B" firstAttribute="top" secondItem="H0B-Gr-XAP" secondAttribute="bottom" id="L4i-QL-Ymh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="gVg-M9-Xvv" secondAttribute="trailing" constant="-15" id="LNH-B5-mGX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gVg-M9-Xvv" secondAttribute="trailing" constant="-19" id="LNH-B5-mGX"/>
                             <constraint firstItem="ddC-X6-D5B" firstAttribute="top" secondItem="mds-5v-6WT" secondAttribute="bottom" constant="18" id="TOO-SP-KVs"/>
-                            <constraint firstItem="H0B-Gr-XAP" firstAttribute="leading" secondItem="Vht-3u-AZe" secondAttribute="leadingMargin" constant="-16" id="XBZ-6x-kdA"/>
                             <constraint firstAttribute="centerY" secondItem="wUC-Gw-Ska" secondAttribute="centerY" id="XKq-bn-Zxv"/>
-                            <constraint firstItem="H0B-Gr-XAP" firstAttribute="top" secondItem="Vht-3u-AZe" secondAttribute="topMargin" id="mvL-Cw-nKL"/>
                             <constraint firstItem="wUC-Gw-Ska" firstAttribute="height" secondItem="Vht-3u-AZe" secondAttribute="height" multiplier="0.8" id="pqk-y9-qqw"/>
                         </constraints>
                         <variation key="default">
@@ -9275,7 +9373,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -9299,7 +9397,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -9346,7 +9444,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -9461,7 +9559,7 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </textAttributes>
@@ -9483,7 +9581,7 @@ Helsinki, Finland</string>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="uzD-HY-pBi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -9498,8 +9596,8 @@ Helsinki, Finland</string>
     <resources>
         <image name="Bar Chart-100.png" width="100" height="100"/>
         <image name="Edit-gray-100.png" width="100" height="100"/>
-        <image name="Empty Flag-96.png" width="96" height="96"/>
         <image name="Info-red-filled-50.png" width="50" height="50"/>
+        <image name="Like Filled-96.png" width="96" height="96"/>
         <image name="Options-colored-100.png" width="100" height="100"/>
         <image name="Up Left Filled-100.png" width="100" height="100"/>
         <image name="add-button-white.png" width="100" height="100"/>
@@ -9517,14 +9615,12 @@ Helsinki, Finland</string>
         <image name="currentLocation-black.png" width="64" height="83"/>
         <image name="currentLocation3.png" width="285" height="284"/>
         <image name="dark-dotted-line.png" width="6" height="121"/>
-        <image name="darkGradientBkgrnd.jpeg" width="707" height="1193"/>
         <image name="disruptions-color-100.png" width="100" height="100"/>
         <image name="dropped-pin-100.png" width="100" height="100"/>
         <image name="exchange-arrows-white.png" width="151" height="184"/>
         <image name="expand-arrow-50.png" width="100" height="100"/>
         <image name="home-100.png" width="100" height="100"/>
         <image name="idea-75.png" width="75" height="75"/>
-        <image name="lines-color-100.png" width="100" height="100"/>
         <image name="list-white-100.png" width="100" height="70"/>
         <image name="list_nearBy.png" width="284" height="284"/>
         <image name="live-vehicle-color-100.png" width="100" height="100"/>
@@ -9546,6 +9642,7 @@ Helsinki, Finland</string>
         <image name="routeHistoryIcon.png" width="80" height="80"/>
         <image name="routeIcon2.png" width="80" height="80"/>
         <image name="search-75.png" width="75" height="75"/>
+        <image name="servicePointAnnotation.png" width="40" height="45"/>
         <image name="settings-color-100.png" width="100" height="100"/>
         <image name="settings-white-100.png" width="100" height="100"/>
         <image name="star-128.png" width="128" height="128"/>
@@ -9555,7 +9652,7 @@ Helsinki, Finland</string>
         <image name="tram-filled-green-100.png" width="100" height="100"/>
         <image name="up-right-arrow-32.png" width="64" height="64"/>
         <image name="user-50.png" width="50" height="50"/>
-        <image name="version-4-color-100.png" width="100" height="100"/>
+        <image name="version-2.png" width="96" height="96"/>
         <image name="walking-gray-64.png" width="64" height="64"/>
         <image name="warning-exclamation.png" width="48" height="48"/>
         <image name="work-filled-100.png" width="100" height="100"/>
@@ -9565,18 +9662,18 @@ Helsinki, Finland</string>
         <segue reference="DEk-ct-YDr"/>
         <segue reference="oJb-eU-zeZ"/>
         <segue reference="X8p-rp-E0z"/>
-        <segue reference="tk7-jO-rac"/>
-        <segue reference="9x7-C0-VCu"/>
-        <segue reference="e2V-qU-oq6"/>
+        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="hh1-iT-Xmm"/>
         <segue reference="lwh-ia-2sg"/>
+        <segue reference="Ltu-K0-x4G"/>
         <segue reference="U9A-P0-Va2"/>
         <segue reference="G3y-0T-rdq"/>
+        <segue reference="F7i-cJ-TYg"/>
         <segue reference="4lM-KH-B6v"/>
-        <segue reference="fk8-2d-CEg"/>
-        <segue reference="XlZ-XU-H5m"/>
         <segue reference="YpZ-AP-yAo"/>
+        <segue reference="XlZ-XU-H5m"/>
+        <segue reference="fk8-2d-CEg"/>
         <segue reference="gyd-GV-CrX"/>
         <segue reference="ocH-Qu-aOm"/>
-        <segue reference="Oy7-Ij-ap3"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -9,6 +9,7 @@
 #import "WelcomeViewController.h"
 #import "DetailImageView.h"
 #import "AppManager.h"
+#import "ASA_Helpers.h"
 
 @interface WelcomeViewController ()
 
@@ -21,6 +22,8 @@
     // Do any additional setup after loading the view.
     
     doneButton.layer.cornerRadius = 10;
+    
+    [self.view asa_SetBlurredBackgroundWithImageNamed:nil];
     
 //    logoImageView.alpha = 0;
 //    viewTitle.alpha = 0;
@@ -82,11 +85,33 @@
 //                          @"See more from the newly designed route results including leg durations and waiting times.",
 //                          @"Wanted to go somewhere but don't know the address? Just long press the place and go. Press on the map of course.", nil];
     
-    NSArray *imagesArray = [NSArray arrayWithObjects:@"new-mapview.png",@"new-bookmarks.png", nil];
-    NSArray *titleArray = [NSArray arrayWithObjects:@"Live vehicles",
-                           @"Live bookmarks", nil];
-    NSArray *descArray = [NSArray arrayWithObjects:@"See realtime location of your ride. Might save you from running your lungs out. (only in Helsinki region)",
-                          @"See route suggestions right from the new revamped bookmarks view.",nil];
+    NSArray *imagesArray = [NSArray arrayWithObjects:@"newRoutesWidget.png",
+                            @"newNearbyDepartures.png",
+                            @"new3dTouchShortcuts.png",
+                            @"new3dPeekandPop.png",
+                            @"newLiveVehiclesInLines.png",
+                            @"routeDisruptions.png",
+                            @"newAutomaticDepartures.png",
+                            @"newServicePoints.png",
+                            nil];
+    NSArray *titleArray = [NSArray arrayWithObjects:@"Routes Widget",
+                           @"Nearby Departures",
+                           @"App Shortcuts",
+                           @"Peek and Pop",
+                           @"Live Lines",
+                           @"Disruptions",
+                           @"Automatic Departures",
+                           @"Sales Points",
+                           nil];
+    NSArray *descArray = [NSArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses.",
+                          @"See departures from stops near you easily.",
+                          @"Even more way for a quick access for routes to your saved addresses.",
+                          @"To scared to leave the route view, but still want to see the time table at some stop? Well, now you can just peek at it without leaving.",
+                          @"Lines view has gotten live. See where exactly the tram or train is on the line.",
+                          @"Get disruption info that affects your searched routes only. We didn't think you'd care about a canceled train 30kms away.",
+                          @"In another 'Not-doing-much' edition, you only need to open the bookmarks view to see departures from your favourite stops.",
+                          @"Let's say hypothetically you woke up on a saturday somewhere you never been before, with no value on your travel card. Don't worry.",
+                          nil];
     
     float xPosition = 0;
 //    float width = 0.8 * self.view.frame.size.width;
@@ -129,6 +154,8 @@
     [mainScrollView layoutIfNeeded];
     
     mainScrollView.contentSize = CGSizeMake(xPosition, vFrame.size.height);
+    
+    pageControl.numberOfPages = imagesArray.count + 1;
 }
 
 

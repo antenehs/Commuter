@@ -48,4 +48,26 @@
     
     return snapshotImage;
 }
+
+- (void)asa_SetBlurredBackgroundWithImageNamed:(NSString *)imageName{
+    if (imageName == nil) {
+        imageName = @"launch-screen-bkgrnd-3.png";
+    }
+    
+    UIView *bluredBackViewContainer = [[UIView alloc] initWithFrame:self.bounds];
+    bluredBackViewContainer.backgroundColor = [UIColor whiteColor];
+    UIImageView *pictureView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    pictureView.frame = bluredBackViewContainer.frame;
+    pictureView.alpha = 0.5;
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    blurEffectView.frame = self.bounds;
+    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    [bluredBackViewContainer addSubview:pictureView];
+    [bluredBackViewContainer addSubview:blurEffectView];
+    
+    [self insertSubview:bluredBackViewContainer atIndex:0];
+}
 @end

@@ -766,6 +766,7 @@ const NSInteger kTimerRefreshInterval = 15;
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
         
+        [self loadSavedValues];
         if (listSegmentControl.selectedSegmentIndex == 0) {
             [self setUpViewForTheSelectedMode];
         }
@@ -1276,7 +1277,6 @@ const NSInteger kTimerRefreshInterval = 15;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
         controller.namedBookmark = selected;
-//        controller.droppedPinGeoCode = self.droppedPinGeoCode;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
         controller.managedObjectContext = self.reittiDataManager.managedObjectContext;
         controller.currentUserLocation = self.currentUserLocation;

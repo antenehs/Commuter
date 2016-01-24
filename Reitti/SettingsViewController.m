@@ -65,7 +65,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         //----------
         mapSectionNumberOfRows = 0;
         mapTypeRow = mapSectionNumberOfRows++;
-        liveVehiclesRow = mapSectionNumberOfRows++;
+        liveVehiclesRow = [self.settingsManager userLocation] == HSLRegion ? mapSectionNumberOfRows++ : -1;
         
         mapSettingsSection = sectionNumber++;
         
@@ -262,17 +262,15 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == startingTabSection) {
-        return 85;
-    }else{
-        return 50;
-    }
+    return 50;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
     if (!self.advancedSettingsMode) {
         if (section == advancedSettingSection)
+            return 50;
+        else if (section == mapSettingsSection && mapSectionNumberOfRows == liveVehiclesRow + 1)
             return 50;
         else
             return 0;
@@ -281,14 +279,12 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     }
 }
 
-//-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
-//    if (section == widgetSettingSection)
-//        return @"Setup the stops that will be displayed in the Departures Widget in notification center.";
-//    else if (section == otherSettingsSection)
-//        return @"Restricts address searches to the selected area. Will be updated automatically when moving to another area.";
-//    
-//    return @"";
-//}
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section == startingTabSection)
+        return @"OPEN TAB WHEN APP STARTS";
+    
+    return @"";
+}
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == advancedModeSection && trackingOptionRow > -1 && self.advancedSettingsMode) {
@@ -308,6 +304,18 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         moreInfoButton.tintColor = [AppManager systemGreenColor];
         [moreInfoButton setTitleColor:[AppManager systemGreenColor] forState:UIControlStateNormal];
         [view addSubview:moreInfoButton];
+        
+        [view addSubview:textLabel];
+        
+        return view;
+    }else if (section == mapSettingsSection && mapSectionNumberOfRows == liveVehiclesRow + 1){
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 70)];
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40, 50)];
+        textLabel.font = [textLabel.font fontWithSize:10];
+        textLabel.textColor = [UIColor darkGrayColor];
+        textLabel.numberOfLines = 0;
+        textLabel.textAlignment = NSTextAlignmentCenter;
+        textLabel.text = @"Only disables live vehicles on the 'Map' tab. Live vehicles will still be shown on routes and lines.";
         
         [view addSubview:textLabel];
         
@@ -357,6 +365,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     UISegmentedControl *segmentControl = (UISegmentedControl *)sender;
     if (segmentControl) {
         [SettingsManager setStartingIndexTab:segmentControl.selectedSegmentIndex];
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedStartingTabOption label:[NSString stringWithFormat:@"%d", (int)segmentControl.selectedSegmentIndex] value:nil];
     }
 }
 
@@ -384,7 +394,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 
 - (IBAction)rateAppCellPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
 }
 
 #pragma mark - tone selector view controller delegate
@@ -516,7 +526,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     if ([segue.identifier isEqualToString:@"showTrackingInfo"]) {
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
         WebViewController *webViewController = (WebViewController *)[navController.viewControllers lastObject];
-        NSURL *url = [NSURL URLWithString:@"http://ewketapps.weebly.com/commuter-usage-tracking.html"];
+        NSURL *url = [NSURL URLWithString:@"http://commuterapp.weebly.com/"];
         
         webViewController.modalMode = YES;
         webViewController._url = url;

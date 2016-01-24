@@ -2104,7 +2104,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if (buttonIndex == 0) {
             [self.reittiDataManager setAppOpenCountValue:-7];
         }else if(buttonIndex == 1){
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id1023398868"]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
             [self.reittiDataManager setAppOpenCountValue:-50];
         }
     }else if (alertView.tag == 1003) {
@@ -2322,7 +2322,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)detailStopFetchCompleted:(BusStop *)stop{
     //TODO: Set linesCodes to the bus stop short
     //TODO: Check the selected anotation is the right one
-    if (selectedAnnotationView) {
+    if (selectedAnnotationView && stop.linesString && stop.linesString.length > 0) {
         [selectedAnnotationView setSubtitleLabelText:[NSString stringWithFormat:@"Lines: %@", stop.linesString]];
     }
 }
