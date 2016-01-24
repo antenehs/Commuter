@@ -42,26 +42,24 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.aikatauluApp.commuter</string>
+			<string>com.aikatauluApp.commuterPro</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>CommuterMainApp</string>
+				<string>CommuterProMainApp</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>IsProVersion</key>
-	<false/>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>matkakorttimonitorapp</string>
@@ -95,7 +93,7 @@
 		<string>Aspergit Light.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreenPro</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

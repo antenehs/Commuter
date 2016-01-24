@@ -41,7 +41,8 @@
     
     [self hideStopsListView:YES animated:NO];
     
-    [self startFetchingLiveVehicles];
+    if ([AppManager isProVersion])
+        [self startFetchingLiveVehicles];
     
     viewApearForTheFirstTime = YES;
 }

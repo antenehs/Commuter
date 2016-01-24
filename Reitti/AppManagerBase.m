@@ -9,7 +9,8 @@
 #import "AppManagerBase.h"
 
 //group.com.ewketApps.commuterDepartures
-NSString *kUserDefaultsSuitNameForDeparturesWidget = @"group.com.ewketApps.commuterProDepartures";
+NSString *kUserDefaultsSuitNameForDeparturesWidget = @"group.com.ewketApps.commuterDepartures";
+NSString *kUserDefaultsSuitNameForProDeparturesWidget = @"group.com.ewketApps.commuterProDepartures";
 NSString *kUserDefaultsSuitNameForRoutesWidget = @"group.com.ewketApps.commuterProRoutes";
 
 NSString *kUserDefaultsNamedBookmarksKey = @"namedBookmarksDictionary";
@@ -17,9 +18,11 @@ NSString *kUserDefaultsSavedStopsKey = @"savedStopsCodesList";
 
 NSString *urlSpaceEscapingString = @"%20";
 
-NSString *kAppFullName = @"Commuter Pro";
+NSString *kProAppFullName = @"Commuter Pro";
+NSString *kAppFullName = @"Commuter";
 //
-NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
+NSString *kProAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
+NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id861274235";
 
 @implementation AppManagerBase
 
@@ -53,6 +56,19 @@ NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 }
 
++(BOOL)isProVersion{
+    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+    
+    if (!infoPlist)
+        return YES;
+    
+    NSNumber * isProVersion = infoPlist[@"IsProVersion"];
+    if (isProVersion)
+        return [isProVersion boolValue];
+    
+    return YES;
+}
+
 +(NSString *)iosDeviceModel{
     return [[UIDevice currentDevice] model];
 }
@@ -61,21 +77,50 @@ NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
     return [[UIDevice currentDevice] systemVersion];
 }
 
++(NSString *)nsUserDefaultsStopsWidgetSuitName{
+    if ([self isProVersion])
+        return kUserDefaultsSuitNameForProDeparturesWidget;
+    else
+        return kUserDefaultsSuitNameForDeparturesWidget;
+}
+
++(NSString *)nsUserDefaultsRoutesWidgetSuitName{
+    return kUserDefaultsSuitNameForRoutesWidget;
+}
+
++(NSString *)appFullName{
+    if ([self isProVersion])
+        return kProAppFullName;
+    else
+        return kAppFullName;
+}
+
 +(UIImage *)roundedAppLogoSmall{
-    return [UIImage imageNamed:@"app-pro-logo-rounded2-small.png"];
+    if ([self isProVersion])
+        return [UIImage imageNamed:@"app-pro-logo-rounded2-small.png"];
+    else
+        return [UIImage imageNamed:@"app-logo-rounded.png"];
 }
 
 +(UIImage *)roundedAppLogoLarge{
-    return [UIImage imageNamed:@"app-pro-logo-rounded2.png"];
+    if ([self isProVersion])
+        return [UIImage imageNamed:@"app-pro-logo-rounded2.png"];
+    else
+        return [UIImage imageNamed:@"app-logo-rounded.png"];
 }
 
 +(UIImage *)appVersionPicture{
-//    return [UIImage imageNamed:@"version-5.png"];
-    return [UIImage imageNamed:@"version-2.png"];
+    if ([self isProVersion])
+        return [UIImage imageNamed:@"version-2.png"];
+    else
+        return [UIImage imageNamed:@"version-5.png"];
 }
 
 +(NSString *)appAppstoreLink{
-    return kAppAppstoreLink;
+    if ([self isProVersion])
+        return kProAppAppstoreLink;
+    else
+        return kAppAppstoreLink;
 }
 
 +(NSString *)matkakorttiAppAppstoreUrl{
@@ -83,8 +128,10 @@ NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
 }
 
 +(NSString *)mainAppUrl{
-//    return @"CommuterMainApp://";
-    return @"CommuterProMainApp://";
+    if ([self isProVersion])
+        return @"CommuterProMainApp://";
+    else
+        return @"CommuterMainApp://";
 }
 
 //#1CAC7F

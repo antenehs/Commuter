@@ -42,13 +42,13 @@ NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
 }
 
 -(MFMailComposeViewController *)mailComposeVcForFeatureRequestEmail{
-    NSString *subject = [NSString stringWithFormat:@"[%@ Feature Request] - ", kAppFullName];
+    NSString *subject = [NSString stringWithFormat:@"[%@ Feature Request] - ", [AppManager appFullName]];
     
     return [self basicMaincomposeVcWithSubject:subject];
 }
 
 -(MFMailComposeViewController *)mailComposeVcForBugReportEmail{
-    NSString *subject = [NSString stringWithFormat:@"[%@ Bug Report] - ", kAppFullName];
+    NSString *subject = [NSString stringWithFormat:@"[%@ Bug Report] - ", [AppManager appFullName]];
     
     MFMailComposeViewController *mc = [self basicMaincomposeVcWithSubject:subject];
 //    [mc addAttachmentData:[self debugTextFileData] mimeType:@"text/plain" fileName:@"Debug.txt"];
@@ -58,7 +58,7 @@ NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
 }
 
 -(MFMailComposeViewController *)mailComposeVcForHiEmail{
-    NSString *subject = [NSString stringWithFormat:@"[%@ - Hi] - ", kAppFullName];
+    NSString *subject = [NSString stringWithFormat:@"[%@ - Hi] - ", [AppManager appFullName]];
     
     return [self basicMaincomposeVcWithSubject:subject];
 }

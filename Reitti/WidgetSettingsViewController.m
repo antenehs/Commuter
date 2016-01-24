@@ -62,7 +62,7 @@
 
 - (void)initUserDefaults{
 //    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
+    self.widgetUserDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
 }
 
 -(void)readSelectedStops{

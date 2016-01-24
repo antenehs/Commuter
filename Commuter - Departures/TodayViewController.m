@@ -43,7 +43,7 @@
     [self setUpView];
     
 //    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsStopsWidgetSuitName]];
     [self fetchSavedStopsFromDefaults];
     
     totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
