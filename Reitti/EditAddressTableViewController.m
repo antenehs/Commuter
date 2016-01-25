@@ -474,7 +474,8 @@
                 self.namedBookmark = [self.reittiDataManager saveNamedBookmarkToCoreData:newBookmark];
                 dataSaved = YES;
                 [self dismissViewControllerAnimated:YES completion:^(){
-                    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmark.name value:nil];
+                    NSArray *allBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+                    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmark.name value:allBookmarks ? [NSNumber numberWithInteger:allBookmarks.count] : @0];
                 }];
             }else{
                 [ReittiNotificationHelper showSimpleMessageWithTitle:@"Bookmark with the name exists already" andContent:@"Please give another name."];

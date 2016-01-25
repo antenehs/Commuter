@@ -27,13 +27,7 @@
 @implementation RettiDataManager
 
 @synthesize managedObjectContext;
-//@synthesize geocodeSearchdelegate;
-//@synthesize reverseGeocodeSearchdelegate;
-//@synthesize lineSearchdelegate;
-//@synthesize disruptionFetchDelegate;
 @synthesize hslCommunication, treCommunication, pubTransAPI;
-//@synthesize detailLineInfo;
-//@synthesize stopLinesInfo;
 @synthesize allHistoryStopCodes;
 @synthesize allSavedStopCodes;
 @synthesize allRouteHistoryCodes, allSavedRouteCodes;
@@ -366,10 +360,10 @@
             
             if (!error) {
                 completionBlock(response, nil);
-                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-                    //Update the saved data with new data. Lines could be changed
-                    [self updateSavedStopIfItExists:response];
-                }];
+//                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
+//                    //Update the saved data with new data. Lines could be changed
+//                    [self updateSavedStopIfItExists:response];
+//                }];
             }else{
                 stopFetchFailedCount++;
                 if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
@@ -382,10 +376,10 @@
             
             if (!error) {
                 completionBlock(response, nil);
-                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-                    //Update the saved data with new data. Lines could be changed
-                    [self updateSavedStopIfItExists:response];
-                }];
+//                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
+//                    //Update the saved data with new data. Lines could be changed
+//                    [self updateSavedStopIfItExists:response];
+//                }];
             }else{
                 stopFetchFailedCount++;
                 if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
@@ -401,10 +395,10 @@
                 
                 if (!error) {
                     completionBlock(response, nil);
-                    [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-                        //Update the saved data with new data. Lines could be changed
-                        [self updateSavedStopIfItExists:response];
-                    }];
+//                    [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
+//                        //Update the saved data with new data. Lines could be changed
+//                        [self updateSavedStopIfItExists:response];
+//                    }];
                 }else{
                     completionBlock(nil, error);
                 }
