@@ -1044,11 +1044,16 @@ typedef enum
             
             //Disruptions
             UIButton *disruptionsButton = (UIButton *)[cell viewWithTag:3001];
-            BOOL thereAreDisruptions = [self disruptionsForRoute:route] != nil;
-            disruptionsButton.hidden = !thereAreDisruptions;
-            if (thereAreDisruptions) {
-                disruptionsButton.layer.cornerRadius = disruptionsButton.frame.size.width/2;
+            if ([AppManager isProVersion]) {
+                BOOL thereAreDisruptions = [self disruptionsForRoute:route] != nil;
+                disruptionsButton.hidden = !thereAreDisruptions;
+                if (thereAreDisruptions) {
+                    disruptionsButton.layer.cornerRadius = disruptionsButton.frame.size.width/2;
+                }
+            }else{
+                disruptionsButton.hidden = YES;
             }
+            
         }
         
         UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 129.5, self.view.frame.size.width, 0.5)];

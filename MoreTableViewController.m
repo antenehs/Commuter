@@ -120,8 +120,8 @@
     numberOfSection = 0;
     
     numberOfMoreFeatures = 0;
-    routinesRow = numberOfMoreFeatures++;
-    ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    routinesRow = [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
+    ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion && [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
     matkakorttiRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
     disruptionsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
     

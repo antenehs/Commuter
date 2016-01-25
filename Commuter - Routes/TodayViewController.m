@@ -74,7 +74,7 @@
 }
 
 - (void)readNamedBookmarksFromUserDefaults {
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForRoutesWidget];
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesWidgetSuitName]];
     NSArray *namedBookmarkDictionaries = [self.sharedDefaults objectForKey:kUserDefaultsNamedBookmarksKey];
     NSLog(@"%@", namedBookmarkDictionaries);
     

@@ -31,6 +31,7 @@
 //    doneButton.alpha = 0;
 //    mainScrollView.alpha = 0;
     
+    logoImageView.image = [AppManager roundedAppLogoSmall];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -85,7 +86,7 @@
 //                          @"See more from the newly designed route results including leg durations and waiting times.",
 //                          @"Wanted to go somewhere but don't know the address? Just long press the place and go. Press on the map of course.", nil];
     
-    NSArray *imagesArray = [NSArray arrayWithObjects:@"newRoutesWidget.png",
+    NSMutableArray *imagesArray = [NSMutableArray arrayWithObjects:@"newRoutesWidget.png",
                             @"newNearbyDepartures.png",
                             @"new3dTouchShortcuts.png",
                             @"new3dPeekandPop.png",
@@ -94,7 +95,7 @@
                             @"newAutomaticDepartures.png",
                             @"newServicePoints.png",
                             nil];
-    NSArray *titleArray = [NSArray arrayWithObjects:@"Routes Widget",
+    NSMutableArray *titleArray = [NSMutableArray arrayWithObjects:@"Routes Widget",
                            @"Nearby Departures",
                            @"App Shortcuts",
                            @"Peek and Pop",
@@ -103,7 +104,7 @@
                            @"Automatic Departures",
                            @"Sales Points",
                            nil];
-    NSArray *descArray = [NSArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses.",
+    NSMutableArray *descArray = [NSMutableArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses.",
                           @"See departures from stops near you easily.",
                           @"Even more way for a quick access for routes to your saved addresses.",
                           @"To scared to leave the route view, but still want to see the time table at some stop? Well, now you can just peek at it without leaving.",
@@ -112,6 +113,31 @@
                           @"In another 'Not-doing-much' edition, you only need to open the bookmarks view to see departures from your favourite stops.",
                           @"Let's say hypothetically you woke up on a saturday somewhere you never been before, with no value on your travel card. Don't worry.",
                           nil];
+    
+    if (![AppManager isProVersion]) {
+        //REmove backwards to prevent changing of indexes
+        
+        [imagesArray addObject:@"newLinesView.png"];
+        
+        [imagesArray removeObjectAtIndex:7];
+        [imagesArray removeObjectAtIndex:5];
+        [imagesArray removeObjectAtIndex:4];
+        [imagesArray removeObjectAtIndex:0];
+        
+        [titleArray addObject:@"Redesigned Lines"];
+        
+        [titleArray removeObjectAtIndex:7];
+        [titleArray removeObjectAtIndex:5];
+        [titleArray removeObjectAtIndex:4];
+        [titleArray removeObjectAtIndex:0];
+        
+        [descArray addObject:@"Lines view is redesigned to automatically suggest lines from stops near you and your favourite stops."];
+        
+        [descArray removeObjectAtIndex:7];
+        [descArray removeObjectAtIndex:5];
+        [descArray removeObjectAtIndex:4];
+        [descArray removeObjectAtIndex:0];
+    }
     
     float xPosition = 0;
 //    float width = 0.8 * self.view.frame.size.width;

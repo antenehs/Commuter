@@ -25,7 +25,7 @@
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="kPs-8U-jCa">
                     <rect key="frame" x="231" y="405" width="20" height="20"/>
                 </activityIndicatorView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2.png" translatesAutoresizingMaskIntoConstraints="NO" id="DG1-Lg-mHX">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-logo-rounded.png" translatesAutoresizingMaskIntoConstraints="NO" id="DG1-Lg-mHX">
                     <rect key="frame" x="150" y="70" width="180" height="180"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="180" id="82z-AC-wQ1"/>
@@ -72,7 +72,7 @@
         </view>
     </objects>
     <resources>
-        <image name="app-pro-logo-rounded2.png" width="1034" height="1047"/>
+        <image name="app-logo-rounded.png" width="364" height="368"/>
         <image name="ewketapps-logo.png" width="281" height="65"/>
         <image name="launch-screen-bkgrnd-1.png" width="1000" height="668"/>
     </resources>

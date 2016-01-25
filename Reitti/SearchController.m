@@ -121,6 +121,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     //Test
+    [AppManager isProVersion];
 }
 
 //-(void)viewWillAppear:(BOOL)animated{
@@ -443,7 +444,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.reittiDataManager updateSavedStopsDefaultValueForStops:savedStops];
     //test
 //    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
+    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
     NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 

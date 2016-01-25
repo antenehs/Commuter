@@ -9,16 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-extern NSString *kUserDefaultsSuitNameForDeparturesWidget;
-extern NSString *kUserDefaultsSuitNameForRoutesWidget;
+//extern NSString *kUserDefaultsSuitNameForDeparturesWidget;
+//extern NSString *kUserDefaultsSuitNameForRoutesWidget;
 
 extern NSString *kUserDefaultsNamedBookmarksKey;
 extern NSString *kUserDefaultsSavedStopsKey;
 
 extern NSString *urlSpaceEscapingString;
 
-extern NSString *kAppFullName;
-extern NSString *kAppAppstoreLink;
+//extern NSString *kAppFullName;
+//extern NSString *kAppAppstoreLink;
 
 @interface AppManagerBase : NSObject
 
@@ -27,8 +27,15 @@ extern NSString *kAppAppstoreLink;
 +(void)setCurrentAppVersion;
 +(NSString *)currentAppVersion;
 
++(BOOL)isProVersion;
+
 +(NSString *)iosDeviceModel;
 +(NSString *)iosVersionNumber;
+
++(NSString *)nsUserDefaultsStopsWidgetSuitName;
++(NSString *)nsUserDefaultsRoutesWidgetSuitName;
+
++(NSString *)appFullName;
 
 +(UIImage *)roundedAppLogoSmall;
 +(UIImage *)roundedAppLogoLarge;

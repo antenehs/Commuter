@@ -987,7 +987,7 @@
         [namedBookmarkDictionaries addObject:[nmdBookmark dictionaryRepresentation]];
     }
     
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForRoutesWidget];
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesWidgetSuitName]];
     
     [sharedDefaults setObject:namedBookmarkDictionaries forKey:kUserDefaultsNamedBookmarksKey];
     [sharedDefaults synchronize];
@@ -1009,7 +1009,7 @@
     
 //    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
 
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
 //    NSDictionary *defaults = @{@"StopCodes" : codes, };
     
     [sharedDefaults setObject:codes forKey:@"StopCodes"];
@@ -1018,7 +1018,7 @@
 
 -(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
 //    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:kUserDefaultsSuitNameForDeparturesWidget];
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
     NSString *selectedCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
     
     if (allStops == nil) {
