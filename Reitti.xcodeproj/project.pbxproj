@@ -701,7 +701,6 @@
 		66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
 		66C733D61C556DA5002544BC /* app-pro-logo-rounded-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0911B652D8F00DC20D0 /* app-pro-logo-rounded-small.png */; };
 		66C733D71C556DA5002544BC /* polyline-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEA1992740F000B4F18 /* polyline-75.png */; };
-		66C733D81C556DA5002544BC /* Finland_road_sign_532.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */; };
 		66C733D91C556DA5002544BC /* previous-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749E51AE6D7E00050137E /* previous-green-100.png */; };
 		66C733DA1C556DA5002544BC /* Home-black-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D7551C0CA6B200ACCC3A /* Home-black-50.png */; };
 		66C733DB1C556DA5002544BC /* bus-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFF71992B124000B4F18 /* bus-75.png */; };
@@ -1246,7 +1245,6 @@
 		66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */; };
 		66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
 		66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumbnail.m */; };
-		66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */; };
 		66CEE29C1A01AF650089A6F9 /* annotationFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29B1A01AF650089A6F9 /* annotationFrame.png */; };
 		66CEE29E1A01B6F70089A6F9 /* stopAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */; };
 		66CEE2A01A01B8850089A6F9 /* geoCodeAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */; };
@@ -2148,7 +2146,6 @@
 		66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotation.m; sourceTree = "<group>"; };
 		66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotationView.h; sourceTree = "<group>"; };
 		66CEE29319FED9810089A6F9 /* JPSThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnail.m; sourceTree = "<group>"; };
-		66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Finland_road_sign_532.svg.png; sourceTree = "<group>"; };
 		66CEE29B1A01AF650089A6F9 /* annotationFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = annotationFrame.png; path = "Pictures/Version 2.2/annotationFrame.png"; sourceTree = "<group>"; };
 		66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopAnnotation.png; path = "Pictures/Version 2.2/stopAnnotation.png"; sourceTree = "<group>"; };
 		66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = geoCodeAnnotation.png; path = "Pictures/Version 2.2/geoCodeAnnotation.png"; sourceTree = "<group>"; };
@@ -3674,7 +3671,6 @@
 				66CEE29F1A01B8850089A6F9 /* geoCodeAnnotation.png */,
 				66CEE29D1A01B6F70089A6F9 /* stopAnnotation.png */,
 				66CEE29B1A01AF650089A6F9 /* annotationFrame.png */,
-				66CEE29719FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png */,
 				66CEE28319FAF2400089A6F9 /* warningIconRounded.png */,
 			);
 			name = "New Version 2.2";
@@ -4277,7 +4273,6 @@
 				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
 				6663A0941B652D8F00DC20D0 /* app-pro-logo-rounded-small.png in Resources */,
 				664ADFEF1992740F000B4F18 /* polyline-75.png in Resources */,
-				66CEE29819FEDE0A0089A6F9 /* Finland_road_sign_532.svg.png in Resources */,
 				664749E71AE6D7E00050137E /* previous-green-100.png in Resources */,
 				6665D7671C0CA6B200ACCC3A /* Home-black-50.png in Resources */,
 				664ADFF81992B124000B4F18 /* bus-75.png in Resources */,
@@ -4666,7 +4661,6 @@
 				66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */,
 				66C733D61C556DA5002544BC /* app-pro-logo-rounded-small.png in Resources */,
 				66C733D71C556DA5002544BC /* polyline-75.png in Resources */,
-				66C733D81C556DA5002544BC /* Finland_road_sign_532.svg.png in Resources */,
 				66C733D91C556DA5002544BC /* previous-green-100.png in Resources */,
 				66C733DA1C556DA5002544BC /* Home-black-50.png in Resources */,
 				66C733DB1C556DA5002544BC /* bus-75.png in Resources */,
@@ -5897,6 +5891,32 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"${PODS_ROOT}/Google/Headers/**",
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Google\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Google/Google\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"/**",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
+				);
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -5923,6 +5943,32 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"${PODS_ROOT}/Google/Headers/**",
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Google\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Google/Google\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/CoreData\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/Network\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/ObjectMapping\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit/Support\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Vendor/LibComponentLogging/Core\"/**",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
+				);
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -5990,6 +6036,26 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"${PODS_ROOT}/Google/Headers/**",
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Google\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
+				);
 				INFOPLIST_FILE = "Reitti copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -6016,6 +6082,26 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reitti/Reitti-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"${PODS_ROOT}/Google/Headers/**",
+					"$(inherited)/**",
+					"\"${PODS_ROOT}/Headers/Public\"/**",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"/**",
+					"\"${PODS_ROOT}/Headers/Public/Google\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"/**",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"/**",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"/**",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
+				);
 				INFOPLIST_FILE = "Reitti copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
