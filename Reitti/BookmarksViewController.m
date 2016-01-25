@@ -749,7 +749,7 @@ const NSInteger kTimerRefreshInterval = 15;
                 [self.reittiDataManager deleteNamedBookmarkForName:deletedNamedBookmark.name];
                 [savedNamedBookmarks removeObject:deletedNamedBookmark];
             }else{
-                [self.reittiDataManager deleteSavedStopForCode:deletedStop.busStopCode];
+                [self.reittiDataManager deleteSavedStop:deletedStop];
                 [savedStops removeObject:deletedStop];
             }
         }else{

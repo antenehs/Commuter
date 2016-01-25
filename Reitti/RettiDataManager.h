@@ -144,6 +144,7 @@ typedef struct {
 
 -(void)saveToCoreDataStop:(BusStop *)stop;
 -(void)deleteSavedStopForCode:(NSNumber *)code;
+-(void)deleteSavedStop:(StopEntity *)savedStop;
 -(void)deleteAllSavedStop;
 -(NSArray *)fetchAllSavedStopsFromCoreData;
 -(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSNumber *)code;

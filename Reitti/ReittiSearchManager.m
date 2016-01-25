@@ -216,6 +216,8 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
             
             if (savedStops != nil && savedStops.count > 0) {
                 for (StopEntity *savedStop in savedStops) {
+                    if (!savedStop.busStopName)
+                        continue;
                     CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[savedStop uniqueIdentifier] domainIdentifier:[StopEntity domainIdentifier] attributeSet:savedStop.attributeSet];
                     [searchableItems addObject:item];
                 }

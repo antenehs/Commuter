@@ -323,6 +323,9 @@
 }
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActions {
+    if (!self._busStop)
+        return @[];
+    
     if (_previewActions == nil) {
         
         UIPreviewAction *printAction = [UIPreviewAction

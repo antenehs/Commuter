@@ -1287,6 +1287,9 @@
 #pragma mark - stop core data methods
 //@ Updates a saved stop if it exists or insert a new one.
 -(void)saveToCoreDataStop:(BusStop *)stop{
+    if (!stop)
+        return;
+    
     NSLog(@"RettiDataManager: Saving Stop to core data!");
     self.stopEntity = [self fetchSavedStopFromCoreDataForCode:stop.code];
     
@@ -1322,10 +1325,14 @@
     
     StopEntity *stopToDelete = [self fetchSavedStopFromCoreDataForCode:code];
     
-    if (!stopToDelete)
+    [self deleteSavedStop:stopToDelete];
+}
+
+-(void)deleteSavedStop:(StopEntity *)savedStop{
+    if (!savedStop)
         return;
     
-    [self.managedObjectContext deleteObject:stopToDelete];
+    [self.managedObjectContext deleteObject:savedStop];
     
     NSError *error = nil;
     if (![self.managedObjectContext save:&error]) {
@@ -1334,10 +1341,10 @@
         exit(-1);  // Fail
     }
     
-    [allSavedStopCodes removeObject:code];
+    [allSavedStopCodes removeObject:savedStop.busStopCode];
     NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
     [self updateSavedStopsDefaultValueForStops:savedSt];
-    [self updateSelectedStopListForDeletedStop:[code intValue] andAllStops:savedSt];
+    [self updateSelectedStopListForDeletedStop:[savedStop.busStopCode intValue] andAllStops:savedSt];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
@@ -1457,6 +1464,9 @@
 
 #pragma mark - Stop history core data methods
 -(BOOL)saveHistoryToCoreDataStop:(BusStop *)stop{
+    if (!stop)
+        return NO;
+    
     NSLog(@"RettiDataManager: Saving Stop history to core data!");
     //Check for existence here first
     if(![allHistoryStopCodes containsObject:stop.code] && stop != nil){
