@@ -13,6 +13,7 @@
 #import "CoreDataManager.h"
 #import "ReittiEmailAndShareManager.h"
 #import "AppManager.h"
+#import "WebViewController.h"
 
 @interface MoreTableViewController ()
 
@@ -127,7 +128,19 @@
     
     moreFeaturesSection = numberOfMoreFeatures > 0 ? numberOfSection++ : -1;
     
+    numberOfSettingsRows = 0;
+    settingsRow = numberOfSettingsRows++;
+    
     settingsSection = numberOfSection++;
+    
+    numberOfCommuterRows = 0;
+    aboutCommuterRow = numberOfCommuterRows++;
+    goProRow = ![AppManager isProVersion] ? numberOfCommuterRows++ : -1;
+    newInVersionRow = numberOfCommuterRows++;
+    contactMeRow = numberOfCommuterRows++;
+    rateInAppStoreRow = numberOfCommuterRows++;
+    shareRow = numberOfCommuterRows++;;
+    
     commuterSection = numberOfSection++;
 }
 
@@ -140,9 +153,9 @@
     if (section == moreFeaturesSection) {
         return numberOfMoreFeatures;
     }else if (section == settingsSection) {
-        return 1;
+        return numberOfSettingsRows;
     }else if(section == commuterSection){
-        return 5;
+        return numberOfCommuterRows;
     }
     
     return 0;
@@ -169,20 +182,21 @@
     }else if (indexPath.section == settingsSection){
         cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell" forIndexPath:indexPath];
     }else{
-        if (indexPath.row == 0) {
+        if (indexPath.row == aboutCommuterRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell" forIndexPath:indexPath];
             
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
             imageView.image = [AppManager roundedAppLogoSmall];
-        }else if (indexPath.row == 1) {
+        }else if (indexPath.row == goProRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"goProCell" forIndexPath:indexPath];
+        }else if (indexPath.row == newInVersionRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"newInVersionCell" forIndexPath:indexPath];
             
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
             imageView.image = [AppManager appVersionPicture];
-        }
-        else if (indexPath.row == 2) {
+        }else if (indexPath.row == contactMeRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"contactMeCell" forIndexPath:indexPath];
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row == rateInAppStoreRow){
             cell = [tableView dequeueReusableCellWithIdentifier:@"rateCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"shareCell" forIndexPath:indexPath];
@@ -355,6 +369,22 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"viewProFeatures"]) {
+        WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
+        NSURL *url = [NSURL URLWithString:@"http://commuterapp.weebly.com/"];
+        
+        webViewController.modalMode = NO;
+        webViewController._url = url;
+        webViewController._pageTitle = @"COMMUTER PRO";
+        
+        webViewController.actionButtonTitle = @"View in AppStore";
+        webViewController.action = ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+        };
+        webViewController.bottomContentOffset = 60.0;
+    }
+    
     [self.navigationItem setTitle:@""];
     [self.tabBarController.tabBar setHidden:YES];
 }

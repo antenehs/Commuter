@@ -10,7 +10,9 @@
 #import "AMBlurView.h"
 #import <iAd/iAd.h>
 
-@interface WebViewController : UIViewController<UIWebViewDelegate,ADBannerViewDelegate>{
+typedef void (^ActionBlock)();
+
+@interface WebViewController : UIViewController<UIWebViewDelegate,ADBannerViewDelegate, UIScrollViewDelegate>{
     
     IBOutlet UILabel *titleLabel;
     IBOutlet UIView *topBarView;
@@ -19,9 +21,8 @@
     BOOL doneLoading;
     NSTimer *myTimer;
     
-//    UIColor *systemBackgroundColor;
-//    UIColor *systemTextColor;
-//    UIColor *systemSubTextColor;
+    IBOutlet UIButton *actionButton;
+    IBOutlet AMBlurView *actionBottomView;
     
     ADBannerView *_bannerView;
 }
@@ -32,5 +33,11 @@
 
 @property (nonatomic) bool darkMode;
 @property (nonatomic) bool modalMode;
+
+@property (nonatomic, strong) NSString *actionButtonTitle;
+@property (nonatomic, strong) ActionBlock action;
+
+//Used to hide some content on the bottom.
+@property (nonatomic) CGFloat bottomContentOffset;
 
 @end

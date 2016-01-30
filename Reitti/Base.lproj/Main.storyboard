@@ -192,6 +192,7 @@
                                         </state>
                                         <connections>
                                             <action selector="listNearbyStopsPressed:" destination="139-RC-VnC" eventType="touchUpInside" id="wny-dT-wBP"/>
+                                            <segue destination="AIA-FK-lAZ" kind="presentation" identifier="showProFeatures" id="kBd-va-LEz"/>
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="dIy-Zh-BEc">
@@ -3774,7 +3775,7 @@
         <!--Web View Controller-->
         <scene sceneID="VUL-1Q-Q5M">
             <objects>
-                <viewController id="fd7-Wp-0Pb" customClass="WebViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="fd7-Wp-0Pb" customClass="WebViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d8I-ID-baV"/>
                         <viewControllerLayoutGuide type="bottom" id="S0y-Vh-9VO"/>
@@ -3795,7 +3796,6 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="9kO-Pq-hPP"/>
                                         </constraints>
-                                        <color key="progressTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="9kO-Pq-hPP"/>
@@ -3821,16 +3821,41 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tQU-1i-mxJ" customClass="AMBlurView">
+                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cof-f1-U1Q">
+                                        <rect key="frame" x="8" y="8" width="584" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <state key="normal" title="View in AppStore">
+                                            <color key="titleColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionButtonPressed:" destination="fd7-Wp-0Pb" eventType="touchUpInside" id="0vT-wO-IU3"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Cof-f1-U1Q" secondAttribute="trailing" constant="8" id="ByY-iV-I6s"/>
+                                    <constraint firstAttribute="bottom" secondItem="Cof-f1-U1Q" secondAttribute="bottom" constant="6" id="HVN-O6-2uz"/>
+                                    <constraint firstAttribute="height" constant="44" id="Iki-hG-xlc"/>
+                                    <constraint firstItem="Cof-f1-U1Q" firstAttribute="top" secondItem="tQU-1i-mxJ" secondAttribute="top" constant="8" id="WoF-49-orf"/>
+                                    <constraint firstItem="Cof-f1-U1Q" firstAttribute="leading" secondItem="tQU-1i-mxJ" secondAttribute="leading" constant="8" id="fut-h0-I2q"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="eRo-XQ-kRv" secondAttribute="trailing" id="1Kl-2n-Pps"/>
                             <constraint firstItem="oiC-BR-Ocn" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leadingMargin" constant="-16" id="1qt-ai-56o"/>
                             <constraint firstItem="oiC-BR-Ocn" firstAttribute="top" secondItem="SPf-0k-7Zl" secondAttribute="topMargin" id="6HS-cZ-gGF"/>
+                            <constraint firstItem="tQU-1i-mxJ" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leading" id="A1k-Rf-1Zv"/>
                             <constraint firstItem="eRo-XQ-kRv" firstAttribute="top" secondItem="d8I-ID-baV" secondAttribute="bottom" id="L2R-5v-49v"/>
                             <constraint firstAttribute="bottomMargin" secondItem="eRo-XQ-kRv" secondAttribute="bottom" id="NMd-Ff-XEu"/>
                             <constraint firstItem="eRo-XQ-kRv" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leading" id="PDR-Wq-fFm"/>
                             <constraint firstItem="eRo-XQ-kRv" firstAttribute="centerX" secondItem="oiC-BR-Ocn" secondAttribute="centerX" id="Tp5-ZQ-aEB"/>
+                            <constraint firstAttribute="trailing" secondItem="tQU-1i-mxJ" secondAttribute="trailing" id="cVQ-2L-ds0"/>
+                            <constraint firstItem="S0y-Vh-9VO" firstAttribute="top" secondItem="tQU-1i-mxJ" secondAttribute="bottom" id="i7f-zf-bVU"/>
                             <constraint firstItem="oiC-BR-Ocn" firstAttribute="leading" secondItem="SPf-0k-7Zl" secondAttribute="leadingMargin" id="j6J-GA-Bq5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oiC-BR-Ocn" secondAttribute="trailing" constant="-16" id="qsE-Ik-VjD"/>
                             <constraint firstItem="S0y-Vh-9VO" firstAttribute="top" secondItem="oiC-BR-Ocn" secondAttribute="bottom" constant="491" id="tcb-XB-8Uy"/>
@@ -3864,8 +3889,11 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="_webView" destination="eRo-XQ-kRv" id="R9x-RE-sb4"/>
+                        <outlet property="actionBottomView" destination="tQU-1i-mxJ" id="SnG-Jg-iRJ"/>
+                        <outlet property="actionButton" destination="Cof-f1-U1Q" id="5Ez-du-8lC"/>
                         <outlet property="loadProgressView" destination="nhX-Sg-Bn3" id="RH5-WT-Gwz"/>
                         <outlet property="topBarView" destination="oiC-BR-Ocn" id="fPp-kP-mfw"/>
                     </connections>
@@ -7780,6 +7808,9 @@ Helsinki, Finland</string>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="P2A-zI-1ku">
@@ -8444,11 +8475,11 @@ Helsinki, Finland</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="remindersCell" id="fYQ-kz-7js">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="remindersCell" id="fYQ-kz-7js">
                                 <rect key="frame" x="0.0" y="49.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fYQ-kz-7js" id="Zro-xR-Ue3">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reminders2-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-NY-8VQ">
@@ -8506,11 +8537,11 @@ Helsinki, Finland</string>
                                     <segue destination="kp9-Yc-MXa" kind="show" id="Wy6-jZ-o0L"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ticketSellPointCell" id="sB6-vj-4t6">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ticketSellPointCell" id="sB6-vj-4t6">
                                 <rect key="frame" x="0.0" y="99.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sB6-vj-4t6" id="aZf-bA-MK9">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="servicePointAnnotation.png" translatesAutoresizingMaskIntoConstraints="NO" id="W9k-d4-8Mf">
@@ -8523,8 +8554,8 @@ Helsinki, Finland</string>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="fGl-q7-0Mh"/>
                                                     <exclude reference="WMT-m3-hcG"/>
+                                                    <exclude reference="fGl-q7-0Mh"/>
                                                 </mask>
                                             </variation>
                                         </imageView>
@@ -8543,10 +8574,10 @@ Helsinki, Finland</string>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="bob-am-uhP"/>
-                                                    <exclude reference="KDH-Y5-1Z8"/>
-                                                    <exclude reference="qmO-5t-6Tw"/>
                                                     <exclude reference="K3d-t6-X6j"/>
+                                                    <exclude reference="KDH-Y5-1Z8"/>
+                                                    <exclude reference="bob-am-uhP"/>
+                                                    <exclude reference="qmO-5t-6Tw"/>
                                                 </mask>
                                             </variation>
                                         </label>
@@ -8640,11 +8671,11 @@ Helsinki, Finland</string>
                                     </variation>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="disruptionsCell" id="BPm-lS-BGW">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="disruptionsCell" id="BPm-lS-BGW">
                                 <rect key="frame" x="0.0" y="199.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BPm-lS-BGW" id="M0E-MS-YSK">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Disruptions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hra-ee-beV">
@@ -8684,7 +8715,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </imageView>
                                         <view tag="1003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WR1-qb-yNI">
-                                            <rect key="frame" x="563" y="15" width="20" height="20"/>
+                                            <rect key="frame" x="543" y="15" width="20" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Jp2-f5-5FX">
                                                     <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
@@ -8711,7 +8742,7 @@ Helsinki, Finland</string>
                                         <constraint firstItem="zJ4-L2-zCT" firstAttribute="leading" secondItem="M0E-MS-YSK" secondAttribute="leadingMargin" id="Ypf-wI-9rF"/>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="leading" secondItem="zJ4-L2-zCT" secondAttribute="trailing" constant="9" id="ee6-Os-t6m"/>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="6" id="kNc-Iw-3SG"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="WR1-qb-yNI" secondAttribute="trailing" constant="9" id="qHu-GD-RKP"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="WR1-qb-yNI" secondAttribute="trailing" constant="-4" id="qHu-GD-RKP"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -8723,11 +8754,11 @@ Helsinki, Finland</string>
                                     <segue destination="5XB-T8-OMS" kind="show" id="F7i-cJ-TYg"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsCell" id="CM8-jw-bli">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="settingsCell" id="CM8-jw-bli">
                                 <rect key="frame" x="0.0" y="249.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CM8-jw-bli" id="rao-jq-teo">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWi-01-wZ5">
@@ -8784,11 +8815,11 @@ Helsinki, Finland</string>
                                     <segue destination="MbC-iB-tLX" kind="show" identifier="showSettings" id="U9A-P0-Va2"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="aboutCommuterCell" id="99l-8d-RnV">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="aboutCommuterCell" id="99l-8d-RnV">
                                 <rect key="frame" x="0.0" y="299.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="99l-8d-RnV" id="896-ab-RwQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2-small.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wkq-c7-ZVB">
@@ -8845,8 +8876,95 @@ Helsinki, Finland</string>
                                     <segue destination="VNd-wE-1K4" kind="show" id="hhC-ge-8Q7"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="newInVersionCell" id="akM-cW-Pjs">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="goProCell" id="lam-3V-i0f">
                                 <rect key="frame" x="0.0" y="349.5" width="600" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lam-3V-i0f" id="Y3C-9D-2Rj">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cool-96.png" translatesAutoresizingMaskIntoConstraints="NO" id="FPo-F2-aOS">
+                                            <rect key="frame" x="7" y="11" width="28" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="Lfx-3n-OFv"/>
+                                                <constraint firstAttribute="width" constant="28" id="OMx-4Q-bIc"/>
+                                                <constraint firstAttribute="height" constant="30" id="lOq-2d-3hp"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="rFt-NY-pJT"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Lfx-3n-OFv"/>
+                                                    <exclude reference="rFt-NY-pJT"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go Pro" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMu-rK-NXL">
+                                            <rect key="frame" x="41" y="15" width="56" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="0ce-yE-Ddi"/>
+                                                <constraint firstAttribute="width" constant="56" id="TUn-4b-1ae"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="cDi-rC-a21"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="dpH-se-nOW"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="ezw-FH-Sqf"/>
+                                                <constraint firstAttribute="height" constant="21" id="hXm-VN-zdK"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="0ce-yE-Ddi"/>
+                                                    <exclude reference="cDi-rC-a21"/>
+                                                    <exclude reference="dpH-se-nOW"/>
+                                                    <exclude reference="ezw-FH-Sqf"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn why" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3E-uQ-iub">
+                                            <rect key="frame" x="480" y="14" width="87" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="EfQ-47-kFU"/>
+                                                <constraint firstAttribute="width" constant="150" id="Moq-9X-xp8"/>
+                                                <constraint firstAttribute="height" constant="21" id="NYd-Fh-78U"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="ilW-3y-9Bi"/>
+                                                <constraint firstAttribute="width" constant="87" id="pjW-8k-Fs6"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="wd1-hT-v4P"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="zIr-Wb-48V"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="EfQ-47-kFU"/>
+                                                    <exclude reference="Moq-9X-xp8"/>
+                                                    <exclude reference="ilW-3y-9Bi"/>
+                                                    <exclude reference="wd1-hT-v4P"/>
+                                                    <exclude reference="zIr-Wb-48V"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="YMu-rK-NXL" firstAttribute="leading" secondItem="FPo-F2-aOS" secondAttribute="trailing" constant="9" id="03L-zP-hte"/>
+                                        <constraint firstItem="Y3E-uQ-iub" firstAttribute="trailing" secondItem="Y3C-9D-2Rj" secondAttribute="trailingMargin" constant="8" id="3bn-ch-wQG"/>
+                                        <constraint firstItem="Y3E-uQ-iub" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="6" id="mw2-AC-HrQ"/>
+                                        <constraint firstItem="FPo-F2-aOS" firstAttribute="leading" secondItem="Y3C-9D-2Rj" secondAttribute="leadingMargin" constant="-1" id="sCq-71-IxI"/>
+                                        <constraint firstItem="YMu-rK-NXL" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="7" id="v8k-DA-ggp"/>
+                                        <constraint firstItem="FPo-F2-aOS" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="3" id="xTr-OS-s7D"/>
+                                        <constraint firstItem="YMu-rK-NXL" firstAttribute="leading" secondItem="FPo-F2-aOS" secondAttribute="trailing" constant="6" id="zyh-Cg-zhB"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="03L-zP-hte"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="fd7-Wp-0Pb" kind="show" identifier="viewProFeatures" id="TZn-kH-clf"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="newInVersionCell" id="akM-cW-Pjs">
+                                <rect key="frame" x="0.0" y="399.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="akM-cW-Pjs" id="6Xm-mM-lGq">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -8907,7 +9025,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactMeCell" id="0pR-ab-kU1">
-                                <rect key="frame" x="0.0" y="399.5" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="449.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0pR-ab-kU1" id="ZuG-tp-CCQ">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -8978,7 +9096,7 @@ Helsinki, Finland</string>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="shareCell" id="FQ2-Eh-R0o">
-                                <rect key="frame" x="0.0" y="449.5" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="499.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FQ2-Eh-R0o" id="gjx-bI-2gf">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -9050,7 +9168,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rateCell" id="FcN-tF-dfQ">
-                                <rect key="frame" x="0.0" y="499.5" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="549.5" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FcN-tF-dfQ" id="r1l-4o-QIr">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
@@ -9296,7 +9414,7 @@ Helsinki, Finland</string>
                                     <constraint firstAttribute="width" constant="25" id="rrY-le-d6a"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="New in Commuter 4.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sX-Uq-vFd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="New in Commuter 4.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8sX-Uq-vFd">
                                 <rect key="frame" x="55" y="22" width="202" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="202" id="HFm-uO-dAa"/>
@@ -9582,6 +9700,9 @@ Helsinki, Finland</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -9595,6 +9716,7 @@ Helsinki, Finland</string>
     </scenes>
     <resources>
         <image name="Bar Chart-100.png" width="100" height="100"/>
+        <image name="Cool-96.png" width="96" height="96"/>
         <image name="Edit-gray-100.png" width="100" height="100"/>
         <image name="Info-red-filled-50.png" width="50" height="50"/>
         <image name="Like Filled-96.png" width="96" height="96"/>
@@ -9658,22 +9780,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SWb-EE-ndB"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="X8p-rp-E0z"/>
-        <segue reference="rqm-Vp-DPt"/>
-        <segue reference="hh1-iT-Xmm"/>
-        <segue reference="lwh-ia-2sg"/>
-        <segue reference="Ltu-K0-x4G"/>
-        <segue reference="U9A-P0-Va2"/>
-        <segue reference="G3y-0T-rdq"/>
         <segue reference="F7i-cJ-TYg"/>
+        <segue reference="SWb-EE-ndB"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="XlZ-XU-H5m"/>
         <segue reference="4lM-KH-B6v"/>
         <segue reference="YpZ-AP-yAo"/>
-        <segue reference="XlZ-XU-H5m"/>
         <segue reference="fk8-2d-CEg"/>
-        <segue reference="gyd-GV-CrX"/>
-        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="due-au-0KO"/>
+        <segue reference="X8p-rp-E0z"/>
+        <segue reference="kBd-va-LEz"/>
+        <segue reference="DEk-ct-YDr"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="s3H-Jn-riC"/>
+        <segue reference="lwh-ia-2sg"/>
+        <segue reference="rqd-oJ-7h3"/>
     </inferredMetricsTieBreakers>
 </document>

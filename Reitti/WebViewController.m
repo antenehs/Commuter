@@ -22,6 +22,7 @@
 @synthesize _url;
 @synthesize _pageTitle;
 @synthesize darkMode;
+@synthesize action;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +42,10 @@
     
     [self setUpTopBarApearance];
     
+    actionBottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    actionBottomView.layer.borderWidth = 0.5;
+    
+    _webView.scrollView.delegate = self;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -58,6 +63,15 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    if (action) {
+        if (_actionButtonTitle)
+            [actionButton setTitle:_actionButtonTitle forState:UIControlStateNormal];
+        
+        actionBottomView.hidden = NO;
+    }else{
+        actionBottomView.hidden = YES;
+    }
+    
     [self layoutAnimated:NO];
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
@@ -67,17 +81,6 @@
 }
 
 #pragma mark - View methods
-//- (void)selectSystemColors{
-//    if (self.darkMode) {
-//        systemBackgroundColor = [UIColor clearColor];
-//        systemTextColor = SYSTEM_GREEN_COLOR;
-//        systemSubTextColor = [UIColor lightGrayColor];
-//    }else{
-//        systemBackgroundColor = nil;
-//        systemTextColor = SYSTEM_GREEN_COLOR;
-//        systemSubTextColor = [UIColor darkGrayColor];
-//    }
-//}
 
 - (void)setUpTopBarApearance{
     if (!self.modalMode) {
@@ -113,6 +116,12 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height - _bottomContentOffset) {
+        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - scrollView.frame.size.height - _bottomContentOffset)];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -131,6 +140,12 @@
 
 - (IBAction)doneButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil ];
+}
+
+- (IBAction)actionButtonPressed:(id)sender {
+    if (action) {
+        action();
+    }
 }
 
 -(void)webViewDidStartLoad:(UIWebView *)webView {

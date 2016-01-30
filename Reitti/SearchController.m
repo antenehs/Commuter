@@ -86,16 +86,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self reindexSavedDataForSpotlight];
     [self initViewComponents];
     
-    appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
-    if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
-                                                            message:@"The gift of 5 little starts is satisfying for both of us more than you think."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"Maybe later"
-                                                  otherButtonTitles:@"Rate", nil];
-        alertView.tag = 1001;
-        [alertView show];
-    }
+    [self showGoProNotification];
+    [self showRateAppNotification];
     
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
@@ -103,7 +95,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
         
         //TODO: Uncomment this when testing is done
-//        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
@@ -122,6 +114,70 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     //Test
     [AppManager isProVersion];
+}
+
+- (void)showRateAppNotification{
+    appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
+    if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
+//                                                            message:@"The gift of 5 little starts is satisfying for both of us more than you think."
+//                                                           delegate:self
+//                                                  cancelButtonTitle:@"Maybe later"
+//                                                  otherButtonTitles:@"Rate", nil];
+//        alertView.tag = 1001;
+//        [alertView show];
+     
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
+                                                                       message:@"The gift of 5 little starts is satisfying for both of us more than you think."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
+                                                                  [self.reittiDataManager setAppOpenCountValue:-50];
+                                                                  
+                                                              }];
+        
+        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
+                                                            handler:^(UIAlertAction * action) {
+                                                                [self.reittiDataManager setAppOpenCountValue:-7];
+                                                            }];
+        
+        [alert addAction:laterAction];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)showGoProNotification{
+    if ([AppManager getAndIncrimentAppOpenCountForGoingPro] < 8)
+        return;
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Go Pro"
+                                                                   message:@"Go pro to get more cool features."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Learn more" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              [AppManager setAppOpenCountForGoingPro:-20];
+                                                              [self performSegueWithIdentifier:@"showProFeatures" sender:self];
+                                                          }];
+    
+    UIAlertAction* appStoreAction = [UIAlertAction actionWithTitle:@"Go to AppStore" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              [AppManager setAppOpenCountForGoingPro:-20];
+                                                              [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+                                                          }];
+    
+    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * action) {
+                                                              [AppManager setAppOpenCountForGoingPro:-20];
+                                                          }];
+    
+    [alert addAction:laterAction];
+    [alert addAction:appStoreAction];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 //-(void)viewWillAppear:(BOOL)animated{
@@ -2102,12 +2158,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 1001) {
-        if (buttonIndex == 0) {
-            [self.reittiDataManager setAppOpenCountValue:-7];
-        }else if(buttonIndex == 1){
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
-            [self.reittiDataManager setAppOpenCountValue:-50];
-        }
+//        if (buttonIndex == 0) {
+//            [self.reittiDataManager setAppOpenCountValue:-7];
+//        }else if(buttonIndex == 1){
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
+//            [self.reittiDataManager setAppOpenCountValue:-50];
+//        }
     }else if (alertView.tag == 1003) {
         if (buttonIndex == 0) {
             [self openSettingsButtonPressed:self];
@@ -2738,6 +2794,22 @@ CGFloat  kDeparturesRefreshInterval = 60;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
             [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         }
+    }
+    
+    if ([segue.identifier isEqualToString:@"showProFeatures"]) {
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        WebViewController *webViewController = (WebViewController *)[navController.viewControllers lastObject];
+        NSURL *url = [NSURL URLWithString:@"http://commuterapp.weebly.com/"];
+        
+        webViewController.modalMode = YES;
+        webViewController._url = url;
+        webViewController._pageTitle = @"COMMUTER PRO";
+        
+        webViewController.actionButtonTitle = @"View in AppStore";
+        webViewController.action = ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+        };
+        webViewController.bottomContentOffset = 80.0;
     }
 }
 

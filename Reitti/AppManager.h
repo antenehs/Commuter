@@ -13,6 +13,13 @@
 
 @interface AppManager : AppManagerBase
 
++(int)getAndIncrimentAppOpenCountForRating;
++(int)getAppOpenCountForRating;
++(void)setAppOpenCountForRating:(int)count;
++(int)getAndIncrimentAppOpenCountForGoingPro;
++(int)getAppOpenCountForGoingPro;
++(void)setAppOpenCountForGoingPro:(int)count;
+
 +(UIColor *)colorForLegType:(LegTransportType)legTransportType;
 +(UIColor *)colorForLineType:(LineType)lineType;
 +(UIColor *)colorForStopType:(StopType)stopType;

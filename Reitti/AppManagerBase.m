@@ -99,14 +99,14 @@ NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id861274235";
     if ([self isProVersion])
         return [UIImage imageNamed:@"app-pro-logo-rounded2-small.png"];
     else
-        return [UIImage imageNamed:@"app-logo-rounded.png"];
+        return [UIImage imageNamed:@"app-logo-rounded-small.png"];
 }
 
 +(UIImage *)roundedAppLogoLarge{
     if ([self isProVersion])
         return [UIImage imageNamed:@"app-pro-logo-rounded2.png"];
     else
-        return [UIImage imageNamed:@"app-logo-rounded.png"];
+        return [UIImage imageNamed:@"app-logo-new-rounded.png"];
 }
 
 +(UIImage *)appVersionPicture{

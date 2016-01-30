@@ -1,0 +1,23 @@
+Pro app changes
+
+- Logo on the launch screen
+- Logo should be changed in More view for about commuter
+- Logo should be changed in new in this version
+- New in this version should be changed to new in commuter pro
+- Change app groups from capabilities in both the main target and widgets
+- Replace every where NSUserDefaults for the widget is initialised
+- Change url scheme from Reitti-info.plist
+    URL Identifier - com.aikatauluApp.commuter
+		    - com.aikatauluApp.commuterPro
+    URL Scheme     - CommuterMainApp
+		    - CommuterProMainApp
+- Replace the url name every where.. CommuterMainApp with CommuterProMainApp
+
+Pro Bundle identifier - reitti.CommuterAppPro
+
+Normal bundle identifier - reitti.aikatuluApp
+
+- For the non pro version, remember to bring back what is new in this version. 
+	- More view and at the start page
+- Rate links to the correct app
+- Change app version numbers

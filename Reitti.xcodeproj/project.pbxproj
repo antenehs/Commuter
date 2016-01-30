@@ -134,6 +134,8 @@
 		66134C011B4067860008C6D7 /* dark-dotted-line-long.png in Resources */ = {isa = PBXBuildFile; fileRef = 66134C001B4067860008C6D7 /* dark-dotted-line-long.png */; };
 		66134C031B41D69A0008C6D7 /* routesFiltered.json in Resources */ = {isa = PBXBuildFile; fileRef = 66134C021B41D69A0008C6D7 /* routesFiltered.json */; };
 		66134C051B41EB320008C6D7 /* globe-filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66134C041B41EB320008C6D7 /* globe-filled-100.png */; };
+		66160F061C580577005617CE /* Cool-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 66160F051C580577005617CE /* Cool-96.png */; };
+		66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 66160F071C5CF313005617CE /* app-logo-rounded-small.png */; };
 		661721EA19CD999500E3CD6E /* blured-background-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721E919CD999500E3CD6E /* blured-background-dark.png */; };
 		661721EC19CD9ED300E3CD6E /* map-orange-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721EB19CD9ED300E3CD6E /* map-orange-50.png */; };
 		661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* InfoViewController.m */; };
@@ -298,6 +300,7 @@
 		666BC1DA1B5C259700889DD2 /* Vibration sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CF1B5C259700889DD2 /* Vibration sound.mp3 */; };
 		666BC1DB1B5C259700889DD2 /* Time to go 4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */; };
 		666BC1DC1B5C259700889DD2 /* Time to go 5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */; };
+		667085331C5CF745008AA606 /* app-logo-new-rounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 667085321C5CF745008AA606 /* app-logo-new-rounded.png */; };
 		667334A719CEFCDC00CCD351 /* appIconRounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 667334A619CEFCDC00CCD351 /* appIconRounded.png */; };
 		6673774B1ACC9B0A003581B5 /* shoe-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774A1ACC9B0A003581B5 /* shoe-white-100.png */; };
 		6673774D1ACC9C0C003581B5 /* shoe-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */; };
@@ -1664,6 +1667,8 @@
 		66134C001B4067860008C6D7 /* dark-dotted-line-long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dark-dotted-line-long.png"; path = "Pictures/Version 3.1/dark-dotted-line-long.png"; sourceTree = "<group>"; };
 		66134C021B41D69A0008C6D7 /* routesFiltered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routesFiltered.json; sourceTree = "<group>"; };
 		66134C041B41EB320008C6D7 /* globe-filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "globe-filled-100.png"; path = "Pictures/Version 3.1/globe-filled-100.png"; sourceTree = "<group>"; };
+		66160F051C580577005617CE /* Cool-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Cool-96.png"; path = "Pictures/version 4.1/Cool-96.png"; sourceTree = "<group>"; };
+		66160F071C5CF313005617CE /* app-logo-rounded-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-rounded-small.png"; path = "Pictures/version 4.1/app-logo-rounded-small.png"; sourceTree = "<group>"; };
 		661721E919CD999500E3CD6E /* blured-background-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blured-background-dark.png"; path = "Pictures/New Version 2.0/blured-background-dark.png"; sourceTree = "<group>"; };
 		661721EB19CD9ED300E3CD6E /* map-orange-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map-orange-50.png"; path = "Pictures/New Version 2.0/map-orange-50.png"; sourceTree = "<group>"; };
 		661721ED19CDA78000E3CD6E /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
@@ -1864,6 +1869,7 @@
 		666BC1CF1B5C259700889DD2 /* Vibration sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Vibration sound.mp3"; path = "Sounds/Vibration sound.mp3"; sourceTree = "<group>"; };
 		666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 4.mp3"; path = "Sounds/Time to go 4.mp3"; sourceTree = "<group>"; };
 		666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 5.mp3"; path = "Sounds/Time to go 5.mp3"; sourceTree = "<group>"; };
+		667085321C5CF745008AA606 /* app-logo-new-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-new-rounded.png"; path = "Pictures/Version 2.3/app-logo-new-rounded.png"; sourceTree = "<group>"; };
 		667334A619CEFCDC00CCD351 /* appIconRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appIconRounded.png; path = "Pictures/New Version 2.0/appIconRounded.png"; sourceTree = "<group>"; };
 		6673774A1ACC9B0A003581B5 /* shoe-white-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-white-100.png"; path = "Pictures/Version 2.3/shoe-white-100.png"; sourceTree = "<group>"; };
 		6673774C1ACC9C0C003581B5 /* shoe-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "shoe-gray-100.png"; path = "Pictures/Version 2.3/shoe-gray-100.png"; sourceTree = "<group>"; };
@@ -2537,6 +2543,9 @@
 		660716031B45E28C00033049 /* Version 4.1 */ = {
 			isa = PBXGroup;
 			children = (
+				667085321C5CF745008AA606 /* app-logo-new-rounded.png */,
+				66160F071C5CF313005617CE /* app-logo-rounded-small.png */,
+				66160F051C580577005617CE /* Cool-96.png */,
 				66780DC01C55577700C838AA /* Like Filled-96.png */,
 				66780DA61C55053B00C838AA /* New in 4.1 */,
 				66780DA41C542BED00C838AA /* version-2.png */,
@@ -4328,6 +4337,7 @@
 				66780DB41C55061100C838AA /* newBusinessSearch.png in Resources */,
 				66D0BA5A18BF3785002DDC7B /* Aspergit Bold.otf in Resources */,
 				66D6EDB519A0A5F100FEB9FD /* circle-notfilled-50.png in Resources */,
+				66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */,
 				665885B11B0A480B0044F514 /* trainVAnnot.png in Resources */,
 				665885AF1B0A480B0044F514 /* BusVAnnot.png in Resources */,
 				6663A0971B652F0F00DC20D0 /* launch-screen-bkgrnd-1.png in Resources */,
@@ -4354,6 +4364,7 @@
 				660D312C1C34464D0051DDAA /* transit-line.png in Resources */,
 				66780DA31C54295700C838AA /* launch-screen-bkgrnd-3.png in Resources */,
 				66228CF619CB31C300A2C47F /* previous-48.png in Resources */,
+				66160F061C580577005617CE /* Cool-96.png in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
 				6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */,
@@ -4474,6 +4485,7 @@
 				660E2F751B34386400CE670E /* beach-100.png in Resources */,
 				666602541AED8F2600E3E392 /* all-devices.png in Resources */,
 				666BC1D71B5C259700889DD2 /* Wheels on the bus.mp3 in Resources */,
+				667085331C5CF745008AA606 /* app-logo-new-rounded.png in Resources */,
 				665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */,
 				66F1383C19976C6E00B52B6B /* app-icon-v-2.png in Resources */,
 				665885CD1B1143080044F514 /* tramAnnotation3_2.png in Resources */,
@@ -5882,7 +5894,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC1FE501124ADF8164BA63D3 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
@@ -5934,7 +5946,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;

@@ -18,7 +18,7 @@ extern NSString *kUserDefaultsSavedStopsKey;
 extern NSString *urlSpaceEscapingString;
 
 //extern NSString *kAppFullName;
-//extern NSString *kAppAppstoreLink;
+extern NSString *kProAppAppstoreLink;
 
 @interface AppManagerBase : NSObject
 

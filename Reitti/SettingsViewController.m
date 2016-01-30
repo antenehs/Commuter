@@ -530,7 +530,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         
         webViewController.modalMode = YES;
         webViewController._url = url;
-        webViewController._pageTitle = @"Feature Tracking";
+        webViewController._pageTitle = @"FEATURE TRACKING";
+        webViewController.bottomContentOffset = 80.0;
     }
     
     self.title = @"";

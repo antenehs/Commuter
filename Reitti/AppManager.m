@@ -10,6 +10,61 @@
 
 @implementation AppManager
 
++(int)getAndIncrimentAppOpenCountForRating{
+    int appOpenCount = [AppManager getAppOpenCountForRating];
+    
+    [AppManager setAppOpenCountForRating:appOpenCount + 1];
+    
+    return appOpenCount;
+}
+
++(int)getAppOpenCountForRating{
+    NSNumber *appOpenCount = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppOpenCountForRating"];
+    if (appOpenCount != nil) {
+        return [appOpenCount intValue];
+    }
+    
+    [AppManager setAppOpenCountForRating:0];
+    return 0;
+}
+
++(void)setAppOpenCountForRating:(int)count{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithInt:count] forKey:@"AppOpenCountForRating"];
+        [standardUserDefaults synchronize];
+    }
+}
+
++(int)getAndIncrimentAppOpenCountForGoingPro{
+    int appOpenCount = [AppManager getAppOpenCountForGoingPro];
+    
+    [AppManager setAppOpenCountForGoingPro:appOpenCount + 1];
+    
+    return appOpenCount;
+}
+
++(int)getAppOpenCountForGoingPro{
+    NSNumber *appOpenCount = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppOpenCountForGoingPro"];
+    if (appOpenCount != nil) {
+        return [appOpenCount intValue];
+    }
+    
+    [AppManager setAppOpenCountForRating:0];
+    return 0;
+}
+
++(void)setAppOpenCountForGoingPro:(int)count{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithInt:count] forKey:@"AppOpenCountForGoingPro"];
+        [standardUserDefaults synchronize];
+    }
+}
+
+
 +(UIColor *)colorForLegType:(LegTransportType)legTransportType{
     switch (legTransportType) {
         case LegTypeWalk:

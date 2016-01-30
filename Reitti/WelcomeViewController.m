@@ -32,6 +32,7 @@
 //    mainScrollView.alpha = 0;
     
     logoImageView.image = [AppManager roundedAppLogoSmall];
+    viewTitle.text = [NSString stringWithFormat:@"New in Commuter %@", [AppManager currentAppVersion]];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -94,6 +95,7 @@
                             @"routeDisruptions.png",
                             @"newAutomaticDepartures.png",
                             @"newServicePoints.png",
+                            @"newLinesView.png",
                             nil];
     NSMutableArray *titleArray = [NSMutableArray arrayWithObjects:@"Routes Widget",
                            @"Nearby Departures",
@@ -103,6 +105,7 @@
                            @"Disruptions",
                            @"Automatic Departures",
                            @"Sales Points",
+                           @"Redesigned Lines",
                            nil];
     NSMutableArray *descArray = [NSMutableArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses.",
                           @"See departures from stops near you easily.",
@@ -112,26 +115,21 @@
                           @"Get disruption info that affects your searched routes only. We didn't think you'd care about a canceled train 30kms away.",
                           @"In another 'Not-doing-much' edition, you only need to open the bookmarks view to see departures from your favourite stops.",
                           @"Let's say hypothetically you woke up on a saturday somewhere you never been before, with no value on your travel card. Don't worry.",
+                          @"Lines view is redesigned to automatically suggest lines from stops near you and your favourite stops.",
                           nil];
     
     if (![AppManager isProVersion]) {
         //REmove backwards to prevent changing of indexes
-        
-        [imagesArray addObject:@"newLinesView.png"];
         
         [imagesArray removeObjectAtIndex:7];
         [imagesArray removeObjectAtIndex:5];
         [imagesArray removeObjectAtIndex:4];
         [imagesArray removeObjectAtIndex:0];
         
-        [titleArray addObject:@"Redesigned Lines"];
-        
         [titleArray removeObjectAtIndex:7];
         [titleArray removeObjectAtIndex:5];
         [titleArray removeObjectAtIndex:4];
         [titleArray removeObjectAtIndex:0];
-        
-        [descArray addObject:@"Lines view is redesigned to automatically suggest lines from stops near you and your favourite stops."];
         
         [descArray removeObjectAtIndex:7];
         [descArray removeObjectAtIndex:5];
