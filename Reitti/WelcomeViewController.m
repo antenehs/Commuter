@@ -17,6 +17,8 @@
 
 @implementation WelcomeViewController
 
+@synthesize region;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -79,13 +81,6 @@
 }
 
 - (void)setUpScrollView{
-//    NSArray *imagesArray = [NSArray arrayWithObjects:@"named-bookmarks-3.0.png",@"annotation-3.0.png",@"route-view-3.0.png",@"dropped-pins-3.0.png", nil];
-//    NSArray *titleArray = [NSArray arrayWithObjects:@"Named Bookmarks",
-//                                @"Annotations 3.0", @"More at a Glance", @"Go Anywhere", nil];
-//    NSArray *descArray = [NSArray arrayWithObjects:@"Now you can save any address in addition to stops and routes. You can even call the address 'Home' or 'That place I go to everyday'.",
-//                          @"Quickly see how long it takes to go to a place from the annotation.",
-//                          @"See more from the newly designed route results including leg durations and waiting times.",
-//                          @"Wanted to go somewhere but don't know the address? Just long press the place and go. Press on the map of course.", nil];
     
     NSMutableArray *imagesArray = [NSMutableArray arrayWithObjects:@"newRoutesWidget.png",
                             @"newNearbyDepartures.png",
@@ -104,22 +99,22 @@
                            @"Live Lines",
                            @"Disruptions",
                            @"Automatic Departures",
-                           @"Sales Points",
+                           @"HSL Sales Points",
                            @"Redesigned Lines",
                            nil];
-    NSMutableArray *descArray = [NSMutableArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses.",
-                          @"See departures from stops near you easily.",
-                          @"Even more way for a quick access for routes to your saved addresses.",
-                          @"To scared to leave the route view, but still want to see the time table at some stop? Well, now you can just peek at it without leaving.",
-                          @"Lines view has gotten live. See where exactly the tram or train is on the line.",
+    NSMutableArray *descArray = [NSMutableArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses. Just swipe down from top, and you are set to go.",
+                          @"Another easy way to see departures from stops near you. #Not-doing-much",
+                          @"Even more way for a quick access for routes to your saved addresses. Are you seeing the pattern? #Not-doing-much",
+                          @"To scared to leave the route view, but still want to see the timetable at some stop? Well, now you can just peek at it without leaving.",
+                          @"Lines view has gotten live. See where exactly the tram or train is on the line.(Only in Helsinki region)",
                           @"Get disruption info that affects your searched routes only. We didn't think you'd care about a canceled train 30kms away.",
-                          @"In another 'Not-doing-much' edition, you only need to open the bookmarks view to see departures from your favourite stops.",
+                          @"In another #Not-doing-much edition, you only need to open the bookmarks view to see departures from your favourite stops.",
                           @"Let's say hypothetically you woke up on a saturday somewhere you never been before, with no value on your travel card. Don't worry.",
                           @"Lines view is redesigned to automatically suggest lines from stops near you and your favourite stops.",
                           nil];
     
     if (![AppManager isProVersion]) {
-        //REmove backwards to prevent changing of indexes
+        //Remove backwards to prevent changing of indexes
         
         [imagesArray removeObjectAtIndex:7];
         [imagesArray removeObjectAtIndex:5];

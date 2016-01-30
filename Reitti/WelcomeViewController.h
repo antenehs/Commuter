@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RettiDataManager.h"
 
 @interface WelcomeViewController : UIViewController<UIScrollViewDelegate>{
     IBOutlet UIScrollView *mainScrollView;
@@ -19,5 +20,7 @@
     
     float pageWidth;
 }
+
+@property (nonatomic)Region region;
 
 @end

@@ -192,7 +192,6 @@
                                         </state>
                                         <connections>
                                             <action selector="listNearbyStopsPressed:" destination="139-RC-VnC" eventType="touchUpInside" id="wny-dT-wBP"/>
-                                            <segue destination="AIA-FK-lAZ" kind="presentation" identifier="showProFeatures" id="kBd-va-LEz"/>
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="dIy-Zh-BEc">
@@ -737,6 +736,7 @@
                         <segue destination="Oiv-6M-ej1" kind="presentation" identifier="openBookmarks" id="oJb-eU-zeZ"/>
                         <segue destination="aTA-lg-F9E" kind="presentation" identifier="showSettings" id="XXG-2d-aPo"/>
                         <segue destination="22G-UU-nOZ" kind="presentation" identifier="showWelcomeView" animates="NO" id="Tx2-4m-mRF"/>
+                        <segue destination="AIA-FK-lAZ" kind="presentation" identifier="showProFeatures" id="yf4-eP-97K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uil-Zh-FCL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -9780,23 +9780,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="F7i-cJ-TYg"/>
-        <segue reference="SWb-EE-ndB"/>
-        <segue reference="U9A-P0-Va2"/>
-        <segue reference="ocH-Qu-aOm"/>
         <segue reference="XlZ-XU-H5m"/>
-        <segue reference="4lM-KH-B6v"/>
-        <segue reference="YpZ-AP-yAo"/>
-        <segue reference="fk8-2d-CEg"/>
-        <segue reference="due-au-0KO"/>
-        <segue reference="X8p-rp-E0z"/>
-        <segue reference="kBd-va-LEz"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="yf4-eP-97K"/>
         <segue reference="s3H-Jn-riC"/>
-        <segue reference="lwh-ia-2sg"/>
+        <segue reference="due-au-0KO"/>
+        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="X8p-rp-E0z"/>
+        <segue reference="DEk-ct-YDr"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="Tx2-4m-mRF"/>
         <segue reference="rqd-oJ-7h3"/>
+        <segue reference="lwh-ia-2sg"/>
+        <segue reference="SWb-EE-ndB"/>
+        <segue reference="F7i-cJ-TYg"/>
+        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="fk8-2d-CEg"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="4lM-KH-B6v"/>
     </inferredMetricsTieBreakers>
 </document>

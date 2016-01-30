@@ -51,15 +51,6 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self layoutAnimated:NO];
-    
-//    CGSize contentSize = _webView.scrollView.contentSize;
-//    CGSize viewSize = self.view.frame.size;
-//    
-//    float rw = viewSize.width / contentSize.width;
-//    
-//    _webView.scrollView.minimumZoomScale = rw;
-//    _webView.scrollView.maximumZoomScale = rw;
-//    [_webView.scrollView setZoomScale:rw animated:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -117,6 +108,8 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    //
+//    NSLog(@"contentOfset = %f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height - _bottomContentOffset) {
         [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - scrollView.frame.size.height - _bottomContentOffset)];
     }

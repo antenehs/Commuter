@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3493EF41B3AC4D40AC49470A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06E935F13E44503B376EA3D /* libPods.a */; };
 		6604F2761B433A2C007489D1 /* new-bookmarks.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2741B433A2C007489D1 /* new-bookmarks.png */; };
-		6604F2771B433A2C007489D1 /* new-mapview.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2751B433A2C007489D1 /* new-mapview.png */; };
 		66056E6A1C42AAFE00C011FB /* DataFrameRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E571C42AAFE00C011FB /* DataFrameRef.m */; };
 		66056E6B1C42AAFE00C011FB /* DevHslVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E591C42AAFE00C011FB /* DevHslVehicle.m */; };
 		66056E6C1C42AAFE00C011FB /* DirectionRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E5B1C42AAFE00C011FB /* DirectionRef.m */; };
@@ -640,7 +639,6 @@
 		66C733951C556DA5002544BC /* back-arrow-white-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B12C1AC861620038BA78 /* back-arrow-white-100.png */; };
 		66C733961C556DA5002544BC /* tram-filled-light-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6673775D1ACCCE9E003581B5 /* tram-filled-light-64.png */; };
 		66C733971C556DA5002544BC /* bus-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 666437C819E1852E00B82BE5 /* bus-green-50.png */; };
-		66C733981C556DA5002544BC /* named-bookmarks-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */; };
 		66C733991C556DA5002544BC /* sendMailbutton3.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CB95E618E4F2C400E95CE5 /* sendMailbutton3.png */; };
 		66C7339A1C556DA5002544BC /* Home-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602B41B12422F006919CB /* Home-green-100.png */; };
 		66C7339B1C556DA5002544BC /* tram-filled-green-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377551ACCCD09003581B5 /* tram-filled-green-64.png */; };
@@ -664,7 +662,6 @@
 		66C733AD1C556DA5002544BC /* changeToFullVersionJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */; };
 		66C733AE1C556DA5002544BC /* lock-red-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 660716111B49345D00033049 /* lock-red-50.png */; };
 		66C733AF1C556DA5002544BC /* showMap-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 661721F019CDE21B00E3CD6E /* showMap-icon.png */; };
-		66C733B01C556DA5002544BC /* new-mapview.png in Resources */ = {isa = PBXBuildFile; fileRef = 6604F2751B433A2C007489D1 /* new-mapview.png */; };
 		66C733B11C556DA5002544BC /* addIcon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E791A0558C300797ABA /* addIcon-green.png */; };
 		66C733B21C556DA5002544BC /* Bus Filled-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BC1B1396AF006919CB /* Bus Filled-green-100.png */; };
 		66C733B31C556DA5002544BC /* sitting-filled-grey-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2421ACE165D00F6DDF7 /* sitting-filled-grey-64.png */; };
@@ -700,7 +697,6 @@
 		66C733D11C556DA5002544BC /* up-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE1EF19C42F590039081D /* up-arrow-50.png */; };
 		66C733D21C556DA5002544BC /* expand-arrow-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 667B980D1AD1502600C45ADF /* expand-arrow-50.png */; };
 		66C733D31C556DA5002544BC /* restaurant-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F6A1B34386400CE670E /* restaurant-100.png */; };
-		66C733D41C556DA5002544BC /* dropped-pins-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */; };
 		66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
 		66C733D61C556DA5002544BC /* app-pro-logo-rounded-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0911B652D8F00DC20D0 /* app-pro-logo-rounded-small.png */; };
 		66C733D71C556DA5002544BC /* polyline-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 664ADFEA1992740F000B4F18 /* polyline-75.png */; };
@@ -767,7 +763,6 @@
 		66C734151C556DA5002544BC /* darkGradientLandscape.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */; };
 		66C734161C556DA5002544BC /* password-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6607160E1B4871C300033049 /* password-50.png */; };
 		66C734171C556DA5002544BC /* Building-black-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D7531C0CA6B200ACCC3A /* Building-black-50.png */; };
-		66C734181C556DA5002544BC /* IMG_4833.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */; };
 		66C734191C556DA5002544BC /* compass-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664E28A81AE2B32300BE2457 /* compass-100.png */; };
 		66C7341A1C556DA5002544BC /* dotted-brown-line.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAE1F519C5D1E00039081D /* dotted-brown-line.png */; };
 		66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5C18BF3A22002DDC7B /* Aspergit Light.otf */; };
@@ -880,7 +875,6 @@
 		66C734861C556DA5002544BC /* newNearbyDepartures.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAD1C55061100C838AA /* newNearbyDepartures.png */; };
 		66C734871C556DA5002544BC /* Settings-Filled-2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BA1B124C82006919CB /* Settings-Filled-2-100.png */; };
 		66C734881C556DA5002544BC /* train-filled-red-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66C734F71B28D5970026A584 /* train-filled-red-100.png */; };
-		66C734891C556DA5002544BC /* route-view-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A61AED223A00F20D34 /* route-view-3.0.png */; };
 		66C7348A1C556DA5002544BC /* watch-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1383F19977E6300B52B6B /* watch-100.png */; };
 		66C7348B1C556DA5002544BC /* ferry-colored-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66D989EC199FFC5300E0B74B /* ferry-colored-75.png */; };
 		66C7348C1C556DA5002544BC /* bus-filled-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2501ACF67A200F6DDF7 /* bus-filled-gray-100.png */; };
@@ -964,7 +958,6 @@
 		66C734DA1C556DA5002544BC /* close-button-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EE1ACA89ED008E045D /* close-button-white.png */; };
 		66C734DB1C556DA5002544BC /* app-pro-logo-rounded2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6663A09A1B66D6F700DC20D0 /* app-pro-logo-rounded2.png */; };
 		66C734DC1C556DA5002544BC /* BusVAnnot-no-bearing.png in Resources */ = {isa = PBXBuildFile; fileRef = 66056E771C42E5C600C011FB /* BusVAnnot-no-bearing.png */; };
-		66C734DD1C556DA5002544BC /* annotation-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099AA1AED4B3500F20D34 /* annotation-3.0.png */; };
 		66C734DE1C556DA5002544BC /* cupcake-100_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 667B98131AD3294C00C45ADF /* cupcake-100_grey.png */; };
 		66C734DF1C556DA5002544BC /* service-bus-filled-purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 667377541ACCCD09003581B5 /* service-bus-filled-purple.png */; };
 		66C734E01C556DA5002544BC /* newServicePoints.png in Resources */ = {isa = PBXBuildFile; fileRef = 66780DAF1C55061100C838AA /* newServicePoints.png */; };
@@ -1342,12 +1335,7 @@
 		66F099971AEADCF300F20D34 /* Thumbs Up-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099961AEADCF300F20D34 /* Thumbs Up-50.png */; };
 		66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099991AEC234200F20D34 /* DetailImageView.m */; };
 		66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F0999B1AEC236B00F20D34 /* DetailImageView.xib */; };
-		66F0999E1AEC427F00F20D34 /* IMG_4833.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */; };
 		66F099A11AEC4F5D00F20D34 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */; };
-		66F099A41AED222B00F20D34 /* dropped-pins-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */; };
-		66F099A51AED222B00F20D34 /* named-bookmarks-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */; };
-		66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099A61AED223A00F20D34 /* route-view-3.0.png */; };
-		66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099AA1AED4B3500F20D34 /* annotation-3.0.png */; };
 		66F1382B1992F54000B52B6B /* busStopAnnotation-small-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */; };
 		66F1382D1992FBD500B52B6B /* star-orange-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382C1992FBD500B52B6B /* star-orange-128.png */; };
 		66F1382F19938A3000B52B6B /* idea-75.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F1382E19938A3000B52B6B /* idea-75.png */; };
@@ -1489,7 +1477,6 @@
 
 /* Begin PBXFileReference section */
 		6604F2741B433A2C007489D1 /* new-bookmarks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-bookmarks.png"; sourceTree = "<group>"; };
-		6604F2751B433A2C007489D1 /* new-mapview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-mapview.png"; sourceTree = "<group>"; };
 		66056E561C42AAFE00C011FB /* DataFrameRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFrameRef.h; sourceTree = "<group>"; };
 		66056E571C42AAFE00C011FB /* DataFrameRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataFrameRef.m; sourceTree = "<group>"; };
 		66056E581C42AAFE00C011FB /* DevHslVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevHslVehicle.h; sourceTree = "<group>"; };
@@ -2264,13 +2251,8 @@
 		66F099981AEC234200F20D34 /* DetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailImageView.h; sourceTree = "<group>"; };
 		66F099991AEC234200F20D34 /* DetailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailImageView.m; sourceTree = "<group>"; };
 		66F0999B1AEC236B00F20D34 /* DetailImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailImageView.xib; sourceTree = "<group>"; };
-		66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_4833.PNG; sourceTree = "<group>"; };
 		66F0999F1AEC4F5D00F20D34 /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
-		66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropped-pins-3.0.png"; sourceTree = "<group>"; };
-		66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "named-bookmarks-3.0.png"; sourceTree = "<group>"; };
-		66F099A61AED223A00F20D34 /* route-view-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "route-view-3.0.png"; sourceTree = "<group>"; };
-		66F099AA1AED4B3500F20D34 /* annotation-3.0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "annotation-3.0.png"; path = "Pictures/Version 2.3/annotation-3.0.png"; sourceTree = "<group>"; };
 		66F1382A1992F54000B52B6B /* busStopAnnotation-small-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "busStopAnnotation-small-blue.png"; path = "Pictures/New Version 2.0/busStopAnnotation-small-blue.png"; sourceTree = "<group>"; };
 		66F1382C1992FBD500B52B6B /* star-orange-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star-orange-128.png"; path = "Pictures/New Version 2.0/star-orange-128.png"; sourceTree = "<group>"; };
 		66F1382E19938A3000B52B6B /* idea-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "idea-75.png"; path = "Pictures/New Version 2.0/Search View/idea-75.png"; sourceTree = "<group>"; };
@@ -2718,7 +2700,6 @@
 				66056E761C42E5C600C011FB /* metroVAnnot-no-bearing.png */,
 				66056E771C42E5C600C011FB /* BusVAnnot-no-bearing.png */,
 				6604F2741B433A2C007489D1 /* new-bookmarks.png */,
-				6604F2751B433A2C007489D1 /* new-mapview.png */,
 				66134C041B41EB320008C6D7 /* globe-filled-100.png */,
 				66134C001B4067860008C6D7 /* dark-dotted-line-long.png */,
 				66134BFE1B3F1BFC0008C6D7 /* goFromHere.png */,
@@ -3879,11 +3860,6 @@
 				666602511AED8F2600E3E392 /* all-devices.png */,
 				666602521AED8F2600E3E392 /* joint-100.png */,
 				666602531AED8F2600E3E392 /* bug-100.png */,
-				66F099AA1AED4B3500F20D34 /* annotation-3.0.png */,
-				66F099A61AED223A00F20D34 /* route-view-3.0.png */,
-				66F099A21AED222A00F20D34 /* dropped-pins-3.0.png */,
-				66F099A31AED222B00F20D34 /* named-bookmarks-3.0.png */,
-				66F0999D1AEC427F00F20D34 /* IMG_4833.PNG */,
 				66F099961AEADCF300F20D34 /* Thumbs Up-50.png */,
 				66F099921AEAD6C700F20D34 /* darkGradientLandscape.jpeg */,
 				66F099931AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg */,
@@ -4217,7 +4193,6 @@
 				66F3B12D1AC861620038BA78 /* back-arrow-white-100.png in Resources */,
 				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
 				666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */,
-				66F099A51AED222B00F20D34 /* named-bookmarks-3.0.png in Resources */,
 				66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */,
 				669602B51B12422F006919CB /* Home-green-100.png in Resources */,
 				667377591ACCCD09003581B5 /* tram-filled-green-64.png in Resources */,
@@ -4241,7 +4216,6 @@
 				6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */,
 				660716131B49345D00033049 /* lock-red-50.png in Resources */,
 				661721F119CDE21B00E3CD6E /* showMap-icon.png in Resources */,
-				6604F2771B433A2C007489D1 /* new-mapview.png in Resources */,
 				665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */,
 				669602BD1B1396AF006919CB /* Bus Filled-green-100.png in Resources */,
 				6682D2431ACE165D00F6DDF7 /* sitting-filled-grey-64.png in Resources */,
@@ -4277,7 +4251,6 @@
 				66DAE1F119C42F590039081D /* up-arrow-50.png in Resources */,
 				667B980E1AD1502600C45ADF /* expand-arrow-50.png in Resources */,
 				660E2F781B34386400CE670E /* restaurant-100.png in Resources */,
-				66F099A41AED222B00F20D34 /* dropped-pins-3.0.png in Resources */,
 				66C735CC1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
 				6663A0941B652D8F00DC20D0 /* app-pro-logo-rounded-small.png in Resources */,
@@ -4346,7 +4319,6 @@
 				66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */,
 				6607160F1B4871C300033049 /* password-50.png in Resources */,
 				6665D7631C0CA6B200ACCC3A /* Building-black-50.png in Resources */,
-				66F0999E1AEC427F00F20D34 /* IMG_4833.PNG in Resources */,
 				664E28A91AE2B32300BE2457 /* compass-100.png in Resources */,
 				66DAE1F619C5D1E00039081D /* dotted-brown-line.png in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
@@ -4460,7 +4432,6 @@
 				66780DB71C55061100C838AA /* newNearbyDepartures.png in Resources */,
 				669602BB1B124C82006919CB /* Settings-Filled-2-100.png in Resources */,
 				66C734FB1B28D5970026A584 /* train-filled-red-100.png in Resources */,
-				66F099A81AED223A00F20D34 /* route-view-3.0.png in Resources */,
 				66F1384019977E6300B52B6B /* watch-100.png in Resources */,
 				66D989F1199FFC5300E0B74B /* ferry-colored-75.png in Resources */,
 				6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */,
@@ -4545,7 +4516,6 @@
 				66EC18EF1ACA89ED008E045D /* close-button-white.png in Resources */,
 				6663A09B1B66D6F700DC20D0 /* app-pro-logo-rounded2.png in Resources */,
 				66056E7B1C42E5C600C011FB /* BusVAnnot-no-bearing.png in Resources */,
-				66F099AB1AED4B3500F20D34 /* annotation-3.0.png in Resources */,
 				667B981D1AD3294C00C45ADF /* cupcake-100_grey.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
 				66780DB91C55061100C838AA /* newServicePoints.png in Resources */,
@@ -4608,7 +4578,6 @@
 				66C733951C556DA5002544BC /* back-arrow-white-100.png in Resources */,
 				66C733961C556DA5002544BC /* tram-filled-light-64.png in Resources */,
 				66C733971C556DA5002544BC /* bus-green-50.png in Resources */,
-				66C733981C556DA5002544BC /* named-bookmarks-3.0.png in Resources */,
 				66C733991C556DA5002544BC /* sendMailbutton3.png in Resources */,
 				66C7339A1C556DA5002544BC /* Home-green-100.png in Resources */,
 				66C7339B1C556DA5002544BC /* tram-filled-green-64.png in Resources */,
@@ -4632,7 +4601,6 @@
 				66C733AD1C556DA5002544BC /* changeToFullVersionJS.js in Resources */,
 				66C733AE1C556DA5002544BC /* lock-red-50.png in Resources */,
 				66C733AF1C556DA5002544BC /* showMap-icon.png in Resources */,
-				66C733B01C556DA5002544BC /* new-mapview.png in Resources */,
 				66C733B11C556DA5002544BC /* addIcon-green.png in Resources */,
 				66C733B21C556DA5002544BC /* Bus Filled-green-100.png in Resources */,
 				66C733B31C556DA5002544BC /* sitting-filled-grey-64.png in Resources */,
@@ -4668,7 +4636,6 @@
 				66C733D11C556DA5002544BC /* up-arrow-50.png in Resources */,
 				66C733D21C556DA5002544BC /* expand-arrow-50.png in Resources */,
 				66C733D31C556DA5002544BC /* restaurant-100.png in Resources */,
-				66C733D41C556DA5002544BC /* dropped-pins-3.0.png in Resources */,
 				66C735CD1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */,
 				66C733D61C556DA5002544BC /* app-pro-logo-rounded-small.png in Resources */,
@@ -4736,7 +4703,6 @@
 				66C734151C556DA5002544BC /* darkGradientLandscape.jpeg in Resources */,
 				66C734161C556DA5002544BC /* password-50.png in Resources */,
 				66C734171C556DA5002544BC /* Building-black-50.png in Resources */,
-				66C734181C556DA5002544BC /* IMG_4833.PNG in Resources */,
 				66C734191C556DA5002544BC /* compass-100.png in Resources */,
 				66C7341A1C556DA5002544BC /* dotted-brown-line.png in Resources */,
 				66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */,
@@ -4849,7 +4815,6 @@
 				66C734861C556DA5002544BC /* newNearbyDepartures.png in Resources */,
 				66C734871C556DA5002544BC /* Settings-Filled-2-100.png in Resources */,
 				66C734881C556DA5002544BC /* train-filled-red-100.png in Resources */,
-				66C734891C556DA5002544BC /* route-view-3.0.png in Resources */,
 				66C7348A1C556DA5002544BC /* watch-100.png in Resources */,
 				66C7348B1C556DA5002544BC /* ferry-colored-75.png in Resources */,
 				66C7348C1C556DA5002544BC /* bus-filled-gray-100.png in Resources */,
@@ -4933,7 +4898,6 @@
 				66C734DA1C556DA5002544BC /* close-button-white.png in Resources */,
 				66C734DB1C556DA5002544BC /* app-pro-logo-rounded2.png in Resources */,
 				66C734DC1C556DA5002544BC /* BusVAnnot-no-bearing.png in Resources */,
-				66C734DD1C556DA5002544BC /* annotation-3.0.png in Resources */,
 				66C734DE1C556DA5002544BC /* cupcake-100_grey.png in Resources */,
 				66C734DF1C556DA5002544BC /* service-bus-filled-purple.png in Resources */,
 				66C734E01C556DA5002544BC /* newServicePoints.png in Resources */,
