@@ -5896,7 +5896,7 @@
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = reitti.aikatuluApp;
+				PRODUCT_BUNDLE_IDENTIFIER = reitti.aikatauluApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Reitti-Bridging-Header.h";
@@ -5948,7 +5948,7 @@
 				INFOPLIST_FILE = "Reitti/Reitti-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = reitti.aikatuluApp;
+				PRODUCT_BUNDLE_IDENTIFIER = reitti.aikatauluApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Reitti-Bridging-Header.h";
@@ -6201,7 +6201,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatuluApp.Commuter---Departures";
+				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatauluApp.Commuter---Departures";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -6222,7 +6222,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatuluApp.Commuter---Departures";
+				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatauluApp.Commuter---Departures";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
