@@ -2888,7 +2888,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         NSIndexPath *selectedRowIndexPath = [nearbyStopsListsTable indexPathForRowAtPoint:locationInTableView];
         UITableViewCell *cell = [nearbyStopsListsTable cellForRowAtIndexPath:selectedRowIndexPath];
         
-        BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.section];
+        BusStopShort *selected = self.nearByStopList.count > selectedRowIndexPath.section ? [self.nearByStopList objectAtIndex:selectedRowIndexPath.section] : nil;
         if (cell && selected) {
             CGRect convertedRect = [cell.superview convertRect:[nearbyStopsListsTable rectForSection:selectedRowIndexPath.section] toView:self.view];
             previewingContext.sourceRect = convertedRect;
