@@ -530,11 +530,12 @@ const NSInteger kTimerRefreshInterval = 15;
                 dateLabel.hidden = NO;
                 dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
                 collectionView.hidden = YES;
+                collectionView.restorationIdentifier = nil; /* Just to be sure */
             }else{
                 dateLabel.hidden = YES;
                 if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]]) {
                     collectionView.hidden = NO;
-                    collectionView.restorationIdentifier=[NSString stringWithFormat:@"%li", (long)indexPath.row, nil];
+                    collectionView.restorationIdentifier = [NSString stringWithFormat:@"%li", (long)indexPath.row, nil];
                     collectionView.backgroundColor = [UIColor clearColor];
                     
                     collectionView.userInteractionEnabled = NO;
@@ -790,10 +791,12 @@ const NSInteger kTimerRefreshInterval = 15;
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    int row = [collectionView.restorationIdentifier intValue];
-    if ([self isthereValidDetailForStop:self.savedStops[row]]) {
-        BusStop *stop = [self getDetailStopForBusStop:self.savedStops[row]];
-        return stop.departures ? stop.departures.count : 0;
+    if (collectionView.restorationIdentifier) {
+        int row = [collectionView.restorationIdentifier intValue];
+        if ([self isthereValidDetailForStop:self.savedStops[row]]) {
+            BusStop *stop = [self getDetailStopForBusStop:self.savedStops[row]];
+            return stop.departures ? stop.departures.count : 0;
+        }
     }
     
     return 0;
