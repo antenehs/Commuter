@@ -111,9 +111,9 @@ NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id861274235";
 
 +(UIImage *)appVersionPicture{
     if ([self isProVersion])
-        return [UIImage imageNamed:@"version-2.png"];
+        return [UIImage imageNamed:@"version2IconFilled"];
     else
-        return [UIImage imageNamed:@"version-5.png"];
+        return [UIImage imageNamed:@"version5IconThin"];
 }
 
 +(NSString *)appAppstoreLink{

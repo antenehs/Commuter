@@ -30,7 +30,6 @@ typedef enum
 
 @property (nonatomic)TableViewMode tableViewMode;
 @property (nonatomic, strong) id previewingContext;
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPress;
 
 @end
 
@@ -280,15 +279,6 @@ typedef enum
     }
     
     [self searchRouteIfPossible];
-}
-
-- (UILongPressGestureRecognizer *)longPress {
-    
-    if (!_longPress) {
-        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showPeekFromLongPress)];
-        [routeResultsTableView addGestureRecognizer:_longPress];
-    }
-    return _longPress;
 }
 
 -(void)setUpToolBar{
@@ -704,11 +694,6 @@ typedef enum
         }
     }
 }
-
--(void)showPeekFromLongPress{
-    
-}
-
 
 #pragma mark - search bar methods
 
@@ -1770,12 +1755,8 @@ typedef enum
     if ([self isForceTouchAvailable])
     {
         self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:routeResultsTableView];
-        self.longPress.enabled = NO;
     }else{
         NSLog(@"3D Touch is not available on this device.!");
-        
-        // handle a 3D Touch alternative (long gesture recognizer)
-        self.longPress.enabled = YES;
     }
 }
 

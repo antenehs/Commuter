@@ -86,7 +86,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self reindexSavedDataForSpotlight];
     [self initViewComponents];
     
-    [self showGoProNotification];
+    if (![AppManager isProVersion])
+        [self showGoProNotification];
+    
     [self showRateAppNotification];
     
     if ([AppManager isNewInstallOrNewVersion]) {
@@ -140,7 +142,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
                                                             handler:^(UIAlertAction * action) {
-                                                                [self.reittiDataManager setAppOpenCountValue:-7];
+                                                                [self.reittiDataManager setAppOpenCountValue:-10];
                                                             }];
         
         [alert addAction:laterAction];

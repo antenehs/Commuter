@@ -8482,7 +8482,7 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reminders2-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-NY-8VQ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarmClockFilled" translatesAutoresizingMaskIntoConstraints="NO" id="PBg-NY-8VQ">
                                             <rect key="frame" x="10" y="14" width="22" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="BCB-1j-THE"/>
@@ -8699,11 +8699,11 @@ Helsinki, Finland</string>
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disruptions-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="zJ4-L2-zCT">
-                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="warningIconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="zJ4-L2-zCT">
+                                            <rect key="frame" x="10" y="14" width="21" height="21"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="25" id="GRT-6m-R5w"/>
-                                                <constraint firstAttribute="width" constant="25" id="JuN-po-ltJ"/>
+                                                <constraint firstAttribute="height" constant="21" id="GRT-6m-R5w"/>
+                                                <constraint firstAttribute="width" constant="21" id="JuN-po-ltJ"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="lSY-2N-dqZ"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="pRV-Mk-OzE"/>
                                             </constraints>
@@ -8736,10 +8736,10 @@ Helsinki, Finland</string>
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="hra-ee-beV" firstAttribute="leading" secondItem="zJ4-L2-zCT" secondAttribute="trailing" constant="8" id="JyB-KV-DUS"/>
+                                        <constraint firstItem="hra-ee-beV" firstAttribute="leading" secondItem="zJ4-L2-zCT" secondAttribute="trailing" constant="10" id="JyB-KV-DUS"/>
                                         <constraint firstItem="WR1-qb-yNI" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="7" id="Ryg-ti-aS6"/>
-                                        <constraint firstItem="zJ4-L2-zCT" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="4" id="VBB-4C-SZQ"/>
-                                        <constraint firstItem="zJ4-L2-zCT" firstAttribute="leading" secondItem="M0E-MS-YSK" secondAttribute="leadingMargin" id="Ypf-wI-9rF"/>
+                                        <constraint firstItem="zJ4-L2-zCT" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="6" id="VBB-4C-SZQ"/>
+                                        <constraint firstItem="zJ4-L2-zCT" firstAttribute="leading" secondItem="M0E-MS-YSK" secondAttribute="leadingMargin" constant="2" id="Ypf-wI-9rF"/>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="leading" secondItem="zJ4-L2-zCT" secondAttribute="trailing" constant="9" id="ee6-Os-t6m"/>
                                         <constraint firstItem="hra-ee-beV" firstAttribute="top" secondItem="M0E-MS-YSK" secondAttribute="topMargin" constant="6" id="kNc-Iw-3SG"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="WR1-qb-yNI" secondAttribute="trailing" constant="-4" id="qHu-GD-RKP"/>
@@ -8782,12 +8782,12 @@ Helsinki, Finland</string>
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settings-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="UTL-Ye-LSy">
-                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="settingsIconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="UTL-Ye-LSy">
+                                            <rect key="frame" x="9" y="13" width="23" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="InM-Zs-waq"/>
-                                                <constraint firstAttribute="height" constant="25" id="U1Q-Zu-ODE"/>
-                                                <constraint firstAttribute="width" constant="25" id="URc-7R-Mhn"/>
+                                                <constraint firstAttribute="height" constant="23" id="U1Q-Zu-ODE"/>
+                                                <constraint firstAttribute="width" constant="23" id="URc-7R-Mhn"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="oqt-Yc-H3e"/>
                                             </constraints>
                                             <variation key="default">
@@ -8799,11 +8799,11 @@ Helsinki, Finland</string>
                                         </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="sWi-01-wZ5" firstAttribute="leading" secondItem="UTL-Ye-LSy" secondAttribute="trailing" constant="8" id="0Q7-CP-JHW"/>
+                                        <constraint firstItem="sWi-01-wZ5" firstAttribute="leading" secondItem="UTL-Ye-LSy" secondAttribute="trailing" constant="9" id="0Q7-CP-JHW"/>
                                         <constraint firstItem="sWi-01-wZ5" firstAttribute="leading" secondItem="UTL-Ye-LSy" secondAttribute="trailing" constant="9" id="5sE-y2-Rrm"/>
                                         <constraint firstItem="sWi-01-wZ5" firstAttribute="top" secondItem="rao-jq-teo" secondAttribute="topMargin" constant="6" id="Hf8-bM-m1e"/>
-                                        <constraint firstItem="UTL-Ye-LSy" firstAttribute="leading" secondItem="rao-jq-teo" secondAttribute="leadingMargin" id="Uho-5d-Jvt"/>
-                                        <constraint firstItem="UTL-Ye-LSy" firstAttribute="top" secondItem="rao-jq-teo" secondAttribute="topMargin" constant="4" id="nrQ-Kq-iqz"/>
+                                        <constraint firstItem="UTL-Ye-LSy" firstAttribute="leading" secondItem="rao-jq-teo" secondAttribute="leadingMargin" constant="1" id="Uho-5d-Jvt"/>
+                                        <constraint firstItem="UTL-Ye-LSy" firstAttribute="top" secondItem="rao-jq-teo" secondAttribute="topMargin" constant="5" id="nrQ-Kq-iqz"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -8883,12 +8883,12 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cool-96.png" translatesAutoresizingMaskIntoConstraints="NO" id="FPo-F2-aOS">
-                                            <rect key="frame" x="7" y="11" width="28" height="30"/>
+                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coolIconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="FPo-F2-aOS">
+                                            <rect key="frame" x="9" y="13" width="24" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="Lfx-3n-OFv"/>
-                                                <constraint firstAttribute="width" constant="28" id="OMx-4Q-bIc"/>
-                                                <constraint firstAttribute="height" constant="30" id="lOq-2d-3hp"/>
+                                                <constraint firstAttribute="width" constant="24" id="OMx-4Q-bIc"/>
+                                                <constraint firstAttribute="height" constant="24" id="lOq-2d-3hp"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="rFt-NY-pJT"/>
                                             </constraints>
                                             <variation key="default">
@@ -8948,10 +8948,10 @@ Helsinki, Finland</string>
                                         <constraint firstItem="YMu-rK-NXL" firstAttribute="leading" secondItem="FPo-F2-aOS" secondAttribute="trailing" constant="9" id="03L-zP-hte"/>
                                         <constraint firstItem="Y3E-uQ-iub" firstAttribute="trailing" secondItem="Y3C-9D-2Rj" secondAttribute="trailingMargin" constant="8" id="3bn-ch-wQG"/>
                                         <constraint firstItem="Y3E-uQ-iub" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="6" id="mw2-AC-HrQ"/>
-                                        <constraint firstItem="FPo-F2-aOS" firstAttribute="leading" secondItem="Y3C-9D-2Rj" secondAttribute="leadingMargin" constant="-1" id="sCq-71-IxI"/>
+                                        <constraint firstItem="FPo-F2-aOS" firstAttribute="leading" secondItem="Y3C-9D-2Rj" secondAttribute="leadingMargin" constant="1" id="sCq-71-IxI"/>
                                         <constraint firstItem="YMu-rK-NXL" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="7" id="v8k-DA-ggp"/>
-                                        <constraint firstItem="FPo-F2-aOS" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="3" id="xTr-OS-s7D"/>
-                                        <constraint firstItem="YMu-rK-NXL" firstAttribute="leading" secondItem="FPo-F2-aOS" secondAttribute="trailing" constant="6" id="zyh-Cg-zhB"/>
+                                        <constraint firstItem="FPo-F2-aOS" firstAttribute="top" secondItem="Y3C-9D-2Rj" secondAttribute="topMargin" constant="5" id="xTr-OS-s7D"/>
+                                        <constraint firstItem="YMu-rK-NXL" firstAttribute="leading" secondItem="FPo-F2-aOS" secondAttribute="trailing" constant="8" id="zyh-Cg-zhB"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -8970,13 +8970,13 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="version-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="bbt-Ib-D1B">
-                                            <rect key="frame" x="6" y="10" width="30" height="30"/>
+                                        <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="version2IconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="bbt-Ib-D1B">
+                                            <rect key="frame" x="7" y="10" width="28" height="28"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="30" id="KhH-aQ-iwn"/>
+                                                <constraint firstAttribute="width" constant="28" id="KhH-aQ-iwn"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="Um4-St-Mrg"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="YwQ-cx-OtV"/>
-                                                <constraint firstAttribute="height" constant="30" id="dQn-4A-d2l"/>
+                                                <constraint firstAttribute="height" constant="28" id="dQn-4A-d2l"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -9010,9 +9010,9 @@ Helsinki, Finland</string>
                                     <constraints>
                                         <constraint firstItem="896-gp-o5r" firstAttribute="top" secondItem="6Xm-mM-lGq" secondAttribute="topMargin" constant="6" id="41G-bA-uqu"/>
                                         <constraint firstItem="896-gp-o5r" firstAttribute="leading" secondItem="bbt-Ib-D1B" secondAttribute="trailing" constant="9" id="UOJ-so-f1J"/>
-                                        <constraint firstItem="896-gp-o5r" firstAttribute="leading" secondItem="bbt-Ib-D1B" secondAttribute="trailing" constant="5" id="YPg-WA-dtd"/>
+                                        <constraint firstItem="896-gp-o5r" firstAttribute="leading" secondItem="bbt-Ib-D1B" secondAttribute="trailing" constant="6" id="YPg-WA-dtd"/>
                                         <constraint firstItem="bbt-Ib-D1B" firstAttribute="top" secondItem="6Xm-mM-lGq" secondAttribute="topMargin" constant="2" id="mPd-Cv-IuD"/>
-                                        <constraint firstItem="bbt-Ib-D1B" firstAttribute="leading" secondItem="6Xm-mM-lGq" secondAttribute="leadingMargin" constant="-2" id="oz8-ae-UNw"/>
+                                        <constraint firstItem="bbt-Ib-D1B" firstAttribute="leading" secondItem="6Xm-mM-lGq" secondAttribute="leadingMargin" constant="-1" id="oz8-ae-UNw"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -9031,13 +9031,13 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="contact-me-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="QEa-om-y1k">
-                                            <rect key="frame" x="8" y="12" width="25" height="25"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="messageIconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="QEa-om-y1k">
+                                            <rect key="frame" x="10" y="14" width="21" height="21"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="37w-jg-Uv9"/>
+                                                <constraint firstAttribute="width" constant="21" id="37w-jg-Uv9"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="KI6-6h-g7O"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="UT4-bc-Iop"/>
-                                                <constraint firstAttribute="height" constant="25" id="VU3-ik-T4U"/>
+                                                <constraint firstAttribute="height" constant="21" id="VU3-ik-T4U"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -9079,14 +9079,14 @@ Helsinki, Finland</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="6sn-yU-tHN" firstAttribute="leading" secondItem="QEa-om-y1k" secondAttribute="trailing" constant="9" id="8vw-Ud-Jhp"/>
-                                        <constraint firstItem="QEa-om-y1k" firstAttribute="leading" secondItem="ZuG-tp-CCQ" secondAttribute="leadingMargin" id="DTP-Cl-j4B"/>
-                                        <constraint firstItem="6sn-yU-tHN" firstAttribute="leading" secondItem="QEa-om-y1k" secondAttribute="trailing" constant="8" id="JHT-XZ-xVF"/>
+                                        <constraint firstItem="QEa-om-y1k" firstAttribute="leading" secondItem="ZuG-tp-CCQ" secondAttribute="leadingMargin" constant="2" id="DTP-Cl-j4B"/>
+                                        <constraint firstItem="6sn-yU-tHN" firstAttribute="leading" secondItem="QEa-om-y1k" secondAttribute="trailing" constant="10" id="JHT-XZ-xVF"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="5Xd-Mr-y26" secondAttribute="bottom" constant="-7" id="Q98-Qz-J8t"/>
                                         <constraint firstItem="6sn-yU-tHN" firstAttribute="top" secondItem="ZuG-tp-CCQ" secondAttribute="topMargin" constant="6" id="QFY-rB-6j2"/>
                                         <constraint firstItem="5Xd-Mr-y26" firstAttribute="top" secondItem="ZuG-tp-CCQ" secondAttribute="topMargin" constant="-8" id="VwN-tE-cTV"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="5Xd-Mr-y26" secondAttribute="trailing" constant="-8" id="a5M-gm-4Qu"/>
                                         <constraint firstItem="5Xd-Mr-y26" firstAttribute="leading" secondItem="ZuG-tp-CCQ" secondAttribute="leadingMargin" constant="-8" id="b5y-7f-foR"/>
-                                        <constraint firstItem="QEa-om-y1k" firstAttribute="top" secondItem="ZuG-tp-CCQ" secondAttribute="topMargin" constant="4" id="tZ2-Qi-I5j"/>
+                                        <constraint firstItem="QEa-om-y1k" firstAttribute="top" secondItem="ZuG-tp-CCQ" secondAttribute="topMargin" constant="6" id="tZ2-Qi-I5j"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -9102,7 +9102,7 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Like Filled-96.png" translatesAutoresizingMaskIntoConstraints="NO" id="MU7-HR-Yp5">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heartIconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="MU7-HR-Yp5">
                                             <rect key="frame" x="9" y="13" width="23" height="23"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="23" id="45u-X5-drZ"/>
@@ -9174,7 +9174,7 @@ Helsinki, Finland</string>
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rate-color-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="iv7-5U-rK8">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starIconFilled" translatesAutoresizingMaskIntoConstraints="NO" id="iv7-5U-rK8">
                                             <rect key="frame" x="8" y="12" width="25" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="3kR-pG-UIA"/>
@@ -9716,31 +9716,30 @@ Helsinki, Finland</string>
     </scenes>
     <resources>
         <image name="Bar Chart-100.png" width="100" height="100"/>
-        <image name="Cool-96.png" width="96" height="96"/>
         <image name="Edit-gray-100.png" width="100" height="100"/>
         <image name="Info-red-filled-50.png" width="50" height="50"/>
-        <image name="Like Filled-96.png" width="96" height="96"/>
         <image name="Options-colored-100.png" width="100" height="100"/>
         <image name="Up Left Filled-100.png" width="100" height="100"/>
         <image name="add-button-white.png" width="100" height="100"/>
         <image name="addIcon-green.png" width="295" height="295"/>
         <image name="advanced-setting-100.png" width="100" height="100"/>
         <image name="alarm-clock-filled-white-100.png" width="100" height="100"/>
+        <image name="alarmClockFilled" width="25" height="25"/>
         <image name="app-pro-logo-rounded2-small.png" width="100" height="101"/>
         <image name="blured-background-dark.png" width="710" height="1292"/>
         <image name="bus-filled-light-100.png" width="100" height="100"/>
         <image name="busAnnotation3_2.png" width="79" height="119"/>
         <image name="clock-color-100.png" width="100" height="100"/>
         <image name="close-button-white.png" width="100" height="100"/>
-        <image name="contact-me-color-100.png" width="100" height="100"/>
+        <image name="coolIconFilled" width="25" height="25"/>
         <image name="current location filled green.png" width="64" height="64"/>
         <image name="currentLocation-black.png" width="64" height="83"/>
         <image name="currentLocation3.png" width="285" height="284"/>
         <image name="dark-dotted-line.png" width="6" height="121"/>
-        <image name="disruptions-color-100.png" width="100" height="100"/>
         <image name="dropped-pin-100.png" width="100" height="100"/>
         <image name="exchange-arrows-white.png" width="151" height="184"/>
         <image name="expand-arrow-50.png" width="100" height="100"/>
+        <image name="heartIconFilled" width="25" height="25"/>
         <image name="home-100.png" width="100" height="100"/>
         <image name="idea-75.png" width="75" height="75"/>
         <image name="list-white-100.png" width="100" height="70"/>
@@ -9753,50 +9752,51 @@ Helsinki, Finland</string>
         <image name="map_background.png" width="784" height="1082"/>
         <image name="matkakortiLogoRounded.png" width="100" height="100"/>
         <image name="matkakortti-rounded.png" width="188" height="191"/>
+        <image name="messageIconFilled" width="25" height="25"/>
         <image name="next-green-100.png" width="100" height="100"/>
         <image name="next-grey-48.png" width="48" height="48"/>
         <image name="notification-tone-100.png" width="100" height="100"/>
         <image name="pluggin-color-100.png" width="100" height="100"/>
         <image name="previous-gray-48.png" width="48" height="48"/>
         <image name="previous-green-64.png" width="100" height="100"/>
-        <image name="rate-color-100.png" width="100" height="100"/>
-        <image name="reminders2-100.png" width="64" height="64"/>
         <image name="routeHistoryIcon.png" width="80" height="80"/>
         <image name="routeIcon2.png" width="80" height="80"/>
         <image name="search-75.png" width="75" height="75"/>
         <image name="servicePointAnnotation.png" width="40" height="45"/>
-        <image name="settings-color-100.png" width="100" height="100"/>
         <image name="settings-white-100.png" width="100" height="100"/>
+        <image name="settingsIconFilled" width="25" height="25"/>
         <image name="star-128.png" width="128" height="128"/>
         <image name="star-gray-75.png" width="75" height="75"/>
         <image name="star-line-white-100.png" width="100" height="100"/>
+        <image name="starIconFilled" width="25" height="25"/>
         <image name="train-filled-light-64.png" width="64" height="64"/>
         <image name="tram-filled-green-100.png" width="100" height="100"/>
         <image name="up-right-arrow-32.png" width="64" height="64"/>
         <image name="user-50.png" width="50" height="50"/>
-        <image name="version-2.png" width="96" height="96"/>
+        <image name="version2IconFilled" width="25" height="25"/>
         <image name="walking-gray-64.png" width="64" height="64"/>
         <image name="warning-exclamation.png" width="48" height="48"/>
+        <image name="warningIconFilled" width="25" height="25"/>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="XlZ-XU-H5m"/>
-        <segue reference="U9A-P0-Va2"/>
-        <segue reference="yf4-eP-97K"/>
-        <segue reference="s3H-Jn-riC"/>
-        <segue reference="due-au-0KO"/>
-        <segue reference="rqm-Vp-DPt"/>
         <segue reference="X8p-rp-E0z"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="rqd-oJ-7h3"/>
-        <segue reference="lwh-ia-2sg"/>
-        <segue reference="SWb-EE-ndB"/>
         <segue reference="F7i-cJ-TYg"/>
-        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="SWb-EE-ndB"/>
+        <segue reference="TZn-kH-clf"/>
+        <segue reference="G3y-0T-rdq"/>
         <segue reference="fk8-2d-CEg"/>
+        <segue reference="XlZ-XU-H5m"/>
         <segue reference="YpZ-AP-yAo"/>
         <segue reference="4lM-KH-B6v"/>
+        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="yf4-eP-97K"/>
+        <segue reference="s3H-Jn-riC"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="DEk-ct-YDr"/>
+        <segue reference="due-au-0KO"/>
+        <segue reference="lwh-ia-2sg"/>
     </inferredMetricsTieBreakers>
 </document>

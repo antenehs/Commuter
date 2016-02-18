@@ -411,6 +411,8 @@
 		669602BD1B1396AF006919CB /* Bus Filled-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BC1B1396AF006919CB /* Bus Filled-green-100.png */; };
 		669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602BE1B139708006919CB /* Bus-unselected-100.png */; };
 		669602D71B14DC12006919CB /* Search-green-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 669602D61B14DC12006919CB /* Search-green-100.png */; };
+		66978A741C7664B200C45B96 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
+		66978A751C7676F800C45B96 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
 		669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F619C83794005A04B9 /* RouteEntity.m */; };
 		669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */; };
 		66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A73FDC18BA3CED00405043 /* RettiDataManager.m */; };
@@ -2015,6 +2017,7 @@
 		669602D41B14D8E7006919CB /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
 		669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		669602D61B14DC12006919CB /* Search-green-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Search-green-100.png"; path = "Pictures/Version 2.3/Search-green-100.png"; sourceTree = "<group>"; };
+		66978A731C7664B200C45B96 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reitti-Bridging-Header.h"; sourceTree = "<group>"; };
 		669EA1F519C83794005A04B9 /* RouteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteEntity.h; sourceTree = "<group>"; };
 		669EA1F619C83794005A04B9 /* RouteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteEntity.m; sourceTree = "<group>"; };
@@ -3350,6 +3353,7 @@
 		66947CED1885D71F00642EE1 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				66978A731C7664B200C45B96 /* Icons.xcassets */,
 				660716031B45E28C00033049 /* Version 4.1 */,
 				661202B51B01406300D93C2E /* Version 3.1 */,
 				66F3B1251AC859100038BA78 /* New Version 2.3 */,
@@ -4401,6 +4405,7 @@
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
 				66D6EDB619A0A5F100FEB9FD /* finish_flag-50.png in Resources */,
 				660FB2391B39E242009C30BF /* lines-color-100.png in Resources */,
+				66978A741C7664B200C45B96 /* Icons.xcassets in Resources */,
 				66780DB51C55061100C838AA /* newLinesView.png in Resources */,
 				66780DBC1C55143F00C838AA /* newRoutesWidget@2x.png in Resources */,
 				6665D75F1C0CA6B200ACCC3A /* beach-black-50.png in Resources */,
@@ -4653,6 +4658,7 @@
 				66C733E31C556DA5002544BC /* globe-filled-100.png in Resources */,
 				66C733E41C556DA5002544BC /* app-pro-logo-rounded-midium.png in Resources */,
 				66C733E51C556DA5002544BC /* app-pro-logo-rounded2-medium.png in Resources */,
+				66978A751C7676F800C45B96 /* Icons.xcassets in Resources */,
 				66C733E61C556DA5002544BC /* alarm-clock-filled-white-100.png in Resources */,
 				66C733E71C556DA5002544BC /* Images-2.xcassets in Resources */,
 				66C733E81C556DA5002544BC /* map-green-100.png in Resources */,
