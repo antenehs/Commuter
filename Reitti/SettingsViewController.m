@@ -526,7 +526,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     if ([segue.identifier isEqualToString:@"showTrackingInfo"]) {
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
         WebViewController *webViewController = (WebViewController *)[navController.viewControllers lastObject];
-        NSURL *url = [NSURL URLWithString:@"http://commuterapp.weebly.com/"];
+        NSURL *url = [NSURL URLWithString:kFeatureTrackingUrl];
         
         webViewController.modalMode = YES;
         webViewController._url = url;

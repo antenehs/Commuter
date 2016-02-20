@@ -372,7 +372,7 @@
     
     if ([segue.identifier isEqualToString:@"viewProFeatures"]) {
         WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
-        NSURL *url = [NSURL URLWithString:@"http://commuterapp.weebly.com/"];
+        NSURL *url = [NSURL URLWithString:kGoProDetailUrl];
         
         webViewController.modalMode = NO;
         webViewController._url = url;

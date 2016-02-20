@@ -217,11 +217,7 @@
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-    
-}
-
-
+{}
 /*
 #pragma mark - Navigation
 

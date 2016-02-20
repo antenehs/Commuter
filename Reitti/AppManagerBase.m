@@ -20,7 +20,10 @@ NSString *urlSpaceEscapingString = @"%20";
 
 NSString *kProAppFullName = @"Commuter Pro";
 NSString *kAppFullName = @"Commuter";
-//
+
+NSString *kGoProDetailUrl = @"http://commuterapp.weebly.com/commuter-pro.html";
+NSString *kFeatureTrackingUrl = @"http://commuterapp.weebly.com/commuter-usage-tracking.html";
+
 NSString *kProAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
 NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id861274235";
 
