@@ -2854,8 +2854,6 @@
 		661FAF22189BA59F00042074 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				66947CC418830ED500642EE1 /* AppDelegate.h */,
-				66947CC518830ED500642EE1 /* AppDelegate.m */,
 				66947CF01886F90200642EE1 /* SearchController.h */,
 				66947CF11886F90200642EE1 /* SearchController.m */,
 				664ADFE619925CC6000B4F18 /* AddressSearchViewController.h */,
@@ -3293,6 +3291,8 @@
 			isa = PBXGroup;
 			children = (
 				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
+				66947CC418830ED500642EE1 /* AppDelegate.h */,
+				66947CC518830ED500642EE1 /* AppDelegate.m */,
 				661FAF22189BA59F00042074 /* View Controllers */,
 				664FA7EA198EB11900C6A5B0 /* Views */,
 				66CA02B51C1636A700A38858 /* Managers */,

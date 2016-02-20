@@ -9700,23 +9700,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="due-au-0KO"/>
+        <segue reference="s3H-Jn-riC"/>
+        <segue reference="DEk-ct-YDr"/>
+        <segue reference="oJb-eU-zeZ"/>
         <segue reference="X8p-rp-E0z"/>
+        <segue reference="lwh-ia-2sg"/>
         <segue reference="U9A-P0-Va2"/>
-        <segue reference="SWb-EE-ndB"/>
         <segue reference="TZn-kH-clf"/>
+        <segue reference="F7i-cJ-TYg"/>
+        <segue reference="G3y-0T-rdq"/>
+        <segue reference="SWb-EE-ndB"/>
+        <segue reference="4lM-KH-B6v"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="L45-cf-ZZX"/>
         <segue reference="fk8-2d-CEg"/>
         <segue reference="XlZ-XU-H5m"/>
-        <segue reference="YpZ-AP-yAo"/>
-        <segue reference="4lM-KH-B6v"/>
-        <segue reference="L45-cf-ZZX"/>
         <segue reference="ocH-Qu-aOm"/>
         <segue reference="tOp-kj-7Qb"/>
-        <segue reference="s3H-Jn-riC"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="due-au-0KO"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="9x7-C0-VCu"/>
-        <segue reference="lwh-ia-2sg"/>
     </inferredMetricsTieBreakers>
 </document>

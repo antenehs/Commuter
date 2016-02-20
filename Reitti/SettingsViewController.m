@@ -392,7 +392,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     [SettingsManager enableAnalytics:uiSwith.isOn];
 }
 
-
 - (IBAction)rateAppCellPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
 }

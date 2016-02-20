@@ -120,7 +120,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)showRateAppNotification{
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
-    if (appOpenCount > 3 && ![AppManager isNewInstallOrNewVersion]) {
+    if (appOpenCount > 5 && ![AppManager isNewInstallOrNewVersion]) {
 //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
 //                                                            message:@"The gift of 5 little starts is satisfying for both of us more than you think."
 //                                                           delegate:self
@@ -142,7 +142,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
                                                             handler:^(UIAlertAction * action) {
-                                                                [self.reittiDataManager setAppOpenCountValue:-10];
+                                                                [self.reittiDataManager setAppOpenCountValue:-8];
                                                             }];
         
         [alert addAction:laterAction];
@@ -2173,7 +2173,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
             [self openSettingsButtonPressed:self];
         }
     }else if (alertView.tag == 2003) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        if (buttonIndex == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        }
     }
 }
 
