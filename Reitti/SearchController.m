@@ -1227,6 +1227,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
                 
                 CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+                if (coordinate.latitude < 30 || coordinate.latitude > 90 || coordinate.longitude < 10 || coordinate.longitude > 90)
+                    continue;
                 NSString * name = stop.name;
                 NSString * codeShort = stop.codeShort ? stop.codeShort : @"";
                 

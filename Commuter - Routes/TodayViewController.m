@@ -67,10 +67,14 @@
     self.widgetDataManager = [[WidgetDataManager alloc] init];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self readNamedBookmarksFromUserDefaults];
     [self setUpView];
+}
+
+-(void) dealloc {
+    self.locationManager.delegate = nil;
 }
 
 - (void)readNamedBookmarksFromUserDefaults {
