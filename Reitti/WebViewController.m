@@ -40,20 +40,21 @@
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:_url];
     [_webView loadRequest:requestObj];
     
+    [self setupBottomView];
     [self setUpTopBarApearance];
-    
-    actionBottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    actionBottomView.layer.borderWidth = 0.5;
     
     _webView.scrollView.delegate = self;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self layoutAnimated:NO];
-}
+{}
 
 -(void)viewDidAppear:(BOOL)animated{
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
+#pragma mark - View methods
+- (void)setupBottomView{
     if (action) {
         if (_actionButtonTitle)
             [actionButton setTitle:_actionButtonTitle forState:UIControlStateNormal];
@@ -63,15 +64,9 @@
         actionBottomView.hidden = YES;
     }
     
-    [self layoutAnimated:NO];
-    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+    actionBottomView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    actionBottomView.layer.borderWidth = 0.5;
 }
-
--(void)viewWillDisappear:(BOOL)animated{
-//    [self.navigationController setToolbarHidden:YES animated:NO];
-}
-
-#pragma mark - View methods
 
 - (void)setUpTopBarApearance{
     if (!self.modalMode) {
@@ -152,14 +147,14 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     doneLoading = true;
     
-    CGSize contentSize = webView.scrollView.contentSize;
-    CGSize viewSize = self.view.frame.size;
-    
-    float rw = viewSize.width / contentSize.width;
-    
-    webView.scrollView.minimumZoomScale = rw;
-    webView.scrollView.maximumZoomScale = rw;
-    [webView.scrollView setZoomScale:rw animated:YES];
+//    CGSize contentSize = webView.scrollView.contentSize;
+//    CGSize viewSize = self.view.frame.size;
+//    
+//    float rw = viewSize.width / contentSize.width;
+//    
+//    webView.scrollView.minimumZoomScale = rw;
+//    webView.scrollView.maximumZoomScale = rw;
+//    [webView.scrollView setZoomScale:rw animated:YES];
     
 //    webView.scrollView.contentSize = CGSizeMake(webView.scrollView.contentSize.width, webView.scrollView.contentSize.width + 70);
 }

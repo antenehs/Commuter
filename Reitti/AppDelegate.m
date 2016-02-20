@@ -44,17 +44,17 @@
     tabBarItem3.title = @"Bookmarks";
     tabBarItem4.title = @"Lines";
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(23, 23)];
+    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(22, 22)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(23, 23)];
+    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(21, 21)];
     
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(24, 26)];
+    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(23, 25)];
 //    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIImage *image4 = [UIImage imageNamed:@"transit-line.png"];
-    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(24, 20)];
+    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(23, 19)];
     
     //Init Singletons
 //    [TravelCardManager sharedManager]; //Travel card manger

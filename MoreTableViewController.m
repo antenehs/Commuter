@@ -185,8 +185,8 @@
         if (indexPath.row == aboutCommuterRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell" forIndexPath:indexPath];
             
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
-            imageView.image = [AppManager roundedAppLogoSmall];
+//            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
+//            imageView.image = [AppManager roundedAppLogoSmall];
         }else if (indexPath.row == goProRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"goProCell" forIndexPath:indexPath];
         }else if (indexPath.row == newInVersionRow) {
