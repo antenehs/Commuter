@@ -577,6 +577,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row >= self.dataToLoad.count)
+        return;
+    
     [delegate searchViewControllerWillBeDismissed:addressSearchBar.text];
     if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
         GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];

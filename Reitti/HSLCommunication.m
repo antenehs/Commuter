@@ -12,6 +12,7 @@
 #import "AppManager.h"
 #import "CacheManager.h"
 #import "ReittiAnalyticsManager.h"
+#import "ASA_Helpers.h"
 
 @interface HSLCommunication ()
 
@@ -436,8 +437,8 @@
         NSMutableArray *stopLinesArray = [@[] mutableCopy];
         for (NSString *lineString in stop.lines) {
             StopLine *line = [StopLine new];
-            NSArray *info = [lineString componentsSeparatedByString:@":"];
-            if (info.count == 2) {
+            NSArray *info = [lineString asa_stringsBySplittingOnString:@":"];
+            if (info.count >= 2) {
                 line.name = info[1];
                 line.destination = info[1];
                 NSString *lineCode = info[0];

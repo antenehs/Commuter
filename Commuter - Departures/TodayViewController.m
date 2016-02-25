@@ -440,10 +440,16 @@
     if (viewButton) {
         BusStopE *selected;
         if (viewButton == firstViewButton) {
+            if (self.stopList.count < 1)
+                return;
             selected = [self.stopList objectAtIndex:0];
         }else if (viewButton == secondViewButton) {
+            if (self.stopList.count < 2)
+                return;
             selected = [self.stopList objectAtIndex:1];
         }else if (viewButton == thirdViewButton) {
+            if (self.stopList.count < 3)
+                return;
             selected = [self.stopList objectAtIndex:2];
         }else{
             

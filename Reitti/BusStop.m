@@ -57,7 +57,9 @@
         if ([lines[0] isKindOfClass:[StopLine class]]) {
             NSMutableArray *lineCodeArray = [@[] mutableCopy];
             for (StopLine *line in lines) {
-                [lineCodeArray addObject:line.code];
+                if (line.code) {
+                    [lineCodeArray addObject:line.code];
+                }
             }
             
             return lineCodeArray;
@@ -73,7 +75,9 @@
             if ([lines[0] isKindOfClass:[StopLine class]]) {
                 NSMutableArray *lineCodeArray = [@[] mutableCopy];
                 for (StopLine *line in lines) {
-                    [lineCodeArray addObject:line.fullCode];
+                    if (line.fullCode) {
+                       [lineCodeArray addObject:line.fullCode];
+                    }
                 }
                 
                 return lineCodeArray;

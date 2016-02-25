@@ -343,16 +343,15 @@
 
 #pragma mark - mapView methods
 -(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate{
+    if (coordinate.latitude < 30 || coordinate.latitude > 90 || coordinate.longitude < 0 || coordinate.longitude > 150)
+        return NO;
     
-    BOOL toReturn = YES;
-    
-//    CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
     MKCoordinateSpan span = {.latitudeDelta =  0.005, .longitudeDelta =  0.005};
     MKCoordinateRegion region = {coordinate, span};
     
     [mapView setRegion:region animated:YES];
     
-    return toReturn;
+    return YES;
 }
 
 -(void)plotStopAnnotation{

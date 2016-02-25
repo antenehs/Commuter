@@ -262,7 +262,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/BookmarksViewController.m"
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/StopViewController.m"
-            timestampString = "477444476.209314"
+            timestampString = "478123682.848789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
+            startingLineNumber = "493"
+            endingLineNumber = "493"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -343,30 +343,30 @@
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[SearchController searchReverseGeocodeForCoordinate:]"
-                  moduleName = "Reitti"
+                  moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/SearchController.m"
-                  timestampString = "477691258.969525"
+                  timestampString = "478122084.457391"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "2404"
-                  endingLineNumber = "2404"
-                  offsetFromSymbolStart = "32">
+                  startingLineNumber = "2406"
+                  endingLineNumber = "2406"
+                  offsetFromSymbolStart = "30">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__54-[SearchController searchReverseGeocodeForCoordinate:]_block_invoke"
-                  moduleName = "Reitti"
+                  moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/SearchController.m"
-                  timestampString = "477691258.969821"
+                  timestampString = "478122084.457562"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "2404"
-                  endingLineNumber = "2404"
-                  offsetFromSymbolStart = "72">
+                  startingLineNumber = "2406"
+                  endingLineNumber = "2406"
+                  offsetFromSymbolStart = "67">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -388,18 +388,28 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Reitti/AppDelegate.m"
-            timestampString = "477691249.992836"
+            filePath = "Reitti/HSLCommunication.m"
+            timestampString = "478122084.27472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "-application:didFinishLaunchingWithOptions:"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
+            landmarkName = "-parseStopLines:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -8,6 +8,7 @@
 
 
 #import "NSArray+Helper.h"
+#import "NSString+Split.h"
 #import "UITableViewCell+Helper.h"
 #import "UITableView+Helper.h"
 #import "UISearchBar+Helper.h"

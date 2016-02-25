@@ -1392,6 +1392,11 @@
 		66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */; };
 		66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */; };
 		66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 66F3FAF11B44972600DAA5B4 /* logginJS.js */; };
+		66F60DE31C7F8FEE00B33511 /* NSString+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Split.m */; };
+		66F60DE41C7F8FEE00B33511 /* NSString+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Split.m */; };
+		66F60DE51C7F8FEE00B33511 /* NSString+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Split.m */; };
+		66F60DE61C7F8FEE00B33511 /* NSString+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Split.m */; };
+		66F60DE71C7F8FEE00B33511 /* NSString+Split.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Split.m */; };
 		66F6CED81B51197500F934A2 /* reminders2-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F6CED71B51197500F934A2 /* reminders2-100.png */; };
 		66F6CEDB1B511E6C00F934A2 /* RemindersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */; };
 		66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */; };
@@ -2339,6 +2344,8 @@
 		66F3FAEE1B44940700DAA5B4 /* TravelCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardViewController.h; sourceTree = "<group>"; };
 		66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardViewController.m; sourceTree = "<group>"; };
 		66F3FAF11B44972600DAA5B4 /* logginJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logginJS.js; sourceTree = "<group>"; };
+		66F60DE11C7F8FEE00B33511 /* NSString+Split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Split.h"; path = "Helpers/NSString+Split.h"; sourceTree = "<group>"; };
+		66F60DE21C7F8FEE00B33511 /* NSString+Split.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Split.m"; path = "Helpers/NSString+Split.m"; sourceTree = "<group>"; };
 		66F6CED71B51197500F934A2 /* reminders2-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reminders2-100.png"; path = "Pictures/version 4.1/reminders2-100.png"; sourceTree = "<group>"; };
 		66F6CED91B511E6C00F934A2 /* RemindersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindersTableViewController.h; path = ../RemindersTableViewController.h; sourceTree = "<group>"; };
 		66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindersTableViewController.m; path = ../RemindersTableViewController.m; sourceTree = "<group>"; };
@@ -3129,6 +3136,8 @@
 				66822F791C29EE1D00511BD2 /* UIImage+Helper.m */,
 				66822F7D1C2B6C4000511BD2 /* NSObject+Helper.h */,
 				66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */,
+				66F60DE11C7F8FEE00B33511 /* NSString+Split.h */,
+				66F60DE21C7F8FEE00B33511 /* NSString+Split.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -5362,6 +5371,7 @@
 				661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */,
 				660E2F831B349B0600CE670E /* EmptyWorkAddressCell.m in Sources */,
 				66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */,
+				66F60DE31C7F8FEE00B33511 /* NSString+Split.m in Sources */,
 				66947CC218830ED500642EE1 /* main.m in Sources */,
 				6618312E1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */,
 				664E288C1ADC79F800BE2457 /* FailedGeoCodeFetch.m in Sources */,
@@ -5569,6 +5579,7 @@
 				66C733621C556DA5002544BC /* InfoViewController.m in Sources */,
 				66C733631C556DA5002544BC /* EmptyWorkAddressCell.m in Sources */,
 				66C733641C556DA5002544BC /* HTMLNode.m in Sources */,
+				66F60DE41C7F8FEE00B33511 /* NSString+Split.m in Sources */,
 				66C733651C556DA5002544BC /* main.m in Sources */,
 				66C733661C556DA5002544BC /* JTMaterialSpinner.m in Sources */,
 				66C733671C556DA5002544BC /* FailedGeoCodeFetch.m in Sources */,
@@ -5619,6 +5630,7 @@
 				66C735181C556FA4002544BC /* StopLine.m in Sources */,
 				66C735191C556FA4002544BC /* RouteE.m in Sources */,
 				66C7351A1C556FA4002544BC /* ReittiStringFormatterE.m in Sources */,
+				66F60DE61C7F8FEE00B33511 /* NSString+Split.m in Sources */,
 				66C7351B1C556FA4002544BC /* WidgetDataManager.m in Sources */,
 				66C7351C1C556FA4002544BC /* JTMaterialSpinner.m in Sources */,
 				66C7351D1C556FA4002544BC /* HSLandTRECommonApiClient.m in Sources */,
@@ -5652,6 +5664,7 @@
 				66C735711C556FB5002544BC /* TodayViewController.m in Sources */,
 				66C735721C556FB5002544BC /* WidgetDataManager.m in Sources */,
 				66C735731C556FB5002544BC /* KBPopupDrawableView.m in Sources */,
+				66F60DE71C7F8FEE00B33511 /* NSString+Split.m in Sources */,
 				66C735741C556FB5002544BC /* ASABubbleView.m in Sources */,
 				66C735751C556FB5002544BC /* HSLandTRECommonApiClient.m in Sources */,
 				66C735761C556FB5002544BC /* UIView+Helper.m in Sources */,
@@ -5685,6 +5698,7 @@
 				66822F671C24695900511BD2 /* StopLine.m in Sources */,
 				660CFE2C1C19B81A004D73FC /* RouteE.m in Sources */,
 				66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */,
+				66F60DE51C7F8FEE00B33511 /* NSString+Split.m in Sources */,
 				660CFE1F1C19A209004D73FC /* WidgetDataManager.m in Sources */,
 				6618312F1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */,
 				660CFE361C19BD02004D73FC /* HSLandTRECommonApiClient.m in Sources */,
