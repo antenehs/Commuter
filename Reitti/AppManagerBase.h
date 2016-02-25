@@ -20,6 +20,7 @@ extern NSString *urlSpaceEscapingString;
 extern NSString *kGoProDetailUrl;
 extern NSString *kFeatureTrackingUrl;
 extern NSString *kProAppAppstoreLink;
+extern NSString *kProAppRateAppStoreLink;
 
 @interface AppManagerBase : NSObject
 
@@ -44,6 +45,7 @@ extern NSString *kProAppAppstoreLink;
 +(UIImage *)appVersionPicture;
 
 +(NSString *)appAppstoreLink;
++(NSString *)appAppstoreRateLink;
 +(NSString *)matkakorttiAppAppstoreUrl;
 
 +(NSString *)mainAppUrl;

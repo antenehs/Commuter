@@ -393,7 +393,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 }
 
 - (IBAction)rateAppCellPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
 }
 
 #pragma mark - tone selector view controller delegate

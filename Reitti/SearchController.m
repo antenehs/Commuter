@@ -94,10 +94,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
             [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
+            
+            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         }
-        
-        //TODO: Uncomment this when testing is done
-        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
@@ -135,7 +134,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
-                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
+                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
                                                                   [self.reittiDataManager setAppOpenCountValue:-50];
                                                                   
                                                               }];

@@ -224,7 +224,7 @@
 }
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
 }
 
 - (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
