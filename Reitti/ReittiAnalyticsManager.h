@@ -65,7 +65,17 @@ extern NSString *kActionViewedLine;
 //6. Routine View Controller
 extern NSString *kActionSavedRoutine;
 
-//7. Settings View Controller
+//7. More View Controller
+extern NSString *kActionViewedTicketSalesPoints;
+extern NSString *kActionSelectedMatkakorttiMonitor;
+extern NSString *kActionViewedDisruptions;
+extern NSString *kActionViewedNewInThisVersion;
+extern NSString *kActionViewedGoProDetail;
+extern NSString *kActionGoToProVersionAppStore;
+extern NSString *kActionTappedRateButton;
+extern NSString *kActionTappedShareButton;
+
+//8. Settings View Controller
 extern NSString *kActionChangedRouteSearchOption;
 extern NSString *kActionChangedReminderTone;
 extern NSString *kActionChangedLiveVehicleOption;

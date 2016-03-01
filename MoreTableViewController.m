@@ -225,6 +225,8 @@
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedRateButton label:[AppManager appFullName] value:nil];
 }
 
 - (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
@@ -233,6 +235,8 @@
     } else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager matkakorttiAppAppstoreUrl]]];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSelectedMatkakorttiMonitor label:@"Twitter" value:nil];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -255,10 +259,11 @@
         switch (buttonIndex) {
             case 0:
                 [self postToFacebook];
+                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedShareButton label:@"Facebook" value:nil];
                 break;
             case 1:
                 [self postToTwitter];
-                //                [self sendEmailWithSubject:@"[Feature Request] - "];
+                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedShareButton label:@"Twitter" value:nil];
                 break;
             default:
                 break;
@@ -378,11 +383,14 @@
         webViewController._url = url;
         webViewController._pageTitle = @"COMMUTER PRO";
         
-        webViewController.actionButtonTitle = @"View in AppStore";
+        webViewController.actionButtonTitle = @"Go to AppStore";
         webViewController.action = ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"More View" value:nil];
         };
         webViewController.bottomContentOffset = 60.0;
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedGoProDetail label:@"More View" value:nil];
     }
     
     [self.navigationItem setTitle:@""];

@@ -66,7 +66,17 @@ NSString *kActionViewedLine = @"ViewedLine";
 //6. Routine View Controller
 NSString *kActionSavedRoutine = @"SavedRoutine";
 
-//7. Settings View Controller
+//7. More View Controller
+NSString *kActionViewedTicketSalesPoints = @"ViewedTicketSalesPoints";
+NSString *kActionSelectedMatkakorttiMonitor = @"SelectedMatkakorttiMonitor";
+NSString *kActionViewedDisruptions = @"ViewedDisruptions";
+NSString *kActionViewedNewInThisVersion = @"ViewedNewInThisVersion";
+NSString *kActionViewedGoProDetail = @"ViewedGoProDetail";
+NSString *kActionGoToProVersionAppStore = @"GoToProVersionAppStore";
+NSString *kActionTappedRateButton = @"TappedRateButton";
+NSString *kActionTappedShareButton = @"TappedShareButton";
+
+//8. Settings View Controller
 NSString *kActionChangedRouteSearchOption = @"ChangedRouteSearchOption";
 NSString *kActionChangedReminderTone = @"ChangedReminderTone";
 NSString *kActionChangedLiveVehicleOption = @"ChangedLiveVehicleOption";

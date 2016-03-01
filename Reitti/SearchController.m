@@ -2329,7 +2329,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 [self setDetailStopForBusStopShort:busStopShort busStop:stop];
                 //TODO: better was to find the index
                 NSInteger index = [self busStopShortIndexForCode:busStopShort.code];
-                if (index != NSNotFound && index < 30) /* Update with animation */
+                if (index != NSNotFound && index < 30 && stop.departures && stop.departures.count > 0) /* Update with animation */
                     [nearbyStopsListsTable reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationBottom];
                 else
                     [nearbyStopsListsTable reloadData];
@@ -2804,17 +2804,20 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if ([segue.identifier isEqualToString:@"showProFeatures"]) {
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
         WebViewController *webViewController = (WebViewController *)[navController.viewControllers lastObject];
-        NSURL *url = [NSURL URLWithString:@"http://commuterapp.weebly.com/"];
+        NSURL *url = [NSURL URLWithString:kGoProDetailUrl];
         
         webViewController.modalMode = YES;
         webViewController._url = url;
         webViewController._pageTitle = @"COMMUTER PRO";
         
-        webViewController.actionButtonTitle = @"View in AppStore";
+        webViewController.actionButtonTitle = @"Go to AppStore";
         webViewController.action = ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"Notification" value:nil];
         };
         webViewController.bottomContentOffset = 80.0;
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedGoProDetail label:@"Notification" value:nil];
     }
 }
 

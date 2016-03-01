@@ -551,10 +551,10 @@
                                     </connections>
                                 </button>
                                 <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9eS-XP-NI8" userLabel="searchBarView">
-                                    <rect key="frame" x="38" y="0.0" width="421" height="44"/>
+                                    <rect key="frame" x="38" y="0.0" width="452" height="44"/>
                                     <subviews>
                                         <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="address, stop or poi" translatesAutoresizingMaskIntoConstraints="NO" id="eyJ-tf-8L0">
-                                            <rect key="frame" x="0.0" y="0.0" width="416" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="447" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="172" id="i7d-6p-7fz"/>
                                             </constraints>
@@ -569,7 +569,7 @@
                                             </connections>
                                         </searchBar>
                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STH-LB-fhy">
-                                            <rect key="frame" x="0.0" y="0.0" width="413" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="444" height="44"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -644,63 +644,19 @@
                                         </mask>
                                     </variation>
                                 </view>
-                                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DbO-kY-s5G" userLabel="RightNavButtons">
-                                    <rect key="frame" x="456" y="7" width="34" height="30"/>
-                                    <subviews>
-                                        <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9MK-uW-vMj">
-                                            <rect key="frame" x="9" y="3" width="25" height="23"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="94a-tE-1AL"/>
-                                                <constraint firstAttribute="height" constant="23" id="JKr-K9-pR1"/>
-                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="25" id="NHw-Jm-80u"/>
-                                                <constraint firstAttribute="width" constant="25" id="XXb-sd-Rce"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="n8G-Jy-rze"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="list-white-100.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="94a-tE-1AL"/>
-                                                    <exclude reference="NHw-Jm-80u"/>
-                                                    <exclude reference="n8G-Jy-rze"/>
-                                                </mask>
-                                            </variation>
-                                            <connections>
-                                                <action selector="listNearbyStopsPressed:" destination="139-RC-VnC" eventType="touchUpInside" id="Sri-Wz-O2c"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="centerX" secondItem="9MK-uW-vMj" secondAttribute="centerX" constant="-29.5" id="22h-78-aY6"/>
-                                        <constraint firstAttribute="height" constant="30" id="Itg-vV-cu9"/>
-                                        <constraint firstAttribute="width" constant="34" id="fbn-Gk-EGZ"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9MK-uW-vMj" secondAttribute="trailing" id="tH3-le-dac"/>
-                                        <constraint firstAttribute="centerY" secondItem="9MK-uW-vMj" secondAttribute="centerY" constant="0.5" id="usz-Ud-YVC"/>
-                                        <constraint firstAttribute="trailing" secondItem="9MK-uW-vMj" secondAttribute="trailing" id="x7Y-eh-ada"/>
-                                    </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="22h-78-aY6"/>
-                                            <exclude reference="tH3-le-dac"/>
-                                        </mask>
-                                    </variation>
-                                </view>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="centerY" secondItem="DbO-kY-s5G" secondAttribute="centerY" id="5XN-la-REu"/>
                                 <constraint firstAttribute="bottom" secondItem="9eS-XP-NI8" secondAttribute="bottom" id="5py-di-RGH"/>
                                 <constraint firstAttribute="bottom" secondItem="JIW-aM-Seb" secondAttribute="bottom" id="JDX-hB-6sd"/>
+                                <constraint firstAttribute="trailing" secondItem="9eS-XP-NI8" secondAttribute="trailing" id="Kb0-II-MGB"/>
                                 <constraint firstItem="JIW-aM-Seb" firstAttribute="leading" secondItem="ZdX-Hh-cye" secondAttribute="leading" id="Lu2-3v-hrh"/>
                                 <constraint firstAttribute="trailing" secondItem="JIW-aM-Seb" secondAttribute="trailing" id="NIQ-Wb-pQ4"/>
                                 <constraint firstItem="JIW-aM-Seb" firstAttribute="leading" secondItem="ZdX-Hh-cye" secondAttribute="leading" id="NnR-oj-d03"/>
-                                <constraint firstAttribute="trailing" secondItem="DbO-kY-s5G" secondAttribute="trailing" id="cOS-G3-lCc"/>
                                 <constraint firstItem="JIW-aM-Seb" firstAttribute="top" secondItem="ZdX-Hh-cye" secondAttribute="top" constant="7" id="cr6-O9-iKu"/>
                                 <constraint firstItem="9eS-XP-NI8" firstAttribute="top" secondItem="ZdX-Hh-cye" secondAttribute="top" id="dec-6N-zAZ"/>
                                 <constraint firstItem="9eS-XP-NI8" firstAttribute="leading" secondItem="JIW-aM-Seb" secondAttribute="trailing" constant="8" id="f5n-jG-3VA"/>
                                 <constraint firstAttribute="trailing" secondItem="JIW-aM-Seb" secondAttribute="trailing" id="gRY-ye-5H8"/>
                                 <constraint firstItem="JIW-aM-Seb" firstAttribute="top" secondItem="ZdX-Hh-cye" secondAttribute="top" id="i9A-qZ-PNs"/>
-                                <constraint firstItem="DbO-kY-s5G" firstAttribute="leading" secondItem="9eS-XP-NI8" secondAttribute="trailing" constant="-3" id="sEc-0n-6gk"/>
                                 <constraint firstAttribute="bottom" secondItem="JIW-aM-Seb" secondAttribute="bottom" constant="7" id="wmD-IT-CUp"/>
                             </constraints>
                             <variation key="default">
@@ -719,13 +675,11 @@
                         <outlet property="activityIndicator" destination="ymd-Ss-3gB" id="Du3-PM-jdb"/>
                         <outlet property="currentLocationButton" destination="5Gn-os-Xrb" id="2rB-xa-CXf"/>
                         <outlet property="hideSearchResultViewButton" destination="XhT-aI-0GD" id="MWi-UN-y0a"/>
-                        <outlet property="infoAndAboutButton" destination="9MK-uW-vMj" id="pRs-C2-cb9"/>
                         <outlet property="listNearbyStops" destination="ITd-LP-49q" id="8zW-2C-TsB"/>
                         <outlet property="mainSearchBar" destination="eyJ-tf-8L0" id="2Mv-hU-tXc"/>
                         <outlet property="mapView" destination="658-LZ-zeV" id="iQ5-YR-YSB"/>
                         <outlet property="nearByStopsViewTopSpacing" destination="GLP-4W-3Ww" id="QUh-IZ-bhj"/>
                         <outlet property="nearbyStopsListsTable" destination="dIy-Zh-BEc" id="vNG-Nk-Ebm"/>
-                        <outlet property="rightNavButtonsView" destination="DbO-kY-s5G" id="GgO-6e-tIt"/>
                         <outlet property="searchDisplayController" destination="0KA-uN-TvA" id="qmP-2A-Tk2"/>
                         <outlet property="searchResultsLabel" destination="Li3-9Q-t1v" id="iiP-uB-x8N"/>
                         <outlet property="searchResultsView" destination="RPy-oI-JaQ" id="bHq-fg-kh3"/>
@@ -9700,23 +9654,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="due-au-0KO"/>
-        <segue reference="s3H-Jn-riC"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="X8p-rp-E0z"/>
-        <segue reference="lwh-ia-2sg"/>
-        <segue reference="U9A-P0-Va2"/>
-        <segue reference="TZn-kH-clf"/>
+        <segue reference="rqm-Vp-DPt"/>
         <segue reference="F7i-cJ-TYg"/>
-        <segue reference="G3y-0T-rdq"/>
+        <segue reference="U9A-P0-Va2"/>
         <segue reference="SWb-EE-ndB"/>
-        <segue reference="4lM-KH-B6v"/>
+        <segue reference="TZn-kH-clf"/>
         <segue reference="YpZ-AP-yAo"/>
-        <segue reference="L45-cf-ZZX"/>
-        <segue reference="fk8-2d-CEg"/>
         <segue reference="XlZ-XU-H5m"/>
+        <segue reference="fk8-2d-CEg"/>
+        <segue reference="4lM-KH-B6v"/>
         <segue reference="ocH-Qu-aOm"/>
-        <segue reference="tOp-kj-7Qb"/>
+        <segue reference="due-au-0KO"/>
+        <segue reference="yf4-eP-97K"/>
+        <segue reference="X8p-rp-E0z"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="DEk-ct-YDr"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="s3H-Jn-riC"/>
+        <segue reference="lwh-ia-2sg"/>
     </inferredMetricsTieBreakers>
 </document>
