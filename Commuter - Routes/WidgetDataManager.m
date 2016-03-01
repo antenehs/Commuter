@@ -32,7 +32,7 @@
     return self;
 }
 
--(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location andCompletionBlock:(ActionBlock)completionBlock{
+-(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock{
     
     id dataSourceManager = [self getDataSourceForCurrentUserLocation:location.coordinate];
     if ([dataSourceManager conformsToProtocol:@protocol(WidgetRouteSearchProtocol)]) {
@@ -41,7 +41,7 @@
         Region toRegion = [self identifyRegionOfCoordinate:toCoords];
         
         if (fromRegion == toRegion) {
-            [(NSObject<WidgetRouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:location.coordinate andToCoords:toCoords withOptions:nil andCompletionBlock:^(id response, NSError *error){
+            [(NSObject<WidgetRouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:location.coordinate andToCoords:toCoords withOptions:options andCompletionBlock:^(id response, NSError *error){
                 NSLog(@"Route search completed.");
                 if (!error) {
                     completionBlock(response, nil);

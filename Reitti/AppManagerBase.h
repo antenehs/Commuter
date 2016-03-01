@@ -14,6 +14,7 @@
 
 extern NSString *kUserDefaultsNamedBookmarksKey;
 extern NSString *kUserDefaultsSavedStopsKey;
+extern NSString *kUserDefaultsRouteSearchOptionsKey;
 
 extern NSString *urlSpaceEscapingString;
 

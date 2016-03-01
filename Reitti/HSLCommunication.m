@@ -13,6 +13,7 @@
 #import "CacheManager.h"
 #import "ReittiAnalyticsManager.h"
 #import "ASA_Helpers.h"
+#import "HSLRouteOptionManager.h"
 
 @interface HSLCommunication ()
 
@@ -164,55 +165,19 @@
 }
 
 -(NSDictionary *)transportTypeOptions{
-    if (!_transportTypeOptions) {
-        _transportTypeOptions = @{@"Bus" : @"bus",
-                                 @"Metro" : @"metro",
-                                 @"Train" : @"train",
-                                 @"Tram" : @"tram",
-                                 @"Ferry" : @"ferry",
-                                 @"Uline" : @"uline"};
-    }
-    
-    return _transportTypeOptions;
+    return [HSLRouteOptionManager transportTypeOptions];
 }
 
 -(NSDictionary *)ticketZoneOptions{
-    if (!_ticketZoneOptions) {
-        _ticketZoneOptions = @{@"All HSL Regions (Default)" : @"whole",
-                               @"Regional" : @"region",
-                               @"Helsinki Internal" : @"helsinki",
-                               @"Espoo Internal" : @"espoo",
-                               @"Vantaa Internal" : @"vantaa"};
-    }
-    
-    return _ticketZoneOptions;
+    return [HSLRouteOptionManager ticketZoneOptions];
 }
 
 -(NSDictionary *)changeMargineOptions{
-    if (!_changeMargineOptions) {
-        _changeMargineOptions = @{@"0 minute" : @"0",
-                                  @"1 minute" : @"1",
-                                  @"3 minutes (Default)" : @"3",
-                                  @"5 minutes" : @"5",
-                                  @"7 minutes" : @"7",
-                                  @"9 minutes" : @"9",
-                                  @"10 minutes" : @"10"};
-    }
-    
-    return _changeMargineOptions;
+    return [HSLRouteOptionManager changeMargineOptions];
 }
 
 -(NSDictionary *)walkingSpeedOptions{
-    if (!_walkingSpeedOptions) {
-        _walkingSpeedOptions = @{@"Slow Walking" : @"20",
-                                 @"Normal Walking (Default)" : @"70",
-                                 @"Fast Walking" : @"150",
-                                 @"Running" : @"250",
-                                 @"Fast Running" : @"350",
-                                 @"Bolting" : @"500"};
-    }
-    
-    return _walkingSpeedOptions;
+    return [HSLRouteOptionManager walkingSpeedOptions];
 }
 
 #pragma mark - Route Search Options

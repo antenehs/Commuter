@@ -36,6 +36,7 @@ extern NSInteger kDefaultNumberOfResults;
 -(id)init;
 
 -(id)copy;
+-(NSDictionary *)dictionaryRepresentation;
 
 -(NSArray *)allTrasportTypeNames;
 

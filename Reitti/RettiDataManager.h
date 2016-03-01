@@ -179,6 +179,7 @@ typedef struct {
 -(SettingsEntity *)fetchSettings;
 -(void)saveSettings;
 -(void)resetSettings;
+-(void)updateRouteSearchOptionsToUserDefaultValue;
 
 -(int)getAppOpenCountAndIncreament;
 -(void)setAppOpenCountValue:(int)value;

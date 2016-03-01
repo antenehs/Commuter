@@ -23,6 +23,7 @@
 
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (strong, nonatomic) NSArray *namedBookmarks;
+@property (strong, nonatomic) NSDictionary *routeSearchOptionsDictionary;
 
 @property (strong, nonatomic) NSMutableArray *bookmarkButtons;
 
@@ -54,6 +55,7 @@
     bookmarksScrollView.delegate = self;
     
     [self readNamedBookmarksFromUserDefaults];
+    [self readRouteSearchOptionsFromUserDefaults];
 //    [self setUpView];
     [self initBookmarkRouteMap];
     
@@ -70,6 +72,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self readNamedBookmarksFromUserDefaults];
+    [self readRouteSearchOptionsFromUserDefaults];
     [self setUpView];
 }
 
@@ -90,6 +93,12 @@
         
         self.namedBookmarks = [NSArray arrayWithArray:readNamedBookmarks];
     }
+}
+
+- (void)readRouteSearchOptionsFromUserDefaults {
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesWidgetSuitName]];
+    self.routeSearchOptionsDictionary = [self.sharedDefaults objectForKey:kUserDefaultsRouteSearchOptionsKey];
+    NSLog(@"%@", self.routeSearchOptionsDictionary);
 }
 
 - (void)initBookmarkRouteMap{
@@ -450,7 +459,7 @@
     
     NamedBookmarkE *bookmark;
     bookmark = [self namedBookmarkForTheCurrentButton];
-    [self.widgetDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation andCompletionBlock:^(NSArray * response, NSString *errorString){
+    [self.widgetDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation routeOptions:self.routeSearchOptionsDictionary andCompletionBlock:^(NSArray * response, NSString *errorString){
         infoLabel.hidden = NO;
         if (errorString && !response) {
             infoLabel.text = errorString;
@@ -624,6 +633,7 @@
     // If there's no update required, use NCUpdateResultNoData
     // If there's an update, use NCUpdateResultNewData
     [self readNamedBookmarksFromUserDefaults];
+    [self readRouteSearchOptionsFromUserDefaults];
     [self setUpView];
     
     completionHandler(NCUpdateResultNewData);

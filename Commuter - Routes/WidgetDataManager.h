@@ -27,6 +27,6 @@ typedef struct {
     CLLocationCoordinate2D bottomRightCorner;
 } RTCoordinateRegion;
 
--(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location andCompletionBlock:(ActionBlock)completionBlock;
+-(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
 
 @end

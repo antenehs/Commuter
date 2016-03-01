@@ -248,4 +248,25 @@
     return numberString;
 }
 
++(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    if (array != nil && ![[array firstObject] isKindOfClass:[NSString class]]) {
+        return nil;
+    }
+    
+    for (NSString *line in array) {
+        if (![tempArray containsObject:line]) {
+            [tempArray addObject:line];
+        }
+    }
+    
+    separator = separator != nil ? separator : @",";
+    
+    if (tempArray.count > 0) {
+        return [[tempArray valueForKey:@"description"] componentsJoinedByString:separator];
+    }else{
+        return @"";
+    }
+}
+
 @end

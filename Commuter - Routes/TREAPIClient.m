@@ -22,15 +22,13 @@
 
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock {
     
-    if (!optionsDict) {
-        optionsDict = [@{} mutableCopy];
-    }
+    NSDictionary *searchParameters = [@{} mutableCopy];
     
     //TODO: Select from list
-    [optionsDict setValue:@"asacommuterwidget2" forKey:@"user"];
-    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    [searchParameters setValue:@"asacommuterwidget2" forKey:@"user"];
+    [searchParameters setValue:@"rebekah" forKey:@"pass"];
     
-    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptions:optionsDict andCompletionBlock:completionBlock];
+    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptions:searchParameters andCompletionBlock:completionBlock];
 }
 
 @end

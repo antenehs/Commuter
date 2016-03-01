@@ -197,4 +197,21 @@ NSInteger kDefaultNumberOfResults = 5;
     [aCoder encodeObject:[NSNumber numberWithInteger:numberOfResults] forKey:@"numberOfResults"];
 }
 
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *dict = [@{} mutableCopy];
+    
+    [dict setValue:date forKey:@"date"];
+    [dict setValue:[NSNumber numberWithInt:selectedTimeType] forKey:@"selectedTimeType"];
+    [dict setValue:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:@"selectedRouteSearchOptimization"];
+    [dict setValue:selectedRouteTrasportTypes forKey:@"selectedRouteTrasportTypes"];
+    [dict setValue:selectedTicketZone forKey:@"selectedTicketZone"];
+    [dict setValue:selectedChangeMargine forKey:@"selectedChangeMargine"];
+    [dict setValue:selectedWalkingSpeed forKey:@"selectedWalkingSpeed"];
+    [dict setValue:[NSNumber numberWithInteger:numberOfResults] forKey:@"numberOfResults"];
+    
+    return dict;
+}
+
+
 @end

@@ -25,7 +25,7 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
     
     [self.reittiDataManager fetchSettings];
     
-//    [self.reittiDataManager resetSettings];
+    [self.reittiDataManager updateRouteSearchOptionsToUserDefaultValue];
     
     return self;
 }

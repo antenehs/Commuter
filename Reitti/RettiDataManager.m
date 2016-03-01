@@ -1181,6 +1181,8 @@
         NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
         exit(-1);  // Fail
     }
+    
+    [self updateRouteSearchOptionsToUserDefaultValue];
 }
 
 -(void)saveSettings{
@@ -1191,8 +1193,22 @@
         NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:!!", error, [error userInfo]);
         exit(-1);  // Fail
     }
+    
+    [self updateRouteSearchOptionsToUserDefaultValue];
 }
 
+-(void)updateRouteSearchOptionsToUserDefaultValue{
+    
+    [self fetchSettings];
+    NSDictionary *routeOptions = [self.settingsEntity.globalRouteOptions dictionaryRepresentation];
+    
+    if (routeOptions) {
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesWidgetSuitName]];
+        
+        [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
+        [sharedDefaults synchronize];
+    }
+}
 
 #pragma mark - Core data methods
 -(CookieEntity *)fetchSystemCookie{

@@ -23,5 +23,6 @@
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 +(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp;
++(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator;
 
 @end
