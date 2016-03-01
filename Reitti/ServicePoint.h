@@ -13,7 +13,6 @@
 @interface ServicePoint : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *projection;
-@property (nonatomic, assign) id style;
 @property (nonatomic, strong) NSString *wkt;
 @property (nonatomic, strong) Attributes *attributes;
 

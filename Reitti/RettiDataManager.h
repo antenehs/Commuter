@@ -65,8 +65,8 @@
 @protocol ReittiLiveVehicleFetchDelegate <NSObject>
 - (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList;
 - (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error;
-- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList;
-- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error;
+//- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList;
+//- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error;
 @end
 
 typedef enum

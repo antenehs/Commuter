@@ -391,9 +391,6 @@ NSString *const kTravelCardType = @"Type";
     TravelCard *copy = [[TravelCard alloc] init];
     
     if (copy) {
-
-        copy.authClientsName = [self.authClientsName copyWithZone:zone];
-        copy.inactiveReason = [self.inactiveReason copyWithZone:zone];
         copy.valueState = [self.valueState copyWithZone:zone];
         copy.waitingBalance = self.waitingBalance;
         copy.internalBaseClassIdentifier = [self.internalBaseClassIdentifier copyWithZone:zone];
@@ -401,7 +398,6 @@ NSString *const kTravelCardType = @"Type";
         copy.isForbidden = self.isForbidden;
         copy.balanceUpdateDate = [self.balanceUpdateDate copyWithZone:zone];
         copy.isUsed = self.isUsed;
-        copy.childCardsList = [self.childCardsList copyWithZone:zone];
         copy.maxPeriodProductsNumber = self.maxPeriodProductsNumber;
         copy.cardID = [self.cardID copyWithZone:zone];
         copy.cardExpiryDate = [self.cardExpiryDate copyWithZone:zone];
@@ -422,7 +418,6 @@ NSString *const kTravelCardType = @"Type";
         copy.waitingProducts = [self.waitingProducts copyWithZone:zone];
         copy.isValidAuthorization = self.isValidAuthorization;
         copy.boughtPeriodProductsAmount = self.boughtPeriodProductsAmount;
-        copy.waitingBalancePurchaseDateTime = [self.waitingBalancePurchaseDateTime copyWithZone:zone];
         copy.userGroupExpireDate = [self.userGroupExpireDate copyWithZone:zone];
         copy.isActive = self.isActive;
         copy.inactiveReasons = [self.inactiveReasons copyWithZone:zone];

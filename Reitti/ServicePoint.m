@@ -9,7 +9,6 @@
 #import "Attributes.h"
 
 NSString *const kServicePointProjection = @"projection";
-NSString *const kServicePointStyle = @"style";
 NSString *const kServicePointWkt = @"wkt";
 NSString *const kServicePointAttributes = @"attributes";
 
@@ -23,7 +22,6 @@ NSString *const kServicePointAttributes = @"attributes";
 @implementation ServicePoint
 
 @synthesize projection = _projection;
-@synthesize style = _style;
 @synthesize wkt = _wkt;
 @synthesize attributes = _attributes;
 
@@ -41,7 +39,6 @@ NSString *const kServicePointAttributes = @"attributes";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.projection = [self objectOrNilForKey:kServicePointProjection fromDictionary:dict];
-            self.style = [self objectOrNilForKey:kServicePointStyle fromDictionary:dict];
             self.wkt = [self objectOrNilForKey:kServicePointWkt fromDictionary:dict];
             self.attributes = [Attributes modelObjectWithDictionary:[dict objectForKey:kServicePointAttributes]];
 
@@ -120,7 +117,6 @@ NSString *const kServicePointAttributes = @"attributes";
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.projection forKey:kServicePointProjection];
-    [mutableDict setValue:self.style forKey:kServicePointStyle];
     [mutableDict setValue:self.wkt forKey:kServicePointWkt];
     [mutableDict setValue:[self.attributes dictionaryRepresentation] forKey:kServicePointAttributes];
 
@@ -147,7 +143,6 @@ NSString *const kServicePointAttributes = @"attributes";
     self = [super init];
 
     self.projection = [aDecoder decodeObjectForKey:kServicePointProjection];
-    self.style = [aDecoder decodeObjectForKey:kServicePointStyle];
     self.wkt = [aDecoder decodeObjectForKey:kServicePointWkt];
     self.attributes = [aDecoder decodeObjectForKey:kServicePointAttributes];
     return self;
@@ -157,7 +152,6 @@ NSString *const kServicePointAttributes = @"attributes";
 {
 
     [aCoder encodeObject:_projection forKey:kServicePointProjection];
-    [aCoder encodeObject:_style forKey:kServicePointStyle];
     [aCoder encodeObject:_wkt forKey:kServicePointWkt];
     [aCoder encodeObject:_attributes forKey:kServicePointAttributes];
 }
@@ -169,7 +163,6 @@ NSString *const kServicePointAttributes = @"attributes";
     if (copy) {
 
         copy.projection = [self.projection copyWithZone:zone];
-        copy.style = [self.style copyWithZone:zone];
         copy.wkt = [self.wkt copyWithZone:zone];
         copy.attributes = [self.attributes copyWithZone:zone];
     }

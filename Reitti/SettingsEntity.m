@@ -18,5 +18,6 @@
 @dynamic numberOfDaysToKeepHistory;
 @dynamic settingsStartDate;
 @dynamic globalRouteOptions;
+@dynamic toneName;
 
 @end

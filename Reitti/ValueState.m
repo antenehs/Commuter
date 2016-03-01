@@ -98,8 +98,6 @@ NSString *const kValueStateStateImageFilenameUIField = @"StateImageFilenameUIFie
     if (copy) {
 
         copy.state = self.state;
-        copy.stateExplanationUIField = [self.stateExplanationUIField copyWithZone:zone];
-        copy.stateImageFilenameUIField = [self.stateImageFilenameUIField copyWithZone:zone];
     }
     
     return copy;

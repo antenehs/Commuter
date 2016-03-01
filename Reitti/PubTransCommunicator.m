@@ -13,10 +13,6 @@
 
 @synthesize delegate;
 
-- (id)init {
-    return  self;
-}
-
 - (void)StopInAreaFetchFromPubtransDidComplete:(NSData *)objectNotation{
     NSError *error = nil;
     NSArray *stops = [PubTransCommunicator stopsFromJSON:objectNotation error:&error];

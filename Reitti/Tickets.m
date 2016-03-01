@@ -253,31 +253,24 @@ NSString *const kTicketsStartDateBegin = @"startDateBegin";
     if (copy) {
 
         copy.lastPurchase = self.lastPurchase;
-        copy.tslTicketStartDate = [self.tslTicketStartDate copyWithZone:zone];
         copy.ticketType = self.ticketType;
         copy.isRegional = self.isRegional;
         copy.tslSupport = self.tslSupport;
         copy.defaultDateRange = [self.defaultDateRange copyWithZone:zone];
-        copy.tslCompanyName = [self.tslCompanyName copyWithZone:zone];
         copy.img = [self.img copyWithZone:zone];
         copy.maxDateRange = self.maxDateRange;
         copy.endDateEnd = [self.endDateEnd copyWithZone:zone];
-        copy.ticketName = [self.ticketName copyWithZone:zone];
         copy.startDateEnd = [self.startDateEnd copyWithZone:zone];
         copy.ticketNames = [self.ticketNames copyWithZone:zone];
         copy.name = [self.name copyWithZone:zone];
         copy.tslProductId = self.tslProductId;
         copy.fixedPrice = self.fixedPrice;
         copy.ticketsIdentifier = self.ticketsIdentifier;
-        copy.tslCompanyBusinessID = [self.tslCompanyBusinessID copyWithZone:zone];
         copy.endDateBegin = [self.endDateBegin copyWithZone:zone];
         copy.uid = [self.uid copyWithZone:zone];
-        copy.tslCompanyId = [self.tslCompanyId copyWithZone:zone];
         copy.minDateRange = self.minDateRange;
         copy.unitPrice = self.unitPrice;
-        copy.tslTicketEndDate = [self.tslTicketEndDate copyWithZone:zone];
         copy.tslSupportType = self.tslSupportType;
-        copy.tslCompanyBusinessIDExtension = [self.tslCompanyBusinessIDExtension copyWithZone:zone];
         copy.startDateBegin = [self.startDateBegin copyWithZone:zone];
     }
     

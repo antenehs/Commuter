@@ -866,10 +866,10 @@
     [self.vehicleFetchDelegate vehiclesFetchFromHSLFailedWithError:error];
 }
 - (void)didReceiveVehiclesFromPubTrans:(NSArray *)vehicleList{
-    [self.vehicleFetchDelegate vehiclesFetchCompleteFromPubTrans:vehicleList];
+//    [self.vehicleFetchDelegate vehiclesFetchCompleteFromPubTrans:vehicleList];
 }
 - (void)fetchingVehiclesFromPubTransFailedWithError:(NSError *)error{
-    [self.vehicleFetchDelegate vehiclesFetchFromPubTransFailedWithError:error];
+//    [self.vehicleFetchDelegate vehiclesFetchFromPubTransFailedWithError:error];
 }
 
 #pragma mark - helper methods

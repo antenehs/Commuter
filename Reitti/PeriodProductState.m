@@ -159,11 +159,8 @@ NSString *const kPeriodProductStateExpiringDateStringUIField = @"ExpiringDateStr
         copy.productNames = [self.productNames copyWithZone:zone];
         copy.isSerieTicketAndTripSaldoNonZero = self.isSerieTicketAndTripSaldoNonZero;
         copy.productName = [self.productName copyWithZone:zone];
-        copy.stateExplanationUIField = [self.stateExplanationUIField copyWithZone:zone];
         copy.productCode = self.productCode;
         copy.boughtDays = self.boughtDays;
-        copy.stateImageFilenameUIField = [self.stateImageFilenameUIField copyWithZone:zone];
-        copy.expiringDateStringUIField = [self.expiringDateStringUIField copyWithZone:zone];
     }
     
     return copy;
