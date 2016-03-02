@@ -486,11 +486,11 @@
         
         @try {
             UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-//            NSString *notFormattedTime = departure.time ;
-//            NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-//            NSDate *date = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
-            
             NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
+            if (!formattedHour || formattedHour.length < 1 ) {
+                NSString *notFormattedTime = departure.time ;
+                formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+            }
             
             if ([departure.parsedDate timeIntervalSinceNow] < 300) {
                 timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
