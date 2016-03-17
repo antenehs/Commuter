@@ -8,6 +8,7 @@
 
 #import "NamedBookmark.h"
 #import "ReittiStringFormatter.h"
+#import "CoreDataManager.h"
 
 @implementation NamedBookmark
 
@@ -54,21 +55,25 @@
 
 #pragma mark - to and from dictionary methods
 
--(id)initWithDictionary:(NSDictionary *)dict{
-    self = [super init];
+-(void)updateValuesFromDictionary:(NSDictionary *)dict {
+    self.name = [self objectOrNilForKey:@"name" fromDictionary:dict];
+    self.streetAddress = [self objectOrNilForKey:@"streetAddress" fromDictionary:dict];
+    self.city = [self objectOrNilForKey:@"city" fromDictionary:dict];
+    self.coords = [self objectOrNilForKey:@"coords" fromDictionary:dict];
+    self.searchedName = [self objectOrNilForKey:@"searchedName" fromDictionary:dict];
+    self.notes = [self objectOrNilForKey:@"notes" fromDictionary:dict];
+    self.iconPictureName = [self objectOrNilForKey:@"iconPictureName" fromDictionary:dict];
+    self.monochromeIconName = [self objectOrNilForKey:@"monochromeIconName" fromDictionary:dict];
+    
+    //Base class properties
+    self.objectLID = [self objectOrNilForKey:@"objectLID" fromDictionary:dict];
+    self.dateModified = [self objectOrNilForKey:@"dateModified" fromDictionary:dict];
+}
+
+-(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context{
+    self = (NamedBookmark *)[NSEntityDescription insertNewObjectForEntityForName:@"NamedBookmark" inManagedObjectContext:context];
     if (self && [dict isKindOfClass:[NSDictionary class]]) {
-        self.name = [self objectOrNilForKey:@"name" fromDictionary:dict];
-        self.streetAddress = [self objectOrNilForKey:@"streetAddress" fromDictionary:dict];
-        self.city = [self objectOrNilForKey:@"city" fromDictionary:dict];
-        self.coords = [self objectOrNilForKey:@"coords" fromDictionary:dict];
-        self.searchedName = [self objectOrNilForKey:@"searchedName" fromDictionary:dict];
-        self.notes = [self objectOrNilForKey:@"notes" fromDictionary:dict];
-        self.iconPictureName = [self objectOrNilForKey:@"iconPictureName" fromDictionary:dict];
-        self.monochromeIconName = [self objectOrNilForKey:@"monochromeIconName" fromDictionary:dict];
-        
-        //Base class properties
-        self.objectLID = [self objectOrNilForKey:@"objectLID" fromDictionary:dict];
-        self.dateModified = [self objectOrNilForKey:@"dateModified" fromDictionary:dict];
+        [self updateValuesFromDictionary:dict];
     }
     
     return self;

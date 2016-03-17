@@ -32,6 +32,7 @@ extern NSString *kProAppRateAppStoreLink;
 
 +(BOOL)isProVersion;
 
++(NSString *)iosDeviceName;
 +(NSString *)iosDeviceModel;
 +(NSString *)iosVersionNumber;
 

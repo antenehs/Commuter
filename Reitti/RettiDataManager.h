@@ -18,6 +18,7 @@
 #import "LiveTrafficManager.h"
 #import "CacheManager.h"
 #import "ReittiAnalyticsManager.h"
+#import "ICloudManager.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -29,44 +30,9 @@
 @class SettingsEntity;
 @class LiveTrafficManager;
 
-//@protocol RettiDataManagerDelegate <NSObject>
-//- (void)stopFetchDidComplete:(NSArray *)stopList;
-//- (void)stopFetchDidFail:(NSString *)error;
-//- (void)nearByStopFetchDidComplete:(NSArray *)nearByStopList;
-//- (void)nearByStopFetchDidFail:(NSString *)error;
-//@end
-
-//@protocol RettiGeocodeSearchDelegate <NSObject>
-//- (void)geocodeSearchDidComplete:(NSArray *)geocodeList isFinalResult:(BOOL)isFinalResult;
-//- (void)geocodeSearchAddedResults:(NSArray *)geocodeList  isFinalResult:(BOOL)isFinalResult;
-//- (void)geocodeSearchDidFail:(NSString *)error forRequest:(NSString *)requestedKey;
-//@end
-
-//@protocol RettiReverseGeocodeSearchDelegate <NSObject>
-//- (void)reverseGeocodeSearchDidComplete:(GeoCode *)geoCode;
-//- (void)reverseGeocodeSearchDidFail:(NSString *)error;
-//@end
-
-//@protocol RettiRouteSearchDelegate <NSObject>
-//- (void)routeSearchDidComplete:(NSArray *)routeList;
-//- (void)routeSearchDidFail:(NSString *)error;
-//@end
-
-//@protocol RettiLineInfoSearchDelegate <NSObject>
-//- (void)lineSearchDidComplete:(NSArray *)lines;
-//- (void)lineSearchDidFail:(NSString *)error;
-//@end
-
-//@protocol ReittiDisruptionFetchDelegate <NSObject>
-//- (void)disruptionFetchDidComplete:(NSArray *)disList;
-//- (void)disruptionFetchDidFail:(NSString *)error;
-//@end
-
 @protocol ReittiLiveVehicleFetchDelegate <NSObject>
 - (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList;
 - (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error;
-//- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList;
-//- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error;
 @end
 
 typedef enum
@@ -169,12 +135,16 @@ typedef struct {
 -(NSArray *)fetchAllSavedRouteHistoryFromCoreData;
 
 -(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)namedBookmark;
+-(NamedBookmark *)createOrUpdateNamedBookmarkFromICLoudRecord:(CKRecord *)record;
 -(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark;
 -(void)deleteNamedBookmarkForName:(NSString *)name;
 -(void)deleteAllNamedBookmarks;
 -(NSArray *)fetchAllSavedNamedBookmarksFromCoreData;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
+
+- (void)saveNamedBookmarksToICloud:(NSArray *)namedBookmarks;
+- (void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
 -(SettingsEntity *)fetchSettings;
 -(void)saveSettings;

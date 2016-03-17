@@ -169,6 +169,14 @@
 		66228CF919CB4A1A00A2C47F /* next-grey-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF719CB4A1A00A2C47F /* next-grey-48.png */; };
 		66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 66228CF819CB4A1A00A2C47F /* previous-gray-48.png */; };
 		663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 663B7BDF1B4DB5B9008CF187 /* Reachability.m */; };
+		663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
+		663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
+		663E1EBC1C949EB200C5543A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663E1EBB1C949EB200C5543A /* CloudKit.framework */; };
+		663E1EBD1C949EDC00C5543A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663E1EBB1C949EB200C5543A /* CloudKit.framework */; };
+		663E1EC01C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */; };
+		663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */; };
+		663E1EC41C95D90A00C5543A /* ICloudBookmarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */; };
+		663E1EC51C95D90A00C5543A /* ICloudBookmarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */; };
 		664749DB1AE59B3E0050137E /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
 		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
 		664749E01AE5A0D50050137E /* 3-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749DF1AE5A0D50050137E /* 3-100.png */; };
@@ -1721,6 +1729,13 @@
 		66237F0219CE1B9A00DEEC5F /* HSLCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLCommunicator.m; sourceTree = "<group>"; };
 		663B7BDE1B4DB5B9008CF187 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		663B7BDF1B4DB5B9008CF187 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		663E1EB71C949C5400C5543A /* ICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudManager.h; sourceTree = "<group>"; };
+		663E1EB81C949C5400C5543A /* ICloudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICloudManager.m; sourceTree = "<group>"; };
+		663E1EBB1C949EB200C5543A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		663E1EBE1C95B17A00C5543A /* ICloudBookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudBookmarksViewController.h; sourceTree = "<group>"; };
+		663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICloudBookmarksViewController.m; sourceTree = "<group>"; };
+		663E1EC21C95D90A00C5543A /* ICloudBookmarks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudBookmarks.h; sourceTree = "<group>"; };
+		663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICloudBookmarks.m; sourceTree = "<group>"; };
 		664749DA1AE59B3E0050137E /* versionInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = versionInfo.html; sourceTree = "<group>"; };
 		664749DC1AE59CD70050137E /* VersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoViewController.h; sourceTree = "<group>"; };
 		664749DD1AE59CD70050137E /* VersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoViewController.m; sourceTree = "<group>"; };
@@ -2394,6 +2409,7 @@
 				66CB961B18F08B8500E95CE5 /* MessageUI.framework in Frameworks */,
 				66947CFD188C56D400642EE1 /* QuartzCore.framework in Frameworks */,
 				66947CFB188C535300642EE1 /* MapKit.framework in Frameworks */,
+				663E1EBC1C949EB200C5543A /* CloudKit.framework in Frameworks */,
 				66947CB818830ED500642EE1 /* CoreGraphics.framework in Frameworks */,
 				66947CBA18830ED500642EE1 /* UIKit.framework in Frameworks */,
 				66947CB618830ED500642EE1 /* Foundation.framework in Frameworks */,
@@ -2420,6 +2436,7 @@
 				66C733851C556DA5002544BC /* MessageUI.framework in Frameworks */,
 				66C733861C556DA5002544BC /* QuartzCore.framework in Frameworks */,
 				66C733871C556DA5002544BC /* MapKit.framework in Frameworks */,
+				663E1EBD1C949EDC00C5543A /* CloudKit.framework in Frameworks */,
 				66C733881C556DA5002544BC /* CoreGraphics.framework in Frameworks */,
 				66C733891C556DA5002544BC /* UIKit.framework in Frameworks */,
 				66C7338A1C556DA5002544BC /* Foundation.framework in Frameworks */,
@@ -2922,6 +2939,8 @@
 				669602B21B1224B3006919CB /* TabBarViewController.m */,
 				66780D861C54088100C838AA /* ServicePointsViewController.h */,
 				66780D871C54088100C838AA /* ServicePointsViewController.m */,
+				663E1EBE1C95B17A00C5543A /* ICloudBookmarksViewController.h */,
+				663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -2969,6 +2988,8 @@
 				665885C41B1121000044F514 /* NearByStop.m */,
 				66F6CEDD1B513CED00F934A2 /* RoutineEntity.h */,
 				66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */,
+				663E1EC21C95D90A00C5543A /* ICloudBookmarks.h */,
+				663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3288,6 +3309,7 @@
 		66947CB418830ED500642EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				663E1EBB1C949EB200C5543A /* CloudKit.framework */,
 				66CF81A41A0EF4F90034C9AB /* Accelerate.framework */,
 				66CB961C18F16ACB00E95CE5 /* EventKit.framework */,
 				66CB961A18F08B8500E95CE5 /* MessageUI.framework */,
@@ -3532,6 +3554,8 @@
 				66780D8A1C5408E300C838AA /* HSLServicePointManager.m */,
 				66780DBD1C553E8D00C838AA /* ReittiEmailAndShareManager.h */,
 				66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */,
+				663E1EB71C949C5400C5543A /* ICloudManager.h */,
+				663E1EB81C949C5400C5543A /* ICloudManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -4139,6 +4163,9 @@
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -5251,6 +5278,7 @@
 				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
+				663E1EC01C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStops.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
@@ -5272,10 +5300,12 @@
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
+				663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */,
 				66FC54811B23677B005B890D /* StaticRoute.m in Sources */,
 				661AB3AE1C22E2E20061E1F6 /* UIButton+Helper.m in Sources */,
 				66CB961118EEE46100E95CE5 /* SWCellScrollView.m in Sources */,
 				66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */,
+				663E1EC41C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
 				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
 				661FAF2F18A4F2B400042074 /* BusStop.m in Sources */,
 				664E28701AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m in Sources */,
@@ -5460,6 +5490,7 @@
 				66C732E11C556DA5002544BC /* MultiSelectTableViewController.m in Sources */,
 				66C732E21C556DA5002544BC /* VersionInfoViewController.m in Sources */,
 				66C732E31C556DA5002544BC /* APIClient.m in Sources */,
+				663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
 				66C732E41C556DA5002544BC /* StopLines.m in Sources */,
 				66C732E51C556DA5002544BC /* LineStops.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
@@ -5481,10 +5512,12 @@
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
 				66C732F81C556DA5002544BC /* CommandView.m in Sources */,
+				663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */,
 				66C732F91C556DA5002544BC /* StaticRoute.m in Sources */,
 				66C732FA1C556DA5002544BC /* UIButton+Helper.m in Sources */,
 				66C732FB1C556DA5002544BC /* SWCellScrollView.m in Sources */,
 				66C732FC1C556DA5002544BC /* RouteSearchViewController.m in Sources */,
+				663E1EC51C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
 				66C732FD1C556DA5002544BC /* HMSegmentedControl.m in Sources */,
 				66C732FE1C556DA5002544BC /* BusStop.m in Sources */,
 				66C732FF1C556DA5002544BC /* UIScrollView+APParallaxHeader.m in Sources */,

@@ -20,7 +20,8 @@
 -(NSString *)getFullAddress;
 -(NSString *)getUniqueIdentifier;
 
--(id)initWithDictionary:(NSDictionary *)dict;
+-(void)updateValuesFromDictionary:(NSDictionary *)dict;
+-(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context;
 -(NSDictionary *)dictionaryRepresentation;
 
 @property (nonatomic, retain) NSNumber * objectLID;

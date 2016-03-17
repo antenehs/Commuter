@@ -28,6 +28,7 @@
 #import "ReittiSearchManager.h"
 #import "ASA_Helpers.h"
 #import "ReittiAnalyticsManager.h"
+#import "ICloudManager.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -114,19 +115,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     //Test
-    [AppManager isProVersion];
+//    [AppManager isProVersion];
 }
 
 - (void)showRateAppNotification{
     appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
     if (appOpenCount > 5 && ![AppManager isNewInstallOrNewVersion]) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enjoy Using The App?"
-//                                                            message:@"The gift of 5 little starts is satisfying for both of us more than you think."
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"Maybe later"
-//                                                  otherButtonTitles:@"Rate", nil];
-//        alertView.tag = 1001;
-//        [alertView show];
      
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
                                                                        message:@"The gift of 5 little starts is satisfying for both of us more than you think."

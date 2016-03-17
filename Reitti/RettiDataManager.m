@@ -1407,6 +1407,7 @@
     if ([savedStops count] != 0) {
         
         NSLog(@"ReittiManager: Fetched local stops values is NOT null");
+        [self saveStopToICloud:savedStops];
         return savedStops;
         
     }
@@ -1856,45 +1857,63 @@
     
     if(![self doesNamedBookmarkExistWithName:ndBookmark.name]){
         self.namedBookmark = (NamedBookmark *)[NSEntityDescription insertNewObjectForEntityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-        //set default values
-        [self.namedBookmark setName:ndBookmark.name];
-        [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
-        [self.namedBookmark setCity:ndBookmark.city];
-        [self.namedBookmark setSearchedName:ndBookmark.searchedName];
-        [self.namedBookmark setCoords:ndBookmark.coords];
-        [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
-        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
-        
-        [self saveManagedObject:namedBookmark];
         
         [allNamedBookmarkNames addObject:ndBookmark.name];
-        
-        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-        [self updateNamedBookmarksUserDefaultValue];
-        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
-        
-        return self.namedBookmark;
     }else{
         self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:ndBookmark.name];
         
-        [self.namedBookmark setName:ndBookmark.name];
-        [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
-        [self.namedBookmark setCity:ndBookmark.city];
-        [self.namedBookmark setSearchedName:ndBookmark.searchedName];
-        [self.namedBookmark setCoords:ndBookmark.coords];
-        [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
-        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
-        
-        [self saveManagedObject:namedBookmark];
-        
-        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-        [self updateNamedBookmarksUserDefaultValue];
-        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
-        
-        return self.namedBookmark;
+        //Delete the existing one from iCloud
+        [self deleteNamedBookmarksFromICloud:@[self.namedBookmark]];
     }
+    
+    [self.namedBookmark setName:ndBookmark.name];
+    [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
+    [self.namedBookmark setCity:ndBookmark.city];
+    [self.namedBookmark setSearchedName:ndBookmark.searchedName];
+    [self.namedBookmark setCoords:ndBookmark.coords];
+    [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
+    [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
+    
+    [self saveManagedObject:namedBookmark];
+    
+    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+    [self updateNamedBookmarksUserDefaultValue];
+    [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
+    
+    return self.namedBookmark;
+}
+
+-(NamedBookmark *)createOrUpdateNamedBookmarkFromICLoudRecord:(CKRecord *)record {
+    if (!record)
+        return nil;
+    
+    NSDictionary *dict = [ICloudManager ckrecordAsDictionary:record];
+    NamedBookmark *bookmark;
+    
+    if(![self doesNamedBookmarkExistWithName:dict[kNamedBookmarkName]]){
+        bookmark = [[NamedBookmark alloc] initWithDictionary:dict andManagedObjectContext:self.managedObjectContext];
+        
+        [allNamedBookmarkNames addObject:bookmark.name];
+    }else{
+        bookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:dict[kNamedBookmarkName]];
+        
+        //Delete the existing one from iCloud
+        [self deleteNamedBookmarksFromICloud:@[bookmark]];
+        
+        [bookmark updateValuesFromDictionary:dict];
+    }
+    
+    [self saveManagedObject:bookmark];
+    
+    [allNamedBookmarkNames addObject:bookmark.name];
+    
+    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+    [self updateNamedBookmarksUserDefaultValue];
+    [self updateSavedAndHistoryRoutesForNamedBookmark:bookmark];
+    
+    return bookmark;
 }
 
 -(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark{
@@ -1906,6 +1925,7 @@
     self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForObjectLid:objectLid];
     
     if(self.namedBookmark != nil){
+        [self deleteNamedBookmarksFromICloud:@[self.namedBookmark]];
         
         [self.namedBookmark setName:ndBookmark.name];
         [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
@@ -1941,6 +1961,7 @@
     if (!bookmarkToDelete)
         return;
     
+    [self deleteNamedBookmarksFromICloud:@[bookmarkToDelete]];
     [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmarkToDelete];
     
     [self.managedObjectContext deleteObject:bookmarkToDelete];
@@ -1962,6 +1983,7 @@
 -(void)deleteAllNamedBookmarks{
     NSArray *bookmarksToDelete = [self fetchAllSavedNamedBookmarksFromCoreData];
     
+    [self deleteNamedBookmarksFromICloud:bookmarksToDelete];
     for (NamedBookmark *bookmark in bookmarksToDelete) {
         [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmark];
         
@@ -2054,6 +2076,8 @@
     if ([savedBookmarks count] != 0) {
         
         NSLog(@"ReittiManager: Fetched local named bookmark values is NOT null");
+        [self saveNamedBookmarksToICloud:savedBookmarks];
+        
         return savedBookmarks;
         
     }
@@ -2398,49 +2422,29 @@
     return YES;
 }
 
-#pragma mark - merged delegate methods
-//- (void)checkForGeoCodeFetchCompletionAndReturn{
-//    
-//    if (HSLGeocodeResposeQueue.count > 0 && TREGeocodeResponseQueue.count > 0) {
-//        NSMutableArray *respose = [@[] mutableCopy];
-//        if (geoCodeRequestPrioritizedFor == TRERegion) {
-//            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-//                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
-//            }
-//            
-//            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-//                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
-//            }
-//        }else{
-//            if (![[HSLGeocodeResposeQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-//                [respose addObjectsFromArray:[HSLGeocodeResposeQueue firstObject]];
-//            }
-//            
-//            if (![[TREGeocodeResponseQueue firstObject] isKindOfClass:[FailedGeoCodeFetch class]]) {
-//                [respose addObjectsFromArray:[TREGeocodeResponseQueue firstObject]];
-//            }
-//        }
-//        
-//        if (respose.count == 0){
-//            //Failed case. Respond the error
-//            FailedGeoCodeFetch *failedObject;
-//            if (geoCodeRequestPrioritizedFor == TRERegion)
-//                failedObject = [TREGeocodeResponseQueue firstObject];
-//            else
-//                failedObject = [HSLGeocodeResposeQueue firstObject];
-//            
-//            [geocodeSearchdelegate geocodeSearchDidFail:failedObject.textForError forRequest:nil];
-//            
-//        }else{
-//            [geocodeSearchdelegate geocodeSearchDidComplete:respose  isFinalResult:YES];
-//        }
-//        
-//        [TREGeocodeResponseQueue removeObjectAtIndex:0];
-//        [HSLGeocodeResposeQueue removeObjectAtIndex:0];
-//    }
-//    
-//}
+#pragma mark - ICloud methods
+- (void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler {
+    [[ICloudManager sharedManager] fetchAllBookmarksWithCompletionHandler:completionHandler];
+}
 
+- (void)saveNamedBookmarksToICloud:(NSArray *)namedBookmarks {
+    [[ICloudManager sharedManager] saveNamedBookmarksToICloud:namedBookmarks];
+}
+
+- (void)deleteNamedBookmarksFromICloud:(NSArray *)namedBookmarks {
+    [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
+}
+
+- (void)saveStopToICloud:(NSArray *)stops {
+    [[ICloudManager sharedManager] saveStopsToICloud:stops];
+}
+
+- (void)deleteStopsFromICloud:(NSArray *)stops {
+    [[ICloudManager sharedManager] deleteStopsFromICloud:stops
+     ];
+}
+
+#pragma mark - dealloc
 - (void)dealloc {
     NSLog(@"RettiDataManager:Dealloced");
     

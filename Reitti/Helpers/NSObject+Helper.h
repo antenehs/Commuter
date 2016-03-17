@@ -12,6 +12,7 @@ typedef void (^ActionBlock)();
 
 @interface NSObject (Helper)
 
+-(void)asa_ExecuteBlockInUIThread:(ActionBlock)block;
 -(void)asa_ExecuteBlockInBackground:(ActionBlock)block;
 -(void)asa_ExecuteBlockInBackgroundWithIgnoreExceptions:(ActionBlock)block;
 

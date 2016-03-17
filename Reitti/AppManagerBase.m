@@ -76,6 +76,10 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
     return YES;
 }
 
++(NSString *)iosDeviceName{
+    return [[UIDevice currentDevice] name];
+}
+
 +(NSString *)iosDeviceModel{
     return [[UIDevice currentDevice] model];
 }

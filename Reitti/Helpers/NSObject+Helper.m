@@ -10,6 +10,12 @@
 
 @implementation NSObject (Helper)
 
+-(void)asa_ExecuteBlockInUIThread:(ActionBlock)block{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        block();
+    });
+}
+
 -(void)asa_ExecuteBlockInBackground:(ActionBlock)block{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         block();
