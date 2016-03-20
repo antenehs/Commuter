@@ -360,10 +360,6 @@
             
             if (!error) {
                 completionBlock(response, nil);
-//                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-//                    //Update the saved data with new data. Lines could be changed
-//                    [self updateSavedStopIfItExists:response];
-//                }];
             }else{
                 stopFetchFailedCount++;
                 if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
@@ -376,10 +372,6 @@
             
             if (!error) {
                 completionBlock(response, nil);
-//                [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-//                    //Update the saved data with new data. Lines could be changed
-//                    [self updateSavedStopIfItExists:response];
-//                }];
             }else{
                 stopFetchFailedCount++;
                 if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
@@ -1348,6 +1340,8 @@
     if (!savedStop)
         return;
     
+    [self deleteStopsFromICloud:@[savedStop]];
+    
     [self.managedObjectContext deleteObject:savedStop];
     
     NSError *error = nil;
@@ -1366,6 +1360,7 @@
 
 -(void)deleteAllSavedStop{
     NSArray *stopsToDelete = [self fetchAllSavedStopsFromCoreData];
+    [self deleteStopsFromICloud:stopsToDelete];
     
     for (StopEntity *stop in stopsToDelete) {
         [self.managedObjectContext deleteObject:stop];
@@ -1407,7 +1402,7 @@
     if ([savedStops count] != 0) {
         
         NSLog(@"ReittiManager: Fetched local stops values is NOT null");
-        [self saveStopToICloud:savedStops];
+        [self saveStopsToICloud:savedStops];
         return savedStops;
         
     }
@@ -1699,8 +1694,6 @@
         return;
     }
     
-//    NSLog(@"RettiDataManager: Saving Route to core data!");
-    
     self.routeEntity= (RouteEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"RouteEntity" inManagedObjectContext:self.managedObjectContext];
     //set default values
     [self.routeEntity setFromLocationName:fromLocation];
@@ -1711,12 +1704,17 @@
     
     [self saveManagedObject:self.routeEntity];
     
+    [self saveRoutesToICloud:@[self.routeEntity]];
     [allSavedRouteCodes addObject:self.routeEntity.routeUniqueName];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
 -(void)deleteSavedRouteForCode:(NSString *)code{
     RouteEntity *routeToDelete = [self fetchSavedRouteFromCoreDataForCode:code];
+    if (!routeToDelete)
+        return;
+    
+    [self deleteRoutesFromICloud:@[routeToDelete]];
     
     [self.managedObjectContext deleteObject:routeToDelete];
     
@@ -1733,6 +1731,10 @@
 
 -(void)deleteAllSavedroutes{
     NSArray *routesToDelete = [self fetchAllSavedRoutesFromCoreData];
+    if (!routesToDelete || routesToDelete.count < 1)
+        return;
+    
+    [self deleteRoutesFromICloud:routesToDelete];
     
     for (RouteEntity *route in routesToDelete) {
         [self.managedObjectContext deleteObject:route];
@@ -1768,13 +1770,9 @@
     NSArray *savedRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedRoutes count] != 0) {
+        [self saveRoutesToICloud:savedRoutes];
         
-        NSLog(@"ReittiManager: Fetched local routes values is NOT null");
         return savedRoutes;
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched local routes values is null");
     }
     
     return nil;
@@ -1802,8 +1800,8 @@
         
         NSLog(@"ReittiManager: Fetched saved route values is NOT null");
         allSavedRouteCodes = [self simplifyCoreDataDictionaryArray:savedRouteCodes withKey:@"routeUniqueName"] ;
-    }
-    else {
+        
+    } else {
         NSLog(@"ReittiManager: Fetched route values is null");
         allSavedRouteCodes = [[NSMutableArray alloc] init];
     }
@@ -2145,12 +2143,12 @@
     
     if ([savedBookmarks count] != 0) {
         
-        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
+//        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
         return [savedBookmarks objectAtIndex:0];
         
     }
     else {
-        NSLog(@"ReittiManager: Fetched saved named bookmark values is null");
+//        NSLog(@"ReittiManager: Fetched saved named bookmark values is null");
     }
     
     return nil;
@@ -2177,12 +2175,9 @@
     
     if ([savedBookmarks count] != 0) {
         
-        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
+//        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
         return [savedBookmarks objectAtIndex:0];
         
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched saved named bookmark values is null");
     }
     
     return nil;
@@ -2435,13 +2430,21 @@
     [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
 }
 
-- (void)saveStopToICloud:(NSArray *)stops {
+- (void)saveStopsToICloud:(NSArray *)stops {
     [[ICloudManager sharedManager] saveStopsToICloud:stops];
 }
 
 - (void)deleteStopsFromICloud:(NSArray *)stops {
-    [[ICloudManager sharedManager] deleteStopsFromICloud:stops
+    [[ICloudManager sharedManager] deleteSavedStopsFromICloud:stops
      ];
+}
+
+- (void)saveRoutesToICloud:(NSArray *)routes {
+    [[ICloudManager sharedManager] saveRoutesToICloud:routes];
+}
+
+- (void)deleteRoutesFromICloud:(NSArray *)routes {
+    [[ICloudManager sharedManager] deleteSavedRoutesFromICloud:routes];
 }
 
 #pragma mark - dealloc

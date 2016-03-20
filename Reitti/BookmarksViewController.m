@@ -125,17 +125,16 @@ const NSInteger kTimerRefreshInterval = 15;
     [locationManager startUpdatingLocation];
     
     [self.navigationController setToolbarHidden:NO];
+    [self setICloudButtonAvailablility];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
-//- (void)appDidBecomeActive:(NSNotification *)notification {
-//    NSLog(@"did become active notification");
-//}
-
 - (void)appWillEnterForeground:(NSNotification *)notification {
     NSLog(@"will enter foreground notification");
     [self refreshDetailData:self];
+    
+    [self setICloudButtonAvailablility];
     
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kTimerRefreshInterval target:self selector:@selector(refreshDetailData:) userInfo:nil repeats:YES];
     [locationManager startUpdatingLocation];
@@ -155,6 +154,14 @@ const NSInteger kTimerRefreshInterval = 15;
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 //    [self layoutAnimated:NO];
+}
+
+- (void)setICloudButtonAvailablility {
+    if (![ICloudManager isICloudContainerAvailable]) {
+        self.navigationItem.leftBarButtonItem.customView.hidden = YES;
+    } else {
+        self.navigationItem.leftBarButtonItem.customView.hidden = NO;
+    }
 }
 
 - (void)initNamedBookmarkRouteDictionary{

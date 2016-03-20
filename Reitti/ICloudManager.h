@@ -13,10 +13,13 @@
 
 extern NSString *NamedBookmarkType;
 extern NSString *SavedStopType;
+extern NSString *SavedRouteType;
 
 @interface ICloudManager : NSObject
 
 +(id)sharedManager;
+
++(BOOL)isICloudContainerAvailable;
 
 //Fetch, save and delete methods
 - (void)fetchAllBookmarksWithCompletionHandler:(ActionBlock)completionHandler ;
@@ -25,7 +28,11 @@ extern NSString *SavedStopType;
 
 - (void)fetchAllStopsWithCompletionHandler:(ActionBlock)completionHandler;
 - (void)saveStopsToICloud:(NSArray *)stops;
-- (void)deleteSavedStopFromICloud:(NSArray *)savedStops;
+- (void)deleteSavedStopsFromICloud:(NSArray *)savedStops;
+
+- (void)fetchAllRoutesWithCompletionHandler:(ActionBlock)completionHandler;
+- (void)saveRoutesToICloud:(NSArray *)routes;
+- (void)deleteSavedRoutesFromICloud:(NSArray *)savedRoutes;
 
 //Helpers
 +(NSDictionary *)ckrecordAsDictionary:(CKRecord *)record;

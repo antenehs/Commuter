@@ -7,13 +7,13 @@
 //
 
 #import "ICloudManager.h"
-#import "NamedBookmark.h"
-#import "StopEntity.h"
+#import "ReittiModels.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 
 NSString *NamedBookmarkType = @"NamedBookmark";
 NSString *SavedStopType = @"SavedStop";
+NSString *SavedRouteType = @"SavedRoute";
 
 @interface NamedBookmark (ICloud)
 
@@ -68,11 +68,43 @@ NSString *SavedStopType = @"SavedStop";
     record[kStopCity] = self.busStopCity;
     record[kStopType] = [NSNumber numberWithInt: (int)self.stopType];
     
+    CLLocationCoordinate2D coordinates = [ReittiStringFormatter convertStringTo2DCoord:self.busStopCoords];
+    record[kStopCoordinate] = [[CLLocation alloc] initWithLatitude:coordinates.latitude longitude:coordinates.longitude];
+    
     return record;
 }
 
 +(CKRecordID *)recordIdForStopEntity:(StopEntity *)stop {
     NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [AppManagerBase iosDeviceName]];
+    return [[CKRecordID alloc] initWithRecordName:uniqueName];
+}
+
+@end
+
+@interface RouteEntity (ICloud)
+
+-(CKRecord *)iCloudRecord;
++(CKRecordID *)recordIdForRouteEntity:(RouteEntity *)route;
+
+@end
+
+@implementation RouteEntity (ICloud)
+
+-(CKRecord *)iCloudRecord{
+    
+    CKRecordID *recordId = [RouteEntity recordIdForRouteEntity:self];
+    CKRecord *record = [[CKRecord alloc] initWithRecordType:SavedRouteType recordID:recordId];
+    record[kRouteUniqueName] = self.routeUniqueName;
+    record[kRouteFromLocaiton] = self.fromLocationName;
+    record[kRouteFromCoords] = self.fromLocationCoordsString;
+    record[kRouteToLocation] = self.toLocationName;
+    record[kRouteToCoords] = self.toLocationCoordsString;
+    
+    return record;
+}
+
++(CKRecordID *)recordIdForRouteEntity:(RouteEntity *)route {
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [AppManagerBase iosDeviceName]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -107,35 +139,62 @@ NSString *SavedStopType = @"SavedStop";
     return self;
 }
 
++(BOOL)isICloudContainerAvailable {
+    id currentToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
+    
+    if (currentToken){
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 -(void)fetchAllBookmarksWithCompletionHandler:(ActionBlock)completionHandler {
     ICloudBookmarks *bookmarks = [ICloudBookmarks new];
     
-    __block int totalCount = 2;
-    __block NSString *errorString = nil;
+    __block int totalCount = 3;
+    __block int failedCount = 0;
+//    __block NSString *errorString = nil;
     
     [self fetchAllNamedBookmarksWithCompletionHandler:^(NSArray *results, NSString *error){
         totalCount--;
         if(error) {
-            errorString = error;
+//            errorString = error;
+            failedCount++;
         } else {
             bookmarks.allNamedBookmarks = results;
         }
         
         if (totalCount == 0) {
-            completionHandler(bookmarks, errorString);
+            completionHandler(bookmarks, failedCount == 3 ? error : nil);
         }
     }];
     
     [self fetchAllStopsWithCompletionHandler:^(NSArray *results, NSString *error){
         totalCount--;
         if(error) {
-            errorString = error;
+//            errorString = error;
+            failedCount++;
         } else {
             bookmarks.allSavedStops = results;
         }
         
         if (totalCount == 0) {
-            completionHandler(bookmarks, errorString);
+            completionHandler(bookmarks, failedCount == 3 ? error : nil);
+        }
+    }];
+    
+    [self fetchAllRoutesWithCompletionHandler:^(NSArray *results, NSString *error){
+        totalCount--;
+        if(error) {
+//            errorString = error;
+            failedCount++;
+        } else {
+            bookmarks.allSavedRoutes = results;
+        }
+        
+        if (totalCount == 0) {
+            completionHandler(bookmarks, failedCount == 3 ? error : nil);
         }
     }];
 }
@@ -199,13 +258,48 @@ NSString *SavedStopType = @"SavedStop";
         [self saveRecordsToICloud:records];
 }
 
--(void)deleteSavedStopFromICloud:(NSArray *)savedStops {
+-(void)deleteSavedStopsFromICloud:(NSArray *)savedStops {
     if (!savedStops || savedStops.count < 1)
         return;
     
     NSMutableArray *recordIds = [@[] mutableCopy];
     for (StopEntity *stop in savedStops)
         [recordIds addObject: [StopEntity recordIdForStopEntity:stop]];
+    
+    [self deleteRecordsWithId:recordIds];
+}
+
+#pragma mark -Route methods
+- (void)fetchAllRoutesWithCompletionHandler:(ActionBlock)completionHandler {
+    [self fetchAllBookmarksWithType:SavedRouteType completionHandler:^(NSArray *results, NSString *error){
+        if(error) {
+            completionHandler(nil, error);
+        } else {
+            completionHandler(results, nil);
+        }
+    }];
+}
+
+- (void)saveRoutesToICloud:(NSArray *)routes {
+    NSMutableArray *records = [@[] mutableCopy];
+    
+    for (RouteEntity *route in routes) {
+        CKRecord *record = route.iCloudRecord;
+        if (record)
+            [records addObject:record];
+    }
+    
+    if (records.count > 0)
+        [self saveRecordsToICloud:records];
+}
+
+- (void)deleteSavedRoutesFromICloud:(NSArray *)savedRoutes {
+    if (!savedRoutes || savedRoutes.count < 1)
+        return;
+    
+    NSMutableArray *recordIds = [@[] mutableCopy];
+    for (RouteEntity *route in savedRoutes)
+        [recordIds addObject: [RouteEntity recordIdForRouteEntity:route]];
     
     [self deleteRecordsWithId:recordIds];
 }
@@ -218,7 +312,7 @@ NSString *SavedStopType = @"SavedStop";
         if(error) {
             NSLog(@"Error: %@", error.localizedDescription);
             [self asa_ExecuteBlockInUIThread:^{
-                completionHandler(nil, error.localizedDescription);
+                completionHandler(nil, [self errorStringForICloudError:error]);
             }];
         } else {
             [self asa_ExecuteBlockInUIThread:^{
@@ -259,6 +353,15 @@ NSString *SavedStopType = @"SavedStop";
     
     [self.privateDB addOperation:modifOperation];
 }
+
+- (NSString *)errorStringForICloudError:(NSError *)error{
+    if ([error.debugDescription containsString:@"-1009"]) {
+        return @"The internet connection appears to be offline.";
+    }
+    
+    return @"Unknown error occured. Please try again and report a bug if the problem persists.";
+}
+
 
 #pragma mark - helpers
 +(NSDictionary *)ckrecordAsDictionary:(CKRecord *)record{

@@ -177,6 +177,18 @@
 		663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */; };
 		663E1EC41C95D90A00C5543A /* ICloudBookmarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */; };
 		663E1EC51C95D90A00C5543A /* ICloudBookmarks.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */; };
+		663E1ECD1C9EB86700C5543A /* StopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1ECB1C9EB86700C5543A /* StopTableViewCell.m */; };
+		663E1ECE1C9EB86700C5543A /* StopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1ECB1C9EB86700C5543A /* StopTableViewCell.m */; };
+		663E1ECF1C9EB86700C5543A /* StopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1ECC1C9EB86700C5543A /* StopTableViewCell.xib */; };
+		663E1ED01C9EB86700C5543A /* StopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1ECC1C9EB86700C5543A /* StopTableViewCell.xib */; };
+		663E1EDD1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EDB1C9EE7D100C5543A /* RouteTableViewCell.m */; };
+		663E1EDE1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EDB1C9EE7D100C5543A /* RouteTableViewCell.m */; };
+		663E1EDF1C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EDC1C9EE7D100C5543A /* RouteTableViewCell.xib */; };
+		663E1EE01C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EDC1C9EE7D100C5543A /* RouteTableViewCell.xib */; };
+		663E1EE41C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EE21C9EF2C500C5543A /* NamedBookmarkTableViewCell.m */; };
+		663E1EE51C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EE21C9EF2C500C5543A /* NamedBookmarkTableViewCell.m */; };
+		663E1EE61C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */; };
+		663E1EE71C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */; };
 		664749DB1AE59B3E0050137E /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
 		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
 		664749E01AE5A0D50050137E /* 3-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749DF1AE5A0D50050137E /* 3-100.png */; };
@@ -1736,6 +1748,17 @@
 		663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICloudBookmarksViewController.m; sourceTree = "<group>"; };
 		663E1EC21C95D90A00C5543A /* ICloudBookmarks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudBookmarks.h; sourceTree = "<group>"; };
 		663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICloudBookmarks.m; sourceTree = "<group>"; };
+		663E1ECA1C9EB86700C5543A /* StopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopTableViewCell.h; sourceTree = "<group>"; };
+		663E1ECB1C9EB86700C5543A /* StopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopTableViewCell.m; sourceTree = "<group>"; };
+		663E1ECC1C9EB86700C5543A /* StopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StopTableViewCell.xib; sourceTree = "<group>"; };
+		663E1ED81C9EBF1E00C5543A /* ReittiModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiModels.h; sourceTree = "<group>"; };
+		663E1ED91C9EC20600C5543A /* TableViewCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCells.h; sourceTree = "<group>"; };
+		663E1EDA1C9EE7D100C5543A /* RouteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteTableViewCell.h; sourceTree = "<group>"; };
+		663E1EDB1C9EE7D100C5543A /* RouteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteTableViewCell.m; sourceTree = "<group>"; };
+		663E1EDC1C9EE7D100C5543A /* RouteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RouteTableViewCell.xib; sourceTree = "<group>"; };
+		663E1EE11C9EF2C500C5543A /* NamedBookmarkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedBookmarkTableViewCell.h; sourceTree = "<group>"; };
+		663E1EE21C9EF2C500C5543A /* NamedBookmarkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedBookmarkTableViewCell.m; sourceTree = "<group>"; };
+		663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NamedBookmarkTableViewCell.xib; sourceTree = "<group>"; };
 		664749DA1AE59B3E0050137E /* versionInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = versionInfo.html; sourceTree = "<group>"; };
 		664749DC1AE59CD70050137E /* VersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoViewController.h; sourceTree = "<group>"; };
 		664749DD1AE59CD70050137E /* VersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoViewController.m; sourceTree = "<group>"; };
@@ -2948,6 +2971,7 @@
 		661FAF26189E8ACB00042074 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				663E1ED81C9EBF1E00C5543A /* ReittiModels.h */,
 				66056E551C42AA7700C011FB /* HslDevVehicle */,
 				660715E71B45CCA300033049 /* TravelCard */,
 				660E2F7D1B349A9000CE670E /* TableViewCells */,
@@ -3078,6 +3102,16 @@
 				66F099991AEC234200F20D34 /* DetailImageView.m */,
 				66F0999B1AEC236B00F20D34 /* DetailImageView.xib */,
 				6666024F1AED831600E3E392 /* Features.xib */,
+				663E1ED91C9EC20600C5543A /* TableViewCells.h */,
+				663E1ECA1C9EB86700C5543A /* StopTableViewCell.h */,
+				663E1ECB1C9EB86700C5543A /* StopTableViewCell.m */,
+				663E1ECC1C9EB86700C5543A /* StopTableViewCell.xib */,
+				663E1EDA1C9EE7D100C5543A /* RouteTableViewCell.h */,
+				663E1EDB1C9EE7D100C5543A /* RouteTableViewCell.m */,
+				663E1EDC1C9EE7D100C5543A /* RouteTableViewCell.xib */,
+				663E1EE11C9EF2C500C5543A /* NamedBookmarkTableViewCell.h */,
+				663E1EE21C9EF2C500C5543A /* NamedBookmarkTableViewCell.m */,
+				663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3203,10 +3237,10 @@
 		66780D911C5409B900C838AA /* Service Points */ = {
 			isa = PBXGroup;
 			children = (
-				66780D921C5409F800C838AA /* ServicePoint.m */,
 				66780D931C5409F800C838AA /* Attributes.m */,
 				66780D941C5409F800C838AA /* Attributes.h */,
 				66780D951C5409F800C838AA /* ServicePoint.h */,
+				66780D921C5409F800C838AA /* ServicePoint.m */,
 			);
 			name = "Service Points";
 			sourceTree = "<group>";
@@ -4242,6 +4276,7 @@
 				66F3B12D1AC861620038BA78 /* back-arrow-white-100.png in Resources */,
 				6673775F1ACCCE9E003581B5 /* tram-filled-light-64.png in Resources */,
 				666437CA19E1852E00B82BE5 /* bus-green-50.png in Resources */,
+				663E1ECF1C9EB86700C5543A /* StopTableViewCell.xib in Resources */,
 				66CB95E718E4F2C400E95CE5 /* sendMailbutton3.png in Resources */,
 				669602B51B12422F006919CB /* Home-green-100.png in Resources */,
 				667377591ACCCD09003581B5 /* tram-filled-green-64.png in Resources */,
@@ -4309,6 +4344,7 @@
 				664ADFF81992B124000B4F18 /* bus-75.png in Resources */,
 				667B98271AD32A4300C45ADF /* shopping-cart-100_grey.png in Resources */,
 				66CC93DE18DDC65300644281 /* SVProgressHUD.bundle in Resources */,
+				663E1EE61C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
 				665885CC1B1143080044F514 /* trainAnnotation3_2.png in Resources */,
 				660E2F881B35EE3D00CE670E /* routeIcon.png in Resources */,
 				66D0BA5B18BF3785002DDC7B /* Aspergit.otf in Resources */,
@@ -4436,6 +4472,7 @@
 				66780DB61C55061100C838AA /* newLiveVehiclesInLines.png in Resources */,
 				6665D7651C0CA6B200ACCC3A /* gym-black-50.png in Resources */,
 				6675BA611B5110AC002EB83C /* reminders-100.png in Resources */,
+				663E1EDF1C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
 				66C734FA1B28D5970026A584 /* bus-filled-blue-100.png in Resources */,
 				6674089E1C1CDE9E00C1E34A /* bookmarks-colored-100.png in Resources */,
 				661202B71B01408700D93C2E /* more-green-100.png in Resources */,
@@ -4817,6 +4854,7 @@
 				66C734551C556DA5002544BC /* NotificationBackgroundWarning@2x.png in Resources */,
 				66C734561C556DA5002544BC /* list-100.png in Resources */,
 				66C734571C556DA5002544BC /* park-bench-100.png in Resources */,
+				663E1ED01C9EB86700C5543A /* StopTableViewCell.xib in Resources */,
 				66C734581C556DA5002544BC /* bowling-100_grey.png in Resources */,
 				66C734591C556DA5002544BC /* newLiveVehiclesInLines.png in Resources */,
 				66C7345A1C556DA5002544BC /* gym-black-50.png in Resources */,
@@ -4835,6 +4873,7 @@
 				66C734671C556DA5002544BC /* NotificationBackgroundWarning.png in Resources */,
 				66C734681C556DA5002544BC /* finish_flag-50.png in Resources */,
 				66C734691C556DA5002544BC /* lines-color-100.png in Resources */,
+				663E1EE01C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
 				66C7346A1C556DA5002544BC /* newLinesView.png in Resources */,
 				66C7346B1C556DA5002544BC /* newRoutesWidget@2x.png in Resources */,
 				66C7346C1C556DA5002544BC /* beach-black-50.png in Resources */,
@@ -4985,6 +5024,7 @@
 				66C734FF1C556DA5002544BC /* stopAnnotation2.png in Resources */,
 				66C735001C556DA5002544BC /* school-black-50.png in Resources */,
 				66C735011C556DA5002544BC /* ewketapps-logo.png in Resources */,
+				663E1EE71C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5254,6 +5294,7 @@
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				66056E6C1C42AAFE00C011FB /* DirectionRef.m in Sources */,
 				66F3FAE81B4473A200DAA5B4 /* HTMLTokenizer.m in Sources */,
+				663E1EDD1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
@@ -5304,6 +5345,7 @@
 				66FC54811B23677B005B890D /* StaticRoute.m in Sources */,
 				661AB3AE1C22E2E20061E1F6 /* UIButton+Helper.m in Sources */,
 				66CB961118EEE46100E95CE5 /* SWCellScrollView.m in Sources */,
+				663E1EE41C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */,
 				66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */,
 				663E1EC41C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
 				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
@@ -5401,6 +5443,7 @@
 				66056E701C42AAFE00C011FB /* MonitoredVehicleJourney.m in Sources */,
 				660716011B45CD2C00033049 /* Value.m in Sources */,
 				669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */,
+				663E1ECD1C9EB86700C5543A /* StopTableViewCell.m in Sources */,
 				66A7A9B818C5DB9400AC9E94 /* BusStopShort.m in Sources */,
 				660FB22D1B38B0F2009C30BF /* DroppedPinManager.m in Sources */,
 				66F099A11AEC4F5D00F20D34 /* WelcomeViewController.m in Sources */,
@@ -5466,6 +5509,7 @@
 				66C732C91C556DA5002544BC /* SWTableViewCell.m in Sources */,
 				66C732CA1C556DA5002544BC /* DirectionRef.m in Sources */,
 				66C732CB1C556DA5002544BC /* HTMLTokenizer.m in Sources */,
+				663E1EDE1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C732CC1C556DA5002544BC /* ReittiShapeMaker.m in Sources */,
 				66C732CD1C556DA5002544BC /* DisruptionLine.m in Sources */,
 				66C732CE1C556DA5002544BC /* SearchController.m in Sources */,
@@ -5516,6 +5560,7 @@
 				66C732F91C556DA5002544BC /* StaticRoute.m in Sources */,
 				66C732FA1C556DA5002544BC /* UIButton+Helper.m in Sources */,
 				66C732FB1C556DA5002544BC /* SWCellScrollView.m in Sources */,
+				663E1EE51C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */,
 				66C732FC1C556DA5002544BC /* RouteSearchViewController.m in Sources */,
 				663E1EC51C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
 				66C732FD1C556DA5002544BC /* HMSegmentedControl.m in Sources */,
@@ -5613,6 +5658,7 @@
 				66C733591C556DA5002544BC /* MonitoredVehicleJourney.m in Sources */,
 				66C7335A1C556DA5002544BC /* Value.m in Sources */,
 				66C7335B1C556DA5002544BC /* RouteEntity.m in Sources */,
+				663E1ECE1C9EB86700C5543A /* StopTableViewCell.m in Sources */,
 				66C7335C1C556DA5002544BC /* BusStopShort.m in Sources */,
 				66C7335D1C556DA5002544BC /* DroppedPinManager.m in Sources */,
 				66C7335E1C556DA5002544BC /* WelcomeViewController.m in Sources */,

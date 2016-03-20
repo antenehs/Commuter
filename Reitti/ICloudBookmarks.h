@@ -22,11 +22,21 @@ extern NSString *kStopShortCode;
 extern NSString *kStopName;
 extern NSString *kStopCity;
 extern NSString *kStopType;
+extern NSString *kStopCoordinate;
+
+//Saved RouteEntity
+extern NSString *kRouteUniqueName;
+extern NSString *kRouteFromLocaiton;
+extern NSString *kRouteFromCoords;
+extern NSString *kRouteToLocation;
+extern NSString *kRouteToCoords;
 
 @interface ICloudBookmarks : NSObject
 
 //Returns dictionary<deviceName:sortedArrayOfBookmarks>
 -(NSDictionary *)getBookmarksExcludingNamedBookmarks:(NSArray *)namedBookmarks savedStops:(NSArray *)savedStops savedRoutes:(NSArray *)savedRoutes;
+-(NSDictionary *)allBookmarksGrouped;
+-(NSDictionary *)groupRecordsByDevice:(NSArray *)records;
 
 @property (nonatomic, strong)NSArray *allNamedBookmarks;
 @property (nonatomic, strong)NSArray *allSavedStops;

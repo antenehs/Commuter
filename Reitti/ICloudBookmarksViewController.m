@@ -7,10 +7,12 @@
 //
 
 #import "ICloudBookmarksViewController.h"
-#import "NamedBookmark.h"
 #import "RettiDataManager.h"
 #import "ICloudManager.h"
 #import "AppManager.h"
+#import "JTMaterialSpinner.h"
+
+#import "TableViewCells.h"
 
 @interface ICloudBookmarksViewController ()
 
@@ -19,12 +21,14 @@
 
 @property (nonatomic, strong)NSMutableArray *alreadySavedRecords;
 
+@property (strong, nonatomic) IBOutlet UIView *infoView;
+@property (strong, nonatomic) IBOutlet UIImageView *infoViewImageView;
+@property (strong, nonatomic) IBOutlet UILabel *infoTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *infoDetailLabel;
+@property (strong, nonatomic) IBOutlet JTMaterialSpinner *activityIndicator;
+
 @end
 
-//TODO: handle when there is nothing to display
-//TODO: Handle case of replacing bookmark by the same name
-//TODO: Confirmation when downloading all
-//TODO: Show and hide cloud icon in bookmarks when there are other devices.
 
 @implementation ICloudBookmarksViewController
 
@@ -38,17 +42,35 @@
     [self.tableView setBlurredBackgroundWithImageNamed:nil];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    self.navigationItem.rightBarButtonItem = nil;
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"StopTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedStopCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"RouteTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedRouteCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"namedBookmarkCell"];
+
+    self.infoView.layer.cornerRadius = 10.0;
+    
     self.dataToLoad = @{};
     self.reittiDataManager = [[RettiDataManager alloc] init];
     
+    [self showLoading];
     [self.reittiDataManager fetchallBookmarksFromICloudWithCompletionHandler:^(ICloudBookmarks *result, NSString *errorString){
         if (!errorString) {
             self.dataToLoad = [result getBookmarksExcludingNamedBookmarks:[self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData]
                                                                savedStops:[self.reittiDataManager fetchAllSavedStopsFromCoreData]
-                                                               savedRoutes:nil];
-            [self.tableView reloadData];
+                                                               savedRoutes:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
+
+            BOOL thereAreOtherDevices = [[[result allBookmarksGrouped] allKeys] count] > 1;
+            if (self.dataToLoad.allKeys.count == 0 && thereAreOtherDevices) {
+                [self showSynchedMessage];
+            }else if (self.dataToLoad.allKeys.count == 0) {
+                [self showNoOtherDeviceMessage];
+            }else{
+                [self.tableView reloadData];
+                self.tableView.hidden = NO;
+            }
         } else {
-            //TODO: handle error
+            [self showErrorWithMessage:errorString];
         }
     }];
 }
@@ -71,45 +93,38 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
     NSString *deviceName = self.dataToLoad.allKeys[indexPath.section];
     NSArray *recordsForSection = self.dataToLoad[deviceName];
     
     CKRecord *record = [recordsForSection objectAtIndex:indexPath.row];
     
     if ([record.recordType isEqualToString:NamedBookmarkType]) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"namedBookmarkCell"];
+        NamedBookmarkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"namedBookmarkCell"];
         
-        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
-        UILabel *title = (UILabel *)[cell viewWithTag:2002];
-        UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-        UIButton *downloadButton = (UIButton *)[cell viewWithTag:2004];
+        [cell setupFromICloudRecord:record];
+        [cell addTargetForICloudDownloadButton:self selector:@selector(downloadNamedBookmarkButtonTapped:)];
         
-        [imageView setImage:[UIImage imageNamed:record[@"iconPictureName"]]];
-        
-        title.text = record[kNamedBookmarkName];
-        subTitle.text = record[kNamedBookmarkFullAddress];
-        
-        if (markAllAsDownloaded)
-            [self animateDownloadButtonChange:downloadButton];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }else if ([record.recordType isEqualToString:SavedStopType]) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
+        StopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
         
-        UILabel *title = (UILabel *)[cell viewWithTag:2002];
-        UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
-        UIButton *downloadButton = (UIButton *)[cell viewWithTag:2004];
+        [cell setupFromICloudRecord:record];
+        [cell addTargetForICloudDownloadButton:self selector:@selector(downloadStopButtonTapped:)];
+     
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }else{
+        RouteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
         
-        imageView.image = [AppManager stopAnnotationImageForStopType:(StopType)[record[kStopType] intValue]];
-        title.text = record[kStopName];
-        subTitle.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
+        [cell setupFromICloudRecord:record];
+        [cell addTargetForICloudDownloadButton:self selector:@selector(downloadRouteButtonTapped:)];
         
-        if (markAllAsDownloaded)
-            [self animateDownloadButtonChange:downloadButton];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+    return nil;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -122,78 +137,75 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)downloadAllButtonTapped:(id)sender {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to import all bookmarks?"
-                                                                   message:@"Duplicate bookmarks will be replaced by the one from your other devices."
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              [self downloadAllBookmarks];
-                                                          }];
-    
-    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Nope" style:UIAlertActionStyleCancel
-                                                        handler:^(UIAlertAction * action) {}];
+//- (IBAction)downloadAllButtonTapped:(id)sender {
+//    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to import all bookmarks?"
+//                                                                   message:@"Duplicate bookmarks will be replaced by the one from your other devices."
+//                                                            preferredStyle:UIAlertControllerStyleAlert];
+//    
+//    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault
+//                                                          handler:^(UIAlertAction * action) {
+//                                                              [self downloadAllBookmarks];
+//                                                          }];
+//    
+//    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Nope" style:UIAlertActionStyleCancel
+//                                                        handler:^(UIAlertAction * action) {}];
+//
+//    [alert addAction:defaultAction];
+//    [alert addAction:laterAction];
+//    
+//    [self presentViewController:alert animated:YES completion:nil];
+//}
 
-    [alert addAction:defaultAction];
-    [alert addAction:laterAction];
+- (IBAction)downloadNamedBookmarkButtonTapped:(NamedBookmarkTableViewCell *)bookmarkCell {
+    CKRecord *record = bookmarkCell.iCloudRecord;
+    if (!record) return;
     
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (IBAction)downloadSingleButtonTapped:(id)sender {
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    //TODO: Check type to save
-    if (indexPath != nil)
-    {
-        NSString *deviceName = self.dataToLoad.allKeys[indexPath.section];
-        NSArray *recordsForSection = self.dataToLoad[deviceName];
-        CKRecord *record = recordsForSection[indexPath.row];
+    if ([self.reittiDataManager doesNamedBookmarkExistWithName:record[kNamedBookmarkName]]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Replace existing bookmark."
+                                                                       message:@"Another bookmark exists already with the same name. Would you like to replace it?"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         
-        if ([self.reittiDataManager doesNamedBookmarkExistWithName:record[kNamedBookmarkName]]) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Replace existing bookmark."
-                                                                           message:@"Another bookmark exists already with the same name. Would you like to replace it?"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Replace" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      if ([self saveSingleBookmarkFromRecord:record])
-                                                                          [self animateDownloadButtonChange:sender];
-                                                                  }];
-            
-            UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Nope" style:UIAlertActionStyleCancel
-                                                                handler:^(UIAlertAction * action) {}];
-            
-            [alert addAction:defaultAction];
-            [alert addAction:laterAction];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-        } else {
-            if ([self saveSingleBookmarkFromRecord:record])
-                [self animateDownloadButtonChange:sender];
-        }
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Replace" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  if ([self saveNamedBookmarkFromRecord:record])
+                                                                      [self fakeActivityForButton:bookmarkCell.iCloudDownloadButton andCell:bookmarkCell];
+                                                              }];
         
+        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Nope" style:UIAlertActionStyleCancel
+                                                            handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [alert addAction:laterAction];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        if ([self saveNamedBookmarkFromRecord:record])
+            [self fakeActivityForButton:bookmarkCell.iCloudDownloadButton andCell:bookmarkCell];
     }
 }
 
-- (BOOL)downloadAllBookmarks {
-    for (NSArray *recordArray in self.dataToLoad.allValues) {
-        for (CKRecord *record in recordArray) {
-            if (![self.alreadySavedRecords containsObject:record]) {
-                [self saveSingleBookmarkFromRecord:record];
-            }
+-(void)downloadStopButtonTapped:(StopTableViewCell *)stopCell {
+    CKRecord *record = stopCell.iCloudRecord;
+    if (!record) return;
+    
+    [stopCell startDownloadActivity];
+    [self saveStopFromRecord:record withCompletionHandler:^(BOOL *success){
+        [stopCell stopDownloadActivity];
+        if (success) {
+            [self animateDownloadButtonChange:stopCell.iCloudDownloadButton];
         }
-    }
-    
-    markAllAsDownloaded = YES;
-    [self.tableView reloadData];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    return YES;
+    }];
 }
 
-- (BOOL)saveSingleBookmarkFromRecord:(CKRecord *)record {
+-(void)downloadRouteButtonTapped:(RouteTableViewCell *)routeCell {
+    CKRecord *record = routeCell.iCloudRecord;
+    if (!record) return;
+    
+    [self saveRouteFromRecord:record];
+    [self fakeActivityForButton:routeCell.iCloudDownloadButton andCell:routeCell];
+}
+
+- (BOOL)saveNamedBookmarkFromRecord:(CKRecord *)record {
     if ([self.reittiDataManager createOrUpdateNamedBookmarkFromICLoudRecord:record]) {
         [self.alreadySavedRecords addObject:record];
         return YES;
@@ -202,15 +214,42 @@
     return NO;
 }
 
+- (void)saveStopFromRecord:(CKRecord *)record withCompletionHandler:(ActionBlock)completionHandler {
+    if (!record || !record[kStopNumber]) return;
+    
+    NSNumber *stopCode = record[kStopNumber];
+    CLLocation *locaiton = record[kStopCoordinate];
+    
+    [self.reittiDataManager fetchStopsForCode:[NSString stringWithFormat:@"%d", [stopCode intValue]] andCoords:locaiton.coordinate withCompletionBlock:^(BusStop * response, NSString *error){
+        BOOL success = NO;
+        if (!error) {
+            [self.reittiDataManager saveToCoreDataStop:response];
+            success = YES;
+        } else {
+            success = NO;
+        }
+        
+        if (completionHandler) {
+            completionHandler(success);
+        }
+    }];
+}
+
+- (void)saveRouteFromRecord:(CKRecord *)record {
+    if (!record || !record[kRouteUniqueName]) return;
+    
+    [self.reittiDataManager saveRouteToCoreData:record[kRouteFromLocaiton] fromCoords:record[kRouteFromCoords] andToLocation:record[kRouteToLocation] andToCoords:record[kRouteToCoords]];
+}
+
 - (void)animateDownloadButtonChange:(UIButton *)button {
 //    UIEdgeInsets originalInset = button.imageEdgeInsets;
     
     [UIView animateWithDuration:0.2 animations:^(){
-        CGFloat xInset = button.frame.size.width/2;
-        CGFloat yInset = button.frame.size.height/2;
-        [button setImageEdgeInsets:UIEdgeInsetsMake(yInset, xInset, yInset, xInset)];
-        //This should be called for the inset to be animated
-        [button layoutSubviews];
+//        CGFloat xInset = button.frame.size.width/2;
+//        CGFloat yInset = button.frame.size.height/2;
+//        [button setImageEdgeInsets:UIEdgeInsetsMake(yInset, xInset, yInset, xInset)];
+//        //This should be called for the inset to be animated
+//        [button layoutSubviews];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.2 animations:^(){
             [button setImage:[UIImage imageNamed:@"doneImageGreen"] forState:UIControlStateNormal];
@@ -223,6 +262,63 @@
             button.enabled = NO;
         }];
     }];
+}
+
+- (void)fakeActivityForButton:(UIButton *)button andCell:(UITableViewCell *)cell {
+    [(NamedBookmarkTableViewCell *)cell startDownloadActivity];
+    
+    [(NamedBookmarkTableViewCell *)cell performSelector:@selector(stopDownloadActivity) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(animateDownloadButtonChange:) withObject:button afterDelay:0.3];
+}
+
+#pragma mark - info view methods
+-(void)showLoading {
+    self.tableView.hidden = YES;
+    self.infoViewImageView.image = [UIImage imageNamed:@"iCloudIcon"];
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator beginRefreshing];
+    self.activityIndicator.circleLayer.lineWidth = 2;
+    self.activityIndicator.circleLayer.strokeColor = [AppManager systemGreenColor].CGColor;
+    self.activityIndicator.alternatingColors = nil;
+    
+    self.infoTitleLabel.hidden = YES;
+    self.infoDetailLabel.hidden = YES;
+}
+
+-(void)showNoOtherDeviceMessage {
+    self.tableView.hidden = YES;
+    self.infoViewImageView.image = [UIImage imageNamed:@"iCloudIcon"];
+    self.activityIndicator.hidden = YES;
+    
+    self.infoTitleLabel.hidden = NO;
+    self.infoTitleLabel.text = @"No Other Devices Found";
+    self.infoTitleLabel.textColor = [UIColor grayColor];
+    self.infoDetailLabel.hidden = NO;
+    self.infoDetailLabel.text = @"To use bookmark sync feature, log in with the same iCloud account on all your devices.";
+}
+
+-(void)showSynchedMessage {
+    self.tableView.hidden = YES;
+    self.infoViewImageView.image = [UIImage imageNamed:@"iCloudSynched"];
+    self.activityIndicator.hidden = YES;
+    
+    self.infoTitleLabel.hidden = NO;
+    self.infoTitleLabel.text = @"All Devices In Sync";
+    self.infoTitleLabel.textColor = [UIColor grayColor];
+    self.infoDetailLabel.hidden = NO;
+    self.infoDetailLabel.text = @"";
+}
+
+-(void)showErrorWithMessage:(NSString *)errorMessage {
+    self.tableView.hidden = YES;
+    self.infoViewImageView.image = [UIImage imageNamed:@"iCloudError"];
+    self.activityIndicator.hidden = YES;
+    
+    self.infoTitleLabel.hidden = NO;
+    self.infoTitleLabel.text = @"Sync Failed";
+    self.infoTitleLabel.textColor = [UIColor grayColor];
+    self.infoDetailLabel.hidden = NO;
+    self.infoDetailLabel.text = errorMessage;
 }
 
 

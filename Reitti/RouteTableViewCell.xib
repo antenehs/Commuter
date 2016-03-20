@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="zpe-Uk-gE3" customClass="RouteTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="398" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zpe-Uk-gE3" id="yka-AZ-Sgj">
+                <rect key="frame" x="0.0" y="0.0" width="398" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Sxz-7C-nwn">
+                        <rect key="frame" x="51" y="6" width="291" height="31"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.89999997615814209" translatesAutoresizingMaskIntoConstraints="NO" id="snw-KJ-UqC">
+                        <rect key="frame" x="85" y="32" width="257" height="22"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="routeIcon2.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zhw-8u-OBy">
+                        <rect key="frame" x="14" y="19" width="21" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="21" id="4ti-u3-rYZ"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="from" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0C7-Lt-bKV">
+                        <rect key="frame" x="51" y="33" width="35" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="35" id="RSe-HG-Eq0"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="WO8-I4-N2p">
+                        <rect key="frame" x="354" y="21" width="20" height="20"/>
+                    </activityIndicatorView>
+                    <button opaque="NO" tag="2004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="djs-ql-6Vc">
+                        <rect key="frame" x="345" y="11" width="38" height="39"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="39" id="3vf-Xs-xIs"/>
+                            <constraint firstAttribute="width" constant="38" id="lwF-S1-V0G"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                        <state key="normal" title="Button" image="iclouddownload-multicolor"/>
+                        <connections>
+                            <action selector="iCloudDownloadButtonPressed:" destination="zpe-Uk-gE3" eventType="touchUpInside" id="TJf-4o-034"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="0C7-Lt-bKV" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="25" id="1aS-zm-6Ye"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="snw-KJ-UqC" secondAttribute="trailing" constant="48" id="GZL-bD-TQ7"/>
+                    <constraint firstItem="Zhw-8u-OBy" firstAttribute="leading" secondItem="yka-AZ-Sgj" secondAttribute="leadingMargin" constant="6" id="Hui-vh-4Us"/>
+                    <constraint firstItem="djs-ql-6Vc" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="top" constant="11" id="I5k-tN-wwd"/>
+                    <constraint firstItem="WO8-I4-N2p" firstAttribute="centerY" secondItem="djs-ql-6Vc" secondAttribute="centerY" id="Ofv-sM-jjm"/>
+                    <constraint firstItem="0C7-Lt-bKV" firstAttribute="firstBaseline" secondItem="snw-KJ-UqC" secondAttribute="firstBaseline" id="QRN-oQ-0mt"/>
+                    <constraint firstItem="snw-KJ-UqC" firstAttribute="leading" secondItem="Zhw-8u-OBy" secondAttribute="trailing" constant="50" id="UfO-gn-kdC"/>
+                    <constraint firstAttribute="trailing" secondItem="djs-ql-6Vc" secondAttribute="trailing" constant="15" id="awS-Vj-Txh"/>
+                    <constraint firstItem="Sxz-7C-nwn" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="-2" id="bTA-oc-wlf"/>
+                    <constraint firstItem="0C7-Lt-bKV" firstAttribute="baseline" secondItem="snw-KJ-UqC" secondAttribute="baseline" id="fAV-0W-VGp"/>
+                    <constraint firstItem="Sxz-7C-nwn" firstAttribute="leading" secondItem="Zhw-8u-OBy" secondAttribute="trailing" constant="16" id="frT-g3-lKC"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Sxz-7C-nwn" secondAttribute="bottom" constant="14.5" id="jqb-lM-v6R"/>
+                    <constraint firstItem="WO8-I4-N2p" firstAttribute="centerX" secondItem="djs-ql-6Vc" secondAttribute="centerX" id="k0P-Hk-6VK"/>
+                    <constraint firstItem="0C7-Lt-bKV" firstAttribute="leading" secondItem="Sxz-7C-nwn" secondAttribute="leading" id="niR-gG-M5s"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="0C7-Lt-bKV" secondAttribute="bottom" constant="-3" id="r4i-JG-MEA"/>
+                    <constraint firstItem="Zhw-8u-OBy" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="11" id="sGW-gE-ZgW"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Sxz-7C-nwn" secondAttribute="trailing" constant="48" id="wTV-VH-hmX"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Zhw-8u-OBy" secondAttribute="bottom" constant="11.5" id="znG-ek-pLr"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="activityIndicator" destination="WO8-I4-N2p" id="Rdt-N4-5pX"/>
+                <outlet property="fromLabel" destination="snw-KJ-UqC" id="vtO-5n-lI8"/>
+                <outlet property="iCloudDownloadButton" destination="djs-ql-6Vc" id="Eoe-5S-Lji"/>
+                <outlet property="routeImageView" destination="Zhw-8u-OBy" id="n4s-Dw-gtK"/>
+                <outlet property="toLabel" destination="Sxz-7C-nwn" id="aZG-No-kTk"/>
+            </connections>
+            <point key="canvasLocation" x="309" y="477"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="iclouddownload-multicolor" width="100" height="100"/>
+        <image name="routeIcon2.png" width="80" height="80"/>
+    </resources>
+</document>

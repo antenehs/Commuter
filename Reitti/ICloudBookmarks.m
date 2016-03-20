@@ -24,6 +24,15 @@ NSString *kStopShortCode = @"StopShortCode";
 NSString *kStopName = @"StopName";
 NSString *kStopCity = @"StopCity";
 NSString *kStopType = @"StopType";
+NSString *kStopCoordinate = @"StopCoordinate";
+
+//Route
+NSString *kRouteUniqueName = @"RouteUniqueName";
+NSString *kRouteFromLocaiton = @"kRouteFromLocaiton";
+NSString *kRouteFromCoords = @"kRouteFromCoords";
+NSString *kRouteToLocation = @"kRouteToLocation";
+NSString *kRouteToCoords = @"kRouteToCoords";
+
 
 @implementation ICloudBookmarks
 
@@ -42,8 +51,24 @@ NSString *kStopType = @"StopType";
         CKRecord *record = (CKRecord *)object;
         return record ? ![stopIds containsObject:record[kStopNumber]] : NO;
     }]]];
+    
+    NSArray *routeIds = [self routeIds:savedRoutes];
+    
+    [filteredArray addObjectsFromArray:[self.allSavedRoutes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        CKRecord *record = (CKRecord *)object;
+        return record ? ![routeIds containsObject:record[kRouteUniqueName]] : NO;
+    }]]];
 
     return [self groupRecordsByDevice:filteredArray];
+}
+
+-(NSDictionary *)allBookmarksGrouped {
+    NSMutableArray *allArray = [@[] mutableCopy];
+    [allArray addObjectsFromArray:self.allNamedBookmarks ? self.allNamedBookmarks : @[]];
+    [allArray addObjectsFromArray:self.allSavedRoutes ? self.allSavedRoutes : @[]];
+    [allArray addObjectsFromArray:self.allSavedStops ? self.allSavedStops : @[]];
+    
+    return [self groupRecordsByDevice:allArray];
 }
 
 -(NSArray *)namedBookmarkIds:(NSArray *)namedBookmarks {
@@ -65,6 +90,18 @@ NSString *kStopType = @"StopType";
     NSMutableArray *ids = [@[] mutableCopy];
     for (StopEntity *stop in stops) {
         [ids addObject:stop.busStopCode];
+    }
+    
+    return ids;
+}
+
+-(NSArray *)routeIds:(NSArray *)routes {
+    if (!routes)
+        return @[];
+    
+    NSMutableArray *ids = [@[] mutableCopy];
+    for (RouteEntity *route in routes) {
+        [ids addObject:route.routeUniqueName];
     }
     
     return ids;
