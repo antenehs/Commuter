@@ -88,7 +88,6 @@
 
 -(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {

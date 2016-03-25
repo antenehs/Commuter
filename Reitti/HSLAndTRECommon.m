@@ -35,7 +35,7 @@
         if (!error) {
             for (Route *route in responseArray) {
                 route.routeLegs = [self mapRouteLegsFromArray:route.unMappedRouteLegs];
-                NSLog(@"route length is %@", route.routeLength);
+//                NSLog(@"route length is %@", route.routeLength);
                 route.routeLength = [route.unMappedRouteLength objectAtIndex:0];
                 route.routeDurationInSeconds = [route.unMappedRouteDurationInSeconds objectAtIndex:0];
             }

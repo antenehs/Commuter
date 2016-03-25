@@ -11,28 +11,28 @@
 
 @implementation PubTransCommunicator
 
-@synthesize delegate;
+//@synthesize delegate;
 
 - (void)StopInAreaFetchFromPubtransDidComplete:(NSData *)objectNotation{
     NSError *error = nil;
     NSArray *stops = [PubTransCommunicator stopsFromJSON:objectNotation error:&error];
     
     if (error != nil) {
-        [self.delegate fetchingStopsFromPubTransFailedWithError:error];
+//        [self.delegate fetchingStopsFromPubTransFailedWithError:error];
         
     } else {
-        [self.delegate receivedStopsFromPubTrans:stops];
+//        [self.delegate receivedStopsFromPubTrans:stops];
     }
 }
 - (void)StopInAreaFetchFromPubtransFailed:(NSError *)error{
-    [self.delegate fetchingStopsFromPubTransFailedWithError:error];
+//    [self.delegate fetchingStopsFromPubTransFailedWithError:error];
 }
 
 - (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{
-    [self.delegate receivedGeoJSON:objectNotation];
+//    [self.delegate receivedGeoJSON:objectNotation];
 }
 - (void)VehiclesFetchFromPubtransFailed:(NSError *)error{
-    [self.delegate fetchingVehiclesFromPubTransFailedWithError:error];
+//    [self.delegate fetchingVehiclesFromPubTransFailedWithError:error];
 }
 
 #pragma mark - Helper methods
@@ -56,11 +56,6 @@
     }
     
     return stops;
-}
-
-- (void)dealloc
-{
-    NSLog(@"Communication:This bitchass ARC deleted my PubTransAPI.");
 }
 
 @end

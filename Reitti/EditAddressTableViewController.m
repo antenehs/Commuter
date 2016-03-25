@@ -524,7 +524,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     if (actionSheet.tag == 1001) {
         if (buttonIndex == 0) {
             if (self.namedBookmark != nil) {
@@ -659,9 +658,8 @@
     return nil;
 }
 
-- (void)dealloc
-{
-    NSLog(@"BookmarksController:This bitchass ARC deleted my UIView.");
+- (void)dealloc{
+    NSLog(@"BookmarksController:This ARC deleted my UIView.");
 }
 
 #pragma mark - Navigation

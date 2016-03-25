@@ -124,14 +124,11 @@
     NSArray *routeCaches = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (routeCaches.count > 0) {
-        
-        NSLog(@"CardsSetManager: (fetchLocalSets)Fetched local settings value is not null");
         for (RouteCacheEntity *routeCahce in routeCaches) {
             [allSavedRouteCache setValue:routeCahce forKey:routeCahce.code];
         }
     }
     else {
-        NSLog(@"CardsSetManager: (fetchLocalSets)Fetched local settings values is null");
         [self initializeRouteCachesFromJson];
     }
     
@@ -157,12 +154,7 @@
     NSArray *routeCaches = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (routeCaches.count > 0) {
-        
-        NSLog(@"CacheManger: Fetched routes value is not null");
         return [routeCaches objectAtIndex:0];
-    }
-    else {
-        NSLog(@"CacheManger: Fetched routes values is null");
     }
     
     return nil;

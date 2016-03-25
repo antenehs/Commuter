@@ -43,7 +43,7 @@
 
 @synthesize liveTrafficManager, cacheManager;
 
-@synthesize vehicleFetchDelegate;
+//@synthesize vehicleFetchDelegate;
 
 -(id)init{
     self = [super init];
@@ -79,14 +79,8 @@
     TRECommunication *tCommunicator = [[TRECommunication alloc] init];
     
     self.treCommunication = tCommunicator;
-    
-//    numberOfApis = 2;
-    
-    pubTransAPI = [[PubTransCommunicator alloc] init];
-    pubTransAPI.delegate = self;
 
     self.liveTrafficManager = [[LiveTrafficManager alloc] init];
-    self.liveTrafficManager.delegate = self;
     
     self.cacheManager = [CacheManager sharedManager];
 
@@ -290,7 +284,6 @@
                 searchOptions.numberOfResults = kDefaultNumberOfResults;
             
             [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
-                NSLog(@"Route search completed.");
                 if (!error) {
                     completionBlock(response, nil);
                     //                    [routeSearchdelegate routeSearchDidComplete:response];
@@ -817,51 +810,21 @@
 //
 //}
 
-#pragma mark - PubTrans Delegate Methods
-- (void)receivedStopsFromPubTrans:(NSArray *)stops{
-//    [self.delegate nearByStopFetchDidComplete:stops];
-}
-- (void)fetchingStopsFromPubTransFailedWithError:(NSError *)error{
-//    [self.delegate nearByStopFetchDidFail:nil];
-}
-- (void)receivedGeoJSON:(NSData *)objectNotation{/*Not Implemented Here*/}
-
 #pragma mark - Live traffic fetch methods
--(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes{
+-(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
     if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromHSLLive:lineCodes andTrainCodes:trainCodes];
+        [self.liveTrafficManager startFetchingAllLiveVehiclesWithCodesFromHSLLive:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];
     }
 }
 
--(void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes{
+-(void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler{
     if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager fetchAllLiveVehiclesWithCodesFromPubTrans:lineCodes];
-    }
-}
-
--(void)fetchAllLiveVehicles{
-    if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager fetchAllLiveVehicles];
+        [self.liveTrafficManager startFetchingAllLiveVehiclesWithCompletionHandler:completionHandler];
     }
 }
 
 -(void)stopFetchingLiveVehicles{
     [self.liveTrafficManager stopFetchingVehicles];
-}
-
-#pragma mark - live traffic manager delegates
-
-- (void)didReceiveVehiclesFromHSlLive:(NSArray *)vehicleList{
-    [self.vehicleFetchDelegate vehiclesFetchCompleteFromHSlLive:vehicleList];
-}
-- (void)fetchingVehiclesFromHSLFailedWithError:(NSError *)error{
-    [self.vehicleFetchDelegate vehiclesFetchFromHSLFailedWithError:error];
-}
-- (void)didReceiveVehiclesFromPubTrans:(NSArray *)vehicleList{
-//    [self.vehicleFetchDelegate vehiclesFetchCompleteFromPubTrans:vehicleList];
-}
-- (void)fetchingVehiclesFromPubTransFailedWithError:(NSError *)error{
-//    [self.vehicleFetchDelegate vehiclesFetchFromPubTransFailedWithError:error];
 }
 
 #pragma mark - helper methods
@@ -1107,8 +1070,6 @@
     NSArray *tempSystemSettings = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (tempSystemSettings.count > 0) {
-        
-//        NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings value is not null");
         settingsEntity = [tempSystemSettings objectAtIndex:0];
         
         //Migration to datamodel version 7
@@ -1122,7 +1083,6 @@
         }
     }
     else {
-        NSLog(@"ReittiDataManger: (fetchLocalSets)Fetched local settings values is null");
         [self initializeSettings];
     }
     
@@ -1217,12 +1177,9 @@
     NSArray *tempSystemCookie = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if (tempSystemCookie.count > 0) {
-        
-        NSLog(@"CardsSetManager: (fetchLocalSets)Fetched local settings value is not null");
         cookieEntity = [tempSystemCookie objectAtIndex:0];
     }
     else {
-        NSLog(@"CardsSetManager: (fetchLocalSets)Fetched local settings values is null");
         [self initializeSystemCookie];
     }
     
@@ -1298,7 +1255,6 @@
     if (!stop)
         return;
     
-    NSLog(@"RettiDataManager: Saving Stop to core data!");
     self.stopEntity = [self fetchSavedStopFromCoreDataForCode:stop.code];
     
     if (!self.stopEntity) {
@@ -1400,14 +1356,8 @@
     NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedStops count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched local stops values is NOT null");
         [self saveStopsToICloud:savedStops];
         return savedStops;
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched local stops values is null");
     }
     
     return nil;
@@ -1432,12 +1382,9 @@
     NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([recentStopsCodes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history stops values is NOT null");
         allSavedStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
     }
     else {
-        NSLog(@"ReittiManager: Fetched history stops values is null");
         allSavedStopCodes = [[NSMutableArray alloc] init];
     }
 }
@@ -1462,13 +1409,7 @@
     NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedStops count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched saved stops values is NOT null");
         return [savedStops objectAtIndex:0];
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched saved stops values is null");
     }
     
     return nil;
@@ -1479,7 +1420,6 @@
     if (!stop)
         return NO;
     
-    NSLog(@"RettiDataManager: Saving Stop history to core data!");
     //Check for existence here first
     if(![allHistoryStopCodes containsObject:stop.code] && stop != nil){
         self.historyEntity= (HistoryEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
@@ -1606,13 +1546,7 @@
     NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([recentStops count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history stops values is NOT null");
         return recentStops;
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched history stops values is null");
     }
     
     return nil;
@@ -1638,13 +1572,7 @@
     NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([recentStops count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history stops values is NOT null");
         return [recentStops objectAtIndex:0];
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched history stops values is null");
     }
     
     return nil;
@@ -1672,12 +1600,9 @@
     NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([recentStopsCodes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history stops values is NOT null");
         allHistoryStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
     }
     else {
-        NSLog(@"ReittiManager: Fetched history stops values is null");
         allHistoryStopCodes = [[NSMutableArray alloc] init];
     }
 }
@@ -1797,12 +1722,8 @@
     NSArray *savedRouteCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedRouteCodes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched saved route values is NOT null");
         allSavedRouteCodes = [self simplifyCoreDataDictionaryArray:savedRouteCodes withKey:@"routeUniqueName"] ;
-        
     } else {
-        NSLog(@"ReittiManager: Fetched route values is null");
         allSavedRouteCodes = [[NSMutableArray alloc] init];
     }
 }
@@ -1848,7 +1769,6 @@
 
 #pragma mark - named bookmark methods
 -(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)ndBookmark{
-    NSLog(@"RettiDataManager: Saving named bookmark to core data!");
     //Check for existence here first
     if (ndBookmark == nil)
         return nil;
@@ -1915,7 +1835,6 @@
 }
 
 -(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark{
-    NSLog(@"RettiDataManager: Saving named bookmark to core data!");
     //Check for existence here first
     if (ndBookmark == nil)
         return nil;
@@ -2072,15 +1991,9 @@
     NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedBookmarks count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched local named bookmark values is NOT null");
         [self saveNamedBookmarksToICloud:savedBookmarks];
         
         return savedBookmarks;
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched local named bookmark values is null");
     }
     
     return nil;
@@ -2110,13 +2023,7 @@
     NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedBookmarks count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
         return [savedBookmarks objectAtIndex:0];
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched saved named bookmark values is null");
     }
     
     return nil;
@@ -2142,13 +2049,7 @@
     NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedBookmarks count] != 0) {
-        
-//        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
         return [savedBookmarks objectAtIndex:0];
-        
-    }
-    else {
-//        NSLog(@"ReittiManager: Fetched saved named bookmark values is null");
     }
     
     return nil;
@@ -2174,10 +2075,7 @@
     NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedBookmarks count] != 0) {
-        
-//        NSLog(@"ReittiManager: Fetched named bookmarks values is NOT null");
         return [savedBookmarks objectAtIndex:0];
-        
     }
     
     return nil;
@@ -2205,19 +2103,15 @@
     NSArray *bookmarkNames = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([bookmarkNames count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched named Bookmarks values is NOT null");
         allNamedBookmarkNames = [self simplifyCoreDataDictionaryArray:bookmarkNames withKey:@"name"] ;
     }
     else {
-        NSLog(@"ReittiManager: Fetched named Bookmarks values is null");
         allNamedBookmarkNames = [[NSMutableArray alloc] init];
     }
 }
 
 #pragma mark - route history core data methods
 -(BOOL)saveRouteHistoryToCoreData:(NSString *)fromLocation fromCoords:(NSString *)fromCoords andToLocation:(NSString *)toLocation toCoords:(NSString *)toCoords{
-    NSLog(@"RettiDataManager: Saving route history to core data!");
     //Check for existence here first
     
     if (fromLocation == nil || fromCoords == nil || toLocation == nil || toCoords == nil ||
@@ -2302,13 +2196,7 @@
     NSArray *recentRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([recentRoutes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history routes values is NOT null");
         return recentRoutes;
-        
-    }
-    else {
-        NSLog(@"ReittiManager: Fetched history route values is null");
     }
     
     return nil;
@@ -2375,12 +2263,9 @@
     NSArray *recentRouteCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([recentRouteCodes count] != 0) {
-        
-        NSLog(@"ReittiManager: Fetched history routes values is NOT null");
         allRouteHistoryCodes = [self simplifyCoreDataDictionaryArray:recentRouteCodes withKey:@"routeUniqueName"] ;
     }
     else {
-        NSLog(@"ReittiManager: Fetched history routes values is null");
         allRouteHistoryCodes = [[NSMutableArray alloc] init];
     }
 }
@@ -2449,8 +2334,6 @@
 
 #pragma mark - dealloc
 - (void)dealloc {
-    NSLog(@"RettiDataManager:Dealloced");
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SettingsManagerUserLocationChangedNotification" object:nil];
 }
 

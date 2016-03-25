@@ -272,7 +272,7 @@ NSString *const kTravelCardType = @"Type";
     for (NSTextCheckingResult* match in matches) {
         @try {
             NSRange group1 = [match rangeAtIndex:1];
-            NSLog(@"group1: %@", [dateString substringWithRange:group1]);
+//            NSLog(@"group1: %@", [dateString substringWithRange:group1]);
             
             NSString *timeStampString = [dateString substringWithRange:group1];
             return [NSDate dateWithTimeIntervalSince1970:[timeStampString longLongValue]/1000];

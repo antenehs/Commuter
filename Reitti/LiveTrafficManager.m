@@ -14,39 +14,28 @@
 NSString *kLineCodesKey = @"lineCodes";
 NSString *kTrainCodesKey = @"trainCodes";
 
+@interface LiveTrafficManager ()
+
+@property (nonatomic, copy) ActionBlock fetchAllFromHSLHandler;
+@property (nonatomic, copy) ActionBlock fetchLinesFromHSLHandler;
+
+@end
+
 @implementation LiveTrafficManager
 
-@synthesize delegate;
-
-@synthesize pubTransAPI, hslLiveAPI,totalVehicleList;
+@synthesize hslLiveAPI;
 
 - (instancetype)init {
-    pubTransAPI = [[PubTransCommunicator alloc] init];
-    pubTransAPI.delegate = self;
-    
     hslLiveAPI = [[HslLiveCommunicator alloc] init];
-//    hslLiveAPI.delegate = self;
-    
-    totalVehicleList = [[NSMutableArray alloc] init];
     
     allVehiclesAreBeingFetch = NO;
-    vehiclesAreBeingFetchFromHSL = NO;
-    vehiclesAreBeingFetchFromPubTrans = NO;
-    vehicleFetchFromPubtransComplete = NO;
-    vehicleFetchFromHSLLiveComplete = NO;
 
     return self;
 }
 
-//- (void)formatAndStartFetchingVehiclesFromHslLive:(NSArray *)lineCodes {
-//    if (lineCodes == nil)
-//        return;
-//    
-//    [self fetchLiveVehiclesFromHSLLiveForLineCodes:lineCodes];
-//    pubTransRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateLiveVehiclesFromHSL:) userInfo:lineCodes repeats:YES];
-//}
+#pragma mark - HSL live vehicle methods
 
-- (void)fetchLiveVehiclesFromHSLLiveForLineCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes{
+- (void)fetchLiveVehiclesFromHSLLiveForLineCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
     //Check for straight three times fail and cancel automatically updating.
     
     __block NSMutableArray *allVehicles = [@[] mutableCopy];
@@ -63,7 +52,9 @@ NSString *kTrainCodesKey = @"trainCodes";
                 hslDevApiFetchFailCount = 0;
             }else{
                 if (reqestCount == 0) {
-                    [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+//                    [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+                    if (completionHandler)
+                        completionHandler(nil, errorString);
                     return;
                 }
                 
@@ -73,7 +64,9 @@ NSString *kTrainCodesKey = @"trainCodes";
             }
             
             if (reqestCount == 0) {
-                [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+//                [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+                if (completionHandler)
+                    completionHandler(allVehicles, nil);
             }
         }];
     }
@@ -87,7 +80,9 @@ NSString *kTrainCodesKey = @"trainCodes";
                 hslLiveApiFetchFailCount = 0;
             }else{
                 if (reqestCount == 0) {
-                    [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+//                    [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+                    if (completionHandler)
+                        completionHandler(nil, errorString);
                     return;
                 }
                 
@@ -97,13 +92,15 @@ NSString *kTrainCodesKey = @"trainCodes";
             }
             
             if (reqestCount == 0) {
-                [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+//                [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+                if (completionHandler)
+                    completionHandler(allVehicles, nil);
             }
         }];
     }
 }
 
-- (void)fetchAllLiveVehiclesFromHSLLive{
+- (void)fetchAllLiveVehiclesFromHSLLiveWithCompletionHandler:(ActionBlock)completionHandler{
     
     __block NSMutableArray *allVehicles = [@[] mutableCopy];
     __block NSInteger reqestCount = 2;
@@ -111,11 +108,12 @@ NSString *kTrainCodesKey = @"trainCodes";
     [hslLiveAPI getAllLiveVehiclesFromHSLDev:nil withCompletionBlock:^(NSArray *vehicles, NSString *errorString){
         reqestCount--;
         if (!errorString) {
-            [self.totalVehicleList addObjectsFromArray:vehicles];
             [allVehicles addObjectsFromArray:vehicles];
         }else{
             if (reqestCount == 0) {
-                [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+//                [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+                if (completionHandler)
+                    completionHandler(nil, errorString);
                 return;
             }
             
@@ -123,18 +121,21 @@ NSString *kTrainCodesKey = @"trainCodes";
         }
         
         if (reqestCount == 0) {
-            [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+//            [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+            if (completionHandler)
+                completionHandler(allVehicles, nil);
         }
     }];
     
     [hslLiveAPI getAllLiveVehiclesFromHSLLive:nil withCompletionBlock:^(NSArray *vehicles, NSString *errorString){
         reqestCount--;
         if (!errorString) {
-            [self.totalVehicleList addObjectsFromArray:vehicles];
             [allVehicles addObjectsFromArray:vehicles];
         }else{
             if (reqestCount == 0) {
-                [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+//                [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+                if (completionHandler)
+                    completionHandler(nil, errorString);
                 return;
             }
             
@@ -142,15 +143,17 @@ NSString *kTrainCodesKey = @"trainCodes";
         }
         
         if (reqestCount == 0) {
-            [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+//            [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
+            if (completionHandler)
+                completionHandler(allVehicles, nil);
         }
     }];
 }
 
-- (void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes{
-    //Format line codes
+- (void)startFetchingAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
     @try {
-        [self fetchLiveVehiclesFromHSLLiveForLineCodes:lineCodes andTrainCodes:trainCodes];
+        self.fetchLinesFromHSLHandler = completionHandler;
+        [self fetchLiveVehiclesFromHSLLiveForLineCodes:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];
         
         hslDevApiFetchFailCount = 0;
         hslLiveApiFetchFailCount = 0;
@@ -159,166 +162,36 @@ NSString *kTrainCodesKey = @"trainCodes";
         hslRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateLiveVehiclesWithCodeFromHSL:) userInfo:userInfo repeats:YES];
     }
     @catch (NSException *exception) {
-        [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
-    }
-   
-}
-
-- (void)formatAndStartFetchingVehiclesFromPubTrans:(NSArray *)lineCodes {
-    if (lineCodes == nil)
-        return;
-    
-    if (lineCodes.count > 0) {
-        NSString *codesString = [ReittiStringFormatter commaSepStringFromArray:lineCodes withSeparator:@"|"];
-        [pubTransAPI getAllLiveVehiclesFromPubTrans:codesString];
-        pubTransRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateLiveVehiclesFromPubTrans:) userInfo:codesString repeats:YES];
-    }else{
-        [self.delegate fetchingVehiclesFromPubTransFailedWithError:nil];
+        completionHandler(nil, exception.reason);
     }
 }
 
-- (void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes{
-    //Format line codes
-    @try {
-        if (!vehiclesAreBeingFetchFromPubTrans) {
-            [self formatAndStartFetchingVehiclesFromPubTrans:lineCodes];
-            vehiclesAreBeingFetchFromPubTrans = YES;
-        }
-    }
-    @catch (NSException *exception) {
-        [self.delegate fetchingVehiclesFromPubTransFailedWithError:nil];
-    }
-    
-}
-
-- (void)fetchAllLiveVehicles{
+- (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler{
     if (!allVehiclesAreBeingFetch) {
-        [self.totalVehicleList removeAllObjects];
-        [self fetchAllLiveVehiclesFromHSLLive];
-//        [pubTransAPI getAllLiveVehiclesFromPubTrans:nil];
+        self.fetchAllFromHSLHandler = completionHandler;
+        [self fetchAllLiveVehiclesFromHSLLiveWithCompletionHandler:completionHandler];
         refreshTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateAllLiveVehiclesFromHSL:) userInfo:nil repeats:YES];
         allVehiclesAreBeingFetch = YES;
-        vehicleFetchFromPubtransComplete = YES;
-        vehicleFetchFromHSLLiveComplete = NO;
     }
 }
 
 -(void)stopFetchingVehicles{
     [refreshTimer invalidate];
     [hslRefreshTimer invalidate];
-    [pubTransRefreshTimer invalidate];
     allVehiclesAreBeingFetch = NO;
-    vehiclesAreBeingFetchFromPubTrans = NO;
-    vehiclesAreBeingFetchFromHSL = NO;
-}
-
-- (IBAction) updateAllLiveVehiclesFromHSL:(NSTimer *)sender {
-    [self fetchAllLiveVehiclesFromHSLLive];
-//    [pubTransAPI getAllLiveVehiclesFromPubTrans:nil];
     
-    vehicleFetchFromPubtransComplete = YES;
-    vehicleFetchFromHSLLiveComplete = NO;
-    [self.totalVehicleList removeAllObjects];
+    self.fetchAllFromHSLHandler = nil;
+    self.fetchLinesFromHSLHandler = nil;
 }
 
-- (IBAction)updateLiveVehiclesWithCodeFromHSL:(NSTimer *)sender {
+- (void)updateAllLiveVehiclesFromHSL:(NSTimer *)sender {
+    [self fetchAllLiveVehiclesFromHSLLiveWithCompletionHandler:self.fetchAllFromHSLHandler];
+    
+}
+
+- (void)updateLiveVehiclesWithCodeFromHSL:(NSTimer *)sender {
     NSDictionary *userInfo = [sender userInfo] ? [sender userInfo] : @{};
-    [self fetchLiveVehiclesFromHSLLiveForLineCodes:userInfo[kLineCodesKey] andTrainCodes:userInfo[kTrainCodesKey]];
+    [self fetchLiveVehiclesFromHSLLiveForLineCodes:userInfo[kLineCodesKey] andTrainCodes:userInfo[kTrainCodesKey] withCompletionHandler:self.fetchLinesFromHSLHandler];
 }
-
-- (IBAction)updateLiveVehiclesFromPubTrans:(NSTimer *)sender {
-    [pubTransAPI getAllLiveVehiclesFromPubTrans:[sender userInfo]];
-}
-
-#pragma mark - vehicle fetch delegate
-- (void)receivedGeoJSON:(NSData *)objectNotation{
-    vehicleFetchFromPubtransComplete = YES;
-    NSError *error = nil;
-    NSArray *vehicles = [LiveTrafficManager vehiclesFromJSON:objectNotation error:&error];
-
-    [self.totalVehicleList addObjectsFromArray:vehicles];
-    if (error != nil) {
-        [self.delegate fetchingVehiclesFromPubTransFailedWithError:error];
-        
-    } else {
-        [self.delegate didReceiveVehiclesFromPubTrans:vehicles];
-    }
-}
-- (void)fetchingVehiclesFromPubTransFailedWithError:(NSError *)error{
-    vehicleFetchFromPubtransComplete = YES;
-    [self.delegate fetchingVehiclesFromPubTransFailedWithError:error];
-}
-
-//- (void)receivedVehiclesCSV:(NSData *)objectNotation{
-//    vehicleFetchFromHSLLiveComplete = YES;
-//    NSString *error = nil;
-//    NSArray *vehicles = [LiveTrafficManager vehiclesFromCSV:objectNotation error:&error];
-//    
-//    [self.totalVehicleList addObjectsFromArray:vehicles];
-//    if (error != nil) {
-//        [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
-//    } else {
-//        [self.delegate didReceiveVehiclesFromHSlLive:vehicles];
-//    }
-//    
-//}
-//- (void)fetchingVehiclesFromHSLLiveFailedWithError:(NSError *)error{
-//    vehicleFetchFromHSLLiveComplete = YES;
-//    if (vehicleFetchFromPubtransComplete) {
-//        [self.delegate fetchingVehiclesFromHSLFailedWithError:error];
-//    }
-//}
-
-#pragma stop fetchDelegate
-- (void)receivedStopsFromPubTrans:(NSArray *)stops{}
-- (void)fetchingStopsFromPubTransFailedWithError:(NSError *)error{}
-
-
-#pragma mark - Helper methods
-+ (NSArray *)vehiclesFromJSON:(NSData *)objectNotation error:(NSError **)error{
-    NSError *localError = nil;
-    NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
-    
-    if (localError != nil) {
-        *error = localError;
-        return nil;
-    }
-    
-    NSMutableArray *vehicles = [[NSMutableArray alloc] init];
-    
-    NSArray *results = [parsedObject valueForKey:@"features"];
-    
-    for (NSDictionary *featureDict in results) {
-        Vehicle *vehicle = [[Vehicle alloc] initWithDictionary:featureDict];
-        
-        [vehicles addObject:vehicle];
-    }
-    
-    return vehicles;
-}
-
-+ (NSArray *)vehiclesFromCSV:(NSData *)objectNotation error:(NSString **)error{
-    NSString* vehiclesString =  [[NSString alloc] initWithData:objectNotation encoding:NSUTF8StringEncoding];
-    
-    if (vehiclesString == nil) {
-        *error = @"csv string is empty.";
-        return nil;
-    }
-    
-    NSMutableArray *vehicles = [[NSMutableArray alloc] init];
-    
-    NSArray *allLines = [vehiclesString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    
-    for (NSString *csvLine in allLines) {
-        Vehicle *vehicle = [[Vehicle alloc] initWithCSV:csvLine];
-//        NSLog(@"CSV line: %@", csvLine);
-        if (vehicle != nil) {
-            [vehicles addObject:vehicle];
-        }
-    }
-    
-    return vehicles;
-}
-
 
 @end

@@ -113,7 +113,6 @@ typedef enum
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
     if (self.navigationController.visibleViewController != self)
         return;
 
@@ -427,7 +426,7 @@ typedef enum
 
 -(BOOL)isLocationServiceAvailableWithMessage:(bool)showMessage{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    NSLog(@"%d",[CLLocationManager authorizationStatus]);
+//    NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {
@@ -684,7 +683,6 @@ typedef enum
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     if (actionSheet.tag == 1001) {
         if (buttonIndex == 0) {
             [self.reittiDataManager deleteSavedRouteForCode:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];

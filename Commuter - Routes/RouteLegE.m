@@ -79,8 +79,8 @@
             self.showDetailed = NO;
         }        
         
-        NSLog(@"leg is %@",self);
-        NSLog(@"a dictionary %@",legDict[@"locs"]);
+//        NSLog(@"leg is %@",self);
+//        NSLog(@"a dictionary %@",legDict[@"locs"]);
     }
     return self;
 }

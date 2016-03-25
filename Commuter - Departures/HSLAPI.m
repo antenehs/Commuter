@@ -89,8 +89,6 @@
                 } else {
                     BusStopE *busStop = [BusStopE new];
                     
-                    //                    NSLog(@"%@",[searchResultsArray description]);
-                    
                     NSDictionary *busStopDict = [searchResultsArray objectAtIndex:0];
                     
                     busStop.code = [busStopDict[@"code"] isEqual:[NSNull null]] ? nil : busStopDict[@"code"];

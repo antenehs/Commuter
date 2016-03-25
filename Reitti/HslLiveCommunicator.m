@@ -227,9 +227,9 @@
 //    [self.delegate fetchingVehiclesFromHSLLiveFailedWithError:error];
 //}
 
-- (void)dealloc
-{
-    NSLog(@"Communication:This bitchass ARC deleted my HSL Live API.");
-}
+//- (void)dealloc
+//{
+//    NSLog(@"Communication:This ARC deleted my HSL Live API.");
+//}
 
 @end

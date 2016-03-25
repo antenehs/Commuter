@@ -393,8 +393,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
-    
     if (buttonIndex == 0) {
         [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
         routeSearchOptions = [RouteSearchOptions defaultOptions];

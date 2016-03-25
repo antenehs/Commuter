@@ -131,7 +131,7 @@ const NSInteger kTimerRefreshInterval = 15;
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
+//    NSLog(@"will enter foreground notification");
     [self refreshDetailData:self];
     
     [self setICloudButtonAvailablility];
@@ -141,7 +141,7 @@ const NSInteger kTimerRefreshInterval = 15;
 }
 
 - (void)appWillEnterBackground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
+//    NSLog(@"will enter background notification");
     [refreshTimer invalidate];
     [locationManager stopUpdatingLocation];
 }
@@ -358,7 +358,7 @@ const NSInteger kTimerRefreshInterval = 15;
 
 -(BOOL)isLocationServiceAvailable{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    NSLog(@"%d",[CLLocationManager authorizationStatus]);
+//    NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {
@@ -418,7 +418,7 @@ const NSInteger kTimerRefreshInterval = 15;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
+//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     
     if (buttonIndex == 0) {
         if (mode == 0) {
@@ -1434,7 +1434,7 @@ const NSInteger kTimerRefreshInterval = 15;
 
 - (void)dealloc
 {
-    NSLog(@"BookmarksController:This bitchass ARC deleted my UIView.");
+    NSLog(@"BookmarksController:This ARC deleted my UIView.");
 }
 
 @end

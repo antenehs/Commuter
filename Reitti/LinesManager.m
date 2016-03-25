@@ -65,7 +65,7 @@ NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
 
 -(BOOL)isLocationServiceAvailable{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    NSLog(@"%d",[CLLocationManager authorizationStatus]);
+//    NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {

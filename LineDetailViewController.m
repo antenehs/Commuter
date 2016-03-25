@@ -77,8 +77,6 @@
     if (self.reittiDataManager == nil) {
         
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-//        self.reittiDataManager.lineSearchdelegate = self;
-        self.reittiDataManager.vehicleFetchDelegate = self;
         self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
         
         [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -525,8 +523,6 @@
         NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line reterned");
     }
     
-//    [SVProgressHUD dismiss];
-    
     self.line = [lines objectAtIndex:0];
     [self drawLineOnMap];
     [self plotStopAnnotation];
@@ -534,7 +530,6 @@
 }
 
 -(void)lineSearchDidFail:(NSString *)error{
-//    [SVProgressHUD dismiss];
     [ReittiNotificationHelper showErrorBannerMessage:@"Fetching line detail failed" andContent:nil];
     [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@3];
     [self performSelector:@selector(popViewController) withObject:nil afterDelay:2];
@@ -546,23 +541,26 @@
 
 #pragma mark - live vehicle delegates
 - (void)startFetchingLiveVehicles{
+    NSArray *trainLines = nil;
+    NSArray *otherLines = nil;
     if (line.lineType == LineTypeTrain) {
-        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:nil andTrainCodes:@[self.line.code]];
+        trainLines = @[self.line.code];
+//        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:nil andTrainCodes:@[self.line.code]];
     }else{
-        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:@[self.line.code] andTrainCodes:nil];
+        otherLines = @[self.line.code];
+//        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:@[self.line.code] andTrainCodes:nil];
     }
+    
+    [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:otherLines andTrainCodes:trainLines withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
+        if (!errorString) {
+            [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+        }
+    }];
 }
 
 - (void)stopFetchingVehicles{
     //Remove all vehicle annotations
     [self.reittiDataManager stopFetchingLiveVehicles];
-}
-
-- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
-    [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
-}
-- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
-    
 }
 
 #pragma mark - IBActions

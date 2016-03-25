@@ -130,16 +130,16 @@
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
-    NSLog(@"%@", shortcutItem.type);
+//    NSLog(@"%@", shortcutItem.type);
     
     completionHandler([self handleShortCutItem:shortcutItem]);
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
-    NSLog(@"URL scheme:%@", [url scheme]);
-    NSLog(@"URL query: %@", [url query]);
+//    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
+//    NSLog(@"URL scheme:%@", [url scheme]);
+//    NSLog(@"URL query: %@", [url query]);
     
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
@@ -159,7 +159,6 @@
         return YES;
     }
     else {
-        NSLog(@"Search controller is : %@",controller);
         if ([[url query] isEqualToString:@"bookmarks"]) {
 //            [controller openBookmarksView];
             tabBarController.selectedIndex = 2;
@@ -226,7 +225,7 @@
 }
 
 -(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
-    NSLog(@"UserInfo: %@", userActivity.userInfo);
+//    NSLog(@"UserInfo: %@", userActivity.userInfo);
     if ([userActivity.activityType isEqualToString:CSSearchableItemActionType]) {
         NSString *uniqueIdentifier = userActivity.userInfo[CSSearchableItemActivityIdentifier];
         switch ([ReittiSearchManager spotlightObjectTypeForIdentifier:uniqueIdentifier]) {
@@ -387,7 +386,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
     }
@@ -477,7 +476,7 @@
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory
 {
-    NSLog(@"Documents Dir:%@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
+//    NSLog(@"Documents Dir:%@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 

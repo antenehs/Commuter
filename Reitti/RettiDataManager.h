@@ -30,11 +30,6 @@
 @class SettingsEntity;
 @class LiveTrafficManager;
 
-@protocol ReittiLiveVehicleFetchDelegate <NSObject>
-- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList;
-- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error;
-@end
-
 typedef enum
 {
     HSLRegion = 0,
@@ -48,22 +43,13 @@ typedef struct {
     CLLocationCoordinate2D bottomRightCorner;
 } RTCoordinateRegion;
 
-@interface RettiDataManager : NSObject <PubTransCommunicatorDelegate, LiveTraficManagerDelegate>{
+@interface RettiDataManager : NSObject {
     int nextObjectLID;
     
-//    Region stopInAreaRequestedFor;
-//    Region stopInfoRequestedFor;
     Region geoCodeRequestPrioritizedFor;
-//    Region geoCodeRequestedFor;
-//    Region lineInfoRequestedFor;
-    
-//    int geocodeFetchResponseCount;
-//    int geocodeFetchFailedCount;
     
     NSMutableArray *HSLGeocodeResposeQueue;
     NSMutableArray *TREGeocodeResponseQueue;
-    
-//    int numberOfApis;
 }
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
@@ -156,9 +142,8 @@ typedef struct {
 
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 
--(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes;
--(void)fetchAllLiveVehiclesWithCodesFromPubTrans:(NSArray *)lineCodes;
--(void)fetchAllLiveVehicles;
+-(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
+-(void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)stopFetchingLiveVehicles;
 
 -(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntity;
@@ -169,8 +154,6 @@ typedef struct {
 
 -(BOOL)doVersion4_1CoreDataMigration;
 
-//@property (strong, nonatomic) NSDictionary *detailLineInfo;
-//@property (strong, nonatomic) NSDictionary *stopLinesInfo;
 @property (strong, nonatomic) NSMutableArray *allHistoryStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedRouteCodes;
@@ -187,7 +170,7 @@ typedef struct {
 ////@property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
 //@property (nonatomic, weak) id <RettiLineInfoSearchDelegate> lineSearchdelegate;
 //@property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
-@property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
+//@property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
 
 @property (strong, nonatomic) StopEntity *stopEntity;
 @property (strong, nonatomic) HistoryEntity *historyEntity;

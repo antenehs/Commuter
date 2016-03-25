@@ -83,7 +83,7 @@
 - (void)readNamedBookmarksFromUserDefaults {
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesWidgetSuitName]];
     NSArray *namedBookmarkDictionaries = [self.sharedDefaults objectForKey:kUserDefaultsNamedBookmarksKey];
-    NSLog(@"%@", namedBookmarkDictionaries);
+//    NSLog(@"%@", namedBookmarkDictionaries);
     
     NSMutableArray *readNamedBookmarks = [@[] mutableCopy];
     if (namedBookmarkDictionaries) {
@@ -98,7 +98,7 @@
 - (void)readRouteSearchOptionsFromUserDefaults {
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesWidgetSuitName]];
     self.routeSearchOptionsDictionary = [self.sharedDefaults objectForKey:kUserDefaultsRouteSearchOptionsKey];
-    NSLog(@"%@", self.routeSearchOptionsDictionary);
+//    NSLog(@"%@", self.routeSearchOptionsDictionary);
 }
 
 - (void)initBookmarkRouteMap{
@@ -581,7 +581,6 @@
 
 -(BOOL)isLocationServiceAvailable{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {

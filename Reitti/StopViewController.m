@@ -271,7 +271,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     if (actionSheet.tag == 1001) {
         if (buttonIndex == 0) {
             
@@ -543,9 +542,6 @@
                 return infoCell;
             }
         }
-        @finally {
-//            NSLog(@"finally");
-        }
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
         cell.backgroundColor = [UIColor clearColor];
@@ -793,7 +789,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"StopViewController:This bitchass ARC deleted my UIView.");
+    NSLog(@"StopViewController:This ARC deleted my UIView.");
 }
 
 @end

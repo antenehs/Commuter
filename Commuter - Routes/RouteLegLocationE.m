@@ -38,7 +38,7 @@
         self.shortCode = legDict[@"shortCode"];
         self.stopAddress = legDict[@"stopAddress"];
         
-        NSLog(@"leg is %@",self);
+//        NSLog(@"leg is %@",self);
     }
     return self;
 }

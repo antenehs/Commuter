@@ -183,12 +183,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //}
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
     [self initDeparturesRefreshTimer];
 }
 
 - (void)appWillEnterBackground:(NSNotification *)notification {
-    NSLog(@"will enter foreground notification");
     [departuresRefreshTimer invalidate];
 }
 
@@ -202,7 +200,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     //StartVehicleFetching
     if (settingsManager.userLocation == HSLRegion && [settingsManager shouldShowLiveVehicles]) {
-        [reittiDataManager fetchAllLiveVehicles];
+        [self startFetchingLiveVehicles];
     }else{
         [self removeAllVehicleAnnotation];
     }
@@ -306,11 +304,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-//    dataManger.delegate = self;
-//    dataManger.routeSearchdelegate = self;
-//    dataManger.disruptionFetchDelegate = self;
-//    dataManger.reverseGeocodeSearchdelegate = self;
-    dataManger.vehicleFetchDelegate = self;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
     
@@ -323,7 +316,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     //StartVehicleFetching
     if (settingsManager.userLocation == HSLRegion && [settingsManager shouldShowLiveVehicles]) {
-        [reittiDataManager fetchAllLiveVehicles];
+        [self startFetchingLiveVehicles];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -496,7 +489,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //test
 //    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
     NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-    NSLog(@"%@",[sharedDefaults2 dictionaryRepresentation]);
 }
 
 #pragma mark - Annotation helpers
@@ -743,7 +735,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)decelerateStopListViewFromVelocity:(CGFloat)velocity withCompletionBlock:(ActionBlock)completionBlock{
     
-//    NSLog(@"Velocity: %f", velocity);
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         [self increamentNearByStopViewTopSpaceBy:velocity/4];
     } completion:^(BOOL finished) {
@@ -903,8 +894,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 codeLabel.text = @"";
             }
             
-            //TODO: Update lines from detail stop if available
-            
             UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
             nameLabel.text = stop.name;
             
@@ -1053,7 +1042,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     BOOL toReturn = YES;
     
-    
     if (![self isLocationServiceAvailableWithNotification:NO]) {
         if ([settingsManager userLocation] == HSLRegion) {
             //Helsinki center location
@@ -1097,7 +1085,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify{
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    NSLog(@"%d",[CLLocationManager authorizationStatus]);
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
     if (!locationServicesEnabled) {
@@ -1611,7 +1598,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         selectedAnnotationView = (NSObject<JPSThumbnailAnnotationViewProtocol> *)view;
         id<MKAnnotation> ann = view.annotation;
         CLLocationCoordinate2D coord = ann.coordinate;
-        NSLog(@"lat = %f, lon = %f", coord.latitude, coord.longitude);
+//        NSLog(@"lat = %f, lon = %f", coord.latitude, coord.longitude);
         
         NSString *fromCoordsString = [NSString stringWithFormat:@"%f,%f", self.currentUserLocation.coordinate.longitude, self.currentUserLocation.coordinate.latitude];
         
@@ -2061,8 +2048,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         selectedAnnotationUniqeName = @"Current location";
     }else{
         selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",destination.placemark.location.coordinate.longitude, destination.placemark.location.coordinate.latitude];
-        NSLog(@"Address of placemark: %@", ABCreateStringWithAddressDictionary(destination.placemark.addressDictionary, NO));
-        NSLog(@"Address Dictionary: %@",destination.placemark.addressDictionary);
+//        NSLog(@"Address of placemark: %@", ABCreateStringWithAddressDictionary(destination.placemark.addressDictionary, NO));
+//        NSLog(@"Address Dictionary: %@",destination.placemark.addressDictionary);
         if ([destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] != nil) {
             selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@",
                                            [[destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
@@ -2258,19 +2245,16 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    NSLog(@"scrollViewDidEndDragging....");
     if (stopViewDragedDown & !decelerate) { /* drag the stop view down if table view is fully scrolled down */
         [self decelerateStopListViewFromVelocity:[scrollView.panGestureRecognizer velocityInView:nearbyStopsListsTable].y withCompletionBlock:nil];
     }
 }
 
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
-     NSLog(@"scrollViewWillBeginDecelerating....");
     tableViewIsDecelerating = YES;
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSLog(@"scrollViewDidEndDecelerating....");
     tableViewIsDecelerating = NO;
 }
 
@@ -2424,28 +2408,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
  
 }
 
-//- (void)vehicleFetchDidComplete:(NSArray *)vehicleList{
-//    [self plotVehicleAnnotations:vehicleList];
-//}
-//- (void)vehicleFetchDidFail:(NSError *)error{
-//    
-//}
-
-- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
-    if ([settingsManager shouldShowLiveVehicles]) {
-        [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
-    }
-}
-- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
-    //TODO: Remove vehicles if call fails
-}
-- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList{
-    if ([settingsManager shouldShowLiveVehicles]) {
-        [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
-    }
-}
-- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error{
-    //TODO: Remove vehicles if call fails    
+#pragma mark - Live vehicle methods
+- (void)startFetchingLiveVehicles {
+    [self.reittiDataManager startFetchingAllLiveVehiclesWithCompletionHandler:^(NSArray *vehicles, NSString *errorString){
+        if (!errorString) {
+            if ([settingsManager shouldShowLiveVehicles]) {
+                [self plotVehicleAnnotations:vehicles isTrainVehicles:NO];
+            }
+        }
+    }];
 }
 
 #pragma mark - Disruptions delegate
@@ -2549,9 +2520,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(void)shouldShowVehiclesSettingsValueChanged:(NSNotification *)notification{
     if ([settingsManager shouldShowLiveVehicles]) {
-        [reittiDataManager fetchAllLiveVehicles];
+        [self startFetchingLiveVehicles];
     }else{
         [self removeAllVehicleAnnotation];
+        [reittiDataManager stopFetchingLiveVehicles];
     }
 }
 
@@ -2625,7 +2597,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"%@",segue.identifier);
 	if ([segue.identifier isEqualToString:@"openBookmarks"])
 	{
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;

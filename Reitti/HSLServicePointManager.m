@@ -45,11 +45,6 @@
             if (CLLocationCoordinate2DIsValid(sPoint.coordinates) && sPoint.coordinates.latitude != 0) {
                 [servicePoints addObject:sPoint];
             }
-//            else{
-//                NSLog(@"No coordinates, so skipped");
-//                int i = 0;
-//                i++;
-//            }
         }
         @catch (NSException *exception) {
         }

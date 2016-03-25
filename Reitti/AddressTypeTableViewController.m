@@ -71,7 +71,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"Dismiss completed");
         [delegate selectedAddressType:[self.addressTypeList objectAtIndex:indexPath.row]];
     }];
 }

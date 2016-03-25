@@ -77,9 +77,9 @@ NSString *const kServicePointAttributes = @"attributes";
     if (CLLocationCoordinate2DIsValid(_coordinates)) {
         NSString *searchedString = self.attributes.fieldCoordinatesRendered;
         
-        if ([self.attributes.title isEqualToString:@"Tikkurilan asema "]) {
-            NSLog(@"%@", searchedString);
-        }
+//        if ([self.attributes.title isEqualToString:@"Tikkurilan asema "]) {
+//            NSLog(@"%@", searchedString);
+//        }
         
         if (searchedString != nil && [[searchedString lowercaseString] containsString:@"point ("]) {
             NSRange   searchedRange = NSMakeRange(0, [searchedString length]);

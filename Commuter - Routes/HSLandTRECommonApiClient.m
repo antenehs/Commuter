@@ -80,7 +80,6 @@
             route.routeLegs = [self mapRouteLegsFromArray:legsArray];
             
             NSNumber *routeLengthArray = [routeDictionaryArray[0] objectForKey:@"length"];
-            NSLog(@"route length is %@", route.routeLength);
             route.routeLength = routeLengthArray;
             
             NSNumber *routeDurationArray = [routeDictionaryArray[0] objectForKey:@"duration"];
@@ -100,7 +99,6 @@
     NSMutableArray *legsArray = [[NSMutableArray alloc] init];
     int legOrder = 0;
     for (NSDictionary *legDict in arrayResponse) {
-        //NSLog(@"a dictionary %@",legDict);
         RouteLegE *leg = [[RouteLegE alloc] initFromDictionary:legDict];
         leg.legOrder = legOrder;
         [legsArray addObject:leg];

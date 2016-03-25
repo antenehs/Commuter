@@ -109,15 +109,15 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     
     if (grantedSettings.types == UIUserNotificationTypeNone) {
-        NSLog(@"No permiossion granted");
+//        NSLog(@"No permiossion granted");
         toReturn = NO;
     }
     else if (grantedSettings.types & UIUserNotificationTypeSound & UIUserNotificationTypeAlert ){
-        NSLog(@"Sound and alert permissions ");
+//        NSLog(@"Sound and alert permissions ");
         toReturn = YES;
     }
     else if (grantedSettings.types  & UIUserNotificationTypeAlert){
-        NSLog(@"Alert Permission Granted");
+//        NSLog(@"Alert Permission Granted");
         toReturn = YES;
     }
     
@@ -339,7 +339,6 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 
 #pragma mark - Core data Methods
 -(void)saveRoutineToCoreData:(RoutineEntity *)routine{
-    NSLog(@"ReittiRemindersManager: Saving routine to core data!");
     //Set objectId
     
     //Set modification date
@@ -435,13 +434,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     NSArray *savedRoutines = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedRoutines count] != 0) {
-        
-        NSLog(@"RemindersManager: Fetched local routines values is NOT null");
         return savedRoutines;
-        
-    }
-    else {
-        NSLog(@"RemindersManager: Fetched local routines values is null");
     }
     
     return nil;
@@ -466,12 +459,9 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     NSArray *routineCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([routineCodes count] != 0) {
-        
-        NSLog(@"RemindersManager: Fetched routine values is NOT null");
         allSavedRoutineIds = [self simplifyCoreDataDictionaryArray:routineCodes withKey:@"objectLID"] ;
     }
     else {
-        NSLog(@"RemindersManager: Fetched routine values is null");
         allSavedRoutineIds = [[NSMutableArray alloc] init];
     }
 }

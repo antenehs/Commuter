@@ -30,7 +30,7 @@
         self.coords = [ReittiStringFormatter convert2DCoordToString:mapItem.placemark.coordinate];
         
         self.city = mapItem.placemark.addressDictionary[@"City"] ? mapItem.placemark.addressDictionary[@"City"] : mapItem.name;
-        NSLog(@"%@", mapItem.placemark.addressDictionary);
+//        NSLog(@"%@", mapItem.placemark.addressDictionary);
         
         GeoCodeDetail *detail = [GeoCodeDetail new];
         detail.address = mapItem.placemark.addressDictionary[@"Street"] ? mapItem.placemark.addressDictionary[@"Street"] : mapItem.name;

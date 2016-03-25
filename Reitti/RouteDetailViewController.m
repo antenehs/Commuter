@@ -324,8 +324,9 @@
         }
     }
     
-    self.reittiDataManager.vehicleFetchDelegate = self;
-    [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray andTrainCodes:tempTrainArray];
+    [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray andTrainCodes:tempTrainArray withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
+        [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
+    }];
 }
 
 - (void)stopFetchingVehicles{
@@ -709,7 +710,6 @@
        
         int locCount = 0;
         for (RouteLegLocation *loc in leg.legLocations) {
-//            NSLog(@"ploting location: %@", loc);
             CLLocationCoordinate2D coordinate = {.latitude =  [[loc.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc.coordsDictionary objectForKey:@"x"] floatValue]};
             if (loc.name == nil) {
                 
@@ -1272,7 +1272,6 @@
     NSIndexPath *indexPath = [routeListTableView indexPathForRowAtPoint:buttonPosition];
     if (indexPath != nil)
     {
-//        NSLog(@"Index path: %ld", (long)indexPath.row);
         RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
         
         if (loc.isHeaderLocation) {
@@ -1330,7 +1329,6 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
     if (actionSheet.tag == 2001) {
 //        NSString * timeToSetAlarm = [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute];
         reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minutes.";
@@ -1865,20 +1863,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             }
         }
     }
-}
-
-#pragma mark - Reitti data manager delegates
-- (void)vehiclesFetchCompleteFromHSlLive:(NSArray *)vehicleList{
-    [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
-}
-- (void)vehiclesFetchFromHSLFailedWithError:(NSError *)error{
-    
-}
-- (void)vehiclesFetchCompleteFromPubTrans:(NSArray *)vehicleList{
-    [self plotVehicleAnnotations:vehicleList isTrainVehicles:YES];
-}
-- (void)vehiclesFetchFromPubTransFailedWithError:(NSError *)error{
-    
 }
 
 #pragma mark - helper methods

@@ -243,7 +243,7 @@
 - (IBAction)currentLocationButtonPressed:(id)sender {
     [addressSearchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"Dismiss completed");
+//        NSLog(@"Dismiss completed");
         [delegate searchResultSelectedCurrentLocation];
     }];
 }
@@ -439,7 +439,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"%@",self.dataToLoad);
+//    NSLog(@"%@",self.dataToLoad);
     return self.dataToLoad.count;
 }
 
@@ -584,14 +584,14 @@
     if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
         GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];
         [self dismissViewControllerAnimated:YES completion:^{
-            NSLog(@"Dismiss completed");
+//            NSLog(@"Dismiss completed");
             [delegate searchResultSelectedAGeoCode:selectedGeocode];
 //            [addressSearchBar resignFirstResponder];
         }];
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
         NamedBookmark *selectedBookmark = [self.dataToLoad objectAtIndex:indexPath.row];
         [self dismissViewControllerAnimated:YES completion:^{
-            NSLog(@"Dismiss completed");
+//            NSLog(@"Dismiss completed");
             [delegate searchResultSelectedANamedBookmark:selectedBookmark];
 //            [addressSearchBar resignFirstResponder];
         }];
@@ -599,7 +599,7 @@
         StopEntity *selectedStopEntity = (StopEntity *)[self.dataToLoad objectAtIndex:indexPath.row];
 //        [addressSearchBar resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
-            NSLog(@"Dismiss completed");
+//            NSLog(@"Dismiss completed");
             [delegate searchResultSelectedAStop:selectedStopEntity];
         }];
     }

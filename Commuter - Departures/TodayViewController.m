@@ -123,7 +123,7 @@
     
     [sharedDefaults synchronize];
     
-    NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
+//    NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
 }
 
 -(void)fetchStops{
@@ -283,9 +283,6 @@
                     
                 }
             }
-            @finally {
-                NSLog(@"finally");
-            }
         }
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -401,8 +398,6 @@
                     @catch (NSException *exception) {
                         NSLog(@"There wa an exception processing departures. %@",exception);
                     }
-                    
-                    
                 }
                 
                 UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[stopView viewWithTag:1003];
@@ -505,7 +500,7 @@
             
             NSMutableArray *fDepartures = [@[] mutableCopy];
             for (NSDictionary *dept in newStop.departures) {
-                NSLog(@"%@",dept);
+//                NSLog(@"%@",dept);
                 if ([dept[@"date"] integerValue] >= sinceDate || ([dept[@"date"] integerValue] == sinceDate - 1 && sinceTime < 400)) {
                     if ([dept[@"time"] integerValue] >= sinceTime) {
                         [fDepartures addObject:dept];

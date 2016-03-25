@@ -15,6 +15,14 @@
 @synthesize apiBaseUrl;
 
 -(id)init{
+    self = [super init];
+    
+    if (self) {
+        RKLogConfigureByName("RestKit", RKLogLevelCritical);
+        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelCritical);
+        RKLogConfigureByName("RestKit/Network", RKLogLevelCritical);
+    }
+    
     return self;
 }
 
@@ -610,9 +618,5 @@
 - (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{}
 - (void)VehiclesFetchFromPubtransFailed:(NSError *)error{}
 
-- (void)dealloc
-{
-    NSLog(@"Communication:This bitchass ARC deleted my UIView.");
-}
 
 @end
