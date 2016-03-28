@@ -27,7 +27,7 @@
 @implementation RettiDataManager
 
 @synthesize managedObjectContext;
-@synthesize hslCommunication, treCommunication, pubTransAPI;
+@synthesize hslCommunication, treCommunication;
 @synthesize allHistoryStopCodes;
 @synthesize allSavedStopCodes;
 @synthesize allRouteHistoryCodes, allSavedRouteCodes;
@@ -51,8 +51,8 @@
         self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
         
         [self initElements];
-        
         [self initAndFetchCoreData];
+        [self updateIcloudRecords];
     }
     
     return self;
@@ -64,8 +64,8 @@
         self.managedObjectContext = context;
         
         [self initElements];
-        
         [self initAndFetchCoreData];
+        [self updateIcloudRecords];
     }
     
     return self;
@@ -80,12 +80,9 @@
     
     self.treCommunication = tCommunicator;
 
-    self.liveTrafficManager = [[LiveTrafficManager alloc] init];
+    self.liveTrafficManager = [[HSLLiveTrafficManager alloc] init];
     
     self.cacheManager = [CacheManager sharedManager];
-
-//    geocodeFetchResponseCount = 0;
-//    geocodeFetchFailedCount = 0;
     
     HSLGeocodeResposeQueue = [@[] mutableCopy];
     TREGeocodeResponseQueue = [@[] mutableCopy];
@@ -111,6 +108,12 @@
     
     //Update widget ns user default values
     [self updateNamedBookmarksUserDefaultValue];
+}
+
+- (void)updateIcloudRecords {
+    [self updateSavedNamedBookmarksToICloud];
+    [self updateSavedStopsToICloud];
+    [self updateSavedRoutesToICloud];
 }
 
 -(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
@@ -813,7 +816,7 @@
 #pragma mark - Live traffic fetch methods
 -(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
     if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager startFetchingAllLiveVehiclesWithCodesFromHSLLive:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];
+        [self.liveTrafficManager startFetchingAllLiveVehiclesWithCodes:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];
     }
 }
 
@@ -1275,6 +1278,7 @@
     
     [allSavedStopCodes addObject:stop.code];
     [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
+    [self updateSavedStopsToICloud];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
@@ -1356,7 +1360,6 @@
     NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedStops count] != 0) {
-        [self saveStopsToICloud:savedStops];
         return savedStops;
     }
     
@@ -1629,7 +1632,7 @@
     
     [self saveManagedObject:self.routeEntity];
     
-    [self saveRoutesToICloud:@[self.routeEntity]];
+    [self updateSavedRoutesToICloud];
     [allSavedRouteCodes addObject:self.routeEntity.routeUniqueName];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
@@ -1695,8 +1698,6 @@
     NSArray *savedRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedRoutes count] != 0) {
-        [self saveRoutesToICloud:savedRoutes];
-        
         return savedRoutes;
     }
     
@@ -1796,6 +1797,7 @@
     
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+    [self updateSavedNamedBookmarksToICloud];
     [self updateNamedBookmarksUserDefaultValue];
     [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
     
@@ -1862,6 +1864,7 @@
         
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
         [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+        [self updateSavedNamedBookmarksToICloud];
         [self updateNamedBookmarksUserDefaultValue];
         [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
         
@@ -1982,17 +1985,13 @@
     
     [request setEntity:entity];
     
-    //[request setResultType:NSDictionaryResultType];
     [request setReturnsDistinctResults:YES];
-    //[request setPropertiesToFetch :[NSArray arrayWithObjects: @"set_id",  @"title",  @"subject",  @"url",  @"score",  @"views",  @"created",  @"last_modified",  @"card_count",  @"access", nil]];
     
     NSError *error = nil;
     
     NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     if ([savedBookmarks count] != 0) {
-        [self saveNamedBookmarksToICloud:savedBookmarks];
-        
         return savedBookmarks;
     }
     
@@ -2307,7 +2306,8 @@
     [[ICloudManager sharedManager] fetchAllBookmarksWithCompletionHandler:completionHandler];
 }
 
-- (void)saveNamedBookmarksToICloud:(NSArray *)namedBookmarks {
+- (void)updateSavedNamedBookmarksToICloud {
+    NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
     [[ICloudManager sharedManager] saveNamedBookmarksToICloud:namedBookmarks];
 }
 
@@ -2315,7 +2315,8 @@
     [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
 }
 
-- (void)saveStopsToICloud:(NSArray *)stops {
+- (void)updateSavedStopsToICloud {
+    NSArray *stops = [self fetchAllSavedStopsFromCoreData];
     [[ICloudManager sharedManager] saveStopsToICloud:stops];
 }
 
@@ -2324,7 +2325,8 @@
      ];
 }
 
-- (void)saveRoutesToICloud:(NSArray *)routes {
+- (void)updateSavedRoutesToICloud {
+    NSArray *routes = [self fetchAllSavedRoutesFromCoreData];
     [[ICloudManager sharedManager] saveRoutesToICloud:routes];
 }
 

@@ -23,6 +23,7 @@
 #import "EmptyBookmarkCell.h"
 #import "DroppedPinManager.h"
 #import "ASA_Helpers.h"
+#import "TableViewCells.h"
 
 const NSInteger kTimerRefreshInterval = 15;
 
@@ -110,6 +111,10 @@ const NSInteger kTimerRefreshInterval = 15;
     stopActivityIndicator.hidesWhenStopped = YES;
     
     [self.navigationItem setTitle:@""];
+    
+//    [self.tableView registerNib:[UINib nibWithNibName:@"StopTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedStopCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"RouteTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedRouteCell"];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"namedBookmarkCell"];
     
     /* Register 3D touch for Peek and Pop if available */
     [self registerFor3DTouchIfAvailable];
@@ -607,29 +612,21 @@ const NSInteger kTimerRefreshInterval = 15;
                 arrivesTime.hidden = YES;
             }
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
-            cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
+            RouteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
             
             RouteEntity *routeEntity = [RouteEntity alloc];
             if (dataIndex < self.dataToLoad.count) {
                 routeEntity = [self.dataToLoad objectAtIndex:dataIndex];
             }
             
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            title.text = routeEntity.toLocationName;
-            //stopName.font = CUSTOME_FONT_BOLD(23.0f);
-            
-            subTitle.text = [NSString stringWithFormat:@"%@", routeEntity.fromLocationName];
-            
             if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]) {
-                dateLabel.hidden = NO;
-                dateLabel.text = [ReittiStringFormatter formatPrittyDate:routeEntity.dateModified];
+                [cell setupFromHistoryEntity:(RouteHistoryEntity *)routeEntity];
             }else{
-                dateLabel.hidden = YES;
+                [cell setupFromRouteEntity:routeEntity];
             }
+            
+            cell.backgroundColor = [UIColor clearColor];
+            return cell;
         }
     }
     @catch (NSException *exception) {

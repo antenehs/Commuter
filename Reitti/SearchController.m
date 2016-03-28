@@ -19,7 +19,7 @@
 #import "WelcomeViewController.h"
 #import "DetailImageView.h"
 #import "AppManager.h"
-#import "LiveTrafficManager.h"
+#import "HSLLiveTrafficManager.h"
 #import "Vehicle.h"
 #import "CoreDataManager.h"
 #import "DroppedPinManager.h"

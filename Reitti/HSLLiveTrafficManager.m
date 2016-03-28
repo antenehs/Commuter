@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "LiveTrafficManager.h"
+#import "HSLLiveTrafficManager.h"
 #import "Vehicle.h"
 #import "ReittiStringFormatter.h"
 #import "ReittiAnalyticsManager.h"
@@ -14,14 +14,14 @@
 NSString *kLineCodesKey = @"lineCodes";
 NSString *kTrainCodesKey = @"trainCodes";
 
-@interface LiveTrafficManager ()
+@interface HSLLiveTrafficManager ()
 
 @property (nonatomic, copy) ActionBlock fetchAllFromHSLHandler;
 @property (nonatomic, copy) ActionBlock fetchLinesFromHSLHandler;
 
 @end
 
-@implementation LiveTrafficManager
+@implementation HSLLiveTrafficManager
 
 @synthesize hslLiveAPI;
 
@@ -150,7 +150,7 @@ NSString *kTrainCodesKey = @"trainCodes";
     }];
 }
 
-- (void)startFetchingAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
+- (void)startFetchingAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
     @try {
         self.fetchLinesFromHSLHandler = completionHandler;
         [self fetchLiveVehiclesFromHSLLiveForLineCodes:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];

@@ -26,8 +26,12 @@
 @property (weak, nonatomic) IBOutlet UIImageView *routeImageView;
 @property (weak, nonatomic) IBOutlet UIButton *iCloudDownloadButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
+
 
 //Data sources
 @property (strong, nonatomic)CKRecord *iCloudRecord;
+@property (strong, nonatomic)RouteEntity *routeEntity;
+@property (strong, nonatomic)RouteHistoryEntity *routeHistoryEntity;
 
 @end

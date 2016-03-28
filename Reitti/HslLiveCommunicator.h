@@ -8,17 +8,9 @@
 
 #import "APIClient.h"
 
-//@protocol HslLiveCommunicatorDelegate <NSObject>
-//- (void)receivedVehiclesCSV:(NSData *)objectNotation;
-//- (void)fetchingVehiclesFromHSLLiveFailedWithError:(NSError *)error;
-//@end
-
 @interface HslLiveCommunicator : NSObject
 
 - (void)getAllLiveVehiclesFromHSLLive:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;
-
 - (void)getAllLiveVehiclesFromHSLDev:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;
-
-//@property (weak, nonatomic) id <HslLiveCommunicatorDelegate> delegate;
 
 @end

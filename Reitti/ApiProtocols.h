@@ -51,3 +51,10 @@ typedef void (^ActionBlock)();
 -(NSInteger)getDefaultValueIndexForChangeMargineOptions;
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
 @end
+
+@protocol LiveTrafficFetchProtocol <NSObject>
+- (void)startFetchingAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
+- (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
+- (void)stopFetchingVehicles;
+@end
+

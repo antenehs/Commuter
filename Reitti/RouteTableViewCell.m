@@ -7,6 +7,7 @@
 //
 
 #import "RouteTableViewCell.h"
+#import "ReittiStringFormatter.h"
 
 @interface RouteTableViewCell ()
 
@@ -24,17 +25,32 @@
 #pragma mark - view Settup
 -(void)setupFromICloudRecord:(CKRecord *)record{
     self.iCloudRecord = record;
+    self.dateLabel.hidden = YES;
     
     self.toLabel.text = record[kRouteToLocation];
     self.fromLabel.text = record[kRouteFromLocaiton];
 }
 
 -(void)setupFromRouteEntity:(RouteEntity *)stopEntity{
+    self.routeEntity = stopEntity;
     
+    self.iCloudDownloadButton.hidden = YES;
+    self.dateLabel.hidden = YES;
+    
+    self.toLabel.text = stopEntity.toLocationName;
+    self.fromLabel.text = stopEntity.fromLocationName;
 }
 
 -(void)setupFromHistoryEntity:(RouteHistoryEntity *)historyEntity{
+    self.routeHistoryEntity = historyEntity;
     
+    self.iCloudDownloadButton.hidden = YES;
+    self.dateLabel.hidden = NO;
+    
+    self.toLabel.text = historyEntity.toLocationName;
+    self.fromLabel.text = historyEntity.fromLocationName;
+    
+    self.dateLabel.text = [ReittiStringFormatter formatPrittyDate:historyEntity.dateModified];
 }
 
 -(void)setupFromRoute:(Route *)route{

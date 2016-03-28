@@ -12,6 +12,9 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
         </mutableArray>
+        <mutableArray key="HelveticaNeueLights.ttc">
+            <string>HelveticaNeue-Thin</string>
+        </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -30,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.89999997615814209" translatesAutoresizingMaskIntoConstraints="NO" id="snw-KJ-UqC">
-                        <rect key="frame" x="85" y="32" width="257" height="22"/>
+                        <rect key="frame" x="85" y="32" width="222" height="22"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -65,10 +68,28 @@
                             <action selector="iCloudDownloadButtonPressed:" destination="zpe-Uk-gE3" eventType="touchUpInside" id="TJf-4o-034"/>
                         </connections>
                     </button>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21.09.2014" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1P0-bR-nJS">
+                        <rect key="frame" x="298" y="33" width="85" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="85" id="AJm-cY-Gnk"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="elc-By-bFw"/>
+                            <constraint firstAttribute="height" constant="21" id="iwa-dX-jCT"/>
+                            <constraint firstAttribute="width" constant="35" id="kUl-pQ-Ki4"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="elc-By-bFw"/>
+                                <exclude reference="kUl-pQ-Ki4"/>
+                            </mask>
+                        </variation>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="0C7-Lt-bKV" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="25" id="1aS-zm-6Ye"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="snw-KJ-UqC" secondAttribute="trailing" constant="48" id="GZL-bD-TQ7"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="snw-KJ-UqC" secondAttribute="trailing" constant="83" id="GZL-bD-TQ7"/>
                     <constraint firstItem="Zhw-8u-OBy" firstAttribute="leading" secondItem="yka-AZ-Sgj" secondAttribute="leadingMargin" constant="6" id="Hui-vh-4Us"/>
                     <constraint firstItem="djs-ql-6Vc" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="top" constant="11" id="I5k-tN-wwd"/>
                     <constraint firstItem="WO8-I4-N2p" firstAttribute="centerY" secondItem="djs-ql-6Vc" secondAttribute="centerY" id="Ofv-sM-jjm"/>
@@ -76,6 +97,7 @@
                     <constraint firstItem="snw-KJ-UqC" firstAttribute="leading" secondItem="Zhw-8u-OBy" secondAttribute="trailing" constant="50" id="UfO-gn-kdC"/>
                     <constraint firstAttribute="trailing" secondItem="djs-ql-6Vc" secondAttribute="trailing" constant="15" id="awS-Vj-Txh"/>
                     <constraint firstItem="Sxz-7C-nwn" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="-2" id="bTA-oc-wlf"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="1P0-bR-nJS" secondAttribute="trailing" constant="7" id="f4r-uz-Pzd"/>
                     <constraint firstItem="0C7-Lt-bKV" firstAttribute="baseline" secondItem="snw-KJ-UqC" secondAttribute="baseline" id="fAV-0W-VGp"/>
                     <constraint firstItem="Sxz-7C-nwn" firstAttribute="leading" secondItem="Zhw-8u-OBy" secondAttribute="trailing" constant="16" id="frT-g3-lKC"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Sxz-7C-nwn" secondAttribute="bottom" constant="14.5" id="jqb-lM-v6R"/>
@@ -83,12 +105,14 @@
                     <constraint firstItem="0C7-Lt-bKV" firstAttribute="leading" secondItem="Sxz-7C-nwn" secondAttribute="leading" id="niR-gG-M5s"/>
                     <constraint firstAttribute="bottomMargin" secondItem="0C7-Lt-bKV" secondAttribute="bottom" constant="-3" id="r4i-JG-MEA"/>
                     <constraint firstItem="Zhw-8u-OBy" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="11" id="sGW-gE-ZgW"/>
+                    <constraint firstItem="1P0-bR-nJS" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="25" id="uA3-Jm-A0H"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Sxz-7C-nwn" secondAttribute="trailing" constant="48" id="wTV-VH-hmX"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Zhw-8u-OBy" secondAttribute="bottom" constant="11.5" id="znG-ek-pLr"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="activityIndicator" destination="WO8-I4-N2p" id="Rdt-N4-5pX"/>
+                <outlet property="dateLabel" destination="1P0-bR-nJS" id="7Bq-Mg-2Xz"/>
                 <outlet property="fromLabel" destination="snw-KJ-UqC" id="vtO-5n-lI8"/>
                 <outlet property="iCloudDownloadButton" destination="djs-ql-6Vc" id="Eoe-5S-Lji"/>
                 <outlet property="routeImageView" destination="Zhw-8u-OBy" id="n4s-Dw-gtK"/>

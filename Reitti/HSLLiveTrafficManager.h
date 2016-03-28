@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PubTransCommunicator.h"
 #import "HslLiveCommunicator.h"
+#import "ApiProtocols.h"
 
-@interface LiveTrafficManager : NSObject {
+@interface HSLLiveTrafficManager : NSObject <LiveTrafficFetchProtocol> {
     BOOL allVehiclesAreBeingFetch;
     
     NSTimer *refreshTimer;
@@ -21,9 +21,9 @@
 }
 
 - (instancetype)init;
-- (void)startFetchingAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
-- (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
-- (void)stopFetchingVehicles;
+//- (void)startFetchingAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
+//- (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
+//- (void)stopFetchingVehicles;
 
 @property(nonatomic, strong) HslLiveCommunicator *hslLiveAPI;
 

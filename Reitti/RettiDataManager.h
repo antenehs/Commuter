@@ -15,7 +15,7 @@
 #import "NamedBookmark.h"
 #import "RouteSearchOptions.h"
 #import "FailedGeoCodeFetch.h"
-#import "LiveTrafficManager.h"
+#import "HSLLiveTrafficManager.h"
 #import "CacheManager.h"
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
@@ -28,7 +28,7 @@
 @class NamedBookmark;
 @class FailedGeoCodeFetch;
 @class SettingsEntity;
-@class LiveTrafficManager;
+@class HSLLiveTrafficManager;
 
 typedef enum
 {
@@ -129,7 +129,6 @@ typedef struct {
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
 
-- (void)saveNamedBookmarksToICloud:(NSArray *)namedBookmarks;
 - (void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
 -(SettingsEntity *)fetchSettings;
@@ -162,7 +161,6 @@ typedef struct {
 
 @property (strong, nonatomic) HSLCommunication *hslCommunication;
 @property (strong, nonatomic) TRECommunication *treCommunication;
-@property (strong, nonatomic) PubTransCommunicator *pubTransAPI;
 
 //@property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
 //@property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
@@ -187,7 +185,7 @@ typedef struct {
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property(nonatomic, strong) LiveTrafficManager *liveTrafficManager;
+@property(nonatomic, strong) HSLLiveTrafficManager *liveTrafficManager;
 @property(nonatomic, strong) CacheManager *cacheManager;
 
 @end
