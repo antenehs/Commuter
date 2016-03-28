@@ -8,6 +8,7 @@
 
 #import "AddressTableViewCell.h"
 #import "ReittiStringFormatter.h"
+#import "AppManager.h"
 
 @interface AddressTableViewCell ()
 
@@ -44,6 +45,7 @@
         [self.addressImageView setImage:[UIImage imageNamed:@"dropped-pin-100.png"]];
         
         self.nameLabel.text = @"Dropped pin";
+        self.nameLabel.textColor = [AppManager systemGreenColor];
         self.addressLabel.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
     }
 }
