@@ -13,6 +13,7 @@
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 #import "ReittiAnalyticsManager.h"
+#import "TableViewCells.h"
 
 @interface AddressSearchViewController ()
 
@@ -30,7 +31,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     unRespondedRequestsCount = 0;
     isFinalSearch = NO;
@@ -39,17 +39,15 @@
     keyboardType = AddressSearchViewControllerKeyBoardTypeText;
     topBoundary = 70.0;
     
-//    reittiDataManager.geocodeSearchdelegate = self;
     [reittiDataManager resetResponseQueues];
     
-    [self selectSystemColors];
     [self setUpMainView];
-    //[self setUpInitialSearchView:NO];
+    
+    [searchResultTableView registerNib:[UINib nibWithNibName:@"RouteTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedRouteCell"];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    reittiDataManager.geocodeSearchdelegate = self;
     
     [addressSearchBar becomeFirstResponder];
     if (![self.prevSearchTerm isEqualToString:@""] && self.prevSearchTerm != nil) {
@@ -68,21 +66,7 @@
 }
 
 #pragma mark - initializations
-- (void)selectSystemColors{
-    if (self.darkMode) {
-        systemBackgroundColor = [UIColor clearColor];
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor lightGrayColor];
-    }else{
-        systemBackgroundColor = nil;
-        systemTextColor = SYSTEM_GREEN_COLOR;
-        systemSubTextColor = [UIColor darkGrayColor];
-    }
-}
-
 -(void)setUpMainView{
-    //self.view.backgroundColor = [UIColor whiteColor];
-//    [backView setBlurTintColor:systemBackgroundColor];
     addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
       
     CGRect searchBarFrame = addressSearchBar.frame;
@@ -106,32 +90,7 @@
     searchResultTableView.backgroundColor = [UIColor clearColor];
 }
 
-//When there is no search term and displays bookmarks
--(void)setUpInitialSearchView:(bool)animated{
-    [self hideSegmentControl:NO animated:animated];
-    
-    if (listSegmentControl.selectedSegmentIndex == 0){
-        dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
-        [dataToLoad addObjectsFromArray:savedStops];
-        [dataToLoad addObjectsFromArray:savedRoutes];
-        dataToLoad = [self sortDataArray:dataToLoad];
-        if (dataToLoad.count == 0) {
-            searchResultTableViewContainer.hidden = YES;
-        }else{
-            searchResultTableViewContainer.hidden = NO;
-        }
-    }else{
-        dataToLoad = [[NSMutableArray alloc] initWithArray:recentRoutes];
-        [dataToLoad addObjectsFromArray:recentStops];
-        dataToLoad = [self sortDataArray:dataToLoad];
-        searchResultTableViewContainer.hidden = NO;
-    }
-    
-    [searchResultTableView reloadData];
-}
-
 -(void)setUpMergedInitialSearchView:(bool)animated{
-    [self hideSegmentControl:YES animated:animated];
     dataToLoad = nil;
     if(self.droppedPinGeoCode != nil && routeSearchMode){
         dataToLoad = [[NSMutableArray alloc] initWithObjects:self.droppedPinGeoCode, nil];
@@ -148,85 +107,9 @@
     [tempArray addObjectsFromArray:recentStops];
     [dataToLoad addObjectsFromArray:[self sortDataArray:tempArray]];
     dataToLoad = [self arrayByRemovingDuplicatesInHistory:dataToLoad];
-    searchResultTableViewContainer.hidden = NO;
     [searchResultTableView reloadData];
     
     isInitialMergedView = YES;
-}
-
-#pragma mark - view methods
--(void)moveTableViewUp:(BOOL)up{
-    
-    CGRect tableContainerFrame = searchResultTableViewContainer.frame;
-    CGRect tableFrame = searchResultTableView.frame;
-    
-    if (up) {
-        [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, topBoundary, tableContainerFrame.size.width, self.view.bounds.size.height - topBoundary - 5)];
-    }else{
-        [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, topBoundary + listSegmentControl.frame.size.height + 10, tableContainerFrame.size.width, self.view.bounds.size.height - 100 - 5)];
-    }
-    
-    tableFrame.size.height = searchResultTableViewContainer.frame.size.height;
-    searchResultTableView.frame = tableFrame;
-    tableViewBackGroundBlurView.frame = tableFrame;
-    
-    [self.view layoutSubviews];
-}
-
--(void)moveTableViewDown:(BOOL)down{
-    
-    CGRect tableContainerFrame = searchResultTableViewContainer.frame;
-    CGRect tableFrame = searchResultTableView.frame;
-    
-    if (down) {
-        [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, topBoundary + 50, tableContainerFrame.size.width, self.view.bounds.size.height - topBoundary + 55 - 5)];
-    }else{
-        [searchResultTableViewContainer setFrame:CGRectMake(tableContainerFrame.origin.x, 100, tableContainerFrame.size.width, self.view.bounds.size.height - 100 - 5)];
-    }
-    
-    tableFrame.size.height = searchResultTableViewContainer.frame.size.height;
-    searchResultTableView.frame = tableFrame;
-    tableViewBackGroundBlurView.frame = tableFrame;
-}
-
-- (void)hideSegmentControl:(bool)hidden animated:(bool)anim{
-    
-    if (anim) {
-        if (hidden){
-            listSegmentControl.hidden = hidden;
-//            currentLocationContainerView.hidden = !hidden;
-        }
-        [UIView transitionWithView:backView duration:0.3 options:UIViewAnimationOptionTransitionNone animations:^{
-            
-            /*
-             if (routeSearchMode) {
-                [self moveTableViewDown:hidden];
-                currentLocationContainerView.hidden = !hidden;
-            }else{
-                [self moveTableViewUp:hidden];
-            }
-            */
-            [self moveTableViewUp:hidden];
-        } completion:^(BOOL finished) {
-            if (!hidden){
-                listSegmentControl.hidden = hidden;
-//                currentLocationContainerView.hidden = !hidden;
-            }
-        }];
-    }else{
-        /*
-        if (routeSearchMode) {
-            [self moveTableViewDown:hidden];
-            currentLocationContainerView.hidden = !hidden;
-        }else{
-            [self moveTableViewUp:hidden];
-        }
-        */
-        [self moveTableViewUp:hidden];
-        listSegmentControl.hidden = hidden;
-        
-    }
-    
 }
 
 #pragma mark - IBActions
@@ -236,21 +119,15 @@
     [self dismissViewControllerAnimated:YES completion:nil ];
 }
 
-- (IBAction)listSegmentControlValueChanged:(id)sender {
-    [self setUpInitialSearchView:NO];
-}
-
 - (IBAction)currentLocationButtonPressed:(id)sender {
     [addressSearchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:^{
-//        NSLog(@"Dismiss completed");
         [delegate searchResultSelectedCurrentLocation];
     }];
 }
 
 - (IBAction)leftNavBarButtonPressed:(id)sender{
     if (!routeSearchMode) {
-//        [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
         [self dismissViewControllerAnimated:NO completion:^{
             [self.delegate searchViewControllerDismissedToRouteSearch:addressSearchBar.text];
         }];
@@ -299,24 +176,6 @@
     //hide segment control
     if (searchBar.text.length == 0) {
         [self setUpMergedInitialSearchView:YES];
-    }else{
-        [self hideSegmentControl:YES animated:YES];
-    }
-}
-
-- (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
-    //Show segment control if there is no text in seach field
-    if (thisSearchBar.text == nil || [thisSearchBar.text isEqualToString:@""]){
-        if (savedStops.count == 0 && recentStops.count == 0 && namedBookmarks.count == 0) {
-            listSegmentControl.selectedSegmentIndex = 0;
-        }else if(savedStops.count == 0 || namedBookmarks.count == 0){
-            listSegmentControl.selectedSegmentIndex = 1;
-        }else if (recentStops.count == 0){
-            listSegmentControl.selectedSegmentIndex = 0;
-        }
-        if (!simpleSearchMode) {
-            [self setUpInitialSearchView:YES];
-        }
     }
 }
 
@@ -432,14 +291,11 @@
 #pragma mark - TableViewMethods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-//    NSLog(@"%@",self.dataToLoad);
     return self.dataToLoad.count;
 }
 
@@ -480,31 +336,22 @@
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"recentViewedRouteCell"];
-        }
-                
+        
+        RouteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
+        
         RouteEntity *routeEntity = [RouteEntity alloc];
         if (indexPath.row < self.dataToLoad.count) {
             routeEntity = [self.dataToLoad objectAtIndex:indexPath.row];
         }
         
-        UILabel *title = (UILabel *)[cell viewWithTag:2002];
-        UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-        UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-        
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
-            dateLabel.hidden = NO;
-            dateLabel.text = [ReittiStringFormatter formatPrittyDate:routeEntity.dateModified];
+        if ([routeEntity isKindOfClass:[RouteHistoryEntity class]]) {
+            [cell setupFromHistoryEntity:(RouteHistoryEntity *)routeEntity];
         }else{
-            dateLabel.hidden = YES;
+            [cell setupFromRouteEntity:routeEntity];
         }
         
-        title.attributedText = [ReittiStringFormatter highlightSubstringInString: routeEntity.toLocationName substring:addressSearchBar.text withNormalFont:title.font];
-        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", routeEntity.fromLocationName] substring:addressSearchBar.text withNormalFont:subTitle.font];
+        cell.toLabel.attributedText = [ReittiStringFormatter highlightSubstringInString: routeEntity.toLocationName substring:addressSearchBar.text withNormalFont:cell.toLabel.font];
+        cell.fromLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", routeEntity.fromLocationName] substring:addressSearchBar.text withNormalFont:cell.fromLabel.font];
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
@@ -584,22 +431,16 @@
     if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
         GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];
         [self dismissViewControllerAnimated:YES completion:^{
-//            NSLog(@"Dismiss completed");
             [delegate searchResultSelectedAGeoCode:selectedGeocode];
-//            [addressSearchBar resignFirstResponder];
         }];
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
         NamedBookmark *selectedBookmark = [self.dataToLoad objectAtIndex:indexPath.row];
         [self dismissViewControllerAnimated:YES completion:^{
-//            NSLog(@"Dismiss completed");
             [delegate searchResultSelectedANamedBookmark:selectedBookmark];
-//            [addressSearchBar resignFirstResponder];
         }];
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]){
         StopEntity *selectedStopEntity = (StopEntity *)[self.dataToLoad objectAtIndex:indexPath.row];
-//        [addressSearchBar resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
-//            NSLog(@"Dismiss completed");
             [delegate searchResultSelectedAStop:selectedStopEntity];
         }];
     }
@@ -613,7 +454,6 @@
 
 #pragma mark - route search view delegate
 - (void)routeModified{
-    //Fetch saved route list again
     savedRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
 }
 
@@ -758,9 +598,6 @@
         routeSearchViewController.recentRoutes = self.recentRoutes;
         routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = addressSearchBar.text;
-//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
-//        routeSearchViewController.darkMode = self.darkMode;
-//        routeSearchViewController.viewCycledelegate = self;
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
     
@@ -781,10 +618,6 @@
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
         routeSearchViewController.prevFromLocation = selected.fromLocationName;
         routeSearchViewController.prevFromCoords = selected.fromLocationCoordsString;
-//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
-        
-//        routeSearchViewController.darkMode = self.darkMode;
-//        routeSearchViewController.delegate = self;
         routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
 }

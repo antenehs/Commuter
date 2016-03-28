@@ -22,13 +22,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Kjf-3v-QWa">
-                        <rect key="frame" x="51" y="6" width="267" height="31"/>
+                        <rect key="frame" x="55" y="6" width="267" height="31"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E2034 - Helsinki" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KQA-mT-mvm">
-                        <rect key="frame" x="51" y="32" width="267" height="21"/>
+                        <rect key="frame" x="55" y="32" width="263" height="21"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -56,7 +56,7 @@
                     </activityIndicatorView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="Kjf-3v-QWa" secondAttribute="trailing" constant="48" id="4Kc-Ca-R4D"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Kjf-3v-QWa" secondAttribute="trailing" constant="44" id="4Kc-Ca-R4D"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Kjf-3v-QWa" secondAttribute="bottom" constant="14.5" id="6A3-I6-zCi"/>
                     <constraint firstItem="KQA-mT-mvm" firstAttribute="leading" secondItem="Kjf-3v-QWa" secondAttribute="leading" id="6Ps-zY-hqX"/>
                     <constraint firstItem="9Gl-P7-nlN" firstAttribute="leading" secondItem="lAL-Ld-vnG" secondAttribute="leadingMargin" constant="7" id="6X5-3Z-1WQ"/>
@@ -65,8 +65,8 @@
                     <constraint firstAttribute="bottomMargin" secondItem="9Gl-P7-nlN" secondAttribute="bottom" constant="4.5" id="LGP-lH-JM4"/>
                     <constraint firstItem="5Ki-o7-Bg9" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="top" constant="11" id="MXu-if-8OM"/>
                     <constraint firstItem="Dtj-LG-6m9" firstAttribute="centerY" secondItem="5Ki-o7-Bg9" secondAttribute="centerY" id="XzG-h6-a4p"/>
-                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="leading" secondItem="9Gl-P7-nlN" secondAttribute="trailing" constant="16" id="frh-3x-e9I"/>
-                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="trailing" secondItem="KQA-mT-mvm" secondAttribute="trailing" id="hmn-tP-OCx"/>
+                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="leading" secondItem="9Gl-P7-nlN" secondAttribute="trailing" constant="20" id="frh-3x-e9I"/>
+                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="trailing" secondItem="KQA-mT-mvm" secondAttribute="trailing" constant="4" id="hmn-tP-OCx"/>
                     <constraint firstItem="KQA-mT-mvm" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="24" id="o98-YV-K8s"/>
                     <constraint firstAttribute="trailing" secondItem="5Ki-o7-Bg9" secondAttribute="trailing" constant="15" id="vuW-7a-LPP"/>
                     <constraint firstItem="Dtj-LG-6m9" firstAttribute="centerX" secondItem="5Ki-o7-Bg9" secondAttribute="centerX" id="yQW-Dc-1vy"/>

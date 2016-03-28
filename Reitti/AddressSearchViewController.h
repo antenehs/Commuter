@@ -14,7 +14,6 @@
 #include "RouteEntity.h"
 #include "RouteHistoryEntity.h"
 #import "GeoCode.h"
-//#import "RouteSearchViewController.h"
 
 @class AddressSearchViewController;
 
@@ -39,18 +38,7 @@ typedef enum
     IBOutlet UIButton *cancelButton;
     IBOutlet UIButton *leftNavBarButton;
     IBOutlet UITableView *searchResultTableView;
-    IBOutlet UIView *searchResultTableViewContainer;
-    IBOutlet UIImageView *tableViewBackgroundImageView;
-    IBOutlet AMBlurView *tableViewBackGroundBlurView;
     IBOutlet UIView *backView;
-    
-    IBOutlet UIView *currentLocationContainerView;    
-    
-    UIColor *systemBackgroundColor;
-    UIColor *systemTextColor;
-    UIColor *systemSubTextColor;
-    
-    IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIActivityIndicatorView *searchActivityIndicator;
     
     int unRespondedRequestsCount;
