@@ -27,5 +27,6 @@
 
 //Data sources
 @property (strong, nonatomic)CKRecord *iCloudRecord;
+@property (strong, nonatomic)NamedBookmark *namedBookmark;
 
 @end

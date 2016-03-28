@@ -26,9 +26,6 @@
 @synthesize delegate;
 @synthesize routeSearchMode,simpleSearchMode, darkMode;
 
-#define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
-#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -43,7 +40,11 @@
     
     [self setUpMainView];
     
+    [searchResultTableView registerNib:[UINib nibWithNibName:@"StopTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedStopCell"];
     [searchResultTableView registerNib:[UINib nibWithNibName:@"RouteTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedRouteCell"];
+    [searchResultTableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"poiLocationCell"];
+    [searchResultTableView registerNib:[UINib nibWithNibName:@"AddressTableViewCell" bundle:nil] forCellReuseIdentifier:@"addressLocationCell"];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -76,7 +77,6 @@
         [leftNavBarButton setImage:[UIImage imageNamed:@"current location filled white.png"] forState:UIControlStateNormal];
         [leftNavBarButton setImageEdgeInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     }else{
-        //width = 219 & x = 38
         addressSearchBar.frame = CGRectMake(38, searchBarFrame.origin.y, 219, searchBarFrame.size.height);
         [leftNavBarButton setImage:[UIImage imageNamed:@"up-right-arrow-32.png"] forState:UIControlStateNormal];
     }
@@ -88,6 +88,7 @@
     [self setKeyboardType:keyboardType withFeedback:NO];
     
     searchResultTableView.backgroundColor = [UIColor clearColor];
+    [searchResultTableView setBlurredBackgroundWithImageNamed:nil];
 }
 
 -(void)setUpMergedInitialSearchView:(bool)animated{
@@ -136,13 +137,11 @@
     }
 }
 
-- (IBAction)selectAddressForStreetNumberPressed:(id)sender {
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:searchResultTableView];
-    NSIndexPath *indexPath = [searchResultTableView indexPathForRowAtPoint:buttonPosition];
-    if (indexPath != nil)
+- (IBAction)selectAddressForStreetNumberPressed:(AddressTableViewCell *)sender {
+    if (sender.geoCode)
     {
-        if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
-            GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];
+        if([sender.geoCode isKindOfClass:[GeoCode class]]){
+            GeoCode *selectedGeocode = sender.geoCode;
             //Set address of the geocode to the search bar and change keyboard
             addressSearchBar.text = [NSString stringWithFormat:@"%@ ", [selectedGeocode name]];
             [self setKeyboardType:AddressSearchViewControllerKeyBoardTypeNumber withFeedback:YES];
@@ -301,38 +300,25 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    
     if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]]) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"recentViewedCell"];
-        }
+
+        StopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
         
         StopEntity *stopEntity = [StopEntity alloc];
         if (indexPath.row < self.dataToLoad.count) {
             stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
         }
         
-        UILabel *title = (UILabel *)[cell viewWithTag:2002];
-        UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-        UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
-        imageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-        
         if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-            dateLabel.hidden = NO;
-            dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
+            [cell setupFromHistoryEntity:(HistoryEntity *)stopEntity];
         }else{
-            dateLabel.hidden = YES;
+            [cell setupFromStopEntity:stopEntity];
         }
         
-        title.attributedText = [ReittiStringFormatter highlightSubstringInString:stopEntity.busStopName substring:addressSearchBar.text withNormalFont:title.font];
-        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity] substring:addressSearchBar.text withNormalFont:subTitle.font];
+        cell.stopNameLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.stopNameLabel.text substring:addressSearchBar.text withNormalFont:cell.stopNameLabel.font];
+        cell.stopSubtitleLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.stopSubtitleLabel.text substring:addressSearchBar.text withNormalFont:cell.stopSubtitleLabel.font];
         
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.backgroundColor = [UIColor clearColor];
         return cell;
     }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
@@ -357,61 +343,39 @@
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
         GeoCode *geoCode = [self.dataToLoad objectAtIndex:indexPath.row];
 
-        if (geoCode.getLocationType == LocationTypePOI) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"poiLocationCell"];
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        if (geoCode.getLocationType == LocationTypeStop) {
+            StopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
-            [imageView setImage:[UIImage imageNamed:@"location-75.png"]];
+            [cell setupFromStopGeocode:geoCode];
             
-            title.attributedText = [ReittiStringFormatter highlightSubstringInString:geoCode.name substring:addressSearchBar.text withNormalFont:title.font];
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", [geoCode fullAddressString]] substring:addressSearchBar.text withNormalFont:subTitle.font];
-        }else if (geoCode.getLocationType  == LocationTypeAddress) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"addressLocationCell"];
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            cell.stopNameLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.stopNameLabel.text substring:addressSearchBar.text withNormalFont:cell.stopNameLabel.font];
+            cell.stopSubtitleLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.stopSubtitleLabel.text substring:addressSearchBar.text withNormalFont:cell.stopSubtitleLabel.font];
             
-            title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] substring:addressSearchBar.text withNormalFont:title.font] ;
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font] ;
-        }else if (geoCode.getLocationType  == LocationTypeDroppedPin) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"droppedPinCell"];
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            title.attributedText = [ReittiStringFormatter highlightSubstringInString:@"Dropped pin" substring:addressSearchBar.text withNormalFont:title.font] ;
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber] substring:addressSearchBar.text withNormalFont:subTitle.font] ;
+            cell.backgroundColor = [UIColor clearColor];
+            return cell;
         }else{
-            cell = [tableView dequeueReusableCellWithIdentifier:@"stopLocationCell"];
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            AddressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addressLocationCell"];
+            [cell setupFromGeocode:geoCode];
             
-            title.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@ (%@)", geoCode.name, geoCode.getStopShortCode] substring:addressSearchBar.text withNormalFont:title.font];
-            subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", geoCode.getAddress ,geoCode.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
+            cell.nameLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.nameLabel.text substring:addressSearchBar.text withNormalFont:cell.nameLabel.font];
+            cell.addressLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.addressLabel.text substring:addressSearchBar.text withNormalFont:cell.addressLabel.font];
             
-           imageView.image = [AppManager stopAnnotationImageForStopType:[geoCode getStopType]];
-    
+            if (geoCode.getLocationType  == LocationTypeAddress) {
+                [cell addTargetForAddressSelection:self selector:@selector(selectAddressForStreetNumberPressed:)];
+            }
+            
+            cell.backgroundColor = [UIColor clearColor];
+            return cell;
         }
-        
-        cell.backgroundColor = [UIColor clearColor];
-        return cell;
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
         NamedBookmark *nbookmark = [self.dataToLoad objectAtIndex:indexPath.row];
         
-        cell = [tableView dequeueReusableCellWithIdentifier:@"poiLocationCell"];
-        UILabel *title = (UILabel *)[cell viewWithTag:2002];
-        UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
+        NamedBookmarkTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"poiLocationCell"];
         
-        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
-        [imageView setImage:[UIImage imageNamed:nbookmark.iconPictureName]];
+        [cell setupFromNamedBookmark:nbookmark];
         
-        title.attributedText = [ReittiStringFormatter highlightSubstringInString:nbookmark.name substring:addressSearchBar.text withNormalFont:title.font];
-        subTitle.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@, %@", nbookmark.streetAddress, nbookmark.city] substring:addressSearchBar.text withNormalFont:subTitle.font];
+        cell.nameLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.nameLabel.text substring:addressSearchBar.text withNormalFont:cell.nameLabel.font];
+        cell.addressLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.addressLabel.text substring:addressSearchBar.text withNormalFont:cell.addressLabel.font];
         
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;

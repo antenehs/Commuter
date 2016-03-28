@@ -14,7 +14,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="namedBookmarkCell" rowHeight="60" id="9yX-hx-eKz" customClass="NamedBookmarkTableViewCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="9yX-hx-eKz" customClass="NamedBookmarkTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="373" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9yX-hx-eKz" id="RZu-ZT-sZa">
@@ -22,7 +22,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-R0-2rh">
-                        <rect key="frame" x="55" y="6" width="266" height="31"/>
+                        <rect key="frame" x="55" y="5" width="266" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="zZo-cy-goT"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -34,16 +37,17 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="WqW-tX-LQN">
-                        <rect key="frame" x="15" y="21" width="21" height="21"/>
+                        <rect key="frame" x="15" y="19.5" width="21" height="21"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Xp1-93-qic"/>
                             <constraint firstAttribute="width" constant="21" id="f5M-ig-13c"/>
                         </constraints>
                     </imageView>
-                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bDV-8g-BTT">
-                        <rect key="frame" x="329" y="20.5" width="20" height="20"/>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bDV-8g-BTT">
+                        <rect key="frame" x="329" y="16" width="20" height="20"/>
                     </activityIndicatorView>
-                    <button opaque="NO" tag="2004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qo4-rj-Pb8">
-                        <rect key="frame" x="320" y="11" width="38" height="39"/>
+                    <button opaque="NO" tag="2004" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qo4-rj-Pb8">
+                        <rect key="frame" x="320" y="7" width="38" height="39"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="39" id="Oaz-ct-SCU"/>
                             <constraint firstAttribute="width" constant="38" id="ufX-00-mlJ"/>
@@ -56,22 +60,36 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottomMargin" secondItem="FFo-R0-2rh" secondAttribute="bottom" constant="14.5" id="0xM-Ye-WKM"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="FFo-R0-2rh" secondAttribute="bottom" constant="15.5" id="0xM-Ye-WKM"/>
                     <constraint firstItem="FFo-R0-2rh" firstAttribute="leading" secondItem="WqW-tX-LQN" secondAttribute="trailing" constant="19" id="79G-bk-Icf"/>
                     <constraint firstItem="WqW-tX-LQN" firstAttribute="leading" secondItem="RZu-ZT-sZa" secondAttribute="leadingMargin" constant="7" id="8FZ-as-m8Q"/>
+                    <constraint firstItem="FFo-R0-2rh" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="top" constant="5" id="BD2-g6-RNx"/>
                     <constraint firstItem="Qo4-rj-Pb8" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="top" constant="11" id="Lbc-Of-yFz"/>
                     <constraint firstAttribute="bottomMargin" secondItem="GUC-IH-cWr" secondAttribute="bottom" constant="-2" id="Os5-nF-3bX"/>
+                    <constraint firstItem="Qo4-rj-Pb8" firstAttribute="centerY" secondItem="RZu-ZT-sZa" secondAttribute="centerY" id="QOd-Vf-T1k"/>
                     <constraint firstItem="bDV-8g-BTT" firstAttribute="centerX" secondItem="Qo4-rj-Pb8" secondAttribute="centerX" id="SnQ-AU-dT6"/>
                     <constraint firstItem="FFo-R0-2rh" firstAttribute="trailing" secondItem="GUC-IH-cWr" secondAttribute="trailing" id="TNa-M0-dJY"/>
-                    <constraint firstItem="FFo-R0-2rh" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="topMargin" constant="-2" id="WDq-vp-08B"/>
+                    <constraint firstItem="FFo-R0-2rh" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="topMargin" constant="-3" id="WDq-vp-08B"/>
+                    <constraint firstItem="Qo4-rj-Pb8" firstAttribute="centerY" secondItem="RZu-ZT-sZa" secondAttribute="centerY" id="XrK-HT-Qg1"/>
                     <constraint firstAttribute="bottomMargin" secondItem="WqW-tX-LQN" secondAttribute="bottom" constant="9.5" id="aLS-pQ-Dbh"/>
                     <constraint firstItem="GUC-IH-cWr" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="topMargin" constant="24" id="foT-Hb-lp7"/>
                     <constraint firstItem="FFo-R0-2rh" firstAttribute="leading" secondItem="GUC-IH-cWr" secondAttribute="leading" id="iUs-wJ-MMV"/>
                     <constraint firstAttribute="trailing" secondItem="Qo4-rj-Pb8" secondAttribute="trailing" constant="15" id="iwN-U2-EOK"/>
                     <constraint firstItem="WqW-tX-LQN" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="topMargin" constant="13" id="qAx-sE-0Zf"/>
+                    <constraint firstItem="WqW-tX-LQN" firstAttribute="centerY" secondItem="RZu-ZT-sZa" secondAttribute="centerY" id="tQj-Cj-oN7"/>
                     <constraint firstItem="bDV-8g-BTT" firstAttribute="centerY" secondItem="Qo4-rj-Pb8" secondAttribute="centerY" id="yPe-Mk-E3d"/>
                     <constraint firstAttribute="trailingMargin" secondItem="FFo-R0-2rh" secondAttribute="trailing" constant="44" id="zLK-eL-Ih9"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="aLS-pQ-Dbh"/>
+                        <exclude reference="qAx-sE-0Zf"/>
+                        <exclude reference="0xM-Ye-WKM"/>
+                        <exclude reference="WDq-vp-08B"/>
+                        <exclude reference="Lbc-Of-yFz"/>
+                        <exclude reference="QOd-Vf-T1k"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="activityIndicator" destination="bDV-8g-BTT" id="9ZN-0V-QFM"/>

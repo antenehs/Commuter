@@ -70,7 +70,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21.09.2014" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1P0-bR-nJS">
-                        <rect key="frame" x="298" y="28" width="85" height="21"/>
+                        <rect key="frame" x="304" y="28" width="85" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="85" id="AJm-cY-Gnk"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="elc-By-bFw"/>
@@ -99,7 +99,7 @@
                     <constraint firstItem="snw-KJ-UqC" firstAttribute="leading" secondItem="Zhw-8u-OBy" secondAttribute="trailing" constant="54" id="UfO-gn-kdC"/>
                     <constraint firstAttribute="trailing" secondItem="djs-ql-6Vc" secondAttribute="trailing" constant="15" id="awS-Vj-Txh"/>
                     <constraint firstItem="Sxz-7C-nwn" firstAttribute="top" secondItem="yka-AZ-Sgj" secondAttribute="topMargin" constant="-3" id="bTA-oc-wlf"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="1P0-bR-nJS" secondAttribute="trailing" constant="7" id="f4r-uz-Pzd"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="1P0-bR-nJS" secondAttribute="trailing" constant="1" id="f4r-uz-Pzd"/>
                     <constraint firstItem="0C7-Lt-bKV" firstAttribute="baseline" secondItem="snw-KJ-UqC" secondAttribute="baseline" constant="-4.5" id="fAV-0W-VGp"/>
                     <constraint firstItem="Sxz-7C-nwn" firstAttribute="leading" secondItem="Zhw-8u-OBy" secondAttribute="trailing" constant="20" id="frT-g3-lKC"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Sxz-7C-nwn" secondAttribute="bottom" constant="15.5" id="jqb-lM-v6R"/>

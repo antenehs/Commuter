@@ -35,7 +35,16 @@
 }
 
 -(void)setupFromNamedBookmark:(NamedBookmark *)bookmark{
+    self.namedBookmark = bookmark;
+    self.iCloudDownloadButton.hidden = YES;
     
+    self.nameLabel.text = bookmark.name;
+    self.addressLabel.text = [NSString stringWithFormat:@"%@, %@", bookmark.streetAddress, bookmark.city];
+    
+    if ([UIImage imageNamed:bookmark.iconPictureName])
+        [self.bookmarkImageView setImage:[UIImage imageNamed:bookmark.iconPictureName]];
+    else
+        [self.bookmarkImageView setImage:[UIImage imageNamed:bookmark.iconPictureName]];
 }
 
 -(void)addTargetForICloudDownloadButton:(id)target selector:(SEL)selector{

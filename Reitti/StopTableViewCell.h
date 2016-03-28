@@ -14,6 +14,7 @@
 -(void)setupFromICloudRecord:(CKRecord *)record;
 -(void)setupFromStopEntity:(StopEntity *)stopEntity;
 -(void)setupFromHistoryEntity:(HistoryEntity *)historyEntity;
+-(void)setupFromStopGeocode:(GeoCode *)stopGeocode;
 -(void)setupFromBusStop:(BusStop *)busTop;
 
 - (void)startDownloadActivity;
@@ -25,8 +26,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *stopNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stopSubtitleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *iCloudDownloadButton;
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 
 //Data sources
 @property (strong, nonatomic)CKRecord *iCloudRecord;
+@property (strong, nonatomic)StopEntity *stopEntity;
+@property (strong, nonatomic)HistoryEntity *historyEntity;
+@property (strong, nonatomic)BusStop *busStop;
+@property (strong, nonatomic)GeoCode *stopGeocode;
 
 @end

@@ -191,6 +191,10 @@
 		663E1EE71C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */; };
 		663E1EEE1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EED1CA6EB9900C5543A /* TRELiveTrafficManager.m */; };
 		663E1EEF1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EED1CA6EB9900C5543A /* TRELiveTrafficManager.m */; };
+		663E1EFA1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EF81CA9D98A00C5543A /* AddressTableViewCell.m */; };
+		663E1EFB1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EF81CA9D98A00C5543A /* AddressTableViewCell.m */; };
+		663E1EFC1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */; };
+		663E1EFD1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */; };
 		664749DB1AE59B3E0050137E /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
 		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
 		664749E01AE5A0D50050137E /* 3-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 664749DF1AE5A0D50050137E /* 3-100.png */; };
@@ -1763,6 +1767,9 @@
 		663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NamedBookmarkTableViewCell.xib; sourceTree = "<group>"; };
 		663E1EEC1CA6EB9900C5543A /* TRELiveTrafficManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRELiveTrafficManager.h; sourceTree = "<group>"; };
 		663E1EED1CA6EB9900C5543A /* TRELiveTrafficManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRELiveTrafficManager.m; sourceTree = "<group>"; };
+		663E1EF71CA9D98A00C5543A /* AddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressTableViewCell.h; sourceTree = "<group>"; };
+		663E1EF81CA9D98A00C5543A /* AddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTableViewCell.m; sourceTree = "<group>"; };
+		663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
 		664749DA1AE59B3E0050137E /* versionInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = versionInfo.html; sourceTree = "<group>"; };
 		664749DC1AE59CD70050137E /* VersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoViewController.h; sourceTree = "<group>"; };
 		664749DD1AE59CD70050137E /* VersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoViewController.m; sourceTree = "<group>"; };
@@ -3116,6 +3123,9 @@
 				663E1EE11C9EF2C500C5543A /* NamedBookmarkTableViewCell.h */,
 				663E1EE21C9EF2C500C5543A /* NamedBookmarkTableViewCell.m */,
 				663E1EE31C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib */,
+				663E1EF71CA9D98A00C5543A /* AddressTableViewCell.h */,
+				663E1EF81CA9D98A00C5543A /* AddressTableViewCell.m */,
+				663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -4542,6 +4552,7 @@
 				667B98201AD3294C00C45ADF /* park-bench-100_grey.png in Resources */,
 				66F3B1371AC8749F0038BA78 /* exchange-arrows-white.png in Resources */,
 				667B98251AD3294C00C45ADF /* Up Left-100_grey.png in Resources */,
+				663E1EFC1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */,
 				66A7A9C618C65FA900AC9E94 /* bus_stop_hsl_orig.png in Resources */,
 				664749E31AE6B2E30050137E /* next-gray-100.png in Resources */,
 				66F13838199651F200B52B6B /* export-128.png in Resources */,
@@ -4946,6 +4957,7 @@
 				66C734AA1C556DA5002544BC /* train-colored-75.png in Resources */,
 				66C734AB1C556DA5002544BC /* settings-white-100.png in Resources */,
 				66C734AC1C556DA5002544BC /* ferry-100.png in Resources */,
+				663E1EFD1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */,
 				66C734AD1C556DA5002544BC /* cupcake-100.png in Resources */,
 				66C734AE1C556DA5002544BC /* location-light-25.png in Resources */,
 				66C734AF1C556DA5002544BC /* star-orange-128.png in Resources */,
@@ -5376,6 +5388,7 @@
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
 				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
+				663E1EFA1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */,
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
@@ -5592,6 +5605,7 @@
 				66C733101C556DA5002544BC /* GeoCodeDetail.m in Sources */,
 				66C733111C556DA5002544BC /* Properties.m in Sources */,
 				66C733121C556DA5002544BC /* UIImage+Helper.m in Sources */,
+				663E1EFB1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66C733131C556DA5002544BC /* ReittiEmailAndShareManager.m in Sources */,
 				66C733141C556DA5002544BC /* HTMLDocumentType.m in Sources */,
 				66C733151C556DA5002544BC /* UITableViewCell+Helper.m in Sources */,

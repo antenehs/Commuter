@@ -10,6 +10,9 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
         </mutableArray>
+        <mutableArray key="HelveticaNeueLights.ttc">
+            <string>HelveticaNeue-Thin</string>
+        </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -22,13 +25,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Kjf-3v-QWa">
-                        <rect key="frame" x="55" y="6" width="267" height="31"/>
+                        <rect key="frame" x="55" y="5" width="267" height="31"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E2034 - Helsinki" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KQA-mT-mvm">
-                        <rect key="frame" x="55" y="32" width="263" height="21"/>
+                        <rect key="frame" x="55" y="29" width="263" height="21"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -36,6 +39,7 @@
                     <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busAnnotation3_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-P7-nlN">
                         <rect key="frame" x="15" y="17" width="20" height="30"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="30" id="6Cb-dT-4XI"/>
                             <constraint firstAttribute="width" constant="20" id="cxl-Kn-6vS"/>
                         </constraints>
                     </imageView>
@@ -54,27 +58,57 @@
                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dtj-LG-6m9">
                         <rect key="frame" x="330" y="20" width="20" height="20"/>
                     </activityIndicatorView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21.09.2014" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q1Q-G8-QAZ">
+                        <rect key="frame" x="283" y="28" width="85" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="35" id="5y4-YN-pCu"/>
+                            <constraint firstAttribute="height" constant="21" id="Ha1-Zg-9SI"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="dN3-RZ-JcW"/>
+                            <constraint firstAttribute="width" constant="85" id="q09-hx-GV4"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="dN3-RZ-JcW"/>
+                                <exclude reference="5y4-YN-pCu"/>
+                            </mask>
+                        </variation>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="Kjf-3v-QWa" secondAttribute="trailing" constant="44" id="4Kc-Ca-R4D"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Kjf-3v-QWa" secondAttribute="bottom" constant="14.5" id="6A3-I6-zCi"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Kjf-3v-QWa" secondAttribute="bottom" constant="15.5" id="6A3-I6-zCi"/>
                     <constraint firstItem="KQA-mT-mvm" firstAttribute="leading" secondItem="Kjf-3v-QWa" secondAttribute="leading" id="6Ps-zY-hqX"/>
                     <constraint firstItem="9Gl-P7-nlN" firstAttribute="leading" secondItem="lAL-Ld-vnG" secondAttribute="leadingMargin" constant="7" id="6X5-3Z-1WQ"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="KQA-mT-mvm" secondAttribute="bottom" constant="-2" id="8e7-iM-P2b"/>
-                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="-2" id="A69-ml-aXo"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="KQA-mT-mvm" secondAttribute="bottom" constant="1.5" id="8e7-iM-P2b"/>
+                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="-3" id="A69-ml-aXo"/>
+                    <constraint firstItem="Q1Q-G8-QAZ" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="20" id="DGe-hu-Dss"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Q1Q-G8-QAZ" secondAttribute="trailing" constant="-2" id="H4s-hM-x6e"/>
                     <constraint firstAttribute="bottomMargin" secondItem="9Gl-P7-nlN" secondAttribute="bottom" constant="4.5" id="LGP-lH-JM4"/>
                     <constraint firstItem="5Ki-o7-Bg9" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="top" constant="11" id="MXu-if-8OM"/>
                     <constraint firstItem="Dtj-LG-6m9" firstAttribute="centerY" secondItem="5Ki-o7-Bg9" secondAttribute="centerY" id="XzG-h6-a4p"/>
                     <constraint firstItem="Kjf-3v-QWa" firstAttribute="leading" secondItem="9Gl-P7-nlN" secondAttribute="trailing" constant="20" id="frh-3x-e9I"/>
                     <constraint firstItem="Kjf-3v-QWa" firstAttribute="trailing" secondItem="KQA-mT-mvm" secondAttribute="trailing" constant="4" id="hmn-tP-OCx"/>
-                    <constraint firstItem="KQA-mT-mvm" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="24" id="o98-YV-K8s"/>
+                    <constraint firstItem="9Gl-P7-nlN" firstAttribute="centerY" secondItem="lAL-Ld-vnG" secondAttribute="centerY" constant="2.25" id="kpy-mN-0GN"/>
+                    <constraint firstItem="KQA-mT-mvm" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="21" id="o98-YV-K8s"/>
+                    <constraint firstAttribute="trailing" secondItem="Q1Q-G8-QAZ" secondAttribute="trailing" constant="1" id="qKE-wa-2JT"/>
                     <constraint firstAttribute="trailing" secondItem="5Ki-o7-Bg9" secondAttribute="trailing" constant="15" id="vuW-7a-LPP"/>
                     <constraint firstItem="Dtj-LG-6m9" firstAttribute="centerX" secondItem="5Ki-o7-Bg9" secondAttribute="centerX" id="yQW-Dc-1vy"/>
                     <constraint firstItem="9Gl-P7-nlN" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="9" id="zge-00-FbD"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="LGP-lH-JM4"/>
+                        <exclude reference="zge-00-FbD"/>
+                        <exclude reference="qKE-wa-2JT"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="activityIndicator" destination="Dtj-LG-6m9" id="enY-qX-oQM"/>
+                <outlet property="dateLabel" destination="Q1Q-G8-QAZ" id="zNX-b6-IMS"/>
                 <outlet property="iCloudDownloadButton" destination="5Ki-o7-Bg9" id="eW3-Ch-LGR"/>
                 <outlet property="stopImageView" destination="9Gl-P7-nlN" id="Db9-ni-heD"/>
                 <outlet property="stopNameLabel" destination="Kjf-3v-QWa" id="vBF-eX-S8G"/>

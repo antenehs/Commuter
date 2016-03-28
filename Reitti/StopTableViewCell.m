@@ -8,6 +8,7 @@
 
 #import "StopTableViewCell.h"
 #import "AppManager.h"
+#import "ReittiStringFormatter.h"
 
 @interface StopTableViewCell ()
 
@@ -28,17 +29,41 @@
 -(void)setupFromICloudRecord:(CKRecord *)record{
     self.iCloudRecord = record;
     
+    self.dateLabel.hidden = YES;
+    
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:(StopType)[record[kStopType] intValue]];
     self.stopNameLabel.text = record[kStopName];
     self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
 }
 
 -(void)setupFromStopEntity:(StopEntity *)stopEntity{
+    self.stopEntity = stopEntity;
+    self.dateLabel.hidden = YES;
+    self.iCloudDownloadButton.hidden = YES;
     
+    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
+    self.stopNameLabel.text = stopEntity.busStopName;
+    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
 }
 
 -(void)setupFromHistoryEntity:(HistoryEntity *)historyEntity{
+    self.historyEntity = historyEntity;
+    self.iCloudDownloadButton.hidden = YES;
     
+    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:historyEntity.stopType];
+    self.stopNameLabel.text = historyEntity.busStopName;
+    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", historyEntity.busStopShortCode, historyEntity.busStopCity];
+    
+    self.dateLabel.text = [ReittiStringFormatter formatPrittyDate:historyEntity.dateModified];
+}
+
+-(void)setupFromStopGeocode:(GeoCode *)stopGeocode{
+    self.stopGeocode = stopGeocode;
+    self.iCloudDownloadButton.hidden = YES;
+    
+    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:[stopGeocode getStopType]];
+    self.stopNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", stopGeocode.name, stopGeocode.getStopShortCode];
+    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopGeocode.getAddress, stopGeocode.city];
 }
 
 -(void)setupFromBusStop:(BusStop *)busTop{

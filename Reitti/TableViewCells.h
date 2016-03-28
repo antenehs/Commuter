@@ -9,3 +9,4 @@
 #import "StopTableViewCell.h"
 #import "RouteTableViewCell.h"
 #import "NamedBookmarkTableViewCell.h"
+#import "AddressTableViewCell.h"
