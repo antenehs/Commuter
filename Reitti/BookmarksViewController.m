@@ -787,8 +787,9 @@ const NSInteger kTimerRefreshInterval = 15;
 {
     NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
     if (dataIndex < self.dataToLoad.count) {
-        //StopEntity * selected = [self.dataToLoad objectAtIndex:indexPath.row];
-        //[self dismissViewControllerAnimated:YES completion:nil ];
+        if([self.dataToLoad[dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [self.dataToLoad[dataIndex] isKindOfClass:[RouteEntity class]]){
+            [self performSegueWithIdentifier:@"routeSelected" sender:self];
+        }
     }
 }
 
@@ -1152,11 +1153,6 @@ const NSInteger kTimerRefreshInterval = 15;
     // As of iOS 6.0, the banner will automatically resize itself based on its width.
     // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
     CGRect contentFrame = self.view.bounds;
-//    if (contentFrame.size.width < contentFrame.size.height) {
-//        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-//    } else {
-//        _bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
-//    }
     
     CGRect bannerFrame = _bannerView.frame;
     bannerFrame.origin.y = contentFrame.size.height;

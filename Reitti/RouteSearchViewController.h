@@ -42,26 +42,14 @@
     IBOutlet UIButton *bookmarkRouteButton;
     
     IBOutlet UIView *searchBarsView;
-//    IBOutlet UITableView *searchSuggestionsTableView;
     IBOutlet UIActivityIndicatorView *searchActivityIndicator;
     IBOutlet JTMaterialSpinner *searchActivitySpinner;
-//    IBOutlet AMBlurView *timeSelectionView;
-//    IBOutlet UISegmentedControl *timeTypeSegmentControl;
-//    IBOutlet UIDatePicker *datePicker;
     IBOutlet AMBlurView *selectTimeButton;
     IBOutlet UILabel *selectedTimeLabel;
     IBOutlet UILabel *routeOptionsLable;
     
-//    IBOutlet UIView *timeSelectionViewShadeView;
-//    UITapGestureRecognizer *timeSelectionShadeTapGestureRecognizer;
-    
     UITableViewController *tableViewController;
     
-//    IBOutlet AMBlurView *searchOptionSelectionView;
-//    IBOutlet UISegmentedControl *searchOptionSegmentControl;
-    
-//    IBOutlet UIScrollView *searchResultScroller;
-//    IBOutlet UIButton *loadMoreButton;
     IBOutlet UITableView *routeResultsTableView;
     IBOutlet UIView *routeResultsTableContainerView;
     

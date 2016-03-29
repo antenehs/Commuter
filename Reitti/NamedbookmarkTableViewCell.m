@@ -39,7 +39,7 @@
     self.iCloudDownloadButton.hidden = YES;
     
     self.nameLabel.text = bookmark.name;
-    self.addressLabel.text = [NSString stringWithFormat:@"%@, %@", bookmark.streetAddress, bookmark.city];
+    self.addressLabel.text = [bookmark getFullAddress];
     
     if ([UIImage imageNamed:bookmark.iconPictureName])
         [self.bookmarkImageView setImage:[UIImage imageNamed:bookmark.iconPictureName]];

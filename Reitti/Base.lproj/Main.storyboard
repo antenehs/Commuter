@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lQM-Fk-yNv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lQM-Fk-yNv">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -34,6 +34,15 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
@@ -59,18 +68,9 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
@@ -92,15 +92,15 @@
             <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Light</string>
             <string>HelveticaNeue-Light</string>
-            <string>HelveticaNeue-Thin</string>
-            <string>HelveticaNeue-Thin</string>
-            <string>HelveticaNeue-Thin</string>
-            <string>HelveticaNeue-Light</string>
             <string>HelveticaNeue-Light</string>
             <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Light</string>
+            <string>HelveticaNeue-Light</string>
+            <string>HelveticaNeue-Thin</string>
+            <string>HelveticaNeue-Thin</string>
+            <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Light</string>
         </mutableArray>
     </customFonts>
@@ -990,7 +990,7 @@
                         <viewControllerLayoutGuide type="bottom" id="afS-YF-7A3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="udL-AD-OIc">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="chn-oM-lRr">
@@ -9529,23 +9529,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FFE-qM-Kep"/>
-        <segue reference="Cnc-1Z-8Sd"/>
-        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="oJb-eU-zeZ"/>
         <segue reference="U9A-P0-Va2"/>
         <segue reference="SWb-EE-ndB"/>
-        <segue reference="4lM-KH-B6v"/>
-        <segue reference="YpZ-AP-yAo"/>
-        <segue reference="XlZ-XU-H5m"/>
         <segue reference="ocH-Qu-aOm"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="4lM-KH-B6v"/>
+        <segue reference="XlZ-XU-H5m"/>
         <segue reference="s3H-Jn-riC"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="yf4-eP-97K"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="X8p-rp-E0z"/>
         <segue reference="Tx2-4m-mRF"/>
+        <segue reference="X8p-rp-E0z"/>
+        <segue reference="DEk-ct-YDr"/>
+        <segue reference="yf4-eP-97K"/>
         <segue reference="gyd-GV-CrX"/>
-        <segue reference="lwh-ia-2sg"/>
+        <segue reference="CkP-l4-5DX"/>
+        <segue reference="Cnc-1Z-8Sd"/>
+        <segue reference="e2V-qU-oq6"/>
         <segue reference="9x7-C0-VCu"/>
+        <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>
