@@ -69,7 +69,7 @@
                             <action selector="iCloudDownloadButtonPressed:" destination="zpe-Uk-gE3" eventType="touchUpInside" id="TJf-4o-034"/>
                         </connections>
                     </button>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21.09.2014" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1P0-bR-nJS">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00.0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1P0-bR-nJS">
                         <rect key="frame" x="304" y="28" width="85" height="21"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="85" id="AJm-cY-Gnk"/>

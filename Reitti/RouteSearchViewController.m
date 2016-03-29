@@ -19,6 +19,7 @@
 #import "CoreDataManager.h"
 #import "DroppedPinManager.h"
 #import "ASA_Helpers.h"
+#import "TableViewCells.h"
 
 typedef enum
 {
@@ -81,13 +82,16 @@ typedef enum
     [self setMainTableViewMode:TableViewModeSuggestions];
     [self setUpMergedBookmarksAndHistory];
     
-//    reittiDataManager.routeSearchdelegate = self;
-    
     [self hideToolBar:YES animated:NO];
     [self setNeedsStatusBarAppearanceUpdate];
     [self initLocationManager];
     [self setUpMainView];
     [self registerFor3DTouchIfAvailable];
+    
+    [routeResultsTableView registerNib:[UINib nibWithNibName:@"StopTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedStopCell"];
+    [routeResultsTableView registerNib:[UINib nibWithNibName:@"RouteTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedRouteCell"];
+    [routeResultsTableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"namedBookmarkCell"];
+    [routeResultsTableView registerNib:[UINib nibWithNibName:@"AddressTableViewCell" bundle:nil] forCellReuseIdentifier:@"droppedPinCell"];
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -866,35 +870,15 @@ typedef enum
                 geoCode = [self.dataToLoad objectAtIndex:indexPath.row];
             }
             
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            
-            title.text = @"Dropped pin";
-            subTitle.text = [geoCode getStreetAddressString];
+            [(AddressTableViewCell *)cell setupFromGeocode:geoCode];
         }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             StopEntity *stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
-            imageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            title.text = stopEntity.busStopName;
-            //stopName.font = CUSTOME_FONT_BOLD(23.0f);
-            
-            subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
-            //cityName.font = CUSTOME_FONT_BOLD(19.0f);
             if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-                dateLabel.hidden = NO;
-                dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
+                [(StopTableViewCell *)cell setupFromHistoryEntity:(HistoryEntity *)stopEntity];
             }else{
-                dateLabel.hidden = YES;
+                [(StopTableViewCell *)cell setupFromStopEntity:stopEntity];
             }
         }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"namedBookmarkCell"];
@@ -903,18 +887,7 @@ typedef enum
                 namedBookmark = [self.dataToLoad objectAtIndex:indexPath.row];
             }
             
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            [imageView setImage:[UIImage imageNamed:namedBookmark.iconPictureName]];
-            
-            title.text = namedBookmark.name;
-            subTitle.text = [NSString stringWithFormat:@"%@", [namedBookmark getFullAddress]];
-            
-            
-            //cityName.font = CUSTOME_FONT_BOLD(19.0f);
+            [(NamedBookmarkTableViewCell *)cell setupFromNamedBookmark:namedBookmark];
         }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
             RouteEntity *routeEntity = [RouteEntity alloc];
@@ -922,21 +895,10 @@ typedef enum
                 routeEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             }
             
-            UILabel *title = (UILabel *)[cell viewWithTag:2002];
-            UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
-            UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            
-            title.text = routeEntity.toLocationName;
-            //stopName.font = CUSTOME_FONT_BOLD(23.0f);
-            
-            subTitle.text = [NSString stringWithFormat:@"%@", routeEntity.fromLocationName];
-            
             if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
-                dateLabel.hidden = NO;
-                dateLabel.text = [ReittiStringFormatter formatPrittyDate:routeEntity.dateModified];
+                [(RouteTableViewCell *)cell setupFromHistoryEntity:(RouteHistoryEntity *)routeEntity];
             }else{
-                dateLabel.hidden = YES;
+                [(RouteTableViewCell *)cell setupFromRouteEntity:routeEntity];
             }
         }
         
