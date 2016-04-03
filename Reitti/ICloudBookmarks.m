@@ -12,6 +12,7 @@
 #import "RouteEntity.h"
 
 NSString *kRecordDeviceName = @"DeviceName";
+NSString *kRecordDeviceUniqueId = @"DeviceUniqueId";
 
 //Named bookmar
 NSString *kNamedBookmarkUniqueId = @"BookmarkUniqueId";
@@ -36,6 +37,8 @@ NSString *kRouteToCoords = @"kRouteToCoords";
 
 @implementation ICloudBookmarks
 
+//This method also excludes bookmarks from current device. [appmanager iosDeviceUniqueId] changes for each new installation so it
+//will still be available to download in re-installation
 -(NSDictionary *)getBookmarksExcludingNamedBookmarks:(NSArray *)namedBookmarks savedStops:(NSArray *)savedStops savedRoutes:(NSArray *)savedRoutes {
     
     NSArray *namedBookmarkIds = [self namedBookmarkIds:namedBookmarks];
@@ -109,22 +112,22 @@ NSString *kRouteToCoords = @"kRouteToCoords";
 
 -(NSDictionary *)groupRecordsByDevice:(NSArray *)records {
     NSMutableDictionary *groupedDictionary = [@{} mutableCopy];
-    NSMutableArray *deviceNames = [@[] mutableCopy];
+    NSMutableArray *deviceIds = [@[] mutableCopy];
     
     for (CKRecord *record in records) {
-        if (![deviceNames containsObject:record[kRecordDeviceName]]) {
-            [deviceNames addObject:record[kRecordDeviceName]];
+        if (![deviceIds containsObject:record[kRecordDeviceUniqueId]]) {
+            [deviceIds addObject:record[kRecordDeviceUniqueId]];
         }
     }
     
-    for (NSString *deviceName in deviceNames) {
+    for (NSString *deviceId in deviceIds) {
         NSArray *filteredArray = [records filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
             CKRecord *record = (CKRecord *)object;
-            return record ? [(NSString *)record[kRecordDeviceName] isEqualToString:deviceName] : NO;
+            return record ? [(NSString *)record[kRecordDeviceUniqueId] isEqualToString:deviceId] : NO;
         }]];
         
-        if (filteredArray)
-            groupedDictionary[deviceName] = filteredArray;
+        if (filteredArray && filteredArray.count > 0)
+            groupedDictionary[deviceId] = filteredArray;
     }
     
     return groupedDictionary;

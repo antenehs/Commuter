@@ -26,10 +26,14 @@ NSString *kTrainCodesKey = @"trainCodes";
 @synthesize hslLiveAPI;
 
 - (instancetype)init {
-    hslLiveAPI = [[HslLiveCommunicator alloc] init];
+    self = [super init];
     
-    allVehiclesAreBeingFetch = NO;
-
+    if (self) {
+        hslLiveAPI = [[HslLiveCommunicator alloc] init];
+        
+        allVehiclesAreBeingFetch = NO;
+    }
+    
     return self;
 }
 

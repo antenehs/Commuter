@@ -200,7 +200,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [mainSearchBar setPlaceholder:@"address, stop or poi"];
     
     //StartVehicleFetching
-    if (settingsManager.userLocation == HSLRegion && [settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager shouldShowLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }else{
         [self removeAllVehicleAnnotation];
@@ -316,7 +316,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     //StartVehicleFetching
-    if (settingsManager.userLocation == HSLRegion && [settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager shouldShowLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }
     
@@ -2486,6 +2486,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
         [self.reittiDataManager setUserLocationRegion:[settingsManager userLocation]];
         [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
+    }
+    
+    if ([settingsManager shouldShowLiveVehicles]) {
+        [self removeAllVehicleAnnotation];
+        [self.reittiDataManager stopFetchingLiveVehicles];
+        
+        [self startFetchingLiveVehicles];
     }
     
     [self fetchDisruptions];

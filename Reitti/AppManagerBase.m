@@ -88,6 +88,10 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
     return [[UIDevice currentDevice] systemVersion];
 }
 
++(NSString *)iosDeviceUniqueIdentifier{
+    return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+}
+
 +(NSString *)nsUserDefaultsStopsWidgetSuitName{
     if ([self isProVersion])
         return kUserDefaultsSuitNameForProDeparturesWidget;

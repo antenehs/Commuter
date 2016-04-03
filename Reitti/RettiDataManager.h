@@ -16,6 +16,7 @@
 #import "RouteSearchOptions.h"
 #import "FailedGeoCodeFetch.h"
 #import "HSLLiveTrafficManager.h"
+#import "TRELiveTrafficManager.h"
 #import "CacheManager.h"
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
@@ -142,7 +143,7 @@ typedef struct {
 
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 
--(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
+-(void)fetchAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
 -(void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)stopFetchingLiveVehicles;
 
@@ -186,7 +187,8 @@ typedef struct {
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property(nonatomic, strong) HSLLiveTrafficManager *liveTrafficManager;
+@property(nonatomic, strong) HSLLiveTrafficManager *hslLiveTrafficManager;
+@property(nonatomic, strong) TRELiveTrafficManager *treLiveTrafficManager;
 @property(nonatomic, strong) CacheManager *cacheManager;
 
 @end

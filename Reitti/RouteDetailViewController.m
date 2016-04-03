@@ -323,7 +323,7 @@
         }
     }
     
-    [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:tempOthersArray andTrainCodes:tempTrainArray withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
+    [self.reittiDataManager fetchAllLiveVehiclesWithCodes:tempOthersArray andTrainCodes:tempTrainArray withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
         [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
     }];
 }

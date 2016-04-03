@@ -2227,44 +2227,44 @@
                                                 <constraint firstAttribute="height" constant="79" id="6ly-8U-Wte"/>
                                             </constraints>
                                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="HFu-ri-aNw" customClass="UICollectionViewLeftAlignedLayout">
-                                                <size key="itemSize" width="110" height="32"/>
+                                                <size key="itemSize" width="107" height="32"/>
                                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                             <cells>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="departureCollectionCell" id="7XZ-m7-gcW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="110" height="32"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" tag="3002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="09:28" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="BSd-y9-xb9">
-                                                                <rect key="frame" x="63" y="6" width="47" height="21"/>
+                                                                <rect key="frame" x="60" y="6" width="47" height="21"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <view tag="3003" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wxG-4V-eAt">
-                                                                <rect key="frame" x="5" y="5" width="55" height="22"/>
+                                                                <rect key="frame" x="5" y="5" width="53" height="22"/>
                                                                 <color key="backgroundColor" red="0.92396965579710144" green="0.92396965579710144" blue="0.92396965579710144" alpha="1" colorSpace="calibratedRGB"/>
                                                             </view>
                                                             <label opaque="NO" userInteractionEnabled="NO" tag="3001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="270" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bRf-Ip-tvV">
-                                                                <rect key="frame" x="6" y="5" width="52" height="21"/>
+                                                                <rect key="frame" x="6" y="5" width="50" height="21"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
-                                                    <size key="customSize" width="110" height="32"/>
+                                                    <size key="customSize" width="107" height="32"/>
                                                 </collectionViewCell>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="Ruz-pS-RtA">
-                                                    <rect key="frame" x="141.5" y="0.0" width="110" height="32"/>
+                                                    <rect key="frame" x="142.5" y="0.0" width="107" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="09:28" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="548-p2-xly">
@@ -2288,10 +2288,10 @@
                                                     </view>
                                                 </collectionViewCell>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="nCe-ck-CcC">
-                                                    <rect key="frame" x="283.5" y="0.0" width="110" height="32"/>
+                                                    <rect key="frame" x="285.5" y="0.0" width="107" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="09:28" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xsx-QZ-qVw">
@@ -2315,10 +2315,10 @@
                                                     </view>
                                                 </collectionViewCell>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="iBX-Nb-lsR">
-                                                    <rect key="frame" x="425" y="0.0" width="110" height="32"/>
+                                                    <rect key="frame" x="428" y="0.0" width="107" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="09:28" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="w7b-eZ-YoL">
@@ -2342,10 +2342,10 @@
                                                     </view>
                                                 </collectionViewCell>
                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="T7e-6K-VKR">
-                                                    <rect key="frame" x="0.0" y="42" width="110" height="32"/>
+                                                    <rect key="frame" x="0.0" y="42" width="107" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="32"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="107" height="32"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="09:28" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3vc-3G-b0w">
@@ -9527,17 +9527,17 @@ Helsinki, Finland</string>
         <segue reference="yf4-eP-97K"/>
         <segue reference="Tx2-4m-mRF"/>
         <segue reference="oJb-eU-zeZ"/>
-        <segue reference="DEk-ct-YDr"/>
-        <segue reference="X8p-rp-E0z"/>
+        <segue reference="zLX-h6-Wen"/>
+        <segue reference="zx9-MZ-Ih7"/>
+        <segue reference="L8L-oR-GI7"/>
         <segue reference="W50-Av-oNZ"/>
+        <segue reference="rqd-oJ-7h3"/>
         <segue reference="SWb-EE-ndB"/>
         <segue reference="U9A-P0-Va2"/>
         <segue reference="ocH-Qu-aOm"/>
         <segue reference="jpb-bi-pHf"/>
         <segue reference="CkP-l4-5DX"/>
         <segue reference="9x7-C0-VCu"/>
-        <segue reference="Oy7-Ij-ap3"/>
-        <segue reference="rqd-oJ-7h3"/>
         <segue reference="4lM-KH-B6v"/>
         <segue reference="YpZ-AP-yAo"/>
         <segue reference="XlZ-XU-H5m"/>

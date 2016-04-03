@@ -418,6 +418,16 @@
 		6682D24E1ACE39F500F6DDF7 /* next-gray-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D24C1ACE39F500F6DDF7 /* next-gray-64.png */; };
 		6682D24F1ACE39F500F6DDF7 /* previous-gray-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D24D1ACE39F500F6DDF7 /* previous-gray-64.png */; };
 		6682D2511ACF67A200F6DDF7 /* bus-filled-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6682D2501ACF67A200F6DDF7 /* bus-filled-gray-100.png */; };
+		6684BEC61CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */; };
+		6684BEC71CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */; };
+		6684BEC81CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBF1CB151C80053AAE1 /* TREMonitoredVehicleJourney.m */; };
+		6684BEC91CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBF1CB151C80053AAE1 /* TREMonitoredVehicleJourney.m */; };
+		6684BECA1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC11CB151C80053AAE1 /* TREOnwardCalls.m */; };
+		6684BECB1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC11CB151C80053AAE1 /* TREOnwardCalls.m */; };
+		6684BECC1CB151C80053AAE1 /* TREVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC31CB151C80053AAE1 /* TREVehicle.m */; };
+		6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC31CB151C80053AAE1 /* TREVehicle.m */; };
+		6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
+		6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
 		66947CB618830ED500642EE1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CB518830ED500642EE1 /* Foundation.framework */; };
 		66947CB818830ED500642EE1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CB718830ED500642EE1 /* CoreGraphics.framework */; };
 		66947CBA18830ED500642EE1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CB918830ED500642EE1 /* UIKit.framework */; };
@@ -2036,6 +2046,17 @@
 		6682D24C1ACE39F500F6DDF7 /* next-gray-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "next-gray-64.png"; path = "Pictures/Version 2.3/next-gray-64.png"; sourceTree = "<group>"; };
 		6682D24D1ACE39F500F6DDF7 /* previous-gray-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "previous-gray-64.png"; path = "Pictures/Version 2.3/previous-gray-64.png"; sourceTree = "<group>"; };
 		6682D2501ACF67A200F6DDF7 /* bus-filled-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bus-filled-gray-100.png"; path = "Pictures/Version 2.3/bus-filled-gray-100.png"; sourceTree = "<group>"; };
+		6684BEBC1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREFramedVehicleJourneyRef.h; sourceTree = "<group>"; };
+		6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREFramedVehicleJourneyRef.m; sourceTree = "<group>"; };
+		6684BEBE1CB151C80053AAE1 /* TREMonitoredVehicleJourney.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREMonitoredVehicleJourney.h; sourceTree = "<group>"; };
+		6684BEBF1CB151C80053AAE1 /* TREMonitoredVehicleJourney.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREMonitoredVehicleJourney.m; sourceTree = "<group>"; };
+		6684BEC01CB151C80053AAE1 /* TREOnwardCalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREOnwardCalls.h; sourceTree = "<group>"; };
+		6684BEC11CB151C80053AAE1 /* TREOnwardCalls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREOnwardCalls.m; sourceTree = "<group>"; };
+		6684BEC21CB151C80053AAE1 /* TREVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehicle.h; sourceTree = "<group>"; };
+		6684BEC31CB151C80053AAE1 /* TREVehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREVehicle.m; sourceTree = "<group>"; };
+		6684BEC41CB151C80053AAE1 /* TREVehicleLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehicleLocation.h; sourceTree = "<group>"; };
+		6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREVehicleLocation.m; sourceTree = "<group>"; };
+		6684BED01CB151F20053AAE1 /* TREVehiceDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehiceDataModels.h; sourceTree = "<group>"; };
 		66947CB218830ED500642EE1 /* Reitti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reitti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66947CB518830ED500642EE1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		66947CB718830ED500642EE1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -2997,6 +3018,7 @@
 		661FAF26189E8ACB00042074 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6684BEBB1CB150F40053AAE1 /* TreVehicle */,
 				663E1ED81C9EBF1E00C5543A /* ReittiModels.h */,
 				66056E551C42AA7700C011FB /* HslDevVehicle */,
 				660715E71B45CCA300033049 /* TravelCard */,
@@ -3337,6 +3359,24 @@
 				66822F651C24695900511BD2 /* StopLine.m */,
 			);
 			name = Stops;
+			sourceTree = "<group>";
+		};
+		6684BEBB1CB150F40053AAE1 /* TreVehicle */ = {
+			isa = PBXGroup;
+			children = (
+				6684BED01CB151F20053AAE1 /* TREVehiceDataModels.h */,
+				6684BEBC1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.h */,
+				6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */,
+				6684BEBE1CB151C80053AAE1 /* TREMonitoredVehicleJourney.h */,
+				6684BEBF1CB151C80053AAE1 /* TREMonitoredVehicleJourney.m */,
+				6684BEC01CB151C80053AAE1 /* TREOnwardCalls.h */,
+				6684BEC11CB151C80053AAE1 /* TREOnwardCalls.m */,
+				6684BEC21CB151C80053AAE1 /* TREVehicle.h */,
+				6684BEC31CB151C80053AAE1 /* TREVehicle.m */,
+				6684BEC41CB151C80053AAE1 /* TREVehicleLocation.h */,
+				6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */,
+			);
+			name = TreVehicle;
 			sourceTree = "<group>";
 		};
 		66947CA918830ED500642EE1 = {
@@ -5359,6 +5399,7 @@
 				665885C51B1121000044F514 /* NearByStop.m in Sources */,
 				660D312A1C3425F60051DDAA /* LinesManager.m in Sources */,
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				6684BECC1CB151C80053AAE1 /* TREVehicle.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
 				66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */,
@@ -5395,6 +5436,7 @@
 				663E1EE41C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */,
 				66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */,
 				663E1EC41C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
+				6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */,
 				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
 				661FAF2F18A4F2B400042074 /* BusStop.m in Sources */,
 				664E28701AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m in Sources */,
@@ -5413,6 +5455,7 @@
 				660716021B45CD2C00033049 /* ValueState.m in Sources */,
 				660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */,
 				661202C51B04F5B200D93C2E /* HSLLiveTrafficManager.m in Sources */,
+				6684BEC61CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */,
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
@@ -5440,6 +5483,7 @@
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
 				66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */,
+				6684BECA1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
 				66822F7F1C2B6C4000511BD2 /* NSObject+Helper.m in Sources */,
 				660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */,
@@ -5457,6 +5501,7 @@
 				660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */,
 				663E1EEE1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
+				6684BEC81CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */,
 				660FB23C1B39E5ED009C30BF /* MoreTableViewController.m in Sources */,
 				66056E6F1C42AAFE00C011FB /* MonitoredCall.m in Sources */,
 				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
@@ -5579,6 +5624,7 @@
 				66C732DB1C556DA5002544BC /* NearByStop.m in Sources */,
 				66C732DC1C556DA5002544BC /* LinesManager.m in Sources */,
 				66C732DD1C556DA5002544BC /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */,
 				66C732DE1C556DA5002544BC /* ReittiNotificationHelper.m in Sources */,
 				66C732DF1C556DA5002544BC /* HSLCommunication.m in Sources */,
 				66C732E01C556DA5002544BC /* ReittiSearchManager.m in Sources */,
@@ -5615,6 +5661,7 @@
 				663E1EE51C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */,
 				66C732FC1C556DA5002544BC /* RouteSearchViewController.m in Sources */,
 				663E1EC51C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
+				6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */,
 				66C732FD1C556DA5002544BC /* HMSegmentedControl.m in Sources */,
 				66C732FE1C556DA5002544BC /* BusStop.m in Sources */,
 				66C732FF1C556DA5002544BC /* UIScrollView+APParallaxHeader.m in Sources */,
@@ -5633,6 +5680,7 @@
 				66C7330C1C556DA5002544BC /* ValueState.m in Sources */,
 				66C7330D1C556DA5002544BC /* InactiveReasons.m in Sources */,
 				66C7330E1C556DA5002544BC /* HSLLiveTrafficManager.m in Sources */,
+				6684BEC71CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */,
 				66C7330F1C556DA5002544BC /* EmptyBookmarkCell.m in Sources */,
 				66C733101C556DA5002544BC /* GeoCodeDetail.m in Sources */,
 				66C733111C556DA5002544BC /* Properties.m in Sources */,
@@ -5660,6 +5708,7 @@
 				66C733261C556DA5002544BC /* KBPopupBubbleView.m in Sources */,
 				66C733271C556DA5002544BC /* TravelCardManager.m in Sources */,
 				66C733281C556DA5002544BC /* HSLServicePointManager.m in Sources */,
+				6684BECB1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */,
 				66C733291C556DA5002544BC /* RettiDataManager.m in Sources */,
 				66C7332A1C556DA5002544BC /* NSObject+Helper.m in Sources */,
 				66C7332B1C556DA5002544BC /* PeriodProductState.m in Sources */,
@@ -5677,6 +5726,7 @@
 				66C733371C556DA5002544BC /* ReittiAnalyticsManager.m in Sources */,
 				663E1EEF1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */,
 				66C733381C556DA5002544BC /* CustomBadge.m in Sources */,
+				6684BEC91CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */,
 				66C733391C556DA5002544BC /* MoreTableViewController.m in Sources */,
 				66C7333A1C556DA5002544BC /* MonitoredCall.m in Sources */,
 				66C7333B1C556DA5002544BC /* Reachability.m in Sources */,

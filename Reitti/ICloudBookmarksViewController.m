@@ -128,7 +128,15 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return self.dataToLoad.allKeys[section];
+    NSString *deviceId = self.dataToLoad.allKeys[section];
+    NSArray *bookmarksInSection = self.dataToLoad[deviceId];
+    
+    if (bookmarksInSection.count > 0) {
+        CKRecord *record = bookmarksInSection[0];
+        return record[kRecordDeviceName];
+    }
+    
+    return @"Other device";
 }
 
 #pragma mark - IBActions
@@ -291,7 +299,7 @@
     self.activityIndicator.hidden = YES;
     
     self.infoTitleLabel.hidden = NO;
-    self.infoTitleLabel.text = @"No Other Devices Found";
+    self.infoTitleLabel.text = @"No Other Bookmarks Found";
     self.infoTitleLabel.textColor = [UIColor grayColor];
     self.infoDetailLabel.hidden = NO;
     self.infoDetailLabel.text = @"To use bookmark sync feature, log in with the same iCloud account on all your devices.";

@@ -544,15 +544,12 @@
 - (void)startFetchingLiveVehicles{
     NSArray *trainLines = nil;
     NSArray *otherLines = nil;
-    if (line.lineType == LineTypeTrain) {
+    if (line.lineType == LineTypeTrain)
         trainLines = @[self.line.code];
-//        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:nil andTrainCodes:@[self.line.code]];
-    }else{
+    else
         otherLines = @[self.line.code];
-//        [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:@[self.line.code] andTrainCodes:nil];
-    }
     
-    [self.reittiDataManager fetchAllLiveVehiclesWithCodesFromHSLLive:otherLines andTrainCodes:trainLines withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
+    [self.reittiDataManager fetchAllLiveVehiclesWithCodes:otherLines andTrainCodes:trainLines withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
         if (!errorString) {
             [self plotVehicleAnnotations:vehicleList isTrainVehicles:NO];
         }

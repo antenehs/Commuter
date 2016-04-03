@@ -22,13 +22,18 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-R0-2rh">
-                        <rect key="frame" x="55" y="5" width="266" height="26"/>
+                        <rect key="frame" x="55" y="5" width="266" height="31"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="26" id="zZo-cy-goT"/>
+                            <constraint firstAttribute="height" constant="31" id="zZo-cy-goT"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="zZo-cy-goT"/>
+                            </mask>
+                        </variation>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GUC-IH-cWr">
                         <rect key="frame" x="55" y="29" width="266" height="30.5"/>
@@ -64,6 +69,7 @@
                     <constraint firstItem="FFo-R0-2rh" firstAttribute="leading" secondItem="WqW-tX-LQN" secondAttribute="trailing" constant="19" id="79G-bk-Icf"/>
                     <constraint firstItem="WqW-tX-LQN" firstAttribute="leading" secondItem="RZu-ZT-sZa" secondAttribute="leadingMargin" constant="7" id="8FZ-as-m8Q"/>
                     <constraint firstItem="FFo-R0-2rh" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="top" constant="5" id="BD2-g6-RNx"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="FFo-R0-2rh" secondAttribute="bottom" constant="15.5" id="H9i-Pv-vCM"/>
                     <constraint firstItem="Qo4-rj-Pb8" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="top" constant="11" id="Lbc-Of-yFz"/>
                     <constraint firstAttribute="bottomMargin" secondItem="GUC-IH-cWr" secondAttribute="bottom" constant="-8" id="Os5-nF-3bX"/>
                     <constraint firstItem="Qo4-rj-Pb8" firstAttribute="centerY" secondItem="RZu-ZT-sZa" secondAttribute="centerY" id="QOd-Vf-T1k"/>

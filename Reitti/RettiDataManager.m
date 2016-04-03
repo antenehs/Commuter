@@ -41,7 +41,7 @@
 @synthesize namedBookmark;
 @synthesize helsinkiRegion, tampereRegion, userLocationRegion;
 
-@synthesize liveTrafficManager, cacheManager;
+@synthesize hslLiveTrafficManager, treLiveTrafficManager, cacheManager;
 
 //@synthesize vehicleFetchDelegate;
 
@@ -91,7 +91,8 @@
     
     self.treCommunication = tCommunicator;
 
-    self.liveTrafficManager = [[HSLLiveTrafficManager alloc] init];
+    self.hslLiveTrafficManager = [[HSLLiveTrafficManager alloc] init];
+    self.treLiveTrafficManager = [[TRELiveTrafficManager alloc] init];
     
     self.cacheManager = [CacheManager sharedManager];
     
@@ -198,6 +199,20 @@
         return self.treCommunication;
     }else if(region == HSLRegion){
         return self.hslCommunication;
+    }else{
+        return nil;
+    }
+}
+
+-(id)getLiveTrafficManagerForCurrentRegion{
+    return [self getLiveTrafficManagerForRegion:userLocationRegion];
+}
+
+-(id)getLiveTrafficManagerForRegion:(Region)region{
+    if (region == TRERegion) {
+        return self.treLiveTrafficManager;
+    }else if(region == HSLRegion){
+        return self.hslLiveTrafficManager;
     }else{
         return nil;
     }
@@ -563,282 +578,37 @@
     }else{
         completionBlock(nil, @"Service not available in the current region.");
     }
-    
-//    if (userLocationRegion == HSLRegion) {
-//        [self.hslCommunication fetchTrafficDisruptionsWithCompletionBlock:^(NSArray *disruptions, NSString *errorString){
-//            
-//        }];
-//    }else{
-//        [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
-//    }
 }
 
-#pragma mark - HSLCommunication delegate methods
-//- (void)hslRouteSearchDidComplete:(HSLCommunication *)communicator{
-////    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
-//}
-//- (void)hslRouteSearchFailed:(int)errorCode{
-//    if (errorCode == -1009) {
-//        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
-//    }else if (errorCode == -1016) {
-//        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-//    }else{
-//        [routeSearchdelegate routeSearchDidFail:nil];
-//    }
-//}
-//- (void)hslGeocodeSearchDidComplete:(HSLCommunication *)communicator{
-//    if (geoCodeRequestedFor == HSLRegion) {
-//        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
-//    }else if(geoCodeRequestedFor == HSLandTRERegion){
-//        [HSLGeocodeResposeQueue addObject:communicator.geoCodeList];
-//
-//        [self checkForGeoCodeFetchCompletionAndReturn];
-//    }
-//
-//}
-
-//- (void)hslGeocodeSearchFailed:(int)errorCode{
-//    //The last one to fail sends the message
-//    NSString *errorMessage = nil;
-//    if (errorCode == -1009) {
-//        errorMessage = @"Internet connection appears to be offline.";
-//    }
-//
-//    if (geoCodeRequestedFor == HSLRegion) {
-//        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
-//    }else if (geoCodeRequestedFor == HSLandTRERegion){
-//        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
-//        failed.errorCode = errorCode;
-//        failed.textForError = errorMessage;
-//
-//        [HSLGeocodeResposeQueue addObject:failed];
-//        [self checkForGeoCodeFetchCompletionAndReturn];
-//    }
-//}
-//
-//-(void)hslReverseGeocodeSearchDidComplete:(HSLCommunication *)communicator{
-//    if (communicator.reverseGeoCodeList.count > 0) {
-//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
-//    }else{
-//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
-//    }
-//}
-//
-//-(void)hslReverseGeocodeSearchFailed:(int)errorCode{
-//    NSString *errorString = @"";
-//    switch (errorCode) {
-//        case -1009:
-//            errorString = @"Internet connection appears to be offline.";
-//            break;
-//        default:
-//            errorString = @"No address was found for the coordinates";
-//            break;
-//    }
-//
-//    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
-//}
-
-//-(void)hslStopFetchDidComplete:(HSLCommunication *)communicator{
-//    [self.delegate stopFetchDidComplete:communicator.stopList];
-//    //    [self fetchLineInfoForCodeList:[self constructListOfLineCodesFromStopsArray:communicator.stopList]];
-//    
-//}
-
-//-(void)hslStopFetchFailed:(int)errorCode{
-//    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApisStopRequestedFrom - 1) {
-//        NSString *errorString = @"";
-//        switch (errorCode) {
-//            case -1016:
-//                errorString = @"The remote server returned nothing. Try again.";
-//                break;
-//            case -1009:
-//                errorString = @"Internet connection appears to be offline.";
-//                break;
-//            default:
-//                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
-//                break;
-//        }
-//        [self.delegate stopFetchDidFail:errorString];
-//        stopFetchFailedCount = 0;
-//    }
-//    
-//    stopFetchFailedCount ++;
-//}
-//-(void)hslStopInAreaFetchDidComplete:(HSLCommunication *)communicator{
-//    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
-//}
-//-(void)hslStopInAreaFetchFailed:(int)errorCode{
-//    NSString *errorString = @"";
-//    switch (errorCode) {
-//        case -1009:
-//            errorString = @"Internet connection appears to be offline.";
-//            break;
-//        case -1011:
-//            errorString = @"Nearby stops service not available in this area.";
-//            break;
-//        case -1001:
-//            errorString = @"Request timed out.";
-//            break;
-//        default:
-//            break;
-//    }
-//    [self.delegate nearByStopFetchDidFail:errorString];
-//}
-
-//-(void)hslDisruptionFetchComplete:(HSLCommunication *)communicator{
-//    [self.disruptionFetchDelegate disruptionFetchDidComplete:communicator.disruptionList];
-//}
-//
-//-(void)hslDisruptionFetchFailed:(int)errorCode{
-//    [self.disruptionFetchDelegate disruptionFetchDidFail:nil];
-//}
-//
-//-(void)hslLineInfoFetchDidComplete:(NSArray *)lines{
-////    self.detailLineInfo = [self convertListInfoArrayToDictionary:communicator.lineInfoList];
-//    //[self.delegate stopFetchDidComplete:communicator.stopList];
-//    [self.lineSearchdelegate lineSearchDidComplete:lines];
-//}
-//
-//-(void)hslLineInfoFetchFailed:(NSError *)error{
-//    //[self.delegate stopFetchDidFail:nil];
-//    //TODO: evaluate error string
-//    [self.lineSearchdelegate lineSearchDidFail:@"Line fetch failed"];
-//}
-
-#pragma mark - TRECommunication delegate methods
-//- (void)treStopFetchDidComplete:(TRECommunication *)communicator{
-//    [self.delegate stopFetchDidComplete:communicator.stopList];
-//}
-//- (void)treStopFetchFailed:(int)errorCode{
-//    if (stopInfoRequestedFor != HSLandTRERegion || stopFetchFailedCount == numberOfApisStopRequestedFrom - 1) {
-//        NSString *errorString = @"";
-//        switch (errorCode) {
-//            case -1016:
-//                errorString = @"The remote server returned nothing. Try again.";
-//                break;
-//            case -1009:
-//                errorString = @"Internet connection appears to be offline.";
-//                break;
-//            default:
-//                errorString = @"Uh-oh. Fetching stop info failed. Please try again.";
-//                break;
-//        }
-//        [self.delegate stopFetchDidFail:errorString];
-//        stopFetchFailedCount = 0;
-//    }
-//    
-//    stopFetchFailedCount ++;
-//}
-//- (void)treStopInAreaFetchDidComplete:(TRECommunication *)communicator{
-//    [self.delegate nearByStopFetchDidComplete:communicator.nearByStopList];
-//}
-//- (void)treStopInAreaFetchFailed:(int)errorCode{
-//    NSString *errorString = @"";
-//    switch (errorCode) {
-//        case -1009:
-//            errorString = @"Internet connection appears to be offline.";
-//            break;
-//        case -1011:
-//            errorString = @"Service not available in this area.";
-//            break;
-//        case -1001:
-//            errorString = @"Request timed out.";
-//            break;
-//        default:
-//            break;
-//    }
-//    [self.delegate nearByStopFetchDidFail:errorString];
-//}
-//- (void)treLineInfoFetchDidComplete:(TRECommunication *)communicator{
-//    //not needed yet
-//}
-//- (void)treLineInfoFetchFailed:(TRECommunication *)communicator{
-//    //not needed yet
-//}
-//- (void)treGeocodeSearchDidComplete:(TRECommunication *)communicator{
-//    if (geoCodeRequestedFor == TRERegion) {
-//        [geocodeSearchdelegate geocodeSearchDidComplete:communicator.geoCodeList  isFinalResult:YES];
-//    }else if(geoCodeRequestedFor == HSLandTRERegion){
-//        [TREGeocodeResponseQueue addObject:communicator.geoCodeList];
-//
-//        [self checkForGeoCodeFetchCompletionAndReturn];
-//    }
-//}
-//- (void)treGeocodeSearchFailed:(int)errorCode{
-//    //The last one to fail sends the message
-//    NSString *errorMessage = nil;
-//    if (errorCode == -1009) {
-//        errorMessage = @"Internet connection appears to be offline.";
-//    }
-//
-//    if (geoCodeRequestedFor == TRERegion) {
-//        [geocodeSearchdelegate geocodeSearchDidFail:errorMessage forRequest:nil];
-//    }else if (geoCodeRequestedFor == HSLandTRERegion){
-//        FailedGeoCodeFetch *failed = [[FailedGeoCodeFetch alloc] init];
-//        failed.errorCode = errorCode;
-//        failed.textForError = errorMessage;
-//
-//        [TREGeocodeResponseQueue addObject:failed];
-//        [self checkForGeoCodeFetchCompletionAndReturn];
-//    }
-//}
-
-//-(void)treReverseGeocodeSearchDidComplete:(TRECommunication *)communicator{
-//    if (communicator.reverseGeoCodeList.count > 0) {
-//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidComplete:(GeoCode *)[communicator.reverseGeoCodeList objectAtIndex:0]];
-//    }else{
-//        [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:@"No address was found for the coordinates."];
-//    }
-//}
-
-//-(void)treReverseGeocodeSearchFailed:(int)errorCode{
-//    NSString *errorString = @"";
-//    switch (errorCode) {
-//        case -1009:
-//            errorString = @"Internet connection appears to be offline.";
-//            break;
-//        default:
-//            errorString = @"No address was found for the coordinates";
-//            break;
-//    }
-//
-//    [self.reverseGeocodeSearchdelegate reverseGeocodeSearchDidFail:errorString];
-//}
-
-//- (void)treRouteSearchDidComplete:(TRECommunication *)communicator{
-////    [routeSearchdelegate routeSearchDidComplete:communicator.routeList];
-//}
-//- (void)treRouteSearchFailed:(int)errorCode{
-//    if (errorCode == -1009) {
-//        [routeSearchdelegate routeSearchDidFail:@"Internet connection appears to be offline."];
-//    }else if (errorCode == -1016) {
-//        [routeSearchdelegate routeSearchDidFail:@"No route information available for the selected addresses."];
-//    }else{
-//        [routeSearchdelegate routeSearchDidFail:nil];
-//    }
-//}
-//- (void)treDisruptionFetchComplete:(TRECommunication *)communicator{
-//
-//}
-//- (void)treDisruptionFetchFailed:(int)errorCode{
-//
-//}
-
 #pragma mark - Live traffic fetch methods
--(void)fetchAllLiveVehiclesWithCodesFromHSLLive:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
-    if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager startFetchingAllLiveVehiclesWithCodes:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];
+-(void)fetchAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
+    id liveTrafficManager = [self getLiveTrafficManagerForCurrentRegion];
+    
+    [self stopFetchingLiveVehicles];
+    
+    if ([liveTrafficManager conformsToProtocol:@protocol(LiveTrafficFetchProtocol)]) {
+        [(NSObject<LiveTrafficFetchProtocol> *)liveTrafficManager startFetchingAllLiveVehiclesWithCodes:lineCodes andTrainCodes:trainCodes withCompletionHandler:completionHandler];
+    }else{
+        completionHandler(nil, @"Service not available in the current region.");
     }
 }
 
 -(void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler{
-    if (userLocationRegion == HSLRegion) {
-        [self.liveTrafficManager startFetchingAllLiveVehiclesWithCompletionHandler:completionHandler];
+    id liveTrafficManager = [self getLiveTrafficManagerForCurrentRegion];
+    
+    [self stopFetchingLiveVehicles];
+    
+    if ([liveTrafficManager conformsToProtocol:@protocol(LiveTrafficFetchProtocol)]) {
+        [(NSObject<LiveTrafficFetchProtocol> *)liveTrafficManager startFetchingAllLiveVehiclesWithCompletionHandler:completionHandler];
+    }else{
+        completionHandler(nil, @"Service not available in the current region.");
     }
 }
 
 -(void)stopFetchingLiveVehicles{
-    [self.liveTrafficManager stopFetchingVehicles];
+    //Done like this because when region changes, we dont know which manager to stop
+    [self.hslLiveTrafficManager stopFetchingVehicles];
+    [self.treLiveTrafficManager stopFetchingVehicles];
 }
 
 #pragma mark - helper methods

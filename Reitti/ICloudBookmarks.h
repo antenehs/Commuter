@@ -10,6 +10,7 @@
 #import <CloudKit/CloudKit.h>
 
 extern NSString *kRecordDeviceName;
+extern NSString *kRecordDeviceUniqueId;
 
 //NamedBookmark
 extern NSString *kNamedBookmarkUniqueId;

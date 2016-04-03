@@ -31,7 +31,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000 - Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KQA-mT-mvm">
-                        <rect key="frame" x="55" y="29" width="263" height="30.5"/>
+                        <rect key="frame" x="55" y="29" width="248" height="30.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -59,10 +59,10 @@
                         <rect key="frame" x="330" y="20" width="20" height="20"/>
                     </activityIndicatorView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.00.0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q1Q-G8-QAZ">
-                        <rect key="frame" x="283" y="28" width="85" height="21"/>
+                        <rect key="frame" x="283" y="28" width="85" height="25.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="35" id="5y4-YN-pCu"/>
-                            <constraint firstAttribute="height" constant="21" id="Ha1-Zg-9SI"/>
+                            <constraint firstAttribute="height" constant="25.5" id="Ha1-Zg-9SI"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="dN3-RZ-JcW"/>
                             <constraint firstAttribute="width" constant="85" id="q09-hx-GV4"/>
                         </constraints>
@@ -90,7 +90,7 @@
                     <constraint firstItem="5Ki-o7-Bg9" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="top" constant="11" id="MXu-if-8OM"/>
                     <constraint firstItem="Dtj-LG-6m9" firstAttribute="centerY" secondItem="5Ki-o7-Bg9" secondAttribute="centerY" id="XzG-h6-a4p"/>
                     <constraint firstItem="Kjf-3v-QWa" firstAttribute="leading" secondItem="9Gl-P7-nlN" secondAttribute="trailing" constant="20" id="frh-3x-e9I"/>
-                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="trailing" secondItem="KQA-mT-mvm" secondAttribute="trailing" constant="4" id="hmn-tP-OCx"/>
+                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="trailing" secondItem="KQA-mT-mvm" secondAttribute="trailing" constant="19" id="hmn-tP-OCx"/>
                     <constraint firstItem="9Gl-P7-nlN" firstAttribute="centerY" secondItem="lAL-Ld-vnG" secondAttribute="centerY" constant="2.25" id="kpy-mN-0GN"/>
                     <constraint firstItem="KQA-mT-mvm" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="21" id="o98-YV-K8s"/>
                     <constraint firstAttribute="trailing" secondItem="Q1Q-G8-QAZ" secondAttribute="trailing" constant="1" id="qKE-wa-2JT"/>

@@ -108,9 +108,9 @@
 //}
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
-//    [self checkForDisruptionAvailability];
-    
     thereIsDisruptions = [self areThereDisruptions];
+    
+    
     
     [self.tableView reloadData];
 }

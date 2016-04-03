@@ -306,7 +306,7 @@ NSString *SavedRouteType = @"SavedRoute";
 
 #pragma mark - Generic iCloud methods
 -(void)fetchAllBookmarksWithType:(NSString *)type completionHandler:(ActionBlock)completionHandler {
-    NSPredicate *predicate = [NSPredicate predicateWithValue:YES];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"DeviceUniqueId != %@", [AppManagerBase iosDeviceUniqueIdentifier]];
     CKQuery *query = [[CKQuery alloc] initWithRecordType:type predicate:predicate];
     [self.privateDB performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error){
         if(error) {
@@ -326,8 +326,10 @@ NSString *SavedRouteType = @"SavedRoute";
     if (!records || records.count < 1)
         return;
     
-    for (CKRecord *record in records)
+    for (CKRecord *record in records) {
         record[kRecordDeviceName] = [AppManagerBase iosDeviceName];
+        record[kRecordDeviceUniqueId] = [AppManagerBase iosDeviceUniqueIdentifier];
+    }
     
     CKModifyRecordsOperation *modifOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:records recordIDsToDelete: nil];
     

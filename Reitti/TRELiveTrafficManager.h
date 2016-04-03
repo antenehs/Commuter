@@ -13,6 +13,7 @@
     BOOL allVehiclesAreBeingFetch;
     
     NSTimer *refreshTimer;
+    NSTimer *linesFetchRefreshTimer;
 }
 
 -(id)init;

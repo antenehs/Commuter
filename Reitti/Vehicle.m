@@ -12,6 +12,7 @@
 #import "DirectionRef.h"
 #import "HSLAndTRECommon.h"
 #import "VehicleRef.h"
+#import "TREVehiceDataModels.h"
 
 @implementation Vehicle
 
@@ -122,6 +123,45 @@
     properties.diff = 0;
     self.properties = properties;
     
+    return self;
+}
+
+- (instancetype)initWithTreVehicle:(TREVehicle *)treVehicle {
+    if (!treVehicle)
+        return nil;
+    
+    self = [super init];
+    
+    self.type = @"Feature";
+    
+    //==========Coordinates===============
+    Geometry *geometry = [[Geometry alloc] init];
+    geometry.type = @"Point";
+    NSString *latitude = treVehicle.monitoredVehicleJourney.vehicleLocation.latitude;
+    NSString *longitude = treVehicle.monitoredVehicleJourney.vehicleLocation.longitude;
+    geometry.coordinates = @[ longitude , latitude];
+    self.geometry = geometry;
+    
+    //==========Line codes================
+    Properties *properties = [[Properties alloc] init];
+    NSString *lineCode = treVehicle.monitoredVehicleJourney.lineRef;
+    NSString *lineDirection = treVehicle.monitoredVehicleJourney.directionRef;
+    NSString *lineFullString = [HSLAndTRECommon lineJoreCodeForCode:lineCode andDirection:lineDirection];
+    properties.lineid = lineFullString;
+    
+    properties.propertiesIdentifier = treVehicle.monitoredVehicleJourney.vehicleRef;
+    NSString *bearingString = treVehicle.monitoredVehicleJourney.bearing;
+    properties.bearing = bearingString ? [bearingString doubleValue] : -1;
+    properties.distanceFromStart = 0;
+    properties.departure = @"";
+    properties.lastUpdate = nil;
+    
+    properties.type = @"bus";
+    properties.name = lineCode;
+    properties.diff = 0;
+    self.properties = properties;
+    
+    //TODO: Parse next stops too.
     return self;
 }
 

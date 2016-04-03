@@ -8,6 +8,9 @@
 
 #import "TRELiveTrafficManager.h"
 #import "APIClient.h"
+#import "TREVehiceDataModels.h"
+#import "Vehicle.h"
+#import "ReittiStringFormatter.h"
 
 NSString *kTRELineCodesKey = @"lineCodes";
 
@@ -15,8 +18,8 @@ NSString *kTRELineCodesKey = @"lineCodes";
 
 @property (nonatomic, strong)APIClient *itsfApiClient;
 
-@property (nonatomic, copy) ActionBlock fetchAllFromHSLHandler;
-@property (nonatomic, copy) ActionBlock fetchLinesFromHSLHandler;
+@property (nonatomic, copy) ActionBlock fetchAllFromTREHandler;
+@property (nonatomic, copy) ActionBlock fetchLinesFromTREHandler;
 
 @end
 
@@ -26,86 +29,131 @@ NSString *kTRELineCodesKey = @"lineCodes";
     self = [super init];
     
     if (self) {
+        allVehiclesAreBeingFetch = NO;
         self.itsfApiClient = [[APIClient alloc] init];
-        self.itsfApiClient.apiBaseUrl = @"http://data.itsfactory.fi/journeys/api/1/vehicle-activity/";
+        self.itsfApiClient.apiBaseUrl = @"http://data.itsfactory.fi/journeys/api/1/vehicle-activity";
     }
     
     return self;
 }
 
-- (void)fetchLiveVehiclesFromHSLLiveForLineCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler{
+- (void)fetchLiveVehiclesFromTREForLineCodes:(NSArray *)lineCodes withCompletionHandler:(ActionBlock)completionHandler{
     //Check for straight three times fail and cancel automatically updating.
-    
-//    [hslLiveAPI getAllLiveVehiclesFromHSLDev:trainCodes withCompletionBlock:^(NSArray *vehicles, NSString *errorString){
-//        reqestCount--;
-//        if (!errorString) {
-//            [allVehicles addObjectsFromArray:vehicles];
-//            
-//            hslDevApiFetchFailCount = 0;
-//        }else{
-//            if (reqestCount == 0) {
-//                //                    [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
-//                if (completionHandler)
-//                    completionHandler(nil, errorString);
-//                return;
-//            }
-//            
-//            hslDevApiFetchFailCount++;
-//            
-//            [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Dev failed. Error: %@", errorString] value:nil];
-//        }
-//        
-//        if (reqestCount == 0) {
-//            //                [self.delegate didReceiveVehiclesFromHSlLive:allVehicles];
-//            if (completionHandler)
-//                completionHandler(allVehicles, nil);
-//        }
-//    }];
     
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    [optionsDict setValue:@"HSL" forKey:@"OperatorRef"];
+    if (lineCodes && lineCodes.count > 0) {
+        NSString *linesString = [self formatLineStrings:(NSArray *)lineCodes];
+        [optionsDict setValue:linesString forKey:@"lineRef"];
+    }
     
-//    [self.itsfApiClient doApiFetchWithOutMappingWithParams:optionsDict andCompletionBlock:^(NSData *response, NSError *error){
-//        if (!error) {
-//            //Parse response and add to vehicles array
-//            NSError *parsingError = nil;
-//            NSArray *vehicles = nil;
-//            @try {
-//                vehicles = [self parseTrainJsonVehiclesFromHslDev:response error:&parsingError];
-//            }
-//            @catch (NSException *exception) {}
-//            
-//            if (!parsingError && vehicles) {
-//                completionBlock(vehicles, nil);
-//            }else{
-//                completionBlock(@[], @"Parsing vehicles failed!");
-//            }
-//        }else{
-//            completionBlock(@[], @"Fetching vehicles failed!");
-//        }
-//    }];
+    [self.itsfApiClient doApiFetchWithOutMappingWithParams:optionsDict andCompletionBlock:^(NSData *response, NSError *error){
+        if (!error) {
+            //Parse response and add to vehicles array
+            NSError *parsingError = nil;
+            NSArray *vehicles = nil;
+            @try {
+                vehicles = [self parseJsonVehiclesFromItsFactory:response error:&parsingError];
+            }
+            @catch (NSException *exception) {}
+            
+            if (!parsingError && vehicles) {
+                completionHandler(vehicles, nil);
+            }else{
+                completionHandler(@[], @"Parsing vehicles failed!");
+            }
+        }else{
+            completionHandler(@[], @"Fetching vehicles failed!");
+        }
+    }];
+}
+
+-(NSString *)formatLineStrings:(NSArray *)lineCodes {
+    NSMutableArray *codes = [@[] mutableCopy];
+    for (NSString *lineCode in lineCodes) {
+        NSArray *parts = [lineCode componentsSeparatedByString:@" "];
+        if (parts.count < 1)
+            continue;
+        
+        [codes addObject:parts[0]];
+    }
+    
+    return [ReittiStringFormatter commaSepStringFromArray:codes withSeparator:@","];
+}
+
+-(NSArray *)parseJsonVehiclesFromItsFactory:(NSData *)objectNotation error:(NSError **)error{
+    
+    NSError *localError = nil;
+    NSDictionary *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
+    
+    if (localError != nil) {
+        *error = localError;
+        return nil;
+    }
+    
+    NSMutableArray *vehicles = [@[] mutableCopy];
+    
+    if (parsedObject[@"body"]) {
+        
+        NSArray *monitoringVehicles = parsedObject[@"body"];
+        
+        for (NSDictionary *monitoringVehicle in monitoringVehicles) {
+            @try {
+                TREVehicle *treVehicle = [[TREVehicle alloc] initWithDictionary:monitoringVehicle];
+                
+                if (treVehicle) {
+                    Vehicle *vehicle = [[Vehicle alloc] initWithTreVehicle:treVehicle];
+                    
+                    [vehicles addObject:vehicle];
+                }
+            }
+            @catch (NSException *exception) {}
+        }
+    }
+    
+    return vehicles;
 }
 
 - (void)startFetchingAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler {
-    
+    @try {
+        self.fetchLinesFromTREHandler = completionHandler;
+        [self fetchLiveVehiclesFromTREForLineCodes:lineCodes withCompletionHandler:completionHandler];
+        
+        NSDictionary *userInfo = @{kTRELineCodesKey : lineCodes ? lineCodes : @[]};
+        linesFetchRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateLiveVehiclesWithCodeFromTRE:) userInfo:userInfo repeats:YES];
+    }
+    @catch (NSException *exception) {
+        completionHandler(nil, exception.reason);
+    }
 }
 
 - (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler {
-
+    if (!allVehiclesAreBeingFetch) {
+        self.fetchAllFromTREHandler = completionHandler;
+        [self fetchLiveVehiclesFromTREForLineCodes:nil withCompletionHandler:completionHandler];
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateAllLiveVehiclesFromTRE:) userInfo:nil repeats:YES];
+        allVehiclesAreBeingFetch = YES;
+    }
+    
+//    [self fetchLiveVehiclesFromTREForLineCodes:nil withCompletionHandler:completionHandler];
 }
 
 - (void)stopFetchingVehicles {
+    [refreshTimer invalidate];
+    [linesFetchRefreshTimer invalidate];
+    allVehiclesAreBeingFetch = NO;
     
+    self.fetchAllFromTREHandler = nil;
+    self.fetchLinesFromTREHandler = nil;
 }
 
-- (void)updateAllLiveVehiclesFromHSL:(NSTimer *)sender {
-    [self fetchLiveVehiclesFromHSLLiveForLineCodes:nil andTrainCodes:nil withCompletionHandler:self.fetchAllFromHSLHandler];
+- (void)updateAllLiveVehiclesFromTRE:(NSTimer *)sender {
+    [self fetchLiveVehiclesFromTREForLineCodes:nil withCompletionHandler:self.fetchAllFromTREHandler];
 }
 
-- (void)updateLiveVehiclesWithCodeFromHSL:(NSTimer *)sender {
+- (void)updateLiveVehiclesWithCodeFromTRE:(NSTimer *)sender {
     NSDictionary *userInfo = [sender userInfo] ? [sender userInfo] : @{};
-    [self fetchLiveVehiclesFromHSLLiveForLineCodes:userInfo[kTRELineCodesKey] andTrainCodes:nil withCompletionHandler:self.fetchLinesFromHSLHandler];
+    [self fetchLiveVehiclesFromTREForLineCodes:userInfo[kTRELineCodesKey] withCompletionHandler:self.fetchLinesFromTREHandler];
 }
 
 @end

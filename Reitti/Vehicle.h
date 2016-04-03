@@ -8,6 +8,7 @@
 #import <MapKit/MapKit.h>
 #import "EnumManager.h"
 #import "DevHslVehicle.h"
+#import "TREVehicle.h"
 
 @interface Vehicle : Features
 
@@ -18,6 +19,7 @@
 
 - (instancetype)initWithCSV:(NSString *)csvString;
 - (instancetype)initWithHslDevVehicle:(DevHslVehicle *)hslDevVehicle;
+- (instancetype)initWithTreVehicle:(TREVehicle *)treVehicle;
 
 @property (nonatomic, strong) NSString *vehicleId;
 @property (nonatomic, strong) NSString *vehicleName;

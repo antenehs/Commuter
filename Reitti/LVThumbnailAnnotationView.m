@@ -89,7 +89,7 @@ static CGFloat const kLVThumbnailAnnotationViewAnimationDuration = 0.25f;
 - (void)setupTitleLabel {
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20)];
     _titleLabel.textColor = [UIColor colorWithWhite:0.15 alpha:1];
-    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18.0f];
+    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
     _titleLabel.minimumScaleFactor = 0.3f;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     _titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -215,12 +215,15 @@ static CGFloat const kLVThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.code = thumbnail.code;
     self.titleLabel.text = thumbnail.title;
     if (thumbnail.title.length == 2) {
-        self.titleLabel.frame = CGRectMake(10.0f, 8.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
+        self.titleLabel.frame = CGRectMake(10.0f, 10.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
     }else if (thumbnail.title.length == 3){
-        self.titleLabel.frame = CGRectMake(10.0f, 6.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
+        self.titleLabel.frame = CGRectMake(10.0f, 8.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
     }
+    
     self.imageView.image = thumbnail.image;
     self.imageView.transform = CGAffineTransformMakeRotation(DegreesToRadians([thumbnail.bearing doubleValue]));
+    
+//    self.alpha = 0.95;
 }
 
 #pragma mark - LVThumbnailAnnotationViewProtocol
