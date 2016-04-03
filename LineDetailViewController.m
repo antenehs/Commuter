@@ -18,6 +18,7 @@
 #import "ReittiNotificationHelper.h"
 #import "LVThumbnailAnnotation.h"
 #import "LinesManager.h"
+#import "MainTabBarController.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -589,6 +590,18 @@
     }
 }
 
+-(void)switchToRouteSearchViewWithRouteParameter:(RouteSearchParameters  *)searchParameters {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController setupAndSwithToRouteSearchViewWithSearchParameters:searchParameters];
+}
+
+-(RouteSearchFromStopHandler)stopViewRouteSearchHandler {
+    return ^(RouteSearchParameters *searchParams){
+//        [self.navigationController popToViewController:self animated:YES];
+        [self switchToRouteSearchViewWithRouteParameter:searchParams];
+    };
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -615,7 +628,8 @@
             stopViewController.stopName = stopName;
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
-            //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
+            
+            stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
             stopViewController.reittiDataManager = self.reittiDataManager;
             stopViewController.delegate = nil;
         }
@@ -632,6 +646,8 @@
             stopViewController.stopShortCode = lineStop.codeShort;
             stopViewController.stopName = lineStop.name;
             stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:lineStop.coords];
+            
+            stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
             stopViewController.reittiDataManager = self.reittiDataManager;
         }
     }

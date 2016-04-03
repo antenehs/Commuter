@@ -89,7 +89,8 @@
     BOOL toolBarIsShowing;
     
 }
-
+-(void)setUpMainView;
+-(void)clearSearchResults;
 -(void)searchRouteForFromLocation:(NSString *)fromLoc fromLocationCoords:(NSString *)fromCoordinates andToLocation:(NSString *)toLoc toLocationCoords:(NSString *)toCoordinates;
 
 @property (strong, nonatomic) NSMutableArray * savedStops;
@@ -112,6 +113,8 @@
 @property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 
 @property (strong, nonatomic) NSArray * disruptionsList;
+
+@property (strong, nonatomic) NSNumber * modalViewControllerMode;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;

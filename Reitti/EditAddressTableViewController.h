@@ -13,6 +13,7 @@
 #import "AddressTypeTableViewController.h"
 #import "ReittiNotificationHelper.h"
 #import "RouteSearchViewController.h"
+#import "RouteSearchParameters.h"
 
 typedef enum
 {

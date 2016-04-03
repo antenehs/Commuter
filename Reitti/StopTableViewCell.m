@@ -48,6 +48,7 @@
 
 -(void)setupFromHistoryEntity:(HistoryEntity *)historyEntity{
     self.historyEntity = historyEntity;
+    self.dateLabel.hidden = NO;
     self.iCloudDownloadButton.hidden = YES;
     
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:historyEntity.stopType];
@@ -59,6 +60,7 @@
 
 -(void)setupFromStopGeocode:(GeoCode *)stopGeocode{
     self.stopGeocode = stopGeocode;
+    self.dateLabel.hidden = YES;
     self.iCloudDownloadButton.hidden = YES;
     
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:[stopGeocode getStopType]];

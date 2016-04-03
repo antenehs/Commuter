@@ -18,6 +18,8 @@
 #import "ReittiAnalyticsManager.h"
 #import "LinesManager.h"
 #import "ASA_Helpers.h"
+#import "MainTabBarController.h"
+#import "RettiDataManager.h"
 
 @implementation AppDelegate
 
@@ -29,35 +31,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    
-    [[UITabBar appearance] setTintColor:[AppManager systemGreenColor]];
-    
-    UITabBar *tabBar = tabBarController.tabBar;
-    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
-    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
-    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
-    
-    tabBarItem1.title = @"Map";
-    tabBarItem2.title = @"Route";
-    tabBarItem3.title = @"Bookmarks";
-    tabBarItem4.title = @"Lines";
-    UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(22, 22)];
-    
-    UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(21, 21)];
-    
-    UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(23, 25)];
-//    tabBarItem3.image = [[self imageWithImage:image3_unselected scaledToSize:CGSizeMake(28, 28)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    UIImage *image4 = [UIImage imageNamed:@"transit-line.png"];
-    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(23, 19)];
-    
     //Init Singletons
-//    [TravelCardManager sharedManager]; //Travel card manger
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
     [LinesManager sharedManager];
     
@@ -84,26 +58,10 @@
     return YES;
 }
 
-//- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-//    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-//    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    return newImage;
-//}
-
+//Handle app 3D touch shortcuts
 - (BOOL)handleShortCutItem:(UIApplicationShortcutItem *)shortcutItem  {
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    
     if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:NamedBookmarkShortcutType]]){
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromAppShortcut label:@"Named bookmark" value:nil];
-        UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
-        tabBarController.selectedIndex = 0;
-        SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-        //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
-        [controller initDataComponentsAndModules];
-        
-        [controller dismissViewControllerAnimated:YES completion:nil];
         
         NSString *name = (NSString *)[shortcutItem.userInfo objectForKey:@"namedBookmarkName"];
         NSString *coords = (NSString *)[shortcutItem.userInfo objectForKey:@"namedBookmarkCoords"];
@@ -111,18 +69,21 @@
         if (name == nil || coords == nil)
             return NO;
         
-        [controller openRouteViewToLocationName:name locationCoords:coords];
+        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:name toCoords:coords fromLocation:nil fromCoords:nil];
+        [self switchToRouteSearchViewWithRouteParameter:searchParms];
+        
         return YES;
     }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:MoreBookmarksShortcutType]]){
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromAppShortcut label:@"More bookmarks" value:nil];
-        tabBarController.selectedIndex = 2;
+        
+        [self switchToBookmarksTab];
+        
         return YES;
     }else if([shortcutItem.type isEqualToString:[ReittiAppShortcutManager shortcutIdentifierStringValue:AddBookmarkShortcutType]]){
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromAppShortcut label:@"Add bookmark" value:nil];
-        tabBarController.selectedIndex = 2;
-        UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
-        BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
-        [controller openAddBookmarkController];
+        
+        [self switchToAddBookmarksController];
+        
         return YES;
     }
     
@@ -130,99 +91,16 @@
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
-//    NSLog(@"%@", shortcutItem.type);
-    
     completionHandler([self handleShortCutItem:shortcutItem]);
 }
 
+//Handle deeplinks
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-//    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
-//    NSLog(@"URL scheme:%@", [url scheme]);
-//    NSLog(@"URL query: %@", [url query]);
-    
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
-    
-    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-//    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
-    [controller initDataComponentsAndModules];
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    
-    if ([MKDirectionsRequest isDirectionsRequestURL:url]) {
-        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromMapsApp label:nil value:nil];
-        MKDirectionsRequest* directionsInfo = [[MKDirectionsRequest alloc] initWithContentsOfURL:url];
-        // TO DO: Plot and display the route using the
-        //   source and destination properties of directionsInfo.
-        [controller openRouteViewForFromLocation:directionsInfo];
-        
-        return YES;
-    }
-    else {
-        if ([[url query] isEqualToString:@"bookmarks"]) {
-//            [controller openBookmarksView];
-            tabBarController.selectedIndex = 2;
-            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"bookmarks" value:nil];
-        }
-        
-        if ([[url  query] isEqualToString:@"addBookmark"]) {
-            tabBarController.selectedIndex = 2;
-            
-            UINavigationController * bookmarksViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:2];
-            BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
-            [controller openAddBookmarkController];
-            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromRoutesWidget label:@"addBookmark" value:nil];
-        }
-        
-        //?routeSearch&toaddressname&toaddresscoords
-        if ([[url query] containsString:@"routeSearch"]) {
-            NSString *queryString = [[url query] stringByRemovingPercentEncoding];
-            NSArray *parametes = [queryString componentsSeparatedByString:@"&"];
-            tabBarController.selectedIndex = 1;
-            if (parametes.count == 3 && [parametes[0] isEqualToString:@"routeSearch"]) {
-                SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-                //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
-                [controller initDataComponentsAndModules];
-                
-                [controller dismissViewControllerAnimated:YES completion:nil];
-                
-                NSString *name = parametes[1];
-                NSString *coords = parametes[2];
-                
-                if (name == nil || coords == nil)
-                    return NO;
-                
-                [controller openRouteViewToLocationName:name locationCoords:coords];
-                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromRoutesWidget label:@"routeSearch" value:nil];
-            }
-        }
-        
-        if ([[url query] containsString:@"openStop"]) {
-            NSArray *parts = [[url query] componentsSeparatedByString:@"-"];
-            if (parts.count == 2) {
-                if (tabBarController.selectedIndex != 0) {
-                    tabBarController.selectedIndex = 0;
-                }
-                
-                [controller.navigationController popToRootViewControllerAnimated:NO];
-                [controller openStopViewForCode:parts[1]];
-                
-                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"openStop" value:nil];
-            }
-        }
-        
-        if ([[url query] isEqualToString:@"widgetSettings"]) {
-            [controller openWidgetSettingsView];
-            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"widgetSettings" value:nil];
-        }
-        
-        //    [self.window.rootViewController presentViewController: controller animated:YES completion:nil];
-        
-        return YES;
-    }
-    
-    return NO;
+    MainTabBarController *tabBarController = (MainTabBarController *)self.window.rootViewController;
+    return [tabBarController handleDeepLink:url sourceApplication:sourceApplication annotation:annotation];
 }
+
 
 -(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
 //    NSLog(@"UserInfo: %@", userActivity.userInfo);
@@ -251,55 +129,32 @@
 }
 
 -(void)openRouteForNamedBookmarkNamed:(NSString *)bookmarkName{
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
-    
-    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-    
-    if (tabBarController.selectedIndex != 0) {
-        tabBarController.selectedIndex = 0;
+    NamedBookmark *bookmark = [[RettiDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForName:bookmarkName];
+    if (bookmark) {
+        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:bookmark.name toCoords:bookmark.coords fromLocation:@"Current location" fromCoords:nil];
+        [self switchToRouteSearchViewWithRouteParameter:searchParms];
     }
-    
-    [controller.navigationController popToRootViewControllerAnimated:NO];
-    [controller openRouteViewToNamedBookmarkNamed:bookmarkName];
 }
 
 -(void)openRouteForSavedRouteNamed:(NSString *)routeUniqueName{
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
-    
-    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-    
-    if (tabBarController.selectedIndex != 0) {
-        tabBarController.selectedIndex = 0;
+    RouteEntity *route = [[RettiDataManager sharedManager] fetchSavedRouteFromCoreDataForCode:routeUniqueName];
+    if (route) {
+        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:route.toLocationName toCoords:route.toLocationCoordsString fromLocation:route.fromLocationName fromCoords:route.fromLocationCoordsString];
+        [self switchToRouteSearchViewWithRouteParameter:searchParms];
     }
-    
-    [controller.navigationController popToRootViewControllerAnimated:NO];
-    [controller openRouteViewForSavedRouteWithName:routeUniqueName];
 }
 
 -(void)openStopDetailForStopWithCode:(NSString *)stopCode{
     if (!stopCode)
         return;
     
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
-    
-    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-    
-    if (tabBarController.selectedIndex != 0) {
-        tabBarController.selectedIndex = 0;
-    }
-    
-    [controller.navigationController popToRootViewControllerAnimated:NO];
-    [controller openStopViewForCode:stopCode];
+    [self openStopViewForCode:stopCode];
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     UIApplicationState applicationState = application.applicationState;
     if (application.applicationState == UIApplicationStateInactive || applicationState == UIApplicationStateBackground) {
-//        [application presentLocalNotificationNow:notification];
         [self searchRouteFromRoutineNotification:notification];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
     }else if (application.applicationState == UIApplicationStateActive) {
@@ -311,44 +166,36 @@
     }
 }
 
-
 -(void)searchRouteFromRoutineNotification:(UILocalNotification *)locationNotification{
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * routeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:1];
-    
-    RouteSearchViewController *routeViewController = (RouteSearchViewController *)[[routeViewNavController viewControllers] firstObject];
-    
-    tabBarController.selectedIndex = 1;
-    [routeViewController.navigationController popToRootViewControllerAnimated:NO];
-    
-    if (routeViewController.isViewLoaded) {
-        [routeViewController searchRouteForFromLocation:locationNotification.userInfo[kRoutineNotificationFromName]
-                                     fromLocationCoords:locationNotification.userInfo[kRoutineNotificationFromCoords]
-                                          andToLocation:locationNotification.userInfo[kRoutineNotificationToName]
-                                       toLocationCoords:locationNotification.userInfo[kRoutineNotificationToCoords]];
-    }else{
-        routeViewController.prevFromLocation = locationNotification.userInfo[kRoutineNotificationFromName];
-        routeViewController.prevFromCoords = locationNotification.userInfo[kRoutineNotificationFromCoords];
-        routeViewController.prevToLocation = locationNotification.userInfo[kRoutineNotificationToName];
-        routeViewController.prevToCoords = locationNotification.userInfo[kRoutineNotificationToCoords];
-    }
+    RouteSearchParameters *searchParams = [[RouteSearchParameters alloc] initWithToLocation:locationNotification.userInfo[kRoutineNotificationToName] toCoords:locationNotification.userInfo[kRoutineNotificationToCoords] fromLocation:locationNotification.userInfo[kRoutineNotificationFromName] fromCoords:locationNotification.userInfo[kRoutineNotificationFromCoords]];
+    [self switchToRouteSearchViewWithRouteParameter:searchParams];
 }
 
--(void)getAndInitHomeViewController{
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * homeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:0];
-    
-    SearchController *controller = (SearchController *)[[homeViewNavController viewControllers] firstObject];
-    //    [controller initDataComponentsAndModulesWithManagedObjectCOntext:self.managedObjectContext];
-    [controller initDataComponentsAndModules];
+-(void)switchToHomeTab {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController switchToHomeTab];
 }
 
--(RouteSearchViewController *)getAndInitRouteSearchViewController{
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UINavigationController * routeViewNavController = (UINavigationController *)[[tabBarController viewControllers] objectAtIndex:1];
-    
-    return (RouteSearchViewController *)[[routeViewNavController viewControllers] firstObject];
+-(void)openStopViewForCode:(NSString *)stopCode {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController openStopWithCode:stopCode];
 }
+
+-(void)switchToRouteSearchViewWithRouteParameter:(RouteSearchParameters  *)searchParameters {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController setupAndSwithToRouteSearchViewWithSearchParameters:searchParameters];
+}
+
+-(void)switchToBookmarksTab {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController switchToBookmarksTab];
+}
+
+-(void)switchToAddBookmarksController {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController switchToAddBookmarksTab];
+}
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {

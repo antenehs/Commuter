@@ -43,7 +43,7 @@ NSString *kTrainCodesKey = @"trainCodes";
     reqestCount += lineCodes && lineCodes.count > 0 ? 1 : 0;
     reqestCount += trainCodes && trainCodes.count > 0 ? 1 : 0;
     
-    if (trainCodes && trainCodes.count > 0 && hslDevApiFetchFailCount < 10) {
+    if (trainCodes && trainCodes.count > 0) {
         [hslLiveAPI getAllLiveVehiclesFromHSLDev:trainCodes withCompletionBlock:^(NSArray *vehicles, NSString *errorString){
             reqestCount--;
             if (!errorString) {
@@ -60,7 +60,7 @@ NSString *kTrainCodesKey = @"trainCodes";
                 
                 hslDevApiFetchFailCount++;
                 
-                [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Dev failed. Error: %@", errorString] value:nil];
+                [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Dev failed. Error: %@", errorString] value:[NSNumber numberWithInteger:hslDevApiFetchFailCount]];
             }
             
             if (reqestCount == 0) {
@@ -71,7 +71,7 @@ NSString *kTrainCodesKey = @"trainCodes";
         }];
     }
     
-    if (lineCodes && lineCodes.count > 0 && hslLiveApiFetchFailCount < 10) {
+    if (lineCodes && lineCodes.count > 0) {
         [hslLiveAPI getAllLiveVehiclesFromHSLLive:lineCodes withCompletionBlock:^(NSArray *vehicles, NSString *errorString){
             reqestCount--;
             if (!errorString) {
@@ -88,7 +88,7 @@ NSString *kTrainCodesKey = @"trainCodes";
                 
                 hslLiveApiFetchFailCount++;
                 
-                [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Live failed. Error: %@", errorString] value:nil];
+                [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Live failed. Error: %@", errorString] value:[NSNumber numberWithInteger:hslDevApiFetchFailCount]];
             }
             
             if (reqestCount == 0) {

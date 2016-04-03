@@ -14,6 +14,7 @@
 #import "RettiDataManager.h"
 #import "ReittiRemindersManager.h"
 #import "SettingsManager.h"
+#import "StopViewController.h"
 
 typedef enum{
     RouteListViewLoactionBottom = 1,

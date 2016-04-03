@@ -286,6 +286,8 @@
 //Expected format longitude,latitude
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString{
     NSArray *coords = [coordString componentsSeparatedByString:@","];
+    if (!coords || coords.count < 2)
+        return CLLocationCoordinate2DMake(0, 0);
     
     CLLocationCoordinate2D coord = {.latitude =  [[coords objectAtIndex:1] floatValue], .longitude =  [[coords objectAtIndex:0] floatValue]};
     
@@ -293,7 +295,6 @@
 }
 
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord{
-    
     return [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
 }
 

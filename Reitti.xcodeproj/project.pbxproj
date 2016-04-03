@@ -256,6 +256,13 @@
 		665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E791A0558C300797ABA /* addIcon-green.png */; };
 		665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */; };
 		665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E7F1A05791E00797ABA /* stopIcon-dark.png */; };
+		665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */; };
+		665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */; };
+		665BA1B21CAF05EB0091C180 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1B11CAF05EB0091C180 /* MainTabBarController.m */; };
+		665BA1B31CAF05EB0091C180 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1B11CAF05EB0091C180 /* MainTabBarController.m */; };
+		665BA1B61CAF0C550091C180 /* RouteSearchParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */; };
+		665BA1B71CAF0C550091C180 /* RouteSearchParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */; };
+		665BA1B81CAF0C550091C180 /* RouteSearchParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */; };
 		6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */; };
 		6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08A1B5EEE2900DC20D0 /* createCardJS.js */; };
 		6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
@@ -1849,6 +1856,12 @@
 		665A1E7C1A055D8200797ABA /* WidgetSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetSettingsViewController.h; sourceTree = "<group>"; };
 		665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetSettingsViewController.m; sourceTree = "<group>"; };
 		665A1E7F1A05791E00797ABA /* stopIcon-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stopIcon-dark.png"; path = "Pictures/Version 2.2/stopIcon-dark.png"; sourceTree = "<group>"; };
+		665BA1AC1CAAE93A0091C180 /* SwitchToRouteViewSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchToRouteViewSegue.h; sourceTree = "<group>"; };
+		665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchToRouteViewSegue.m; sourceTree = "<group>"; };
+		665BA1B01CAF05EB0091C180 /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
+		665BA1B11CAF05EB0091C180 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
+		665BA1B41CAF0C550091C180 /* RouteSearchParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSearchParameters.h; sourceTree = "<group>"; };
+		665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSearchParameters.m; sourceTree = "<group>"; };
 		665EFFF619E18F5600367839 /* search-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-green-50.png"; sourceTree = "<group>"; };
 		665EFFF819E190A600367839 /* bookmark-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-green-50.png"; sourceTree = "<group>"; };
 		6662CF7C18F719C7001CD5C1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Reitti/Default@2x.png"; sourceTree = "<group>"; };
@@ -2975,6 +2988,8 @@
 				66780D871C54088100C838AA /* ServicePointsViewController.m */,
 				663E1EBE1C95B17A00C5543A /* ICloudBookmarksViewController.h */,
 				663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */,
+				665BA1B01CAF05EB0091C180 /* MainTabBarController.h */,
+				665BA1B11CAF05EB0091C180 /* MainTabBarController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -3025,6 +3040,8 @@
 				66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */,
 				663E1EC21C95D90A00C5543A /* ICloudBookmarks.h */,
 				663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */,
+				665BA1B41CAF0C550091C180 /* RouteSearchParameters.h */,
+				665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3128,6 +3145,15 @@
 				663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		665BA1AB1CAAE8F80091C180 /* Custom views */ = {
+			isa = PBXGroup;
+			children = (
+				665BA1AC1CAAE93A0091C180 /* SwitchToRouteViewSegue.h */,
+				665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */,
+			);
+			name = "Custom views";
 			sourceTree = "<group>";
 		};
 		666437B519E1478400B82BE5 /* Commuter - Reittiopas */ = {
@@ -3622,6 +3648,7 @@
 		66CA02BB1C163CB200A38858 /* View Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				665BA1AB1CAAE8F80091C180 /* Custom views */,
 				660D312D1C36FC080051DDAA /* CollectionViewLayout */,
 				66CA033D1C1778E300A38858 /* KBPopupBubble */,
 				66CA03231C17465100A38858 /* BubbleView */,
@@ -5302,6 +5329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				665BA1B61CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66780D961C5409F800C838AA /* ServicePoint.m in Sources */,
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */,
@@ -5357,6 +5385,7 @@
 				666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */,
 				6665D7841C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
+				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
 				663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */,
@@ -5447,6 +5476,7 @@
 				66F3FAEA1B4473A200DAA5B4 /* NSString+HTMLEntities.m in Sources */,
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				660715FE1B45CD2C00033049 /* TicketNames.m in Sources */,
+				665BA1B21CAF05EB0091C180 /* MainTabBarController.m in Sources */,
 				66CA03371C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */,
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				661090CA1B374B43003F2688 /* LineDetailViewController.m in Sources */,
@@ -5519,6 +5549,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				665BA1B71CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66C732C21C556DA5002544BC /* ServicePoint.m in Sources */,
 				66C732C31C556DA5002544BC /* Transport.m in Sources */,
 				66C732C41C556DA5002544BC /* HTMLElement.m in Sources */,
@@ -5574,6 +5605,7 @@
 				66C732F41C556DA5002544BC /* ToneSelectorTableViewController.m in Sources */,
 				66C732F51C556DA5002544BC /* UITableView+Helper.m in Sources */,
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
+				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
 				66C732F81C556DA5002544BC /* CommandView.m in Sources */,
 				663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */,
@@ -5664,6 +5696,7 @@
 				66C733491C556DA5002544BC /* NSString+HTMLEntities.m in Sources */,
 				66C7334A1C556DA5002544BC /* RouteLeg.m in Sources */,
 				66C7334B1C556DA5002544BC /* TicketNames.m in Sources */,
+				665BA1B31CAF05EB0091C180 /* MainTabBarController.m in Sources */,
 				66C7334C1C556DA5002544BC /* KBPopupBubbleView+Animations.m in Sources */,
 				66C7334D1C556DA5002544BC /* WebViewController.m in Sources */,
 				66C7334E1C556DA5002544BC /* LineDetailViewController.m in Sources */,
@@ -5770,6 +5803,7 @@
 				66C7356A1C556FB5002544BC /* KBPopupBubbleView+Animations.m in Sources */,
 				66C7356B1C556FB5002544BC /* JTMaterialSpinner.m in Sources */,
 				66C7356C1C556FB5002544BC /* WidgetHelpers.m in Sources */,
+				665BA1B81CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66C7356D1C556FB5002544BC /* AppManagerBase.m in Sources */,
 				66C7356E1C556FB5002544BC /* TREAPIClient.m in Sources */,
 				66C7356F1C556FB5002544BC /* TransportE.m in Sources */,

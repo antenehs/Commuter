@@ -31,12 +31,14 @@
     
     if (geoCode.getLocationType == LocationTypePOI) {
         [self.addressImageView setImage:[UIImage imageNamed:@"location-75.png"]];
+        self.nameLabel.textColor = [UIColor blackColor];
         
         self.nameLabel.text = geoCode.name;
         self.addressLabel.text = [NSString stringWithFormat:@"%@", [geoCode fullAddressString]];
     }else if (geoCode.getLocationType  == LocationTypeAddress) {
         self.separatorView.hidden = NO;
         self.addressSelectionButton.hidden = NO;
+        self.nameLabel.textColor = [UIColor blackColor];
         
         [self.addressImageView setImage:[UIImage imageNamed:@"search-75.png"]];
         self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
@@ -46,7 +48,7 @@
         
         self.nameLabel.text = @"Dropped pin";
         self.nameLabel.textColor = [AppManager systemGreenColor];
-        self.addressLabel.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
+        self.addressLabel.text = [NSString stringWithFormat:@"%@", [geoCode fullAddressString]];
     }
 }
 

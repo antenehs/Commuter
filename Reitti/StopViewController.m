@@ -90,6 +90,8 @@
     [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
     
     [self setUpMainView];
+    
+//    NSAssert(self.routeSearchHandler != nil, @"There should be route search handler");
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -157,6 +159,10 @@
     topToolBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     topToolBar.layer.borderWidth = 0.5;
     
+    topToolbarHeightConstraint.constant = self.routeSearchHandler == nil ? 0 : 44;
+    [self.view layoutSubviews];
+//    topToolBar.hidden = self.routeSearchHandler == nil;
+    
     [self setUpMapViewForBusStop];
     
     [departuresTable reloadData];
@@ -223,6 +229,22 @@
 }
 
 #pragma mark - ibactions
+- (IBAction)routeFromHerePressed:(id)sender {
+    if (self.routeSearchHandler) {
+        NSString *coords = [ReittiStringFormatter convert2DCoordToString:self.stopCoords];
+        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:nil toCoords:nil fromLocation:self.stopName fromCoords:coords];
+        self.routeSearchHandler(searchParms);
+    }
+}
+
+- (IBAction)routeToHerePressed:(id)sender {
+    if (self.routeSearchHandler) {
+        NSString *coords = [ReittiStringFormatter convert2DCoordToString:self.stopCoords];
+        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:self.stopName toCoords:coords fromLocation:nil fromCoords:nil];
+        self.routeSearchHandler(searchParms);
+    }
+}
+
 - (IBAction)BackButtonPressed:(id)sender {
 //    [SVProgressHUD dismiss];
     [self dismissViewControllerAnimated:YES completion:nil ];
@@ -582,7 +604,7 @@
     
     [view addSubview:fullTimeTableButton];
     
-    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1)];
+    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 2)];
     topLineView.backgroundColor = [AppManager systemGreenColor];
     
     [view addSubview:topLineView];
@@ -751,18 +773,18 @@
         
         RouteSearchViewController *routeSearchViewController = (RouteSearchViewController *)[navigationController.viewControllers lastObject];
         
-        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
-        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-        
-        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-        
-        routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
-        routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
-        routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
-        routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
-        routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
+//        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+//        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+//        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+//        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+//        
+//        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+//        
+//        routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
+//        routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
+//        routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
+//        routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
+//        routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
 //        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         if ([segue.identifier isEqualToString:@"routeToHere"]) {

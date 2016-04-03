@@ -61,7 +61,6 @@ typedef enum
     }
     
     currentLocationText = @"Current location";
-//    selectedTimeType = RouteTimeNow;
     
     localRouteSearchOptions = [[self.settingsManager globalRouteOptions] copy];
     if (localRouteSearchOptions == nil)
@@ -138,6 +137,10 @@ typedef enum
 }
 
 -(BOOL)isModalMode{
+    if (self.modalViewControllerMode) {
+        return [self.modalViewControllerMode boolValue];
+    }
+    
     return self.tabBarController == nil;
 }
 
@@ -395,6 +398,9 @@ typedef enum
     [fromSearchBar setText:@""];
     [toSearchBar setText:@""];
     toString = @"";
+    toCoords = nil;
+    fromString = nil;
+    fromCoords = nil;
 }
 
 -(void)setCurrentLocationIfAvailableToFromSearchBar{
@@ -650,6 +656,10 @@ typedef enum
 }
 
 - (IBAction)clearSearchButtonPressed:(id)sender {
+    [self clearSearchResults];
+}
+
+-(void)clearSearchResults {
     [self clearSearchTexts];
     
     [self.routeList removeAllObjects];
@@ -1604,7 +1614,6 @@ typedef enum
     if ([segue.identifier isEqualToString:@"searchFromAddress"] || [segue.identifier isEqualToString:@"searchToAddress"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         AddressSearchViewController *addressSearchViewController = [[navigationController viewControllers] lastObject];
-        
         
         addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:self.savedStops];
         addressSearchViewController.recentStops = [NSMutableArray arrayWithArray:self.recentStops];

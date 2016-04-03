@@ -21,6 +21,9 @@
 #import "ReittiRemindersManager.h"
 #import "SettingsManager.h"
 #import "JTMaterialSpinner.h"
+#import "RouteSearchParameters.h"
+
+typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParameter);
 
 @class StopViewController;
 
@@ -35,6 +38,8 @@
     IBOutlet UIView *topBarView;
     IBOutlet AMBlurView *bottomBarView;
     IBOutlet AMBlurView *topToolBar;
+    IBOutlet NSLayoutConstraint *topToolbarHeightConstraint;
+    
     
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
@@ -92,6 +97,8 @@
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager * settingsManager;
 @property (strong, nonatomic) ReittiRemindersManager * reittiReminderManager;
+
+@property (nonatomic, copy) RouteSearchFromStopHandler routeSearchHandler;
 
 //@property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 

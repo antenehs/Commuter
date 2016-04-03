@@ -45,6 +45,17 @@
 
 //@synthesize vehicleFetchDelegate;
 
++(id)sharedManager {
+    static RettiDataManager *sharedManager = nil;
+    static dispatch_once_t once_token;
+    
+    dispatch_once(&once_token, ^{
+        sharedManager = [[RettiDataManager alloc] init];
+    });
+    
+    return sharedManager;
+}
+
 -(id)init{
     self = [super init];
     if (self) {
@@ -2303,34 +2314,48 @@
 
 #pragma mark - ICloud methods
 - (void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     [[ICloudManager sharedManager] fetchAllBookmarksWithCompletionHandler:completionHandler];
 }
 
 - (void)updateSavedNamedBookmarksToICloud {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
     [[ICloudManager sharedManager] saveNamedBookmarksToICloud:namedBookmarks];
 }
 
 - (void)deleteNamedBookmarksFromICloud:(NSArray *)namedBookmarks {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
 }
 
 - (void)updateSavedStopsToICloud {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     NSArray *stops = [self fetchAllSavedStopsFromCoreData];
     [[ICloudManager sharedManager] saveStopsToICloud:stops];
 }
 
 - (void)deleteStopsFromICloud:(NSArray *)stops {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     [[ICloudManager sharedManager] deleteSavedStopsFromICloud:stops
      ];
 }
 
 - (void)updateSavedRoutesToICloud {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     NSArray *routes = [self fetchAllSavedRoutesFromCoreData];
     [[ICloudManager sharedManager] saveRoutesToICloud:routes];
 }
 
 - (void)deleteRoutesFromICloud:(NSArray *)routes {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
     [[ICloudManager sharedManager] deleteSavedRoutesFromICloud:routes];
 }
 

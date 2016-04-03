@@ -11,7 +11,6 @@
 #import "StopAnnotation.h"
 #import "LocationsAnnotation.h"
 #import "MyFixedLayoutGuide.h"
-#import "StopViewController.h"
 #import "ASPolylineRenderer.h"
 #import "ASPolylineView.h"
 #import "RouteViewManager.h"
@@ -1967,7 +1966,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     // Dispose of any resources that can be recreated.
 }
 
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -2002,6 +2000,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
 //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
+            
+            
             stopViewController.reittiDataManager = self.reittiDataManager;
             stopViewController.delegate = nil;
             

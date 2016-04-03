@@ -21,7 +21,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="373" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-R0-2rh">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-R0-2rh">
                         <rect key="frame" x="55" y="5" width="266" height="26"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="26" id="zZo-cy-goT"/>
@@ -30,7 +30,7 @@
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E2034" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GUC-IH-cWr">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GUC-IH-cWr">
                         <rect key="frame" x="55" y="29" width="266" height="30.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

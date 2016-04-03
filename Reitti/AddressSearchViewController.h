@@ -24,6 +24,9 @@
 - (void)searchResultSelectedCurrentLocation;
 - (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm;
 - (void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm;
+
+@optional
+- (void)searchResultSelectedARoute:(RouteEntity *)routeEntity;
 @end
 
 typedef enum

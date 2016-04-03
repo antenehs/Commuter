@@ -24,6 +24,7 @@
 #import "DroppedPinManager.h"
 #import "ASA_Helpers.h"
 #import "TableViewCells.h"
+#import "MainTabBarController.h"
 
 const NSInteger kTimerRefreshInterval = 15;
 
@@ -788,9 +789,24 @@ const NSInteger kTimerRefreshInterval = 15;
     NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
     if (dataIndex < self.dataToLoad.count) {
         if([self.dataToLoad[dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [self.dataToLoad[dataIndex] isKindOfClass:[RouteEntity class]]){
-            [self performSegueWithIdentifier:@"routeSelected" sender:self];
+//            [self performSegueWithIdentifier:@"routeSelected" sender:self];
+            RouteEntity * routeEntity = [self.dataToLoad objectAtIndex:dataIndex];
+            
+            RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:routeEntity.toLocationName toCoords:routeEntity.toLocationCoordsString fromLocation:routeEntity.fromLocationName fromCoords:routeEntity.fromLocationCoordsString];
+            [self switchToRouteSearchViewWithRouteParameter:searchParms];
+            
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved route" value:nil];
+        }else if([self.dataToLoad[dataIndex] isKindOfClass:[NamedBookmark class]]){
+            //            [self performSegueWithIdentifier:@"routeSelected" sender:self];
+            NamedBookmark *namedBookmark = [self.dataToLoad objectAtIndex:dataIndex];
+            
+            RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:namedBookmark.name toCoords:namedBookmark.coords fromLocation:nil fromCoords:nil];
+            [self switchToRouteSearchViewWithRouteParameter:searchParms];
+            
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From named bookmark" value:nil];
         }
     }
+    
 }
 
 #pragma mark - UICollectionView Datasource
@@ -1189,6 +1205,29 @@ const NSInteger kTimerRefreshInterval = 15;
     
 }
 
+#pragma mark - View transitions
+-(void)switchToRouteSearchViewWithRouteParameter:(RouteSearchParameters  *)searchParameters {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController setupAndSwithToRouteSearchViewWithSearchParameters:searchParameters];
+}
+
+-(RouteSearchViewController *)routeSearchViewWithRouteParameter:(RouteSearchParameters  *)searchParameters {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    return [tabBarController setupRouteSearchViewWithSearchParameters:searchParameters];
+}
+
+-(void)switchToAlreadySetupRouteSearchView {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController switchToRouteSearchViewController];
+}
+
+-(RouteSearchFromStopHandler)stopViewRouteSearchHandler {
+    return ^(RouteSearchParameters *searchParams){
+//        [self.navigationController popToViewController:self animated:YES];
+        [self switchToRouteSearchViewWithRouteParameter:searchParams];
+    };
+}
+
 #pragma mark - Seague
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
@@ -1214,31 +1253,34 @@ const NSInteger kTimerRefreshInterval = 15;
         }
         
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From saved stop" value:nil];
-    }else if ([segue.identifier isEqualToString:@"routeSelected"]){
-        if (dataIndex < self.dataToLoad.count){
-            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
-                
-                RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
-                
-                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-                [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
-            }
-        }
-        
-        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved route" value:nil];
-    }else if ([segue.identifier isEqualToString:@"routeToNamedBookmark"]){
-        if (dataIndex < self.dataToLoad.count){
-            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
-                
-                NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
-                
-                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-                [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
-            }
-        }
-        
-        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From named bookmark" value:nil];
-    }else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
+    }
+//    else if ([segue.identifier isEqualToString:@"routeSelected"]){
+//        if (dataIndex < self.dataToLoad.count){
+//            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+//                
+//                RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
+//                
+//                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+//                [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
+//            }
+//        }
+//        
+//        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved route" value:nil];
+//    }
+//    else if ([segue.identifier isEqualToString:@"routeToNamedBookmark"]){
+//        if (dataIndex < self.dataToLoad.count){
+//            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
+//                
+//                NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
+//                
+//                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+//                [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
+//            }
+//        }
+//        
+//        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From named bookmark" value:nil];
+//    }
+    else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
         
@@ -1286,30 +1328,38 @@ const NSInteger kTimerRefreshInterval = 15;
     }
 }
 
-- (void)configureRouteSearchNavigationController:(UINavigationController *)navigationController withNamedBookmark:(NamedBookmark *)namedBookmark{
-    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
-        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-        
-        routeSearchViewController.prevToLocation = namedBookmark.name;
-        routeSearchViewController.prevToCoords = namedBookmark.coords;
-        
-        routeSearchViewController.delegate = self;
-        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
-    }
+- (RouteSearchViewController *)routeSearchViewControllerForNamedBookmark:(NamedBookmark *)namedBookmark{
+//    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
+//        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
+//        
+//        routeSearchViewController.prevToLocation = namedBookmark.name;
+//        routeSearchViewController.prevToCoords = namedBookmark.coords;
+//        
+//        routeSearchViewController.delegate = self;
+//        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+//    }
+    
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:namedBookmark.name toCoords:namedBookmark.coords fromLocation:nil fromCoords:nil];
+    
+    return [self routeSearchViewWithRouteParameter:searchParms];
 }
 
-- (void)configureRouteSearchNavigationController:(UINavigationController *)navigationController withRouteEntity:(RouteEntity *)routeEntity{
-    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
-        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-        
-        routeSearchViewController.prevToLocation = routeEntity.toLocationName;
-        routeSearchViewController.prevToCoords = routeEntity.toLocationCoordsString;
-        routeSearchViewController.prevFromLocation = routeEntity.fromLocationName;
-        routeSearchViewController.prevFromCoords = routeEntity.fromLocationCoordsString;
-        
-        routeSearchViewController.delegate = self;
-        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
-    }
+- (RouteSearchViewController *)routeSearchControllerForRouteEntity:(RouteEntity *)routeEntity{
+//    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
+//        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
+//        
+//        routeSearchViewController.prevToLocation = routeEntity.toLocationName;
+//        routeSearchViewController.prevToCoords = routeEntity.toLocationCoordsString;
+//        routeSearchViewController.prevFromLocation = routeEntity.fromLocationName;
+//        routeSearchViewController.prevFromCoords = routeEntity.fromLocationCoordsString;
+//        
+//        routeSearchViewController.delegate = self;
+//        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+//    }
+    
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:routeEntity.toLocationName toCoords:routeEntity.toLocationCoordsString fromLocation:routeEntity.fromLocationName fromCoords:routeEntity.fromLocationCoordsString];
+    
+    return [self routeSearchViewWithRouteParameter:searchParms];
 }
 
 - (void)configureStopViewController:(StopViewController *)stopViewController withStopEntity:(StopEntity *)stopEntity{
@@ -1322,6 +1372,8 @@ const NSInteger kTimerRefreshInterval = 15;
         stopViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
         stopViewController.backButtonText = self.title;
         stopViewController.delegate = self;
+        
+        stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
     }
 }
 
@@ -1342,13 +1394,13 @@ const NSInteger kTimerRefreshInterval = 15;
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Route to named bookmark" value:nil];
             
             NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
-            
-            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
-            [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
+//
+//            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
+            return [self routeSearchViewControllerForNamedBookmark:selected];
             
 //            [navigationController setNavigationBarHidden:YES];
             
-            return navigationController;
+//            return navigationController;
         }
         
         if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
@@ -1356,12 +1408,12 @@ const NSInteger kTimerRefreshInterval = 15;
             
             RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
             
-            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
-            [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
+//            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
+            return [self routeSearchControllerForRouteEntity:selected];
             
 //            [navigationController setNavigationBarHidden:YES];
             
-            return navigationController;
+//            return navigationController;
         }
         
         if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]){
@@ -1382,11 +1434,13 @@ const NSInteger kTimerRefreshInterval = 15;
     if ([viewControllerToCommit isKindOfClass:[StopViewController class]]) {
         [self.navigationController showViewController:viewControllerToCommit sender:nil];
     }else if ([viewControllerToCommit isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *navigationController = (UINavigationController *)viewControllerToCommit;
+//        UINavigationController *navigationController = (UINavigationController *)viewControllerToCommit;
 //        [navigationController setNavigationBarHidden:NO];
-        [self showViewController:navigationController sender:nil];
+//        [self showViewController:navigationController sender:nil];
+        [self switchToAlreadySetupRouteSearchView];
     }else{
-        [self showViewController:viewControllerToCommit sender:nil];
+//        [self showViewController:viewControllerToCommit sender:nil];
+        [self switchToAlreadySetupRouteSearchView];
     }
 }
 
@@ -1423,7 +1477,6 @@ const NSInteger kTimerRefreshInterval = 15;
         }
     }
 }
-
 
 - (void)dealloc
 {

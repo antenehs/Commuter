@@ -434,6 +434,12 @@
 }
 
 #pragma mark - IB Actions
+- (IBAction)routeFromHerePressed:(id)sender {
+}
+
+- (IBAction)routeToHerePressed:(id)sender {
+}
+
 -(IBAction)bookmarkAddressButtonPressed:(id)sender{
     if (self.viewControllerMode == ViewControllerModeViewGeoCode && self.geoCode != nil) {
         self.viewControllerMode = ViewControllerModeAddNewAddress;
@@ -659,7 +665,7 @@
 }
 
 - (void)dealloc{
-    NSLog(@"BookmarksController:This ARC deleted my UIView.");
+    NSLog(@"EditAddressController:This ARC deleted my UIView.");
 }
 
 #pragma mark - Navigation

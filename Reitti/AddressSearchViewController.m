@@ -408,7 +408,13 @@
             [delegate searchResultSelectedAStop:selectedStopEntity];
         }];
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]){
-        [self performSegueWithIdentifier:@"savedRouteSelected" sender:self];
+//        [self performSegueWithIdentifier:@"savedRouteSelected" sender:self];
+        RouteEntity * selected = [self.dataToLoad objectAtIndex:indexPath.row];
+        [self dismissViewControllerAnimated:NO completion:^{
+            if ([delegate respondsToSelector:@selector(searchResultSelectedARoute:)]) {
+                [delegate searchResultSelectedARoute:selected];
+            }
+        }];
     }
 }
 

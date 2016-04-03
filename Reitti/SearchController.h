@@ -170,8 +170,7 @@ typedef enum
 -(void)initDataComponentsAndModules;
 -(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext;
 -(void)openRouteSearchView;
--(void)openRouteViewToLocationName:(NSString *)locationName locationCoords:(NSString *)coords;
--(void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName;
+//-(void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName;
 -(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute;
 -(void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo;
 -(void)openBookmarksView;

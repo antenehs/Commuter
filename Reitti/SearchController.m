@@ -29,6 +29,7 @@
 #import "ASA_Helpers.h"
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
+#import "MainTabBarController.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -488,51 +489,50 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.reittiDataManager updateSavedStopsDefaultValueForStops:savedStops];
     //test
 //    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
+//    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
 }
 
 #pragma mark - Annotation helpers
 -(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
-    selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
-    selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
-    [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+    NSString *toLocationName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
+    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
+    
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocationName toCoords:coordString fromLocation:nil fromCoords:nil];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
 }
 
 -(void)openRouteForNamedAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
-    selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@", title];
+    NSString *toLocationName = [NSString stringWithFormat:@"%@", title];
     if (droppedPinGeoCode != nil) {
         if ([title isEqualToString:@"Dropped pin"]) {
-            selectedAnnotationUniqeName = [droppedPinGeoCode getStreetAddressString];
+            toLocationName = [droppedPinGeoCode getStreetAddressString];
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
         }else{
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
         }
     }
     
-    selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
+    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
     
-    selectedFromLocation = nil;
-    selectedFromCoords = nil;
-    [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocationName toCoords:coordString fromLocation:nil fromCoords:nil];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
 }
 
 -(void)openRouteFromAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
-    selectedFromLocation = [NSString stringWithFormat:@"%@", title];
+    NSString *fromLocation = title;
     if (droppedPinGeoCode != nil) {
         if ([title isEqualToString:@"Dropped pin"]) {
-            selectedFromLocation = [droppedPinGeoCode getStreetAddressString];
+            fromLocation = [droppedPinGeoCode getStreetAddressString];
         }
     }
     
-    selectedFromCoords = [NSString stringWithFormat:@"%f,%f",coords.longitude, coords.latitude];
-    
-    selectedAnnotationUniqeName = nil;
-    selectedAnnotationCoords = nil;
-    [self performSegueWithIdentifier:@"routeSearchController" sender:nil];
+    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:nil toCoords:nil fromLocation:fromLocation fromCoords:coordString];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
 }
@@ -1993,78 +1993,60 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma - mark View transition methods
 
-- (void)openBookmarksView{
-    [self performSegueWithIdentifier: @"openBookmarks" sender: self];
+- (IBAction)openRouteSearchView:(id)sender{
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:mainSearchBar.text toCoords:prevSearchedCoords fromLocation:nil fromCoords:nil];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
 
-- (void)openRouteSearchView{
-    [self performSegueWithIdentifier: @"switchToRouteSearch" sender: self];
-}
-
-- (void)openRouteViewToLocationName:(NSString *)locationName locationCoords:(NSString *)coords{
-    selectedFromLocation = @"Current location";
-    selectedAnnotationUniqeName = locationName;
-    selectedAnnotationCoords = coords;
-    
-    [self performSegueWithIdentifier: @"routeSearchController" sender: self];
-}
-
-- (void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName{
-    NamedBookmark *bookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForName:bookmarkName];
-    if (bookmark) {
-        selectedFromLocation = @"Current location";
-        selectedAnnotationUniqeName = bookmark.name;
-        selectedAnnotationCoords = bookmark.coords;
-        
-        [self performSegueWithIdentifier: @"routeSearchController" sender: self];
-    }
-}
+//- (void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName{
+//    NamedBookmark *bookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForName:bookmarkName];
+//    if (bookmark) {
+//        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:bookmark.name toCoords:bookmark.coords fromLocation:@"Current location" fromCoords:nil];
+//        [self switchToRouteSearchViewWithRouteParameter:searchParms];
+//    }
+//}
 
 -(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute{
     RouteEntity *route = [self.reittiDataManager fetchSavedRouteFromCoreDataForCode:savedRoute];
     if (route) {
-        selectedFromLocation = route.fromLocationName;
-        selectedFromCoords = route.fromLocationCoordsString;
-        selectedAnnotationUniqeName = route.toLocationName;
-        selectedAnnotationCoords = route.toLocationCoordsString;
-        
-        [self performSegueWithIdentifier: @"routeSearchController" sender: self];
+        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:route.toLocationName toCoords:route.toLocationCoordsString fromLocation:route.fromLocationName fromCoords:route.fromLocationCoordsString];
+        [self switchToRouteSearchViewWithRouteParameter:searchParms];
     }
 }
 
 - (void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo{
     MKMapItem *source = directionsInfo.source;
+    NSString *fromLocation, *fromCoords, *toLocation, *toCoords;
     if (source.isCurrentLocation) {
-        selectedFromLocation = @"Current location";
+        fromLocation = @"Current location";
     }else{
-        selectedFromCoords = [NSString stringWithFormat:@"%f,%f",source.placemark.location.coordinate.longitude, source.placemark.location.coordinate.latitude];
-        selectedFromLocation = [NSString stringWithFormat:@"%@",
+        fromCoords = [NSString stringWithFormat:@"%f,%f",source.placemark.location.coordinate.longitude, source.placemark.location.coordinate.latitude];
+        fromLocation = [NSString stringWithFormat:@"%@",
                                        [[source.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
                                        ];
     }
     
     MKMapItem *destination = directionsInfo.destination;
     if (destination.isCurrentLocation) {
-        selectedAnnotationUniqeName = @"Current location";
+        toLocation = @"Current location";
     }else{
-        selectedAnnotationCoords = [NSString stringWithFormat:@"%f,%f",destination.placemark.location.coordinate.longitude, destination.placemark.location.coordinate.latitude];
+        toCoords = [NSString stringWithFormat:@"%f,%f",destination.placemark.location.coordinate.longitude, destination.placemark.location.coordinate.latitude];
 //        NSLog(@"Address of placemark: %@", ABCreateStringWithAddressDictionary(destination.placemark.addressDictionary, NO));
 //        NSLog(@"Address Dictionary: %@",destination.placemark.addressDictionary);
         if ([destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] != nil) {
-            selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@",
+            toLocation = [NSString stringWithFormat:@"%@",
                                            [[destination.placemark.addressDictionary objectForKey:@"FormattedAddressLines"] componentsJoinedByString:@" "]
                                            ];
         }else{
-            selectedAnnotationUniqeName = [NSString stringWithFormat:@"%@, %@",
+            toLocation = [NSString stringWithFormat:@"%@, %@",
                                            [destination.placemark.addressDictionary objectForKey:@"Street"],
                                            [destination.placemark.addressDictionary objectForKey:@"City"]
                                           ];
         }
     }
     
-//    NSDate *startDate = directionsInfo.departureDate;
-    
-    [self performSegueWithIdentifier: @"routeSearchController" sender: self];
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocation toCoords:toCoords fromLocation:fromLocation fromCoords:fromCoords];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
 
 -(void)openWidgetSettingsView{
@@ -2190,24 +2172,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (IBAction)openBookmarkedButtonPressed:(id)sender {
-    [self performSegueWithIdentifier:@"openBookmarks" sender:self];
-}
-
 - (IBAction)openSettingsButtonPressed:(id)sender {
     [self performSegueWithIdentifier:@"showSettings" sender:self];
-}
-
-//- (IBAction)openMoreViewButtonPressed:(id)sender {
-//    [self.reittiDataManager fetchAllLiveVehicles];
-//}
-
-- (IBAction)seeFullTimeTablePressed:(id)sender {
-    NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
-    
-    if (![[UIApplication sharedApplication] openURL:url])
-        
-        NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 
 - (IBAction)hideSearchResultViewPressed:(id)sender {
@@ -2437,6 +2403,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 #pragma mark - Address search view delegates
+- (void)searchResultSelectedARoute:(RouteEntity *)routeEntity {
+    
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:routeEntity.toLocationName toCoords:routeEntity.toLocationCoordsString fromLocation:routeEntity.fromLocationName fromCoords:routeEntity.fromLocationCoordsString];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
+}
+
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
@@ -2481,7 +2453,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
     mainSearchBar.text = prevSearchTerm;
-    [self performSegueWithIdentifier:@"switchToRouteSearch" sender:nil];
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:mainSearchBar.text toCoords:prevSearchedCoords fromLocation:nil fromCoords:nil];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
+//    [self performSegueWithIdentifier:@"switchToRouteSearchTab" sender:nil];
 }
 
 #pragma mark - settings view delegate
@@ -2593,35 +2567,23 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //    [self.reittiDataManager deleteAllHistoryRoutes];
 }
 
+-(RouteSearchFromStopHandler)stopViewRouteSearchHandler {
+    return ^(RouteSearchParameters *searchParams){
+        //        [self.navigationController popToViewController:self animated:YES];
+        [self switchToRouteSearchViewWithRouteParameter:searchParams];
+    };
+}
+
+#pragma mark - View transitions
+-(void)switchToRouteSearchViewWithRouteParameter:(RouteSearchParameters  *)searchParameters {
+    MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+    [tabBarController setupAndSwithToRouteSearchViewWithSearchParameters:searchParameters];
+}
+
 #pragma mark - Seague
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	if ([segue.identifier isEqualToString:@"openBookmarks"])
-	{
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-		BookmarksViewController *bookmarksViewController = [[navigationController viewControllers] lastObject];
-        
-        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
-        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-        
-        bookmarksViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
-        bookmarksViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
-        bookmarksViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
-        bookmarksViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
-        bookmarksViewController.savedNamedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        bookmarksViewController.darkMode = self.darkMode;
-        bookmarksViewController.delegate = self;
-        bookmarksViewController.mode = bookmarkViewMode;
-//        bookmarksViewController.droppedPinGeoCode = droppedPinGeoCode;
-        bookmarksViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [bookmarksViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-//        bookmarksViewController.reittiDataManager = self.reittiDataManager;
-    }
-    
     if ([segue.identifier isEqualToString:@"seeFullTimeTable"]) {
         WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
         NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
@@ -2673,44 +2635,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //        addressSearchViewController.reittiDataManager = self.reittiDataManager;
     }
     
-    if ([segue.identifier isEqualToString:@"routeSearchController"] || [segue.identifier isEqualToString:@"switchToRouteSearch"]) {
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-        
-        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
-        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-        
-        routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
-        routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
-        routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
-        routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
-        routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        
-//        routeSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
-        
-        routeSearchViewController.prevToLocation = mainSearchBar.text;
-        
-        if ([segue.identifier isEqualToString:@"routeSearchController"]) {
-            routeSearchViewController.prevToLocation = selectedAnnotationUniqeName;
-            routeSearchViewController.prevToCoords = selectedAnnotationCoords;
-            
-            routeSearchViewController.prevFromLocation = selectedFromLocation;
-            routeSearchViewController.prevFromCoords = selectedFromCoords;
-        }
-        
-        if ([segue.identifier isEqualToString:@"switchToRouteSearch"]) {
-            routeSearchViewController.prevToLocation = mainSearchBar.text;
-            routeSearchViewController.prevToCoords = prevSearchedCoords;
-        }
-        
-        routeSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [routeSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-//        routeSearchViewController.reittiDataManager = self.reittiDataManager;
-    }
-    
     if ([segue.identifier isEqualToString:@"infoViewSegue"]) {
         UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
         InfoViewController *infoViewController = [[navController viewControllers] lastObject];
@@ -2741,7 +2665,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
         controller.namedBookmark = selectedNamedBookmark;
-//        controller.droppedPinGeoCode = droppedPinGeoCode;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
         controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
@@ -2793,6 +2716,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         stopViewController.stopShortCode = busStop.codeShort;
         stopViewController.stopName = busStop.name;
         
+        stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
@@ -2805,6 +2729,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         stopViewController.stopShortCode = selectedStopShortCode;
         stopViewController.stopName = selectedStopName;
         
+        stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }

@@ -52,6 +52,7 @@ typedef struct {
     NSMutableArray *TREGeocodeResponseQueue;
 }
 
++(id)sharedManager;
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
 -(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords;
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords;
