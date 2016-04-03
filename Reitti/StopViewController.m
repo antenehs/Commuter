@@ -574,7 +574,7 @@
     
     [cell setCellHeight:56];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    cell.backgroundColor = [UIColor clearColor];
+//    cell.backgroundColor = [UIColor clearColor];
     return cell;
 
 }
@@ -597,14 +597,14 @@
     fullTimeTableButton = [UIButton buttonWithType:UIButtonTypeSystem];
     fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 107, 0, 100, 30);
     [fullTimeTableButton setTitle:@"Full timetable" forState:UIControlStateNormal];
-    [fullTimeTableButton setTintColor:[AppManager systemOrangeColor]];
+    [fullTimeTableButton setTintColor:[AppManager systemGreenColor]];
     [fullTimeTableButton addTarget:self action:@selector(showFullTimeTable:) forControlEvents:UIControlEventTouchUpInside];
     
     fullTimeTableButton.enabled = stopFetched;
     
     [view addSubview:fullTimeTableButton];
     
-    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 2)];
+    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1.5)];
     topLineView.backgroundColor = [AppManager systemGreenColor];
     
     [view addSubview:topLineView];

@@ -75,6 +75,7 @@ static char UIScrollViewParallaxView;
         [self.parallaxView.currentSubView removeFromSuperview];
         [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.parallaxView setCustomView:view];
+        [self.parallaxView.superview sendSubviewToBack:self.parallaxView];
     }
     else
     {
