@@ -58,12 +58,13 @@
     bluredBackViewContainer.backgroundColor = [UIColor whiteColor];
     UIImageView *pictureView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
     pictureView.frame = bluredBackViewContainer.frame;
-    pictureView.alpha = 0.5;
+    pictureView.alpha = 0.9;
     
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     blurEffectView.frame = self.bounds;
     blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    blurEffectView.alpha = 0.98;
     
     [bluredBackViewContainer addSubview:pictureView];
     [bluredBackViewContainer addSubview:blurEffectView];

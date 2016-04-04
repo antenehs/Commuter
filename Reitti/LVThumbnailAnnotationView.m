@@ -215,9 +215,9 @@ static CGFloat const kLVThumbnailAnnotationViewAnimationDuration = 0.25f;
     self.code = thumbnail.code;
     self.titleLabel.text = thumbnail.title;
     if (thumbnail.title.length == 2) {
-        self.titleLabel.frame = CGRectMake(10.0f, 10.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
+        self.titleLabel.frame = CGRectMake(9.0f, 10.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
     }else if (thumbnail.title.length == 3){
-        self.titleLabel.frame = CGRectMake(10.0f, 8.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
+        self.titleLabel.frame = CGRectMake(9.0f, 8.5f, kLVThumbnailAnnotationViewStandardWidth - 20, kLVThumbnailAnnotationViewStandardWidth - 20);
     }
     
     self.imageView.image = thumbnail.image;

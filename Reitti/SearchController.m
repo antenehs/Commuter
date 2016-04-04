@@ -96,9 +96,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
             [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
-            
-            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         }
+        
+        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
         
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update

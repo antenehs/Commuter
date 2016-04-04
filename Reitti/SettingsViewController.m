@@ -65,7 +65,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         //----------
         mapSectionNumberOfRows = 0;
         mapTypeRow = mapSectionNumberOfRows++;
-        liveVehiclesRow = [self.settingsManager userLocation] == HSLRegion ? mapSectionNumberOfRows++ : -1;
+        liveVehiclesRow = mapSectionNumberOfRows++;
         
         mapSettingsSection = sectionNumber++;
         

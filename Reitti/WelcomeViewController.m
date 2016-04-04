@@ -13,6 +13,10 @@
 
 @interface WelcomeViewController ()
 
+@property (nonatomic, strong)NSMutableArray *imagesArray;
+@property (nonatomic, strong)NSMutableArray *titleArray;
+@property (nonatomic, strong)NSMutableArray *descArray;
+
 @end
 
 @implementation WelcomeViewController
@@ -22,23 +26,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initContentArrays];
     
     doneButton.layer.cornerRadius = 10;
     
-    [self.view asa_SetBlurredBackgroundWithImageNamed:nil];
-    
-//    logoImageView.alpha = 0;
-//    viewTitle.alpha = 0;
-//    pageControl.alpha = 0;
-//    doneButton.alpha = 0;
-//    mainScrollView.alpha = 0;
+    scrollingBackView = [[UIView alloc] initWithFrame:self.view.frame];
     
     logoImageView.image = [AppManager roundedAppLogoSmall];
     viewTitle.text = [NSString stringWithFormat:@"New in Commuter %@", [AppManager currentAppVersion]];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [self setupScrollingBackView];
+    [self updateBackScrollViewPosition];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [self setupScrollingBackView];
     
     [self setUpScrollView];
     
@@ -52,6 +57,34 @@
     }
     [self setUpScrollView];
     mainScrollView.contentOffset = CGPointMake(0,0);
+    
+    [self setupScrollingBackView];
+    [self updateBackScrollViewPosition];
+}
+
+-(void)setupScrollingBackView {
+    CGRect backViewFrame = self.view.frame;
+    backViewFrame.size.height = backViewFrame.size.height > backViewFrame.size.width ? backViewFrame.size.height : backViewFrame.size.width;
+    backViewFrame.size.width = ((self.imagesArray.count * backViewFrame.size.width)/2) + backViewFrame.size.width;
+    scrollingBackView.frame = backViewFrame;
+    
+    if (!scrollingBackView.superview) {
+        [scrollingBackView asa_SetBlurredBackgroundWithImageNamed:nil];
+        
+        [self.view addSubview:scrollingBackView];
+        [self.view sendSubviewToBack:scrollingBackView];
+    }
+}
+
+-(void)updateBackScrollViewPosition {
+    CGRect backViewFrame = scrollingBackView.frame;
+    CGFloat scrollViewX = mainScrollView.contentOffset.x;
+    
+    CGFloat xposition = 0 - scrollViewX/4;
+    
+    backViewFrame.origin.x = xposition;
+    
+    scrollingBackView.frame = backViewFrame;
 }
 
 -(void)presentViewAnimated:(BOOL)animated{
@@ -83,56 +116,37 @@
     }];
 }
 
+- (void)initContentArrays {
+    self.imagesArray = [NSMutableArray arrayWithObjects:@"new-icloudSync",
+                                   @"new-tre-live",
+                                   nil];
+    self.titleArray = [NSMutableArray arrayWithObjects:@"iCloud Sync",
+                                  @"Live Vehicles in Tampere",
+                                  nil];
+    self.descArray = [NSMutableArray arrayWithObjects:@"Easily sync your bookmarks in all your devices using iCloud. No registration. No separate login.",
+                                 @"Finally live vehicles tracking in Tampere. See all bus locations from the map or specific vehicles from the line views.",
+                                 nil];
+}
+
 - (void)setUpScrollView{
-    
-    NSMutableArray *imagesArray = [NSMutableArray arrayWithObjects:@"newRoutesWidget.png",
-                            @"newNearbyDepartures.png",
-                            @"new3dTouchShortcuts.png",
-                            @"new3dPeekandPop.png",
-                            @"newLiveVehiclesInLines.png",
-                            @"routeDisruptions.png",
-                            @"newAutomaticDepartures.png",
-                            @"newServicePoints.png",
-                            @"newLinesView.png",
-                            nil];
-    NSMutableArray *titleArray = [NSMutableArray arrayWithObjects:@"Routes Widget",
-                           @"Nearby Departures",
-                           @"App Shortcuts",
-                           @"Peek and Pop",
-                           @"Live Lines",
-                           @"Disruptions",
-                           @"Automatic Departures",
-                           @"HSL Sales Points",
-                           @"Redesigned Lines",
-                           nil];
-    NSMutableArray *descArray = [NSMutableArray arrayWithObjects:@"New Routes Widget for quick route suggestions to your saved addresses. Just swipe down from top, and you are set to go.",
-                          @"Another easy way to see departures from stops near you. #Not-doing-much",
-                          @"Even more way for a quick access for routes to your saved addresses. Are you seeing the pattern? #Not-doing-much",
-                          @"To scared to leave the route view, but still want to see the timetable at some stop? Well, now you can just peek at it without leaving.",
-                          @"Lines view has gotten live. See where exactly the tram or train is on the line.(Only in Helsinki region)",
-                          @"Get disruption info that affects your searched routes only. We didn't think you'd care about a canceled train 30kms away.",
-                          @"In another #Not-doing-much edition, you only need to open the bookmarks view to see departures from your favourite stops.",
-                          @"Let's say hypothetically you woke up on a saturday somewhere you never been before, with no value on your travel card. Don't worry.",
-                          @"Lines view is redesigned to automatically suggest lines from stops near you and your favourite stops.",
-                          nil];
     
     if (![AppManager isProVersion]) {
         //Remove backwards to prevent changing of indexes
         
-        [imagesArray removeObjectAtIndex:7];
-        [imagesArray removeObjectAtIndex:5];
-        [imagesArray removeObjectAtIndex:4];
-        [imagesArray removeObjectAtIndex:0];
-        
-        [titleArray removeObjectAtIndex:7];
-        [titleArray removeObjectAtIndex:5];
-        [titleArray removeObjectAtIndex:4];
-        [titleArray removeObjectAtIndex:0];
-        
-        [descArray removeObjectAtIndex:7];
-        [descArray removeObjectAtIndex:5];
-        [descArray removeObjectAtIndex:4];
-        [descArray removeObjectAtIndex:0];
+//        [imagesArray removeObjectAtIndex:7];
+//        [imagesArray removeObjectAtIndex:5];
+//        [imagesArray removeObjectAtIndex:4];
+//        [imagesArray removeObjectAtIndex:0];
+//        
+//        [titleArray removeObjectAtIndex:7];
+//        [titleArray removeObjectAtIndex:5];
+//        [titleArray removeObjectAtIndex:4];
+//        [titleArray removeObjectAtIndex:0];
+//        
+//        [descArray removeObjectAtIndex:7];
+//        [descArray removeObjectAtIndex:5];
+//        [descArray removeObjectAtIndex:4];
+//        [descArray removeObjectAtIndex:0];
     }
     
     float xPosition = 0;
@@ -141,18 +155,18 @@
     
     CGRect vFrame = CGRectMake(0, 0, mainScrollView.frame.size.width, mainScrollView.frame.size.height);
     pageWidth = vFrame.size.width;
-    for (int i = 0; i < imagesArray.count; i++) {
+    for (int i = 0; i < self.imagesArray.count; i++) {
         DetailImageView* iView = [[DetailImageView alloc] initFromNib];
         
         UIImageView *imageView = (UIImageView *)[iView viewWithTag:1001];
-        [imageView setImage:[UIImage imageNamed:[imagesArray objectAtIndex:i]]];
+        [imageView setImage:[UIImage imageNamed:[self.imagesArray objectAtIndex:i]]];
         
         UILabel *titleLabel = (UILabel *)[iView viewWithTag:1002];
-        titleLabel.text = [titleArray objectAtIndex:i];
+        titleLabel.text = [self.titleArray objectAtIndex:i];
         titleLabel.textColor = [UIColor whiteColor];
         
         UILabel *descLabel = (UILabel *)[iView viewWithTag:1003];
-        descLabel.text = [descArray objectAtIndex:i];
+        descLabel.text = [self.descArray objectAtIndex:i];
         descLabel.textColor = [UIColor whiteColor];
         
         [iView setBackgroundColor:[UIColor clearColor]];
@@ -163,21 +177,21 @@
         xPosition += vFrame.size.width;
         
     }
-    NSArray* allTheViewsInMyNIB = [[NSBundle mainBundle] loadNibNamed:@"Features" owner:self options:nil];
-    UIView *moreView = allTheViewsInMyNIB[0];
-    [moreView setBackgroundColor:[UIColor clearColor]];
-    
-    vFrame.origin.x = xPosition;
-    moreView.frame = vFrame;
-    
-    [mainScrollView addSubview:moreView];
-    xPosition += vFrame.size.width;
+//    NSArray* allTheViewsInMyNIB = [[NSBundle mainBundle] loadNibNamed:@"Features" owner:self options:nil];
+//    UIView *moreView = allTheViewsInMyNIB[0];
+//    [moreView setBackgroundColor:[UIColor clearColor]];
+//    
+//    vFrame.origin.x = xPosition;
+//    moreView.frame = vFrame;
+//    
+//    [mainScrollView addSubview:moreView];
+//    xPosition += vFrame.size.width;
     
     [mainScrollView layoutIfNeeded];
     
     mainScrollView.contentSize = CGSizeMake(xPosition, vFrame.size.height);
     
-    pageControl.numberOfPages = imagesArray.count + 1;
+    pageControl.numberOfPages = self.imagesArray.count /* + 1 */;
 }
 
 
@@ -188,6 +202,9 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     float currentPos = scrollView.contentOffset.x;
     pageControl.currentPage = lround(currentPos/pageWidth);
+    
+    if (currentPos > 0 && currentPos < (scrollView.contentSize.width - pageWidth))
+        [self updateBackScrollViewPosition];
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

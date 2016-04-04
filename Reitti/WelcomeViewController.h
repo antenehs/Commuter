@@ -18,6 +18,8 @@
     IBOutlet UIImageView *logoImageView;
     IBOutlet UILabel *viewTitle;
     
+    IBOutlet UIView *scrollingBackView;
+    
     float pageWidth;
 }
 

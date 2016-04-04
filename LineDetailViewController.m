@@ -42,15 +42,15 @@
     
     [self hideStopsListView:YES animated:NO];
     
-    if ([AppManager isProVersion])
-        [self startFetchingLiveVehicles];
-    
     viewApearForTheFirstTime = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self setUpViewForLine];
+    
+    if ([AppManager isProVersion])
+        [self startFetchingLiveVehicles];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
@@ -264,17 +264,15 @@
     MKCoordinateRegion region = {centerCoord, span};
     
     @try {
-        [routeMapView setRegion:region animated:YES];
-    }
-    
-    @catch (NSException *exception) {
+        [routeMapView setRegion:region animated:NO];
+    } @catch (NSException *exception) {
         NSLog(@"failed to ccenter map");
         LineStops *firstStop = [self.line.lineStops firstObject];
         CLLocationCoordinate2D centerCoord = [ReittiStringFormatter convertStringTo2DCoord:firstStop.coords];
         MKCoordinateSpan span = {.latitudeDelta =  0.1, .longitudeDelta = 0.1};
         MKCoordinateRegion region = {centerCoord, span};
         
-        [routeMapView setRegion:region animated:YES];
+        [routeMapView setRegion:region animated:NO];
     }
     
     lowerBound = lowerBoundTemp;
