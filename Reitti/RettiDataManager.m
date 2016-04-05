@@ -24,6 +24,9 @@
 #import "ReittiRemindersManager.h"
 //#import "LiveTrafficManager.h"
 
+CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
+CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
+
 @implementation RettiDataManager
 
 @synthesize managedObjectContext;

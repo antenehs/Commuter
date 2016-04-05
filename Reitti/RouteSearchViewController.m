@@ -599,7 +599,7 @@ typedef enum
             localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
             nextRoutesRequested = YES;
             
-            lastTime = lastRoute.getEndingTimeOfRoute;
+            lastTime = lastRoute.getStartingTimeOfRoute;
             
         }else{
             lastRoute = [self.routeList lastObject];
@@ -720,23 +720,28 @@ typedef enum
 
 #pragma mark - route search delegates
 - (void)routeSearchDidComplete:(NSArray *)searchedRouteList{
-    if (nextRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 1) {
+    if (nextRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 0) {
         if (localRouteSearchOptions.selectedTimeType == RouteTimeDeparture) {
             localRouteSearchOptions.selectedTimeType = RouteTimeArrival;
             
-            Route *firstRoute = [searchedRouteList objectAtIndex:0];
-            Route *secondRoute = [searchedRouteList objectAtIndex:1];
+            NSInteger numberOfItemsToAdd = searchedRouteList.count > 3 ? 3 : searchedRouteList.count - 1;
             
-            [self setSelectedTimesForDate:secondRoute.getEndingTimeOfRoute];
+            //Remove old items
+            for (NSInteger i = 0; i < numberOfItemsToAdd && self.routeList.count > 0; i++) {
+                [self.routeList removeLastObject];
+            }
             
-            [self.routeList removeLastObject];
-            [self.routeList removeLastObject];
             NSMutableArray *temp = [NSMutableArray arrayWithArray:self.routeList];
             [self.routeList removeAllObjects];
-            [self.routeList addObject:secondRoute];
-            [self.routeList addObject:firstRoute];
-            [self.routeList addObjectsFromArray:temp];
             
+            //Do not add the first object since it is going to be the same as the last
+            //route in the current list
+            for (NSInteger i = numberOfItemsToAdd; i > 0; i--) {
+                [self.routeList addObject:searchedRouteList[i]];
+            }
+            
+            [self.routeList addObjectsFromArray:temp];
+            [self setSelectedTimesForDate:[[self.routeList lastObject] getEndingTimeOfRoute]];
         }
         nextRoutesRequested = NO;
     }else if (prevRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 1){

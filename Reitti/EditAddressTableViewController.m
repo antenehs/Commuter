@@ -189,7 +189,6 @@
     
     BOOL toReturn = YES;
     
-    //    CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
     MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
     MKCoordinateRegion region = {coordinate, span};
     

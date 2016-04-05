@@ -1045,12 +1045,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (![self isLocationServiceAvailableWithNotification:NO]) {
         if ([settingsManager userLocation] == HSLRegion) {
             //Helsinki center location
-            CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
-            coordinate = coord;
+            coordinate = kHslRegionCenter;
         }else{
-            //tampere center location 61.4981508,23.7610254
-            CLLocationCoordinate2D coord = {.latitude =  61.4981508, .longitude =  23.7610254};
-            coordinate = coord;
+            //tampere center location
+            coordinate = kTreRegionCenter;
         }
         
         toReturn = NO;
@@ -1066,7 +1064,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         coordinate.latitude =  coordinate.latitude - spanDiff/2;
     }
     
-    //CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
     MKCoordinateSpan span = {.latitudeDelta =  spanSize, .longitudeDelta =  spanSize};
     MKCoordinateRegion region = {coordinate, span};
     

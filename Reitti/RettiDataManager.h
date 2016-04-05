@@ -31,6 +31,9 @@
 @class SettingsEntity;
 @class HSLLiveTrafficManager;
 
+extern CLLocationCoordinate2D kHslRegionCenter;
+extern CLLocationCoordinate2D kTreRegionCenter;
+
 typedef enum
 {
     HSLRegion = 0,

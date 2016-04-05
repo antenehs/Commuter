@@ -64,7 +64,7 @@
     
     mainMapView.delegate = self;
     
-    CLLocationCoordinate2D coord = {.latitude =  60.1733239, .longitude =  24.9410248};
+    CLLocationCoordinate2D coord = kHslRegionCenter;
     [self centerMapRegionToCoordinate:coord];
 }
 
