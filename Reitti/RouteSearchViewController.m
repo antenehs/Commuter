@@ -325,6 +325,9 @@ typedef enum
     UIBarButtonItem *clearBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleDone target:self action:@selector(clearSearchButtonPressed:)];
     clearBarButtonItem.tintColor = [AppManager systemGreenColor];
     
+    UIBarButtonItem *finalSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    finalSpace.width = 4;
+    
     NSMutableArray *items = [[NSMutableArray alloc] init];
     [items addObject:prevBarButtonItem];
     [items addObject:firstSpace];
@@ -333,6 +336,7 @@ typedef enum
     [items addObject:nowBarButtonItem];
     [items addObject:flexiSpace];
     [items addObject:clearBarButtonItem];
+    [items addObject:finalSpace];
     self.toolbarItems = items;
     
 //    self.navigationController.toolbar.translucent = NO;

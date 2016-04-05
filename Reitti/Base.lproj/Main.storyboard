@@ -5368,7 +5368,7 @@
                                             <constraint firstAttribute="height" constant="21" id="Kxu-cq-qL0"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.57869112318840576" green="0.57869112318840576" blue="0.57869112318840576" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -5458,7 +5458,7 @@
                                                                 <constraint firstAttribute="height" constant="24" id="spB-ac-nJh"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                                            <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -9524,23 +9524,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yf4-eP-97K"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="zLX-h6-Wen"/>
-        <segue reference="zx9-MZ-Ih7"/>
-        <segue reference="L8L-oR-GI7"/>
-        <segue reference="W50-Av-oNZ"/>
-        <segue reference="rqd-oJ-7h3"/>
         <segue reference="SWb-EE-ndB"/>
         <segue reference="U9A-P0-Va2"/>
-        <segue reference="ocH-Qu-aOm"/>
         <segue reference="jpb-bi-pHf"/>
         <segue reference="CkP-l4-5DX"/>
         <segue reference="9x7-C0-VCu"/>
+        <segue reference="e2V-qU-oq6"/>
+        <segue reference="ocH-Qu-aOm"/>
         <segue reference="4lM-KH-B6v"/>
-        <segue reference="YpZ-AP-yAo"/>
         <segue reference="XlZ-XU-H5m"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="yf4-eP-97K"/>
+        <segue reference="zx9-MZ-Ih7"/>
+        <segue reference="zLX-h6-Wen"/>
+        <segue reference="L8L-oR-GI7"/>
+        <segue reference="rqd-oJ-7h3"/>
         <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>
