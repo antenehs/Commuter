@@ -148,11 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/ICloudManager.m"
-            timestampString = "481401540.656882"
+            timestampString = "481664170.978641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
             landmarkName = "-saveRecordsToICloud:"
             landmarkType = "5">
          </BreakpointContent>
@@ -164,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/ICloudManager.m"
-            timestampString = "481401540.656882"
+            timestampString = "481664170.978641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "336"
-            endingLineNumber = "336"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
             landmarkName = "-saveRecordsToICloud:"
             landmarkType = "5">
          </BreakpointContent>
@@ -180,11 +180,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/ICloudManager.m"
-            timestampString = "481401540.656882"
+            timestampString = "481664170.978641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
+            startingLineNumber = "353"
+            endingLineNumber = "353"
             landmarkName = "-deleteRecordsWithId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -388,11 +388,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/MainTabBarController.m"
-            timestampString = "481375237.642996"
+            timestampString = "481658760.992093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "-handleDeepLink:sourceApplication:annotation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -404,23 +404,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/MainTabBarController.m"
-            timestampString = "481375237.642996"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "-handleDeepLink:sourceApplication:annotation:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/MainTabBarController.m"
-            timestampString = "481375237.642996"
+            timestampString = "481658760.992093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "164"
@@ -436,11 +420,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/MainTabBarController.m"
-            timestampString = "481375237.642996"
+            timestampString = "481658760.992093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "-handleDeepLink:sourceApplication:annotation:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/MainTabBarController.m"
+            timestampString = "481658760.992093"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "-handleDeepLink:sourceApplication:annotation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -970,6 +970,22 @@
             startingLineNumber = "38"
             endingLineNumber = "38"
             landmarkName = "+viewForRoute:longestDuration:width:alwaysShowVehicle:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/ICloudManager.m"
+            timestampString = "481664206.862544"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "-fetchAllBookmarksWithType:completionHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

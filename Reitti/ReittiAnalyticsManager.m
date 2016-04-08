@@ -60,6 +60,9 @@ NSString *kActionEditedNamedBookmark = @"EditedNamedBookmark";
 NSString *kActionCreatedNewNamedBookmark = @"CreatedNewNamedBookmark";
 NSString *kActionSelectedCurrentAddressForNamedBookmark = @"SelectedCurrentAddressForNamedBookmark";
 
+//4.2 ICloud Sync View Controller
+NSString *kActionDownloadedICloudBookmark = @"DownloadedICloudBookmark";
+
 //5. Lines View Controller
 NSString *kActionViewedLine = @"ViewedLine";
 

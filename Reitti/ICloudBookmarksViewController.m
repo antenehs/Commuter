@@ -75,6 +75,12 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -190,6 +196,8 @@
         if ([self saveNamedBookmarkFromRecord:record])
             [self fakeActivityForButton:bookmarkCell.iCloudDownloadButton andCell:bookmarkCell];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionDownloadedICloudBookmark label:@"Named bookmark" value:nil];
 }
 
 -(void)downloadStopButtonTapped:(StopTableViewCell *)stopCell {
@@ -203,6 +211,8 @@
             [self animateDownloadButtonChange:stopCell.iCloudDownloadButton];
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionDownloadedICloudBookmark label:@"Stop" value:nil];
 }
 
 -(void)downloadRouteButtonTapped:(RouteTableViewCell *)routeCell {
@@ -211,6 +221,8 @@
     
     [self saveRouteFromRecord:record];
     [self fakeActivityForButton:routeCell.iCloudDownloadButton andCell:routeCell];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionDownloadedICloudBookmark label:@"Route" value:nil];
 }
 
 - (BOOL)saveNamedBookmarkFromRecord:(CKRecord *)record {

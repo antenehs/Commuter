@@ -43,7 +43,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForNamedBookmark:(NamedBookmark *)namedBookmark {
-    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", [namedBookmark getUniqueIdentifier], [AppManagerBase iosDeviceName]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", [namedBookmark getUniqueIdentifier], [AppManagerBase iosDeviceUniqueIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -75,7 +75,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForStopEntity:(StopEntity *)stop {
-    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [AppManagerBase iosDeviceName]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [AppManagerBase iosDeviceUniqueIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -104,7 +104,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForRouteEntity:(RouteEntity *)route {
-    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [AppManagerBase iosDeviceName]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [AppManagerBase iosDeviceUniqueIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -306,7 +306,8 @@ NSString *SavedRouteType = @"SavedRoute";
 
 #pragma mark - Generic iCloud methods
 -(void)fetchAllBookmarksWithType:(NSString *)type completionHandler:(ActionBlock)completionHandler {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"DeviceUniqueId != %@", [AppManagerBase iosDeviceUniqueIdentifier]];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"DeviceUniqueId != %@", [AppManagerBase iosDeviceUniqueIdentifier]];
+    NSPredicate *predicate = [NSPredicate predicateWithValue:YES];
     CKQuery *query = [[CKQuery alloc] initWithRecordType:type predicate:predicate];
     [self.privateDB performQuery:query inZoneWithID:nil completionHandler:^(NSArray *results, NSError *error){
         if(error) {

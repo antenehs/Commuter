@@ -59,6 +59,9 @@ extern NSString *kActionEditedNamedBookmark;
 extern NSString *kActionCreatedNewNamedBookmark;
 extern NSString *kActionSelectedCurrentAddressForNamedBookmark;
 
+//4.2 ICloud Sync View Controller
+extern NSString *kActionDownloadedICloudBookmark;
+
 //5. Lines View Controller
 extern NSString *kActionViewedLine;
 

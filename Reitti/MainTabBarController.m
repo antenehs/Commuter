@@ -88,6 +88,10 @@
         self.viewControllers = viewControllers;
     }
     
+    if (self.searchController) {
+        [self.searchController dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     self.selectedIndex = 1;
 }
 
@@ -119,12 +123,21 @@
 -(void)switchToBookmarksTab {
     self.selectedIndex = 2;
     
+    //TODO: Next version me - Do this with notification to all view controllers
+    if (self.searchController) {
+        [self.searchController dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     UINavigationController * bookmarksViewNavController = (UINavigationController *)[[self viewControllers] objectAtIndex:2];
     [bookmarksViewNavController popToRootViewControllerAnimated:NO];
 }
 
 -(void)switchToAddBookmarksTab {
     self.selectedIndex = 2;
+    
+    if (self.searchController) {
+        [self.searchController dismissViewControllerAnimated:YES completion:nil];
+    }
     
     UINavigationController * bookmarksViewNavController = (UINavigationController *)[[self viewControllers] objectAtIndex:2];
     BookmarksViewController *controller = (BookmarksViewController *)[[bookmarksViewNavController viewControllers] firstObject];
