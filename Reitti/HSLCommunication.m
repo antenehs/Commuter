@@ -328,7 +328,7 @@
 
 #pragma mark - Disruption fetching
 -(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock{
-    //TODO: Not so good mapping. Targets could be an array if there are more than one lines affected
+    
     RKObjectMapping* textMapping = [RKObjectMapping mappingForClass:[DisruptionText class] ];
     [textMapping addAttributeMappingsFromDictionary: @{ @"text" : @"text",
                                                         @"lang" : @"language"

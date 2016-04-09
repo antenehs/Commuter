@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "HSLCommunication.h"
 #import "TRECommunication.h"
+#import "MatkaCommunicator.h"
 #import "ReittiStringFormatter.h"
 #import "BusStop.h"
 #import "NamedBookmark.h"

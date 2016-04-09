@@ -354,6 +354,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 #pragma mark - stop search methods
 
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock{
+    /*
     Region centerRegion = [self identifyRegionOfCoordinate:mapRegion.center];
     id dataSourceManager = [self getDataSourceForRegion:centerRegion];
     if ([dataSourceManager conformsToProtocol:@protocol(StopsInAreaSearchProtocol)]) {
@@ -368,6 +369,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }else{
         completionBlock(nil, @"Service not available in this area.");
     }
+     */
+    MatkaCommunicator *communicator = [[MatkaCommunicator alloc] init];
+    [communicator fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:1000 withCompletionBlock:nil];
+    
 }
 
 -(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{

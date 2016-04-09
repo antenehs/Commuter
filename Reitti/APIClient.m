@@ -18,9 +18,17 @@
     self = [super init];
     
     if (self) {
+        /* Production
         RKLogConfigureByName("RestKit", RKLogLevelCritical);
         RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelCritical);
         RKLogConfigureByName("RestKit/Network", RKLogLevelCritical);
+         
+         */
+        
+        RKLogConfigureByName("RestKit", RKLogLevelTrace);
+        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+        
     }
     
     return self;

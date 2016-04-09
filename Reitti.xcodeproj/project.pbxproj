@@ -1318,6 +1318,12 @@
 		66E272661B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E272641B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png */; };
 		66E272671B681C8A00FB7052 /* app-pro-logo-rounded2-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E272651B681C8A00FB7052 /* app-pro-logo-rounded2-small.png */; };
 		66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E62D841AEED0F9009111B5 /* dropped-pin-100.png */; };
+		66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
+		66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
+		66E6E5581CB90DA90086F611 /* MatkaNearbyStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */; };
+		66E6E5591CB90DA90086F611 /* MatkaNearbyStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */; };
+		66E6E55C1CB9279F0086F611 /* MatkaStopName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaStopName.m */; };
+		66E6E55D1CB9279F0086F611 /* MatkaStopName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaStopName.m */; };
 		66EBADF91B1B5E5A00831812 /* Edit-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */; };
 		66EBBE4419A01B35006A2128 /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
 		66EC18ED1AC9D706008E045D /* location-filled-green-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EC1AC9D706008E045D /* location-filled-green-32.png */; };
@@ -2267,6 +2273,12 @@
 		66E272641B681C8A00FB7052 /* app-pro-logo-rounded2-medium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded2-medium.png"; path = "Pictures/version 4.1/app-pro-logo-rounded2-medium.png"; sourceTree = "<group>"; };
 		66E272651B681C8A00FB7052 /* app-pro-logo-rounded2-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-pro-logo-rounded2-small.png"; path = "Pictures/version 4.1/app-pro-logo-rounded2-small.png"; sourceTree = "<group>"; };
 		66E62D841AEED0F9009111B5 /* dropped-pin-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropped-pin-100.png"; path = "Pictures/Version 2.3/dropped-pin-100.png"; sourceTree = "<group>"; };
+		66E6E5511CB907A10086F611 /* MatkaCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaCommunicator.h; sourceTree = "<group>"; };
+		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaCommunicator.m; sourceTree = "<group>"; };
+		66E6E5561CB90DA90086F611 /* MatkaNearbyStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaNearbyStop.h; sourceTree = "<group>"; };
+		66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaNearbyStop.m; sourceTree = "<group>"; };
+		66E6E55A1CB9279F0086F611 /* MatkaStopName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaStopName.h; sourceTree = "<group>"; };
+		66E6E55B1CB9279F0086F611 /* MatkaStopName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaStopName.m; sourceTree = "<group>"; };
 		66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Edit-gray-100.png"; path = "Pictures/Version 3.1/Edit-gray-100.png"; sourceTree = "<group>"; };
 		66EBBE4219A01B35006A2128 /* Transport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transport.m; sourceTree = "<group>"; };
 		66EBBE4319A01B35006A2128 /* Transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transport.h; sourceTree = "<group>"; };
@@ -3550,6 +3562,7 @@
 		66CA02B21C16364200A38858 /* Environments */ = {
 			isa = PBXGroup;
 			children = (
+				66E6E5501CB907740086F611 /* Matka */,
 				66CA02B61C16375F00A38858 /* HSLandTRECommon */,
 				66CA02B01C16360800A38858 /* HSL */,
 				66CA02B11C16361E00A38858 /* TRE */,
@@ -3894,6 +3907,27 @@
 				66DAC7D11A025ED90002BE16 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		66E6E5501CB907740086F611 /* Matka */ = {
+			isa = PBXGroup;
+			children = (
+				66E6E5551CB90D850086F611 /* Models */,
+				66E6E5511CB907A10086F611 /* MatkaCommunicator.h */,
+				66E6E5521CB907A10086F611 /* MatkaCommunicator.m */,
+			);
+			name = Matka;
+			sourceTree = "<group>";
+		};
+		66E6E5551CB90D850086F611 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				66E6E5561CB90DA90086F611 /* MatkaNearbyStop.h */,
+				66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */,
+				66E6E55A1CB9279F0086F611 /* MatkaStopName.h */,
+				66E6E55B1CB9279F0086F611 /* MatkaStopName.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		66F099621AE6ECB500F20D34 /* TSMessages */ = {
@@ -5327,6 +5361,7 @@
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
 				663E1EC01C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
+				66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStops.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
@@ -5416,6 +5451,7 @@
 				66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
+				66E6E55C1CB9279F0086F611 /* MatkaStopName.m in Sources */,
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
 				660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */,
@@ -5481,6 +5517,7 @@
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
+				66E6E5581CB90DA90086F611 /* MatkaNearbyStop.m in Sources */,
 				6665D7471C088FFB00ACCC3A /* ReittiAppShortcutManager.m in Sources */,
 				66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */,
 				66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */,
@@ -5552,6 +5589,7 @@
 				66C732E21C556DA5002544BC /* VersionInfoViewController.m in Sources */,
 				66C732E31C556DA5002544BC /* APIClient.m in Sources */,
 				663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
+				66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				66C732E41C556DA5002544BC /* StopLines.m in Sources */,
 				66C732E51C556DA5002544BC /* LineStops.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
@@ -5641,6 +5679,7 @@
 				66C733321C556DA5002544BC /* HTMLEncoding.m in Sources */,
 				66C733331C556DA5002544BC /* UIERealTimeBlurView.m in Sources */,
 				66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */,
+				66E6E55D1CB9279F0086F611 /* MatkaStopName.m in Sources */,
 				66C733351C556DA5002544BC /* AppManagerBase.m in Sources */,
 				66C733361C556DA5002544BC /* RouteCacheEntity.m in Sources */,
 				66C733371C556DA5002544BC /* ReittiAnalyticsManager.m in Sources */,
@@ -5706,6 +5745,7 @@
 				66C7336D1C556DA5002544BC /* Route.m in Sources */,
 				66C7336E1C556DA5002544BC /* GeoCodeAnnotation.m in Sources */,
 				66C7336F1C556DA5002544BC /* RouteLegLocation.m in Sources */,
+				66E6E5591CB90DA90086F611 /* MatkaNearbyStop.m in Sources */,
 				66C733701C556DA5002544BC /* ReittiAppShortcutManager.m in Sources */,
 				66C733711C556DA5002544BC /* TravelCardViewController.m in Sources */,
 				66C733721C556DA5002544BC /* GCThumbnail.m in Sources */,
