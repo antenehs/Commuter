@@ -5215,7 +5215,7 @@
                                             <constraint firstAttribute="height" constant="38" id="Yio-1X-LhA"/>
                                         </constraints>
                                     </view>
-                                    <searchBar tag="1001" contentMode="redraw" placeholder="Set from location" translatesAutoresizingMaskIntoConstraints="NO" id="Evv-Ap-AFo">
+                                    <searchBar tag="1001" contentMode="redraw" searchBarStyle="minimal" placeholder="Set from location" translatesAutoresizingMaskIntoConstraints="NO" id="Evv-Ap-AFo">
                                         <rect key="frame" x="10" y="7" width="550" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="wxC-LM-oGw"/>
@@ -5232,7 +5232,7 @@
                                             <constraint firstAttribute="height" constant="38" id="m9g-yX-fvl"/>
                                         </constraints>
                                     </view>
-                                    <searchBar contentMode="redraw" placeholder="Set destination" translatesAutoresizingMaskIntoConstraints="NO" id="prP-pT-jCT">
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Set destination" translatesAutoresizingMaskIntoConstraints="NO" id="prP-pT-jCT">
                                         <rect key="frame" x="10" y="54" width="550" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="Ywe-2i-gpL"/>
@@ -5313,7 +5313,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJC-yx-nax" userLabel="Options selector view">
+                            <view alpha="0.94999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJC-yx-nax" userLabel="Options selector view">
                                 <rect key="frame" x="0.0" y="105" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoU-91-jPH">
