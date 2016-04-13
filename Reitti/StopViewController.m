@@ -594,15 +594,17 @@
     }
     [view addSubview:titleLabel];
     
-    fullTimeTableButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 107, 0, 100, 30);
-    [fullTimeTableButton setTitle:@"Full timetable" forState:UIControlStateNormal];
-    [fullTimeTableButton setTintColor:[AppManager systemGreenColor]];
-    [fullTimeTableButton addTarget:self action:@selector(showFullTimeTable:) forControlEvents:UIControlEventTouchUpInside];
-    
-    fullTimeTableButton.enabled = stopFetched;
-    
-    [view addSubview:fullTimeTableButton];
+    if (self._busStop.timetable_link) {
+        fullTimeTableButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 107, 0, 100, 30);
+        [fullTimeTableButton setTitle:@"Full timetable" forState:UIControlStateNormal];
+        [fullTimeTableButton setTintColor:[AppManager systemGreenColor]];
+        [fullTimeTableButton addTarget:self action:@selector(showFullTimeTable:) forControlEvents:UIControlEventTouchUpInside];
+        
+        fullTimeTableButton.enabled = stopFetched;
+        
+        [view addSubview:fullTimeTableButton];
+    }
     
     UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1.5)];
     topLineView.backgroundColor = [AppManager systemGreenColor];
@@ -682,6 +684,9 @@
         [self setUpStopViewForBusStop:self._busStop];
         
         [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
+    } else {
+        //Just reload and show no departures
+        [departuresTable reloadData];
     }
 }
 

@@ -188,7 +188,7 @@ NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
         numberOfStops ++;
         
         [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
-            if (!errorString) {
+            if (!errorString && stop) {
                 [fetchedStops addObject:stop];
             }
             

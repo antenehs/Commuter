@@ -298,6 +298,33 @@
     return [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
 }
 
++(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord {
+    if (!xCoord || !yCoord)
+        return @"0,0";
+    
+    double x = [xCoord doubleValue], y = [yCoord doubleValue];
+    
+    AGSGeometryEngine* engine    = [AGSGeometryEngine defaultGeometryEngine];
+    AGSSpatialReference* kkj3 = [AGSSpatialReference spatialReferenceWithWKID: 2393];
+    AGSPoint* kkj3Point         = [AGSPoint pointWithX:x y:y spatialReference:kkj3];
+    AGSSpatialReference* wgs = [AGSSpatialReference spatialReferenceWithWKID: 4326];
+    AGSPoint* wgsPoint         = (AGSPoint*) [engine projectGeometry:kkj3Point toSpatialReference :wgs];
+    
+    return [NSString stringWithFormat:@"%f,%f", wgsPoint.x, wgsPoint.y];
+}
+
++(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords {
+    AGSGeometryEngine* engine    = [AGSGeometryEngine defaultGeometryEngine];
+    
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude];
+    
+    AGSPoint* wgsPoint         = [AGSPoint pointWithLocation:location];
+    AGSSpatialReference* kkj3 = [AGSSpatialReference spatialReferenceWithWKID: 2393];
+    AGSPoint* kkj3Point         = (AGSPoint*) [engine projectGeometry:wgsPoint toSpatialReference :kkj3];
+    
+    return kkj3Point;
+}
+
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset{
     BOOL istommorrow = NO;
     NSDate *offsettedDate;

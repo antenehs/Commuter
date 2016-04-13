@@ -19,6 +19,17 @@
 #import "HSLLine.h"
 #import "LineStops.h"
 
+//Matka API
+#import "MatkaStop.h"
+#import "MatkaLine.h"
+#import "MatkaName.h"
+#import "MatkaGeoCode.h"
+#import "MatkaRoute.h"
+#import "MatkaRouteLength.h"
+#import "MatkaRouteLocation.h"
+#import "MatkaRouteLeg.h"
+#import "MatkaRouteStop.h"
+
 #import "Disruption.h"
 #import "DisruptionText.h"
 #import "DisruptionLine.h"
@@ -41,4 +52,5 @@
 #import "NearByStop.h"
 #import "RoutineEntity.h"
 #import "ICloudBookmarks.h"
+
 

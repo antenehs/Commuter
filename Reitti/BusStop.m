@@ -109,4 +109,64 @@
     return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
 }
 
+#pragma mark - Init from other class
+
++ (id)stopFromMatkaStop:(MatkaStop *)matkaStop {
+    BusStop *stop = [[BusStop alloc] init];
+    
+    stop.code = [NSNumber numberWithInteger:[matkaStop.stopId integerValue]];;
+    stop.code_short = matkaStop.stopShortCode;
+    stop.name_fi = matkaStop.nameFi;
+    stop.name_sv = matkaStop.nameSe;
+    stop.city_fi = @"";
+    stop.city_sv = @"";
+    stop.lines = [BusStop linesFromMatkaLines:matkaStop.stopLines];
+    stop.coords = matkaStop.coordString;
+    stop.wgs_coords = matkaStop.coordString;
+    stop.departures = [BusStop departuresFromMatkaLines:matkaStop.stopLines];
+    stop.timetable_link = nil;
+    stop.address_fi = @"";
+    stop.address_sv = @"";
+    
+    
+    return stop;
+}
+
++ (NSArray *)linesFromMatkaLines:(NSArray *)matkaLines {
+    NSMutableArray *lines = [@[] mutableCopy];
+    for (MatkaLine *matkaLine in matkaLines) {
+        StopLine *line = [[StopLine alloc] init];
+        line.fullCode = [NSString stringWithFormat:@"%ld", [matkaLine.lineId longValue]];
+        line.code = matkaLine.codeShort;
+        line.name = matkaLine.name;
+        line.direction = @"1";
+        line.destination = matkaLine.name;
+        
+        [lines addObject:line];
+    }
+    
+    return lines;
+}
+
++ (NSArray *)departuresFromMatkaLines:(NSArray *)matkaLines {
+    NSMutableArray *departures = [@[] mutableCopy];
+    
+    for (MatkaLine *matkaLine in matkaLines) {
+        if (!matkaLine.departureTime) continue;
+        
+        StopDeparture *departure = [[StopDeparture alloc] init];
+        departure.code = matkaLine.codeShort;
+        departure.name = matkaLine.name;
+        departure.date = nil;
+        departure.time = [NSString stringWithFormat:@"%ld", [matkaLine.departureTime longValue]];
+        departure.direction = @"1";
+        departure.destination = matkaLine.name;
+        departure.parsedDate = matkaLine.parsedDepartureTime;
+        
+        [departures addObject:departure];
+    }
+    
+    return departures;
+}
+
 @end

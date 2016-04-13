@@ -10,8 +10,11 @@
 #import "ApiProtocols.h"
 #import "APIClient.h"
 
-@interface MatkaCommunicator : APIClient <StopsInAreaSearchProtocol> {
-     NSArray *apiUserNames;
+@interface MatkaCommunicator: NSObject <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol> {
+    NSArray *apiUserNames;
+    
+    APIClient *timeTableClient;
+    APIClient *genericClient;
 }
 
 @end

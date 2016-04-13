@@ -1320,10 +1320,10 @@
 		66E62D851AEED0F9009111B5 /* dropped-pin-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66E62D841AEED0F9009111B5 /* dropped-pin-100.png */; };
 		66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
 		66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
-		66E6E5581CB90DA90086F611 /* MatkaNearbyStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */; };
-		66E6E5591CB90DA90086F611 /* MatkaNearbyStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */; };
-		66E6E55C1CB9279F0086F611 /* MatkaStopName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaStopName.m */; };
-		66E6E55D1CB9279F0086F611 /* MatkaStopName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaStopName.m */; };
+		66E6E5581CB90DA90086F611 /* MatkaStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaStop.m */; };
+		66E6E5591CB90DA90086F611 /* MatkaStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaStop.m */; };
+		66E6E55C1CB9279F0086F611 /* MatkaName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaName.m */; };
+		66E6E55D1CB9279F0086F611 /* MatkaName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaName.m */; };
 		66EBADF91B1B5E5A00831812 /* Edit-gray-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */; };
 		66EBBE4419A01B35006A2128 /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
 		66EC18ED1AC9D706008E045D /* location-filled-green-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 66EC18EC1AC9D706008E045D /* location-filled-green-32.png */; };
@@ -1438,6 +1438,25 @@
 		66FC54841B236866005B890D /* CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54831B236866005B890D /* CacheManager.m */; };
 		66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC548A1B237F00005B890D /* RouteCacheEntity.m */; };
 		66FC54911B24B134005B890D /* StaticStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54901B24B134005B890D /* StaticStop.m */; };
+		66FD7F931CB94B4700C6C731 /* Jyvaskula.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66FD7F8E1CB94B4700C6C731 /* Jyvaskula.gpx */; };
+		66FD7F941CB94B4700C6C731 /* Kuopio.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66FD7F8F1CB94B4700C6C731 /* Kuopio.gpx */; };
+		66FD7F951CB94B4700C6C731 /* Lahti.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66FD7F901CB94B4700C6C731 /* Lahti.gpx */; };
+		66FD7F961CB94B4700C6C731 /* Oulu.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66FD7F911CB94B4700C6C731 /* Oulu.gpx */; };
+		66FD7F971CB94B4700C6C731 /* Turku.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66FD7F921CB94B4700C6C731 /* Turku.gpx */; };
+		66FD7F9A1CBA614300C6C731 /* MatkaLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F991CBA614300C6C731 /* MatkaLine.m */; };
+		66FD7F9B1CBA614300C6C731 /* MatkaLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F991CBA614300C6C731 /* MatkaLine.m */; };
+		66FD7F9E1CBA843900C6C731 /* MatkaGeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */; };
+		66FD7F9F1CBA843900C6C731 /* MatkaGeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */; };
+		66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA11CBC284300C6C731 /* MatkaRoute.m */; };
+		66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA11CBC284300C6C731 /* MatkaRoute.m */; };
+		66FD7FA61CBC28C600C6C731 /* MatkaRouteLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA51CBC28C600C6C731 /* MatkaRouteLength.m */; };
+		66FD7FA71CBC28C600C6C731 /* MatkaRouteLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA51CBC28C600C6C731 /* MatkaRouteLength.m */; };
+		66FD7FAA1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA91CBC294600C6C731 /* MatkaRouteLocation.m */; };
+		66FD7FAB1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA91CBC294600C6C731 /* MatkaRouteLocation.m */; };
+		66FD7FAE1CBC2E4B00C6C731 /* MatkaRouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FAD1CBC2E4B00C6C731 /* MatkaRouteLeg.m */; };
+		66FD7FAF1CBC2E4B00C6C731 /* MatkaRouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FAD1CBC2E4B00C6C731 /* MatkaRouteLeg.m */; };
+		66FD7FB31CBC30EC00C6C731 /* MatkaRouteStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FB21CBC30EC00C6C731 /* MatkaRouteStop.m */; };
+		66FD7FB41CBC30EC00C6C731 /* MatkaRouteStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FB21CBC30EC00C6C731 /* MatkaRouteStop.m */; };
 		E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F46F1A0941E4DE9CE9E29E /* Vehicle.m */; };
 /* End PBXBuildFile section */
 
@@ -2275,10 +2294,10 @@
 		66E62D841AEED0F9009111B5 /* dropped-pin-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dropped-pin-100.png"; path = "Pictures/Version 2.3/dropped-pin-100.png"; sourceTree = "<group>"; };
 		66E6E5511CB907A10086F611 /* MatkaCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaCommunicator.h; sourceTree = "<group>"; };
 		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaCommunicator.m; sourceTree = "<group>"; };
-		66E6E5561CB90DA90086F611 /* MatkaNearbyStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaNearbyStop.h; sourceTree = "<group>"; };
-		66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaNearbyStop.m; sourceTree = "<group>"; };
-		66E6E55A1CB9279F0086F611 /* MatkaStopName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaStopName.h; sourceTree = "<group>"; };
-		66E6E55B1CB9279F0086F611 /* MatkaStopName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaStopName.m; sourceTree = "<group>"; };
+		66E6E5561CB90DA90086F611 /* MatkaStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaStop.h; sourceTree = "<group>"; };
+		66E6E5571CB90DA90086F611 /* MatkaStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaStop.m; sourceTree = "<group>"; };
+		66E6E55A1CB9279F0086F611 /* MatkaName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaName.h; sourceTree = "<group>"; };
+		66E6E55B1CB9279F0086F611 /* MatkaName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaName.m; sourceTree = "<group>"; };
 		66EBADF81B1B5E5A00831812 /* Edit-gray-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Edit-gray-100.png"; path = "Pictures/Version 3.1/Edit-gray-100.png"; sourceTree = "<group>"; };
 		66EBBE4219A01B35006A2128 /* Transport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transport.m; sourceTree = "<group>"; };
 		66EBBE4319A01B35006A2128 /* Transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transport.h; sourceTree = "<group>"; };
@@ -2436,6 +2455,25 @@
 		66FC548A1B237F00005B890D /* RouteCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCacheEntity.m; sourceTree = "<group>"; };
 		66FC548F1B24B134005B890D /* StaticStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStop.h; sourceTree = "<group>"; };
 		66FC54901B24B134005B890D /* StaticStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticStop.m; sourceTree = "<group>"; };
+		66FD7F8E1CB94B4700C6C731 /* Jyvaskula.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Jyvaskula.gpx; sourceTree = "<group>"; };
+		66FD7F8F1CB94B4700C6C731 /* Kuopio.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Kuopio.gpx; sourceTree = "<group>"; };
+		66FD7F901CB94B4700C6C731 /* Lahti.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Lahti.gpx; sourceTree = "<group>"; };
+		66FD7F911CB94B4700C6C731 /* Oulu.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Oulu.gpx; sourceTree = "<group>"; };
+		66FD7F921CB94B4700C6C731 /* Turku.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Turku.gpx; sourceTree = "<group>"; };
+		66FD7F981CBA614300C6C731 /* MatkaLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaLine.h; sourceTree = "<group>"; };
+		66FD7F991CBA614300C6C731 /* MatkaLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaLine.m; sourceTree = "<group>"; };
+		66FD7F9C1CBA843900C6C731 /* MatkaGeoCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaGeoCode.h; sourceTree = "<group>"; };
+		66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaGeoCode.m; sourceTree = "<group>"; };
+		66FD7FA01CBC284300C6C731 /* MatkaRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRoute.h; sourceTree = "<group>"; };
+		66FD7FA11CBC284300C6C731 /* MatkaRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRoute.m; sourceTree = "<group>"; };
+		66FD7FA41CBC28C600C6C731 /* MatkaRouteLength.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteLength.h; sourceTree = "<group>"; };
+		66FD7FA51CBC28C600C6C731 /* MatkaRouteLength.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteLength.m; sourceTree = "<group>"; };
+		66FD7FA81CBC294600C6C731 /* MatkaRouteLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteLocation.h; sourceTree = "<group>"; };
+		66FD7FA91CBC294600C6C731 /* MatkaRouteLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteLocation.m; sourceTree = "<group>"; };
+		66FD7FAC1CBC2E4B00C6C731 /* MatkaRouteLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteLeg.h; sourceTree = "<group>"; };
+		66FD7FAD1CBC2E4B00C6C731 /* MatkaRouteLeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteLeg.m; sourceTree = "<group>"; };
+		66FD7FB11CBC30EC00C6C731 /* MatkaRouteStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteStop.h; sourceTree = "<group>"; };
+		66FD7FB21CBC30EC00C6C731 /* MatkaRouteStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteStop.m; sourceTree = "<group>"; };
 		D06E935F13E44503B376EA3D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E2F46A4CB8ADB9579B1365DF /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
@@ -3426,13 +3464,11 @@
 		66947CBC18830ED500642EE1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				664E28881ADAE6AD00BE2457 /* Tampere.gpx */,
+				66FD7F8D1CB94B2F00C6C731 /* Locations */,
 				66947CBD18830ED500642EE1 /* Reitti-Info.plist */,
 				66947CBE18830ED500642EE1 /* InfoPlist.strings */,
 				66947CC118830ED500642EE1 /* main.m */,
 				66947CC318830ED500642EE1 /* Reitti-Prefix.pch */,
-				66A7A9BB18C5E53B00AC9E94 /* Helsinki.gpx */,
-				66A7A9BC18C5E56900AC9E94 /* Espoo.gpx */,
 				667B98081AD00FE000C45ADF /* hsl-region.geojson */,
 				667B98101AD3261100C45ADF /* AddressTypeList.plist */,
 				664749DA1AE59B3E0050137E /* versionInfo.html */,
@@ -3922,10 +3958,15 @@
 		66E6E5551CB90D850086F611 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				66E6E5561CB90DA90086F611 /* MatkaNearbyStop.h */,
-				66E6E5571CB90DA90086F611 /* MatkaNearbyStop.m */,
-				66E6E55A1CB9279F0086F611 /* MatkaStopName.h */,
-				66E6E55B1CB9279F0086F611 /* MatkaStopName.m */,
+				66FD7FB01CBC307100C6C731 /* Matka Route */,
+				66E6E5561CB90DA90086F611 /* MatkaStop.h */,
+				66E6E5571CB90DA90086F611 /* MatkaStop.m */,
+				66E6E55A1CB9279F0086F611 /* MatkaName.h */,
+				66E6E55B1CB9279F0086F611 /* MatkaName.m */,
+				66FD7F981CBA614300C6C731 /* MatkaLine.h */,
+				66FD7F991CBA614300C6C731 /* MatkaLine.m */,
+				66FD7F9C1CBA843900C6C731 /* MatkaGeoCode.h */,
+				66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4125,6 +4166,38 @@
 			name = "Static Data";
 			sourceTree = "<group>";
 		};
+		66FD7F8D1CB94B2F00C6C731 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				66FD7F8E1CB94B4700C6C731 /* Jyvaskula.gpx */,
+				66FD7F8F1CB94B4700C6C731 /* Kuopio.gpx */,
+				66FD7F901CB94B4700C6C731 /* Lahti.gpx */,
+				66FD7F911CB94B4700C6C731 /* Oulu.gpx */,
+				66FD7F921CB94B4700C6C731 /* Turku.gpx */,
+				664E28881ADAE6AD00BE2457 /* Tampere.gpx */,
+				66A7A9BB18C5E53B00AC9E94 /* Helsinki.gpx */,
+				66A7A9BC18C5E56900AC9E94 /* Espoo.gpx */,
+			);
+			name = Locations;
+			sourceTree = "<group>";
+		};
+		66FD7FB01CBC307100C6C731 /* Matka Route */ = {
+			isa = PBXGroup;
+			children = (
+				66FD7FA01CBC284300C6C731 /* MatkaRoute.h */,
+				66FD7FA11CBC284300C6C731 /* MatkaRoute.m */,
+				66FD7FA41CBC28C600C6C731 /* MatkaRouteLength.h */,
+				66FD7FA51CBC28C600C6C731 /* MatkaRouteLength.m */,
+				66FD7FA81CBC294600C6C731 /* MatkaRouteLocation.h */,
+				66FD7FA91CBC294600C6C731 /* MatkaRouteLocation.m */,
+				66FD7FAC1CBC2E4B00C6C731 /* MatkaRouteLeg.h */,
+				66FD7FAD1CBC2E4B00C6C731 /* MatkaRouteLeg.m */,
+				66FD7FB11CBC30EC00C6C731 /* MatkaRouteStop.h */,
+				66FD7FB21CBC30EC00C6C731 /* MatkaRouteStop.m */,
+			);
+			name = "Matka Route";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4138,6 +4211,7 @@
 				66947CB018830ED500642EE1 /* Resources */,
 				774CA55299F343FABC5F6867 /* Copy Pods Resources */,
 				6617220919CE0F5000E3CD6E /* Embed App Extensions */,
+				2AB40A07CB394EAD721ACEDF /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -4419,6 +4493,7 @@
 				664E28981AE1AC1200BE2457 /* dropped-pin-annotation.png in Resources */,
 				665885CA1B1143080044F514 /* ferryAnnotation3_2.png in Resources */,
 				66DAE1FD19C6112A0039081D /* metroAnnotationSmall.png in Resources */,
+				66FD7F961CB94B4700C6C731 /* Oulu.gpx in Resources */,
 				664E288E1ADEEF9100BE2457 /* horizontal-line-100.png in Resources */,
 				664E289C1AE1B55400BE2457 /* geoCodeAnnotation2.png in Resources */,
 				66F1382F19938A3000B52B6B /* idea-75.png in Resources */,
@@ -4450,6 +4525,7 @@
 				6665D7691C0CA6B200ACCC3A /* Library-black-50.png in Resources */,
 				66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */,
 				66F099951AEAD6C700F20D34 /* darkGradientBkgrnd.jpeg in Resources */,
+				66FD7F931CB94B4700C6C731 /* Jyvaskula.gpx in Resources */,
 				660FB2471B3A1238009C30BF /* compas-100.png in Resources */,
 				66D0BA5A18BF3785002DDC7B /* Aspergit Bold.otf in Resources */,
 				66D6EDB519A0A5F100FEB9FD /* circle-notfilled-50.png in Resources */,
@@ -4513,6 +4589,7 @@
 				661ABC03199D694100F93894 /* clock-grey-100.png in Resources */,
 				66F099861AE8075D00F20D34 /* NotificationBackgroundMessage.png in Resources */,
 				666BC1D51B5C259700889DD2 /* Choo choo train.mp3 in Resources */,
+				66FD7F941CB94B4700C6C731 /* Kuopio.gpx in Resources */,
 				660FB2341B39E242009C30BF /* rate-color-100.png in Resources */,
 				666602561AED8F2600E3E392 /* bug-100.png in Resources */,
 				667377511ACCA042003581B5 /* boat-filled-light-100.png in Resources */,
@@ -4624,6 +4701,7 @@
 				66780DA51C542BED00C838AA /* version-2.png in Resources */,
 				666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */,
 				66228CFA19CB4A1A00A2C47F /* previous-gray-48.png in Resources */,
+				66FD7F951CB94B4700C6C731 /* Lahti.gpx in Resources */,
 				660E2F761B34386400CE670E /* Beer-100.png in Resources */,
 				661831281C108F5600DA979E /* transfer-arrows-100.png in Resources */,
 				660716071B45E2A700033049 /* matkakortti-full.png in Resources */,
@@ -4659,6 +4737,7 @@
 				667B981D1AD3294C00C45ADF /* cupcake-100_grey.png in Resources */,
 				667377581ACCCD09003581B5 /* service-bus-filled-purple.png in Resources */,
 				661AB3AB1C22E2020061E1F6 /* current location filled green.png in Resources */,
+				66FD7F971CB94B4700C6C731 /* Turku.gpx in Resources */,
 				660716151B49399700033049 /* Info-red-filled-50.png in Resources */,
 				66E272671B681C8A00FB7052 /* app-pro-logo-rounded2-small.png in Resources */,
 				669602BF1B139708006919CB /* Bus-unselected-100.png in Resources */,
@@ -5256,6 +5335,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2AB40A07CB394EAD721ACEDF /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		66C732C01C556DA5002544BC /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -5326,6 +5420,7 @@
 				665BA1B61CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66780D961C5409F800C838AA /* ServicePoint.m in Sources */,
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
+				66FD7FAA1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
 				66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */,
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
 				661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */,
@@ -5355,6 +5450,7 @@
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				6684BECC1CB151C80053AAE1 /* TREVehicle.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
+				66FD7F9E1CBA843900C6C731 /* MatkaGeoCode.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
 				66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */,
 				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
@@ -5366,6 +5462,7 @@
 				660E2F5E1B33630C00CE670E /* LineStops.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
+				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
 				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
@@ -5414,6 +5511,7 @@
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
+				66FD7FB31CBC30EC00C6C731 /* MatkaRouteStop.m in Sources */,
 				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
 				663E1EFA1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */,
@@ -5451,7 +5549,7 @@
 				66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
-				66E6E55C1CB9279F0086F611 /* MatkaStopName.m in Sources */,
+				66E6E55C1CB9279F0086F611 /* MatkaName.m in Sources */,
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
 				660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */,
@@ -5482,6 +5580,7 @@
 				66CC940A18E190D300644281 /* WebViewController.m in Sources */,
 				661090CA1B374B43003F2688 /* LineDetailViewController.m in Sources */,
 				66780D971C5409F800C838AA /* Attributes.m in Sources */,
+				66FD7FAE1CBC2E4B00C6C731 /* MatkaRouteLeg.m in Sources */,
 				66A7A9C418C65DC000AC9E94 /* MBProgressHUD.m in Sources */,
 				66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */,
 				661202D11B05085D00D93C2E /* Features.m in Sources */,
@@ -5513,11 +5612,12 @@
 				66CA02D81C17126800A38858 /* NamedBookmarkE.m in Sources */,
 				66822F661C24695900511BD2 /* StopLine.m in Sources */,
 				66056E6D1C42AAFE00C011FB /* FramedVehicleJourneyRef.m in Sources */,
+				66FD7FA61CBC28C600C6C731 /* MatkaRouteLength.m in Sources */,
 				66056E721C42AAFE00C011FB /* VehicleLocation.m in Sources */,
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
-				66E6E5581CB90DA90086F611 /* MatkaNearbyStop.m in Sources */,
+				66E6E5581CB90DA90086F611 /* MatkaStop.m in Sources */,
 				6665D7471C088FFB00ACCC3A /* ReittiAppShortcutManager.m in Sources */,
 				66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */,
 				66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */,
@@ -5535,6 +5635,7 @@
 				661831221C0DE22000DA979E /* NSDate+Helper.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
 				66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */,
+				66FD7F9A1CBA614300C6C731 /* MatkaLine.m in Sources */,
 				E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5554,6 +5655,7 @@
 				665BA1B71CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66C732C21C556DA5002544BC /* ServicePoint.m in Sources */,
 				66C732C31C556DA5002544BC /* Transport.m in Sources */,
+				66FD7FAB1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
 				66C732C41C556DA5002544BC /* HTMLElement.m in Sources */,
 				66C732C51C556DA5002544BC /* ReittiStringFormatter.m in Sources */,
 				66C732C61C556DA5002544BC /* RouteViewManager.m in Sources */,
@@ -5583,6 +5685,7 @@
 				66C732DD1C556DA5002544BC /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */,
 				66C732DE1C556DA5002544BC /* ReittiNotificationHelper.m in Sources */,
+				66FD7F9F1CBA843900C6C731 /* MatkaGeoCode.m in Sources */,
 				66C732DF1C556DA5002544BC /* HSLCommunication.m in Sources */,
 				66C732E01C556DA5002544BC /* ReittiSearchManager.m in Sources */,
 				66C732E11C556DA5002544BC /* MultiSelectTableViewController.m in Sources */,
@@ -5594,6 +5697,7 @@
 				66C732E51C556DA5002544BC /* LineStops.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
 				66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */,
+				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,
 				66C732E81C556DA5002544BC /* Reitti.xcdatamodeld in Sources */,
 				66C732E91C556DA5002544BC /* HTMLSerialization.m in Sources */,
 				66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */,
@@ -5642,6 +5746,7 @@
 				66C7330F1C556DA5002544BC /* EmptyBookmarkCell.m in Sources */,
 				66C733101C556DA5002544BC /* GeoCodeDetail.m in Sources */,
 				66C733111C556DA5002544BC /* Properties.m in Sources */,
+				66FD7FB41CBC30EC00C6C731 /* MatkaRouteStop.m in Sources */,
 				66C733121C556DA5002544BC /* UIImage+Helper.m in Sources */,
 				663E1EFB1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66C733131C556DA5002544BC /* ReittiEmailAndShareManager.m in Sources */,
@@ -5679,7 +5784,7 @@
 				66C733321C556DA5002544BC /* HTMLEncoding.m in Sources */,
 				66C733331C556DA5002544BC /* UIERealTimeBlurView.m in Sources */,
 				66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */,
-				66E6E55D1CB9279F0086F611 /* MatkaStopName.m in Sources */,
+				66E6E55D1CB9279F0086F611 /* MatkaName.m in Sources */,
 				66C733351C556DA5002544BC /* AppManagerBase.m in Sources */,
 				66C733361C556DA5002544BC /* RouteCacheEntity.m in Sources */,
 				66C733371C556DA5002544BC /* ReittiAnalyticsManager.m in Sources */,
@@ -5710,6 +5815,7 @@
 				66C7334D1C556DA5002544BC /* WebViewController.m in Sources */,
 				66C7334E1C556DA5002544BC /* LineDetailViewController.m in Sources */,
 				66C7334F1C556DA5002544BC /* Attributes.m in Sources */,
+				66FD7FAF1CBC2E4B00C6C731 /* MatkaRouteLeg.m in Sources */,
 				66C733501C556DA5002544BC /* MBProgressHUD.m in Sources */,
 				66C733511C556DA5002544BC /* RoutineEntity.m in Sources */,
 				66C733521C556DA5002544BC /* Features.m in Sources */,
@@ -5741,11 +5847,12 @@
 				66C733691C556DA5002544BC /* NamedBookmarkE.m in Sources */,
 				66C7336A1C556DA5002544BC /* StopLine.m in Sources */,
 				66C7336B1C556DA5002544BC /* FramedVehicleJourneyRef.m in Sources */,
+				66FD7FA71CBC28C600C6C731 /* MatkaRouteLength.m in Sources */,
 				66C7336C1C556DA5002544BC /* VehicleLocation.m in Sources */,
 				66C7336D1C556DA5002544BC /* Route.m in Sources */,
 				66C7336E1C556DA5002544BC /* GeoCodeAnnotation.m in Sources */,
 				66C7336F1C556DA5002544BC /* RouteLegLocation.m in Sources */,
-				66E6E5591CB90DA90086F611 /* MatkaNearbyStop.m in Sources */,
+				66E6E5591CB90DA90086F611 /* MatkaStop.m in Sources */,
 				66C733701C556DA5002544BC /* ReittiAppShortcutManager.m in Sources */,
 				66C733711C556DA5002544BC /* TravelCardViewController.m in Sources */,
 				66C733721C556DA5002544BC /* GCThumbnail.m in Sources */,
@@ -5763,6 +5870,7 @@
 				66C7337E1C556DA5002544BC /* NSDate+Helper.m in Sources */,
 				66C7337F1C556DA5002544BC /* LocationsAnnotation.m in Sources */,
 				66C733801C556DA5002544BC /* HTMLOrderedDictionary.m in Sources */,
+				66FD7F9B1CBA614300C6C731 /* MatkaLine.m in Sources */,
 				66C733811C556DA5002544BC /* Vehicle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

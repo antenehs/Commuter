@@ -27,11 +27,14 @@
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 #import "EnumManager.h"
+#import "ReittiModels.h"
+#import "MatkaStop.h"
 
 
 @interface BusStop : NSObject
 
 - (NSString *)destinationForLineFullCode:(NSString *)fullCode;
++ (id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 
 @property (nonatomic, retain) NSNumber * code;
 @property (nonatomic, retain) NSString * code_short;
@@ -48,6 +51,7 @@
 @property (nonatomic, retain) NSString * omatlahdot_link;
 @property (nonatomic, retain) NSString * address_fi;
 @property (nonatomic, retain) NSString * address_sv;
+
 @property (nonatomic, retain) NSArray * lineCodes;
 @property (nonatomic, retain) NSArray * lineFullCodes;
 @property (nonatomic, retain) NSString * linesString;

@@ -6,13 +6,14 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "MatkaNearbyStop.h"
+#import "MatkaStop.h"
+#import "ReittiStringFormatter.h"
 
-@implementation MatkaNearbyStop
+@implementation MatkaStop
 
 -(NSString *)nameFi {
     if (_stopNames && _stopNames.count > 0) {
-        for (MatkaStopName *name in _stopNames) {
+        for (MatkaName *name in _stopNames) {
             if ([[name.language lowercaseString] isEqualToString:@"fi"]) {
                 return name.name;
             }
@@ -24,7 +25,7 @@
 
 -(NSString *)nameSe {
     if (_stopNames && _stopNames.count > 0) {
-        for (MatkaStopName *name in _stopNames) {
+        for (MatkaName *name in _stopNames) {
             if ([[name.language lowercaseString] isEqualToString:@"se"]) {
                 return name.name;
             }
@@ -35,7 +36,11 @@
 }
 
 -(NSString *)coordString {
-    return nil;
+    return [ReittiStringFormatter coordStringFromKkj3CoorsWithX:_xCoord andY:_yCoord];
+}
+
+-(CLLocationCoordinate2D)coord{
+    return [ReittiStringFormatter convertStringTo2DCoord:_coordString];
 }
 
 @end

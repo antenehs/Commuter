@@ -41,6 +41,25 @@
     return self;
 }
 
++(id)geocodeForMatkaGeocode:(MatkaGeoCode *)matkaGeocode {
+    GeoCode *geoCode = [[GeoCode alloc] init];
+    
+    geoCode.name = matkaGeocode.name;
+    geoCode.locType = matkaGeocode.category;
+    geoCode.locTypeId = matkaGeocode.type;
+    geoCode.coords = matkaGeocode.coordString;
+    geoCode.city = matkaGeocode.city;
+    
+    GeoCodeDetail *detail = [GeoCodeDetail new];
+    detail.address = matkaGeocode.address;
+    detail.shortCode = matkaGeocode.code;
+    detail.houseNumber = matkaGeocode.number;
+    
+    geoCode.details = detail;
+    
+    return geoCode;
+}
+
 -(NSString *)getHouseNumber{
     @try {
         if (!self.details)
@@ -94,6 +113,8 @@
 }
 -(NSNumber *)getStopCode{
     @try {
+        if (!self.details.code) return nil;
+            
         NSString *code = self.details.code;
         
         return [NSNumber numberWithInteger:[code integerValue]];
@@ -105,7 +126,7 @@
 
 -(LocationType)getLocationType{
     int typeId_int = [self.locTypeId intValue];
-    if((0 < typeId_int && typeId_int < 10) || typeId_int == 1008 || typeId_int == 1018) //1018 = from apple
+    if((0 < typeId_int && typeId_int < 10) || typeId_int == 108 || typeId_int == 1008 || typeId_int == 1018) //1018 = from apple, 108 from matka
         return LocationTypePOI;
     else if (typeId_int == 10)
         return LocationTypeStop;

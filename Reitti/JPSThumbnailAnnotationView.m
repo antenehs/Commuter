@@ -21,7 +21,7 @@ static CGFloat const kJPSThumbnailAnnotationViewExpandOffset      = 265.0f;
 static CGFloat const kJPSThumbnailAnnotationViewExpandHeightOffset= 20.0f;
 static CGFloat const ASAThumbnailAnnotationViewImageViewHeight    = 42.0f;
 static CGFloat const kJPSThumbnailAnnotationViewVerticalOffset    = 21.0f;
-static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
+static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 
 @interface JPSThumbnailAnnotationView ()
 
@@ -180,7 +180,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
 //    _bgLayer.strokeColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
     
     _bgLayer.shadowColor = [UIColor darkGrayColor].CGColor;
-    _bgLayer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+    _bgLayer.shadowOffset = CGSizeMake(0.0f, 1.0f);
     _bgLayer.shadowRadius = 1.0f;
     _bgLayer.shadowOpacity = 0.3f;
     
@@ -231,10 +231,16 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.25f;
         self.primaryButton.hidden = YES;
     else
         self.primaryButton.hidden = NO;
+    
     if (!self.secondaryButtonBlock)
         self.secondaryButton.hidden = YES;
     else
         self.secondaryButton.hidden = NO;
+    
+    if (!self.disclosureBlock)
+        self.disclosureButton.hidden = YES;
+    else
+        self.disclosureButton.hidden = NO;
     
 }
 

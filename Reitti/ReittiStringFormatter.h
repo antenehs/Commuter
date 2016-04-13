@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import <ArcGIS/ArcGIS.h>
 
 @interface ReittiStringFormatter : NSObject
 
@@ -26,6 +27,8 @@
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
++(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
++(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 +(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp;
 

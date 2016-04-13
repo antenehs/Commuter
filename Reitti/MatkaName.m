@@ -6,9 +6,9 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "MatkaStopName.h"
+#import "MatkaName.h"
 
-@implementation MatkaStopName
+@implementation MatkaName
 
 
 

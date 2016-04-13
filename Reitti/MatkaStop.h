@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MatkaStopName.h"
+#import "MatkaName.h"
+#import <MapKit/MapKit.h>
 
 /*
  <STOP xCoord = ‘%Real’ yCoord = ‘%Real’
@@ -21,11 +22,12 @@
  <LINE></LINE> </STOP>
 */
 
-@interface MatkaNearbyStop : NSObject
+@interface MatkaStop : NSObject
 
 @property (nonatomic, strong)NSString *stopId;
 @property (nonatomic, strong)NSString *stopShortCode;
 @property (nonatomic, retain)NSArray * stopNames;
+@property (nonatomic, retain)NSArray *stopLines;
 @property (nonatomic, strong)NSNumber *xCoord;
 @property (nonatomic, strong)NSNumber *yCoord;
 @property (nonatomic, strong)NSNumber *distance;
@@ -35,6 +37,7 @@
 @property (nonatomic, strong)NSNumber *transportType;
 
 @property (nonatomic, strong)NSString *coordString;
+@property (nonatomic)CLLocationCoordinate2D coords;
 @property (nonatomic, strong)NSString *nameFi;
 @property (nonatomic, strong)NSString *nameSe;
 

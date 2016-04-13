@@ -10,6 +10,7 @@
 #import "EnumManager.h"
 #import <MapKit/MapKit.h>
 #import "GeoCodeDetail.h"
+#import "MatkaGeoCode.h"
 
 typedef enum
 {
@@ -22,6 +23,7 @@ typedef enum
 @interface GeoCode : NSObject
 
 -(id)initWithMapItem:(MKMapItem *)mapItem;
++(id)geocodeForMatkaGeocode:(MatkaGeoCode *)matkaGeocode;
 
 -(NSString *)getHouseNumber;
 -(NSString *)getAddress;

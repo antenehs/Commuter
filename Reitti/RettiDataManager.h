@@ -167,6 +167,7 @@ typedef struct {
 
 @property (strong, nonatomic) HSLCommunication *hslCommunication;
 @property (strong, nonatomic) TRECommunication *treCommunication;
+@property (strong, nonatomic) MatkaCommunicator *matkaCommunicator;
 
 //@property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
 //@property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;

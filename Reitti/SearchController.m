@@ -1220,8 +1220,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 stopAnT.stopType = stop.stopType;
                 stopAnT.reuseIdentifier = @"NearByStopAnnotation";
                 stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
-                stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
-                stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                if (stop.code) {
+                    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                    stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                }
                 
                 [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
             }
@@ -1271,8 +1273,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopAnT.annotationType = SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
     stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
-    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
-    stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+    if (stop.code) {
+        stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+        stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+    }
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:stopAnT];
     [mapView addAnnotation:annot];
     
@@ -1855,11 +1859,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     CGPoint centerPoint = self.mapView.center;
     CLLocationCoordinate2D coordinate = [mapView convertPoint:centerPoint toCoordinateFromView:mapView];
     
-    Region pointRegion = [reittiDataManager getRegionForCoords:coordinate];
-    
-    if (pointRegion == OtherRegion) {
-        return NO;
-    }
+//    Region pointRegion = [reittiDataManager getRegionForCoords:coordinate];
+//    
+//    if (pointRegion == OtherRegion) {
+//        return NO;
+//    }
     
     //Check if at least 250m from current location
     CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
@@ -2687,6 +2691,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         }else{
             controller.geoCode = selectedGeoCode;
+            controller.currentUserLocation = self.currentUserLocation;
             controller.viewControllerMode = ViewControllerModeViewGeoCode;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
             [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MatkaStopName : NSObject
+@interface MatkaName : NSObject
 
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, strong)NSString *language;

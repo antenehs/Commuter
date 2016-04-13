@@ -90,9 +90,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     self.hslCommunication = hCommunicator;
     
-    TRECommunication *tCommunicator = [[TRECommunication alloc] init];
-    
-    self.treCommunication = tCommunicator;
+    self.treCommunication = [[TRECommunication alloc] init];;
+    self.matkaCommunicator = [[MatkaCommunicator alloc] init];
 
     self.hslLiveTrafficManager = [[HSLLiveTrafficManager alloc] init];
     self.treLiveTrafficManager = [[TRELiveTrafficManager alloc] init];
@@ -203,7 +202,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }else if(region == HSLRegion){
         return self.hslCommunication;
     }else{
-        return nil;
+        return self.matkaCommunicator;
     }
 }
 
@@ -354,25 +353,14 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 #pragma mark - stop search methods
 
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock{
-    /*
+    
     Region centerRegion = [self identifyRegionOfCoordinate:mapRegion.center];
     id dataSourceManager = [self getDataSourceForRegion:centerRegion];
     if ([dataSourceManager conformsToProtocol:@protocol(StopsInAreaSearchProtocol)]) {
-        [(NSObject<StopsInAreaSearchProtocol> *)dataSourceManager fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:(mapRegion.span.longitudeDelta * 111000) withCompletionBlock:^(NSArray * response, NSString *error){
-
-            if (!error) {
-                completionBlock(response, nil);
-            }else{
-                completionBlock(nil, error);
-            }
-        }];
+        [(NSObject<StopsInAreaSearchProtocol> *)dataSourceManager fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:(mapRegion.span.longitudeDelta * 111000) withCompletionBlock:completionBlock];
     }else{
         completionBlock(nil, @"Service not available in this area.");
     }
-     */
-    MatkaCommunicator *communicator = [[MatkaCommunicator alloc] init];
-    [communicator fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:1000 withCompletionBlock:nil];
-    
 }
 
 -(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
@@ -383,22 +371,34 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         //This means that since the stop is found has coordinated, the region must be evaluated wrongly. So request from all datasource.
         //TODO: There has to be a better way of handling border cases
         
-        int __block numberOfApisStopRequestedFrom = 2;
+        int __block numberOfApisStopRequestedFrom = 1;
         int __block stopFetchFailedCount = 0;
         
-        [self.hslCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
-            
-            if (!error) {
-                completionBlock(response, nil);
-            }else{
-                stopFetchFailedCount++;
-                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
-                    completionBlock(nil, error);
-                }
-            }
-        }];
-        
-        [self.treCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+//        [self.hslCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+//            
+//            if (!error) {
+//                completionBlock(response, nil);
+//            }else{
+//                stopFetchFailedCount++;
+//                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
+//                    completionBlock(nil, error);
+//                }
+//            }
+//        }];
+//        
+//        [self.treCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+//            
+//            if (!error) {
+//                completionBlock(response, nil);
+//            }else{
+//                stopFetchFailedCount++;
+//                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
+//                    completionBlock(nil, error);
+//                }
+//            }
+//        }];
+
+        [self.matkaCommunicator fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
             
             if (!error) {
                 completionBlock(response, nil);
@@ -457,14 +457,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     id dataSourceManager = [self getDataSourceForRegion:region];
     
     if ([dataSourceManager conformsToProtocol:@protocol(ReverseGeocodeProtocol)]) {
-        [(NSObject<ReverseGeocodeProtocol> *)dataSourceManager searchAddresseForCoordinate:coords withCompletionBlock:^(GeoCode * response, NSString *error){
-            
-            if (!error) {
-                completionBlock(response, nil);
-            }else{
-                completionBlock(nil, error);
-            }
-        }];
+        [(NSObject<ReverseGeocodeProtocol> *)dataSourceManager searchAddresseForCoordinate:coords withCompletionBlock:completionBlock];
     }else{
         completionBlock(nil, @"Service not available in the current region.");
     }

@@ -85,4 +85,24 @@
     return @[];
 }
 
+
+#pragma mark - Init from other stops
++(id)stopFromMatkaStop:(MatkaStop *)matkaStop {
+    BusStopShort *stop = [[BusStopShort alloc] init];
+    
+    stop.code = [NSNumber numberWithInteger:[matkaStop.stopId integerValue]];
+    stop.codeShort = matkaStop.stopShortCode;
+    stop.name = matkaStop.nameFi;
+    stop.city = [NSString stringWithFormat:@"%d", [matkaStop.cityId intValue]];;
+    stop.coords = matkaStop.coordString;
+    stop.address = @"";
+    stop.distance = matkaStop.distance;
+    stop.lines = @[];
+    stop.linesString = nil;
+    stop.stopType = StopTypeBus;
+    
+    return stop;
+}
+
+
 @end
