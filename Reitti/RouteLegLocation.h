@@ -15,25 +15,31 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
+#import "MatkaRouteLocation.h"
+#import "MatkaRouteStop.h"
 //#import "RouteLegs.m"
 
 @interface RouteLegLocation : NSObject
 
 -(id)initFromDictionary:(NSDictionary *)legDict;
+-(id)copy;
 
--(id) copy;
++(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation;
++(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop;
 
 @property(nonatomic) bool isHeaderLocation;
 @property (nonatomic) LegTransportType locationLegType;
 @property (nonatomic) int locationLegOrder;
 
 @property (nonatomic, retain) NSDictionary * coordsDictionary;
-@property (nonatomic, retain) NSString * coordsString;
 @property (nonatomic, retain) NSDate * arrTime;
 @property (nonatomic, retain) NSDate * depTime;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * stopCode;
 @property (nonatomic, retain) NSString * shortCode;
 @property (nonatomic, retain) NSString * stopAddress;
+
+@property (nonatomic, retain) NSString * coordsString;
+@property (nonatomic) CLLocationCoordinate2D coords;
 
 @end

@@ -34,7 +34,7 @@
 //@synthesize legType;
 @synthesize lineCode;
 @synthesize legLocations;
-@synthesize legShapeDictionaries,legShapeStrings;
+@synthesize legShapeDictionaries;
 @synthesize showDetailed;
 @synthesize legOrder;
 
@@ -122,6 +122,19 @@
     }
 }
 
+-(NSArray *)legShapeCoorStrings {
+    if (!_legShapeCoorStrings) {
+        NSMutableArray *strings = [@[] mutableCopy];
+        for (NSDictionary *coordDict in self.legShapeDictionaries) {
+            [strings addObject:[NSString stringWithFormat:@"%@,%@", [coordDict objectForKey:@"x"], [coordDict objectForKey:@"y"]]];
+        }
+        
+        _legShapeCoorStrings = strings;
+    }
+    
+    return _legShapeCoorStrings;
+}
+
 -(int)getNumberOfStopsInLeg{
     int count = 0;
     if (self.legType != LegTypeWalk) {
@@ -161,6 +174,80 @@
             return self.lineName;
             break;
     }
+}
+
+#pragma mark - init from Matka leg
++(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg{
+    RouteLeg *leg = [[RouteLeg alloc] init];
+    
+    leg.legLength = matkaLeg.distance;
+    leg.legDurationInSeconds = matkaLeg.timeInSeconds;
+    leg.waitingTimeInSeconds = 0; //TODO: think about this
+    leg.legType = matkaLeg.legType;
+    leg.lineCode = [matkaLeg.lineId stringValue];
+    leg.lineName = matkaLeg.codeShort;
+    leg.legOrder = matkaLeg.legOrder;
+    
+    //If leg type is walk, create locations from matkaLeg.locations else from matkaLeg.stops
+    if (matkaLeg.legType == LegTypeWalk) {
+        NSMutableArray *locations = [@[] mutableCopy];
+        NSMutableArray *shapeStrings = [@[] mutableCopy];
+        MatkaRouteLocation *startLoc = [matkaLeg legStartPoint];
+        if (startLoc) {
+            RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteLocation:startLoc];
+            legLoc.locationLegOrder = matkaLeg.legOrder;
+            [locations addObject:legLoc];
+            [shapeStrings addObject:legLoc.coordsString];
+        } else {
+            MatkaRouteStop *startStop = [matkaLeg legStartStop];
+            if(startStop) {
+                RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteStop:startStop];
+                legLoc.locationLegOrder = matkaLeg.legOrder;
+                [locations addObject:legLoc];
+                [shapeStrings addObject:legLoc.coordsString];
+            }
+        }
+        
+        for (MatkaRouteLocation *loc in matkaLeg.locations) {
+            RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteLocation:loc];
+            legLoc.locationLegOrder = matkaLeg.legOrder;
+            [locations addObject:legLoc];
+            [shapeStrings addObject:legLoc.coordsString];
+        }
+        
+        MatkaRouteLocation *destLoc = [matkaLeg legEndPoint];
+        if (destLoc) {
+            RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteLocation:destLoc];
+            legLoc.locationLegOrder = matkaLeg.legOrder;
+            [locations addObject:legLoc];
+            [shapeStrings addObject:legLoc.coordsString];
+        } else {
+            MatkaRouteStop *endStop = [matkaLeg legEndStop];
+            if(endStop) {
+                RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteStop:endStop];
+                legLoc.locationLegOrder = matkaLeg.legOrder;
+                [locations addObject:legLoc];
+                [shapeStrings addObject:legLoc.coordsString];
+            }
+        }
+        
+        leg.legLocations = locations;
+        leg.legShapeCoorStrings = shapeStrings;
+    } else {
+        NSMutableArray *locations = [@[] mutableCopy];
+        NSMutableArray *shapeStrings = [@[] mutableCopy];
+        for (MatkaRouteStop *loc in matkaLeg.stops) {
+            RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteStop:loc];
+            legLoc.locationLegOrder = matkaLeg.legOrder;
+            [locations addObject:legLoc];
+            [shapeStrings addObject:legLoc.coordsString];
+        }
+        
+        leg.legLocations = locations;
+        leg.legShapeCoorStrings = shapeStrings;
+    }
+    
+    return leg;
 }
 
 @end

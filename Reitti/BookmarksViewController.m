@@ -604,8 +604,8 @@ const NSInteger kTimerRefreshInterval = 15;
                     transportsScrollView.userInteractionEnabled = NO;
                     [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
                     
-                    leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]];
-                    arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+                    leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatter formatHourStringFromDate:route.startingTimeOfRoute]];
+                    arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatter formatHourStringFromDate:route.endingTimeOfRoute]];
                 }
             }else{
                 transportsScrollView.hidden = YES;
@@ -878,9 +878,9 @@ const NSInteger kTimerRefreshInterval = 15;
     
     for (int i = 0; i < routes.count;i++) {
         Route *route = [routes objectAtIndex:i];
-        if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < 0){
+        if ([route.startingTimeOfRoute timeIntervalSinceNow] < 0){
             if (route.isOnlyWalkingRoute) {
-                if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < -600){
+                if ([route.startingTimeOfRoute timeIntervalSinceNow] < -600){
                     return YES;
                 }else{
                     return NO;
@@ -924,11 +924,12 @@ const NSInteger kTimerRefreshInterval = 15;
     if (![nmdBookmark isKindOfClass:[NamedBookmark class]])
         return NO;
     
-    if (self.currentUserLocation) {
-        return [self.reittiDataManager canRouteBeSearchedBetweenCoordinates:self.currentUserLocation.coordinate andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];;
-    }else{
+    if (!self.currentUserLocation) {
+//        return [self.reittiDataManager canRouteBeSearchedBetweenCoordinates:self.currentUserLocation.coordinate andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:nmdBookmark.coords]];;
         return NO;
     }
+    
+    return YES;
 }
 
 - (NSInteger)dataIndexForIndexPath:(NSIndexPath *)indexPath

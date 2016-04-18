@@ -290,20 +290,20 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 #pragma mark - Route Search methods
 
--(BOOL)canRouteBeSearchedBetweenCoordinates:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord{
+-(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord{
     Region firstRegion = [self identifyRegionOfCoordinate:firstcoord];
     Region secondRegion = [self identifyRegionOfCoordinate:secondCoord];
     
     return firstRegion == secondRegion;
 }
 
--(BOOL)canRouteBeSearchedBetweenStringCoordinates:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord{
-    return [self canRouteBeSearchedBetweenCoordinates:[ReittiStringFormatter convertStringTo2DCoord:firstcoord] andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:secondCoord]];
+-(BOOL)areCoordStringsInTheSameRegion:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord{
+    return [self areCoordinatesInTheSameRegion:[ReittiStringFormatter convertStringTo2DCoord:firstcoord] andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:secondCoord]];
 }
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock{
     
-    if ([self canRouteBeSearchedBetweenStringCoordinates:fromCoords andCoordinate:toCoords]) {
+    if ([self areCoordStringsInTheSameRegion:fromCoords andCoordinate:toCoords]) {
         Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
         
         id dataSourceManager = [self getDataSourceForRegion:fromRegion];
@@ -329,7 +329,19 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         }
         
     }else{
-        completionBlock(nil, @"No route information available between the selected addresses.");
+//        completionBlock(nil, @"No route information available between the selected addresses.");
+        if (numberOfResult)
+            searchOptions.numberOfResults = [numberOfResult integerValue];
+        else
+            searchOptions.numberOfResults = kDefaultNumberOfResults;
+        
+        [self.matkaCommunicator searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
     }
 }
 

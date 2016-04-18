@@ -158,7 +158,7 @@
         departure.code = matkaLine.codeShort;
         departure.name = matkaLine.name;
         departure.date = nil;
-        departure.time = [NSString stringWithFormat:@"%ld", [matkaLine.departureTime longValue]];
+        departure.time = matkaLine.departureTime;
         departure.direction = @"1";
         departure.destination = matkaLine.name;
         departure.parsedDate = matkaLine.parsedDepartureTime;

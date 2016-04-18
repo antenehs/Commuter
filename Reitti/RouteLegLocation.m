@@ -7,6 +7,7 @@
 //
 
 #import "RouteLegLocation.h"
+#import "ReittiMapkitHelper.h"
 
 @implementation RouteLegLocation
 
@@ -15,7 +16,6 @@
 @synthesize locationLegOrder;
 
 @synthesize coordsDictionary;
-@synthesize coordsString;
 @synthesize arrTime;
 @synthesize depTime;
 @synthesize name;
@@ -59,6 +59,48 @@
     copy.stopAddress = self.stopAddress;
     
     return copy;
+}
+
+-(NSString *)coordsString {
+    if (!_coordsString) {
+        _coordsString = [NSString stringWithFormat:@"%@,%@",self.coordsDictionary[@"x"],self.coordsDictionary[@"y"]];
+    }
+    
+    return _coordsString;
+}
+
+-(CLLocationCoordinate2D)coords {
+    if (![ReittiMapkitHelper isValidCoordinate:_coords]) {
+        _coords = CLLocationCoordinate2DMake([[self.coordsDictionary objectForKey:@"y"] floatValue],[[self.coordsDictionary objectForKey:@"x"] floatValue]);
+    }
+    return _coords;
+}
+
++(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation {
+    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
+    
+    loc.arrTime = matkaLocation.parsedArrivalTime;
+    loc.depTime = matkaLocation.parsedDepartureTime;
+    loc.name = matkaLocation.name;
+    loc.coords = matkaLocation.coords;
+    loc.coordsString = matkaLocation.coordString;
+    
+    return loc;
+}
+
++(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop {
+    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
+    
+    loc.arrTime = matkaStop.parsedArrivalTime;
+    loc.depTime = matkaStop.parsedDepartureTime;
+    loc.name = matkaStop.name;
+    loc.coords = matkaStop.coords;
+    loc.coordsString = matkaStop.coordString;
+    loc.stopCode = matkaStop.stopId;
+    loc.shortCode = matkaStop.stopCode;
+    loc.stopAddress = matkaStop.name;
+    
+    return loc;
 }
 
 @end

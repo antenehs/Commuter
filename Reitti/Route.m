@@ -7,6 +7,18 @@
 
 #import "Route.h"
 #import "ReittiStringFormatter.h"
+#import "ASA_Helpers.h"
+
+@interface Route ()
+
+@property (nonatomic, strong)NSNumber *numberOfNoneWalkLegs;
+@property (nonatomic, strong)NSDate *startingTimeOfRoute;
+@property (nonatomic, strong)NSDate *endingTimeOfRoute;
+@property (nonatomic, strong)NSDate *timeAtTheFirstStop;
+@property (nonatomic)CLLocationCoordinate2D startCoords;
+@property (nonatomic)CLLocationCoordinate2D destinationCoords;
+
+@end
 
 @implementation Route
 
@@ -25,15 +37,7 @@
     
     return totalLength;
 }
--(int)getNumberOfNoneWalkLegs{
-    int noneWalkLegs = 0;
-    for (RouteLeg *leg in self.routeLegs) {
-        if (leg.legType != LegTypeWalk) {
-            noneWalkLegs ++;
-        }
-    }
-    return noneWalkLegs;
-}
+
 -(float)getLengthRatioInRoute:(RouteLeg *)leg{
     float legDuration = [leg.legDurationInSeconds floatValue];
     
@@ -55,40 +59,101 @@
     }
 }
 
--(NSDate *)getStartingTimeOfRoute{
-    RouteLeg *firstLeg = [self.routeLegs firstObject];
-    RouteLegLocation *firstLocation = [firstLeg.legLocations firstObject];
-    return firstLocation.arrTime;
-}
--(NSDate *)getEndingTimeOfRoute{
-    RouteLeg *lastLeg = [self.routeLegs lastObject];
-    RouteLegLocation *lastLocation = [lastLeg.legLocations lastObject];
-    return lastLocation.depTime;
+-(NSNumber *)numberOfNoneWalkLegs{
+    
+    if (!_numberOfNoneWalkLegs) {
+        int noneWalkLegs = 0;
+        for (RouteLeg *leg in self.routeLegs) {
+            if (leg.legType != LegTypeWalk) {
+                noneWalkLegs ++;
+            }
+        }
+        
+        _numberOfNoneWalkLegs = [NSNumber numberWithInt:noneWalkLegs];
+    }
+    
+    return _numberOfNoneWalkLegs;
 }
 
--(NSDate *)getTimeAtTheFirstStop{
-    for (RouteLeg *leg in self.routeLegs) {
-        if (leg.legType != LegTypeWalk) {
-            RouteLegLocation *firstLocation = [leg.legLocations firstObject];
-            return firstLocation.depTime;
+-(NSDate *)startingTimeOfRoute{
+    if (!_startingTimeOfRoute) {
+        RouteLeg *firstLeg = [self.routeLegs firstObject];
+        RouteLegLocation *firstLocation = [firstLeg.legLocations firstObject];
+        _startingTimeOfRoute = firstLocation.arrTime;
+    }
+    
+    return _startingTimeOfRoute;
+}
+
+-(NSDate *)endingTimeOfRoute{
+    if (!_endingTimeOfRoute) {
+        RouteLeg *lastLeg = [self.routeLegs lastObject];
+        RouteLegLocation *lastLocation = [lastLeg.legLocations lastObject];
+        _endingTimeOfRoute = lastLocation.depTime;
+    }
+    
+    return _endingTimeOfRoute;
+}
+
+-(NSDate *)timeAtTheFirstStop{
+    if (!_timeAtTheFirstStop) {
+        for (RouteLeg *leg in self.routeLegs) {
+            if (leg.legType != LegTypeWalk) {
+                RouteLegLocation *firstLocation = [leg.legLocations firstObject];
+                _timeAtTheFirstStop = firstLocation.depTime;
+                break;
+            }
         }
     }
     
-    return nil;
+    return _timeAtTheFirstStop;
 }
 
--(CLLocationCoordinate2D)getStartCoords{
-    RouteLeg *firstLeg = [self.routeLegs firstObject];
-    RouteLegLocation *firstLocation = [firstLeg.legLocations firstObject];
+-(CLLocationCoordinate2D)startCoords{
+    if (![ReittiMapkitHelper isValidCoordinate:_startCoords]) {
+        RouteLeg *firstLeg = [self.routeLegs firstObject];
+        RouteLegLocation *firstLocation = [firstLeg.legLocations firstObject];
+        
+        _startCoords = [ReittiStringFormatter convertStringTo2DCoord:firstLocation.coordsString];
+    }
     
-    return [ReittiStringFormatter convertStringTo2DCoord:firstLocation.coordsString];
+    return _startCoords;
 }
 
--(NSString *)getDestinationCoords{
-    RouteLeg *lastLeg = [self.routeLegs lastObject];
-    RouteLegLocation *lastLocation = [lastLeg.legLocations lastObject];
+-(CLLocationCoordinate2D)destinationCoords{
+    if (![ReittiMapkitHelper isValidCoordinate:_destinationCoords]) {
+        RouteLeg *lastLeg = [self.routeLegs lastObject];
+        RouteLegLocation *lastLocation = [lastLeg.legLocations lastObject];
+        
+        _destinationCoords = [ReittiStringFormatter convertStringTo2DCoord:lastLocation.coordsString];
+    }
     
-    return lastLocation.coordsString;
+    return _destinationCoords;
+}
+
+#pragma mark - Conversion from matka object
++(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute {
+    Route *route = [[Route alloc] init];
+    
+    route.routeLength = matkaRoute.distance;
+    route.routeDurationInSeconds = matkaRoute.timeInSeconds;
+    route.numberOfNoneWalkLegs = [NSNumber numberWithInteger: matkaRoute.routeLineLegs ? matkaRoute.routeLineLegs.count : 0];
+    route.startingTimeOfRoute = matkaRoute.startingTime;
+    route.endingTimeOfRoute = matkaRoute.endingTime;
+    route.timeAtTheFirstStop = matkaRoute.timeAtFirstStop;
+    route.startCoords = matkaRoute.startCoords;
+    route.destinationCoords = matkaRoute.destinationCoords;
+    
+    NSMutableArray *allLegs = [@[] mutableCopy];
+    for (MatkaRouteLeg *matkaLeg in matkaRoute.allLegs) {
+        RouteLeg *leg = [RouteLeg routeLegFromMatkaRouteLeg:matkaLeg];
+        if (leg)
+            [allLegs addObject:leg];
+    }
+    
+    route.routeLegs = allLegs;
+    
+    return route;
 }
 
 @end

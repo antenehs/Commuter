@@ -248,10 +248,10 @@
     [topViewBackView addGestureRecognizer:routeView.panGestureRecognizer];
     
     [timeIntervalLabel setText:[NSString stringWithFormat:@"leave at %@ ",
-                                               [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute]]];
+                                               [ReittiStringFormatter formatHourStringFromDate:self.route.startingTimeOfRoute]]];
     
         [arrivalTimeLabel setText:[NSString stringWithFormat:@"| arrive at %@",
-                                   [ReittiStringFormatter formatHourStringFromDate:self.route.getEndingTimeOfRoute]]];
+                                   [ReittiStringFormatter formatHourStringFromDate:self.route.endingTimeOfRoute]]];
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
@@ -560,6 +560,11 @@
     span.longitudeDelta += 0.3 * span.longitudeDelta;
     MKCoordinateRegion region = {centerCoord, span};
     
+    if (region.span.latitudeDelta <= 0.0f || region.span.longitudeDelta <= 0.0f) {
+        region.span.latitudeDelta = 1.0f;
+        region.span.longitudeDelta = 1.0f;
+    }
+    
     [routeMapView setRegion:region animated:YES];
     
     lowerBound = lowerBoundTemp;
@@ -570,14 +575,15 @@
 - (void)drawLineForLeg:(RouteLeg *)leg {
     
     self.currentLeg = leg;
-    int shapeCount = (int)leg.legShapeDictionaries.count;
+    int shapeCount = (int)leg.legShapeCoorStrings.count;
     // create an array of coordinates from allPins
     CLLocationCoordinate2D coordinates[shapeCount + 2];
     int i = 0;
     CLLocationCoordinate2D lastCoord;
     CLLocationCoordinate2D firstCoord;
-    for (NSDictionary *coordDict in leg.legShapeDictionaries) {
-        CLLocationCoordinate2D coord = {.latitude =  [[coordDict objectForKey:@"y"] floatValue], .longitude =  [[coordDict objectForKey:@"x"] floatValue]};
+    for (NSString *coordString in leg.legShapeCoorStrings) {
+        CLLocationCoordinate2D coord = [ReittiStringFormatter convertStringTo2DCoord:coordString];
+        
         coordinates[i] = coord;
         if (i==0) {
             firstCoord = coord;
@@ -585,14 +591,9 @@
         lastCoord = coord;
         i++;
     }
-//    RouteLegLocation *loc1 = [leg.legLocations objectAtIndex:0];
-//    CLLocationCoordinate2D legStartLoc = {.latitude =  [[loc1.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc1.coordsDictionary objectForKey:@"x"] floatValue]};
-//    
-//    coordinates[i] = legStartLoc;
-//    i++;
     
     RouteLegLocation *loc2 = [leg.legLocations lastObject];
-    CLLocationCoordinate2D legEndLoc = {.latitude =  [[loc2.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc2.coordsDictionary objectForKey:@"x"] floatValue]};
+    CLLocationCoordinate2D legEndLoc = loc2.coords;
     
     coordinates[i] = legEndLoc;
     [self evaluateBoundsForCoordsArray:coordinates andCount:shapeCount];
@@ -611,32 +612,6 @@
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
     // create an MKPolylineView and add it to the map view
-    /*
-    if ([overlay isKindOfClass:MKPolyline.class]) {
-        MKPolylineRenderer *lineView = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-        lineView.lineWidth = 6;
-        lineView.alpha = 0.8;
-        if (currentLeg.legType == LegTypeWalk) {
-            lineView.strokeColor = SYSTEM_BROWN_COLOR;
-            lineView.lineDashPattern = @[@4, @10];
-        }else if (currentLeg.legType == LegTypeBus){
-            lineView.strokeColor = SYSTEM_BLUE_COLOR;
-        }else if (currentLeg.legType == LegTypeTrain) {
-            lineView.strokeColor = SYSTEM_RED_COLOR;
-        }else if (currentLeg.legType == LegTypeTram) {
-            lineView.strokeColor = SYSTEM_GREEN_COLOR;
-        }else if (currentLeg.legType == LegTypeMetro) {
-            lineView.strokeColor = SYSTEM_ORANGE_COLOR;
-        }else if (currentLeg.legType == LegTypeFerry) {
-            lineView.strokeColor = SYSTEM_CYAN_COLOR;
-        }
-        
-        return lineView;
-    }
-     
-    
-    return nil;
-     */
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
         polylineRenderer.strokeColor  = [UIColor yellowColor];
@@ -653,20 +628,6 @@
         }else{
             polylineRenderer.strokeColor = [AppManager colorForLegType:currentLeg.legType];
         }
-            
-//        if (currentLeg.legType == LegTypeBus){
-//            polylineRenderer.strokeColor = [AppManager systemBlueColor];
-//        }else if (currentLeg.legType == LegTypeTrain) {
-//            polylineRenderer.strokeColor = [AppManager systemRedColor];;
-//        }else if (currentLeg.legType == LegTypeTram) {
-//            polylineRenderer.strokeColor = [AppManager systemGreenColor];;
-//        }else if (currentLeg.legType == LegTypeMetro) {
-//            polylineRenderer.strokeColor = [AppManager systemOrangeColor];;
-//        }else if (currentLeg.legType == LegTypeFerry) {
-//            polylineRenderer.strokeColor = [AppManager systemCyanColor];;
-//        }else{
-//            polylineRenderer.strokeColor = [AppManager systemBlueColor];
-//        }
         
         return polylineRenderer;
     } else {
@@ -676,7 +637,7 @@
 
 -(void)plotTransferAnnotation:(RouteLegLocation *)loc{
     
-    CLLocationCoordinate2D coordinate = {.latitude =  [[loc.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc.coordsDictionary objectForKey:@"x"] floatValue]};
+    CLLocationCoordinate2D coordinate = loc.coords;
     
     NSString * name = loc.name;
     NSString * shortCode = loc.shortCode;
@@ -709,7 +670,7 @@
        
         int locCount = 0;
         for (RouteLegLocation *loc in leg.legLocations) {
-            CLLocationCoordinate2D coordinate = {.latitude =  [[loc.coordsDictionary objectForKey:@"y"] floatValue], .longitude =  [[loc.coordsDictionary objectForKey:@"x"] floatValue]};
+            CLLocationCoordinate2D coordinate = loc.coords;
             if (loc.name == nil) {
                 
             }
@@ -1334,19 +1295,19 @@
         switch (buttonIndex) {
             case 0:
                 reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minute.";
-                [self setReminderForOffset:1 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:1 andTime:self.route.startingTimeOfRoute];
                 break;
             case 1:
-                [self setReminderForOffset:5 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:5 andTime:self.route.startingTimeOfRoute];
                 break;
             case 2:
-                [self setReminderForOffset:10 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:10 andTime:self.route.startingTimeOfRoute];
                 break;
             case 3:
-                [self setReminderForOffset:15 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:15 andTime:self.route.startingTimeOfRoute];
                 break;
             case 4:
-                [self setReminderForOffset:30 andTime:self.route.getStartingTimeOfRoute];
+                [self setReminderForOffset:30 andTime:self.route.startingTimeOfRoute];
                 break;
             default:
                 break;
@@ -1574,11 +1535,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             }
         }
         
-//        if (indexPath.row == self.routeLocationList.count - 1) {
-//            nextLegLine.hidden = YES;
-//            [legTypeImage setImage:nil];
-//        }
-        
         if (indexPath.row > 0) {
             RouteLegLocation *prevLoc = [self.routeLocationList objectAtIndex:indexPath.row - 1];
             switch (prevLoc.locationLegType) {
@@ -1761,6 +1717,14 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         }else{
             return [NSString stringWithFormat:@"%d %@", [leg getNumberOfStopsInLeg] - 1, stopsText];
         }
+    }
+}
+
+-(bool)showDetailDisclosureButtonForLeg:(RouteLeg *)leg{
+    if (leg.legType == LegTypeWalk) {
+        return leg.legLocations.count > 1;
+    }else{
+        return YES;
     }
 }
 
@@ -1987,7 +1951,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             stopCode = selected.stopCode;
             stopShortCode = selected.shortCode;
             stopName = selected.name;
-            stopCoords = CLLocationCoordinate2DMake([[selected.coordsDictionary objectForKey:@"y"] floatValue],[[selected.coordsDictionary objectForKey:@"x"] floatValue]);
+            stopCoords = selected.coords;
         }
         
         if (stopCode != nil && ![stopCode isEqualToString:@""]) {
@@ -2066,7 +2030,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             stopCode = selected.stopCode;
             stopShortCode = selected.shortCode;
             stopName = selected.name;
-            stopCoords = CLLocationCoordinate2DMake([[selected.coordsDictionary objectForKey:@"y"] floatValue],[[selected.coordsDictionary objectForKey:@"x"] floatValue]);
+            stopCoords = selected.coords;
         }else{
             return nil;
         }

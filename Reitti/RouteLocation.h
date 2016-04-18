@@ -15,6 +15,7 @@
 @property (nonatomic) LegTransportType locationLegType;
 
 @property (nonatomic, retain) NSDictionary * coordsDictionary;
+@property (nonatomic)CLLocationCoordinate2D coords;
 @property (nonatomic, retain) NSDate * arrTime;
 @property (nonatomic, retain) NSDate * depTime;
 @property (nonatomic, retain) NSString * name;

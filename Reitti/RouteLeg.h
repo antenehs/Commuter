@@ -30,25 +30,31 @@
 
 #import <Foundation/Foundation.h>
 #import "RouteLegLocation.h"
+#import "MatkaRouteLeg.h"
+#import "MatkaRouteStop.h"
+#import "MatkaRouteLocation.h"
 
 @interface RouteLeg : NSObject
+
++(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg;
 
 -(id)initFromDictionary:(NSDictionary *)legDict;
 -(int)getNumberOfStopsInLeg;
 
 @property (nonatomic, retain) NSNumber * legLength;
 @property (nonatomic, retain) NSNumber * legDurationInSeconds;
-@property (nonatomic) NSInteger waitingTimeInSeconds;
-@property (nonatomic) LegTransportType legType;
 @property (nonatomic, retain) NSString * legSpecificType;
 @property (nonatomic, retain) NSString * lineCode;
 @property (nonatomic, retain) NSString * lineName;
 @property (nonatomic, retain) NSArray * legLocations;
 @property (nonatomic, retain) NSArray * legShapeDictionaries;
-@property (nonatomic, retain) NSArray * legShapeStrings;
+
+//Derived properties
+@property (nonatomic) LegTransportType legType;
+@property (nonatomic) NSInteger waitingTimeInSeconds;
+@property (nonatomic, readonly) NSString * lineDisplayName;
+@property (nonatomic, retain) NSArray * legShapeCoorStrings;
 @property (nonatomic) bool showDetailed;
 @property (nonatomic) int legOrder;
-
-@property (nonatomic, readonly) NSString * lineDisplayName;
 
 @end

@@ -26,7 +26,7 @@
 
 @property (nonatomic, strong)NSString *stopId;
 @property (nonatomic, strong)NSString *stopShortCode;
-@property (nonatomic, retain)NSArray * stopNames;
+@property (nonatomic, retain)NSArray *stopNames;
 @property (nonatomic, retain)NSArray *stopLines;
 @property (nonatomic, strong)NSNumber *xCoord;
 @property (nonatomic, strong)NSNumber *yCoord;

@@ -176,7 +176,7 @@ typedef enum
 
 - (void)refreshData {
     //update time to now and reload route.
-    if ([[[self.routeList firstObject] getStartingTimeOfRoute] timeIntervalSinceNow] < -300) {
+    if ([[[self.routeList firstObject] startingTimeOfRoute] timeIntervalSinceNow] < -300) {
         localRouteSearchOptions.date = [NSDate date];
         [self setSelectedTimesForDate:localRouteSearchOptions.date];
         [self searchRouteIfPossible];
@@ -590,9 +590,9 @@ typedef enum
     if (self.routeList.count == 1) {
         lastRoute = [self.routeList objectAtIndex:0];
         if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
-            lastTime = [lastRoute.getEndingTimeOfRoute dateByAddingTimeInterval:300];
+            lastTime = [lastRoute.endingTimeOfRoute dateByAddingTimeInterval:300];
         }else{
-            lastTime = [lastRoute.getStartingTimeOfRoute dateByAddingTimeInterval:300];
+            lastTime = [lastRoute.startingTimeOfRoute dateByAddingTimeInterval:300];
         }
     }else{
         if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
@@ -603,13 +603,13 @@ typedef enum
             localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
             nextRoutesRequested = YES;
             
-            lastTime = lastRoute.getStartingTimeOfRoute;
+            lastTime = lastRoute.startingTimeOfRoute;
             
         }else{
             lastRoute = [self.routeList lastObject];
             if (lastRoute == nil)
                 return;
-            lastTime = lastRoute.getStartingTimeOfRoute;
+            lastTime = lastRoute.startingTimeOfRoute;
         }
     }
     
@@ -633,16 +633,16 @@ typedef enum
     if (self.routeList.count == 1) {
         lastRoute = [self.routeList objectAtIndex:0];
         if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
-            lastTime = [lastRoute.getEndingTimeOfRoute dateByAddingTimeInterval:-300];
+            lastTime = [lastRoute.endingTimeOfRoute dateByAddingTimeInterval:-300];
         }else{
-            lastTime = [lastRoute.getStartingTimeOfRoute dateByAddingTimeInterval:-300];
+            lastTime = [lastRoute.startingTimeOfRoute dateByAddingTimeInterval:-300];
         }
     }else{
         if(localRouteSearchOptions.selectedTimeType == RouteTimeArrival){
             lastRoute = [self.routeList lastObject];
             if (lastRoute == nil)
                 return;
-            lastTime = lastRoute.getEndingTimeOfRoute;
+            lastTime = lastRoute.endingTimeOfRoute;
         }else{
             lastRoute = [self.routeList objectAtIndex:0];
             if (lastRoute == nil)
@@ -650,7 +650,7 @@ typedef enum
             localRouteSearchOptions.selectedTimeType = RouteTimeArrival;
             prevRoutesRequested = YES;
             
-            lastTime = lastRoute.getEndingTimeOfRoute;
+            lastTime = lastRoute.endingTimeOfRoute;
         }
     }
     
@@ -745,7 +745,7 @@ typedef enum
             }
             
             [self.routeList addObjectsFromArray:temp];
-            [self setSelectedTimesForDate:[[self.routeList lastObject] getEndingTimeOfRoute]];
+            [self setSelectedTimesForDate:[[self.routeList lastObject] endingTimeOfRoute]];
         }
         nextRoutesRequested = NO;
     }else if (prevRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 1){
@@ -755,7 +755,7 @@ typedef enum
             Route *firstRoute = [searchedRouteList objectAtIndex:0];
             Route *secondRoute = [searchedRouteList objectAtIndex:1];
             
-            [self setSelectedTimesForDate:secondRoute.getStartingTimeOfRoute];
+            [self setSelectedTimesForDate:secondRoute.startingTimeOfRoute];
             
             [self.routeList removeLastObject];
             [self.routeList removeLastObject];
@@ -932,9 +932,9 @@ typedef enum
             UILabel *arriveTimeLabel = (UILabel *)[cell viewWithTag:2005];
             
             NSString *leavesString = [NSString stringWithFormat:@"leave %@",
-                                      [ReittiStringFormatter formatHourStringFromDate:route.getStartingTimeOfRoute]];
+                                      [ReittiStringFormatter formatHourStringFromDate:route.startingTimeOfRoute]];
             
-            if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < 300) {
+            if ([route.startingTimeOfRoute timeIntervalSinceNow] < 300) {
                 leaveTimeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:leavesString                                                                         substring:leavesString withNormalFont:leaveTimeLabel.font];
                 ;
             }else{
@@ -942,7 +942,7 @@ typedef enum
             }
             
             arriveTimeLabel.text = [NSString stringWithFormat:@"| arrive %@",
-                                    [ReittiStringFormatter formatHourStringFromDate:route.getEndingTimeOfRoute]];
+                                    [ReittiStringFormatter formatHourStringFromDate:route.endingTimeOfRoute]];
             
             //durations
             UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
@@ -955,9 +955,9 @@ typedef enum
             
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
             
-            if(route.getTimeAtTheFirstStop != nil){
+            if(route.timeAtTheFirstStop != nil){
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
-                                      [ReittiStringFormatter formatHourStringFromDate:route.getTimeAtTheFirstStop], numberString];
+                                      [ReittiStringFormatter formatHourStringFromDate:route.timeAtTheFirstStop], numberString];
                 
             }else{
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ km walking", numberString];

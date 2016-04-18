@@ -42,7 +42,7 @@
 
 -(void)setUpViewForRoute:(Route *)route{
     UILabel *timeIntervalLabel = (UILabel *)[self viewWithTag:2001];
-    timeIntervalLabel.text = [ReittiStringFormatter formatHourRangeStringFrom:route.getStartingTimeOfRoute toDate:route.getEndingTimeOfRoute];
+    timeIntervalLabel.text = [ReittiStringFormatter formatHourRangeStringFrom:route.startingTimeOfRoute toDate:route.endingTimeOfRoute];
     
     //durations
     UILabel *durationLabel = (UILabel *)[self viewWithTag:2002];
@@ -59,7 +59,7 @@
         transportsContainer.hidden = NO;
     }
     
-    int totalLegsToShow = route.getNumberOfNoneWalkLegs;
+    int totalLegsToShow = [route.numberOfNoneWalkLegs intValue];
     float tWidth = 45;
     float space = 10;
     float total = (totalLegsToShow * tWidth) + ((totalLegsToShow -1) * space);

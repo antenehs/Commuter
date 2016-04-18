@@ -25,9 +25,9 @@
          
          */
         
-        RKLogConfigureByName("RestKit", RKLogLevelTrace);
-        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+        RKLogConfigureByName("RestKit", RKLogLevelCritical);
+        RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelCritical);
+        RKLogConfigureByName("RestKit/Network", RKLogLevelInfo);
         
     }
     

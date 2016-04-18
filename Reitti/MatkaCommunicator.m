@@ -11,6 +11,9 @@
 #import "ReittiStringFormatter.h"
 #import "ReittiModels.h"
 
+@interface MatkaCommunicator()
+
+@end
 
 @implementation MatkaCommunicator
 
@@ -41,13 +44,13 @@
     [optionsDict setValue:[NSString stringWithFormat:@"%d,%d", (int)fromPoint.x, (int)fromPoint.y] forKey:@"a"];
     [optionsDict setValue:[NSString stringWithFormat:@"%d,%d", (int)toPoint.x, (int)toPoint.y] forKey:@"b"];
     
-    [genericClient doXmlApiFetchWithParams:optionsDict responseDescriptor:[self routeResponseDescriptor] andCompletionBlock:^(NSArray *matkaStops, NSError *error) {
+    [genericClient doXmlApiFetchWithParams:optionsDict responseDescriptor:[self routeResponseDescriptor] andCompletionBlock:^(NSArray *matkaRoutes, NSError *error) {
         if (!error) {
-//            NSMutableArray *responseArray = [@[] mutableCopy];
-//            for (MatkaStop *stop in matkaStops) {
-//                BusStopShort *reittiStop = [BusStopShort stopFromMatkaStop:stop];
-//                if (reittiStop) [responseArray addObject:reittiStop];
-//            }
+            NSMutableArray *responseArray = [@[] mutableCopy];
+            for (MatkaRoute *route in matkaRoutes) {
+                Route *reittiRoute = [Route routeFromMatkaRoute:route];
+                if (reittiRoute) [responseArray addObject:reittiRoute];
+            }
             
             completionBlock(responseArray, nil);
         } else {
@@ -156,7 +159,7 @@
 }
 
 - (RKResponseDescriptor *)routeResponseDescriptor {
-    RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[MatkaRouteLocation class] ];
+    RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[MatkaRoute class] ];
     [routeMapping addAttributeMappingsFromDictionary:@{
                                                       @"LENGTH.time"     : @"time",
                                                       @"LENGTH.dist" : @"distance"
@@ -167,11 +170,11 @@
                                                                               withMapping:[self matkaRouteLocationMapping]]];
     
     [routeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"LINE"
-                                                                                toKeyPath:@"routeLegs"
+                                                                                toKeyPath:@"routeLineLegs"
                                                                               withMapping:[self matkaRouteLegMapping]]];
     
     [routeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"WALK"
-                                                                                 toKeyPath:@"routeLegs"
+                                                                                 toKeyPath:@"routeWalkingLegs"
                                                                                withMapping:[self matkaRouteLegMapping]]];
     
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:routeMapping
@@ -243,8 +246,8 @@
     RKObjectMapping* locationMapping = [RKObjectMapping mappingForClass:[MatkaRouteLocation class] ];
     [locationMapping addAttributeMappingsFromDictionary:@{
                                                       @"uid"     : @"uid",
-                                                      @"xCoord" : @"xCoord",
-                                                      @"yCoord" : @"yCoord",
+                                                      @"x" : @"xCoord",
+                                                      @"y" : @"yCoord",
                                                       @"type" : @"type",
                                                       @"ARRIVAL.date" : @"arrivalDate",
                                                       @"ARRIVAL.time" : @"arrivalTime",
@@ -252,15 +255,64 @@
                                                       @"DEPARTURE.time" : @"departureTime",
                                                       }];
     
+    [locationMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"NAME"
+                                                                                toKeyPath:@"locNames"
+                                                                              withMapping:[self matkaRouteLocNameMapping]]];
+    
     return locationMapping;
 }
 
+- (RKObjectMapping *)matkaRouteStopMapping {
+    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[MatkaRouteStop class] ];
+    [stopMapping addAttributeMappingsFromDictionary:@{
+                                                          @"code"     : @"stopCode",
+                                                          @"id"     : @"stopId",
+                                                          @"ord"     : @"stopOrder",
+                                                          @"x" : @"xCoord",
+                                                          @"y" : @"yCoord",
+                                                          @"type" : @"type",
+                                                          @"ARRIVAL.date" : @"arrivalDate",
+                                                          @"ARRIVAL.time" : @"arrivalTime",
+                                                          @"DEPARTURE.date" : @"departureDate",
+                                                          @"DEPARTURE.time" : @"departureTime",
+                                                          }];
+    
+    [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"NAME"
+                                                                                toKeyPath:@"stopNames"
+                                                                              withMapping:[self matkaRouteLocNameMapping]]];
+    
+    return stopMapping;
+}
+
+- (RKObjectMapping *)matkaRouteLocNameMapping {
+    RKObjectMapping* nameMapping = [RKObjectMapping mappingForClass:[MatkaName class] ];
+    [nameMapping addAttributeMappingsFromDictionary: @{ @"val" : @"name",
+                                                        @"lang" : @"language"
+                                                        }];
+    return nameMapping;
+}
+
 - (RKObjectMapping *)matkaRouteLegMapping {
-    RKObjectMapping* legMapping = [RKObjectMapping mappingForClass:[MatkaRouteLocation class] ];
+    RKObjectMapping* legMapping = [RKObjectMapping mappingForClass:[MatkaRouteLeg class] ];
     [legMapping addAttributeMappingsFromDictionary:@{
                                                           @"LENGTH.time"     : @"time",
-                                                          @"LENGTH.dist" : @"distance"
+                                                          @"LENGTH.dist" : @"distance",
+                                                          @"id" : @"lineId",
+                                                          @"code" : @"codeShort",
+                                                          @"type" : @"transportType"
                                                           }];
+    
+    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"POINT"
+                                                                                 toKeyPath:@"startDestPoints"
+                                                                               withMapping:[self matkaRouteLocationMapping]]];
+    
+    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"MAPLOC"
+                                                                               toKeyPath:@"locations"
+                                                                             withMapping:[self matkaRouteLocationMapping]]];
+    
+    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"STOP"
+                                                                               toKeyPath:@"stops"
+                                                                             withMapping:[self matkaRouteStopMapping]]];
     
     return legMapping;
 }

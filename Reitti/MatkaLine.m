@@ -49,7 +49,7 @@
 }
 
 -(NSDate *)parsedDepartureTime {
-    NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:[self.departureTime stringValue]];
+    NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:self.departureTime];
     return [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
 }
 

@@ -22,3 +22,4 @@
 #import "ReittiShapeMaker.h"
 #import "ReittiNotificationHelper.h"
 #import "Reachability.h"
+#import "ReittiMapkitHelper.h"

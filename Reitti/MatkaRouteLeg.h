@@ -7,18 +7,38 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MatkaRouteLength.h"
 #import "MatkaRouteLocation.h"
+#import "MatkaRouteStop.h"
+#import "EnumManager.h"
 
 @interface MatkaRouteLeg : NSObject
 
+//These are alternating. There cant be bot startPoint and startStop
+-(MatkaRouteLocation *)legStartPoint;
+-(MatkaRouteLocation *)legEndPoint;
+-(MatkaRouteStop *)legStartStop;
+-(MatkaRouteStop *)legEndStop;
+
 @property(nonatomic, strong)NSNumber *time;
 @property(nonatomic, strong)NSNumber *distance;
-@property(nonatomic, strong)MatkaRouteLocation *startLocation;
-@property(nonatomic, strong)MatkaRouteLocation *destLocation;
 
-//Start and dest stops
+//Line type leg
+@property(nonatomic, strong)NSNumber *lineId;
+@property(nonatomic, strong)NSString *codeShort;
+@property(nonatomic, strong)NSNumber *transportType;
 
+//Start and dest locations - For walking legs only
+@property(nonatomic, strong)NSArray *startDestPoints;
+
+//Either location or stops for walking and line legs respectively
 @property(nonatomic, strong)NSArray *locations;
+@property(nonatomic, strong)NSArray *stops;
+
+//Computed properties
+@property(nonatomic, strong)NSNumber *timeInSeconds;
+@property(nonatomic, strong)NSDate *startingTime;
+@property(nonatomic, strong)NSDate *endingTime;
+@property(nonatomic)LegTransportType legType;
+@property(nonatomic)int legOrder;
 
 @end

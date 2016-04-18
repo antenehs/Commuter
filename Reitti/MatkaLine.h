@@ -25,8 +25,8 @@
 @property(nonatomic, strong)NSString *companyCode;
 @property(nonatomic, strong)NSNumber *transportType;
 @property(nonatomic, strong)NSNumber *tridentClass;
-@property(nonatomic, strong)NSNumber *arrivalTime;
-@property(nonatomic, strong)NSNumber *departureTime;
+@property(nonatomic, strong)NSString *arrivalTime;
+@property(nonatomic, strong)NSString *departureTime;
 @property(nonatomic, strong)NSArray *lineNames;
 
 @property (nonatomic, strong)NSString *name;
