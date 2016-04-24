@@ -33,7 +33,7 @@
 @interface LinesTableViewController ()
 
 @property (nonatomic, strong) NSArray *recentLineCodes;
-@property (nonatomic, strong) NSArray *lineCodesFromSavedStops;
+@property (nonatomic, strong) NSDictionary *lineCodesAndLinesFromSavedStops;
 @property (nonatomic, strong) NSArray *lineCodesFromNearbyStops;
 
 @end
@@ -96,8 +96,8 @@
     return lineCodes ? lineCodes : [@[] mutableCopy];
 }
 
--(NSArray *)lineCodesFromSavedStops{
-    return [[LinesManager sharedManager] getLineCodesFromSavedStops];
+-(NSDictionary *)lineCodesAndLinesFromSavedStops{
+    return [[LinesManager sharedManager] getLineCodesAndLinesFromSavedStops];
 }
 
 #pragma mark - init components methods
@@ -220,7 +220,7 @@
     if (self.recentLineCodes && self.recentLineCodes.count > 0) {
         linesForRecentLinesRequested = YES;
         
-        [self fetchLinesForCodes:self.recentLineCodes WithCompletionBlock:^(NSArray *lines){
+        [self fetchLinesForCodes:self.recentLineCodes withCompletionBlock:^(NSArray *lines){
             self.recentLines = [lines mutableCopy];
             [self sortRecentLines]; //Order is not garantied so needs to be sorted.
             
@@ -229,34 +229,63 @@
         }];
     }
     
-    if (self.lineCodesFromSavedStops.count > 0) {
+    if (self.lineCodesAndLinesFromSavedStops && [self.lineCodesAndLinesFromSavedStops[kStopLineCodesKey] count] > 0) {
         linesFromStopsRequested = YES;
         
-        [self fetchLinesForCodes:self.lineCodesFromSavedStops WithCompletionBlock:^(NSArray *lines){
-            self.linesFromSavedStops = [lines mutableCopy];
+        if (self.reittiDataManager.userLocationRegion == HSLRegion || self.reittiDataManager.userLocationRegion == TRERegion) {
+            NSArray *lineCodes = self.lineCodesAndLinesFromSavedStops[kStopLineCodesKey];
+            [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
+                self.linesFromSavedStops = [lines mutableCopy];
+                
+                linesFromStopsRequested = NO;
+                [self.tableView reloadData];
+            }];
+        } else {
+            NSArray *lines = self.lineCodesAndLinesFromSavedStops[kStopLinesKey];
+            //already display the stop lines.
+            NSMutableArray *stopLines = [@[] mutableCopy];
+            for (StopLine *stopLine in lines) {
+                Line *line = [Line lineFromStopLine:stopLine];
+                [stopLines addObject:line];
+            }
+            
+            self.linesFromSavedStops = stopLines;
             
             linesFromStopsRequested = NO;
             [self.tableView reloadData];
-        }];
+        }
+        
     }
     
     linesFromNearByStopsRequested = YES;
-    [[LinesManager sharedManager] getLineCodesFromNearByStopsWithCompletionBlock:^(NSArray *lineCodes){
+    [[LinesManager sharedManager] getLineCodesFromNearByStopsWithCompletionBlock:^(NSArray *lineCodes, NSArray *stopLines){
         if (lineCodes.count > 0) {
-            [self fetchLinesForCodes:lineCodes WithCompletionBlock:^(NSArray *lines){
-                self.linesFromNearStops = [lines mutableCopy];
+            if (self.reittiDataManager.userLocationRegion == HSLRegion || self.reittiDataManager.userLocationRegion == TRERegion) {
+                [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
+                    self.linesFromNearStops = [lines mutableCopy];
+                    
+                    linesFromNearByStopsRequested = NO;
+                    [self.tableView reloadData];
+                }];
+            } else {
+                //already display the stop lines.
+                NSMutableArray *lines = [@[] mutableCopy];
+                for (StopLine *stopLine in stopLines) {
+                    Line *line = [Line lineFromStopLine:stopLine];
+                    [lines addObject:line];
+                }
+                
+                self.linesFromNearStops = lines;
                 
                 linesFromNearByStopsRequested = NO;
                 [self.tableView reloadData];
-            }];
+            }
         }
     }];
 }
 
--(void)fetchLinesForCodes:(NSArray *)lineCodes WithCompletionBlock:(ActionBlock)completionBlock{
-    NSString *codes = [ReittiStringFormatter commaSepStringFromArray:lineCodes withSeparator:@"|"];
-    
-    [self.reittiDataManager fetchLinesForSearchTerm:codes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+-(void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock{
+    [self.reittiDataManager fetchLinesForLineCodes:lineCodes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
         if (!errorString) {
             completionBlock([[self filterInvalidLines:lines] mutableCopy]);
         }else{
@@ -337,7 +366,12 @@
         UIImageView *imageView = [imageContainerView viewWithTag:1004];
         
         numberLabel.text = lineForCell.codeShort;
-        nameLabel.text = [NSString stringWithFormat:@"%@ - %@", lineForCell.lineStart, lineForCell.lineEnd];
+        if (lineForCell.lineStart && lineForCell.lineEnd) {
+            nameLabel.text = [NSString stringWithFormat:@"%@ - %@", lineForCell.lineStart, lineForCell.lineEnd];
+        } else {
+            nameLabel.text = lineForCell.name;
+        }
+        
         
         imageContainerView.layer.cornerRadius = imageContainerView.frame.size.width/2;
         imageContainerView.layer.borderWidth = 1;

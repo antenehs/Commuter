@@ -275,9 +275,7 @@
     if (lineCodes.count < 1)
         return;
     
-    NSString *codesString = [ReittiStringFormatter commaSepStringFromArray:lineCodes withSeparator:@"|"];
-    
-    [self.reittiDataManager fetchLinesForSearchTerm:codesString withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+    [self.reittiDataManager fetchLinesForLineCodes:lineCodes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
         if (!errorString) {
             [self populateLineDetailMapFromLines:lines];
             [routeListTableView reloadData];
@@ -1728,83 +1726,83 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     }
 }
 
--(void)addTransportTypePictures{
-    for (UIView *view in routeListView.subviews) {
-        if (view.tag == 9999) {
-            [view removeFromSuperview];
-        }
-    }
-
-    for (int i = 0;i < self.routeLocationList.count;i++) {
-        RouteLegLocation *loc = [self.routeLocationList objectAtIndex:i];
-        RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
-        if (loc.isHeaderLocation) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-            CGRect rect = [routeListTableView rectForRowAtIndexPath:indexPath];
-            
-            CGFloat height = loc.locationLegType == LegTypeWalk ? 24 : 45;
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, routeListTableView.frame.origin.y + rect.origin.y + rect.size.height - height/2 , 40, height)];
-            
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 0, 24, 24)];
-            
-            switch (loc.locationLegType) {
-                case LegTypeWalk:
-                    [imageView setImage:[UIImage imageNamed:@"walking-black-75.png"]];
-                    break;
-                case LegTypeFerry:
-                    [imageView setImage:[UIImage imageNamed:@"ferry-colored-75.png"]];
-                    break;
-                case LegTypeTrain:
-                    [imageView setImage:[UIImage imageNamed:@"train-colored-75.png"]];
-                    break;
-                case LegTypeBus:
-                    [imageView setImage:[UIImage imageNamed:@"bus-colored-75.png"]];
-                    break;
-                case LegTypeTram:
-                    [imageView setImage:[UIImage imageNamed:@"tram-colored-75.png"]];
-                    break;
-                case LegTypeMetro:
-                    [imageView setImage:[UIImage imageNamed:@"metro-colored-75.png"]];
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            [routeListView addSubview:imageView];
-            
-            UILabel *lineNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 40, 20)];
-            
-            if(selectedLeg.legType == LegTypeMetro){
-                lineNumberLabel.text = @"Metro";
-            }else if(selectedLeg.legType == LegTypeFerry){
-                lineNumberLabel.text = @"Ferry";
-            }else if(selectedLeg.legType == LegTypeTrain){
-//                NSString *unformattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
-//                NSString *unformattedTrainNumber = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
-//                NSString *filteredOnce = [unformattedTrainNumber
-//                                          stringByReplacingOccurrencesOfString:@"01" withString:@""];
-                lineNumberLabel.text = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
-            }else if (selectedLeg.lineCode != nil) {
-                lineNumberLabel.text = selectedLeg.lineName;
-            }else {
-                lineNumberLabel.text = @"";
-            }
-            
-            [lineNumberLabel sizeToFit];
-            lineNumberLabel.textAlignment = NSTextAlignmentCenter;
-            lineNumberLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1];
-            lineNumberLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
-            
-            [view addSubview:lineNumberLabel];
-            
-            view.tag = 9999;
-//            view.backgroundColor = [UIColor lightGrayColor];
-            
-            [routeListView addSubview:view];
-        }
-    }
-}
+//-(void)addTransportTypePictures{
+//    for (UIView *view in routeListView.subviews) {
+//        if (view.tag == 9999) {
+//            [view removeFromSuperview];
+//        }
+//    }
+//
+//    for (int i = 0;i < self.routeLocationList.count;i++) {
+//        RouteLegLocation *loc = [self.routeLocationList objectAtIndex:i];
+//        RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
+//        if (loc.isHeaderLocation) {
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+//            CGRect rect = [routeListTableView rectForRowAtIndexPath:indexPath];
+//            
+//            CGFloat height = loc.locationLegType == LegTypeWalk ? 24 : 45;
+//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, routeListTableView.frame.origin.y + rect.origin.y + rect.size.height - height/2 , 40, height)];
+//            
+//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 0, 24, 24)];
+//            
+//            switch (loc.locationLegType) {
+//                case LegTypeWalk:
+//                    [imageView setImage:[UIImage imageNamed:@"walking-black-75.png"]];
+//                    break;
+//                case LegTypeFerry:
+//                    [imageView setImage:[UIImage imageNamed:@"ferry-colored-75.png"]];
+//                    break;
+//                case LegTypeTrain:
+//                    [imageView setImage:[UIImage imageNamed:@"train-colored-75.png"]];
+//                    break;
+//                case LegTypeBus:
+//                    [imageView setImage:[UIImage imageNamed:@"bus-colored-75.png"]];
+//                    break;
+//                case LegTypeTram:
+//                    [imageView setImage:[UIImage imageNamed:@"tram-colored-75.png"]];
+//                    break;
+//                case LegTypeMetro:
+//                    [imageView setImage:[UIImage imageNamed:@"metro-colored-75.png"]];
+//                    break;
+//                    
+//                default:
+//                    break;
+//            }
+//            
+//            [routeListView addSubview:imageView];
+//            
+//            UILabel *lineNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 40, 20)];
+//            
+//            if(selectedLeg.legType == LegTypeMetro){
+//                lineNumberLabel.text = @"Metro";
+//            }else if(selectedLeg.legType == LegTypeFerry){
+//                lineNumberLabel.text = @"Ferry";
+//            }else if(selectedLeg.legType == LegTypeTrain){
+////                NSString *unformattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
+////                NSString *unformattedTrainNumber = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
+////                NSString *filteredOnce = [unformattedTrainNumber
+////                                          stringByReplacingOccurrencesOfString:@"01" withString:@""];
+//                lineNumberLabel.text = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
+//            }else if (selectedLeg.lineCode != nil) {
+//                lineNumberLabel.text = selectedLeg.lineName;
+//            }else {
+//                lineNumberLabel.text = @"";
+//            }
+//            
+//            [lineNumberLabel sizeToFit];
+//            lineNumberLabel.textAlignment = NSTextAlignmentCenter;
+//            lineNumberLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1];
+//            lineNumberLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
+//            
+//            [view addSubview:lineNumberLabel];
+//            
+//            view.tag = 9999;
+////            view.backgroundColor = [UIColor lightGrayColor];
+//            
+//            [routeListView addSubview:view];
+//        }
+//    }
+//}
 
 -(void)selectTransferAnnotationWithCode:(NSString *)code{
     for (id<MKAnnotation> annotation in routeMapView.annotations) {

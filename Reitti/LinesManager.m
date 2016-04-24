@@ -12,6 +12,8 @@
 #import "StopEntity.h"
 
 NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
+NSString *kStopLineCodesKey = @"stopLineCodes";
+NSString *kStopLinesKey = @"stopLines";
 
 @interface LinesManager ()<CLLocationManagerDelegate>
 
@@ -121,19 +123,29 @@ NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
     
 }
 
--(NSArray *)getLineCodesFromSavedStops{
+-(NSDictionary *)getLineCodesAndLinesFromSavedStops{
     NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
     
     NSMutableArray *lineCodes = [@[] mutableCopy];
+    NSMutableArray *lines = [@[] mutableCopy];
     for (StopEntity *stop in savedStops) {
-        for (NSString *lineCode in stop.fullLineCodes) {
-            if (![lineCodes containsObject:lineCodes]) {
-                [lineCodes addObject:lineCode];
+        if (stop.fullLineCodes) {
+//            for (NSString *lineCode in stop.fullLineCodes) {
+//                if (![lineCodes containsObject:lineCodes]) {
+//                    [lineCodes addObject:lineCode];
+//                }
+//            }
+            
+            for (StopLine *line in stop.stopLines) {
+                if (![lineCodes containsObject:line.fullCode]) {
+                    [lineCodes addObject:line.fullCode];
+                    [lines addObject:line];
+                }
             }
         }
     }
     
-    return lineCodes;
+    return @{kStopLineCodesKey : lineCodes, kStopLinesKey : lines};
 }
 
 -(void)getLineCodesFromNearByStopsWithCompletionBlock:(ActionBlock)completionBlock{
@@ -149,22 +161,31 @@ NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
             [self fetchStopsDetailsForBusStopShorts:stopsList withCompletionBlock:^(NSArray *detailStops){
                 if (detailStops.count > 0) {
                     NSMutableArray *lineCodes = [@[] mutableCopy];
+                    NSMutableArray *lines = [@[] mutableCopy];
                     for (BusStop *stop in detailStops) {
-                        for (NSString *lineCode in stop.lineFullCodes) {
-                            if (![lineCodes containsObject:lineCodes]) {
-                                [lineCodes addObject:lineCode];
+//                        for (NSString *lineCode in stop.lineFullCodes) {
+//                            if (![lineCodes containsObject:lineCodes]) {
+//                                [lineCodes addObject:lineCode];
+//                            }
+//                        }
+                        for (StopLine *line in stop.lines) {
+                            if (line.fullCode) {
+                                if (![lineCodes containsObject:lineCodes]) {
+                                    [lineCodes addObject:line.fullCode];
+                                    [lines addObject:line];
+                                }
                             }
                         }
                     }
                     
-                    completionBlock(lineCodes);
+                    completionBlock(lineCodes, lines);
                 }else{
-                    completionBlock(@[]);
+                    completionBlock(@[], @[]);
                 }
             }];
             
         }else{
-            completionBlock(nil, errorMessage);
+            completionBlock(nil);
         }
     }];
 }

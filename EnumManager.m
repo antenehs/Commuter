@@ -75,31 +75,22 @@
     switch (type) {
         case LegTypeBus:
             return StopTypeBus;
-            break;
-            
         case LegTypeTram:
             return StopTypeTram;
-            break;
-            
         case LegTypeTrain:
             return StopTypeTrain;
-            break;
-            
         case LegTypeMetro:
             return StopTypeMetro;
-            break;
-            
         case LegTypeFerry:
             return StopTypeFerry;
-            break;
-            
+        case LegTypeLongDistanceTrain:
+            return StopTypeTrain;
+        case LegTypeAirplane:
+            return StopTypeAirport;
         case LegTypeOther:
             return StopTypeOther;
-            break;
-            
         default:
             return StopTypeOther;
-            break;
     }
 }
 
@@ -114,6 +105,8 @@
         return VehicleTypeBus;
     }else if ([type isEqualToString:@"longdistancetrain"]) {
         return VehicleTypeLongDistanceTrain;
+    }else if ([type isEqualToString:@"airplane"]) {
+        return VehicleTypeAirplane;
     }else {
         return VehicleTypeOther;
     }
@@ -130,6 +123,10 @@
         return VehicleTypeTrain;
     }else if (lineType == LineTypeBus) {
         return VehicleTypeBus;
+    }else if (lineType == LineTypeLongDistanceTrain) {
+        return VehicleTypeLongDistanceTrain;
+    }else if (lineType == LineTypeAirplane) {
+        return VehicleTypeAirplane;
     }else{
         return VehicleTypeOther;
     }
@@ -177,8 +174,33 @@
         return LineTypeTrain;
     }else if (vehicleType == VehicleTypeBus) {
         return LineTypeBus;
+    }else if (vehicleType == VehicleTypeLongDistanceTrain) {
+        return LineTypeLongDistanceTrain;
+    }else if (vehicleType == VehicleTypeAirplane) {
+        return LineTypeAirplane;
     }else{
         return LineTypeOther;
+    }
+}
+
++(LineType)lineTypeForStopType:(StopType)stopType {
+    switch (stopType) {
+        case StopTypeBus:
+            return LineTypeBus;
+        case StopTypeTram:
+            return LineTypeTram;
+        case StopTypeMetro:
+            return LineTypeMetro;
+        case StopTypeFerry:
+            return LineTypeFerry;
+        case StopTypeTrain:
+            return LineTypeTrain;
+        case StopTypeAirport:
+            return LineTypeAirplane;
+        case StopTypeOther:
+            return LineTypeOther;
+        default:
+            return LineTypeBus;
     }
 }
 
@@ -193,6 +215,10 @@
         return LegTypeTrain;
     }else if (lineType == LineTypeBus) {
         return LegTypeBus;
+    }else if (lineType == LineTypeLongDistanceTrain) {
+        return LegTypeLongDistanceTrain;
+    }else if (lineType == VehicleTypeAirplane) {
+        return LegTypeAirplane;
     }else{
         return LegTypeOther;
     }

@@ -257,7 +257,7 @@
     for (NSDictionary *lineDict in parsedObject) {
         HSLLine *hslLine = [[HSLLine alloc] initWithDictionary:lineDict];
         
-        Line *line = [[Line alloc] initFromHSLLine:hslLine];
+        Line *line = [Line lineFromHSLLine:hslLine];
         if (line != nil) {
             //Parse dates
             line.parsedDateFrom = line.dateFrom ? [self.dateFormatter dateFromString:line.dateFrom] : nil;

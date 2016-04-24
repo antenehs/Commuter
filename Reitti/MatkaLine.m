@@ -9,6 +9,7 @@
 #import "MatkaLine.h"
 #import "MatkaName.h"
 #import "ReittiStringFormatter.h"
+#import "MatkaCommunicator.h"
 
 @implementation MatkaLine
 
@@ -21,7 +22,8 @@
 }
 
 -(NSString *)name {
-    return [self nameFi] ? [self nameFi] : [self nameSe];
+    NSString *name = [self nameFi] ? [self nameFi] : [self nameSe];
+    return name ? name : self.companyCode;
 }
 
 -(NSString *)nameFi {
@@ -51,6 +53,65 @@
 -(NSDate *)parsedDepartureTime {
     NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:self.departureTime];
     return [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+}
+
+-(LineType)lineType {
+    if (self.transportType) {
+        return [MatkaCommunicator lineTypeForMatkaTrasportType:self.transportType];
+    }else{
+        return LineTypeBus;
+    }
+}
+
+-(NSString *)lineStart {
+    if (!_lineStart) {
+        if (self.name) {
+            NSArray *comps = [self.name componentsSeparatedByString:@"-"];
+            if (comps.count > 1) {
+                _lineStart = [comps firstObject];
+            }
+        }
+    }
+    
+    return _lineStart;
+}
+
+-(NSString *)lineEnd {
+    if (!_lineEnd) {
+        if (self.name) {
+            NSArray *comps = [self.name componentsSeparatedByString:@"-"];
+            if (comps.count > 1) {
+                NSString *lineEnd = [comps lastObject];
+                //There could be optional destinations at the end
+                if ([lineEnd containsString:@"("] && [lineEnd containsString:@")"]) {
+                    if (comps.count > 2) {
+                        lineEnd = [NSString stringWithFormat:@"%@ - %@", comps[comps.count - 2], lineEnd];
+                    }
+                }
+                _lineEnd = lineEnd;
+            } else {
+                _lineEnd = self.name;
+            }
+        }
+    }
+    
+    return _lineEnd;
+}
+
+-(NSArray *)shapeCoordinates {
+    if (!_shapeCoordinates) {
+        if (self.lineStops && self.lineStops.count > 0) {
+            NSMutableArray *tempArray = [@[] mutableCopy];
+            
+            for (MatkaStop *stop in self.lineStops) {
+                CLLocation *loc = [[CLLocation alloc] initWithLatitude:stop.coords.latitude longitude:stop.coords.longitude];
+                [tempArray addObject:loc];
+            }
+            _shapeCoordinates = tempArray;
+        }
+    }
+    
+    return _shapeCoordinates;
 }
 
 @end

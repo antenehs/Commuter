@@ -10,7 +10,7 @@
 
 @implementation StopLine
 
-@synthesize fullCode, code, name, direction, destination;
+@synthesize fullCode, code, name, direction, destination, lineStart, lineEnd, lineType;
 
 #pragma mark - NSCoding Methods
 
@@ -23,6 +23,9 @@
     self.name = [aDecoder decodeObjectForKey:@"name"];
     self.direction = [aDecoder decodeObjectForKey:@"direction"];
     self.destination = [aDecoder decodeObjectForKey:@"destination"];
+    self.lineType = (LineType)[[aDecoder decodeObjectForKey:@"lineType"] intValue];
+    self.lineStart = [aDecoder decodeObjectForKey:@"lineStart"];
+    self.lineEnd = [aDecoder decodeObjectForKey:@"lineEnd"];
     
     return self;
 }
@@ -34,6 +37,9 @@
     [aCoder encodeObject:name forKey:@"name"];
     [aCoder encodeObject:direction forKey:@"direction"];
     [aCoder encodeObject:destination forKey:@"destination"];
+    [aCoder encodeObject:[NSNumber numberWithInt:(int)lineType] forKey:@"lineType"];
+    [aCoder encodeObject:lineStart forKey:@"lineStart"];
+    [aCoder encodeObject:lineEnd forKey:@"lineEnd"];
 }
 
 @end

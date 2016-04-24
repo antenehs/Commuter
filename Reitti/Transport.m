@@ -97,6 +97,11 @@
         if (width < acceptableWidthForMetroAndFerry) {
             lineNumberLabel.hidden = YES;
         }
+    }else if(routeLeg.legType == LegTypeAirplane){
+        lineNumberLabel.text = @"AIR";
+        if (width < acceptableWidthForMetroAndFerry) {
+            lineNumberLabel.hidden = YES;
+        }
     }else if(routeLeg.legType == LegTypeWalk){
         lineNumberLabel.hidden = YES;
         if (width < minWidthForWalkLeg) {

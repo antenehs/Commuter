@@ -6,7 +6,7 @@
 //
 
 #import "HSLLine.h"
-#import "LineStops.h"
+#import "LineStop.h"
 
 
 NSString *const kHSLLineLineStops = @"line_stops";
@@ -60,11 +60,11 @@ NSString *const kHSLLineLineShape = @"line_shape";
         if ([receivedLineStops isKindOfClass:[NSArray class]]) {
             for (NSDictionary *item in (NSArray *)receivedLineStops) {
                 if ([item isKindOfClass:[NSDictionary class]]) {
-                    [parsedLineStops addObject:[LineStops modelObjectWithDictionary:item]];
+                    [parsedLineStops addObject:[LineStop modelObjectWithDictionary:item]];
                 }
             }
         } else if ([receivedLineStops isKindOfClass:[NSDictionary class]]) {
-            [parsedLineStops addObject:[LineStops modelObjectWithDictionary:(NSDictionary *)receivedLineStops]];
+            [parsedLineStops addObject:[LineStop modelObjectWithDictionary:(NSDictionary *)receivedLineStops]];
         }
 
         self.lineStops = [NSArray arrayWithArray:parsedLineStops];

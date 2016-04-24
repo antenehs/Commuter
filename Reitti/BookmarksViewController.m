@@ -535,7 +535,11 @@ const NSInteger kTimerRefreshInterval = 15;
             title.text = stopEntity.busStopName;
             //stopName.font = CUSTOME_FONT_BOLD(23.0f);
             
-            subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+            if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
+                subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+            } else {
+                subTitle.text = [NSString stringWithFormat:@"%@", stopEntity.busStopShortCode];
+            }
             
             UICollectionView *collectionView = (UICollectionView *)[cell viewWithTag:2007];
             

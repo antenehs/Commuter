@@ -306,7 +306,7 @@
 }
 
 #pragma mark - Line detail fetch protocol implementation
--(void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
+-(void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
     NSString *username = [self getApiUsername];
@@ -317,6 +317,22 @@
     [super fetchLineDetailForSearchterm:searchTerm andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"TRE" value:nil];
+}
+
+- (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock {
+    if (!lineCodes || lineCodes.count < 1) return;
+    NSString *codes = [ReittiStringFormatter commaSepStringFromArray:lineCodes withSeparator:@"|"];
+    
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    NSString *username = [self getApiUsername];
+    
+    [optionsDict setValue:username forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchLineDetailForSearchterm:codes andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"HSL" value:nil];
 }
 
 #pragma mark - Geocode search protocol implementation
@@ -388,7 +404,8 @@
                     line.direction = [lineComps lastObject];
                 }
             }
-            
+            line.lineType = [EnumManager lineTypeForStopType:stop.stopType];
+            line.lineEnd = line.destination;
             [stopLinesArray addObject:line];
         }
         

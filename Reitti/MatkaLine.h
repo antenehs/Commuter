@@ -16,10 +16,11 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "EnumManager.h"
 
 @interface MatkaLine : NSObject
 
-@property(nonatomic, strong)NSNumber *lineId;
+@property(nonatomic, strong)NSString *lineId;
 @property(nonatomic, strong)NSString *codeShort;
 @property(nonatomic, strong)NSString *codeFull;
 @property(nonatomic, strong)NSString *companyCode;
@@ -28,8 +29,13 @@
 @property(nonatomic, strong)NSString *arrivalTime;
 @property(nonatomic, strong)NSString *departureTime;
 @property(nonatomic, strong)NSArray *lineNames;
+@property(nonatomic, strong)NSArray *lineStops;
 
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, strong)NSDate *parsedDepartureTime;
+@property(nonatomic)LineType lineType;
+@property (nonatomic, strong)NSString *lineStart;
+@property (nonatomic, strong)NSString *lineEnd;
+@property (nonatomic, strong)NSArray *shapeCoordinates;
 
 @end

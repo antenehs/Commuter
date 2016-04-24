@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 shaby ltd. All rights reserved.
 //
 
-#import "LineStops.h"
+#import "LineStop.h"
 
 
 NSString *const kLineStopsCoords = @"coords";
@@ -18,13 +18,13 @@ NSString *const kLineStopsCityName = @"city_name";
 NSString *const kLineStopsName = @"name";
 
 
-@interface LineStops ()
+@interface LineStop ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
 @end
 
-@implementation LineStops
+@implementation LineStop
 
 @synthesize coords = _coords;
 @synthesize address = _address;
@@ -49,7 +49,7 @@ NSString *const kLineStopsName = @"name";
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.coords = [self objectOrNilForKey:kLineStopsCoords fromDictionary:dict];
             self.address = [self objectOrNilForKey:kLineStopsAddress fromDictionary:dict];
-            self.time = [[self objectOrNilForKey:kLineStopsTime fromDictionary:dict] doubleValue];
+            self.time = [self objectOrNilForKey:kLineStopsTime fromDictionary:dict];
             self.code = [self objectOrNilForKey:kLineStopsCode fromDictionary:dict];
             self.codeShort = [self objectOrNilForKey:kLineStopsCodeShort fromDictionary:dict];
             self.platformNumber = [self objectOrNilForKey:kLineStopsPlatformNumber fromDictionary:dict];
@@ -67,7 +67,7 @@ NSString *const kLineStopsName = @"name";
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.coords forKey:kLineStopsCoords];
     [mutableDict setValue:self.address forKey:kLineStopsAddress];
-    [mutableDict setValue:[NSNumber numberWithDouble:self.time] forKey:kLineStopsTime];
+    [mutableDict setValue:self.time forKey:kLineStopsTime];
     [mutableDict setValue:self.code forKey:kLineStopsCode];
     [mutableDict setValue:self.codeShort forKey:kLineStopsCodeShort];
     [mutableDict setValue:self.platformNumber forKey:kLineStopsPlatformNumber];
@@ -98,7 +98,7 @@ NSString *const kLineStopsName = @"name";
 
     self.coords = [aDecoder decodeObjectForKey:kLineStopsCoords];
     self.address = [aDecoder decodeObjectForKey:kLineStopsAddress];
-    self.time = [aDecoder decodeDoubleForKey:kLineStopsTime];
+    self.time = [aDecoder decodeObjectForKey:kLineStopsTime];
     self.code = [aDecoder decodeObjectForKey:kLineStopsCode];
     self.codeShort = [aDecoder decodeObjectForKey:kLineStopsCodeShort];
     self.platformNumber = [aDecoder decodeObjectForKey:kLineStopsPlatformNumber];
@@ -112,7 +112,7 @@ NSString *const kLineStopsName = @"name";
 
     [aCoder encodeObject:_coords forKey:kLineStopsCoords];
     [aCoder encodeObject:_address forKey:kLineStopsAddress];
-    [aCoder encodeDouble:_time forKey:kLineStopsTime];
+    [aCoder encodeObject:_time forKey:kLineStopsTime];
     [aCoder encodeObject:_code forKey:kLineStopsCode];
     [aCoder encodeObject:_codeShort forKey:kLineStopsCodeShort];
     [aCoder encodeObject:_platformNumber forKey:kLineStopsPlatformNumber];
@@ -122,13 +122,13 @@ NSString *const kLineStopsName = @"name";
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    LineStops *copy = [[LineStops alloc] init];
+    LineStop *copy = [[LineStop alloc] init];
     
     if (copy) {
 
         copy.coords = [self.coords copyWithZone:zone];
         copy.address = [self.address copyWithZone:zone];
-        copy.time = self.time;
+        copy.time = [self.time copyWithZone:zone];
         copy.code = [self.code copyWithZone:zone];
         copy.codeShort = [self.codeShort copyWithZone:zone];
         copy.platformNumber = [self.platformNumber copyWithZone:zone];
@@ -137,6 +137,24 @@ NSString *const kLineStopsName = @"name";
     }
     
     return copy;
+}
+
++ (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop {
+    LineStop *stop = [[LineStop alloc] init];
+    
+    if (stop) {
+        
+        stop.coords = matkaStop.coordString;
+        stop.address = matkaStop.name;
+        stop.time = nil;
+        stop.code = matkaStop.stopId;
+        stop.codeShort = matkaStop.stopShortCode;
+        stop.platformNumber = nil;
+        stop.cityName = nil;
+        stop.name = matkaStop.name;
+    }
+    
+    return stop;
 }
 
 

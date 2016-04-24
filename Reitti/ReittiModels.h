@@ -17,7 +17,7 @@
 #import "RouteLegLocation.h"
 #import "Line.h"
 #import "HSLLine.h"
-#import "LineStops.h"
+#import "LineStop.h"
 
 //Matka API
 #import "MatkaStop.h"

@@ -69,26 +69,22 @@
     switch (legTransportType) {
         case LegTypeWalk:
             return [UIColor darkGrayColor];
-            break;
         case LegTypeFerry:
             return [AppManager systemCyanColor];
-            break;
         case LegTypeTrain:
+        case LegTypeLongDistanceTrain:
             return [AppManager systemRedColor];
-            break;
         case LegTypeBus:
             return [AppManager systemBlueColor];
-            break;
         case LegTypeTram:
             return [AppManager systemGreenColor];
-            break;
         case LegTypeMetro:
             return [AppManager systemOrangeColor];
-            break;
+        case LegTypeAirplane:
+            return [AppManager systemPurpleColor];
             
         default:
             return [UIColor darkGrayColor];
-            break;
     }
 }
 
@@ -96,20 +92,17 @@
     switch (lineType) {
         case LineTypeFerry:
             return [AppManager systemCyanColor];
-            break;
         case LineTypeTrain:
+        case LineTypeLongDistanceTrain:
             return [AppManager systemRedColor];
-            break;
         case LineTypeBus:
             return [AppManager systemBlueColor];
-            break;
         case LineTypeTram:
             return [AppManager systemGreenColor];
-            break;
         case LineTypeMetro:
             return [AppManager systemOrangeColor];
-            break;
-            
+        case LineTypeAirplane:
+            return [AppManager systemPurpleColor];
         default:
             return [AppManager systemBlueColor];
             break;
@@ -120,19 +113,16 @@
     switch (stopType) {
         case StopTypeFerry:
             return [AppManager systemCyanColor];
-            break;
         case StopTypeTrain:
             return [AppManager systemRedColor];
-            break;
         case StopTypeBus:
             return [AppManager systemBlueColor];
-            break;
         case StopTypeTram:
             return [AppManager systemGreenColor];
-            break;
         case StopTypeMetro:
             return [AppManager systemOrangeColor];
-            break;
+        case StopTypeAirport:
+            return [AppManager systemPurpleColor];
             
         default:
             return [AppManager systemBlueColor];
@@ -146,7 +136,6 @@
 }
 
 +(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType{
-    
     if (stopType == StopTypeBus) {
         return @"busAnnotation3_2.png";
     }else if (stopType == StopTypeTrain) {
@@ -157,6 +146,8 @@
         return @"ferryAnnotation3_2.png";
     }else if (stopType == StopTypeMetro) {
         return @"metroAnnotation3_2.png";
+    }else if (stopType == StopTypeAirport) {
+        return @"airportStop";
     }else{
         return @"busAnnotation3_2.png";
     }
@@ -198,22 +189,20 @@
     switch (type) {
         case LegTypeWalk:
             return [UIImage imageNamed:@"walking-gray-64.png"];
-            break;
         case LegTypeFerry:
             return [UIImage imageNamed:@"ferry-filled-cyan-100.png"];
-            break;
         case LegTypeTrain:
             return [UIImage imageNamed:@"train-filled-red-100.png"];
-            break;
         case LegTypeBus:
             return [UIImage imageNamed:@"bus-filled-blue-100.png"];
-            break;
         case LegTypeTram:
             return [UIImage imageNamed:@"tram-filled-green-100.png"];
-            break;
         case LegTypeMetro:
             return [UIImage imageNamed:@"metro-logo-orange.png"];
-            break;
+        case LegTypeLongDistanceTrain:
+            return [UIImage imageNamed:@"longDistTrainColor"];
+        case LegTypeAirplane:
+            return [UIImage imageNamed:@"airplaneColor"];
             
         default:
             return [UIImage imageNamed:@"bus-filled-blue-100.png"];
@@ -225,25 +214,22 @@
     switch (type) {
         case LegTypeBus:
             return [UIImage imageNamed:@"bus-filled-light-100.png"];
-            break;
         case LegTypeTrain:
             return [UIImage imageNamed:@"train-filled-light-64.png"];
-            break;
         case LegTypeMetro:
             return [UIImage imageNamed:@"metro-logo-orange.png"];
-            break;
         case LegTypeTram:
             return [UIImage imageNamed:@"tram-filled-light-64.png"];
-            break;
         case LegTypeFerry:
             return [UIImage imageNamed:@"boat-filled-light-100.png"];
-            break;
         case LegTypeService:
             return [UIImage imageNamed:@"service-bus-filled-purple.png"];
-            break;
         case LegTypeWalk:
             return [UIImage imageNamed:@"walking-gray-64.png"];
-            break;
+        case LegTypeLongDistanceTrain:
+            return [UIImage imageNamed:@"longDistTrainLight"];
+        case LegTypeAirplane:
+            return [UIImage imageNamed:@"airplaneLight"];
             
         default:
             return [UIImage imageNamed:@"bus-filled-light-100.png"];

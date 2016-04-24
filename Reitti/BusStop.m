@@ -136,11 +136,14 @@
     NSMutableArray *lines = [@[] mutableCopy];
     for (MatkaLine *matkaLine in matkaLines) {
         StopLine *line = [[StopLine alloc] init];
-        line.fullCode = [NSString stringWithFormat:@"%ld", [matkaLine.lineId longValue]];
+        line.fullCode = matkaLine.lineId;
         line.code = matkaLine.codeShort;
         line.name = matkaLine.name;
         line.direction = @"1";
         line.destination = matkaLine.name;
+        line.lineType = matkaLine.lineType;
+        line.lineStart = matkaLine.lineStart;
+        line.lineEnd = matkaLine.lineEnd;
         
         [lines addObject:line];
     }
@@ -160,7 +163,7 @@
         departure.date = nil;
         departure.time = matkaLine.departureTime;
         departure.direction = @"1";
-        departure.destination = matkaLine.name;
+        departure.destination = matkaLine.lineEnd;
         departure.parsedDate = matkaLine.parsedDepartureTime;
         
         [departures addObject:departure];

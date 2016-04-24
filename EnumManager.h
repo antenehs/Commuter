@@ -15,7 +15,8 @@ typedef enum
     StopTypeTrain = 2,
     StopTypeMetro = 3,
     StopTypeFerry = 4,
-    StopTypeOther = 5
+    StopTypeOther = 5,
+    StopTypeAirport = 6
 } StopType;
 
 typedef enum
@@ -26,7 +27,8 @@ typedef enum
     VehicleTypeBus = 3,
     VehicleTypeLongDistanceTrain = 4,
     VehicleTypeFerry = 5,
-    VehicleTypeOther = 6
+    VehicleTypeOther = 6,
+    VehicleTypeAirplane = 7
 } VehicleType;
 
 typedef enum{
@@ -35,7 +37,9 @@ typedef enum{
     LineTypeTrain = 2,
     LineTypeMetro = 3,
     LineTypeFerry = 4,
-    LineTypeOther = 5
+    LineTypeOther = 5,
+    LineTypeLongDistanceTrain = 6,
+    LineTypeAirplane = 7
 }LineType;
 
 typedef enum
@@ -47,7 +51,10 @@ typedef enum
     LegTypeTram = 5,
     LegTypeFerry = 6,
     LegTypeService = 7,
-    LegTypeOther = 8
+    LegTypeOther = 8,
+    LegTypeLongDistanceTrain = 10,
+    LegTypeAirplane = 11
+    
 } LegTransportType;
 
 typedef enum
@@ -72,6 +79,7 @@ typedef enum
 
 +(LineType)lineTypeForHSLLineTypeId:(NSString *)type;
 +(LineType)lineTypeForVehicleType:(VehicleType)vehicleType;
++(LineType)lineTypeForStopType:(StopType)stopType;
 
 +(LegTransportType)legTrasportTypeForLineType:(LineType)lineType;
 

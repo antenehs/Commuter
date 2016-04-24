@@ -35,12 +35,16 @@
     return nil;
 }
 
+-(NSString *)name {
+    return self.nameFi ? self.nameFi : self.nameSe;
+}
+
 -(NSString *)coordString {
     return [ReittiStringFormatter coordStringFromKkj3CoorsWithX:_xCoord andY:_yCoord];
 }
 
--(CLLocationCoordinate2D)coord{
-    return [ReittiStringFormatter convertStringTo2DCoord:_coordString];
+-(CLLocationCoordinate2D)coords{
+    return [ReittiStringFormatter convertStringTo2DCoord:self.coordString];
 }
 
 @end

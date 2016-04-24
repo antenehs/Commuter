@@ -67,7 +67,7 @@
 		660D31301C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
 		660D31311C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
 		660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5A1B33630C00CE670E /* HSLLine.m */; };
-		660E2F5E1B33630C00CE670E /* LineStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStops.m */; };
+		660E2F5E1B33630C00CE670E /* LineStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStop.m */; };
 		660E2F6F1B34386400CE670E /* location-75-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F611B34386400CE670E /* location-75-red.png */; };
 		660E2F701B34386400CE670E /* work-filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F621B34386400CE670E /* work-filled-100.png */; };
 		660E2F711B34386400CE670E /* home-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660E2F631B34386400CE670E /* home-100.png */; };
@@ -498,7 +498,7 @@
 		66C732E21C556DA5002544BC /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
 		66C732E31C556DA5002544BC /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
 		66C732E41C556DA5002544BC /* StopLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885BB1B11172E0044F514 /* StopLines.m */; };
-		66C732E51C556DA5002544BC /* LineStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStops.m */; };
+		66C732E51C556DA5002544BC /* LineStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStop.m */; };
 		66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960F18EEE46100E95CE5 /* SWUtilityButtonView.m */; };
 		66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D871C54088100C838AA /* ServicePointsViewController.m */; };
 		66C732E81C556DA5002544BC /* Reitti.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */; };
@@ -1622,8 +1622,8 @@
 		660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		660E2F591B33630C00CE670E /* HSLLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLLine.h; sourceTree = "<group>"; };
 		660E2F5A1B33630C00CE670E /* HSLLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLLine.m; sourceTree = "<group>"; };
-		660E2F5B1B33630C00CE670E /* LineStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineStops.h; sourceTree = "<group>"; };
-		660E2F5C1B33630C00CE670E /* LineStops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineStops.m; sourceTree = "<group>"; };
+		660E2F5B1B33630C00CE670E /* LineStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineStop.h; sourceTree = "<group>"; };
+		660E2F5C1B33630C00CE670E /* LineStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineStop.m; sourceTree = "<group>"; };
 		660E2F611B34386400CE670E /* location-75-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location-75-red.png"; path = "Pictures/Version 3.1/AddressTypeColored/location-75-red.png"; sourceTree = "<group>"; };
 		660E2F621B34386400CE670E /* work-filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "work-filled-100.png"; path = "Pictures/Version 3.1/AddressTypeColored/work-filled-100.png"; sourceTree = "<group>"; };
 		660E2F631B34386400CE670E /* home-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "home-100.png"; path = "Pictures/Version 3.1/AddressTypeColored/home-100.png"; sourceTree = "<group>"; };
@@ -2762,8 +2762,8 @@
 			children = (
 				660E2F591B33630C00CE670E /* HSLLine.h */,
 				660E2F5A1B33630C00CE670E /* HSLLine.m */,
-				660E2F5B1B33630C00CE670E /* LineStops.h */,
-				660E2F5C1B33630C00CE670E /* LineStops.m */,
+				660E2F5B1B33630C00CE670E /* LineStop.h */,
+				660E2F5C1B33630C00CE670E /* LineStop.m */,
 			);
 			name = HSLLines;
 			sourceTree = "<group>";
@@ -5465,7 +5465,7 @@
 				663E1EC01C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
 				66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
-				660E2F5E1B33630C00CE670E /* LineStops.m in Sources */,
+				660E2F5E1B33630C00CE670E /* LineStop.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
 				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
@@ -5701,7 +5701,7 @@
 				663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
 				66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				66C732E41C556DA5002544BC /* StopLines.m in Sources */,
-				66C732E51C556DA5002544BC /* LineStops.m in Sources */,
+				66C732E51C556DA5002544BC /* LineStop.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
 				66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */,
 				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,

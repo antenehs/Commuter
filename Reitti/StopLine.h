@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EnumManager.h"
 
 @interface StopLine : NSObject <NSCoding>
 
@@ -15,5 +16,9 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *direction;
 @property (nonatomic, strong) NSString *destination;
+
+@property (nonatomic) LineType lineType;
+@property (nonatomic, strong)NSString *lineStart;
+@property (nonatomic, strong)NSString *lineEnd;
 
 @end

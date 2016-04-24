@@ -9,6 +9,8 @@
 #import "Line.h"
 #import "ReittiStringFormatter.h"
 #import <MapKit/MapKit.h>
+#import "MatkaStop.h"
+#import "LineStop.h"
 
 @implementation Line
 
@@ -24,25 +26,81 @@
 @synthesize name;
 @synthesize shapeCoordinates;
 
--(id)initFromHSLLine:(HSLLine *)hslLine{
-    self = [super init];
++(id)lineFromHSLLine:(HSLLine *)hslLine{
+    Line *line = [[Line alloc] init];
     
-    if (self && hslLine != nil && [hslLine isKindOfClass:[HSLLine class]]) {
-        self.code = hslLine.code;
-        self.codeShort = hslLine.codeShort;
-        self.lineType = [EnumManager lineTypeForHSLLineTypeId:[NSString stringWithFormat:@"%d", (int)hslLine.transportTypeId]];
-        self.lineStart = hslLine.lineStart;
-        self.lineEnd = hslLine.lineEnd;
+    if (hslLine != nil && [hslLine isKindOfClass:[HSLLine class]]) {
+        line.code = hslLine.code;
+        line.codeShort = hslLine.codeShort;
+        line.lineType = [EnumManager lineTypeForHSLLineTypeId:[NSString stringWithFormat:@"%d", (int)hslLine.transportTypeId]];
+        line.lineStart = hslLine.lineStart;
+        line.lineEnd = hslLine.lineEnd;
         //TODO: convert stops to Reitti stop
-        self.lineStops = hslLine.lineStops;
-        self.timetableUrl = hslLine.timetableUrl;
-        self.dateFrom = hslLine.dateFrom;
-        self.dateTo = hslLine.dateTo;
-        self.name = hslLine.name;
-        self.shapeCoordinates = [Line parseCoordinatesFromHSLShapeString:hslLine.lineShape];
+        line.lineStops = hslLine.lineStops;
+        line.timetableUrl = hslLine.timetableUrl;
+        line.dateFrom = hslLine.dateFrom;
+        line.dateTo = hslLine.dateTo;
+        line.name = hslLine.name;
+        line.shapeCoordinates = [Line parseCoordinatesFromHSLShapeString:hslLine.lineShape];
+        
+        return line;
     }
     
-    return self;
+    return nil;
+}
+
++(id)lineFromStopLine:(StopLine *)stopLine {
+    Line *line = [[Line alloc] init];
+    
+    if (stopLine != nil && [stopLine isKindOfClass:[StopLine class]]) {
+        line.code = stopLine.fullCode;
+        line.codeShort = stopLine.code;
+        line.lineType = stopLine.lineType;
+        line.lineStart = stopLine.lineStart;
+        line.lineEnd = stopLine.lineEnd;
+        line.lineStops = @[];
+        line.timetableUrl = nil;
+        line.dateFrom = nil;
+        line.dateTo = nil;
+        line.name = stopLine.name;
+        line.shapeCoordinates = @[];
+        
+        return line;
+    }
+    
+    return nil;
+}
+
++(id)lineFromMatkaLine:(MatkaLine *)matkaLine {
+    Line *line = [[Line alloc] init];
+    
+    if (matkaLine != nil && [matkaLine isKindOfClass:[MatkaLine class]]) {
+        line.code = matkaLine.lineId;
+        line.codeShort = matkaLine.codeShort;
+        line.lineType = matkaLine.lineType;
+        line.lineStart = matkaLine.lineStart;
+        line.lineEnd = matkaLine.lineEnd;
+        line.timetableUrl = nil;
+        line.dateFrom = nil;
+        line.dateTo = nil;
+        line.name = matkaLine.name;
+        
+        if (matkaLine.lineStops) {
+            NSMutableArray *stops = [@[] mutableCopy];
+            for (MatkaStop *matkaStop in matkaLine.lineStops) {
+                LineStop *stop = [LineStop lineStopFromMatkaLineStop:matkaStop];
+                if (stop) [stops addObject:stop];
+            }
+            
+            line.lineStops = stops;
+        }
+    
+        line.shapeCoordinates = matkaLine.shapeCoordinates ? matkaLine.shapeCoordinates : @[];
+        
+        return line;
+    }
+    
+    return nil;
 }
 
 -(BOOL)isValidNow{

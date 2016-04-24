@@ -33,6 +33,11 @@
     
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:(StopType)[record[kStopType] intValue]];
     self.stopNameLabel.text = record[kStopName];
+    if (record[kStopCity] && ![record[kStopCity] isEqualToString:@""]) {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
+    } else {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", record[kStopShortCode]];
+    }
     self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
 }
 
@@ -43,7 +48,11 @@
     
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
     self.stopNameLabel.text = stopEntity.busStopName;
-    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+    if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+    } else {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", stopEntity.busStopShortCode];
+    }
 }
 
 -(void)setupFromHistoryEntity:(HistoryEntity *)historyEntity{
@@ -53,7 +62,12 @@
     
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:historyEntity.stopType];
     self.stopNameLabel.text = historyEntity.busStopName;
-    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", historyEntity.busStopShortCode, historyEntity.busStopCity];
+    
+    if (historyEntity.busStopCity && ![historyEntity.busStopCity isEqualToString:@""]) {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", historyEntity.busStopShortCode, historyEntity.busStopCity];
+    } else {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", historyEntity.busStopShortCode];
+    }
     
     self.dateLabel.text = [ReittiStringFormatter formatPrittyDate:historyEntity.dateModified];
 }
@@ -65,7 +79,11 @@
     
     self.stopImageView.image = [AppManager stopAnnotationImageForStopType:[stopGeocode getStopType]];
     self.stopNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", stopGeocode.name, stopGeocode.getStopShortCode];
-    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopGeocode.getAddress, stopGeocode.city];
+    if (stopGeocode.city && ![stopGeocode.city isEqualToString:@""]) {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopGeocode.getAddress, stopGeocode.city];
+    } else {
+        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", stopGeocode.getAddress];
+    }
 }
 
 -(void)setupFromBusStop:(BusStop *)busTop{

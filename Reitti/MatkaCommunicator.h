@@ -9,12 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "ApiProtocols.h"
 #import "APIClient.h"
+#import "EnumManager.h"
 
-@interface MatkaCommunicator: NSObject <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol> {
+@interface MatkaCommunicator: NSObject <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol> {
     NSArray *apiUserNames;
     
     APIClient *timeTableClient;
     APIClient *genericClient;
 }
+
++ (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType;
++ (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType;
 
 @end

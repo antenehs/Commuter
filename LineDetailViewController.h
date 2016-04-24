@@ -13,6 +13,7 @@
 #import "SettingsManager.h"
 #import "StaticRoute.h"
 #import "AMBlurView.h"
+#import "JTMaterialSpinner.h"
 
 @interface LineDetailViewController : UIViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>{
     IBOutlet MKMapView *routeMapView;
@@ -28,6 +29,8 @@
     
     IBOutlet UILabel *nameLabel;
     IBOutlet AMBlurView *tableViewContainerView;
+    
+    IBOutlet JTMaterialSpinner *activityIndicator;
     
     IBOutlet UITableView *stopsTableView;
     IBOutlet UILabel *stopsListHeaderLabel;

@@ -158,6 +158,67 @@
     }];
 }
 
+- (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
+    if (!searchTerm || [searchTerm isEqualToString:@""]) return;
+    NSMutableDictionary *options = [@{} mutableCopy];
+    
+    [options setValue:[self getApiUsername] forKey:@"user"];
+    [options setValue:@"rebekah" forKey:@"pass"];
+    
+    [options setValue:@"text" forKey:@"m"];
+    [options setValue:searchTerm forKey:@"text"];
+    
+    [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[self lineResponseDescriptorForKeyPath:@"MATKAXML.TXT2LINES.LINE"] andCompletionBlock:^(NSArray *matkaLines, NSError *error) {
+        if (!error && matkaLines && matkaLines.count > 0) {
+            NSMutableArray *lines = [@[] mutableCopy];
+            for (MatkaLine *matkaLine in matkaLines) {
+                Line *line = [Line lineFromMatkaLine:matkaLine];
+                if (line) {
+                    [lines addObject:line];
+                }
+            }
+            
+            completionBlock(lines, nil);
+        } else {
+            completionBlock(nil, nil); //TODO: Proper error message
+        }
+    }];
+}
+
+- (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock {
+    if (!lineCodes || lineCodes.count == 0) return;
+    NSMutableDictionary *options = [@{} mutableCopy];
+    
+    [options setValue:[self getApiUsername] forKey:@"user"];
+    [options setValue:@"rebekah" forKey:@"pass"];
+    
+    [options setValue:@"lineid" forKey:@"m"];
+    
+    __block NSInteger numberOfLines = lineCodes.count;
+    __block NSMutableArray *allLines = [@[] mutableCopy];
+    
+    for (NSString *lineid in lineCodes) {
+        [options setValue:lineid forKey:@"lineid"];
+        [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[self lineResponseDescriptorForKeyPath:@"MATKAXML.LINE2STOPS"] andCompletionBlock:^(NSArray *matkaLines, NSError *error) {
+            numberOfLines--;
+            if (!error && matkaLines && matkaLines.count > 0) {
+                for (MatkaLine *matkaLine in matkaLines) {
+                    Line *line = [Line lineFromMatkaLine:matkaLine];
+                    if (line) {
+                        [allLines addObject:line];
+                    }
+                }
+                if (numberOfLines == 0)
+                    completionBlock(allLines, nil);
+            } else {
+                if (numberOfLines == 0)
+                    completionBlock(allLines, nil);
+            }
+        }];
+    }
+}
+
+#pragma mark - response descriptors
 - (RKResponseDescriptor *)routeResponseDescriptor {
     RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[MatkaRoute class] ];
     [routeMapping addAttributeMappingsFromDictionary:@{
@@ -186,8 +247,7 @@
 }
 
 
-- (RKResponseDescriptor *)stopResponseDescriptorForPath:(NSString *)keyPath {
-   
+- (RKObjectMapping *)matkaStopMapping {
     RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[MatkaStop class] ];
     [stopMapping addAttributeMappingsFromDictionary:@{
                                                       @"xCoord" : @"xCoord",
@@ -206,13 +266,24 @@
     [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"LINE"
                                                                                 toKeyPath:@"stopLines"
                                                                               withMapping:[self matkaLineObjectMapping]]];
-    
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:stopMapping
+    return stopMapping;
+}
+
+- (RKResponseDescriptor *)stopResponseDescriptorForPath:(NSString *)keyPath {
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[self matkaStopMapping]
                                                                                             method:RKRequestMethodAny
                                                                                        pathPattern:nil
                                                                                            keyPath:keyPath
                                                                                        statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     return responseDescriptor;
+}
+
+- (RKResponseDescriptor *)lineResponseDescriptorForKeyPath:(NSString *)keyPath {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self matkaLineObjectMapping]
+                                                       method:RKRequestMethodAny
+                                                  pathPattern:nil
+                                                      keyPath:keyPath
+                                                  statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
 - (RKObjectMapping *)matkaLineObjectMapping {
@@ -231,7 +302,29 @@
                                                                                 toKeyPath:@"lineNames"
                                                                               withMapping:[self matkaNameObjectMapping]]];
     
+    [lineMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"STOP"
+                                                                                toKeyPath:@"lineStops"
+                                                                              withMapping:[self matkaLineStopObjectMapping]]];
+    
     return lineMapping;
+}
+
+- (RKObjectMapping *)matkaLineStopObjectMapping {
+    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[MatkaStop class] ];
+    [stopMapping addAttributeMappingsFromDictionary:@{
+                                                      @"xCoord" : @"xCoord",
+                                                      @"yCoord" : @"yCoord",
+                                                      @"id"     : @"stopId",
+                                                      @"code" : @"stopShortCode",
+                                                      @"tranportType" : @"transportType",
+                                                      @"companyCode" : @"companyCode",
+                                                      }];
+    
+    [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"name"
+                                                                                toKeyPath:@"stopNames"
+                                                                              withMapping:[self matkaNameObjectMapping]]];
+    
+    return stopMapping;
 }
 
 - (RKObjectMapping *)matkaNameObjectMapping {
@@ -343,6 +436,47 @@
 }
 
 #pragma mark - Helper methods
++ (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType {
+    if (!trasportType) return LineTypeBus;
+    NSArray *busTypes = @[@1, @8, @9, @10, @11, @15, @16, @17, @19, @21, @23, @25, @27, @28, @29
+                          , @31, @32, @33, @34, @35, @37, @38, @39, @42, @43, @44, @45, @48
+                          , @49, @50, @51, @52, @53, @54, @55, @56, @57, @58, @59, @60, @61
+                          , @62, @63, @64, @65, @66, @67, @68, @69, @70];
+    
+    NSArray *trainTypes = @[@7, @12, @13, @46];
+    NSArray *longdistanceTrainTypes = @[@2, @3, @4, @5, @6, @14, @47];
+    NSArray *metroTypes = @[@40];
+    NSArray *tramTypes = @[@36];
+    NSArray *ferryTypes = @[@41];
+    NSArray *airplaneTypes = @[@26];
+    NSArray *otherTypes = @[@18, @30];
+    
+    if ([busTypes containsObject:trasportType]) {
+        return LineTypeBus;
+    } else if ([trainTypes containsObject:trasportType]) {
+        return LineTypeTrain;
+    } else if ([longdistanceTrainTypes containsObject:trasportType]) {
+        return LineTypeLongDistanceTrain;
+    } else if ([metroTypes containsObject:trasportType]) {
+        return LineTypeMetro;
+    } else if ([tramTypes containsObject:trasportType]) {
+        return LineTypeTram;
+    } else if ([ferryTypes containsObject:trasportType]) {
+        return LineTypeFerry;
+    } else if ([airplaneTypes containsObject:trasportType]) {
+        return LineTypeAirplane;
+    } else if ([otherTypes containsObject:trasportType])  {
+        return LineTypeOther;
+    } else {
+        return LineTypeOther;
+    }
+}
+
++ (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType {
+    LineType lineType = [MatkaCommunicator lineTypeForMatkaTrasportType:trasportType];
+    return [EnumManager legTrasportTypeForLineType:lineType];
+}
+
 - (NSString *)getApiUsername{
     return apiUserNames[0];
 }

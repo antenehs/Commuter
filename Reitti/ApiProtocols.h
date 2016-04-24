@@ -24,7 +24,8 @@ typedef void (^ActionBlock)();
 @end
 
 @protocol LineDetailFetchProtocol <NSObject>
-- (void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
+- (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
+- (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
 @protocol GeocodeProtocol <NSObject>

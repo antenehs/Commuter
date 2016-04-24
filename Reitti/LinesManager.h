@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "RettiDataManager.h"
 
+extern NSString *kStopLineCodesKey;
+extern NSString *kStopLinesKey;
+
 @interface LinesManager : NSObject
 
 +(id)sharedManager;
@@ -17,7 +20,7 @@
 -(NSArray *)getRecentLineCodes;
 -(void)saveRecentLine:(Line *)line;
 
--(NSArray *)getLineCodesFromSavedStops;
+-(NSDictionary *)getLineCodesAndLinesFromSavedStops;
 -(void)getLineCodesFromNearByStopsWithCompletionBlock:(ActionBlock)completionBlock;
 
 @end

@@ -41,9 +41,6 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
@@ -72,6 +69,9 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
@@ -2121,6 +2121,13 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pEh-yt-xVI" customClass="JTMaterialSpinner">
+                                <rect key="frame" x="280" y="248" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="cAj-an-qGa"/>
+                                    <constraint firstAttribute="width" constant="40" id="rHr-Wx-iHr"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2128,6 +2135,7 @@
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="height" secondItem="t1J-Ah-UN9" secondAttribute="height" id="8PZ-22-JBo"/>
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="leading" secondItem="t1J-Ah-UN9" secondAttribute="leadingMargin" constant="-16" id="FvW-lF-2JX"/>
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="top" secondItem="LJQ-KT-GE5" secondAttribute="bottom" id="L0a-mW-457"/>
+                            <constraint firstItem="pEh-yt-xVI" firstAttribute="centerX" secondItem="t1J-Ah-UN9" secondAttribute="centerX" id="TQY-1O-2Pv"/>
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="width" secondItem="t1J-Ah-UN9" secondAttribute="width" id="bQq-dW-Lp4"/>
                             <constraint firstAttribute="trailing" secondItem="xFH-QO-Jdy" secondAttribute="trailing" id="cgR-nf-Y09"/>
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="top" secondItem="LJQ-KT-GE5" secondAttribute="bottom" id="dN5-WR-wQK"/>
@@ -2135,6 +2143,7 @@
                             <constraint firstItem="WUo-5l-bHj" firstAttribute="height" secondItem="t1J-Ah-UN9" secondAttribute="height" id="i6K-jV-93F"/>
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="centerX" secondItem="t1J-Ah-UN9" secondAttribute="centerX" id="iZV-9A-hXH"/>
                             <constraint firstAttribute="centerX" secondItem="WUo-5l-bHj" secondAttribute="centerX" id="jRS-Ea-IdB"/>
+                            <constraint firstItem="pEh-yt-xVI" firstAttribute="centerY" secondItem="t1J-Ah-UN9" secondAttribute="centerY" id="nKy-hg-DgH"/>
                             <constraint firstItem="xFH-QO-Jdy" firstAttribute="leading" secondItem="t1J-Ah-UN9" secondAttribute="leading" id="ook-hn-a8R"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xFH-QO-Jdy" secondAttribute="trailing" constant="-16" id="oyg-Z7-5Ox"/>
                         </constraints>
@@ -2149,6 +2158,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="pEh-yt-xVI" id="04S-fK-o6b"/>
                         <outlet property="routeMapView" destination="WUo-5l-bHj" id="A8y-qm-z3J"/>
                         <outlet property="stopsListHeaderLabel" destination="OND-dq-mUI" id="HvR-Iq-pAU"/>
                         <outlet property="stopsTableView" destination="CpW-NB-Eox" id="5Kg-Sy-99S"/>
@@ -3226,10 +3236,10 @@
                                     <action selector="BackButtonPressed:" destination="2Jo-uz-fgw" eventType="touchUpInside" id="n6P-8c-aay"/>
                                 </connections>
                             </button>
-                            <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-as-SV8" customClass="AMBlurView">
+                            <view autoresizesSubviews="NO" contentMode="center" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-as-SV8" customClass="AMBlurView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-dS-zax">
+                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-dS-zax">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="483" id="M07-Nw-XA1"/>
@@ -3282,10 +3292,10 @@
                                             <constraint firstAttribute="trailing" secondItem="kWh-jL-E5H" secondAttribute="trailing" constant="10" id="uUV-Z7-1px"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-rv-JAJ" userLabel="Table Back Blur View" customClass="AMBlurView">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-rv-JAJ" userLabel="Table Back Blur View" customClass="AMBlurView">
                                         <rect key="frame" x="0.0" y="44" width="600" height="448"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="56" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hPa-bf-CaO">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="56" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hPa-bf-CaO">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="448"/>
                                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                                 <prototypes>
@@ -9463,6 +9473,23 @@ Helsinki, Finland</string>
             </objects>
             <point key="canvasLocation" x="5558" y="342"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="NEF-sr-VMJ">
+            <objects>
+                <viewController id="hUe-Ja-D7j" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wQr-Gi-ZEQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="960-Sd-quN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="13O-iO-oei">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8gj-GA-Mne" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
     </scenes>
     <resources>
         <image name="Edit-gray-100.png" width="100" height="100"/>
@@ -9524,23 +9551,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="SWb-EE-ndB"/>
+        <segue reference="4dD-ZN-Yab"/>
+        <segue reference="Oy7-Ij-ap3"/>
+        <segue reference="rqd-oJ-7h3"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="yf4-eP-97K"/>
+        <segue reference="zx9-MZ-Ih7"/>
+        <segue reference="zLX-h6-Wen"/>
         <segue reference="U9A-P0-Va2"/>
+        <segue reference="ocH-Qu-aOm"/>
         <segue reference="jpb-bi-pHf"/>
         <segue reference="CkP-l4-5DX"/>
         <segue reference="9x7-C0-VCu"/>
         <segue reference="e2V-qU-oq6"/>
-        <segue reference="ocH-Qu-aOm"/>
         <segue reference="4lM-KH-B6v"/>
-        <segue reference="XlZ-XU-H5m"/>
         <segue reference="YpZ-AP-yAo"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="yf4-eP-97K"/>
-        <segue reference="zx9-MZ-Ih7"/>
-        <segue reference="zLX-h6-Wen"/>
-        <segue reference="L8L-oR-GI7"/>
-        <segue reference="rqd-oJ-7h3"/>
+        <segue reference="XlZ-XU-H5m"/>
         <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>

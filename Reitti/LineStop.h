@@ -6,14 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MatkaStop.h"
 
 
-
-@interface LineStops : NSObject <NSCoding, NSCopying>
+@interface LineStop : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *coords;
 @property (nonatomic, strong) NSString *address;
-@property (nonatomic, assign) double time;
+@property (nonatomic, strong) NSNumber *time;
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *codeShort;
 @property (nonatomic, strong) NSString *platformNumber;
@@ -23,5 +23,7 @@
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;
+
++ (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop;
 
 @end

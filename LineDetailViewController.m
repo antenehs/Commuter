@@ -11,7 +11,7 @@
 #import "ASPolylineView.h"
 #import "AppManager.h"
 #import "CoreDataManager.h"
-#import "LineStops.h"
+#import "LineStop.h"
 #import "LocationsAnnotation.h"
 #import "StopViewController.h"
 #import "SVProgressHUD.h"
@@ -19,6 +19,7 @@
 #import "LVThumbnailAnnotation.h"
 #import "LinesManager.h"
 #import "MainTabBarController.h"
+#import "ReittiMapkitHelper.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -41,6 +42,10 @@
     [self initBounds];
     
     [self hideStopsListView:YES animated:NO];
+    
+    if (!self.line.lineStops || self.line.lineStops.count < 1) {
+        [self fetchDetailForLine];
+    }
     
     viewApearForTheFirstTime = YES;
 }
@@ -190,7 +195,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [stopsTableView dequeueReusableCellWithIdentifier:@"lineStopCell"];
     
-    LineStops *lineStop = self.line.lineStops[indexPath.row];
+    LineStop *lineStop = self.line.lineStops[indexPath.row];
     
     UILabel *stopNameLabel = (UILabel *)[cell viewWithTag:1001];
     UILabel *stopDetailLabel = (UILabel *)[cell viewWithTag:1002];
@@ -200,13 +205,21 @@
     if (lineStop.platformNumber) {
         stopDetailLabel.text = [NSString stringWithFormat:@"Code: %@ - Platform: %@ - %@", lineStop.codeShort, lineStop.platformNumber, lineStop.cityName];
     }else{
-        stopDetailLabel.text = [NSString stringWithFormat:@"Code: %@ - %@", lineStop.codeShort, lineStop.cityName];
+        if (lineStop.cityName) {
+            stopDetailLabel.text = [NSString stringWithFormat:@"Code: %@ - %@", lineStop.codeShort, lineStop.cityName];
+        } else {
+            stopDetailLabel.text = [NSString stringWithFormat:@"Code: %@", lineStop.codeShort];
+        }
     }
     
-    if (indexPath.row == 0)
-        timeLabel.text = [NSString stringWithFormat:@"%d min", (int)lineStop.time];
-    else
-        timeLabel.text = [NSString stringWithFormat:@"+%d min", (int)lineStop.time];
+    if (lineStop.time) {
+        if (indexPath.row == 0)
+            timeLabel.text = [NSString stringWithFormat:@"%d min", [lineStop.time intValue]];
+        else
+            timeLabel.text = [NSString stringWithFormat:@"+%d min", [lineStop.time intValue]];
+    } else {
+        timeLabel.text = @"";
+    }
     
     UIView *prevLine = [cell viewWithTag:2001];
     UIView *dotView = [cell viewWithTag:2002];
@@ -263,11 +276,14 @@
     span.longitudeDelta += 0.3 * span.longitudeDelta;
     MKCoordinateRegion region = {centerCoord, span};
     
+    if (![ReittiMapkitHelper isValidCoordinate:centerCoord])
+        return;
+    
     @try {
         [routeMapView setRegion:region animated:NO];
     } @catch (NSException *exception) {
         NSLog(@"failed to ccenter map");
-        LineStops *firstStop = [self.line.lineStops firstObject];
+        LineStop *firstStop = [self.line.lineStops firstObject];
         CLLocationCoordinate2D centerCoord = [ReittiStringFormatter convertStringTo2DCoord:firstStop.coords];
         MKCoordinateSpan span = {.latitudeDelta =  0.1, .longitudeDelta = 0.1};
         MKCoordinateRegion region = {centerCoord, span};
@@ -320,7 +336,7 @@
 }
 
 -(void)plotStopAnnotation{
-    for (LineStops *stop in self.line.lineStops) {
+    for (LineStop *stop in self.line.lineStops) {
         CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
         
         NSString * name = stop.name;
@@ -517,16 +533,37 @@
 
 
 #pragma mark - ReittiDataManager delegates
--(void)lineSearchDidComplete:(NSArray *)lines{
-    if (lines.count > 1) {
-        NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line reterned");
-    }
-    
-    self.line = [lines objectAtIndex:0];
-    [self drawLineOnMap];
-    [self plotStopAnnotation];
-    [self centerMapRegionToViewRoute];
+-(void)fetchDetailForLine {
+    if (!line && line.code) [self lineSearchDidFail:@"No line code available"];
+    [activityIndicator beginRefreshing];
+    [self.reittiDataManager fetchLinesForLineCodes:@[line.code] withCompletionBlock:^(NSArray *lines, id searchTerm, NSString *errorString){
+        if (!errorString && lines.count > 0) {
+            if (lines.count > 1) {
+                NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line returned");
+            }
+            Line *aline = lines[0];
+            self.line.lineStops = aline.lineStops;
+            self.line.shapeCoordinates = aline.shapeCoordinates;
+            
+            viewApearForTheFirstTime = YES;
+            [self setUpViewForLine];
+        }else{
+            [self lineSearchDidFail:errorString];
+        }
+        [activityIndicator endRefreshing];
+    }];
 }
+
+//-(void)lineSearchDidComplete:(NSArray *)lines{
+//    if (lines.count > 1) {
+//        NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line reterned");
+//    }
+//    
+//    self.line = [lines objectAtIndex:0];
+//    [self drawLineOnMap];
+//    [self plotStopAnnotation];
+//    [self centerMapRegionToViewRoute];
+//}
 
 -(void)lineSearchDidFail:(NSString *)error{
     [ReittiNotificationHelper showErrorBannerMessage:@"Fetching line detail failed" andContent:nil];
@@ -633,7 +670,7 @@
     if ([segue.identifier isEqualToString:@"showStopFromStopList"]) {
         NSIndexPath *selectedRowIndexPath = [stopsTableView indexPathForSelectedRow];
         
-        LineStops *lineStop = self.line.lineStops[selectedRowIndexPath.row];
+        LineStop *lineStop = self.line.lineStops[selectedRowIndexPath.row];
         
         if (lineStop) {
             StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;

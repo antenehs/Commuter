@@ -10,6 +10,8 @@
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
 #import "HSLLine.h"
+#import "StopLine.h"
+#import "MatkaLine.h"
 
 @interface Line : NSObject
 
@@ -29,6 +31,8 @@
 @property (nonatomic, strong) NSDate *parsedDateTo;
 @property (nonatomic, readonly) BOOL isValidNow;
 
--(id)initFromHSLLine:(HSLLine *)hslLine;
++(id)lineFromStopLine:(StopLine *)stopLine;
++(id)lineFromHSLLine:(HSLLine *)hslLine;
++(id)lineFromMatkaLine:(MatkaLine *)matkaLine;
 
 @end

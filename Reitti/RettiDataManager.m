@@ -448,7 +448,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     id dataSourceManager = [self getDataSourceForRegion:userLocationRegion];
     
     if ([dataSourceManager conformsToProtocol:@protocol(LineDetailFetchProtocol)]) {
-        [(NSObject<LineDetailFetchProtocol> *)dataSourceManager fetchLineForSearchterm:searchTerm withCompletionBlock:^(NSArray * response, NSString *error){
+        [(NSObject<LineDetailFetchProtocol> *)dataSourceManager fetchLinesForSearchterm:searchTerm withCompletionBlock:^(NSArray * response, NSString *error){
             
             if (!error) {
                 completionBlock(response, searchTerm, nil);
@@ -458,6 +458,24 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         }];
     }else{
         completionBlock(nil, searchTerm, @"Service not available in the current region.");
+    }
+}
+
+-(void)fetchLinesForLineCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock{
+    
+    id dataSourceManager = [self getDataSourceForRegion:userLocationRegion];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(LineDetailFetchProtocol)]) {
+        [(NSObject<LineDetailFetchProtocol> *)dataSourceManager fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray * response, NSString *error){
+            
+            if (!error) {
+                completionBlock(response, lineCodes, nil);
+            }else{
+                completionBlock(nil, lineCodes, error);
+            }
+        }];
+    }else{
+        completionBlock(nil, lineCodes, @"Service not available in the current region.");
     }
 }
 

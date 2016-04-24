@@ -182,6 +182,10 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
     return [UIColor colorWithRed:0.0f/255 green:188.0f/255 blue:212.0f/255 alpha:1];
 }
 
++(UIColor *)systemPurpleColor{
+    return [UIColor colorWithRed:0.557 green:0.267 blue:0.678 alpha:1.0];
+}
+
 //Tones
 +(NSArray *)toneNames{
     return [[NSArray alloc] initWithObjects:@"Choo choo train",

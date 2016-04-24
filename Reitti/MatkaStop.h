@@ -40,5 +40,6 @@
 @property (nonatomic)CLLocationCoordinate2D coords;
 @property (nonatomic, strong)NSString *nameFi;
 @property (nonatomic, strong)NSString *nameSe;
+@property (nonatomic, strong)NSString *name;
 
 @end
