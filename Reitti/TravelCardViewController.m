@@ -231,7 +231,7 @@ NSString *ACCurrentProcessRenameCard = @"ACCurrentProcessRenameCard";
                 periodDays.attributedText = daysString;
             }
             
-            ticketPeriod.text = [NSString stringWithFormat:@"%@ - %@",[ReittiStringFormatter formatFullDate:startDate], [ReittiStringFormatter formatFullDate:expiryDate]];
+            ticketPeriod.text = [NSString stringWithFormat:@"%@ - %@",[[ReittiDateFormatter sharedFormatter] formatFullDate:startDate], [[ReittiDateFormatter sharedFormatter] formatFullDate:expiryDate]];
             ticketName.text = card.periodProductState.productName;
             
 //            noPeriodLabel.hidden = YES;
@@ -989,7 +989,7 @@ NSString *ACCurrentProcessRenameCard = @"ACCurrentProcessRenameCard";
     if ([[TravelCardManager getLastUpdateTime] timeIntervalSinceNow] > -180) {
         updateTimeLabel.text = @"Updated just now";
     }else{
-        updateTimeLabel.text = [NSString stringWithFormat:@"Last updated %@", [ReittiStringFormatter formatPrittyDate:[TravelCardManager getLastUpdateTime]]];
+        updateTimeLabel.text = [NSString stringWithFormat:@"Last updated %@", [[ReittiDateFormatter sharedFormatter] formatPrittyDate:[TravelCardManager getLastUpdateTime]]];
     }
 }
 

@@ -14,10 +14,10 @@
 
 +(NSString *)formatHSLAPITimeWithColon:(NSString *)hslTime;
 +(NSString *)formatHSLAPITimeToHumanTime:(NSString *)hslTime;
-+(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
-+(NSString *)formatPrittyDate:(NSDate *)date;
-+(NSString *)formatFullDate:(NSDate *)date;
-+(NSString *)formatHourStringFromDate:(NSDate *)date;
+//+(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
+//+(NSString *)formatPrittyDate:(NSDate *)date;
+//+(NSString *)formatFullDate:(NSDate *)date;
+//+(NSString *)formatHourStringFromDate:(NSDate *)date;
 +(NSString *)formatDurationString:(NSInteger)seconds;
 +(NSString *)formatFullDurationString:(NSInteger)seconds;
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
@@ -29,7 +29,7 @@
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
 +(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
 +(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
-+(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
+//+(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 +(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp;
 
 @end

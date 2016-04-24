@@ -17,6 +17,7 @@
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 #import "CacheManager.h"
+#import "ReittiDateFormatter.h"
 
 @interface StopViewController ()
 
@@ -507,7 +508,7 @@
         
         @try {
             UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-            NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
+            NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
             if (!formattedHour || formattedHour.length < 1 ) {
                 NSString *notFormattedTime = departure.time ;
                 formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];

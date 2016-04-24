@@ -30,6 +30,7 @@
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
 #import "MainTabBarController.h"
+#import "ReittiDateFormatter.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -910,7 +911,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             
             @try {
                 UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-                NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
+                NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
                 
                 if ([departure.parsedDate timeIntervalSinceNow] < 300) {
                     timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour

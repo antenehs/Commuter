@@ -11,8 +11,11 @@
 
 @interface ReittiDateFormatter ()
 
-@property (nonatomic, strong) NSDateFormatter *hourFormatter;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *apiHourFormatter;
+@property (nonatomic, strong) NSDateFormatter *apiDateFormatter;
+@property (nonatomic, strong) NSDateFormatter *apiFullDateFormatter;
+
+@property (nonatomic, strong) NSDateFormatter *hourAndMinFormatter;
 @property (nonatomic, strong) NSDateFormatter *fullDateFormatter;
 
 @end
@@ -30,30 +33,50 @@
 }
 
 #pragma mark - Date formatters
-- (NSDateFormatter *)hourFormatter{
-    if (!_hourFormatter) {
-        _hourFormatter = [[NSDateFormatter alloc] init];
-        [_hourFormatter setDateFormat:@"HHmm"];
+- (NSDateFormatter *)apiHourFormatter{
+    if (!_apiHourFormatter) {
+        _apiHourFormatter = [[NSDateFormatter alloc] init];
+        [_apiHourFormatter setDateFormat:@"HHmm"];
     }
     
-    return _hourFormatter;
+    return _apiHourFormatter;
 }
 
-- (NSDateFormatter *)dateFormatter{
-    if (!_dateFormatter) {
+- (NSDateFormatter *)apiDateFormatter{
+    if (!_apiDateFormatter) {
         
-        _dateFormatter = [[NSDateFormatter alloc] init];
-        [_dateFormatter setDateFormat:@"yyyyMMdd"];
+        _apiDateFormatter = [[NSDateFormatter alloc] init];
+        [_apiDateFormatter setDateFormat:@"yyyyMMdd"];
     }
     
-    return _dateFormatter;
+    return _apiDateFormatter;
 }
 
-- (NSDateFormatter *)fullDateFormatter{
+- (NSDateFormatter *)apiFullDateFormatter{
+    if (!_apiFullDateFormatter) {
+        
+        _apiFullDateFormatter = [[NSDateFormatter alloc] init];
+        [_apiFullDateFormatter setDateFormat:@"yyyyMMdd HHmm"];
+    }
+    
+    return _apiFullDateFormatter;
+}
+
+-(NSDateFormatter *)hourAndMinFormatter {
+    if (!_hourAndMinFormatter) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"HH:mm"];
+        _hourAndMinFormatter = formatter;
+    }
+    
+    return _hourAndMinFormatter;
+}
+
+-(NSDateFormatter *)fullDateFormatter {
     if (!_fullDateFormatter) {
-        
-        _fullDateFormatter = [[NSDateFormatter alloc] init];
-        [_fullDateFormatter setDateFormat:@"yyyyMMdd HHmm"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"d.MM.yy"];
+        _fullDateFormatter = formatter;
     }
     
     return _fullDateFormatter;
@@ -87,9 +110,9 @@ Expected format @"YYYYMMdd" and @"HHmm"
         NSDate *parsedDate = nil;
         if (dateString) {
             NSString *fullDateString = [NSString stringWithFormat:@"%@ %@", dateString, timeString];
-            parsedDate = [self.fullDateFormatter dateFromString:fullDateString];
+            parsedDate = [self.apiFullDateFormatter dateFromString:fullDateString];
         }else{
-            parsedDate = [self.hourFormatter dateFromString:timeString];
+            parsedDate = [self.apiHourFormatter dateFromString:timeString];
         }
         
         NSTimeInterval seconds;
@@ -103,6 +126,98 @@ Expected format @"YYYYMMdd" and @"HHmm"
     @catch (NSException *exception) {
         return nil;
     }
+}
+
+-(NSString *)formatHourStringFromDate:(NSDate *)date{
+    return [self.hourAndMinFormatter stringFromDate:date];
+}
+
+-(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime{
+    return [NSString stringWithFormat:@"%@ - %@", [self.hourAndMinFormatter stringFromDate:fromTime], [self.hourAndMinFormatter stringFromDate:toTime]];
+}
+
+-(NSString *)formatFullDate:(NSDate *)date{
+    return [self.fullDateFormatter stringFromDate:date];
+}
+
+-(NSString *)formatPrittyDate:(NSDate *)date{
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
+    
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
+    //If date is today
+    if([today day] == [otherDay day] &&
+       [today month] == [otherDay month] &&
+       [today year] == [otherDay year] &&
+       [today era] == [otherDay era]) {
+        
+        return [self.hourAndMinFormatter stringFromDate:date];
+    }else if([today day] == [otherDay day] + 1 &&
+             [today month] == [otherDay month] &&
+             [today year] == [otherDay year] &&
+             [today era] == [otherDay era]) {
+        
+        return @"Yesterday";
+    }else if([today day] == [otherDay day] + 2 &&
+             [today month] == [otherDay month] &&
+             [today year] == [otherDay year] &&
+             [today era] == [otherDay era]) {
+        
+        return @"2 days ago";
+    }else{
+        
+        return [self.fullDateFormatter stringFromDate:date];;
+    }
+}
+
+-(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset{
+    BOOL istommorrow = NO;
+    NSDate *offsettedDate;
+    
+    @try {
+        NSArray *comp = [timeString componentsSeparatedByString:@":"];
+        int hourVal = [[comp objectAtIndex:0] intValue];
+        
+        if (hourVal > 23) {
+            timeString = [NSString stringWithFormat:@"%d:%@", hourVal - 24, [comp objectAtIndex:1] ];
+            istommorrow = YES;
+        }
+        
+//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+//        [dateFormatter setDateFormat:@"HH:mm"];
+        
+        NSDate *time = [self.hourAndMinFormatter dateFromString:timeString];
+        
+        if (time == nil) {
+            return nil;
+        }
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:time];
+        NSInteger hour = [components hour];
+        NSInteger minute = [components minute];
+        
+        NSDate *today = [NSDate date];
+        NSDateComponents *component = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:today];
+        [component setHour:hour];
+        [component setMinute:minute];
+        
+        NSDate *date = [calendar dateFromComponents:component];
+        
+        NSTimeInterval seconds;
+        if (istommorrow) {
+            seconds = (offset * -60) + (24 * 60 * 60);
+        }else{
+            seconds = (offset * -60);
+        }
+        
+        offsettedDate = [date dateByAddingTimeInterval:seconds];
+        
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    
+    return offsettedDate;
 }
 
 @end

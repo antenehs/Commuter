@@ -20,6 +20,7 @@
 #import "DroppedPinManager.h"
 #import "ASA_Helpers.h"
 #import "TableViewCells.h"
+#import "ReittiDateFormatter.h"
 
 typedef enum
 {
@@ -934,7 +935,7 @@ typedef enum
             UILabel *arriveTimeLabel = (UILabel *)[cell viewWithTag:2005];
             
             NSString *leavesString = [NSString stringWithFormat:@"leave %@",
-                                      [ReittiStringFormatter formatHourStringFromDate:route.startingTimeOfRoute]];
+                                      [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
             
             if ([route.startingTimeOfRoute timeIntervalSinceNow] < 300) {
                 leaveTimeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:leavesString                                                                         substring:leavesString withNormalFont:leaveTimeLabel.font];
@@ -944,7 +945,7 @@ typedef enum
             }
             
             arriveTimeLabel.text = [NSString stringWithFormat:@"| arrive %@",
-                                    [ReittiStringFormatter formatHourStringFromDate:route.endingTimeOfRoute]];
+                                    [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
             
             //durations
             UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
@@ -959,7 +960,7 @@ typedef enum
             
             if(route.timeAtTheFirstStop != nil){
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
-                                      [ReittiStringFormatter formatHourStringFromDate:route.timeAtTheFirstStop], numberString];
+                                      [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.timeAtTheFirstStop], numberString];
                 
             }else{
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ km walking", numberString];
@@ -1445,11 +1446,11 @@ typedef enum
                     [routeResultsTableView reloadData];
                 }
             }];
-        } else {
-            //Try if there was a map already
-            [self setLineCodesFromLineDetails];
-            [routeResultsTableView reloadData];
         }
+        
+        //Try if there was a map already
+        [self setLineCodesFromLineDetails];
+        [routeResultsTableView reloadData];
     }
 }
 

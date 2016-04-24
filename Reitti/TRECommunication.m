@@ -10,6 +10,7 @@
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
 #import "ReittiAnalyticsManager.h"
+#import "ASA_Helpers.h"
 
 @interface TRECommunication ()
 
@@ -432,7 +433,7 @@
                 //Do it the old school way. Might have a wrong date for after midnight times
                 NSString *notFormattedTime = departure.time ;
                 NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-                departure.parsedDate = [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+                departure.parsedDate = [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
             }
             [departuresArray addObject:departure];
         }

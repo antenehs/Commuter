@@ -237,10 +237,10 @@
     [self setupRoutePreviewView];
     
     [timeIntervalLabel setText:[NSString stringWithFormat:@"leave at %@ ",
-                                               [ReittiStringFormatter formatHourStringFromDate:self.route.startingTimeOfRoute]]];
+                                               [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:self.route.startingTimeOfRoute]]];
     
         [arrivalTimeLabel setText:[NSString stringWithFormat:@"| arrive at %@",
-                                   [ReittiStringFormatter formatHourStringFromDate:self.route.endingTimeOfRoute]]];
+                                   [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:self.route.endingTimeOfRoute]]];
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
@@ -1477,7 +1477,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         UIImageView *nextLegLine = (UIImageView *)[cell viewWithTag:2008];
         
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
-        startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
+        startTimeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime];
         
         [legTypeImage setImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType]];
         legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -1635,7 +1635,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             typeLine.image = nil;
             dotView.hidden = NO;
             startTimeLabel.hidden = NO;
-            startTimeLabel.text = [ReittiStringFormatter formatHourStringFromDate:loc.depTime];
+            startTimeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime];
         }
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

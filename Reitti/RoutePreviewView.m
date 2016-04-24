@@ -10,6 +10,7 @@
 #import "ReittiStringFormatter.h"
 #import "RouteLeg.h"
 #import "Transport.h"
+#import "ASA_Helpers.h"
 
 @implementation RoutePreviewView
 
@@ -42,7 +43,7 @@
 
 -(void)setUpViewForRoute:(Route *)route{
     UILabel *timeIntervalLabel = (UILabel *)[self viewWithTag:2001];
-    timeIntervalLabel.text = [ReittiStringFormatter formatHourRangeStringFrom:route.startingTimeOfRoute toDate:route.endingTimeOfRoute];
+    timeIntervalLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourRangeStringFrom:route.startingTimeOfRoute toDate:route.endingTimeOfRoute];
     
     //durations
     UILabel *durationLabel = (UILabel *)[self viewWithTag:2002];

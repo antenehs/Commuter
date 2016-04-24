@@ -11,6 +11,7 @@
 #import "ReittiNotificationHelper.h"
 #import "AMBlurView.h"
 #import "EditReminderTableViewController.h"
+#import "ReittiDateFormatter.h"
 
 @interface RemindersTableViewController ()
 
@@ -157,7 +158,7 @@
         
         toLabel.text = routine.toDisplayName;
         fromLabel.text = routine.fromDisplayName;
-        timeLabel.text = [ReittiStringFormatter formatHourStringFromDate:routine.routeDate];
+        timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:routine.routeDate];
         repeatsLabel.text = [NSString stringWithFormat:@"%@", routine.dayNames];
         enableSwitch.on = routine.isEnabled;
         if (enableSwitch.on) {

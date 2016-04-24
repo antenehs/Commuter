@@ -8,8 +8,8 @@
 
 #import "MatkaLine.h"
 #import "MatkaName.h"
-#import "ReittiStringFormatter.h"
 #import "MatkaCommunicator.h"
+#import "ASA_Helpers.h"
 
 @implementation MatkaLine
 
@@ -82,7 +82,7 @@
 
 -(NSDate *)parsedDepartureTime {
     NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:self.departureTime];
-    return [ReittiStringFormatter createDateFromString:timeString withMinOffset:0];
+    return [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
 }
 
 -(LineType)lineType {

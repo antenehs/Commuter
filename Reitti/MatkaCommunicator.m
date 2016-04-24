@@ -55,7 +55,7 @@
             
             completionBlock(responseArray, nil);
         } else {
-            completionBlock(nil, @"Error occured"); //TODO: Proper error message
+            completionBlock(nil, @"Route search failed."); //TODO: Proper error message
         }
     }];
 }

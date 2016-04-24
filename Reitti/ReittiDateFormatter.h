@@ -13,5 +13,10 @@
 +(id)sharedFormatter;
 
 - (NSDate *)dateFromMatkaDateString:(NSString *)dateString andHourString:(NSString *)hourString;
+-(NSString *)formatHourStringFromDate:(NSDate *)date;
+-(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
+-(NSString *)formatFullDate:(NSDate *)date;
+-(NSString *)formatPrittyDate:(NSDate *)date;
+-(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 
 @end

@@ -9,6 +9,7 @@
 #import "StopTableViewCell.h"
 #import "AppManager.h"
 #import "ReittiStringFormatter.h"
+#import "ASA_Helpers.h"
 
 @interface StopTableViewCell ()
 
@@ -69,7 +70,7 @@
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", historyEntity.busStopShortCode];
     }
     
-    self.dateLabel.text = [ReittiStringFormatter formatPrittyDate:historyEntity.dateModified];
+    self.dateLabel.text = [[ReittiDateFormatter sharedFormatter] formatPrittyDate:historyEntity.dateModified];
 }
 
 -(void)setupFromStopGeocode:(GeoCode *)stopGeocode{

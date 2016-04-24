@@ -8,6 +8,7 @@
 
 #import "RouteTableViewCell.h"
 #import "ReittiStringFormatter.h"
+#import "ASA_Helpers.h"
 
 @interface RouteTableViewCell ()
 
@@ -50,7 +51,7 @@
     self.toLabel.text = historyEntity.toLocationName;
     self.fromLabel.text = historyEntity.fromLocationName;
     
-    self.dateLabel.text = [ReittiStringFormatter formatPrittyDate:historyEntity.dateModified];
+    self.dateLabel.text = [[ReittiDateFormatter sharedFormatter] formatPrittyDate:historyEntity.dateModified];
 }
 
 -(void)setupFromRoute:(Route *)route{

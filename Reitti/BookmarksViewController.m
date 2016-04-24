@@ -25,6 +25,7 @@
 #import "ASA_Helpers.h"
 #import "TableViewCells.h"
 #import "MainTabBarController.h"
+#import "ReittiDateFormatter.h"
 
 const NSInteger kTimerRefreshInterval = 15;
 
@@ -545,7 +546,7 @@ const NSInteger kTimerRefreshInterval = 15;
             
             if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
                 dateLabel.hidden = NO;
-                dateLabel.text = [ReittiStringFormatter formatPrittyDate:stopEntity.dateModified];
+                dateLabel.text = [[ReittiDateFormatter sharedFormatter] formatPrittyDate:stopEntity.dateModified];
                 collectionView.hidden = YES;
                 collectionView.restorationIdentifier = nil; /* Just to be sure */
             }else{
@@ -608,8 +609,8 @@ const NSInteger kTimerRefreshInterval = 15;
                     transportsScrollView.userInteractionEnabled = NO;
                     [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
                     
-                    leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatter formatHourStringFromDate:route.startingTimeOfRoute]];
-                    arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatter formatHourStringFromDate:route.endingTimeOfRoute]];
+                    leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
+                    arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
                 }
             }else{
                 transportsScrollView.hidden = YES;
@@ -842,7 +843,7 @@ const NSInteger kTimerRefreshInterval = 15;
     lineName.text = departure.code;
     lineName.textColor = [UIColor blackColor];
     
-    NSString *formattedHour = [ReittiStringFormatter formatHourStringFromDate:departure.parsedDate];
+    NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
     
     if ([departure.parsedDate timeIntervalSinceNow] < 300) {
         timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour

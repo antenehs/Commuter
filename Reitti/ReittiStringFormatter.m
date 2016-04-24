@@ -71,71 +71,71 @@
     
 }
 
-+(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime{
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    
-    return [NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:fromTime], [formatter stringFromDate:toTime]];
-}
+//+(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime{
+//    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"HH:mm"];
+//    
+//    return [NSString stringWithFormat:@"%@ - %@", [formatter stringFromDate:fromTime], [formatter stringFromDate:toTime]];
+//}
 
-+(NSString *)formatPrittyDate:(NSDate *)date{
-    NSDateFormatter *formatter;
-    
-    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
-    
-    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
-    //If date is today
-    if([today day] == [otherDay day] &&
-       [today month] == [otherDay month] &&
-       [today year] == [otherDay year] &&
-       [today era] == [otherDay era]) {
-       
-        formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm"];
-        
-        return [formatter stringFromDate:date];
-    }else if([today day] == [otherDay day] + 1 &&
-             [today month] == [otherDay month] &&
-             [today year] == [otherDay year] &&
-             [today era] == [otherDay era]) {
-        
-        formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm"];
-        
-        return @"Yesterday";
-    }else if([today day] == [otherDay day] + 2 &&
-             [today month] == [otherDay month] &&
-             [today year] == [otherDay year] &&
-             [today era] == [otherDay era]) {
-        
-        formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"HH:mm"];
-        
-        return @"2 days ago";
-    }else{
-        formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"d.MM.yy"];
-        
-        return [formatter stringFromDate:date];;
-    }
-}
+//+(NSString *)formatPrittyDate:(NSDate *)date{
+//    NSDateFormatter *formatter;
+//    
+//    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date];
+//    
+//    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
+//    //If date is today
+//    if([today day] == [otherDay day] &&
+//       [today month] == [otherDay month] &&
+//       [today year] == [otherDay year] &&
+//       [today era] == [otherDay era]) {
+//       
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"HH:mm"];
+//        
+//        return [formatter stringFromDate:date];
+//    }else if([today day] == [otherDay day] + 1 &&
+//             [today month] == [otherDay month] &&
+//             [today year] == [otherDay year] &&
+//             [today era] == [otherDay era]) {
+//        
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"HH:mm"];
+//        
+//        return @"Yesterday";
+//    }else if([today day] == [otherDay day] + 2 &&
+//             [today month] == [otherDay month] &&
+//             [today year] == [otherDay year] &&
+//             [today era] == [otherDay era]) {
+//        
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"HH:mm"];
+//        
+//        return @"2 days ago";
+//    }else{
+//        formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"d.MM.yy"];
+//        
+//        return [formatter stringFromDate:date];;
+//    }
+//}
 
-+(NSString *)formatFullDate:(NSDate *)date{
-    NSDateFormatter *formatter;
-    
-    formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd.MM.yy"];
-    
-    return [formatter stringFromDate:date];;
-}
+//+(NSString *)formatFullDate:(NSDate *)date{
+//    NSDateFormatter *formatter;
+//    
+//    formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"dd.MM.yy"];
+//    
+//    return [formatter stringFromDate:date];;
+//}
 
-+(NSString *)formatHourStringFromDate:(NSDate *)date{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    
-    return [formatter stringFromDate:date];
-}
+//+(NSString *)formatHourStringFromDate:(NSDate *)date{
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:@"HH:mm"];
+//    
+//    return [formatter stringFromDate:date];
+//}
 
 +(NSString *)formatDurationString:(NSInteger)seconds{
     int minutes = (int)(seconds/60);
@@ -325,56 +325,56 @@
     return kkj3Point;
 }
 
-+(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset{
-    BOOL istommorrow = NO;
-    NSDate *offsettedDate;
-    
-    @try {
-        NSArray *comp = [timeString componentsSeparatedByString:@":"];
-        int hourVal = [[comp objectAtIndex:0] intValue];
-        
-        if (hourVal > 23) {
-            timeString = [NSString stringWithFormat:@"%d:%@", hourVal - 24, [comp objectAtIndex:1] ];
-            istommorrow = YES;
-        }
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-        [dateFormatter setDateFormat:@"HH:mm"];
-        
-        NSDate *time = [dateFormatter dateFromString:timeString];
-        
-        if (time == nil) {
-            return nil;
-        }
-        
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:time];
-        NSInteger hour = [components hour];
-        NSInteger minute = [components minute];
-        
-        NSDate *today = [NSDate date];
-        NSDateComponents *component = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:today];
-        [component setHour:hour];
-        [component setMinute:minute];
-        
-        NSDate *date = [calendar dateFromComponents:component];
-        
-        NSTimeInterval seconds;
-        if (istommorrow) {
-            seconds = (offset * -60) + (24 * 60 * 60);
-        }else{
-            seconds = (offset * -60);
-        }
-        
-        offsettedDate = [date dateByAddingTimeInterval:seconds];
-        
-    }
-    @catch (NSException *exception) {
-        return nil;
-    }
-    
-    return offsettedDate;
-}
+//+(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset{
+//    BOOL istommorrow = NO;
+//    NSDate *offsettedDate;
+//    
+//    @try {
+//        NSArray *comp = [timeString componentsSeparatedByString:@":"];
+//        int hourVal = [[comp objectAtIndex:0] intValue];
+//        
+//        if (hourVal > 23) {
+//            timeString = [NSString stringWithFormat:@"%d:%@", hourVal - 24, [comp objectAtIndex:1] ];
+//            istommorrow = YES;
+//        }
+//        
+//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+//        [dateFormatter setDateFormat:@"HH:mm"];
+//        
+//        NSDate *time = [dateFormatter dateFromString:timeString];
+//        
+//        if (time == nil) {
+//            return nil;
+//        }
+//        
+//        NSCalendar *calendar = [NSCalendar currentCalendar];
+//        NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:time];
+//        NSInteger hour = [components hour];
+//        NSInteger minute = [components minute];
+//        
+//        NSDate *today = [NSDate date];
+//        NSDateComponents *component = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:today];
+//        [component setHour:hour];
+//        [component setMinute:minute];
+//        
+//        NSDate *date = [calendar dateFromComponents:component];
+//        
+//        NSTimeInterval seconds;
+//        if (istommorrow) {
+//            seconds = (offset * -60) + (24 * 60 * 60);
+//        }else{
+//            seconds = (offset * -60);
+//        }
+//        
+//        offsettedDate = [date dateByAddingTimeInterval:seconds];
+//        
+//    }
+//    @catch (NSException *exception) {
+//        return nil;
+//    }
+//    
+//    return offsettedDate;
+//}
 
 +(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp{
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
