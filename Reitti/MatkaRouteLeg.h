@@ -23,7 +23,7 @@
 @property(nonatomic, strong)NSNumber *distance;
 
 //Line type leg
-@property(nonatomic, strong)NSNumber *lineId;
+@property(nonatomic, strong)NSString *lineId;
 @property(nonatomic, strong)NSString *codeShort;
 @property(nonatomic, strong)NSNumber *transportType;
 

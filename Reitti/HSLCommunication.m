@@ -83,6 +83,16 @@
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRouteFromApi label:@"HSL" value:nil];
 }
 
+//- (void)fetchLineDetailsForRoute:(Route *)route withCompletionBlock:(ActionBlock)completionBlock {
+//    if (!route) return;
+//
+//    [self fetchLineDetailsForRoutes:@[route] withCompletionBlock:completionBlock];
+//}
+//
+//- (void)fetchLineDetailsForRoutes:(NSArray *)routes withCompletionBlock:(ActionBlock)completionBlock {
+//    [self fetchLinesForCodes:@[] withCompletionBlock:completionBlock];
+//}
+
 #pragma mark - Datasource value mapping
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions{
@@ -281,19 +291,6 @@
 }
 
 #pragma mark - Line detail fetch protocol implementation
--(void)fetchLineForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
-    NSMutableDictionary *optionsDict = [@{} mutableCopy];
-    
-    NSString *username = [self getApiUsername];
-    
-    [optionsDict setValue:username forKey:@"user"];
-    [optionsDict setValue:@"rebekah" forKey:@"pass"];
-    
-    [super fetchLineDetailForSearchterm:searchTerm andOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
-    
-    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"HSL" value:nil];
-}
-
 - (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     

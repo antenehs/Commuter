@@ -147,15 +147,15 @@
 -(NSString *)lineDisplayName{
     switch (self.legType) {
         case LegTypeBus:
-            return [NSString stringWithFormat:@"Bus %@", self.lineName];
+            return [NSString stringWithFormat:@"Bus %@", [self.lineName uppercaseString]];
         case LegTypeTram:
-            return [NSString stringWithFormat:@"Tram %@", self.lineName];
+            return [NSString stringWithFormat:@"Tram %@", [self.lineName uppercaseString]];
         case LegTypeTrain:
-            return [NSString stringWithFormat:@"Train %@", self.lineName];
+            return [NSString stringWithFormat:@"Train %@", [self.lineName uppercaseString]];
         case LegTypeLongDistanceTrain:
-            return [NSString stringWithFormat:@"Long distance train %@", self.lineName];
+            return [NSString stringWithFormat:@"Long distance train %@", [self.lineName uppercaseString]];
         case LegTypeAirplane:
-            return [NSString stringWithFormat:@"Flight %@", self.lineName];
+            return [NSString stringWithFormat:@"Flight %@", [self.lineName uppercaseString]];
         case LegTypeFerry:
             return @"Ferry";
         case LegTypeMetro:
@@ -164,7 +164,7 @@
             return @"Walk";
             
         default:
-            return self.lineName;
+            return [self.lineName uppercaseString];
             break;
     }
 }
@@ -177,7 +177,7 @@
     leg.legDurationInSeconds = matkaLeg.timeInSeconds;
     leg.waitingTimeInSeconds = 0; //TODO: think about this
     leg.legType = matkaLeg.legType;
-    leg.lineCode = [matkaLeg.lineId stringValue];
+    leg.lineCode = matkaLeg.lineId;
     leg.lineName = matkaLeg.codeShort;
     leg.legOrder = matkaLeg.legOrder;
     
@@ -189,6 +189,7 @@
         if (startLoc) {
             RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteLocation:startLoc];
             legLoc.locationLegOrder = matkaLeg.legOrder;
+            legLoc.locationLegType = leg.legType;
             [locations addObject:legLoc];
             [shapeStrings addObject:legLoc.coordsString];
         } else {
@@ -196,6 +197,7 @@
             if(startStop) {
                 RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteStop:startStop];
                 legLoc.locationLegOrder = matkaLeg.legOrder;
+                legLoc.locationLegType = leg.legType;
                 [locations addObject:legLoc];
                 [shapeStrings addObject:legLoc.coordsString];
             }
@@ -204,6 +206,7 @@
         for (MatkaRouteLocation *loc in matkaLeg.locations) {
             RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteLocation:loc];
             legLoc.locationLegOrder = matkaLeg.legOrder;
+            legLoc.locationLegType = leg.legType;
             [locations addObject:legLoc];
             [shapeStrings addObject:legLoc.coordsString];
         }
@@ -212,6 +215,7 @@
         if (destLoc) {
             RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteLocation:destLoc];
             legLoc.locationLegOrder = matkaLeg.legOrder;
+            legLoc.locationLegType = leg.legType;
             [locations addObject:legLoc];
             [shapeStrings addObject:legLoc.coordsString];
         } else {
@@ -219,6 +223,7 @@
             if(endStop) {
                 RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteStop:endStop];
                 legLoc.locationLegOrder = matkaLeg.legOrder;
+                legLoc.locationLegType = leg.legType;
                 [locations addObject:legLoc];
                 [shapeStrings addObject:legLoc.coordsString];
             }
@@ -232,6 +237,7 @@
         for (MatkaRouteStop *loc in matkaLeg.stops) {
             RouteLegLocation *legLoc = [RouteLegLocation routeLocationFromMatkaRouteStop:loc];
             legLoc.locationLegOrder = matkaLeg.legOrder;
+            legLoc.locationLegType = leg.legType;
             [locations addObject:legLoc];
             [shapeStrings addObject:legLoc.coordsString];
         }

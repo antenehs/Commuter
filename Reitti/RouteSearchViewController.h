@@ -88,6 +88,7 @@
     
     BOOL toolBarIsShowing;
     
+    NSMutableDictionary *lineDetailMap;
 }
 -(void)setUpMainView;
 -(void)clearSearchResults;

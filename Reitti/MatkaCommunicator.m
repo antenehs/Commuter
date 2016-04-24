@@ -43,6 +43,7 @@
     
     [optionsDict setValue:[NSString stringWithFormat:@"%d,%d", (int)fromPoint.x, (int)fromPoint.y] forKey:@"a"];
     [optionsDict setValue:[NSString stringWithFormat:@"%d,%d", (int)toPoint.x, (int)toPoint.y] forKey:@"b"];
+    [optionsDict setValue:@"5" forKey:@"show"];
     
     [genericClient doXmlApiFetchWithParams:optionsDict responseDescriptor:[self routeResponseDescriptor] andCompletionBlock:^(NSArray *matkaRoutes, NSError *error) {
         if (!error) {
@@ -168,7 +169,7 @@
     [options setValue:@"text" forKey:@"m"];
     [options setValue:searchTerm forKey:@"text"];
     
-    [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[self lineResponseDescriptorForKeyPath:@"MATKAXML.TXT2LINES.LINE"] andCompletionBlock:^(NSArray *matkaLines, NSError *error) {
+    [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[self lineResponseDescriptorForKeyPath:@"MATKAXML.TXT2LINES.LINE" detailed:NO] andCompletionBlock:^(NSArray *matkaLines, NSError *error) {
         if (!error && matkaLines && matkaLines.count > 0) {
             NSMutableArray *lines = [@[] mutableCopy];
             for (MatkaLine *matkaLine in matkaLines) {
@@ -199,14 +200,13 @@
     
     for (NSString *lineid in lineCodes) {
         [options setValue:lineid forKey:@"lineid"];
-        [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[self lineResponseDescriptorForKeyPath:@"MATKAXML.LINE2STOPS"] andCompletionBlock:^(NSArray *matkaLines, NSError *error) {
+        [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[self lineResponseDescriptorForKeyPath:@"MATKAXML.LINE2STOPS" detailed:YES] andCompletionBlock:^(NSArray *matkaLines, NSError *error) {
             numberOfLines--;
             if (!error && matkaLines && matkaLines.count > 0) {
                 for (MatkaLine *matkaLine in matkaLines) {
                     Line *line = [Line lineFromMatkaLine:matkaLine];
-                    if (line) {
+                    if (line)
                         [allLines addObject:line];
-                    }
                 }
                 if (numberOfLines == 0)
                     completionBlock(allLines, nil);
@@ -278,12 +278,21 @@
     return responseDescriptor;
 }
 
-- (RKResponseDescriptor *)lineResponseDescriptorForKeyPath:(NSString *)keyPath {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self matkaLineObjectMapping]
-                                                       method:RKRequestMethodAny
-                                                  pathPattern:nil
-                                                      keyPath:keyPath
-                                                  statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+- (RKResponseDescriptor *)lineResponseDescriptorForKeyPath:(NSString *)keyPath detailed:(BOOL)detail {
+    if (detail) {
+        return [RKResponseDescriptor responseDescriptorWithMapping:[self matkaDetailLineObjectMapping]
+                                                            method:RKRequestMethodAny
+                                                       pathPattern:nil
+                                                           keyPath:keyPath
+                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    } else {
+        return [RKResponseDescriptor responseDescriptorWithMapping:[self matkaLineObjectMapping]
+                                                            method:RKRequestMethodAny
+                                                       pathPattern:nil
+                                                           keyPath:keyPath
+                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    }
+    
 }
 
 - (RKObjectMapping *)matkaLineObjectMapping {
@@ -297,6 +306,21 @@
                                                         @"arrivalTime" : @"arrivalTime",
                                                         @"departureTime" : @"departureTime"
                                                         }];
+    
+    [lineMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"name"
+                                                                                toKeyPath:@"lineNames"
+                                                                              withMapping:[self matkaNameObjectMapping]]];
+    
+    [lineMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"STOP"
+                                                                                toKeyPath:@"lineStops"
+                                                                              withMapping:[self matkaLineStopObjectMapping]]];
+    
+    return lineMapping;
+}
+
+- (RKObjectMapping *)matkaDetailLineObjectMapping {
+    RKObjectMapping* lineMapping = [RKObjectMapping mappingForClass:[MatkaLine class] ];
+    [lineMapping addAttributeMappingsFromDictionary: @{ @"lineId" : @"lineId" }];
     
     [lineMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"name"
                                                                                 toKeyPath:@"lineNames"

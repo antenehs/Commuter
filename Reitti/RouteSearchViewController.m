@@ -62,6 +62,8 @@ typedef enum
     
     currentLocationText = @"Current location";
     
+    lineDetailMap = [@{} mutableCopy];
+    
     localRouteSearchOptions = [[self.settingsManager globalRouteOptions] copy];
     if (localRouteSearchOptions == nil)
         localRouteSearchOptions = [RouteSearchOptions defaultOptions];
@@ -1380,7 +1382,7 @@ typedef enum
             [routeResultsTableView reloadData];
         }
         
-        [reittiDataManager searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil andCompletionBlock:^(NSArray *result, NSString *error){
+        [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil andCompletionBlock:^(NSArray *result, NSString *error){
             if (!error) {
                 [self routeSearchDidComplete:result];
                 [self fetchDisruptions];
@@ -1409,6 +1411,93 @@ typedef enum
     
     [self setSelectedTimesForDate:[NSDate date]];
     [self searchRouteIfPossible];
+}
+
+-(void)searchRouteForFromCoords:(NSString *)fromCoord andToCoords:(NSString *)toCoord andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock {
+    [reittiDataManager searchRouteForFromCoords:fromCoord andToCoords:toCoord andSearchOption:searchOptions andNumberOfResult:numberOfResult andCompletionBlock:^(NSArray *result, NSString *error){
+        if (!error) {
+            [self routeSearchDidComplete:result];
+            [self searchLineDetailsForLinesInRoutes:result];
+            [self fetchDisruptions];
+        }else{
+            [self routeSearchDidFail:error];
+        }
+    }];
+}
+
+-(void)searchLineDetailsForLinesInRoutes:(NSArray *)routes {
+    for (Route *route in routes) {
+         NSMutableArray *lineCodes = [@[] mutableCopy];
+        
+        for (RouteLeg *leg in route.routeLegs) {
+//            if (!leg.lineName || [leg.lineName isEqualToString:@"-"] || [leg.lineName isEqualToString:@""]) {
+//                
+//            }
+            if (leg.lineCode && leg.lineCode.length > 0 && ![lineDetailMap objectForKey:leg.lineCode])
+                [lineCodes addObject:leg.lineCode];
+        }
+        
+        if (lineCodes.count > 0) {
+            [self.reittiDataManager fetchLinesForLineCodes:lineCodes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+                if (!errorString) {
+                    [self populateLineDetailMapFromLines:lines];
+                    [self setLineCodesFromLineDetails];
+                    [routeResultsTableView reloadData];
+                }
+            }];
+        } else {
+            //Try if there was a map already
+            [self setLineCodesFromLineDetails];
+            [routeResultsTableView reloadData];
+        }
+    }
+}
+
+-(void)setLineCodesFromLineDetails {
+    for (Route *route in self.routeList) {
+        for (RouteLeg *leg in route.routeLegs) {
+            if (!leg.lineName || [leg.lineName isEqualToString:@"-"] || [leg.lineName isEqualToString:@""]) {
+                NSString *codeFromLineDetail = [self getLineShortCodeForLineCode:leg.lineCode];
+                if (codeFromLineDetail) leg.lineName = codeFromLineDetail;
+            }
+        }
+    }
+}
+
+- (void)populateLineDetailMapFromLines:(NSArray *)lines{
+    if (!lines || lines.count < 1)
+        return;
+    
+    @try {
+        for (Line *line in lines) {
+            [lineDetailMap setValue:line forKey:line.code];
+        }
+    }
+    @catch (NSException *exception) {}
+}
+
+- (NSString *)getDestinationForLineCode:(NSString *)code{
+    if (!code)
+        return nil;
+    
+    Line *detailLine = [lineDetailMap objectForKey:code];
+    
+    if (detailLine)
+        return detailLine.lineEnd;
+    
+    return nil;
+}
+
+- (NSString *)getLineShortCodeForLineCode:(NSString *)code{
+    if (!code)
+        return nil;
+    
+    Line *detailLine = [lineDetailMap objectForKey:code];
+    
+    if (detailLine)
+        return detailLine.codeShort;
+    
+    return nil;
 }
 
 -(void)tableViewRefreshing{
@@ -1692,6 +1781,7 @@ typedef enum
 - (void)configureDetailViewControllerWithRoute:(Route *)selectedRoute andSelectedRouteIndex:(int)index routeDetailViewController:(RouteDetailViewController *)destinationViewController {
     destinationViewController.route = selectedRoute;
     destinationViewController.routeList = self.routeList;
+    destinationViewController.lineDetailMap = lineDetailMap;
     destinationViewController.selectedRouteIndex = index;
     destinationViewController.toLocation = toString;
     destinationViewController.fromLocation = fromString;

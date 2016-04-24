@@ -41,7 +41,7 @@
 #define SYSTEM_BROWN_COLOR [UIColor brownColor];
 #define SYSTEM_CYAN_COLOR [UIColor cyanColor];
 
-@synthesize route = _route, selectedRouteIndex,routeList;
+@synthesize route = _route, selectedRouteIndex,routeList, lineDetailMap;;
 @synthesize currentpolyLine,currentLeg;
 @synthesize darkMode;
 @synthesize routeLocationList;
@@ -57,7 +57,6 @@
     isShowingStopView = NO;
     
     mapResizedForMiddlePosition = NO;
-    lineDetailMap = [@{} mutableCopy];
     
     CLLocationCoordinate2D _upper = {.latitude =  -90.0, .longitude =  0.0};
     upperBound = _upper;
@@ -235,17 +234,7 @@
     [self stopFetchingVehicles];
     [self startFetchingVehicles];
     
-    for (UIView *view in routeView.subviews) {
-        [view removeFromSuperview];
-    }
-    
-    UIView *transportsView = [RouteViewManager viewForRoute:self.route longestDuration:[self.route.routeDurationInSeconds floatValue] width:self.view.frame.size.width - 150 alwaysShowVehicle:NO];
-    
-    [routeView addSubview:transportsView];
-    routeView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);
-    
-    routeView.userInteractionEnabled = NO;
-    [topViewBackView addGestureRecognizer:routeView.panGestureRecognizer];
+    [self setupRoutePreviewView];
     
     [timeIntervalLabel setText:[NSString stringWithFormat:@"leave at %@ ",
                                                [ReittiStringFormatter formatHourStringFromDate:self.route.startingTimeOfRoute]]];
@@ -261,10 +250,34 @@
 //    [self addTransportTypePictures];
 }
 
+- (void)setupRoutePreviewView {
+    for (UIView *view in routeView.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    for (RouteLeg *leg in self.route.routeLegs) {
+        if (!leg.lineName || [leg.lineName isEqualToString:@"-"] || [leg.lineName isEqualToString:@""]) {
+            NSString *codeFromLineDetail = [self getLineShortCodeForLineCode:leg.lineCode];
+            if (codeFromLineDetail) leg.lineName = codeFromLineDetail;
+        }
+    }
+    
+    UIView *transportsView = [RouteViewManager viewForRoute:self.route longestDuration:[self.route.routeDurationInSeconds floatValue] width:self.view.frame.size.width - 150 alwaysShowVehicle:NO];
+    
+    [routeView addSubview:transportsView];
+    routeView.contentSize = CGSizeMake(transportsView.frame.size.width, transportsView.frame.size.height);
+    
+    routeView.userInteractionEnabled = NO;
+    [topViewBackView addGestureRecognizer:routeView.panGestureRecognizer];
+}
+
+//Line maps should come from routeSearchView. Search here if they didn't
 - (void)fetchLineDetailsForRoute:(Route *)aRoute{
     
     if (!aRoute || !aRoute.routeLegs)
         return;
+    
+    if (!lineDetailMap) lineDetailMap = [@{} mutableCopy];
     
     NSMutableArray *lineCodes = [@[] mutableCopy];
     for (RouteLeg *leg in aRoute.routeLegs) {
@@ -279,6 +292,7 @@
         if (!errorString) {
             [self populateLineDetailMapFromLines:lines];
             [routeListTableView reloadData];
+            [self setupRoutePreviewView];
         }
     }];
 }
@@ -303,6 +317,18 @@
     
     if (detailLine)
         return detailLine.lineEnd;
+    
+    return nil;
+}
+
+- (NSString *)getLineShortCodeForLineCode:(NSString *)code{
+    if (!code)
+        return nil;
+    
+    Line *detailLine = [lineDetailMap objectForKey:code];
+    
+    if (detailLine)
+        return detailLine.codeShort;
     
     return nil;
 }
@@ -1514,7 +1540,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             transportCircleBackView.backgroundColor = darkerGrayColor;
             transportCircleBackView.layer.borderWidth = 0;
             
-            lineNumberLabel.text = [selectedLeg.lineDisplayName capitalizedString];
+            if (!selectedLeg.lineName || [selectedLeg.lineName isEqualToString:@""] || [selectedLeg.lineName isEqualToString:@"-"]) {
+                NSString *nameFromDetail = [self getLineShortCodeForLineCode:selectedLeg.lineCode];
+                if (nameFromDetail)selectedLeg.lineName = nameFromDetail;
+            }
+            
+            lineNumberLabel.text = selectedLeg.lineDisplayName;
             
             if (selectedLeg.legType != LegTypeTram) { /* the tram picture is smaller than others */
                 [legTypeImage setImage:[UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)]];

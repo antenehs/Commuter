@@ -8,11 +8,16 @@
 
 #import <MapKit/MapKit.h>
 #import "RouteSearchOptions.h"
+#import "Route.h"
 
 typedef void (^ActionBlock)();
 
 @protocol RouteSearchProtocol <NSObject>
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock;
+////to be used from route search view in case of matka api
+//- (void)fetchLineDetailsForRoutes:(NSArray *)routes withCompletionBlock:(ActionBlock)completionBlock;
+////to be used from route detail view
+//- (void)fetchLineDetailsForRoute:(Route *)route withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
 @protocol StopsInAreaSearchProtocol <NSObject>

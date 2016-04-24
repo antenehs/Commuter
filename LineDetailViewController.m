@@ -531,7 +531,6 @@
     
 }
 
-
 #pragma mark - ReittiDataManager delegates
 -(void)fetchDetailForLine {
     if (!line && line.code) [self lineSearchDidFail:@"No line code available"];

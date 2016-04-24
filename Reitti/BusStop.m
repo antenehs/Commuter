@@ -137,7 +137,7 @@
     for (MatkaLine *matkaLine in matkaLines) {
         StopLine *line = [[StopLine alloc] init];
         line.fullCode = matkaLine.lineId;
-        line.code = matkaLine.codeShort;
+        line.code = [matkaLine.codeShort uppercaseString];
         line.name = matkaLine.name;
         line.direction = @"1";
         line.destination = matkaLine.name;

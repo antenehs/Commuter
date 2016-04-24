@@ -15,10 +15,40 @@
 
 -(NSString *)codeFull {
     if (!_codeFull) {
-        _codeFull = _codeShort;
+        _codeFull = self.codeShort;
     }
     
     return _codeFull;
+}
+
+-(NSString *)codeShort {
+    if (!_codeShort || [_codeShort isEqualToString:@"-"]) {
+        //Try generate code from stops
+        MatkaStop *destStop = [self destinationStop];
+        if (destStop && destStop.name.length > 2) {
+            _codeShort = [[destStop.name substringToIndex:3] uppercaseString];
+        } else {
+            _codeShort = destStop.name;
+        }
+    }
+    
+    return _codeShort;
+}
+
+-(MatkaStop *)destinationStop {
+    if (self.lineStops && self.lineStops.count > 0) {
+        for (NSInteger i = self.lineStops.count - 1; i >= 0 && i >= self.lineStops.count - 6; i--) {
+            MatkaStop *stop = self.lineStops[i];
+            if (stop.name && [stop.name.lowercaseString containsString:@"linja-autoasema"]) {
+                //Take first 3 letters of the name
+                return stop;
+            }
+        }
+        
+        return [self.lineStops lastObject];
+    }
+    
+    return nil;
 }
 
 -(NSString *)name {
@@ -91,6 +121,11 @@
                 _lineEnd = lineEnd;
             } else {
                 _lineEnd = self.name;
+            }
+        } else {
+            MatkaStop *destStop = [self destinationStop];
+            if (destStop && destStop.name) {
+                _lineEnd = destStop.name;
             }
         }
     }
