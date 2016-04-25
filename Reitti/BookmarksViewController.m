@@ -844,14 +844,19 @@ const NSInteger kTimerRefreshInterval = 15;
     lineName.textColor = [UIColor blackColor];
     
     NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
-    
-    if ([departure.parsedDate timeIntervalSinceNow] < 300) {
-        timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
-                                                                           substring:formattedHour
-                                                                      withNormalFont:timeLabel.font];
-        ;
-    }else{
+    if (!formattedHour || formattedHour.length < 1 ) {
+        NSString *notFormattedTime = departure.time ;
+        formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
         timeLabel.text = formattedHour;
+    } else {
+        if ([departure.parsedDate timeIntervalSinceNow] < 300) {
+            timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
+                                                                               substring:formattedHour
+                                                                          withNormalFont:timeLabel.font];
+            ;
+        }else{
+            timeLabel.text = formattedHour;
+        }
     }
     
     UIView *backgroundView = [cell viewWithTag:3003];

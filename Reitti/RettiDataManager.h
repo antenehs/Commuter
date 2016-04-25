@@ -39,6 +39,7 @@ typedef enum
 {
     HSLRegion = 0,
     TRERegion = 1,
+    FINRegion = 4,
     HSLandTRERegion = 2,
     OtherRegion = 3
 } Region;

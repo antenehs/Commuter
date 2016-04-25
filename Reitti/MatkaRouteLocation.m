@@ -16,7 +16,7 @@
 -(NSDate *)parsedArrivalTime {
     if (!_parsedArrivalTime) {
         if (_arrivalTime) {
-            _parsedArrivalTime = [[ReittiDateFormatter sharedFormatter] dateFromMatkaDateString:_arrivalDate andHourString:_arrivalTime];
+            _parsedArrivalTime = [[ReittiDateFormatter sharedFormatter] dateFromApiDateString:_arrivalDate andHourString:_arrivalTime];
         }
     }
     
@@ -26,7 +26,7 @@
 -(NSDate *)parsedDepartureTime {
     if (!_parsedDepartureTime) {
         if (_departureTime) {
-            _parsedDepartureTime = [[ReittiDateFormatter sharedFormatter] dateFromMatkaDateString:_departureDate andHourString:_departureTime];
+            _parsedDepartureTime = [[ReittiDateFormatter sharedFormatter] dateFromApiDateString:_departureDate andHourString:_departureTime];
         }
     }
     

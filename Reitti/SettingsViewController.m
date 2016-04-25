@@ -41,11 +41,11 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     dayNumbers = @[@1, @5, @10, @15, @30, @90, @180, @365];
     dayStrings = @[@"1 day", @"5 days", @"10 days", @"15 days", @"30 days", @"3 months", @"6 months", @"1 year"];
     
-    regionOptionNumbers = @[[NSNumber numberWithInt:HSLRegion],[NSNumber numberWithInt:TRERegion]];
-    regionOptionNames = @[@"Helsinki Region", @"Tampere Region"];
+    regionOptionNumbers = @[[NSNumber numberWithInt:HSLRegion],[NSNumber numberWithInt:TRERegion],[NSNumber numberWithInt:FINRegion]];
+    regionOptionNames = @[@"Helsinki Region", @"Tampere Region", @"Whole Finland"];
     regionIncludingCities = @[@"Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo.",
-                              @"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi"];
-    
+                              @"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi",
+                              @"Everywhere in Finland"];
     
 }
 
@@ -244,9 +244,9 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         if (indexPath.row == locationRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
             UILabel *label = (UILabel *)[cell viewWithTag:1001];
-            if ([settingsManager userLocation] < regionOptionNumbers.count) {
-                Region savedRegion = [settingsManager userLocation];
-                NSInteger index = [self indexOfRegion:savedRegion];
+            Region savedRegion = [settingsManager userLocation];
+            NSInteger index = [self indexOfRegion:savedRegion];
+            if (index >= 0) {
                 label.text = regionOptionNames[index];
             }else{
                 label.text = @"Unknown";
@@ -417,7 +417,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         [settingsManager setNumberOfDaysToKeepHistory:[dayNumbers[selectedIndex] intValue]];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedHistoryCleaningDay label:dayStrings[selectedIndex] value:nil];
     }else{
-        [settingsManager setUserLocation:(Region)selectedIndex];
+        NSNumber *selectedRegionNumber = regionOptionNumbers[selectedIndex];
+        [settingsManager setUserLocation:(Region)[selectedRegionNumber intValue]];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedUserLocation label:nil value:nil];
     }
 }
@@ -428,7 +429,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         return [self indexForDayFromDayNumbers:savedValue];
     }else{
         Region savedRegion = [settingsManager userLocation];
-        return [self indexOfRegion:savedRegion];
+        return [self indexOfRegion:savedRegion] >= 0 ? [self indexOfRegion:savedRegion] : 0 ;
     }
     
     return 0;
@@ -474,7 +475,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
             return i;
     }
     
-    return 0;
+    return -1;
 }
 
 #pragma mark - Navigation

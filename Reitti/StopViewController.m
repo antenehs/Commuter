@@ -512,51 +512,24 @@
             if (!formattedHour || formattedHour.length < 1 ) {
                 NSString *notFormattedTime = departure.time ;
                 formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-            }
-            
-            if ([departure.parsedDate timeIntervalSinceNow] < 300) {
-                timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
-                                                                                           substring:formattedHour
-                                                                                      withNormalFont:timeLabel.font];
-                ;
-            }else{
                 timeLabel.text = formattedHour;
+            } else {
+                if ([departure.parsedDate timeIntervalSinceNow] < 300) {
+                    timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
+                                                                                       substring:formattedHour
+                                                                                  withNormalFont:timeLabel.font];
+                    ;
+                }else{
+                    timeLabel.text = formattedHour;
+                }
             }
             
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-            
-//            if (([settingsManager userLocation] != HSLRegion)) {
-//                lineName = [departure objectForKey:@"code"];
-//            }else{
-//                if (_stopLinesDetail != nil) {
-//                    lineName = [_stopLineNames objectForKey:[departure objectForKey:@"code"]];
-//                }else{
-//                    NSString *notParsedCode = [departure objectForKey:@"code"];
-//                    lineName = [ReittiStringFormatter parseBusNumFromLineCode:notParsedCode];
-//                }
-//            }
-//            
-//            if (lineName == nil) {
-//                lineName = [departure objectForKey:@"code"];
-//            }
-            
-            
             
             codeLabel.text = departure.code;
             
             UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
             destinationLabel.text = departure.destination;
-            //Destination is available in TRE api. Check for it first
-//            if ([departure objectForKey:@"name1"] != nil) {
-//                destinationLabel.text = [departure objectForKey:@"name1"];
-//            }else{
-//                if (_stopLinesDetail != nil) {
-//                    destinationLabel.text = [_stopLinesDetail objectForKey:[departure objectForKey:@"code"]];
-//                    //destinationLabel.font = CUSTOME_FONT_BOLD(16.0f);
-//                }else{
-//                    destinationLabel.text = @"";
-//                }
-//            }
         }
         @catch (NSException *exception) {
             if (self.departures.count == 1) {

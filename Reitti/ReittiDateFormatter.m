@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSDateFormatter *apiFullDateFormatter;
 
 @property (nonatomic, strong) NSDateFormatter *hourAndMinFormatter;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDateFormatter *fullDateFormatter;
 
 @end
@@ -37,6 +38,7 @@
     if (!_apiHourFormatter) {
         _apiHourFormatter = [[NSDateFormatter alloc] init];
         [_apiHourFormatter setDateFormat:@"HHmm"];
+        [_apiHourFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     }
     
     return _apiHourFormatter;
@@ -47,6 +49,7 @@
         
         _apiDateFormatter = [[NSDateFormatter alloc] init];
         [_apiDateFormatter setDateFormat:@"yyyyMMdd"];
+        [_apiDateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     }
     
     return _apiDateFormatter;
@@ -56,7 +59,8 @@
     if (!_apiFullDateFormatter) {
         
         _apiFullDateFormatter = [[NSDateFormatter alloc] init];
-        [_apiFullDateFormatter setDateFormat:@"yyyyMMdd HHmm"];
+        [_apiFullDateFormatter setDateFormat:@"yyyyMMddHHmm"];
+        [_apiFullDateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     }
     
     return _apiFullDateFormatter;
@@ -66,16 +70,29 @@
     if (!_hourAndMinFormatter) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"HH:mm"];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
         _hourAndMinFormatter = formatter;
     }
     
     return _hourAndMinFormatter;
 }
 
+-(NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"d.MM.yy"];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
+        _dateFormatter = formatter;
+    }
+    
+    return _dateFormatter;
+}
+
 -(NSDateFormatter *)fullDateFormatter {
     if (!_fullDateFormatter) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"d.MM.yy"];
+        [formatter setDateFormat:@"d.MM.yy HH:mm"];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
         _fullDateFormatter = formatter;
     }
     
@@ -86,7 +103,7 @@
 /**
 Expected format @"YYYYMMdd" and @"HHmm"
 */
-- (NSDate *)dateFromMatkaDateString:(NSString *)dateString andHourString:(NSString *)hourString{
+- (NSDate *)dateFromApiDateString:(NSString *)dateString andHourString:(NSString *)hourString{
     @try {
         NSString *notFormattedTime = hourString;
         NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
@@ -109,7 +126,7 @@ Expected format @"YYYYMMdd" and @"HHmm"
         
         NSDate *parsedDate = nil;
         if (dateString) {
-            NSString *fullDateString = [NSString stringWithFormat:@"%@ %@", dateString, timeString];
+            NSString *fullDateString = [NSString stringWithFormat:@"%@%@", dateString, timeString];
             parsedDate = [self.apiFullDateFormatter dateFromString:fullDateString];
         }else{
             parsedDate = [self.apiHourFormatter dateFromString:timeString];
@@ -128,6 +145,10 @@ Expected format @"YYYYMMdd" and @"HHmm"
     }
 }
 
+-(NSDate *)dateFromFullApiDateString:(NSString *)fullDateString {
+    return [self.apiFullDateFormatter dateFromString:fullDateString];
+}
+
 -(NSString *)formatHourStringFromDate:(NSDate *)date{
     return [self.hourAndMinFormatter stringFromDate:date];
 }
@@ -136,8 +157,14 @@ Expected format @"YYYYMMdd" and @"HHmm"
     return [NSString stringWithFormat:@"%@ - %@", [self.hourAndMinFormatter stringFromDate:fromTime], [self.hourAndMinFormatter stringFromDate:toTime]];
 }
 
--(NSString *)formatFullDate:(NSDate *)date{
-    return [self.fullDateFormatter stringFromDate:date];
+-(NSString *)formatDate:(NSDate *)date{
+    return [self.dateFormatter stringFromDate:date];
+}
+
+-(NSString *)formatHoursOrFullDateIfNotToday:(NSDate *)date {
+    NSDateFormatter *formatter = [ReittiDateFormatter isSameDateAsToday:date] ? self.hourAndMinFormatter : self.fullDateFormatter;
+    [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
+    return [formatter stringFromDate:date];
 }
 
 -(NSString *)formatPrittyDate:(NSDate *)date{
@@ -165,7 +192,7 @@ Expected format @"YYYYMMdd" and @"HHmm"
         return @"2 days ago";
     }else{
         
-        return [self.fullDateFormatter stringFromDate:date];;
+        return [self.dateFormatter stringFromDate:date];;
     }
 }
 
@@ -181,9 +208,6 @@ Expected format @"YYYYMMdd" and @"HHmm"
             timeString = [NSString stringWithFormat:@"%d:%@", hourVal - 24, [comp objectAtIndex:1] ];
             istommorrow = YES;
         }
-        
-//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-//        [dateFormatter setDateFormat:@"HH:mm"];
         
         NSDate *time = [self.hourAndMinFormatter dateFromString:timeString];
         
@@ -218,6 +242,15 @@ Expected format @"YYYYMMdd" and @"HHmm"
     }
     
     return offsettedDate;
+}
+
++(BOOL)isSameDateAsToday:(NSDate *)date1{
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date1];
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
+    return ([today day] == [otherDay day] &&
+            [today month] == [otherDay month] &&
+            [today year] == [otherDay year] &&
+            [today era] == [otherDay era]);
 }
 
 @end

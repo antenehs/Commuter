@@ -231,7 +231,7 @@ NSString *ACCurrentProcessRenameCard = @"ACCurrentProcessRenameCard";
                 periodDays.attributedText = daysString;
             }
             
-            ticketPeriod.text = [NSString stringWithFormat:@"%@ - %@",[[ReittiDateFormatter sharedFormatter] formatFullDate:startDate], [[ReittiDateFormatter sharedFormatter] formatFullDate:expiryDate]];
+            ticketPeriod.text = [NSString stringWithFormat:@"%@ - %@",[[ReittiDateFormatter sharedFormatter] formatDate:startDate], [[ReittiDateFormatter sharedFormatter] formatDate:expiryDate]];
             ticketName.text = card.periodProductState.productName;
             
 //            noPeriodLabel.hidden = YES;

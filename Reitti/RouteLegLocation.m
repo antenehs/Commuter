@@ -7,7 +7,8 @@
 //
 
 #import "RouteLegLocation.h"
-#import "ReittiMapkitHelper.h"
+#import "ASA_Helpers.h"
+
 
 @implementation RouteLegLocation
 
@@ -28,11 +29,8 @@
         self.coordsDictionary = legDict[@"coord"];
         self.coordsString = [NSString stringWithFormat:@"%@,%@",self.coordsDictionary[@"x"],self.coordsDictionary[@"y"]];
         
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyyMMddHHmm"];
-        
-        self.arrTime = [formatter dateFromString:legDict[@"arrTime"]];
-        self.depTime = [formatter dateFromString:legDict[@"depTime"]];
+        self.arrTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:legDict[@"arrTime"]];
+        self.depTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:legDict[@"depTime"]];
         self.name = legDict[@"name"];
         self.stopCode = legDict[@"code"];
         self.shortCode = legDict[@"shortCode"];

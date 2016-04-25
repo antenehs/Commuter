@@ -1519,16 +1519,6 @@ typedef enum
 }
 
 -(void)setSelectedTimesForDate:(NSDate *)date{
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"HHmm"];
-//    NSString *time = [dateFormat stringFromDate:date];
-//    selectedTimeString = time;
-//    
-//    NSDateFormatter *dateFormat2 = [[NSDateFormatter alloc] init];
-//    [dateFormat2 setDateFormat:@"yyyyMMdd"];
-//    NSString *date1 = [dateFormat2 stringFromDate:date];
-//    selectedDateString = date1;
-    
     localRouteSearchOptions.date = date;
     
     [self setSelectedTimeToTimeLabel:date andTimeType:localRouteSearchOptions.selectedTimeType];
@@ -1536,9 +1526,7 @@ typedef enum
 
 
 - (void)setSelectedTimeToTimeLabel:(NSDate *)time andTimeType:(RouteTimeType)timeType{
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [self isSameDateAsToday:time] ? [dateFormat setDateFormat:@"HH:mm"] : [dateFormat setDateFormat:@"d.MM.yy HH:mm"];
-    NSString *prettyVersion = [dateFormat stringFromDate:time];
+    NSString *prettyVersion = [[ReittiDateFormatter sharedFormatter] formatHoursOrFullDateIfNotToday:time];
     
     switch (timeType) {
         case RouteTimeNow:
@@ -1590,14 +1578,14 @@ typedef enum
     }
 }
 
--(BOOL)isSameDateAsToday:(NSDate *)date1{
-    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date1];
-    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
-    return ([today day] == [otherDay day] &&
-            [today month] == [otherDay month] &&
-            [today year] == [otherDay year] &&
-            [today era] == [otherDay era]);
-}
+//-(BOOL)isSameDateAsToday:(NSDate *)date1{
+//    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:date1];
+//    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSCalendarUnitEra|NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:[NSDate date]];
+//    return ([today day] == [otherDay day] &&
+//            [today month] == [otherDay month] &&
+//            [today year] == [otherDay year] &&
+//            [today era] == [otherDay era]);
+//}
 
 -(void)reloadTableViewAnimatedWithInteralSeconds:(CGFloat)intervalSec{
 //    tableReloadAnimatedMode = YES;

@@ -382,6 +382,7 @@
     if (!_hourFormatter) {
         _hourFormatter = [[NSDateFormatter alloc] init];
         [_hourFormatter setDateFormat:@"HHmm"];
+        [_hourFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     }
     
     return _hourFormatter;
@@ -392,6 +393,7 @@
         
         _dateFormatter = [[NSDateFormatter alloc] init];
         [_dateFormatter setDateFormat:@"yyyyMMdd"];
+        [_dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     }
     
     return _dateFormatter;
@@ -402,6 +404,7 @@
         
         _fullDateFormatter = [[NSDateFormatter alloc] init];
         [_fullDateFormatter setDateFormat:@"yyyyMMdd HHmm"];
+        [_fullDateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     }
     
     return _fullDateFormatter;

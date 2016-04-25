@@ -30,6 +30,7 @@
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyyMMddHHmm"];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
         
         self.arrTime = [formatter dateFromString:legDict[@"arrTime"]];
         self.depTime = [formatter dateFromString:legDict[@"depTime"]];

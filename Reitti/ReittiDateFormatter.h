@@ -12,11 +12,15 @@
 
 +(id)sharedFormatter;
 
-- (NSDate *)dateFromMatkaDateString:(NSString *)dateString andHourString:(NSString *)hourString;
+-(NSDate *)dateFromApiDateString:(NSString *)dateString andHourString:(NSString *)hourString;
+-(NSDate *)dateFromFullApiDateString:(NSString *)fullDateString;
 -(NSString *)formatHourStringFromDate:(NSDate *)date;
 -(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
--(NSString *)formatFullDate:(NSDate *)date;
+-(NSString *)formatDate:(NSDate *)date;
+-(NSString *)formatHoursOrFullDateIfNotToday:(NSDate *)date;
 -(NSString *)formatPrittyDate:(NSDate *)date;
 -(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
+
++(BOOL)isSameDateAsToday:(NSDate *)date1;
 
 @end
