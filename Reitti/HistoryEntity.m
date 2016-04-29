@@ -18,6 +18,7 @@
 @dynamic busStopShortCode;
 @dynamic busStopCoords;
 @dynamic busStopWgsCoords;
+@dynamic fetchedFrom;
 
 -(StopType)stopType{
     @try {
@@ -35,6 +36,21 @@
 
 -(void)setStopType:(StopType)stopType{
     self.stopType = stopType;
+}
+
+-(ReittiApi)fetchedFromApi {
+    if (self.fetchedFrom) {
+        int intVal = [self.fetchedFrom intValue];
+        @try {
+            return (ReittiApi)intVal;
+        } @catch (NSException *exception) {
+            self.fetchedFrom = @0;
+            return ReittiAutomaticApi;
+        }
+    } else {
+        self.fetchedFrom = @0;
+        return ReittiAutomaticApi;
+    }
 }
 
 @end

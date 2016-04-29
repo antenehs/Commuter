@@ -91,6 +91,7 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
 @property (strong, nonatomic) NSString * stopName;
 @property (nonatomic) CLLocationCoordinate2D stopCoords;
 @property (strong, nonatomic) NSString * backButtonText;
+@property (nonatomic) ReittiApi useApi;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 

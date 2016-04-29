@@ -10,8 +10,9 @@
 #import "NearByStop.h"
 #import "ReittiModels.h"
 #import "MatkaStop.h"
+#import "ReittiObject.h"
 
-@interface BusStopShort : NSObject
+@interface BusStopShort : ReittiObject
 
 -(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop;
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop;

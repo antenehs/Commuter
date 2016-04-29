@@ -87,6 +87,8 @@ typedef enum{
 @property (strong, nonatomic) NSString *fromLocation;
 @property (strong, nonatomic)CLLocation * currentUserLocation;
 
+@property (nonatomic)ReittiApi useApi;
+
 @property (nonatomic) bool darkMode;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;

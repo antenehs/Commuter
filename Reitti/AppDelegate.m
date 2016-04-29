@@ -20,6 +20,7 @@
 #import "ASA_Helpers.h"
 #import "MainTabBarController.h"
 #import "RettiDataManager.h"
+#import "ReittiRegionManager.h"
 
 @implementation AppDelegate
 
@@ -34,6 +35,7 @@
     //Init Singletons
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
     [LinesManager sharedManager];
+    [ReittiRegionManager sharedManager];
     
     //Check if notification is allowed.
     if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {

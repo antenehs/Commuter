@@ -21,6 +21,7 @@
 @dynamic busStopURL;
 @dynamic busStopCoords;
 @dynamic busStopWgsCoords;
+@dynamic fetchedFrom;
 
 -(StopType)stopType{
     @try {
@@ -49,7 +50,9 @@
         if ([self.stopLines[0] isKindOfClass:[StopLine class]]) {
             NSMutableArray *lineCodeArray = [@[] mutableCopy];
             for (StopLine *line in self.stopLines) {
-                [lineCodeArray addObject:line.code];
+                if (line.code) {
+                    [lineCodeArray addObject:line.code];
+                }
             }
             
             return lineCodeArray;
@@ -84,6 +87,21 @@
         return @"";
     }
     return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
+}
+
+-(ReittiApi)fetchedFromApi {
+    if (self.fetchedFrom) {
+        int intVal = [self.fetchedFrom intValue];
+        @try {
+            return (ReittiApi)intVal;
+        } @catch (NSException *exception) {
+            self.fetchedFrom = @0;
+            return ReittiAutomaticApi;
+        }
+    } else {
+        self.fetchedFrom = @0;
+        return ReittiAutomaticApi;
+    }
 }
 
 @end

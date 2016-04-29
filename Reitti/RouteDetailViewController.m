@@ -110,6 +110,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController setToolbarHidden:YES animated:NO];
+    if (self.tabBarController) {
+        [self.tabBarController.tabBar setHidden:YES];
+    }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -288,7 +291,9 @@
     if (lineCodes.count < 1)
         return;
     
-    [self.reittiDataManager fetchLinesForLineCodes:lineCodes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+    if (self.useApi == ReittiAutomaticApi) self.useApi = ReittiCurrentRegionApi;
+    
+    [self.reittiDataManager fetchLinesForLineCodes:lineCodes fetchFromApi:self.useApi withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
         if (!errorString) {
             [self populateLineDetailMapFromLines:lines];
             [routeListTableView reloadData];
@@ -1185,7 +1190,7 @@
     }
     
     if ([self shouldShowOtherStopAnnotations]) {
-        [self.reittiDataManager fetchStopsInAreaForRegion:routeMapView.region withCompletionBlock:^(NSArray *stops, NSString *error){
+        [self.reittiDataManager fetchStopsInAreaForRegion:routeMapView.region fetchFromApi:self.useApi withCompletionBlock:^(NSArray *stops, NSString *error){
             if (!error) {
                 [self plotOtherStopAnnotationsForStops:stops];
             }
@@ -1993,6 +1998,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
 //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
+            stopViewController.useApi = self.useApi;
             
             
             stopViewController.reittiDataManager = self.reittiDataManager;
@@ -2077,6 +2083,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         //            stopViewController.modalMode = [NSNumber numberWithBool:NO];
         stopViewController.reittiDataManager = self.reittiDataManager;
         stopViewController.delegate = nil;
+        stopViewController.useApi = self.useApi;
         
         //            isShowingStopView = YES;
         return stopViewController;

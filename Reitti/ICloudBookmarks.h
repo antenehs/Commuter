@@ -24,6 +24,7 @@ extern NSString *kStopName;
 extern NSString *kStopCity;
 extern NSString *kStopType;
 extern NSString *kStopCoordinate;
+extern NSString *kStopFetchedFrom;
 
 //Saved RouteEntity
 extern NSString *kRouteUniqueName;

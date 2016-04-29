@@ -1415,10 +1415,11 @@ typedef enum
 }
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoord andToCoords:(NSString *)toCoord andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock {
-    [reittiDataManager searchRouteForFromCoords:fromCoord andToCoords:toCoord andSearchOption:searchOptions andNumberOfResult:numberOfResult andCompletionBlock:^(NSArray *result, NSString *error){
+    [reittiDataManager searchRouteForFromCoords:fromCoord andToCoords:toCoord andSearchOption:searchOptions andNumberOfResult:numberOfResult andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
         if (!error) {
             [self routeSearchDidComplete:result];
-            [self searchLineDetailsForLinesInRoutes:result];
+            self.useApi = usedApi;
+            [self searchLineDetailsForLinesInRoutes:result fromApi:usedApi];
             [self fetchDisruptions];
         }else{
             [self routeSearchDidFail:error];
@@ -1426,20 +1427,19 @@ typedef enum
     }];
 }
 
--(void)searchLineDetailsForLinesInRoutes:(NSArray *)routes {
+-(void)searchLineDetailsForLinesInRoutes:(NSArray *)routes fromApi:(ReittiApi)api{
     for (Route *route in routes) {
          NSMutableArray *lineCodes = [@[] mutableCopy];
         
         for (RouteLeg *leg in route.routeLegs) {
-//            if (!leg.lineName || [leg.lineName isEqualToString:@"-"] || [leg.lineName isEqualToString:@""]) {
-//                
-//            }
             if (leg.lineCode && leg.lineCode.length > 0 && ![lineDetailMap objectForKey:leg.lineCode])
                 [lineCodes addObject:leg.lineCode];
         }
         
+        if (api == ReittiAutomaticApi) api = ReittiCurrentRegionApi;
+        
         if (lineCodes.count > 0) {
-            [self.reittiDataManager fetchLinesForLineCodes:lineCodes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
+            [self.reittiDataManager fetchLinesForLineCodes:lineCodes fetchFromApi:api withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
                 if (!errorString) {
                     [self populateLineDetailMapFromLines:lines];
                     [self setLineCodesFromLineDetails];
@@ -1774,6 +1774,7 @@ typedef enum
     destinationViewController.selectedRouteIndex = index;
     destinationViewController.toLocation = toString;
     destinationViewController.fromLocation = fromString;
+    destinationViewController.useApi = self.useApi;
 }
 
 #pragma mark === UIViewControllerPreviewingDelegate Methods ===

@@ -113,6 +113,8 @@
 
 @property (strong, nonatomic) GeoCode * droppedPinGeoCode;
 
+@property (nonatomic)ReittiApi useApi;
+
 @property (strong, nonatomic) NSArray * disruptionsList;
 
 @property (strong, nonatomic) NSNumber * modalViewControllerMode;

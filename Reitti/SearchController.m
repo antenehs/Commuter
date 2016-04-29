@@ -1606,7 +1606,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         NSString *toCoordsString = [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
         
-        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString andCompletionBlock:^(NSArray *result, NSString *error){
+        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
             if (!error) {
                 [self routeSearchDidComplete:result];
             }else{

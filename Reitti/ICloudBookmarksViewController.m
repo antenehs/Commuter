@@ -11,6 +11,7 @@
 #import "ICloudManager.h"
 #import "AppManager.h"
 #import "JTMaterialSpinner.h"
+#import "ApiProtocols.h"
 
 #import "TableViewCells.h"
 
@@ -239,20 +240,33 @@
     
     NSNumber *stopCode = record[kStopNumber];
     CLLocation *locaiton = record[kStopCoordinate];
+    NSNumber *fetchedFromNumber = record[kStopFetchedFrom];
     
-    [self.reittiDataManager fetchStopsForCode:[NSString stringWithFormat:@"%d", [stopCode intValue]] andCoords:locaiton.coordinate withCompletionBlock:^(BusStop * response, NSString *error){
-        BOOL success = NO;
-        if (!error) {
-            [self.reittiDataManager saveToCoreDataStop:response];
-            success = YES;
-        } else {
-            success = NO;
-        }
+    if (fetchedFromNumber) {
+        ReittiApi fetchedFrom = (ReittiApi)[fetchedFromNumber intValue];
         
-        if (completionHandler) {
-            completionHandler(success);
-        }
-    }];
+        [self.reittiDataManager fetchStopsForCode:[NSString stringWithFormat:@"%d", [stopCode intValue]] fetchFromApi:fetchedFrom withCompletionBlock:^(BusStop * response, NSString *error){
+            [self stopFetchCompleted:response andError:error withCompletionHandler:completionHandler];
+        }];
+    } else {
+        [self.reittiDataManager fetchStopsForCode:[NSString stringWithFormat:@"%d", [stopCode intValue]] andCoords:locaiton.coordinate withCompletionBlock:^(BusStop * response, NSString *error){
+            [self stopFetchCompleted:response andError:error withCompletionHandler:completionHandler];
+        }];
+    }
+}
+
+- (void)stopFetchCompleted:(BusStop *)stop andError:(NSString *)error withCompletionHandler:(ActionBlock)completionHandler {
+    BOOL success = NO;
+    if (!error) {
+        [self.reittiDataManager saveToCoreDataStop:stop];
+        success = YES;
+    } else {
+        success = NO;
+    }
+    
+    if (completionHandler) {
+        completionHandler(success);
+    }
 }
 
 - (void)saveRouteFromRecord:(CKRecord *)record {

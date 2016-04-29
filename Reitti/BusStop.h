@@ -29,9 +29,9 @@
 #import "EnumManager.h"
 #import "ReittiModels.h"
 #import "MatkaStop.h"
+#import "ReittiObject.h"
 
-
-@interface BusStop : NSObject
+@interface BusStop : ReittiObject
 
 - (NSString *)destinationForLineFullCode:(NSString *)fullCode;
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop;

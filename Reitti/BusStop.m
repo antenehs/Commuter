@@ -128,6 +128,7 @@
     stop.address_fi = @"";
     stop.address_sv = @"";
     
+    stop.fetchedFromApi = ReittiMatkaApi;
     
     return stop;
 }

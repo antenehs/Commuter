@@ -234,7 +234,7 @@ const NSInteger kTimerRefreshInterval = 15;
         [boomarkActivityIndicator startAnimating];
         numberOfBookmarks ++;
         
-        [self.reittiDataManager searchRouteForFromCoords:[ReittiStringFormatter convert2DCoordToString:[currentUserLocation coordinate]] andToCoords:namedBookmark.coords andCompletionBlock:^(NSArray *result, NSString *error){
+        [self.reittiDataManager searchRouteForFromCoords:[ReittiStringFormatter convert2DCoordToString:[currentUserLocation coordinate]] andToCoords:namedBookmark.coords andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
             if (!error) {
                 [self setRoutesForNamedBookmark:namedBookmark routes:result];
             }else{

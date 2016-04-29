@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "ReittiManagedObjectBase.h"
 #import "EnumManager.h"
+#import "ApiProtocols.h"
 
 @interface HistoryEntity : ReittiManagedObjectBase
 
@@ -20,7 +21,9 @@
 @property (nonatomic, retain) NSString * busStopShortCode;
 @property (nonatomic, retain) NSString * busStopCoords;
 @property (nonatomic, retain) NSString * busStopWgsCoords;
+@property (nonatomic, retain) NSNumber *fetchedFrom;
 
 @property (nonatomic) StopType stopType;
+-(ReittiApi)fetchedFromApi;
 
 @end

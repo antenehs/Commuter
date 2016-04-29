@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		3493EF41B3AC4D40AC49470A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06E935F13E44503B376EA3D /* libPods.a */; };
+		6603A8EC1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */; };
+		6603A8ED1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */; };
+		6603A8F31CCFFF2100991FBF /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
+		6603A8F41CCFFF2100991FBF /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
+		6603A8F51CCFFF2100991FBF /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
+		6603A8F61CCFFF2100991FBF /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
+		6603A8F91CCFFF9E00991FBF /* StaticCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8F81CCFFF9E00991FBF /* StaticCity.m */; };
+		6603A8FA1CCFFF9E00991FBF /* StaticCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8F81CCFFF9E00991FBF /* StaticCity.m */; };
+		6603A8FD1CD29B6200991FBF /* ReittiObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8FC1CD29B6200991FBF /* ReittiObject.m */; };
+		6603A8FE1CD29B6300991FBF /* ReittiObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8FC1CD29B6200991FBF /* ReittiObject.m */; };
 		66056E6A1C42AAFE00C011FB /* DataFrameRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E571C42AAFE00C011FB /* DataFrameRef.m */; };
 		66056E6B1C42AAFE00C011FB /* DevHslVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E591C42AAFE00C011FB /* DevHslVehicle.m */; };
 		66056E6C1C42AAFE00C011FB /* DirectionRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E5B1C42AAFE00C011FB /* DirectionRef.m */; };
@@ -1534,6 +1544,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6603A8EA1CCFE9EB00991FBF /* ReittiRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiRegionManager.h; sourceTree = "<group>"; };
+		6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiRegionManager.m; sourceTree = "<group>"; };
+		6603A8F11CCFFF2100991FBF /* TRERegion.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TRERegion.kml; path = Reitti/TRERegion.kml; sourceTree = "<group>"; };
+		6603A8F21CCFFF2100991FBF /* HSLRegion.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = HSLRegion.kml; path = Reitti/HSLRegion.kml; sourceTree = "<group>"; };
+		6603A8F71CCFFF9E00991FBF /* StaticCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticCity.h; sourceTree = "<group>"; };
+		6603A8F81CCFFF9E00991FBF /* StaticCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticCity.m; sourceTree = "<group>"; };
+		6603A8FB1CD29B6200991FBF /* ReittiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiObject.h; sourceTree = "<group>"; };
+		6603A8FC1CD29B6200991FBF /* ReittiObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiObject.m; sourceTree = "<group>"; };
+		6603A8FF1CD29DCF00991FBF /* Reitti 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 15.xcdatamodel"; sourceTree = "<group>"; };
 		66056E561C42AAFE00C011FB /* DataFrameRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFrameRef.h; sourceTree = "<group>"; };
 		66056E571C42AAFE00C011FB /* DataFrameRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataFrameRef.m; sourceTree = "<group>"; };
 		66056E581C42AAFE00C011FB /* DevHslVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevHslVehicle.h; sourceTree = "<group>"; };
@@ -2566,6 +2585,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		6603A8E61CCFDA5C00991FBF /* Regions */ = {
+			isa = PBXGroup;
+			children = (
+				6603A8F11CCFFF2100991FBF /* TRERegion.kml */,
+				6603A8F21CCFFF2100991FBF /* HSLRegion.kml */,
+				6603A8F71CCFFF9E00991FBF /* StaticCity.h */,
+				6603A8F81CCFFF9E00991FBF /* StaticCity.m */,
+			);
+			name = Regions;
+			sourceTree = "<group>";
+		};
 		66056E551C42AA7700C011FB /* HslDevVehicle */ = {
 			isa = PBXGroup;
 			children = (
@@ -3034,8 +3064,10 @@
 		661FAF26189E8ACB00042074 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				6684BEBB1CB150F40053AAE1 /* TreVehicle */,
 				663E1ED81C9EBF1E00C5543A /* ReittiModels.h */,
+				6603A8FB1CD29B6200991FBF /* ReittiObject.h */,
+				6603A8FC1CD29B6200991FBF /* ReittiObject.m */,
+				6684BEBB1CB150F40053AAE1 /* TreVehicle */,
 				66056E551C42AA7700C011FB /* HslDevVehicle */,
 				660715E71B45CCA300033049 /* TravelCard */,
 				660E2F7D1B349A9000CE670E /* TableViewCells */,
@@ -3673,6 +3705,8 @@
 				66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */,
 				663E1EB71C949C5400C5543A /* ICloudManager.h */,
 				663E1EB81C949C5400C5543A /* ICloudManager.m */,
+				6603A8EA1CCFE9EB00991FBF /* ReittiRegionManager.h */,
+				6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -3859,6 +3893,7 @@
 		66D0BA5118BF2DFA002DDC7B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				6603A8E61CCFDA5C00991FBF /* Regions */,
 				66AF3ABA1B5596B200D6B645 /* Sounds */,
 				66FC547A1B236545005B890D /* Static Data */,
 				669602C01B14D8CA006919CB /* San Fransisco Font */,
@@ -4542,6 +4577,7 @@
 				66056E791C42E5C600C011FB /* trainVAnnot-no-bearing.png in Resources */,
 				664ADFF21992740F000B4F18 /* star-75.png in Resources */,
 				66F099941AEAD6C700F20D34 /* darkGradientLandscape.jpeg in Resources */,
+				6603A8F51CCFFF2100991FBF /* HSLRegion.kml in Resources */,
 				6607160F1B4871C300033049 /* password-50.png in Resources */,
 				6665D7631C0CA6B200ACCC3A /* Building-black-50.png in Resources */,
 				664E28A91AE2B32300BE2457 /* compass-100.png in Resources */,
@@ -4590,6 +4626,7 @@
 				66EC18F31ACA8BED008E045D /* add-button-white.png in Resources */,
 				664ADFF31992740F000B4F18 /* clock-75.png in Resources */,
 				66D426AB1991789B0080F21E /* back-128.png in Resources */,
+				6603A8F31CCFFF2100991FBF /* TRERegion.kml in Resources */,
 				664E28891ADAE6AD00BE2457 /* Tampere.gpx in Resources */,
 				66F138481997897700B52B6B /* metro-100.png in Resources */,
 				661ABC03199D694100F93894 /* clock-grey-100.png in Resources */,
@@ -5021,6 +5058,7 @@
 				66C7347B1C556DA5002544BC /* bus_station-50.png in Resources */,
 				66C7347C1C556DA5002544BC /* pluggin-color-100.png in Resources */,
 				66C7347D1C556DA5002544BC /* alarmClock_small.png in Resources */,
+				6603A8F41CCFFF2100991FBF /* TRERegion.kml in Resources */,
 				66C7347E1C556DA5002544BC /* Settings-unselected-100.png in Resources */,
 				66C7347F1C556DA5002544BC /* star-128.png in Resources */,
 				66C734801C556DA5002544BC /* bookmark-128.png in Resources */,
@@ -5060,6 +5098,7 @@
 				66C734A41C556DA5002544BC /* tramAnnotation3_2.png in Resources */,
 				66C734A51C556DA5002544BC /* location-black-50.png in Resources */,
 				66C734A61C556DA5002544BC /* tram-colored-75.png in Resources */,
+				6603A8F61CCFFF2100991FBF /* HSLRegion.kml in Resources */,
 				66C734A71C556DA5002544BC /* shoe-white-100.png in Resources */,
 				66C734A81C556DA5002544BC /* Restaurant-black-50.png in Resources */,
 				66C734A91C556DA5002544BC /* Up Left Filled-100.png in Resources */,
@@ -5440,6 +5479,7 @@
 				66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
 				66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */,
+				6603A8FD1CD29B6200991FBF /* ReittiObject.m in Sources */,
 				66FC54911B24B134005B890D /* StaticStop.m in Sources */,
 				66EC18FA1ACB3D07008E045D /* ASPolylineRenderer.m in Sources */,
 				661202DC1B07DD4C00D93C2E /* LVThumbnailAnnotation.m in Sources */,
@@ -5522,6 +5562,7 @@
 				663E1EFA1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */,
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
+				6603A8F91CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
 				66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */,
@@ -5629,6 +5670,7 @@
 				66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */,
 				66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */,
 				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
+				6603A8EC1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */,
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */,
 				661202DD1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m in Sources */,
@@ -5676,6 +5718,7 @@
 				66C732CD1C556DA5002544BC /* DisruptionLine.m in Sources */,
 				66C732CE1C556DA5002544BC /* SearchController.m in Sources */,
 				66C732CF1C556DA5002544BC /* HTMLTextNode.m in Sources */,
+				6603A8FE1CD29B6300991FBF /* ReittiObject.m in Sources */,
 				66C732D01C556DA5002544BC /* StaticStop.m in Sources */,
 				66C732D11C556DA5002544BC /* ASPolylineRenderer.m in Sources */,
 				66C732D21C556DA5002544BC /* LVThumbnailAnnotation.m in Sources */,
@@ -5758,6 +5801,7 @@
 				663E1EFB1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66C733131C556DA5002544BC /* ReittiEmailAndShareManager.m in Sources */,
 				66C733141C556DA5002544BC /* HTMLDocumentType.m in Sources */,
+				6603A8FA1CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				66C733151C556DA5002544BC /* UITableViewCell+Helper.m in Sources */,
 				66C733161C556DA5002544BC /* RouteOptionsTableViewController.m in Sources */,
 				66C733171C556DA5002544BC /* HTMLString.m in Sources */,
@@ -5865,6 +5909,7 @@
 				66C733711C556DA5002544BC /* TravelCardViewController.m in Sources */,
 				66C733721C556DA5002544BC /* GCThumbnail.m in Sources */,
 				66C733731C556DA5002544BC /* JPSThumbnailAnnotation.m in Sources */,
+				6603A8ED1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */,
 				66C733741C556DA5002544BC /* RouteDetailViewController.m in Sources */,
 				66C733751C556DA5002544BC /* AddressTypeTableViewController.m in Sources */,
 				66C733761C556DA5002544BC /* LVThumbnailAnnotationView.m in Sources */,
@@ -6597,6 +6642,7 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6603A8FF1CD29DCF00991FBF /* Reitti 15.xcdatamodel */,
 				66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */,
 				66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */,
 				6665D74E1C0C9BF300ACCC3A /* Reitti 12.xcdatamodel */,
@@ -6612,7 +6658,7 @@
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */;
+			currentVersion = 6603A8FF1CD29DCF00991FBF /* Reitti 15.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

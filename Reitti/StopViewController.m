@@ -439,14 +439,24 @@
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     stopDetailRequested = YES;
-    [self.reittiDataManager fetchStopsForCode:code andCoords:coords withCompletionBlock:^(BusStop * stop, NSString * error){
-        if (!error) {
-            [self stopFetchDidComplete:stop];
-        }else{
-            [self stopFetchDidFail:error];
-        }
-        stopDetailRequested = NO;
-    }];
+    if (self.useApi != ReittiAutomaticApi) {
+        [self.reittiDataManager fetchStopsForCode:code fetchFromApi:self.useApi withCompletionBlock:^(BusStop * stop, NSString * error){
+            [self stopFetchCompletedWithStop:stop andError:error];
+        }];
+    } else {
+        [self.reittiDataManager fetchStopsForCode:code andCoords:coords withCompletionBlock:^(BusStop * stop, NSString * error){
+            [self stopFetchCompletedWithStop:stop andError:error];
+        }];
+    }
+}
+
+-(void)stopFetchCompletedWithStop:(BusStop *)stop andError:(NSString *)error {
+    if (!error) {
+        [self stopFetchDidComplete:stop];
+    }else{
+        [self stopFetchDidFail:error];
+    }
+    stopDetailRequested = NO;
 }
 
 - (IBAction)reloadButtonPressed:(id)sender{
@@ -672,9 +682,8 @@
                                               otherButtonTitles:nil];
     [alertView show];
     
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@2];
-    }];
+    [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@2];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - iAd methods

@@ -12,12 +12,17 @@
 
 typedef void (^ActionBlock)();
 
+typedef enum
+{
+    ReittiAutomaticApi = 0, //Api calculated based on request property
+    ReittiCurrentRegionApi = 1, //Api favored for the current user location
+    ReittiHSLApi = 100,
+    ReittiTREApi = 200,
+    ReittiMatkaApi = 300
+} ReittiApi;
+
 @protocol RouteSearchProtocol <NSObject>
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock;
-////to be used from route search view in case of matka api
-//- (void)fetchLineDetailsForRoutes:(NSArray *)routes withCompletionBlock:(ActionBlock)completionBlock;
-////to be used from route detail view
-//- (void)fetchLineDetailsForRoute:(Route *)route withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
 @protocol StopsInAreaSearchProtocol <NSObject>

@@ -26,7 +26,7 @@
     
     if (self) {
         self.name = [NSString stringWithFormat:@"%@", mapItem.name];
-        self.locTypeId = @1018;
+        self.locTypeId = @1018; //TODO: Not always Poi
         self.coords = [ReittiStringFormatter convert2DCoordToString:mapItem.placemark.coordinate];
         
         self.city = mapItem.placemark.addressDictionary[@"City"] ? mapItem.placemark.addressDictionary[@"City"] : mapItem.name;

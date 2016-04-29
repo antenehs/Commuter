@@ -71,6 +71,8 @@ NSString *SavedRouteType = @"SavedRoute";
     CLLocationCoordinate2D coordinates = [ReittiStringFormatter convertStringTo2DCoord:self.busStopCoords];
     record[kStopCoordinate] = [[CLLocation alloc] initWithLatitude:coordinates.latitude longitude:coordinates.longitude];
     
+    record[kStopFetchedFrom] = self.fetchedFrom;
+    
     return record;
 }
 

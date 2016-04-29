@@ -227,6 +227,10 @@ Expected format @"YYYYMMdd" and @"HHmm"
         
         NSDate *date = [calendar dateFromComponents:component];
         
+        if ([date timeIntervalSinceNow] < 0) { //Must be tomorrow
+            istommorrow = YES;
+        }
+        
         NSTimeInterval seconds;
         if (istommorrow) {
             seconds = (offset * -60) + (24 * 60 * 60);

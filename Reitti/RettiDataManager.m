@@ -143,10 +143,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     return [self identifyRegionOfCoordinate:coords];
 }
 
--(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords{
-    Region region = [self getRegionForCoords:coords];
-    return region == userLocationRegion;
-}
+//-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords{
+//    Region region = [self getRegionForCoords:coords];
+//    return region == userLocationRegion;
+//}
 
 -(void)setUserLocationToRegion:(Region)region{
     userLocationRegion = region;
@@ -158,7 +158,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }else if (region == TRERegion) {
         return @"Tampere region";
     }else{
-        return @"";
+        return @"Whole finland";
     }
 }
 
@@ -180,8 +180,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 - (void)initRegionCoordinates {
-    CLLocationCoordinate2D coord1 = {.latitude = 60.765052 , .longitude = 23.742929 };
-    CLLocationCoordinate2D coord2 = {.latitude = 59.928294 , .longitude = 25.786386};
+    CLLocationCoordinate2D coord1 = {.latitude = 60.409784 , .longitude = 24.392395 };
+    CLLocationCoordinate2D coord2 = {.latitude = 59.908222 , .longitude = 25.304260};
     RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
     self.helsinkiRegion = helsinkiRegionCoords;
     
@@ -192,18 +192,43 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 #pragma mark - regional datasource
+-(ReittiApi)getApiForRegion:(Region)region {
+    if (region == HSLRegion) {
+        return ReittiHSLApi;
+    }else if(region == TRERegion){
+        return ReittiTREApi;
+    }else if(region == FINRegion){
+        return ReittiMatkaApi;
+    }else{
+        return ReittiCurrentRegionApi;
+    }
+}
+
+-(id)getDataSourceForApi:(ReittiApi)api {
+    if (api == ReittiHSLApi) {
+        return self.hslCommunication;
+    } else if (api == ReittiTREApi) {
+        return self.treCommunication;
+    } else if (api == ReittiMatkaApi) {
+        return self.matkaCommunicator;
+    } else {
+        return self.matkaCommunicator;
+    }
+}
+
 -(id)getDataSourceForCurrentRegion{
     return [self getDataSourceForRegion:userLocationRegion];
 }
 
 -(id)getDataSourceForRegion:(Region)region{
-    if (region == TRERegion) {
-        return self.treCommunication;
-    }else if(region == HSLRegion){
-        return self.hslCommunication;
-    }else{
-        return self.matkaCommunicator;
-    }
+    return [self getDataSourceForApi:[self getApiForRegion:region]];
+//    if (region == TRERegion) {
+//        return self.treCommunication;
+//    }else if(region == HSLRegion){
+//        return self.hslCommunication;
+//    }else{
+//        return self.matkaCommunicator;
+//    }
 }
 
 -(id)getLiveTrafficManagerForCurrentRegion{
@@ -316,20 +341,17 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             
             [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
                 if (!error) {
-                    completionBlock(response, nil);
-                    //                    [routeSearchdelegate routeSearchDidComplete:response];
+                    completionBlock(response, nil, [self getApiForRegion:fromRegion]);
                 }else{
-                    //                    [routeSearchdelegate routeSearchDidFail:nil];
-                    completionBlock(nil, error);
+                    completionBlock(nil, error, [self getApiForRegion:fromRegion]);
                 }
             }];
             
         }else{
-            completionBlock(nil, @"Service not available in this area.");
+            completionBlock(nil, @"Service not available in this area.", [self getApiForRegion:fromRegion]);
         }
         
     }else{
-//        completionBlock(nil, @"No route information available between the selected addresses.");
         if (numberOfResult)
             searchOptions.numberOfResults = [numberOfResult integerValue];
         else
@@ -337,9 +359,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         
         [self.matkaCommunicator searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {
-                completionBlock(response, nil);
+                completionBlock(response, nil, ReittiMatkaApi);
             }else{
-                completionBlock(nil, error);
+                completionBlock(nil, error, ReittiMatkaApi);
             }
         }];
     }
@@ -353,6 +375,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:nil andCompletionBlock:completionBlock];
 }
 
+//Needed to avoid making default search that returns 3 results and hence slower
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock{
     
     RouteSearchOptions *options = [settingsEntity globalRouteOptions];
@@ -364,118 +387,115 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 #pragma mark - stop search methods
 
--(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock{
+//TODO: Needs to support specifiying api
+//TODO: Needs to support responding used API
+
+-(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock {
+    [self fetchStopsInAreaForRegion:mapRegion fetchFromApi:ReittiAutomaticApi withCompletionBlock:completionBlock];
+}
+
+-(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock{
+    id dataSourceManager = nil;
+    ReittiApi usedApi = api;
+    if (api == ReittiAutomaticApi) {
+        Region centerRegion = [self identifyRegionOfCoordinate:mapRegion.center];
+        dataSourceManager = [self getDataSourceForRegion:centerRegion];
+        usedApi = [self getApiForRegion:centerRegion];
+    } else if (api == ReittiCurrentRegionApi) {
+        dataSourceManager = [self getDataSourceForCurrentRegion];
+        usedApi = [self getApiForRegion:userLocationRegion];
+    } else {
+        dataSourceManager = [self getDataSourceForApi:api];
+    }
     
-    Region centerRegion = [self identifyRegionOfCoordinate:mapRegion.center];
-    id dataSourceManager = [self getDataSourceForRegion:centerRegion];
     if ([dataSourceManager conformsToProtocol:@protocol(StopsInAreaSearchProtocol)]) {
-        [(NSObject<StopsInAreaSearchProtocol> *)dataSourceManager fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:(mapRegion.span.longitudeDelta * 111000) withCompletionBlock:completionBlock];
+        [(NSObject<StopsInAreaSearchProtocol> *)dataSourceManager fetchStopsInAreaForRegionCenterCoords:mapRegion.center andDiameter:(mapRegion.span.longitudeDelta * 111000) withCompletionBlock:^(NSArray *responseArray, NSError *error){
+            completionBlock(responseArray, error, usedApi);
+        }];
     }else{
-        completionBlock(nil, @"Service not available in this area.");
+        completionBlock(nil, @"Service not available in this area.", usedApi);
     }
 }
 
--(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
-    
+-(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
     Region region = [self identifyRegionOfCoordinate:coords];
-    
-    if (region == OtherRegion || region == HSLandTRERegion) {
-        //This means that since the stop is found has coordinated, the region must be evaluated wrongly. So request from all datasource.
-        //TODO: There has to be a better way of handling border cases
-        
-        int __block numberOfApisStopRequestedFrom = 1;
-        int __block stopFetchFailedCount = 0;
-        
-//        [self.hslCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
-//            
-//            if (!error) {
-//                completionBlock(response, nil);
-//            }else{
-//                stopFetchFailedCount++;
-//                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
-//                    completionBlock(nil, error);
-//                }
-//            }
-//        }];
-//        
-//        [self.treCommunication fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
-//            
-//            if (!error) {
-//                completionBlock(response, nil);
-//            }else{
-//                stopFetchFailedCount++;
-//                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
-//                    completionBlock(nil, error);
-//                }
-//            }
-//        }];
+    ReittiApi api = [self getApiForRegion:region];
+    [self fetchStopsForCode:code fetchFromApi:api withCompletionBlock:completionBlock];
+}
 
+-(void)fetchStopsForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock {
+    
+    id dataSourceManager = nil;
+    ReittiApi usedApi = api;
+    if (api == ReittiCurrentRegionApi) {
+        dataSourceManager = [self getDataSourceForCurrentRegion];
+        usedApi = [self getApiForRegion:userLocationRegion];
+    } else {
+        dataSourceManager = [self getDataSourceForApi:api];
+    }
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
+        [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+            response.fetchedFromApi = usedApi;
+            completionBlock(response, error, usedApi);
+        }];
+    }else{
         [self.matkaCommunicator fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
-            
             if (!error) {
-                completionBlock(response, nil);
+                response.fetchedFromApi = ReittiMatkaApi;
+                completionBlock(response, nil, ReittiMatkaApi);
             }else{
-                stopFetchFailedCount++;
-                if (stopFetchFailedCount == numberOfApisStopRequestedFrom) {
-                    completionBlock(nil, error);
-                }
+                completionBlock(nil, @"Fetching stop detail failed. Please try again later.", ReittiMatkaApi);
             }
         }];
-        
-    }else{
-        id dataSourceManager = [self getDataSourceForRegion:region];
-        if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
-            [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
-                
-                if (!error) {
-                    completionBlock(response, nil);
-//                    [self asa_ExecuteBlockInBackgroundWithIgnoreExceptions:^(){
-//                        //Update the saved data with new data. Lines could be changed
-//                        [self updateSavedStopIfItExists:response];
-//                    }];
-                }else{
-                    completionBlock(nil, error);
-                }
-            }];
-        }else{
-            completionBlock(nil, @"Fetching stop detail failed. Please try again later.");
-        }
     }
 }
 
--(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock{
+-(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
+    [self fetchLinesForSearchTerm:searchTerm fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:completionBlock];
+}
+
+-(void)fetchLinesForSearchTerm:(NSString *)searchTerm fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock{
     
-    id dataSourceManager = [self getDataSourceForRegion:userLocationRegion];
+    id dataSourceManager = nil;
+    ReittiApi usedApi = api;
+    if (api == ReittiCurrentRegionApi) {
+        dataSourceManager = [self getDataSourceForCurrentRegion];
+        usedApi = [self getApiForRegion:userLocationRegion];
+    } else {
+        dataSourceManager = [self getDataSourceForApi:api];
+    }
     
     if ([dataSourceManager conformsToProtocol:@protocol(LineDetailFetchProtocol)]) {
         [(NSObject<LineDetailFetchProtocol> *)dataSourceManager fetchLinesForSearchterm:searchTerm withCompletionBlock:^(NSArray * response, NSString *error){
-            
-            if (!error) {
-                completionBlock(response, searchTerm, nil);
-            }else{
-                completionBlock(nil, searchTerm, error);
-            }
+            completionBlock(response, searchTerm, error, usedApi);
         }];
     }else{
-        completionBlock(nil, searchTerm, @"Service not available in the current region.");
+        completionBlock(nil, searchTerm, @"Service not available in the current region.", usedApi);
     }
 }
 
--(void)fetchLinesForLineCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock{
+-(void)fetchLinesForLineCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock {
+    [self fetchLinesForLineCodes:lineCodes fetchFromApi:ReittiCurrentRegionApi  withCompletionBlock:completionBlock];
+}
+
+-(void)fetchLinesForLineCodes:(NSArray *)lineCodes fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock {
     
-    id dataSourceManager = [self getDataSourceForRegion:userLocationRegion];
+    id dataSourceManager = nil;
+    ReittiApi usedApi = api;
+    if (api == ReittiCurrentRegionApi) {
+        dataSourceManager = [self getDataSourceForCurrentRegion];
+        usedApi = [self getApiForRegion:userLocationRegion];
+    } else {
+        dataSourceManager = [self getDataSourceForApi:api];
+    }
     
     if ([dataSourceManager conformsToProtocol:@protocol(LineDetailFetchProtocol)]) {
         [(NSObject<LineDetailFetchProtocol> *)dataSourceManager fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray * response, NSString *error){
-            
-            if (!error) {
-                completionBlock(response, lineCodes, nil);
-            }else{
-                completionBlock(nil, lineCodes, error);
-            }
+            completionBlock(response, lineCodes, error, usedApi);
         }];
     }else{
-        completionBlock(nil, lineCodes, @"Service not available in the current region.");
+        completionBlock(nil, lineCodes, @"Service not available in the current region.", usedApi);
     }
 }
 
@@ -536,29 +556,11 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             }
         }];
     }else{
-        __block NSInteger requestCount = 2;
-        __block NSMutableArray *combinedResults = [@[] mutableCopy];
-        [self.hslCommunication searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
-            requestCount--;
-            
+        [self.matkaCommunicator searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {
-                [combinedResults addObjectsFromArray:response];
-            }
-            
-            if (requestCount == 0){
-                completionBlock(combinedResults, key, error);
-            }
-        }];
-        
-        [self.treCommunication searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
-            requestCount--;
-            
-            if (!error) {
-                [combinedResults addObjectsFromArray:response];
-            }
-            
-            if (requestCount == 0){
-                completionBlock(combinedResults, key, error);
+                completionBlock(response, key, nil);
+            } else {
+                completionBlock(nil, key, error);
             }
         }];
     }
@@ -568,7 +570,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     // Create and initialize a search request object.
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = key;
-    request.region = [self regionForCurrentUserLocation];
+//    request.region = [self regionForCurrentUserLocation]; //TODO: Make the region to cover finland.
     
     // Create and initialize a search object.
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
@@ -579,12 +581,17 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
          NSMutableArray *geocodes = [NSMutableArray array];
          for (MKMapItem *item in response.mapItems) {
              if (!item.placemark.addressDictionary[@"CountryCode"] ||
-                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"] ||
-                 ![self isCoordinateInCurrentRegion:item.placemark.coordinate] ||
-                 !item.phoneNumber)
+                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"]
+//                 ![self isCoordinateInCurrentRegion:item.placemark.coordinate] ||
+//                 !item.phoneNumber
+                 )
                  continue;
              
-             GeoCode *geoCode =[[GeoCode alloc] initWithMapItem:item];
+             //Dont search for addresses when matka api is in use. it will duplicate addresses.
+             if (userLocationRegion == FINRegion && !item.phoneNumber )
+                 continue;
+             
+             GeoCode *geoCode =[[GeoCode alloc] initWithMapItem:item]; //TODO: Not always Poi
              
              if (geoCode)
                  [geocodes addObject:geoCode];
@@ -770,18 +777,14 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             codes = [NSString stringWithFormat:@"%@,%d",codes, [stop.busStopCode intValue]];
         }
     }
-    
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
 
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-//    NSDictionary *defaults = @{@"StopCodes" : codes, };
     
     [sharedDefaults setObject:codes forKey:@"StopCodes"];
     [sharedDefaults synchronize];
 }
 
 -(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
     NSString *selectedCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
     
@@ -830,15 +833,23 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
     
-    if ([self isCoordinateInRegion:self.helsinkiRegion coordinate:coords]) {
+//    if ([self isCoordinateInRegion:self.helsinkiRegion coordinate:coords]) {
+//        return HSLRegion;
+//    }
+//    
+//    if ([self isCoordinateInRegion:self.tampereRegion coordinate:coords]) {
+//        return TRERegion;
+//    }
+
+    if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
         return HSLRegion;
     }
     
-    if ([self isCoordinateInRegion:self.tampereRegion coordinate:coords]) {
+    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
         return TRERegion;
     }
     
-    return OtherRegion;
+    return FINRegion;
 }
 
 -(BOOL)isCoordinateInRegion:(RTCoordinateRegion)region coordinate:(CLLocationCoordinate2D)coords{
@@ -1085,6 +1096,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self.stopEntity setBusStopCoords:stop.coords];
     [self.stopEntity setBusStopWgsCoords:stop.wgs_coords];
     [self.stopEntity setStopLines:stop.lines];
+    [self.stopEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
     
     [self saveManagedObject:stopEntity];
     
@@ -1246,6 +1258,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         [self.historyEntity setBusStopURL:stop.timetable_link];
         [self.historyEntity setBusStopCoords:stop.coords];
         [self.historyEntity setBusStopWgsCoords:stop.wgs_coords];
+        [self.historyEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
         
         [self saveManagedObject:historyEntity];
         

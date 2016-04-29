@@ -202,9 +202,9 @@
 - (void)searchLinesForSearchtext:(NSString *)searchText{
     
     [searchActivityIndicator beginRefreshing];
-    [self.reittiDataManager fetchLinesForSearchTerm:searchText withCompletionBlock:^(NSArray *lines, NSString* searchTerm, NSString *error){
+    [self.reittiDataManager fetchLinesForSearchTerm:searchText withCompletionBlock:^(NSArray *lines, NSString* searchTerm, NSString *error, ReittiApi usedApi){
         if (!error) {
-            self.searchedLines = [lines mutableCopy];
+            self.searchedLines = [[self filterInvalidLines:lines] mutableCopy];
             [self.tableView reloadData];
         }else{
             self.searchedLines = [@[] mutableCopy];
@@ -221,7 +221,8 @@
         linesForRecentLinesRequested = YES;
         
         [self fetchLinesForCodes:self.recentLineCodes withCompletionBlock:^(NSArray *lines){
-            self.recentLines = [lines mutableCopy];
+            self.recentLines = [[self filterInvalidLines:lines] mutableCopy];
+            
             [self sortRecentLines]; //Order is not garantied so needs to be sorted.
             
             linesForRecentLinesRequested = NO;
@@ -235,7 +236,7 @@
         if (self.reittiDataManager.userLocationRegion == HSLRegion || self.reittiDataManager.userLocationRegion == TRERegion) {
             NSArray *lineCodes = self.lineCodesAndLinesFromSavedStops[kStopLineCodesKey];
             [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
-                self.linesFromSavedStops = [lines mutableCopy];
+                self.linesFromSavedStops = [[self filterInvalidLines:lines] mutableCopy];
                 
                 linesFromStopsRequested = NO;
                 [self.tableView reloadData];
@@ -249,7 +250,7 @@
                 [stopLines addObject:line];
             }
             
-            self.linesFromSavedStops = stopLines;
+            self.linesFromSavedStops = [[self filterInvalidLines:stopLines] mutableCopy];
             
             linesFromStopsRequested = NO;
             [self.tableView reloadData];
@@ -262,7 +263,7 @@
         if (lineCodes.count > 0) {
             if (self.reittiDataManager.userLocationRegion == HSLRegion || self.reittiDataManager.userLocationRegion == TRERegion) {
                 [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
-                    self.linesFromNearStops = [lines mutableCopy];
+                    self.linesFromNearStops = [[self filterInvalidLines:lines] mutableCopy];
                     
                     linesFromNearByStopsRequested = NO;
                     [self.tableView reloadData];
@@ -275,7 +276,7 @@
                     [lines addObject:line];
                 }
                 
-                self.linesFromNearStops = lines;
+                self.linesFromNearStops = [[self filterInvalidLines:lines] mutableCopy];;
                 
                 linesFromNearByStopsRequested = NO;
                 [self.tableView reloadData];
@@ -292,6 +293,13 @@
             completionBlock([@[] mutableCopy]);
         }
     }];
+}
+
+-(NSArray *)filterInvalidLines:(NSArray *)lines {
+    return [lines filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        Line *line = (Line *)object;
+        return line.codeShort && line.code && line.isValidNow;
+    }]];
 }
 
 #pragma mark - Table view data source
@@ -371,7 +379,6 @@
         } else {
             nameLabel.text = lineForCell.name;
         }
-        
         
         imageContainerView.layer.cornerRadius = imageContainerView.frame.size.width/2;
         imageContainerView.layer.borderWidth = 1;
@@ -508,16 +515,16 @@
 //    self.trainLines = [self sortRouteArray:self.trainLines];
 //}
 
-- (NSArray *)filterInvalidLines:(NSArray *)lines{
-    NSMutableArray *filteredLines = [@[] mutableCopy];
-    for (Line *line in lines) {
-        if (line.isValidNow) {
-            [filteredLines addObject:line];
-        }
-    }
-    
-    return filteredLines;
-}
+//- (NSArray *)filterInvalidLines:(NSArray *)lines{
+//    NSMutableArray *filteredLines = [@[] mutableCopy];
+//    for (Line *line in lines) {
+//        if (line.isValidNow) {
+//            [filteredLines addObject:line];
+//        }
+//    }
+//    
+//    return filteredLines;
+//}
 
 - (void)sortRecentLines{
     NSArray *sortedArray;

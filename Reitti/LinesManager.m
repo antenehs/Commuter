@@ -155,8 +155,8 @@ NSString *kStopLinesKey = @"stopLines";
     MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
     MKCoordinateRegion region = {self.currentUserLocation.coordinate, span};
     
-    
-    [self.reittiDataManager fetchStopsInAreaForRegion:region withCompletionBlock:^(NSArray *stopsList, NSString *errorMessage){
+    //always search from current user api since line searches are done from current user location
+    [self.reittiDataManager fetchStopsInAreaForRegion:region fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:^(NSArray *stopsList, NSString *errorMessage, ReittiApi usedApi){
         if (!errorMessage) {
             [self fetchStopsDetailsForBusStopShorts:stopsList withCompletionBlock:^(NSArray *detailStops){
                 if (detailStops.count > 0) {
@@ -208,7 +208,8 @@ NSString *kStopLinesKey = @"stopLines";
     for (BusStopShort *busStopShort in stopsToUse) {
         numberOfStops ++;
         
-        [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
+        //Fetch from current region since lines will be fetching from current region
+        [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString && stop) {
                 [fetchedStops addObject:stop];
             }

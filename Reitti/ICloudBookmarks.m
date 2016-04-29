@@ -26,6 +26,7 @@ NSString *kStopName = @"StopName";
 NSString *kStopCity = @"StopCity";
 NSString *kStopType = @"StopType";
 NSString *kStopCoordinate = @"StopCoordinate";
+NSString *kStopFetchedFrom = @"StopFetchedFrom";
 
 //Route
 NSString *kRouteUniqueName = @"RouteUniqueName";

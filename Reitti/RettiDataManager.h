@@ -21,6 +21,7 @@
 #import "CacheManager.h"
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
+#import "ReittiRegionManager.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -34,15 +35,6 @@
 
 extern CLLocationCoordinate2D kHslRegionCenter;
 extern CLLocationCoordinate2D kTreRegionCenter;
-
-typedef enum
-{
-    HSLRegion = 0,
-    TRERegion = 1,
-    FINRegion = 4,
-    HSLandTRERegion = 2,
-    OtherRegion = 3
-} Region;
 
 typedef struct {
     CLLocationCoordinate2D topLeftCorner;
@@ -62,7 +54,7 @@ typedef struct {
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
 -(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords;
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords;
--(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords;
+//-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords;
 -(void)setUserLocationToRegion:(Region)region;
 -(NSString *)getNameOfRegion:(Region)region;
 -(void)resetResponseQueues;
@@ -88,13 +80,18 @@ typedef struct {
 -(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord;
 
 -(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchStopsForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchLinesForSearchTerm:(NSString *)searchTerm fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchLinesForLineCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchLinesForLineCodes:(NSArray *)lineCodes fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
+
 -(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock;
 
 -(BOOL)isBusStopSaved:(BusStop *)stop;

@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "ReittiManagedObjectBase.h"
 #import "EnumManager.h"
-
+#import "ApiProtocols.h"
 
 @interface StopEntity : ReittiManagedObjectBase
 
@@ -22,10 +22,13 @@
 @property (nonatomic, retain) NSString * busStopURL;
 @property (nonatomic, retain) NSString * busStopCoords;
 @property (nonatomic, retain) NSString * busStopWgsCoords;
+@property (nonatomic, retain) NSNumber *fetchedFrom;
 
 @property (nonatomic) StopType stopType;
 @property (nonatomic, retain, readonly) NSArray * lineCodes;
 @property (nonatomic, strong, readonly) NSArray * fullLineCodes;
 @property (nonatomic, retain, readonly) NSString * linesString;
+
+-(ReittiApi)fetchedFromApi;
 
 @end

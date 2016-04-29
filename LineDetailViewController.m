@@ -141,9 +141,9 @@
     NSMutableDictionary *lineNameDict = [NSMutableDictionary dictionaryWithObject:[UIFont systemFontOfSize:15] forKey:NSFontAttributeName];
     [lineNameDict setObject:[UIColor colorWithWhite:0.9 alpha:1] forKey:NSForegroundColorAttributeName];
     
-    NSMutableAttributedString *lineCodeString = [[NSMutableAttributedString alloc] initWithString:self.line.codeShort attributes:lineCodeDict];
+    NSMutableAttributedString *lineCodeString = [[NSMutableAttributedString alloc] initWithString:self.line.codeShort ? self.line.codeShort : @"" attributes:lineCodeDict];
     
-    NSMutableAttributedString *lineNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@", self.line.name] attributes:lineNameDict];
+    NSMutableAttributedString *lineNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@", self.line.name ? self.line.name : @""] attributes:lineNameDict];
     
     [lineCodeString appendAttributedString:lineNameString];
     
@@ -541,6 +541,9 @@
                 NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line returned");
             }
             Line *aline = lines[0];
+            if (!aline.lineStops || aline.lineStops.count == 0) {
+                [self lineSearchDidFail:@"Line fetching failed."];
+            }
             self.line.lineStops = aline.lineStops;
             self.line.shapeCoordinates = aline.shapeCoordinates;
             
@@ -659,6 +662,7 @@
             stopViewController.stopName = stopName;
             stopViewController.stopCoords = stopCoords;
             stopViewController.stopEntity = nil;
+            stopViewController.useApi = ReittiCurrentRegionApi;
             
             stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
             stopViewController.reittiDataManager = self.reittiDataManager;
@@ -677,9 +681,11 @@
             stopViewController.stopShortCode = lineStop.codeShort;
             stopViewController.stopName = lineStop.name;
             stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:lineStop.coords];
+            stopViewController.useApi = ReittiCurrentRegionApi;
             
             stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
             stopViewController.reittiDataManager = self.reittiDataManager;
+            
         }
     }
     
