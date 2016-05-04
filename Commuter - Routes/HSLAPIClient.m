@@ -23,6 +23,7 @@
     return self;
 }
 
+#pragma mark - route search
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock {
     
     NSDictionary *searchParameters;
@@ -36,6 +37,17 @@
     [searchParameters setValue:@"rebekah" forKey:@"pass"];
     
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptions:searchParameters andCompletionBlock:completionBlock];
+}
+
+#pragma mark - stop search
+
+-(void)fetchStopForCode:(NSString *)code completionBlock:(ActionBlock)completionBlock {
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asacommuterwidget" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchStopForCode:code withOptions:optionsDict andCompletionBlock:completionBlock];
 }
 
 #pragma mark - Datasource value mapping
@@ -123,8 +135,5 @@
 -(NSDictionary *)walkingSpeedOptions{
     return [HSLRouteOptionManager walkingSpeedOptions];
 }
-
-
-
 
 @end

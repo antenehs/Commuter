@@ -10,13 +10,13 @@
 #import "WidgetAPIProtocols.h"
 #import "HSLandTRECommonApiClient.h"
 
-typedef enum
-{
-    RouteSearchOptionFastest = 0,
-    RouteSearchOptionLeastTransfer = 1,
-    RouteSearchOptionLeastWalking = 2
-} RouteSearchOptimization;
+//typedef enum
+//{
+//    RouteSearchOptionFastest = 0,
+//    RouteSearchOptionLeastTransfer = 1,
+//    RouteSearchOptionLeastWalking = 2
+//} RouteSearchOptimization;
 
-@interface HSLAPIClient : HSLandTRECommonApiClient <WidgetRouteSearchProtocol>
+@interface HSLAPIClient : HSLandTRECommonApiClient <WidgetRouteSearchProtocol, WidgetStopSearchProtocol>
 
 @end

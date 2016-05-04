@@ -748,7 +748,7 @@ typedef enum
             }
             
             [self.routeList addObjectsFromArray:temp];
-            [self setSelectedTimesForDate:[[self.routeList lastObject] endingTimeOfRoute]];
+            [self setSelectedTimesForDate:[[self.routeList firstObject] endingTimeOfRoute]];
         }
         nextRoutesRequested = NO;
     }else if (prevRoutesRequested && searchedRouteList != nil && searchedRouteList.count > 1){

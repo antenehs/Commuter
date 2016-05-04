@@ -30,8 +30,11 @@
 
 #import <Foundation/Foundation.h>
 #import "RouteLegLocationE.h"
+#import "MatkaModels.h"
 
 @interface RouteLegE : NSObject
+
++(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg;
 
 -(id)initFromDictionary:(NSDictionary *)legDict;
 -(int)getNumberOfStopsInLeg;

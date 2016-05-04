@@ -1127,7 +1127,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         Region currentRegion = [self.reittiDataManager getRegionForCoords:self.currentUserLocation.coordinate];
         
         if (currentRegion != [settingsManager userLocation]) {
-            if (currentRegion != OtherRegion) {
+            if (currentRegion == HSLRegion || currentRegion == TRERegion) {
                 //Notify and ask for confirmation
                 [settingsManager setUserLocation:currentRegion];
                 if (![AppManager isNewInstallOrNewVersion]) {
@@ -1143,7 +1143,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                     [alertView show];
                 }
             }else{
-                [settingsManager setUserLocation:HSLandTRERegion];
+                [settingsManager setUserLocation:FINRegion];
             }
         }
         

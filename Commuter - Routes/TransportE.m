@@ -93,15 +93,15 @@
             imageView.hidden = YES;
         }
     }else if (routeLeg.legType == LegTypeTrain) {
-        NSString *formattedTrainNumber = [ReittiStringFormatterE parseBusNumFromLineCode:routeLeg.lineCode];
-        
-        lineNumberLabel.text = formattedTrainNumber;
+//        NSString *formattedTrainNumber = [ReittiStringFormatterE parseBusNumFromLineCode:routeLeg.lineCode];
+//        
+//        lineNumberLabel.text = formattedTrainNumber;
         if (width < acceptableWidthForOthers) {
             imageView.hidden = YES;
         }
     }else{
         if (routeLeg.lineCode != nil) {
-            lineNumberLabel.text = [ReittiStringFormatterE parseBusNumFromLineCode:routeLeg.lineCode];
+//            lineNumberLabel.text = [ReittiStringFormatterE parseBusNumFromLineCode:routeLeg.lineCode];
             
             if ((width < acceptableWidthForOthers) ) {
                 imageView.hidden = YES;
@@ -247,6 +247,10 @@
         case LegTypeWalk:
             return [UIImage imageNamed:@"walking-gray-64.png"];
             break;
+        case LegTypeLongDistanceTrain:
+            return [UIImage imageNamed:@"longDistTrainLight"];
+        case LegTypeAirplane:
+            return [UIImage imageNamed:@"airplaneLight"];
             
         default:
             return [UIImage imageNamed:@"bus-filled-light-100.png"];

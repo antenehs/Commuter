@@ -10,6 +10,6 @@
 #import "WidgetAPIProtocols.h"
 #import "HSLandTRECommonApiClient.h"
 
-@interface TREAPIClient : HSLandTRECommonApiClient <WidgetRouteSearchProtocol>
+@interface TREAPIClient : HSLandTRECommonApiClient <WidgetRouteSearchProtocol, WidgetStopSearchProtocol>
 
 @end

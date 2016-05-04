@@ -23,4 +23,12 @@
 
 +(BOOL)isSameDateAsToday:(NSDate *)date1;
 
+@property (nonatomic, strong) NSDateFormatter *apiHourFormatter;
+@property (nonatomic, strong) NSDateFormatter *apiDateFormatter;
+@property (nonatomic, strong) NSDateFormatter *apiFullDateFormatter;
+
+@property (nonatomic, strong) NSDateFormatter *hourAndMinFormatter;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *fullDateFormatter;
+
 @end

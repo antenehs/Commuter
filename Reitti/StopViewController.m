@@ -676,14 +676,15 @@
 
 -(void)stopFetchDidFail:(NSString *)error{
     stopFetched = YES;
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
+    [departuresTable reloadData];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
     
     [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@2];
-    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - iAd methods

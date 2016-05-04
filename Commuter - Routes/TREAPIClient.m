@@ -31,4 +31,13 @@
     [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptions:searchParameters andCompletionBlock:completionBlock];
 }
 
+-(void)fetchStopForCode:(NSString *)code completionBlock:(ActionBlock)completionBlock {
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    [optionsDict setValue:@"asacommuterwidget2" forKey:@"user"];
+    [optionsDict setValue:@"rebekah" forKey:@"pass"];
+    
+    [super fetchStopForCode:code withOptions:optionsDict andCompletionBlock:completionBlock];
+}
+
 @end

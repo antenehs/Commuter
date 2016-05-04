@@ -254,10 +254,10 @@
         }else{
             routeArriveAtLabel.hidden = NO;
             routeMoreDetailLabel.hidden = NO;
-            routeLeaveAtLabel.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatterE formatHourStringFromDate:route.getStartingTimeOfRoute]];
-            routeArriveAtLabel.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatterE formatHourStringFromDate:route.getEndingTimeOfRoute]];
+            routeLeaveAtLabel.text = [NSString stringWithFormat:@"leave at %@ ", [ReittiStringFormatterE formatHourStringFromDate:route.startingTimeOfRoute]];
+            routeArriveAtLabel.text = [NSString stringWithFormat:@"| arrive at %@", [ReittiStringFormatterE formatHourStringFromDate:route.endingTimeOfRoute]];
             routeMoreDetailLabel.text = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
-                                  [ReittiStringFormatterE formatHourStringFromDate:route.getTimeAtTheFirstStop], numberString];
+                                  [ReittiStringFormatterE formatHourStringFromDate:route.timeAtTheFirstStop], numberString];
         }
         
         routeInfoContainerView.backgroundColor = [UIColor clearColor];
@@ -299,9 +299,9 @@
         
         for (int i = 0; i < routes.count;i++) {
             RouteE *route = [routes objectAtIndex:i];
-            if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < 0){
+            if ([route.startingTimeOfRoute timeIntervalSinceNow] < 0){
                 if (route.isOnlyWalkingRoute) {
-                    if ([route.getStartingTimeOfRoute timeIntervalSinceNow] < -600){
+                    if ([route.startingTimeOfRoute timeIntervalSinceNow] < -600){
                         return nil;
                     }else{
                         return route;

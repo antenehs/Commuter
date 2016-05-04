@@ -436,8 +436,12 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
         [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
-            response.fetchedFromApi = usedApi;
-            completionBlock(response, error, usedApi);
+            if (!error && response) {
+                response.fetchedFromApi = usedApi;
+                completionBlock(response, error, usedApi);
+            } else {
+                completionBlock(nil, @"Fetching stop detail failed. Please try again later.", usedApi);
+            }
         }];
     }else{
         [self.matkaCommunicator fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
@@ -764,6 +768,19 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [sharedDefaults synchronize];
 }
 
+-(void)updateSourceApiForStops:(NSArray *)savedStops {
+    if (!savedStops || savedStops.count == 0) { return; }
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    for (StopEntity *stop in savedStops) {
+        dict[[stop.busStopCode stringValue]] = stop.fetchedFrom;
+    }
+    
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
+    
+    [sharedDefaults setObject:dict forKey:kUserDefaultsStopSourceApiKey];
+    [sharedDefaults synchronize];
+}
+
 -(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
 
     NSString *codes = [[NSString alloc] init];
@@ -780,16 +797,18 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
     
-    [sharedDefaults setObject:codes forKey:@"StopCodes"];
+    [sharedDefaults setObject:codes forKey:kUserDefaultsSavedStopsKey];
     [sharedDefaults synchronize];
+    
+    [self updateSourceApiForStops:savedStops];
 }
 
 -(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-    NSString *selectedCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
+    NSString *selectedCodes = [sharedDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
     
     if (allStops == nil) {
-        [sharedDefaults setObject:@"" forKey:@"SelectedStopCodes"];
+        [sharedDefaults setObject:@"" forKey:kUserDefaultsSelectedSavedStopsKey];
         return;
     }
     
@@ -814,16 +833,18 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             
             NSString *newEntry = [NSString stringWithFormat:@"%@", [new busStopCode]];
             NSString *newStr = [selectedCodes stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%d", stopCode] withString:newEntry ];
-            [sharedDefaults setObject:newStr forKey:@"SelectedStopCodes"];
+            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
             [sharedDefaults synchronize];
         }else{
             NSString *newStr = [selectedCodes stringByReplacingCharactersInRange:strRange withString:@""];
             newStr = [newStr stringByReplacingOccurrencesOfString:@",," withString:@","];
             newStr = [newStr stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-            [sharedDefaults setObject:newStr forKey:@"SelectedStopCodes"];
+            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
             [sharedDefaults synchronize];
         }
     }
+    
+    [self updateSourceApiForStops:allStops];
 }
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{

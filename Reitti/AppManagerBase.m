@@ -14,7 +14,9 @@ NSString *kUserDefaultsSuitNameForProDeparturesWidget = @"group.com.ewketApps.co
 NSString *kUserDefaultsSuitNameForRoutesWidget = @"group.com.ewketApps.commuterProRoutes";
 
 NSString *kUserDefaultsNamedBookmarksKey = @"namedBookmarksDictionary";
-NSString *kUserDefaultsSavedStopsKey = @"savedStopsCodesList";
+NSString *kUserDefaultsSavedStopsKey = @"StopCodes";
+NSString *kUserDefaultsSelectedSavedStopsKey = @"SelectedStopCodes";
+NSString *kUserDefaultsStopSourceApiKey = @"StopSourceApi";
 NSString *kUserDefaultsRouteSearchOptionsKey = @"kUserDefaultsRouteSearchOptionsKey";
 
 NSString *urlSpaceEscapingString = @"%20";

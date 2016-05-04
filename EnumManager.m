@@ -278,4 +278,46 @@
     }
 }
 
+//Matka Api stuff
++ (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType {
+    if (!trasportType) return LineTypeBus;
+    NSArray *busTypes = @[@1, @8, @9, @10, @11, @15, @16, @17, @19, @21, @23, @25, @27, @28, @29
+                          , @31, @32, @33, @34, @35, @37, @38, @39, @42, @43, @44, @45, @48
+                          , @49, @50, @51, @52, @53, @54, @55, @56, @57, @58, @59, @60, @61
+                          , @62, @63, @64, @65, @66, @67, @68, @69, @70];
+    
+    NSArray *trainTypes = @[@7, @12, @13, @46];
+    NSArray *longdistanceTrainTypes = @[@2, @3, @4, @5, @6, @14, @47];
+    NSArray *metroTypes = @[@40];
+    NSArray *tramTypes = @[@36];
+    NSArray *ferryTypes = @[@41];
+    NSArray *airplaneTypes = @[@26];
+    NSArray *otherTypes = @[@18, @30];
+    
+    if ([busTypes containsObject:trasportType]) {
+        return LineTypeBus;
+    } else if ([trainTypes containsObject:trasportType]) {
+        return LineTypeTrain;
+    } else if ([longdistanceTrainTypes containsObject:trasportType]) {
+        return LineTypeLongDistanceTrain;
+    } else if ([metroTypes containsObject:trasportType]) {
+        return LineTypeMetro;
+    } else if ([tramTypes containsObject:trasportType]) {
+        return LineTypeTram;
+    } else if ([ferryTypes containsObject:trasportType]) {
+        return LineTypeFerry;
+    } else if ([airplaneTypes containsObject:trasportType]) {
+        return LineTypeAirplane;
+    } else if ([otherTypes containsObject:trasportType])  {
+        return LineTypeOther;
+    } else {
+        return LineTypeOther;
+    }
+}
+
++ (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType {
+    LineType lineType = [EnumManager lineTypeForMatkaTrasportType:trasportType];
+    return [EnumManager legTrasportTypeForLineType:lineType];
+}
+
 @end

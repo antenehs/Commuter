@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
-
+#import "MatkaModels.h"
 
 @interface BusStopE : NSObject
 
@@ -45,5 +45,7 @@
 
 -(id)initWithDictionary:(NSDictionary *)dict;
 -(NSDictionary *)toDictionary;
+
++ (id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 
 @end

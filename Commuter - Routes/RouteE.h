@@ -37,18 +37,21 @@
 #import "RouteLegE.h"
 #import "RouteLegLocationE.h"
 #import <MapKit/MapKit.h>
+#import "MatkaModels.h"
 
 @interface RouteE : NSObject
 
++(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
+
 -(double)getTotalWalkLength;
--(int)getNumberOfNoneWalkLegs;
+//-(int)getNumberOfNoneWalkLegs;
 -(float)getLengthRatioInRoute:(RouteLegE *)leg;
 -(bool)isOnlyWalkingRoute;
--(NSDate *)getStartingTimeOfRoute;
--(NSDate *)getEndingTimeOfRoute;
--(NSDate *)getTimeAtTheFirstStop;
--(CLLocationCoordinate2D)getStartCoords;
--(NSString *)getDestinationCoords;
+//-(NSDate *)getStartingTimeOfRoute;
+//-(NSDate *)getEndingTimeOfRoute;
+//-(NSDate *)getTimeAtTheFirstStop;
+//-(CLLocationCoordinate2D)getStartCoords;
+//-(NSString *)getDestinationCoords;
 
 @property (nonatomic, retain) NSNumber * routeLength;
 @property (nonatomic, retain) NSNumber * routeDurationInSeconds;
@@ -56,6 +59,14 @@
 @property (nonatomic, retain) NSArray * unMappedRouteDurationInSeconds;
 @property (nonatomic, retain) NSArray * routeLegs;
 @property (nonatomic, retain) NSArray * unMappedRouteLegs;
+
+//Computed properties
+@property (nonatomic, readonly, strong)NSNumber *numberOfNoneWalkLegs;
+@property (nonatomic, readonly, strong)NSDate *startingTimeOfRoute;
+@property (nonatomic, readonly, strong)NSDate *endingTimeOfRoute;
+@property (nonatomic, readonly, strong)NSDate *timeAtTheFirstStop;
+@property (nonatomic, readonly)CLLocationCoordinate2D startCoords;
+@property (nonatomic, readonly)CLLocationCoordinate2D destinationCoords;
 
 
 @end

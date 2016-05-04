@@ -11,16 +11,18 @@
 #import <MapKit/MapKit.h>
 #import "HSLAPIClient.h"
 #import "TREAPIClient.h"
+#import "MatkaApiClient.h"
 
 @interface WidgetDataManager : NSObject
 
-typedef enum
-{
-    HSLRegion = 0,
-    TRERegion = 1,
-    HSLandTRERegion = 2,
-    OtherRegion = 3
-} Region;
+//typedef enum
+//{
+//    HSLRegion = 0,
+//    TRERegion = 1,
+//    FINRegion = 4,
+//    HSLandTRERegion = 2,
+//    OtherRegion = 3
+//} Region;
 
 typedef struct {
     CLLocationCoordinate2D topLeftCorner;
@@ -28,5 +30,7 @@ typedef struct {
 } RTCoordinateRegion;
 
 -(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
+
+-(void)fetchStopForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
 @end

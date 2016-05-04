@@ -14,6 +14,8 @@
 
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock;
 
+-(void)fetchStopForCode:(NSString *)code withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock;
+
 @property (strong, nonatomic)APIClient *apiClient;
 
 @end

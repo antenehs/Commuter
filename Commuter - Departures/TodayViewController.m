@@ -8,15 +8,19 @@
 
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
-#import "HSLAPI.h"
+#import "HslAndTreApi.h"
 #import "BusStopE.h"
 #import "ReittiStringFormatterE.h"
 #import "AppManagerBase.h"
+#import "WidgetDataManager.h"
 
 @interface TodayViewController () <NCWidgetProviding>
 
+@property (nonatomic, strong)WidgetDataManager *widgetDataManager;
+
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) NSMutableArray *stopList;
+@property (strong, nonatomic) NSDictionary *stopSourceApiMap;
 @property (strong, nonatomic) NSString *stopCodes;
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (nonatomic) NSInteger totalNumberOfStops;
@@ -29,7 +33,7 @@
 @implementation TodayViewController
 
 @synthesize label;
-@synthesize stopList;
+@synthesize stopList, stopSourceApiMap;
 @synthesize totalNumberOfStops, thereIsMore, cachedMode, enoughCatchedDepartures;
 @synthesize stopCodes;
 @synthesize sharedDefaults;
@@ -37,6 +41,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.widgetDataManager = [[WidgetDataManager alloc] init];
+    
     thereIsMore = NO;
     
     self.enoughCatchedDepartures = NO;
@@ -46,7 +52,8 @@
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsStopsWidgetSuitName]];
     [self fetchSavedStopsFromDefaults];
     
-    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
+    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:kUserDefaultsSavedStopsKey]] count];
+    
     
     NSArray *stopCodeList = [self arrayFromCommaSeparatedString:self.stopCodes];
     
@@ -115,11 +122,13 @@
 #pragma mark - main method
 
 -(void)fetchSavedStopsFromDefaults{
-    
-    self.stopCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
+    NSLog(@"%@", sharedDefaults);
+    self.stopCodes = [sharedDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
     if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
-        stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
+        stopCodes = [sharedDefaults objectForKey:kUserDefaultsSavedStopsKey];
     }
+    
+    self.stopSourceApiMap = [sharedDefaults objectForKey:kUserDefaultsStopSourceApiKey];
     
     [sharedDefaults synchronize];
     
@@ -144,12 +153,11 @@
         }else{
             infoLabel.hidden = YES;
         }
-        
     }
     
-    HSLAPI *hslAPI = [[HSLAPI alloc] init];
+//    HslAndTreApi *hslAPI = [[HslAndTreApi alloc] init];
     
-    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
+    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:kUserDefaultsSavedStopsKey]] count];
     
     NSArray *stopCodeList = [self arrayFromCommaSeparatedString:self.stopCodes];
     
@@ -164,23 +172,61 @@
             self.stopList = [@[] mutableCopy];
         }
         
-        [hslAPI searchStopForCodes:stopCodeList completionBlock:^(NSMutableArray *resultList, NSError *error) {
-            if (!error && resultList != nil) {
+        [self fetchStopsForCodes:stopCodeList withCompletionHandler:^(NSMutableArray *resultList, NSError *error) {
+            if (resultList && resultList.count > 0) {
                 self.stopList = resultList;
                 cachedMode = NO;
-//                infoLabel.hidden = YES;
+                //                infoLabel.hidden = YES;
                 [self storeStopsToCache:self.stopList];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self setUpStopViewsForStops:resultList];
-                    infoLabel.hidden = YES;
-                });
+                [self setUpStopViewsForStops:resultList];
+                infoLabel.hidden = YES;
                 
             }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    infoLabel.text = @"Fetching stops failed.";
-                });
+                infoLabel.text = @"Fetching stops failed.";
             }
         }];
+    }
+}
+
+- (void)fetchStopsForCodes:(NSArray *)codes withCompletionHandler:(ActionBlock)completionHandler {
+    __block NSInteger stopsToFetch = codes.count;
+    __block NSInteger failedCount = 0;
+    NSMutableArray *resultList = [@[] mutableCopy];
+    
+    for (NSString *stopCode in codes) {
+        ReittiApi fetchFrom = [self apiForStopCode:stopCode];
+        
+        [self.widgetDataManager fetchStopForCode:stopCode fetchFromApi:fetchFrom withCompletionBlock:^(BusStopE *stop, NSError *error) {
+            stopsToFetch--;
+            if (!error && stop) {
+                [resultList addObject:stop];
+            }else{
+                failedCount++;
+            }
+            
+            if (stopsToFetch == 0) {
+                //TODO: sort
+                completionHandler(resultList, failedCount > 0 ? @"Stop fetch failed for some stops" : nil);
+                
+            }
+        }];
+    }
+}
+
+- (ReittiApi)apiForStopCode:(NSString *)code {
+    if (self.stopSourceApiMap && self.stopSourceApiMap[code]) {
+        int intVal = [self.stopSourceApiMap[code] intValue];
+        @try {
+            ReittiApi api = (ReittiApi)intVal;
+            if (api != ReittiHSLApi && api != ReittiTREApi && api != ReittiMatkaApi)
+                return ReittiHSLApi;
+            else
+                return api;
+        } @catch (NSException *exception) {
+            return ReittiHSLApi;
+        }
+    } else {
+        return code.length < 5 ? ReittiTREApi : ReittiHSLApi;
     }
 }
 

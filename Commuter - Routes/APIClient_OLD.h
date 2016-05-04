@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ArcGIS/ArcGIS.h>
+#import <RestKit/RestKit.h>
+
 typedef void (^ActionBlock)();
 
-@interface APIClient : NSObject
+@interface APIClient_OLD : NSObject
 
 -(void)doApiFetchWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock;
 

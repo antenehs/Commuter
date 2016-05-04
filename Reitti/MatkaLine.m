@@ -8,7 +8,7 @@
 
 #import "MatkaLine.h"
 #import "MatkaName.h"
-#import "MatkaCommunicator.h"
+#import "MatkaStop.h"
 #import "ASA_Helpers.h"
 
 @implementation MatkaLine
@@ -87,7 +87,7 @@
 
 -(LineType)lineType {
     if (self.transportType) {
-        return [MatkaCommunicator lineTypeForMatkaTrasportType:self.transportType];
+        return [EnumManager lineTypeForMatkaTrasportType:self.transportType];
     }else{
         return LineTypeBus;
     }

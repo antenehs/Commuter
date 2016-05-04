@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "APIClient.h"
 
 @class BusStopE;
 
 typedef void (^DeparturesSearchCompletionBlock)(NSMutableArray *results, NSError *error);
 typedef void (^StopSearchCompletionBlock)(BusStopE *result, int index, NSError *error);
 
-@interface HSLAPI : NSObject
+@interface HslAndTreApi : APIClient
 
 - (void)searchStopForCodes:(NSArray *)codes completionBlock:(DeparturesSearchCompletionBlock)completionBlock;
 

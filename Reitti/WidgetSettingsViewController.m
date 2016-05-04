@@ -73,12 +73,12 @@
     [selectedStops removeAllObjects];
     [unselectedStops removeAllObjects];
     
-    NSString *selectedCodes = [self.widgetUserDefaults objectForKey:@"SelectedStopCodes"];
+    NSString *selectedCodes = [self.widgetUserDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
     
     BOOL thereIsSelectedStops = selectedCodes != nil;
     
     if (selectedCodes == nil || [selectedCodes isEqualToString:@""]) {
-        selectedCodes = [self.widgetUserDefaults objectForKey:@"StopCodes"];
+        selectedCodes = [self.widgetUserDefaults objectForKey:kUserDefaultsSavedStopsKey];
     }
     
     if (selectedCodes == nil || self.savedStops == nil || [selectedCodes isEqualToString:@""])
@@ -124,7 +124,7 @@
         }
     }
     
-    [self.widgetUserDefaults setObject:codes forKey:@"SelectedStopCodes"];
+    [self.widgetUserDefaults setObject:codes forKey:kUserDefaultsSelectedSavedStopsKey];
     [self.widgetUserDefaults synchronize];
     
 }
