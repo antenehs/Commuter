@@ -50,6 +50,11 @@ typedef enum
 - (void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol BikeStationFetchProtocol <NSObject>
+-(void)startFetchBikeStationsWithCompletionHandler:(ActionBlock)completion;
+-(void)stopFetchingBikeStations;
+@end
+
 @protocol RouteSearchOptionProtocol <NSObject>
 -(NSArray *)allTrasportTypeNames;
 

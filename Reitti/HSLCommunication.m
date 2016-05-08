@@ -15,6 +15,7 @@
 #import "ASA_Helpers.h"
 #import "HSLRouteOptionManager.h"
 #import "EnumManager.h"
+#import "BikeStation.h"
 
 @interface HSLCommunication ()
 
@@ -24,6 +25,10 @@
 @property (nonatomic, strong) NSDictionary *walkingSpeedOptions;
 
 @property (nonatomic, strong) APIClient *poikkeusInfoApi;
+@property (nonatomic, strong) APIClient *bikeStationApi;
+
+@property (nonatomic) ActionBlock bikeFetchingCompletionHandler;
+@property (nonatomic, strong)NSTimer *bikeFetchUpdateTimer;
 
 @end
 
@@ -35,6 +40,9 @@
     
     self.poikkeusInfoApi = [[APIClient alloc] init];
     self.poikkeusInfoApi.apiBaseUrl = @"http://www.poikkeusinfo.fi/xml/v2";
+    
+    self.bikeStationApi = [[APIClient alloc] init];
+    self.bikeStationApi.apiBaseUrl = @"http://api.digitransit.fi/routing/v1/routers/hsl/bike_rental";
     
     hslApiUserNames = @[@"asacommuterstops", @"asacommuterstops2", @"asacommuterstops3", @"asacommuterstops4", @"asacommuterstops5",                        @"asacommuterstops6", @"asacommuterstops7", @"asacommuterstops8",
                         @"asacommuterroutes", @"asacommuterroutes2", @"asacommuterroutes3", @"asacommuterroutes4", @"asacommuterroutes5", @"asacommuterroutes6", @"asacommuterroutes7", @"asacommuterroutes8",
@@ -405,6 +413,39 @@
     }];
 }
 
+#pragma mark - Bike station fetch
+-(void)startFetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
+    [self fetchBikeStationsWithCompletionHandler:completion];
+    self.bikeFetchingCompletionHandler = completion;
+    self.bikeFetchUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(updateBikeStations) userInfo:nil repeats:YES];
+}
+
+-(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
+    [self.bikeStationApi doXmlApiFetchWithParams:nil responseDescriptor:[BikeStation responseDiscriptorForPath:@"stations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+        completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
+    }];
+}
+
+-(void)updateBikeStations {
+    if (self.bikeFetchingCompletionHandler) {
+        [self fetchBikeStationsWithCompletionHandler:self.bikeFetchingCompletionHandler];
+    }
+}
+
+-(void)stopFetchingBikeStations {
+    [self.bikeFetchUpdateTimer invalidate];
+}
+
+-(NSString *)formattedBikeStationFetchErrorMessageForError:(NSError *)error{
+    if(!error) return nil;
+    if (error.code == -1009) {
+        return @"Internet connection appears to be offline.";
+    }else if (error.code == -1001) {
+        return @"Connection to the data provider could not be established. Please try again later.";
+    }else{
+        return @"Unknown Error Occured.";
+    }
+}
 
 #pragma mark - Helpers
 - (NSString *)getRandomUsername{
@@ -538,68 +579,5 @@
     
     return [NSString stringWithFormat:@"%@%@%@", codePart, firstLetterVariant, secondLetterVariant];
 }
-
-#pragma mark - overriden methods
-//- (void)StopFetchDidComplete{
-//    [delegate hslStopFetchDidComplete:self];
-//}
-//- (void)StopFetchFailed:(int)errorCode{
-//    [self.delegate hslStopFetchFailed:errorCode];
-//}
-//- (void)StopInAreaFetchDidComplete{
-//    [delegate hslStopInAreaFetchDidComplete:self];
-//}
-//- (void)StopInAreaFetchFailed:(int)errorCode{
-//    [self.delegate hslStopInAreaFetchFailed:errorCode];
-//}
-//- (void)LineInfoFetchDidComplete{
-////    [delegate hslLineInfoFetchDidComplete:self];
-//}
-//- (void)LineInfoFetchFailed{
-////    [delegate hslLineInfoFetchFailed:self];
-//}
-//
-//- (void)LineInfoFetchDidComplete:(NSData *)objectNotation{
-////    NSError *error = nil;
-////    NSArray *lines = [HSLCommunication lineFromJSON:objectNotation error:&error];
-////
-////    if (lines != nil) {
-////        [delegate hslLineInfoFetchDidComplete:lines];
-////    }else{
-////        [delegate hslLineInfoFetchFailed:error];
-////    }
-//
-//}
-//- (void)LineInfoFetchFailed:(NSError *)error{
-//    [delegate hslLineInfoFetchFailed:error];
-//}
-//
-//- (void)GeocodeSearchDidComplete{
-//    [delegate hslGeocodeSearchDidComplete:self];
-//}
-//- (void)GeocodeSearchFailed:(int)errorCode{
-//    [self.delegate hslGeocodeSearchFailed:errorCode];
-//}
-//- (void)ReverseGeocodeSearchDidComplete{
-//    [self.delegate hslReverseGeocodeSearchDidComplete:self];
-//}
-//- (void)ReverseGeocodeSearchFailed:(int)errorCode{
-//    [self.delegate hslReverseGeocodeSearchFailed:errorCode];
-//}
-//- (void)RouteSearchDidComplete{
-//    [delegate hslRouteSearchDidComplete:self];
-//}
-//- (void)RouteSearchFailed:(int)errorCode{
-//    [self.delegate hslRouteSearchFailed:errorCode];
-//}
-//- (void)DisruptionFetchComplete{
-//    [delegate hslDisruptionFetchComplete:self];
-//}
-//- (void)DisruptionFetchFailed:(int)errorCode{
-//    [self.delegate hslDisruptionFetchFailed:errorCode];
-//}
-
-#pragma mark - Helper methods
-
 
 @end

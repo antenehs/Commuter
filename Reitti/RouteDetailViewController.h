@@ -63,6 +63,7 @@ typedef enum{
     IBOutlet NSLayoutConstraint *mapViewVerticalSpacing;
     
     BOOL isShowingStopView;
+    BOOL isShowingBikeAnnotations;
     NSString *selectedAnnotionStopShortCode, *selectedAnnotionStopName;
     NSNumber *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;

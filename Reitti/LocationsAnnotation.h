@@ -14,7 +14,8 @@ typedef enum
     StartLocation = 1,
     DestinationLocation = 2,
     StopLocation = 3,
-    OtherStopLocation = 4
+    OtherStopLocation = 4,
+    BikeStationLocation = 5
 } AnnotationLocationType;
 
 @interface LocationsAnnotation : NSObject<MKAnnotation>{

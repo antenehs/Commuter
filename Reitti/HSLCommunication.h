@@ -12,7 +12,7 @@
 
 @class HSLCommunication;
 
-@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, DisruptionFetchProtocol>{
+@interface HSLCommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, DisruptionFetchProtocol, BikeStationFetchProtocol>{
     
     NSArray *hslApiUserNames;
     NSInteger nextApiUsernameIndex;

@@ -17,7 +17,8 @@ typedef enum{
     SearchedStopType = 2,
     GeoCodeType = 3,
     DroppedPinType = 4,
-    LiveVehicleType = 5
+    LiveVehicleType = 5,
+    BikeStationType = 5
 }AnnotationType;
 
 @interface JPSThumbnail : NSObject

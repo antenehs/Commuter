@@ -192,6 +192,7 @@
 //This method is called after the busStop object is fetched
 -(void)setUpStopViewForBusStop:(BusStop *)busStop{
     
+    //TODO: Filter out departures with no code
     self.departures = busStop.departures;
     self._busStop = busStop;
     

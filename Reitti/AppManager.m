@@ -237,9 +237,18 @@
     }
 }
 
-
 +(UIImage *)vehicleImageForLineType:(LineType)type{
     return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];
+}
+
++(NSString *)stationAnnotionImageNameForBikeStation:(BikeStation *)bikeStation {
+    if (bikeStation.bikeAvailability == NotAvailable) {
+        return @"noBikeAnnotation";
+    } else if (bikeStation.bikeAvailability == LowAvailability) {
+        return @"lowAvailBikeAnnotation";
+    } else {
+        return @"highAvailBikeAnnotation";
+    }
 }
 
 @end

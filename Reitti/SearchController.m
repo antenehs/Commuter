@@ -31,6 +31,7 @@
 #import "ICloudManager.h"
 #import "MainTabBarController.h"
 #import "ReittiDateFormatter.h"
+#import "BikeStation.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -223,6 +224,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [reittiDataManager stopFetchingLiveVehicles];
     [self removeAllVehicleAnnotation];
     
+    [reittiDataManager stopUpdatingBikeStations];
+    
     [departuresRefreshTimer invalidate];
     
     [super viewDidDisappear:animated];
@@ -310,6 +313,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     self.reittiDataManager = dataManger;
     
     self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
     //Clean history more than the specified date
     if ([settingsManager isClearingHistoryEnabled]) {
@@ -320,6 +324,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if ([settingsManager shouldShowLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }
+    
+    //Start Bike station fetching.
+    [self startFetchingBikeStations];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(mapModeSettingsValueChanged:)
@@ -336,8 +343,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
-    [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
 }
 
 - (void)initGuestureRecognizers
@@ -948,29 +953,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (nearByStopList.count > 0) {
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchResultCell"];
-//        UILabel *codesLabel = (UILabel *)[cell viewWithTag:3004];
-//        codesLabel.frame = CGRectMake(codesLabel.frame.origin.x, codesLabel.frame.origin.y, self.view.frame.size.width - 52, codesLabel.frame.size.height);
-//        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
-//        
-//        CGSize maxSize = CGSizeMake(codesLabel.bounds.size.width, CGFLOAT_MAX);
-//        
-//        CGRect labelSize = [stop.linesString boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
-//                                                                attributes:@{
-//                                                                             NSFontAttributeName :codesLabel.font
-//                                                                             }
-//                                                                   context:nil];;
-//        if (labelSize.size.height < 26) {
-//            labelSize.size.height = 26;
-//        }
-//        
-//        if (labelSize.size.height > 75) {
-//            labelSize.size.height = 75;
-//        }
-//        return labelSize.size.height + 40;
-//    }
-    
     if (indexPath.row > 0) {
         return 35;
     }
@@ -1420,6 +1402,50 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self searchReverseGeocodeForCoordinate:coords];
 }
 
+-(void)plotBikeStationAnnotations:(NSArray *)stationList{
+    @try {
+        if (stationList && stationList.count > 0) {
+            
+            [self removeAllBikeStationAnnotations];
+            
+            NSMutableArray *allAnots = [@[] mutableCopy];
+            for (BikeStation *station in stationList) {
+                if (![ReittiMapkitHelper isValidCoordinate:station.coordinates])
+                    continue;
+                NSString * name = station.name;
+                NSString * codeShort = station.stationId;
+                
+                JPSThumbnail *bikeAnT = [[JPSThumbnail alloc] init];
+                bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:station]];
+//                stopAnT.code = station.stationId;
+                bikeAnT.shortCode = codeShort;
+                bikeAnT.title = name;
+                bikeAnT.subtitle = [NSString stringWithFormat:@"%@ - %@", station.bikesAvailableString, station.spacesAvailableString];
+                bikeAnT.coordinate = station.coordinates;
+                bikeAnT.annotationType = BikeStationType;
+                bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:station];
+                bikeAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:station.coordinates];};
+                
+                [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
+            }
+            
+            if (allAnots.count > 0) {
+                @try {
+                    [self.mapView addAnnotations:allAnots];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"Adding annotations failed!!! Exception %@", exception);
+                }
+            }
+            
+            isShowingBikeAnnotations = YES;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Adding annotations failed!!! Exception %@", exception);
+    }
+}
+
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
 {
     
@@ -1774,6 +1800,19 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.mapView removeAnnotations:tempArray];
 }
 
+- (void)removeAllBikeStationAnnotations {
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+            if (annot.annotationType == BikeStationType) {
+                [mapView removeAnnotation:annotation];
+            }
+        }
+    }
+    
+    isShowingBikeAnnotations = NO;
+}
+
 -(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
     canShowDroppedPin = YES;
 }
@@ -1806,9 +1845,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 [self fetchStopsInMapViewRegion:[self visibleMapRegion]];
                 //If the location is valid, save the center
                 previousValidLocation = [[CLLocation alloc] initWithLatitude:self.mapView.region.center.latitude longitude:self.mapView.region.center.longitude];
+                
             }
+            
+            if (self.allBikeStations && !isShowingBikeAnnotations)
+                [self plotBikeStationAnnotations:self.allBikeStations];
         }else{
             [self removeAllStopAnnotations];
+            [self removeAllBikeStationAnnotations];
             nearByStopList = @[];
             nearbyStopsFetchErrorMessage = @"Zoom in to get nearby stops.";
             [self setupTableViewForNearByStops:nearByStopList];
@@ -2293,7 +2337,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (stopList.count > 0) {
         if ([stopList.firstObject isKindOfClass:NearByStop.class]) {
             //TODO: Check if update is needed by checking existing list and values in cache
-            //TODO: Do the check in separate thread
+            //Do the check in separate thread
             NSMutableArray *tempArray = [[NSMutableArray alloc] init];
             
             for (NearByStop *stop in stopList) {
@@ -2383,6 +2427,17 @@ CGFloat  kDeparturesRefreshInterval = 60;
             if ([settingsManager shouldShowLiveVehicles]) {
                 [self plotVehicleAnnotations:vehicles isTrainVehicles:NO];
             }
+        }
+    }];
+}
+
+#pragma mark - Bike station fetching
+//Bike stations needs to be updated constantly to get available bikes
+- (void)startFetchingBikeStations {
+    [self.reittiDataManager startFetchingBikeStationsWithCompletionBlock:^(NSArray *bikeStations, NSString *errorString){
+        if (!errorString && bikeStations && bikeStations.count > 0) {
+            self.allBikeStations = bikeStations;
+            [self plotBikeStationAnnotations:bikeStations];
         }
     }];
 }

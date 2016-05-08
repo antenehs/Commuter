@@ -155,6 +155,7 @@ typedef enum
     bool lastSelectionDismissed;
     bool ignoreRegionChange;
     BOOL canShowDroppedPin;
+    BOOL isShowingBikeAnnotations;
     CGRect searchBarFrame;
     
     NSIndexPath * departuresTableIndex;
@@ -182,6 +183,7 @@ typedef enum
 @property (strong, nonatomic) IBOutlet AMBlurView *StopView;
 @property (strong, nonatomic) IBOutlet AMBlurView *searchResultsView;
 @property (strong, nonatomic) NSArray * departures;
+@property (strong, nonatomic) NSArray * allBikeStations;
 @property (strong, nonatomic) NSDictionary * _stopLinesDetail;
 @property (strong, nonatomic) BusStop * _busStop;
 @property (strong, nonatomic) GeoCode *droppedPinGeoCode;

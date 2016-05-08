@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NearByStop.h"
 #import "RouteLeg.h"
+#import "BikeStation.h"
 #import "AppManagerBase.h"
 
 @interface AppManager : AppManagerBase
@@ -32,5 +33,6 @@
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
++(NSString *)stationAnnotionImageNameForBikeStation:(BikeStation *)bikeStation;
 
 @end

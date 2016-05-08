@@ -156,7 +156,7 @@
     NSMutableArray *departures = [@[] mutableCopy];
     
     for (MatkaLine *matkaLine in matkaLines) {
-        if (!matkaLine.departureTime) continue;
+        if (!matkaLine.departureTime || !matkaLine.codeShort) continue;
         
         StopDeparture *departure = [[StopDeparture alloc] init];
         departure.code = matkaLine.codeShort;

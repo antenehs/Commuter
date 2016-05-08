@@ -265,6 +265,8 @@
 		665A1E7B1A0558C300797ABA /* addIcon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E791A0558C300797ABA /* addIcon-green.png */; };
 		665A1E7E1A055D8200797ABA /* WidgetSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */; };
 		665A1E801A05791E00797ABA /* stopIcon-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 665A1E7F1A05791E00797ABA /* stopIcon-dark.png */; };
+		665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
+		665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
 		665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */; };
 		665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */; };
 		665BA1B21CAF05EB0091C180 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1B11CAF05EB0091C180 /* MainTabBarController.m */; };
@@ -1946,6 +1948,8 @@
 		665A1E7C1A055D8200797ABA /* WidgetSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetSettingsViewController.h; sourceTree = "<group>"; };
 		665A1E7D1A055D8200797ABA /* WidgetSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WidgetSettingsViewController.m; sourceTree = "<group>"; };
 		665A1E7F1A05791E00797ABA /* stopIcon-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stopIcon-dark.png"; path = "Pictures/Version 2.2/stopIcon-dark.png"; sourceTree = "<group>"; };
+		665B6B711CDF8A9500E1C6CB /* BikeStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BikeStation.m; sourceTree = "<group>"; };
+		665B6B721CDF8A9500E1C6CB /* BikeStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BikeStation.h; sourceTree = "<group>"; };
 		665BA1AC1CAAE93A0091C180 /* SwitchToRouteViewSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchToRouteViewSegue.h; sourceTree = "<group>"; };
 		665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchToRouteViewSegue.m; sourceTree = "<group>"; };
 		665BA1B01CAF05EB0091C180 /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
@@ -3128,6 +3132,7 @@
 				663E1ED81C9EBF1E00C5543A /* ReittiModels.h */,
 				6603A8FB1CD29B6200991FBF /* ReittiObject.h */,
 				6603A8FC1CD29B6200991FBF /* ReittiObject.m */,
+				665B6B701CDF8A7700E1C6CB /* BikeStation */,
 				6684BEBB1CB150F40053AAE1 /* TreVehicle */,
 				66056E551C42AA7700C011FB /* HslDevVehicle */,
 				660715E71B45CCA300033049 /* TravelCard */,
@@ -3276,6 +3281,15 @@
 				663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		665B6B701CDF8A7700E1C6CB /* BikeStation */ = {
+			isa = PBXGroup;
+			children = (
+				665B6B721CDF8A9500E1C6CB /* BikeStation.h */,
+				665B6B711CDF8A9500E1C6CB /* BikeStation.m */,
+			);
+			name = BikeStation;
 			sourceTree = "<group>";
 		};
 		665BA1AB1CAAE8F80091C180 /* Custom views */ = {
@@ -5792,6 +5806,7 @@
 				664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */,
 				666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */,
 				6665D7841C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */,
+				665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
@@ -6032,6 +6047,7 @@
 				66C732F31C556DA5002544BC /* SettingsManager.m in Sources */,
 				66C732F41C556DA5002544BC /* ToneSelectorTableViewController.m in Sources */,
 				66C732F51C556DA5002544BC /* UITableView+Helper.m in Sources */,
+				665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */,
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
 				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,

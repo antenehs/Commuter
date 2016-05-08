@@ -21,6 +21,7 @@
 #import "Vehicle.h"
 #import "ASA_Helpers.h"
 #import "LVThumbnailAnnotation.h"
+#import "BikeStation.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -29,6 +30,8 @@
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
 @property (nonatomic, strong) id previewingContext;
+
+@property (strong, nonatomic) NSArray * allBikeStations;
 
 @end
 
@@ -113,6 +116,10 @@
     if (self.tabBarController) {
         [self.tabBarController.tabBar setHidden:YES];
     }
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [self.reittiDataManager stopUpdatingBikeStations];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -236,6 +243,7 @@
     
     [self stopFetchingVehicles];
     [self startFetchingVehicles];
+    [self startFetchingBikeStations];
     
     [self setupRoutePreviewView];
     
@@ -360,6 +368,16 @@
 - (void)stopFetchingVehicles{
     //Remove all vehicle annotations
     [self.reittiDataManager stopFetchingLiveVehicles];
+}
+
+//Bike stations needs to be updated constantly to get available bikes
+- (void)startFetchingBikeStations {
+    [self.reittiDataManager startFetchingBikeStationsWithCompletionBlock:^(NSArray *bikeStations, NSString *errorString){
+        if (!errorString && bikeStations && bikeStations.count > 0) {
+            self.allBikeStations = bikeStations;
+            [self plotBikeStationAnnotations:bikeStations];
+        }
+    }];
 }
 
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location animated:(BOOL)animated{
@@ -752,6 +770,47 @@
     }
 }
 
+-(void)plotBikeStationAnnotations:(NSArray *)stationList{
+    if (![self shouldShowOtherStopAnnotations])
+        return;
+    
+    @try {
+        if (stationList && stationList.count > 0) {
+            
+            [self removeAllBikeStationAnnotations];
+            
+            NSMutableArray *allAnots = [@[] mutableCopy];
+            for (BikeStation *station in stationList) {
+                
+                CLLocationCoordinate2D coordinate = station.coordinates;
+                NSString * name = station.name;
+                NSString * subtitile = [NSString stringWithFormat:@"%@ - %@", station.bikesAvailableString, station.spacesAvailableString];
+                
+                LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:subtitile andCoordinate:coordinate andLocationType:BikeStationLocation];
+//                newAnnotation.code = [NSNumber numberWithInteger:[stop.code integerValue]];
+                newAnnotation.imageNameForView = [AppManager stationAnnotionImageNameForBikeStation:station];
+                newAnnotation.annotIdentifier = [AppManager stationAnnotionImageNameForBikeStation:station];
+                
+                [routeMapView addAnnotation:newAnnotation];
+            }
+            
+            if (allAnots.count > 0) {
+                @try {
+                    [routeMapView addAnnotations:allAnots];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"Adding annotations failed!!! Exception %@", exception);
+                }
+            }
+            
+            isShowingBikeAnnotations = YES;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Adding annotations failed!!! Exception %@", exception);
+    }
+}
+
 - (void)plotOtherStopAnnotationsForStops:(NSArray *)stopList{
     if (![self shouldShowOtherStopAnnotations])
         return;
@@ -894,16 +953,6 @@
         if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             
-//            if (isTrain) {
-//                if (annot.vehicleType != VehicleTypeTrain) {
-//                    continue;
-//                }
-//            }else{
-//                if (annot.vehicleType == VehicleTypeTrain) {
-//                    continue;
-//                }
-//            }
-            
             if (![codeList containsObject:annot.code]) {
                 [annotToRemove addObject:annotation];
             }else{
@@ -1038,7 +1087,6 @@
             
             return annotationView;
         }else if (locAnnotation.locationType == StopLocation){
-//            MKAnnotationView *annotationView;
             MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
             if (annotationView == nil) {
                 annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
@@ -1077,6 +1125,27 @@
             [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
             annotationView.centerOffset = CGPointMake(0,-8);
 //            annotationView.alpha = 0.95;
+            
+            return annotationView;
+        }else if (locAnnotation.locationType == BikeStationLocation){
+            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
+            if (annotationView == nil) {
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
+                annotationView.enabled = YES;
+                
+                annotationView.canShowCallout = YES;
+                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
+                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                }
+                
+            } else {
+                annotationView.annotation = annotation;
+            }
+            
+            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
+            [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
+            annotationView.centerOffset = CGPointMake(0,-8);
+            //            annotationView.alpha = 0.95;
             
             return annotationView;
         }
@@ -1162,6 +1231,19 @@
     [routeMapView removeAnnotations:array];
 }
 
+- (void)removeAllBikeStationAnnotations {
+    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+        if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+            LocationsAnnotation *annot = (LocationsAnnotation *)annotation;
+            if (annot.locationType == BikeStationLocation) {
+                [routeMapView removeAnnotation:annotation];
+            }
+        }
+    }
+    
+    isShowingBikeAnnotations = NO;
+}
+
 -(void)removeAnnotationsExceptVehicles{
     NSMutableArray *array = [@[] mutableCopy];
     for (id<MKAnnotation> annotation in routeMapView.annotations) {
@@ -1195,8 +1277,12 @@
                 [self plotOtherStopAnnotationsForStops:stops];
             }
         }];
+        
+        if (self.allBikeStations && !isShowingBikeAnnotations)
+            [self plotBikeStationAnnotations:self.allBikeStations];
     }else{
 //        [self removeAllOtherStopAnnotations];
+        isShowingBikeAnnotations = NO;
     }
     
     //the third check is because setting usertracking mode changes the region and the tag of the button might not yet be updated at that time.

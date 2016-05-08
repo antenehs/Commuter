@@ -545,7 +545,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             }
         }];
         
-        [self searchPoiFromAppleForKey:key withCompletionBlock:^(NSArray *response, NSString *searchKey){
+        [self searchAddressFromAppleForKey:key withCompletionBlock:^(NSArray *response, NSString *searchKey){
             requestCalls--;
             
             if (response && response.count > 0) {
@@ -570,32 +570,27 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
--(void)searchPoiFromAppleForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
-    // Create and initialize a search request object.
+//Search addresses from apple in the regions out of the current region. Search pois from all finland
+-(void)searchAddressFromAppleForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = key;
 //    request.region = [self regionForCurrentUserLocation]; //TODO: Make the region to cover finland.
-    
-    // Create and initialize a search object.
+
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
     
-    // Start the search and display the results as annotations on the map.
     [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error)
      {
          NSMutableArray *geocodes = [NSMutableArray array];
          for (MKMapItem *item in response.mapItems) {
              if (!item.placemark.addressDictionary[@"CountryCode"] ||
-                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"]
-//                 ![self isCoordinateInCurrentRegion:item.placemark.coordinate] ||
-//                 !item.phoneNumber
-                 )
+                 ![item.placemark.addressDictionary[@"CountryCode"] isEqualToString:@"FI"])
                  continue;
              
              //Dont search for addresses when matka api is in use. it will duplicate addresses.
              if (userLocationRegion == FINRegion && !item.phoneNumber )
                  continue;
              
-             GeoCode *geoCode =[[GeoCode alloc] initWithMapItem:item]; //TODO: Not always Poi
+             GeoCode *geoCode =[[GeoCode alloc] initWithMapItem:item];
              
              if (geoCode)
                  [geocodes addObject:geoCode];
@@ -619,6 +614,30 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         }];
     }else{
         completionBlock(nil, @"Service not available in the current region.");
+    }
+}
+
+-(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock {
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(BikeStationFetchProtocol)]) {
+        [(NSObject<BikeStationFetchProtocol> *)dataSourceManager startFetchBikeStationsWithCompletionHandler:^(NSArray *response, NSString *error){
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
+    }else{
+        completionBlock(nil, @"Service not available in the current region.");
+    }
+}
+
+-(void)stopUpdatingBikeStations {
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(BikeStationFetchProtocol)]) {
+        [(NSObject<BikeStationFetchProtocol> *)dataSourceManager stopFetchingBikeStations];
     }
 }
 

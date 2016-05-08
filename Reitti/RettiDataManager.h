@@ -94,6 +94,9 @@ typedef struct {
 
 -(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock;
 
+-(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock;
+-(void)stopUpdatingBikeStations;
+
 -(BOOL)isBusStopSaved:(BusStop *)stop;
 -(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode;
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;

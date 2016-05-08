@@ -64,7 +64,7 @@
       <AdditionalOptions>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../Reitti/Oulu.gpx"
+         identifier = "../Reitti/Helsinki.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>
