@@ -117,22 +117,33 @@
 }
 
 - (void)initContentArrays {
-    self.imagesArray = [NSMutableArray arrayWithObjects:@"new-icloudSync",
-                                   @"new-tre-live",
+    self.imagesArray = [NSMutableArray arrayWithObjects:@"newBikeStations",
+                                   @"newWholeFinland",
                                    nil];
-    self.titleArray = [NSMutableArray arrayWithObjects:@"iCloud Sync",
-                                  @"Live Vehicles in Tampere",
+    self.titleArray = [NSMutableArray arrayWithObjects:@"Helsinki City Bikes",
+                                  @"Everywhere In Finland",
                                   nil];
-    self.descArray = [NSMutableArray arrayWithObjects:@"Easily sync your bookmarks in all your devices using iCloud. No registration. No separate login.",
-                                 @"Finally live vehicles tracking in Tampere. See all bus locations from the map or specific vehicles from the line views.",
+    self.descArray = [NSMutableArray arrayWithObjects:@"Now you can see HSL's city bikes on the map with a realtime update of available bikes and return spaces.",
+                                 @"Commuter now works everywhere in Finland. Get routes, timetables and lines info where ever you live.",
                                  nil];
+    /* Save for free version
+     self.imagesArray = [NSMutableArray arrayWithObjects:@"new-icloudSync",
+     @"new-tre-live",
+     nil];
+     self.titleArray = [NSMutableArray arrayWithObjects:@"iCloud Sync",
+     @"Live Vehicles in Tampere",
+     nil];
+     self.descArray = [NSMutableArray arrayWithObjects:@"Easily sync your bookmarks in all your devices using iCloud. No registration. No separate login.",
+     @"Finally live vehicles tracking in Tampere. See all bus locations from the map or specific vehicles from the line views.",
+     nil];
+     */
 }
 
 - (void)setUpScrollView{
     
     if (![AppManager isProVersion]) {
         //Remove backwards to prevent changing of indexes
-        
+     
 //        [imagesArray removeObjectAtIndex:7];
 //        [imagesArray removeObjectAtIndex:5];
 //        [imagesArray removeObjectAtIndex:4];

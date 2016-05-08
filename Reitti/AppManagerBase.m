@@ -128,9 +128,9 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
 
 +(UIImage *)appVersionPicture{
     if ([self isProVersion])
-        return [UIImage imageNamed:@"version3Thin"];
+        return [UIImage imageNamed:@"proVersionNumber"];
     else
-        return [UIImage imageNamed:@"version5IconThin"];
+        return [UIImage imageNamed:@"freeVersionNumber"];
 }
 
 +(NSString *)appAppstoreLink{
