@@ -42,7 +42,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 @synthesize settingsEntity;
 @synthesize allNamedBookmarkNames;
 @synthesize namedBookmark;
-@synthesize helsinkiRegion, tampereRegion, userLocationRegion;
+@synthesize userLocationRegion;
 
 @synthesize hslLiveTrafficManager, treLiveTrafficManager, cacheManager;
 
@@ -101,7 +101,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     HSLGeocodeResposeQueue = [@[] mutableCopy];
     TREGeocodeResponseQueue = [@[] mutableCopy];
     
-    [self initRegionCoordinates];
+//    [self initRegionCoordinates];
     
     userLocationRegion = HSLandTRERegion;
     
@@ -179,17 +179,17 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
-- (void)initRegionCoordinates {
-    CLLocationCoordinate2D coord1 = {.latitude = 60.409784 , .longitude = 24.392395 };
-    CLLocationCoordinate2D coord2 = {.latitude = 59.908222 , .longitude = 25.304260};
-    RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
-    self.helsinkiRegion = helsinkiRegionCoords;
-    
-    CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
-    CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
-    RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
-    self.tampereRegion = tampereRegionCoords;
-}
+//- (void)initRegionCoordinates {
+//    CLLocationCoordinate2D coord1 = {.latitude = 60.409784 , .longitude = 24.392395 };
+//    CLLocationCoordinate2D coord2 = {.latitude = 59.908222 , .longitude = 25.304260};
+//    RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
+//    self.helsinkiRegion = helsinkiRegionCoords;
+//    
+//    CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
+//    CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
+//    RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
+//    self.tampereRegion = tampereRegionCoords;
+//}
 
 #pragma mark - regional datasource
 -(ReittiApi)getApiForRegion:(Region)region {
@@ -892,34 +892,24 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     return FINRegion;
 }
 
--(BOOL)isCoordinateInRegion:(RTCoordinateRegion)region coordinate:(CLLocationCoordinate2D)coords{
-    if (coords.latitude < region.topLeftCorner.latitude &&
-        coords.latitude > region.bottomRightCorner.latitude &&
-        coords.longitude > region.topLeftCorner.longitude &&
-        coords.longitude < region.bottomRightCorner.longitude) {
-        return YES;
-    }else
-        return NO;
-}
+//-(MKCoordinateRegion)mapRegionForRtCoordinateRegion:(RTCoordinateRegion)coordRegion{
+//    CLLocationCoordinate2D center = CLLocationCoordinate2DMake((coordRegion.topLeftCorner.latitude + coordRegion.bottomRightCorner.latitude)/2 , (coordRegion.topLeftCorner.longitude + coordRegion.bottomRightCorner.longitude)/2 );
+//    
+//    CLLocationDegrees latitudeDelta = coordRegion.topLeftCorner.latitude - coordRegion.bottomRightCorner.latitude;
+//    CLLocationDegrees longtudeDelta = coordRegion.bottomRightCorner.longitude - coordRegion.topLeftCorner.longitude;
+//    
+//    return MKCoordinateRegionMake(center, MKCoordinateSpanMake(latitudeDelta, longtudeDelta));
+//}
 
--(MKCoordinateRegion)mapRegionForRtCoordinateRegion:(RTCoordinateRegion)coordRegion{
-    CLLocationCoordinate2D center = CLLocationCoordinate2DMake((coordRegion.topLeftCorner.latitude + coordRegion.bottomRightCorner.latitude)/2 , (coordRegion.topLeftCorner.longitude + coordRegion.bottomRightCorner.longitude)/2 );
-    
-    CLLocationDegrees latitudeDelta = coordRegion.topLeftCorner.latitude - coordRegion.bottomRightCorner.latitude;
-    CLLocationDegrees longtudeDelta = coordRegion.bottomRightCorner.longitude - coordRegion.topLeftCorner.longitude;
-    
-    return MKCoordinateRegionMake(center, MKCoordinateSpanMake(latitudeDelta, longtudeDelta));
-}
-
--(MKCoordinateRegion)regionForCurrentUserLocation{
-    if ([self userLocationRegion] == HSLRegion) {
-        return [self mapRegionForRtCoordinateRegion:helsinkiRegion];
-    }else if ([self userLocationRegion] == TRERegion){
-        return [self mapRegionForRtCoordinateRegion:tampereRegion];
-    }else{
-        return MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
-    }
-}
+//-(MKCoordinateRegion)regionForCurrentUserLocation{
+//    if ([self userLocationRegion] == HSLRegion) {
+//        return [self mapRegionForRtCoordinateRegion:helsinkiRegion];
+//    }else if ([self userLocationRegion] == TRERegion){
+//        return [self mapRegionForRtCoordinateRegion:tampereRegion];
+//    }else{
+//        return MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
+//    }
+//}
 
 #pragma mark - Settings Methods
 -(SettingsEntity *)fetchSettings{

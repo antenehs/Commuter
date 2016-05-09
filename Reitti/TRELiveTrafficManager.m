@@ -75,7 +75,14 @@ NSString *kTRELineCodesKey = @"lineCodes";
         if (parts.count < 1)
             continue;
         
-        [codes addObject:parts[0]];
+        NSString *code = parts[0];
+        [codes addObject:code];
+        
+        //For each code with letter, add also the root number. In tre, it can only be searched for the core number.
+        NSString* coreNumber = [code stringByTrimmingCharactersInSet: [NSCharacterSet letterCharacterSet]];
+        if (coreNumber && coreNumber.length != 0 && ![coreNumber isEqualToString:code]) {
+            [codes addObject:coreNumber];
+        }
     }
     
     return [ReittiStringFormatter commaSepStringFromArray:codes withSeparator:@","];
@@ -102,6 +109,13 @@ NSString *kTRELineCodesKey = @"lineCodes";
                 TREVehicle *treVehicle = [[TREVehicle alloc] initWithDictionary:monitoringVehicle];
                 
                 if (treVehicle) {
+                    //Tre vehickes eg, 1C and 1V are under 1. So the specific number is changed here.
+                    if (treVehicle.monitoredVehicleJourney.journeyPatternRef &&
+                        ![treVehicle.monitoredVehicleJourney.journeyPatternRef isEqualToString:@""] &&
+                        ![treVehicle.monitoredVehicleJourney.lineRef isEqualToString:treVehicle.monitoredVehicleJourney.journeyPatternRef]) {
+                        treVehicle.monitoredVehicleJourney.lineRef = treVehicle.monitoredVehicleJourney.journeyPatternRef;
+                    }
+                    
                     Vehicle *vehicle = [[Vehicle alloc] initWithTreVehicle:treVehicle];
                     
                     [vehicles addObject:vehicle];

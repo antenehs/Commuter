@@ -36,11 +36,6 @@
 extern CLLocationCoordinate2D kHslRegionCenter;
 extern CLLocationCoordinate2D kTreRegionCenter;
 
-typedef struct {
-    CLLocationCoordinate2D topLeftCorner;
-    CLLocationCoordinate2D bottomRightCorner;
-} RTCoordinateRegion;
-
 @interface RettiDataManager : NSObject {
     int nextObjectLID;
     
@@ -186,9 +181,6 @@ typedef struct {
 @property (strong, nonatomic) CookieEntity *cookieEntity;
 @property (strong, nonatomic) SettingsEntity *settingsEntity;
 @property (strong, nonatomic) NamedBookmark *namedBookmark;
-
-@property (nonatomic) RTCoordinateRegion helsinkiRegion;
-@property (nonatomic) RTCoordinateRegion tampereRegion;
 
 @property (nonatomic) Region userLocationRegion;
 

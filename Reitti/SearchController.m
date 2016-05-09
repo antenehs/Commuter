@@ -2552,6 +2552,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self startFetchingLiveVehicles];
     }
     
+    [self startFetchingBikeStations];
+    
     [self fetchDisruptions];
 }
 
