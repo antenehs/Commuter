@@ -88,7 +88,7 @@
     [self setKeyboardType:keyboardType withFeedback:NO];
     
     searchResultTableView.backgroundColor = [UIColor clearColor];
-    [searchResultTableView setBlurredBackgroundWithImageNamed:nil];
+//    [searchResultTableView setBlurredBackgroundWithImageNamed:nil];
 }
 
 -(void)setUpMergedInitialSearchView:(bool)animated{

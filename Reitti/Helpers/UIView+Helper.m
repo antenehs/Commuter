@@ -39,6 +39,15 @@
     }];
 }
 
+- (void)asa_springAnimationWithDuration:(NSTimeInterval)duration animation:(void (^)(void))animation completion:(void (^ __nullable)(BOOL finished))completion {
+    [UIView animateWithDuration:duration
+                          delay:0
+         usingSpringWithDamping:0.5
+          initialSpringVelocity:1.1
+                        options:0
+                     animations:animation completion:completion];
+}
+
 - (UIImage *)asa_convertToImage{
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0.0f);
     
