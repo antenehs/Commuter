@@ -2656,6 +2656,13 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		66034C971CE8B7B500EC0769 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = GraphQL;
+			sourceTree = "<group>";
+		};
 		6603A8E61CCFDA5C00991FBF /* Regions */ = {
 			isa = PBXGroup;
 			children = (
@@ -3057,6 +3064,7 @@
 				66CA02B41C16367900A38858 /* RestAPI */,
 				66CA02BB1C163CB200A38858 /* View Libraries */,
 				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
+				66034C971CE8B7B500EC0769 /* GraphQL */,
 			);
 			name = "Supporting Classes";
 			sourceTree = "<group>";
