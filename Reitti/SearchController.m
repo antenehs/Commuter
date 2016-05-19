@@ -2341,6 +2341,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
             if (numberOfStops == 0)
                 [self showStopFetchActivityIndicator:NO];
         }];
+        
+        [self.reittiDataManager fetchRealtimeDeparturesForStopName:busStopShort.name andShortCode:busStopShort.codeShort withCompletionHandler:^(NSArray *departures, NSString *error){
+            
+        }];
     }
 }
 

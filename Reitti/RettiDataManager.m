@@ -22,7 +22,7 @@
 #import "ASA_Helpers.h"
 #import "AppManager.h"
 #import "ReittiRemindersManager.h"
-//#import "LiveTrafficManager.h"
+#import "DigiTransitCommunicator.h"
 
 CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
 CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
@@ -453,6 +453,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             }
         }];
     }
+}
+
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completion {
+    [[DigiTransitCommunicator finlandDigiTransitCommunicator] fetchStopDetailForCode:code name:name withCompletionBlock:completion];
 }
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {

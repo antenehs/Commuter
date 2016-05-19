@@ -30,6 +30,8 @@ typedef void (^ActionBlock)();
 -(void)doXmlApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock;
 -(void)doApiFetchWithOutMappingWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock;
 
+-(void)doGraphQlQuery:(NSString *)query responseDiscriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock;
+
 - (void)getAllLiveVehiclesFromPubTrans:(NSString *)lineCodes;
 
 - (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation;

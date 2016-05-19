@@ -79,6 +79,8 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completion;
+
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 

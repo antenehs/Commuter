@@ -9,6 +9,7 @@
 #import "APIClient.h"
 #import "RKXMLReaderSerialization.h"
 #import "ReittiStringFormatter.h"
+#import "GraphQLQuery.h"
 
 @implementation APIClient
 
@@ -27,7 +28,7 @@
         
         RKLogConfigureByName("RestKit", RKLogLevelCritical);
         RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelCritical);
-        RKLogConfigureByName("RestKit/Network", RKLogLevelInfo);
+        RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
         
     }
     
@@ -48,6 +49,37 @@
 }
 
 #pragma mark - Generic fetch method
+-(void)doGraphQlQuery:(NSString *)query responseDiscriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock{
+    
+    GraphQLQuery *dataObject = [[GraphQLQuery alloc] init];
+    dataObject.query = query;
+    
+    NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
+    
+    AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];
+    [client setDefaultHeader:@"Accept" value:RKMIMETypeJSON];
+    
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    
+    RKObjectMapping *requestMapping =  [[GraphQLQuery requestMapping] inverseMapping];
+    
+    [objectManager addRequestDescriptor: [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[GraphQLQuery class] rootKeyPath:nil method:RKRequestMethodPOST]];
+    
+    [objectManager addResponseDescriptor:responseDescriptor];
+    [objectManager setRequestSerializationMIMEType: RKMIMETypeJSON];
+    
+    [objectManager postObject:dataObject
+                        path:@""
+                        parameters:nil
+                        success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//                            NSLog(@"It Worked: %@", [mappingResult array]);
+                            completionBlock(mappingResult.array, nil);
+                        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//                            NSLog(@"It Failed: %@", error);
+                            completionBlock(nil, error);
+                        }];
+}
+
 -(void)doApiFetchWithParams:(NSDictionary *)params responseDiscriptor:(RKResponseDescriptor *)responseDescriptor isJsonResponse:(BOOL)isJson andCompletionBlock:(ActionBlock)completionBlock{
     NSURL *baseURL = [NSURL URLWithString:apiBaseUrl];
     AFHTTPClient * client = [AFHTTPClient clientWithBaseURL:baseURL];

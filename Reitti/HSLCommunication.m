@@ -16,6 +16,7 @@
 #import "HSLRouteOptionManager.h"
 #import "EnumManager.h"
 #import "BikeStation.h"
+#import "DigiTransitCommunicator.h"
 
 @interface HSLCommunication ()
 
@@ -26,6 +27,8 @@
 
 @property (nonatomic, strong) APIClient *poikkeusInfoApi;
 @property (nonatomic, strong) APIClient *bikeStationApi;
+
+@property (nonatomic, strong) DigiTransitCommunicator *digiInterface;
 
 @property (nonatomic) ActionBlock bikeFetchingCompletionHandler;
 @property (nonatomic, strong)NSTimer *bikeFetchUpdateTimer;
@@ -43,6 +46,8 @@
     
     self.bikeStationApi = [[APIClient alloc] init];
     self.bikeStationApi.apiBaseUrl = @"http://api.digitransit.fi/routing/v1/routers/hsl/bike_rental";
+    
+    self.digiInterface = [DigiTransitCommunicator hslDigiTransitCommunicator];
     
     hslApiUserNames = @[@"asacommuterstops", @"asacommuterstops2", @"asacommuterstops3", @"asacommuterstops4", @"asacommuterstops5",                        @"asacommuterstops6", @"asacommuterstops7", @"asacommuterstops8",
                         @"asacommuterroutes", @"asacommuterroutes2", @"asacommuterroutes3", @"asacommuterroutes4", @"asacommuterroutes5", @"asacommuterroutes6", @"asacommuterroutes7", @"asacommuterroutes8",
