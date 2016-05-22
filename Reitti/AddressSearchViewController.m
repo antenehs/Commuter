@@ -88,7 +88,7 @@
     [self setKeyboardType:keyboardType withFeedback:NO];
     
     searchResultTableView.backgroundColor = [UIColor clearColor];
-//    [searchResultTableView setBlurredBackgroundWithImageNamed:nil];
+    [searchResultTableView setBlurredBackgroundWithImageNamed:nil];
 }
 
 -(void)setUpMergedInitialSearchView:(bool)animated{
@@ -560,19 +560,6 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([segue.identifier isEqualToString:@"routeSearchController"]) {
-//        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-//        
-//        routeSearchViewController.savedStops = self.savedStops;
-//        routeSearchViewController.recentStops = self.recentStops;
-//        routeSearchViewController.savedRoutes = self.savedRoutes;
-//        routeSearchViewController.recentRoutes = self.recentRoutes;
-//        routeSearchViewController.namedBookmarks = self.namedBookmarks;
-//        routeSearchViewController.prevToLocation = addressSearchBar.text;
-//        routeSearchViewController.reittiDataManager = self.reittiDataManager;
-//    }
-    
     if ([segue.identifier isEqualToString:@"savedRouteSelected"]) {
         
         NSIndexPath *selectedRowIndexPath = [searchResultTableView indexPathForSelectedRow];
@@ -581,11 +568,6 @@
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
         
-//        routeSearchViewController.savedStops = self.savedStops;
-//        routeSearchViewController.recentStops = self.recentStops;
-//        routeSearchViewController.savedRoutes = self.savedRoutes;
-//        routeSearchViewController.recentRoutes = self.recentRoutes;
-//        routeSearchViewController.namedBookmarks = self.namedBookmarks;
         routeSearchViewController.prevToLocation = selected.toLocationName;
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
         routeSearchViewController.prevFromLocation = selected.fromLocationName;

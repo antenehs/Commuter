@@ -273,7 +273,12 @@ const NSInteger kTimerRefreshInterval = 15;
         [stopActivityIndicator startAnimating];
         numberOfStops ++;
         
-        [self.reittiDataManager fetchStopsForCode:[stopEntity.busStopCode stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopCoords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
+        RTStopSearchParam *searchParam = [RTStopSearchParam new];
+        searchParam.longCode = [stopEntity.busStopCode stringValue];
+        searchParam.shortCode = stopEntity.busStopShortCode;
+        searchParam.stopName = stopEntity.busStopName;
+        
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopCoords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString) {
                 [self setDetailStopForBusStop:stopEntity busStop:stop];
                 [self.tableView asa_reloadDataAnimated];
@@ -839,17 +844,30 @@ const NSInteger kTimerRefreshInterval = 15;
     
     UILabel *lineName = (UILabel *)[cell viewWithTag:3001];
     UILabel *timeLabel = (UILabel *)[cell viewWithTag:3002];
+    UIImageView *realtimeIndicatorImageView = (UIImageView *)[cell viewWithTag:3004];
     
     lineName.text = departure.code;
     lineName.textColor = [UIColor blackColor];
     
-    NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
+    NSDate *departureTime = departure.parsedScheduledDate;
+    if (departure.isRealTime) {
+        realtimeIndicatorImageView.hidden = NO;
+//        timeLabel.textColor = [AppManager systemGreenColor];
+        if (departure.parsedRealtimeDate) {
+            departureTime = departure.parsedRealtimeDate;
+        }
+    } else {
+        realtimeIndicatorImageView.hidden = YES;
+//        timeLabel.textColor = [UIColor darkGrayColor];
+    }
+    
+    NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departureTime];
     if (!formattedHour || formattedHour.length < 1 ) {
         NSString *notFormattedTime = departure.time ;
         formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
         timeLabel.text = formattedHour;
     } else {
-        if ([departure.parsedDate timeIntervalSinceNow] < 300) {
+        if ([departureTime timeIntervalSinceNow] < 300) {
             timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
                                                                                substring:formattedHour
                                                                           withNormalFont:timeLabel.font];
@@ -1001,7 +1019,7 @@ const NSInteger kTimerRefreshInterval = 15;
         NSMutableArray *departuresCopy = [detailStop.departures mutableCopy];
         for (int i = 0; i < departuresCopy.count;i++) {
             StopDeparture *departure = [departuresCopy objectAtIndex:i];
-            if ([departure.parsedDate timeIntervalSinceNow] < 0){
+            if ([departure.parsedScheduledDate timeIntervalSinceNow] < 0){
                 [departuresCopy removeObject:departure];
             }else{
                 [detailStop setDepartures:departuresCopy];

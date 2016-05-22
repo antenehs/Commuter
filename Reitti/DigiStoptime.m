@@ -127,6 +127,26 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     return copy;
 }
 
+-(NSDate *)parsedScheduledDepartureDate {
+    if (!_parsedScheduledDepartureDate) {
+        double departureTime = [self.serviceDay doubleValue] + [self.scheduledDeparture doubleValue];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:departureTime];
+        if (date) _parsedScheduledDepartureDate = date;
+    }
+    
+    return _parsedScheduledDepartureDate;
+}
+
+-(NSDate *)parsedRealtimeDepartureDate {
+    if (!_parsedRealtimeDepartureDate) {
+        double departureTime = [self.serviceDay doubleValue] + [self.realtimeDeparture doubleValue];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:departureTime];
+        if (date) _parsedRealtimeDepartureDate = date;
+    }
+    
+    return _parsedRealtimeDepartureDate;
+}
+
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStoptime objectMapping]
                                                         method:RKRequestMethodAny

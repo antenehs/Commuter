@@ -16,7 +16,6 @@
 #import "StopAnnotation.h"
 #import "ReittiStringFormatter.h"
 #import "RettiDataManager.h"
-#import "CustomeTableViewCell.h"
 #import "SWTableViewCell.h"
 #import "ReittiRemindersManager.h"
 #import "SettingsManager.h"
@@ -68,6 +67,7 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     BOOL stopFetched;
     BOOL stopDetailRequested;
     bool stopBookmarked;
+    BOOL stopFetchSuccessfulOnce;
     NSDate *timeToSetAlarm;
     NSIndexPath * departuresTableIndex;
     NSInteger pressTime;

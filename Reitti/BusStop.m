@@ -109,6 +109,30 @@
     return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
 }
 
+- (void)updateDeparturesFromRealtimeDepartures:(NSArray *)realtimeDepartures {
+    if (realtimeDepartures && realtimeDepartures.count > 0 && self.departures) {
+        for (StopDeparture *scheduledDeparture in self.departures) {
+            StopDeparture *realtimeDep = [self filterDepartures:realtimeDepartures forDeparture:scheduledDeparture];
+            if (realtimeDep && realtimeDep.isRealTime) {
+                scheduledDeparture.isRealTime = YES;
+                scheduledDeparture.parsedRealtimeDate = realtimeDep.parsedRealtimeDate;
+                scheduledDeparture.destination = realtimeDep.destination;
+            }
+        }
+    }
+}
+
+- (StopDeparture *)filterDepartures:(NSArray *)allDepartures forDeparture:(StopDeparture *)searchDeparture {
+    NSArray *result = [allDepartures filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        StopDeparture *dep = (StopDeparture *)object;
+        if (!dep) return NO;
+        
+        return dep.code == searchDeparture.code && [dep.parsedScheduledDate isEqualToDate:searchDeparture.parsedScheduledDate];
+    }]];
+    
+    return result && result.count == 1 ? result[0] : nil;
+}
+
 #pragma mark - Init from other class
 
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop {
@@ -165,7 +189,7 @@
         departure.time = matkaLine.departureTime;
         departure.direction = @"1";
         departure.destination = matkaLine.lineEnd;
-        departure.parsedDate = matkaLine.parsedDepartureTime;
+        departure.parsedScheduledDate = matkaLine.parsedDepartureTime;
         
         [departures addObject:departure];
     }

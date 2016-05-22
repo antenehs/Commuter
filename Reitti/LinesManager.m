@@ -208,8 +208,11 @@ NSString *kStopLinesKey = @"stopLines";
     for (BusStopShort *busStopShort in stopsToUse) {
         numberOfStops ++;
         
+        RTStopSearchParam *searchParam = [RTStopSearchParam new];
+        searchParam.longCode = [busStopShort.code stringValue];
+        
         //Fetch from current region since lines will be fetching from current region
-        [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:^(BusStop *stop, NSString *errorString){
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString && stop) {
                 [fetchedStops addObject:stop];
             }

@@ -7,8 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
-
-@class DigiRoute;
+#import "DigiRoute.h"
 
 @interface DigiTrip : NSObject <NSCoding, NSCopying>
 

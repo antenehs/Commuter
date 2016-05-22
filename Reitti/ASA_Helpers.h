@@ -16,6 +16,7 @@
 #import "UIButton+Helper.h"
 #import "UIImage+Helper.h"
 #import "NSObject+Helper.h"
+#import "NSDate+Helper.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "ReittiStringFormatter.h"
 #import "MyFixedLayoutGuide.h"

@@ -22,6 +22,7 @@
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
 #import "ReittiRegionManager.h"
+#import "RTStopSearchParam.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -38,8 +39,6 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 
 @interface RettiDataManager : NSObject {
     int nextObjectLID;
-    
-    Region geoCodeRequestPrioritizedFor;
     
     NSMutableArray *HSLGeocodeResposeQueue;
     NSMutableArray *TREGeocodeResponseQueue;
@@ -74,12 +73,10 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 -(BOOL)areCoordStringsInTheSameRegion:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord;
 -(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord;
 
--(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
--(void)fetchStopsForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
-
--(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completion;
 
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;

@@ -18,10 +18,12 @@
 #import "ASA_Helpers.h"
 #import "CacheManager.h"
 #import "ReittiDateFormatter.h"
+#import "DepartureTableViewCell.h"
 
 @interface StopViewController ()
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
+@property (nonatomic) NSTimer *reloadTimer;
 
 @end
 
@@ -61,12 +63,15 @@
     
     stopFetched = NO;
     stopDetailRequested = NO;
+    stopFetchSuccessfulOnce = NO;
     
     stopBookmarked = NO;
     departuresTableIndex = nil;
     pressTime = 0;
     
     modalMode = [NSNumber numberWithBool:NO];
+    
+    [departuresTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
     
 //    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
@@ -89,6 +94,7 @@
     [self initNotifications];
     
     [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
+    self.reloadTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(updateDepartures:) userInfo:nil repeats:YES];
     
     [self setUpMainView];
     
@@ -192,7 +198,6 @@
 //This method is called after the busStop object is fetched
 -(void)setUpStopViewForBusStop:(BusStop *)busStop{
     
-    //TODO: Filter out departures with no code
     self.departures = busStop.departures;
     self._busStop = busStop;
     
@@ -261,6 +266,7 @@
     }else{
         [self.reittiDataManager saveToCoreDataStop:self._busStop];
         
+        [bookmarkButton asa_bounceAnimateViewByScale:0.2];
         [self setStopBookmarkedState];
         [delegate savedStop:self.stopEntity];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionBookmarkedStop label:@"All" value:nil];
@@ -421,7 +427,6 @@
 #pragma mark - reminder methods
 - (void)setStopBookmarkedState{
     [bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
-    [bookmarkButton asa_bounceAnimateViewByScale:0.2];
     stopBookmarked = YES;
 }
 
@@ -438,14 +443,24 @@
         NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 
+- (void)updateDepartures:(id)userData {
+    [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
+}
+
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     stopDetailRequested = YES;
+    
+    RTStopSearchParam *searchParam = [RTStopSearchParam new];
+    searchParam.longCode = code;
+    searchParam.shortCode = stopShortCode;
+    searchParam.stopName = stopName;
+    
     if (self.useApi != ReittiAutomaticApi) {
-        [self.reittiDataManager fetchStopsForCode:code fetchFromApi:self.useApi withCompletionBlock:^(BusStop * stop, NSString * error){
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam fetchFromApi:self.useApi withCompletionBlock:^(BusStop * stop, NSString * error){
             [self stopFetchCompletedWithStop:stop andError:error];
         }];
     } else {
-        [self.reittiDataManager fetchStopsForCode:code andCoords:coords withCompletionBlock:^(BusStop * stop, NSString * error){
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:coords withCompletionBlock:^(BusStop * stop, NSString * error){
             [self stopFetchCompletedWithStop:stop andError:error];
         }];
     }
@@ -453,9 +468,10 @@
 
 -(void)stopFetchCompletedWithStop:(BusStop *)stop andError:(NSString *)error {
     if (!error) {
+        stopFetchSuccessfulOnce = YES;
         [self stopFetchDidComplete:stop];
     }else{
-        [self stopFetchDidFail:error];
+        if (!stopFetchSuccessfulOnce) [self stopFetchDidFail:error];
     }
     stopDetailRequested = NO;
 }
@@ -497,9 +513,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departureCell"];
+    DepartureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departureCell"];
     
-    CustomeTableViewCell __weak *weakCell = cell;
+    CustomeTableViewCell __weak *weakCell = (CustomeTableViewCell *)cell;
     NSMutableArray * leftUtilityButtons = [NSMutableArray new];
     [leftUtilityButtons sw_addUtilityButtonWithColor:
      [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102.0/255.0 alpha:1.0]
@@ -518,29 +534,34 @@
         StopDeparture *departure = [self.departures objectAtIndex:indexPath.row];
         
         @try {
-            UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-            NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
-            if (!formattedHour || formattedHour.length < 1 ) {
-                NSString *notFormattedTime = departure.time ;
-                formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-                timeLabel.text = formattedHour;
-            } else {
-                if ([departure.parsedDate timeIntervalSinceNow] < 300) {
-                    timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
-                                                                                       substring:formattedHour
-                                                                                  withNormalFont:timeLabel.font];
-                    ;
-                }else{
-                    timeLabel.text = formattedHour;
-                }
-            }
-            
-            UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-            
-            codeLabel.text = departure.code;
-            
-            UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
-            destinationLabel.text = departure.destination;
+            [cell setupFromStopDeparture:departure compactMode:NO];
+//            UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
+//            NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate];
+//            if (!formattedHour || formattedHour.length < 1 ) {
+//                NSString *notFormattedTime = departure.time ;
+//                formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
+//                timeLabel.text = formattedHour;
+//            } else {
+//                if ([departure.parsedScheduledDate timeIntervalSinceNow] < 300) {
+//                    timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
+//                                                                                       substring:formattedHour
+//                                                                                  withNormalFont:timeLabel.font];
+//                    ;
+//                }else{
+//                    timeLabel.text = formattedHour;
+//                }
+//            }
+//            
+//            if (departure.isRealTime) {
+//                timeLabel.backgroundColor = [AppManager systemGreenColor];
+//            }
+//            
+//            UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
+//            
+//            codeLabel.text = departure.code;
+//            
+//            UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
+//            destinationLabel.text = departure.destination;
         }
         @catch (NSException *exception) {
             if (self.departures.count == 1) {
@@ -627,7 +648,7 @@
             [actionSheet showInView:self.view];
             StopDeparture *departure = [self.departures objectAtIndex:[[departuresTable indexPathForCell:cell] row]];
 //            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-            timeToSetAlarm = departure.parsedDate;
+            timeToSetAlarm = departure.parsedScheduledDate;
 //            timeToSetAlarm = [(UILabel *)[cell viewWithTag:1001] text];
             [cell hideUtilityButtonsAnimated:YES];
         }
@@ -665,7 +686,6 @@
     stopFetched = YES;
     if (stop != nil) {
         self._busStop = stop;
-        
         [self setUpStopViewForBusStop:self._busStop];
         
         [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
@@ -688,63 +708,6 @@
 //    [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - iAd methods
--(void)initAdBannerView{
-    if ([ADBannerView instancesRespondToSelector:@selector(initWithAdType:)]) {
-        _bannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
-    } else {
-        _bannerView = [[ADBannerView alloc] init];
-    }
-    _bannerView.delegate = self;
-    
-    CGRect bannerFrame = _bannerView.frame;
-    bannerFrame.origin.y = self.view.bounds.size.height;
-    _bannerView.frame = bannerFrame;
-    
-    [self.view addSubview:_bannerView];
-}
-
-- (void)layoutAnimated:(BOOL)animated
-{
-    // As of iOS 6.0, the banner will automatically resize itself based on its width.
-    // To support iOS 5.0 however, we continue to set the currentContentSizeIdentifier appropriately.
-    CGRect contentFrame = self.view.bounds;
-    
-    CGRect bannerFrame = _bannerView.frame;
-    bannerFrame.origin.y = contentFrame.size.height;
-    _bannerView.frame = bannerFrame;
-    if (_bannerView.bannerLoaded) {
-        contentFrame.size.height -= _bannerView.frame.size.height + self.navigationController.toolbar.frame.size.height;
-        bannerFrame.origin.y = contentFrame.size.height;
-    } else {
-        bannerFrame.origin.y = contentFrame.size.height;
-    }
-    
-    [UIView animateWithDuration:animated ? 0.25 : 0.0 animations:^{
-        //cardView.frame = contentFrame;
-        _bannerView.frame = bannerFrame;
-    }];
-}
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-    [self layoutAnimated:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-    [self layoutAnimated:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-    return YES ;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-    
-}
-
 #pragma mark - Seague
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -762,20 +725,6 @@
         UINavigationController * navigationController = (UINavigationController *)[segue destinationViewController];
         
         RouteSearchViewController *routeSearchViewController = (RouteSearchViewController *)[navigationController.viewControllers lastObject];
-        
-//        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-//        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-//        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
-//        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-//        
-//        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-//        
-//        routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
-//        routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
-//        routeSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
-//        routeSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
-//        routeSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-//        routeSearchViewController.droppedPinGeoCode = self.droppedPinGeoCode;
         
         if ([segue.identifier isEqualToString:@"routeToHere"]) {
             routeSearchViewController.prevToLocation = self.stopName;
@@ -801,6 +750,7 @@
 
 - (void)dealloc
 {
+    if (_reloadTimer) [_reloadTimer invalidate];
     NSLog(@"StopViewController:This ARC deleted my UIView.");
 }
 

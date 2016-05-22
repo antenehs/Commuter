@@ -48,15 +48,19 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - Stop detail fetching
--(void)fetchStopDetailForCode:(NSString *)stopCode name:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock {
-    if (!stopCode) completionBlock(nil, @"No Stop Code");
+-(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock {
+    if (!stopName) completionBlock(nil, @"No Stop Name");
     
-    [super doGraphQlQuery:[self stopGraphQlQueryForCode:stopCode] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
-        
+    [super doGraphQlQuery:[self stopGraphQlQueryForName:stopName] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
+        if (!error) {
+            completionBlock(stops, nil);
+        } else {
+            completionBlock(nil, @"Stop fetch failed");//Proper error message here. 
+        }
     }];
 }
 
--(NSString *)stopGraphQlQueryForCode:(NSString *)name {
+-(NSString *)stopGraphQlQueryForName:(NSString *)name {
     return [NSString stringWithFormat:@"{ stops(name: \"%@\") { name,code,gtfsId,url,platformCode,lat,lon,routes {shortName,longName,type},stoptimesWithoutPatterns (numberOfDepartures: 20){scheduledDeparture,realtimeDeparture,realtimeState,realtime,serviceDay,trip {route {shortName,longName, type},tripHeadsign}}}}", name];
 }
 

@@ -10,4 +10,6 @@
 
 @interface NSDate (Helper)
 
+-(BOOL)asa_IsEqualToDateIgnoringSeconds:(NSDate *)otherDate;
+
 @end

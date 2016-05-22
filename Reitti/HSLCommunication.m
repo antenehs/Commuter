@@ -17,6 +17,7 @@
 #import "EnumManager.h"
 #import "BikeStation.h"
 #import "DigiTransitCommunicator.h"
+#import "DigiDataModels.h"
 
 @interface HSLCommunication ()
 
@@ -303,6 +304,26 @@
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedStopFromApi label:@"HSL" value:nil];
 }
 
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
+    [[DigiTransitCommunicator hslDigiTransitCommunicator] fetchStopsForName:code withCompletionBlock:^(NSArray *stops, NSString *errorString){
+        //Filter applicable stops
+        if (!errorString && stops.count > 0) {
+            NSMutableArray *allDepartures = [@[] mutableCopy];
+            for (DigiStop *digiStop in stops) {
+                for (DigiStoptime *stopTime in digiStop.stoptimes) {
+                    StopDeparture *dep = [StopDeparture departureForDigiStopTime:stopTime];
+                    if (dep)
+                        [allDepartures addObject:dep];
+                }
+            }
+            
+            completionBlock(allDepartures, nil);
+        } else {
+            completionBlock(nil, errorString);
+        }
+    }];
+}
+
 #pragma mark - Line detail fetch protocol implementation
 - (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
@@ -510,12 +531,13 @@
             
             departure.code = [HSLCommunication parseBusNumFromLineCode:departure.code];
             //Parse dates
-            departure.parsedDate = [super dateFromDateString:departure.date andHourString:departure.time];
-            if (!departure.parsedDate) {
+            departure.parsedScheduledDate = [super dateFromDateString:departure.date andHourString:departure.time];
+            if (!departure.parsedScheduledDate) {
                 //Do it the old school way. Might have a wrong date for after midnight times
                 NSString *notFormattedTime = departure.time ;
                 NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-                departure.parsedDate = [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
+                departure.parsedScheduledDate = [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
+                departure.isRealTime = NO;
             }
             [departuresArray addObject:departure];
         }

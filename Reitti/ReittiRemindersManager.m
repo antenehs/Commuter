@@ -66,7 +66,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
         date = [date dateByAddingTimeInterval:seconds];
         
         if ([[NSDate date] compare:date] == NSOrderedDescending ) {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already past."];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already passed."];
         }else{
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
             [self scheduleOneTimeNotificationForDate:date andMessage:[NSString stringWithFormat:reminderMessageFormater, minute] andToneName:toneName];

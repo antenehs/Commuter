@@ -10,4 +10,10 @@
 
 @implementation NSDate (Helper)
 
+-(BOOL)asa_IsEqualToDateIgnoringSeconds:(NSDate *)otherDate {
+    NSTimeInterval difference = [self timeIntervalSinceDate:otherDate];
+    
+    return difference < 0 ? difference > -60 : difference < 60;
+}
+
 @end

@@ -1253,6 +1253,7 @@
     }
     
     [routeMapView removeAnnotations:array];
+    isShowingBikeAnnotations = NO;
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{

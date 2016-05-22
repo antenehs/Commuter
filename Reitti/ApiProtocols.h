@@ -33,6 +33,10 @@ typedef enum
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol RealtimeDeparturesFetchProtocol <NSObject>
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock;
+@end
+
 @protocol LineDetailFetchProtocol <NSObject>
 - (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
 - (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;

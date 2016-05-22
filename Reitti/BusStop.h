@@ -33,6 +33,7 @@
 
 @interface BusStop : ReittiObject
 
+- (void)updateDeparturesFromRealtimeDepartures:(NSArray *)realtimeDepartures;
 - (NSString *)destinationForLineFullCode:(NSString *)fullCode;
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 

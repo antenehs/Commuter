@@ -14,7 +14,9 @@ NSString *const kDeparturesName = @"name";
 NSString *const kDeparturesTime = @"time";
 NSString *const kDeparturesDirection = @"direction";
 NSString *const kDestination = @"destination";
-NSString *const kParsedDate = @"parsedDate";
+NSString *const kParsedScheduledDate = @"parsedScheduledDate";
+NSString *const kParsedRealtimeDate = @"parsedRealTimeDate";
+NSString *const kIsRealTime = @"isRealTime";
 
 
 @interface StopDeparture ()
@@ -31,7 +33,6 @@ NSString *const kParsedDate = @"parsedDate";
 @synthesize time = _time;
 @synthesize direction = _direction;
 @synthesize destination = _destination;
-
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
 {
@@ -50,10 +51,48 @@ NSString *const kParsedDate = @"parsedDate";
             self.name = [self objectOrNilForKey:kDeparturesName fromDictionary:dict];
             self.time = [self objectOrNilForKey:kDeparturesTime fromDictionary:dict];
             self.direction = [self objectOrNilForKey:kDeparturesDirection fromDictionary:dict];
+            self.destination = [self objectOrNilForKey:kDestination fromDictionary:dict];
+            self.parsedScheduledDate = [self objectOrNilForKey:kParsedScheduledDate fromDictionary:dict];
+            self.parsedRealtimeDate = [self objectOrNilForKey:kParsedRealtimeDate fromDictionary:dict];
+            self.isRealTime = [[self objectOrNilForKey:kIsRealTime fromDictionary:dict] boolValue];
+    }
+    
+    [self setDefaultValues];
+    
+    return self;
+}
 
++ (instancetype)departureForDigiStopTime:(DigiStoptime *)stoptime {
+    StopDeparture *departure = [[self alloc] init];
+    
+    if (!departure) return nil;
+    
+    //TODO: Full info when needed. Now we are only interested in the realtime times.
+    departure.code = stoptime.trip.route.shortName;
+    departure.date = nil;
+    departure.name = stoptime.trip.route.longName;
+    departure.time = nil;
+    departure.direction = nil;
+    departure.destination = stoptime.trip.tripHeadsign;
+    departure.parsedScheduledDate = stoptime.parsedScheduledDepartureDate;
+    departure.parsedRealtimeDate = stoptime.parsedRealtimeDepartureDate;
+    departure.isRealTime = [stoptime.realtime boolValue];
+    
+    return departure;
+}
+
+-(instancetype)init {
+    self = [super init];
+    
+    if (self) {
+        [self setDefaultValues];
     }
     
     return self;
+}
+
+-(void)setDefaultValues {
+    self.isRealTime = false;
 }
 
 
@@ -88,7 +127,9 @@ NSString *const kParsedDate = @"parsedDate";
     [mutableDict setValue:self.time forKey:kDeparturesTime];
     [mutableDict setValue:self.direction forKey:kDeparturesDirection];
     [mutableDict setValue:self.destination forKey:kDestination];
-    [mutableDict setValue:self.parsedDate forKey:kParsedDate];
+    [mutableDict setValue:self.parsedScheduledDate forKey:kParsedScheduledDate];
+    [mutableDict setValue:self.parsedRealtimeDate forKey:kParsedRealtimeDate];
+    [mutableDict setValue:[NSNumber numberWithBool:self.isRealTime] forKey:kIsRealTime];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -118,7 +159,9 @@ NSString *const kParsedDate = @"parsedDate";
     self.time = [aDecoder decodeObjectForKey:kDeparturesTime];
     self.direction = [aDecoder decodeObjectForKey:kDeparturesDirection];
     self.destination = [aDecoder decodeObjectForKey:kDestination];
-    self.parsedDate = [aDecoder decodeObjectForKey:kParsedDate];
+    self.parsedScheduledDate = [aDecoder decodeObjectForKey:kParsedScheduledDate];
+    self.parsedRealtimeDate = [aDecoder decodeObjectForKey:kParsedRealtimeDate];
+    self.isRealTime = [aDecoder decodeBoolForKey:kIsRealTime];
     return self;
 }
 
@@ -131,7 +174,9 @@ NSString *const kParsedDate = @"parsedDate";
     [aCoder encodeObject:_time forKey:kDeparturesTime];
     [aCoder encodeObject:_direction forKey:kDeparturesDirection];
     [aCoder encodeObject:_destination forKey:kDestination];
-    [aCoder encodeObject:_parsedDate forKey:kParsedDate];
+    [aCoder encodeObject:_parsedScheduledDate forKey:kParsedScheduledDate];
+    [aCoder encodeObject:_parsedRealtimeDate forKey:kParsedRealtimeDate];
+    [aCoder encodeBool:_isRealTime forKey:kIsRealTime];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -146,7 +191,9 @@ NSString *const kParsedDate = @"parsedDate";
         copy.time = [self.time copyWithZone:zone];
         copy.direction = [self.direction copyWithZone:zone];
         copy.destination = [self.destination copyWithZone:zone];
-        copy.parsedDate = [self.parsedDate copyWithZone:zone];
+        copy.parsedScheduledDate = [self.parsedScheduledDate copyWithZone:zone];
+        copy.parsedRealtimeDate = [self.parsedRealtimeDate copyWithZone:zone];
+        copy.isRealTime = self.isRealTime;
     }
     
     return copy;

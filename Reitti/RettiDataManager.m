@@ -417,13 +417,13 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
--(void)fetchStopsForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
+-(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
     Region region = [self identifyRegionOfCoordinate:coords];
     ReittiApi api = [self getApiForRegion:region];
-    [self fetchStopsForCode:code fetchFromApi:api withCompletionBlock:completionBlock];
+    [self fetchStopsForSearchParams:searchParams fetchFromApi:api withCompletionBlock:completionBlock];
 }
 
--(void)fetchStopsForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock {
+-(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock {
     
     id dataSourceManager = nil;
     ReittiApi usedApi = api;
@@ -435,28 +435,62 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
     
     if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
-        [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+        [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:searchParams.longCode withCompletionBlock:^(BusStop * response, NSString *error){
             if (!error && response) {
                 response.fetchedFromApi = usedApi;
                 completionBlock(response, error, usedApi);
+                
+                __block BusStop *fetchedStop = response;
+                if (searchParams.stopName && searchParams.shortCode) {
+                    [self fetchRealtimeDeparturesForStopName:searchParams.stopName andShortCode:searchParams.shortCode fetchFromApi:usedApi withCompletionHandler:^(NSArray *realDepartures, NSString *errorString){
+                        if (!realDepartures || realDepartures.count == 0 || errorString) return;
+                        [fetchedStop updateDeparturesFromRealtimeDepartures:realDepartures];
+                        completionBlock(fetchedStop, nil, usedApi);
+                    }];
+                }
+                
             } else {
                 completionBlock(nil, @"Fetching stop detail failed. Please try again later.", usedApi);
             }
         }];
+        
     }else{
-        [self.matkaCommunicator fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+        [self.matkaCommunicator fetchStopDetailForCode:searchParams.longCode withCompletionBlock:^(BusStop * response, NSString *error){
             if (!error) {
                 response.fetchedFromApi = ReittiMatkaApi;
                 completionBlock(response, nil, ReittiMatkaApi);
+                
+                __block BusStop *fetchedStop = response;
+                if (searchParams.stopName && searchParams.shortCode) {
+                    [self fetchRealtimeDeparturesForStopName:searchParams.stopName andShortCode:searchParams.shortCode fetchFromApi:usedApi withCompletionHandler:^(NSArray *realDepartures, NSString *errorString){
+                        if (!realDepartures || realDepartures.count == 0 || errorString) return;
+                        [fetchedStop updateDeparturesFromRealtimeDepartures:realDepartures];
+                        completionBlock(fetchedStop, nil, usedApi);
+                    }];
+                }
             }else{
                 completionBlock(nil, @"Fetching stop detail failed. Please try again later.", ReittiMatkaApi);
             }
         }];
     }
+
 }
 
--(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completion {
-    [[DigiTransitCommunicator finlandDigiTransitCommunicator] fetchStopDetailForCode:code name:name withCompletionBlock:completion];
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionHandler:(ActionBlock)completion {
+    id dataSourceManager = nil;
+    ReittiApi usedApi = api;
+    if (api == ReittiCurrentRegionApi) {
+        dataSourceManager = [self getDataSourceForCurrentRegion];
+        usedApi = [self getApiForRegion:userLocationRegion];
+    } else {
+        dataSourceManager = [self getDataSourceForApi:api];
+    }
+    
+    if ([dataSourceManager conformsToProtocol:@protocol(RealtimeDeparturesFetchProtocol)]) {
+        [(NSObject<RealtimeDeparturesFetchProtocol> *)dataSourceManager fetchRealtimeDeparturesForStopName:name andShortCode:code withCompletionHandler:completion];
+    }else{
+        completion(nil, @"Realtime departure fetching not supported in this region.");
+    }
 }
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {

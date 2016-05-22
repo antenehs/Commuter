@@ -428,12 +428,12 @@
             //Parse line code
             departure.code = [TRECommunication parseBusNumFromLineCode:departure.code];
             //Parse dates
-            departure.parsedDate = [super dateFromDateString:departure.date andHourString:departure.time];
-            if (!departure.parsedDate) {
+            departure.parsedScheduledDate = [super dateFromDateString:departure.date andHourString:departure.time];
+            if (!departure.parsedScheduledDate) {
                 //Do it the old school way. Might have a wrong date for after midnight times
                 NSString *notFormattedTime = departure.time ;
                 NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-                departure.parsedDate = [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
+                departure.parsedScheduledDate = [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
             }
             [departuresArray addObject:departure];
         }

@@ -242,14 +242,17 @@
     CLLocation *locaiton = record[kStopCoordinate];
     NSNumber *fetchedFromNumber = record[kStopFetchedFrom];
     
+    RTStopSearchParam *searchParam = [RTStopSearchParam new];
+    searchParam.longCode = [NSString stringWithFormat:@"%d", [stopCode intValue]];
+    
     if (fetchedFromNumber) {
         ReittiApi fetchedFrom = (ReittiApi)[fetchedFromNumber intValue];
         
-        [self.reittiDataManager fetchStopsForCode:[NSString stringWithFormat:@"%d", [stopCode intValue]] fetchFromApi:fetchedFrom withCompletionBlock:^(BusStop * response, NSString *error){
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam fetchFromApi:fetchedFrom withCompletionBlock:^(BusStop * response, NSString *error){
             [self stopFetchCompleted:response andError:error withCompletionHandler:completionHandler];
         }];
     } else {
-        [self.reittiDataManager fetchStopsForCode:[NSString stringWithFormat:@"%d", [stopCode intValue]] andCoords:locaiton.coordinate withCompletionBlock:^(BusStop * response, NSString *error){
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:locaiton.coordinate withCompletionBlock:^(BusStop * response, NSString *error){
             [self stopFetchCompleted:response andError:error withCompletionHandler:completionHandler];
         }];
     }

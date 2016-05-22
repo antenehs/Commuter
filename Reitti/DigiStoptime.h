@@ -7,8 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
-
-@class DigiTrip;
+#import "DigiTrip.h"
 
 @interface DigiStoptime : NSObject <NSCoding, NSCopying>
 
@@ -18,6 +17,10 @@
 @property (nonatomic, strong) NSNumber *realtime;
 @property (nonatomic, strong) NSNumber *realtimeDeparture;
 @property (nonatomic, strong) NSString *realtimeState;
+
+//Computed properties
+@property (nonatomic, strong) NSDate *parsedScheduledDepartureDate;
+@property (nonatomic, strong) NSDate *parsedRealtimeDepartureDate;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 +(RKObjectMapping *)objectMapping;

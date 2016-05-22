@@ -32,6 +32,7 @@
 #import "MainTabBarController.h"
 #import "ReittiDateFormatter.h"
 #import "BikeStation.h"
+#import "DepartureTableViewCell.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -45,14 +46,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 @end
 
 @implementation SearchController
-
-#define CUSTOME_FONT(s) [UIFont fontWithName:@"Aspergit" size:s]
-#define CUSTOME_FONT_BOLD(s) [UIFont fontWithName:@"AspergitBold" size:s]
-#define CUSTOME_FONT_LIGHT(s) [UIFont fontWithName:@"AspergitLight" size:s]
-#define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:0.98]
-#define SYSTEM_BLUE_COLOR [UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0];
-#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
-#define SYSTEM_ORANGE_COLOR [UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0];
 
 @synthesize managedObjectContext;
 @synthesize reittiDataManager, settingsManager;
@@ -85,6 +78,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 {
     [super viewDidLoad];
     
+    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
+    
     [self initDataComponentsAndModules];
     [self updateAppShortcuts];
     [self reindexSavedDataForSpotlight];
@@ -116,9 +111,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (startingIndex >= 0 && startingIndex <= 3) {
         self.tabBarController.selectedIndex = startingIndex;
     }
-    
-    //Test
-//    [AppManager isProVersion];
 }
 
 - (void)showRateAppNotification{
@@ -288,6 +280,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
     activityIndicator.hidden = NO;
+    
+//    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
     
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
@@ -640,7 +634,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         NSMutableArray *departuresCopy = [detailStop.departures mutableCopy];
         for (int i = 0; i < departuresCopy.count;i++) {
             StopDeparture *departure = [departuresCopy objectAtIndex:i];
-            if ([departure.parsedDate timeIntervalSinceNow] < 0){
+            if ([departure.parsedScheduledDate timeIntervalSinceNow] < 0){
                 [departuresCopy removeObject:departure];
             }else{
                 [detailStop setDepartures:departuresCopy];
@@ -881,13 +875,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    
     if (nearByStopList.count > 0) {
         BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
         
         if (indexPath.row == 0) {
-            cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
+            UITableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
             
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:3001];
             [imageView setImage:[AppManager stopAnnotationImageForStopType:stop.stopType]];
@@ -920,38 +912,29 @@ CGFloat  kDeparturesRefreshInterval = 60;
             
             return cell;
         }else{
-            cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"departureCell"];
+            DepartureTableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"departureCell"];
+            
+            CustomeTableViewCell __weak *weakCell = (CustomeTableViewCell *)cell;
+            
+            [cell setAppearanceWithBlock:^{
+                weakCell.delegate = self;
+                weakCell.containingTableView = tableView;
+            } force:NO];
             
             BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
             
             StopDeparture *departure = [detailStop.departures objectAtIndex:(indexPath.row - 1)];
             
             @try {
-                UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-                NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedDate];
-                
-                if ([departure.parsedDate timeIntervalSinceNow] < 300) {
-                    timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
-                                                                                       substring:formattedHour
-                                                                                  withNormalFont:timeLabel.font];
-                    ;
-                }else{
-                    timeLabel.text = formattedHour;
-                }
-                
-                UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-                
-                codeLabel.text = departure.code;
-                
-                UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
-                destinationLabel.text = departure.destination;
-                
+                [cell setupFromStopDeparture:departure compactMode:YES];
+                cell.separatorInset = UIEdgeInsetsMake(0, 2000, 0, 0);
+                [cell setCellHeight:35];
                 return cell;
             }
             @catch (NSException *exception) {}
         }
     }else{
-        cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"noStopCell"];
+        UITableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"noStopCell"];
         UILabel *infoLabel = (UILabel *)[cell viewWithTag:2003];
         
         if (nearbyStopsFetchErrorMessage) {
@@ -959,9 +942,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }else{
             infoLabel.text = @"No Stops Nearby";
         }
+        
+        return cell;
     }
-	
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -978,6 +961,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 10.0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DepartureTableViewCell *cell = (DepartureTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    if (cell != nil) {
+        [self performSegueWithIdentifier:@"openNearbyStop2" sender:self];
+    }
 }
 
 #pragma mark - Nearby stops list departures methods
@@ -1193,7 +1184,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             
             [mapView removeAnnotations:annotToRemove];
             
-            NSMutableArray *allAnots = [@[] mutableCopy];
+//            NSMutableArray *allAnots = [@[] mutableCopy];
             
             for (BusStopShort *stop in newStops) {
                 UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
@@ -1220,17 +1211,18 @@ CGFloat  kDeparturesRefreshInterval = 60;
                     stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
                 }
                 
-                [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+//                [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
             }
             
-            if (allAnots.count > 0) {
-                @try {
-                    [self.mapView addAnnotations:allAnots];
-                }
-                @catch (NSException *exception) {
-                     NSLog(@"Adding annotations failed!!! Exception %@", exception);
-                }
-            }
+//            if (allAnots.count > 0) {
+//                @try {
+//                    [self.mapView addAnnotations:allAnots];
+//                }
+//                @catch (NSException *exception) {
+//                     NSLog(@"Adding annotations failed!!! Exception %@", exception);
+//                }
+//            }
         }
     }
     @catch (NSException *exception) {
@@ -1662,7 +1654,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 code = (NSString *)stopAnnotation.thumbnail.code;
             }
             
-            [self.reittiDataManager fetchStopsForCode:code andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
+            RTStopSearchParam *searchParam = [RTStopSearchParam new];
+            searchParam.longCode = code;
+            
+            [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
                 if (!errorString) {
                     [self detailStopFetchCompleted:stop];
                 }
@@ -2326,24 +2321,26 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self showStopFetchActivityIndicator:YES];
         numberOfStops ++;
         
-        [self.reittiDataManager fetchStopsForCode:[busStopShort.code stringValue] andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
+        RTStopSearchParam *searchParam = [RTStopSearchParam new];
+        searchParam.longCode = [busStopShort.code stringValue];
+        searchParam.shortCode = busStopShort.codeShort;
+        searchParam.stopName = busStopShort.name;
+        
+        [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString) {
                 [self setDetailStopForBusStopShort:busStopShort busStop:stop];
                 //TODO: better was to find the index
-                NSInteger index = [self busStopShortIndexForCode:busStopShort.code];
-                if (index != NSNotFound && index < 30 && stop.departures && stop.departures.count > 0) /* Update with animation */
-                    [nearbyStopsListsTable reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationBottom];
-                else
-                    [nearbyStopsListsTable reloadData];
+//                NSInteger index = [self busStopShortIndexForCode:busStopShort.code];
+//                if (index != NSNotFound && index < 30 && stop.departures && stop.departures.count > 0) /* Update with animation */
+//                    [nearbyStopsListsTable reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationBottom];
+//                else
+//                    [nearbyStopsListsTable reloadData];
+                [nearbyStopsListsTable reloadData];
             }
             
             numberOfStops--;
             if (numberOfStops == 0)
                 [self showStopFetchActivityIndicator:NO];
-        }];
-        
-        [self.reittiDataManager fetchRealtimeDeparturesForStopName:busStopShort.name andShortCode:busStopShort.codeShort withCompletionHandler:^(NSArray *departures, NSString *error){
-            
         }];
     }
 }

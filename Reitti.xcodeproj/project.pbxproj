@@ -483,6 +483,18 @@
 		66833D291CEE4685005D958C /* DigiTransitCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D261CEE4685005D958C /* DigiTransitCommunicator.m */; };
 		66833D2A1CEE4685005D958C /* DigiTransitCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D261CEE4685005D958C /* DigiTransitCommunicator.m */; };
 		66833D2B1CEE4685005D958C /* DigiTransitCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D261CEE4685005D958C /* DigiTransitCommunicator.m */; };
+		66833D2F1CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */; };
+		66833D301CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */; };
+		66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */; };
+		66833D351CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */; };
+		66833D361CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */; };
+		66833D371CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */; };
+		66833D381CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */; };
+		66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
+		66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
+		66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
+		66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
+		66833D3F1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
 		6683CF141CD3FAB30044727B /* BusStopE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E21A0277780002BE16 /* BusStopE.m */; };
 		6683CF181CD922E70044727B /* MatkaApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6683CF171CD922E70044727B /* MatkaApiClient.m */; };
 		6683CF191CD922E70044727B /* MatkaApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6683CF171CD922E70044727B /* MatkaApiClient.m */; };
@@ -2165,6 +2177,11 @@
 		66833D0F1CEE45CE005D958C /* DigiTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiTrip.m; sourceTree = "<group>"; };
 		66833D251CEE4685005D958C /* DigiTransitCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiTransitCommunicator.h; sourceTree = "<group>"; };
 		66833D261CEE4685005D958C /* DigiTransitCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiTransitCommunicator.m; sourceTree = "<group>"; };
+		66833D2C1CF0BC4D005D958C /* DepartureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepartureTableViewCell.h; sourceTree = "<group>"; };
+		66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DepartureTableViewCell.m; sourceTree = "<group>"; };
+		66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DepartureTableViewCell.xib; sourceTree = "<group>"; };
+		66833D391CF1B89A005D958C /* RTStopSearchParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTStopSearchParam.h; sourceTree = "<group>"; };
+		66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTStopSearchParam.m; sourceTree = "<group>"; };
 		6683CF161CD922E70044727B /* MatkaApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaApiClient.h; sourceTree = "<group>"; };
 		6683CF171CD922E70044727B /* MatkaApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaApiClient.m; sourceTree = "<group>"; };
 		6683CF1B1CD924F90044727B /* MatkaObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaObjectMapping.h; sourceTree = "<group>"; };
@@ -3342,6 +3359,9 @@
 				663E1EF71CA9D98A00C5543A /* AddressTableViewCell.h */,
 				663E1EF81CA9D98A00C5543A /* AddressTableViewCell.m */,
 				663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */,
+				66833D2C1CF0BC4D005D958C /* DepartureTableViewCell.h */,
+				66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */,
+				66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3559,6 +3579,8 @@
 				66822F601C2468A300511BD2 /* StopDeparture.m */,
 				66822F641C24695900511BD2 /* StopLine.h */,
 				66822F651C24695900511BD2 /* StopLine.m */,
+				66833D391CF1B89A005D958C /* RTStopSearchParam.h */,
+				66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */,
 			);
 			name = Stops;
 			sourceTree = "<group>";
@@ -4808,6 +4830,7 @@
 				66160F061C580577005617CE /* Cool-96.png in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66F1383119938B6E00B52B6B /* star-gray-75.png in Resources */,
+				66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				6673775E1ACCCE9E003581B5 /* train-filled-light-64.png in Resources */,
 				660E2F7B1B34386400CE670E /* school-100.png in Resources */,
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
@@ -5134,6 +5157,7 @@
 				66C733F11C556DA5002544BC /* GoogleService-Info.plist in Resources */,
 				66C733F21C556DA5002544BC /* location-75.png in Resources */,
 				66C733F31C556DA5002544BC /* map compas mode white.png in Resources */,
+				66833D351CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66C733F41C556DA5002544BC /* rabbit-light-100.png in Resources */,
 				66C733F51C556DA5002544BC /* bookmark-filled-white-32.png in Resources */,
 				66C733F61C556DA5002544BC /* down-arrow-50.png in Resources */,
@@ -5429,6 +5453,7 @@
 				66C735411C556FA4002544BC /* location-75-red.png in Resources */,
 				66C735421C556FA4002544BC /* advanced-setting-100.png in Resources */,
 				66C735431C556FA4002544BC /* work-filled-100.png in Resources */,
+				66833D371CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66C735441C556FA4002544BC /* shopping-cart-100.png in Resources */,
 				66C735451C556FA4002544BC /* work-black-50.png in Resources */,
 				66C735461C556FA4002544BC /* Library-black-50.png in Resources */,
@@ -5505,6 +5530,7 @@
 				66C735A51C556FB5002544BC /* Park-black-50.png in Resources */,
 				66C735A61C556FB5002544BC /* school-100.png in Resources */,
 				66C735A71C556FB5002544BC /* sitting-filled-grey-64.png in Resources */,
+				66833D381CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66C735A81C556FB5002544BC /* reload-128.png in Resources */,
 				66C735A91C556FB5002544BC /* Up Left-100_grey.png in Resources */,
 				66C735AA1C556FB5002544BC /* location-black-50.png in Resources */,
@@ -5560,6 +5586,7 @@
 				66CA02E91C1715EA00A38858 /* location-75-red.png in Resources */,
 				660D31231C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66CA02EA1C1715EA00A38858 /* work-filled-100.png in Resources */,
+				66833D361CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66CA02F31C1715EA00A38858 /* shopping-cart-100.png in Resources */,
 				6665D7761C0CA6B200ACCC3A /* work-black-50.png in Resources */,
 				6665D76A1C0CA6B200ACCC3A /* Library-black-50.png in Resources */,
@@ -5919,6 +5946,7 @@
 				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
 				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
+				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
 				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
 				6618311F1C0DE1FF00DA979E /* NSDate+SAMAdditions.m in Sources */,
 				660716001B45CD2C00033049 /* TravelCard.m in Sources */,
@@ -6097,6 +6125,7 @@
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
 				66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */,
 				66FD7F9A1CBA614300C6C731 /* MatkaLine.m in Sources */,
+				66833D2F1CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */,
 				E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6166,6 +6195,7 @@
 				66C732E91C556DA5002544BC /* HTMLSerialization.m in Sources */,
 				66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */,
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
+				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66C732EC1C556DA5002544BC /* DetailImageView.m in Sources */,
 				66C732ED1C556DA5002544BC /* NSDate+SAMAdditions.m in Sources */,
 				66C732EE1C556DA5002544BC /* TravelCard.m in Sources */,
@@ -6344,6 +6374,7 @@
 				66C7337F1C556DA5002544BC /* LocationsAnnotation.m in Sources */,
 				66C733801C556DA5002544BC /* HTMLOrderedDictionary.m in Sources */,
 				66FD7F9B1CBA614300C6C731 /* MatkaLine.m in Sources */,
+				66833D301CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */,
 				66C733811C556DA5002544BC /* Vehicle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6394,6 +6425,7 @@
 				666E08D01CD3DF4D0058D5B0 /* MatkaRouteLeg.m in Sources */,
 				66C7351F1C556FA4002544BC /* BusStopE.m in Sources */,
 				666E08D21CD3DF520058D5B0 /* MatkaRouteStop.m in Sources */,
+				66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */,
 				666E08C21CD3DD670058D5B0 /* MatkaStop.m in Sources */,
 				66C735201C556FA4002544BC /* NamedBookmarkE.m in Sources */,
@@ -6425,6 +6457,7 @@
 				66833D191CEE45CE005D958C /* DigiStop.m in Sources */,
 				66833D1E1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				6683CF251CD929080044727B /* MatkaRouteLeg.m in Sources */,
+				66833D3F1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66C7356C1C556FB5002544BC /* WidgetHelpers.m in Sources */,
 				66034D031CE8D91F00EC0769 /* GraphQLQuery.m in Sources */,
 				666E08AA1CD3D9020058D5B0 /* StaticCity.m in Sources */,
@@ -6510,6 +6543,7 @@
 				666E08CF1CD3DF4C0058D5B0 /* MatkaRouteLeg.m in Sources */,
 				66DAC7E31A0277780002BE16 /* BusStopE.m in Sources */,
 				666E08D11CD3DF510058D5B0 /* MatkaRouteStop.m in Sources */,
+				66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				666E08D31CD3DF790058D5B0 /* ReittiMapkitHelper.m in Sources */,
 				666E08C11CD3DD660058D5B0 /* MatkaStop.m in Sources */,
 				66CA02D91C17126800A38858 /* NamedBookmarkE.m in Sources */,

@@ -15,6 +15,6 @@
 +(id)treDigiTransitCommunicator;
 +(id)finlandDigiTransitCommunicator;
 
--(void)fetchStopDetailForCode:(NSString *)stopCode name:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock;
+-(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock;
 
 @end
