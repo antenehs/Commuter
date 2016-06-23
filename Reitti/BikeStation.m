@@ -8,8 +8,20 @@
 
 #import "BikeStation.h"
 #import "ReittiStringFormatter.h"
+#import "RouteLegLocation.h"
 
 @implementation BikeStation
+
++(id)bikeStationFromLegLocation:(RouteLegLocation *)location {
+    BikeStation *station = [BikeStation new];
+    station.name = location.name;
+    station.stationId = location.bikeStationId;
+    station.bikesAvailable = location.bikesAvailable != nil ? location.bikesAvailable : @0;
+    station.spacesAvailable = location.spacesAvailable != nil ? location.spacesAvailable : @0;
+    station.coordinates = location.coords;
+    
+    return station;
+}
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     RKObjectMapping* stationMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];

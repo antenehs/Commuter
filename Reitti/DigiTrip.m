@@ -116,6 +116,11 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
     [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
                                                                                 toKeyPath:@"route"
                                                                               withMapping:[DigiRoute objectMapping]]];
+    
+    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"pattern"
+                                                                                toKeyPath:@"pattern"
+                                                                              withMapping:[DigiPattern objectMapping]]];
+    
     return tripMapping;
 }
 

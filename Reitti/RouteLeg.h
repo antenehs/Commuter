@@ -33,10 +33,12 @@
 #import "MatkaRouteLeg.h"
 #import "MatkaRouteStop.h"
 #import "MatkaRouteLocation.h"
+#import "DigiLegs.h"
 
 @interface RouteLeg : NSObject
 
 +(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg;
++(id)routeLegFromDigiRouteLeg:(DigiLegs *)digiLeg;
 
 -(id)initFromDictionary:(NSDictionary *)legDict;
 -(int)getNumberOfStopsInLeg;

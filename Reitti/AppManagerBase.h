@@ -62,6 +62,7 @@ extern NSString *kProAppRateAppStoreLink;
 +(UIColor *)systemRedColor;
 +(UIColor *)systemCyanColor;
 +(UIColor *)systemPurpleColor;
++(UIColor *)systemYellowColor;
 
 //Sounds
 +(NSArray *)toneNames;

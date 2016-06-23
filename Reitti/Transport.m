@@ -66,6 +66,7 @@
     
     float minWidthForWalkLeg = 20;
     float acceptableWidthForMetroAndFerry = 70;
+    float acceptableWidthForBicycle = 100;
     float acceptableWidthForOthers = 70;
     
     if (routeLeg.lineName != nil) {
@@ -102,7 +103,12 @@
         if (width < acceptableWidthForMetroAndFerry) {
             lineNumberLabel.hidden = YES;
         }
-    }else if(routeLeg.legType == LegTypeWalk){
+    }else if(routeLeg.legType == LegTypeBicycle){
+        lineNumberLabel.text = @"BIKE";
+        if (width < acceptableWidthForBicycle) {
+            lineNumberLabel.hidden = YES;
+        }
+    }else  if(routeLeg.legType == LegTypeWalk){
         lineNumberLabel.hidden = YES;
         if (width < minWidthForWalkLeg) {
             imageView.hidden = YES;

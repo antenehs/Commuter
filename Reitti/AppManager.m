@@ -82,6 +82,8 @@
             return [AppManager systemOrangeColor];
         case LegTypeAirplane:
             return [AppManager systemPurpleColor];
+        case LegTypeBicycle:
+            return [AppManager systemYellowColor];
             
         default:
             return [UIColor darkGrayColor];
@@ -103,6 +105,8 @@
             return [AppManager systemOrangeColor];
         case LineTypeAirplane:
             return [AppManager systemPurpleColor];
+        case LineTypeBicycle:
+            return [AppManager systemYellowColor];
         default:
             return [AppManager systemBlueColor];
             break;
@@ -123,6 +127,8 @@
             return [AppManager systemOrangeColor];
         case StopTypeAirport:
             return [AppManager systemPurpleColor];
+        case StopTypeBikeStation:
+            return [AppManager systemYellowColor];
             
         default:
             return [AppManager systemBlueColor];
@@ -148,6 +154,8 @@
         return @"metroAnnotation3_2.png";
     }else if (stopType == StopTypeAirport) {
         return @"airportStop";
+    }else if (stopType == StopTypeBikeStation) {
+        return @"highAvailBikeAnnotation";
     }else{
         return @"busAnnotation3_2.png";
     }
@@ -203,6 +211,8 @@
             return [UIImage imageNamed:@"longDistTrainColor"];
         case LegTypeAirplane:
             return [UIImage imageNamed:@"airplaneColor"];
+        case LegTypeBicycle:
+            return [UIImage imageNamed:@"bikeYellow"];
             
         default:
             return [UIImage imageNamed:@"bus-filled-blue-100.png"];
@@ -230,6 +240,8 @@
             return [UIImage imageNamed:@"longDistTrainLight"];
         case LegTypeAirplane:
             return [UIImage imageNamed:@"airplaneLight"];
+        case LegTypeBicycle:
+            return [UIImage imageNamed:@"bikeYellow"];
             
         default:
             return [UIImage imageNamed:@"bus-filled-light-100.png"];

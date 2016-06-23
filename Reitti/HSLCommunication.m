@@ -64,48 +64,56 @@
 #pragma mark - Route search protocol implementation
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock{
     
-    NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
-    
-    NSString *username = [self getApiUsername];
-    
-    [optionsDict setValue:username forKey:@"user"];
-    [optionsDict setValue:@"rebekah" forKey:@"pass"];
-    
-    [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:^(NSArray *routeArray, NSError *error){
-        if (!error) {
-            @try {
-                for (Route *route in routeArray) {
-                    for (RouteLeg *leg in route.routeLegs) {
-                        @try {
-                            if (!leg.lineCode)
-                                continue;
-
-                            leg.lineName = [HSLCommunication parseBusNumFromLineCode:leg.lineCode];
-                        }
-                        @catch (NSException *exception) {
-                            leg.lineName = leg.lineCode;
+    if (![options.selectedRouteTrasportTypes containsObject:@"City Bike"]) {
+        NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
+        
+        NSString *username = [self getApiUsername];
+        
+        [optionsDict setValue:username forKey:@"user"];
+        [optionsDict setValue:@"rebekah" forKey:@"pass"];
+        
+        [super searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptionsDictionary:optionsDict andCompletionBlock:^(NSArray *routeArray, NSError *error){
+            if (!error) {
+                @try {
+                    for (Route *route in routeArray) {
+                        for (RouteLeg *leg in route.routeLegs) {
+                            @try {
+                                if (!leg.lineCode)
+                                    continue;
+                                
+                                leg.lineName = [HSLCommunication parseBusNumFromLineCode:leg.lineCode];
+                            }
+                            @catch (NSException *exception) {
+                                leg.lineName = leg.lineCode;
+                            }
                         }
                     }
                 }
+                @catch (NSException *exception) {}
             }
-            @catch (NSException *exception) {}
-        }
-        
-        completionBlock(routeArray, error);
-    }];
+            
+            completionBlock(routeArray, error);
+        }];
+    } else {
+        [self.digiInterface searchRouteForFromCoords:fromCoords andToCoords:toCoords withOptions:options andCompletionBlock:^(NSArray *digiRoutes, NSString *errorString) {
+            
+            if (!errorString && digiRoutes && digiRoutes.count > 0) {
+                NSMutableArray *allRoutes = [@[] mutableCopy];
+                for (DigiPlan *plan in digiRoutes) {
+                    Route *route = [Route routeFromDigiPlan:plan];
+                    if (route) {
+                        [allRoutes addObject:route];
+                    }
+                }
+                completionBlock(allRoutes, nil);
+            } else {
+                completionBlock(nil, @"Route search failed.");
+            }
+        }];
+    }
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRouteFromApi label:@"HSL" value:nil];
 }
-
-//- (void)fetchLineDetailsForRoute:(Route *)route withCompletionBlock:(ActionBlock)completionBlock {
-//    if (!route) return;
-//
-//    [self fetchLineDetailsForRoutes:@[route] withCompletionBlock:completionBlock];
-//}
-//
-//- (void)fetchLineDetailsForRoutes:(NSArray *)routes withCompletionBlock:(ActionBlock)completionBlock {
-//    [self fetchLinesForCodes:@[] withCompletionBlock:completionBlock];
-//}
 
 #pragma mark - Datasource value mapping
 
@@ -207,7 +215,7 @@
 
 #pragma mark - Route Search Options
 -(NSArray *)allTrasportTypeNames{
-    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];//TODO: add city bikes
 }
 
 -(NSArray *)getTransportTypeOptions{
@@ -216,7 +224,11 @@
              @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTrain]},
              @{displayTextOptionKey : @"Tram", valueOptionKey : @"tram", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTram]},
              @{displayTextOptionKey : @"Ferry", valueOptionKey : @"ferry", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeFerry]},
-             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}];
+             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}
+             /*
+             ,
+             @{displayTextOptionKey : @"City Bike", valueOptionKey : @"bike", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBicycle]} */
+             ];
 }
 
 -(NSArray *)getTicketZoneOptions{

@@ -119,7 +119,8 @@ NSString *const kDigiRouteLongName = @"longName";
     [routeMapping addAttributeMappingsFromDictionary:@{
                                                        @"type" : @"type",
                                                        @"shortName" : @"shortName",
-                                                       @"longName"     : @"longName"
+                                                       @"longName"     : @"longName",
+                                                       @"gtfsId"     : @"gtfsId"
                                                        }];
     return routeMapping;
 }

@@ -21,6 +21,9 @@
 -(NSString *)formatPrittyDate:(NSDate *)date;
 -(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 
+-(NSString *)digitransitQueryDateStringFromDate:(NSDate *)date;
+-(NSString *)digitransitQueryTimeStringFromDate:(NSDate *)date;
+
 +(BOOL)isSameDateAsToday:(NSDate *)date1;
 
 @property (nonatomic, strong) NSDateFormatter *apiHourFormatter;
@@ -30,5 +33,8 @@
 @property (nonatomic, strong) NSDateFormatter *hourAndMinFormatter;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDateFormatter *fullDateFormatter;
+
+@property (nonatomic, strong) NSDateFormatter *digiTransitDateFormatter;
+@property (nonatomic, strong) NSDateFormatter *digiTransitTimeFormatter;
 
 @end

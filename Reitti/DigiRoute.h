@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *shortName;
 @property (nonatomic, strong) NSString *longName;
+@property (nonatomic, strong) NSString *gtfsId;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 +(RKObjectMapping *)objectMapping;

@@ -26,6 +26,8 @@
 #import <MapKit/MapKit.h>
 #import <RestKit/RestKit.h>
 
+@class RouteLegLocation;
+
 typedef enum
 {
     NotAvailable = 0,
@@ -34,6 +36,8 @@ typedef enum
 } Availability;
 
 @interface BikeStation : NSObject
+
++(id)bikeStationFromLegLocation:(RouteLegLocation *)location;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 -(BOOL)isValid;

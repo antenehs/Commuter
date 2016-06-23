@@ -89,6 +89,8 @@
             return StopTypeAirport;
         case LegTypeOther:
             return StopTypeOther;
+        case LegTypeBicycle:
+            return StopTypeBikeStation;
         default:
             return StopTypeOther;
     }
@@ -199,6 +201,8 @@
             return LineTypeAirplane;
         case StopTypeOther:
             return LineTypeOther;
+        case StopTypeBikeStation:
+            return LineTypeBicycle;
         default:
             return LineTypeBus;
     }
@@ -217,8 +221,10 @@
         return LegTypeBus;
     }else if (lineType == LineTypeLongDistanceTrain) {
         return LegTypeLongDistanceTrain;
-    }else if (lineType == VehicleTypeAirplane) {
+    }else if (lineType == LineTypeAirplane) {
         return LegTypeAirplane;
+    }else if (lineType == LineTypeBicycle) {
+        return LegTypeBicycle;
     }else{
         return LegTypeOther;
     }
@@ -317,6 +323,45 @@
 
 + (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType {
     LineType lineType = [EnumManager lineTypeForMatkaTrasportType:trasportType];
+    return [EnumManager legTrasportTypeForLineType:lineType];
+}
+
+
+//Digi transitType
++ (LineType)lineTypeForDigiLineType:(NSString *)trasportType {
+    if (!trasportType) return LineTypeBus;
+    
+    if ([trasportType.uppercaseString isEqualToString:@"BUS"] ||
+        [trasportType.uppercaseString isEqualToString:@"BUSISH"]) {
+        return LineTypeBus;
+    }else if ([trasportType.uppercaseString isEqualToString:@"RAIL"] ||
+              [trasportType.uppercaseString isEqualToString:@"TRAINISH"] ||
+              [trasportType.uppercaseString isEqualToString:@"FUNICULAR"]) {
+        return LineTypeTrain;
+    }else if ([trasportType.uppercaseString isEqualToString:@"TRAM"]) {
+        return LineTypeTram;
+    }else if ([trasportType.uppercaseString isEqualToString:@"SUBWAY"]) {
+        return LineTypeMetro;
+    }else if ([trasportType.uppercaseString isEqualToString:@"AIRPLANE"]) {
+        return LineTypeAirplane;
+    }else if ([trasportType.uppercaseString isEqualToString:@"FERRY"] ||
+              [trasportType.uppercaseString isEqualToString:@"GONDOLA"]) {
+        return LineTypeFerry;
+    }else if ([trasportType.uppercaseString isEqualToString:@"WALK"]) {
+        return LineTypeOther;
+    }else if ([trasportType.uppercaseString isEqualToString:@"BICYCLE"]) {
+        return LineTypeBicycle;
+    }else {
+        return LineTypeBus;
+    }
+}
+
++ (LegTransportType)legTypeForDigiTrasportType:(NSString *)trasportType {
+    if ([trasportType.uppercaseString isEqualToString:@"WALK"]) {
+        return LegTypeWalk;
+    }
+    
+    LineType lineType = [EnumManager lineTypeForDigiLineType:trasportType];
     return [EnumManager legTrasportTypeForLineType:lineType];
 }
 

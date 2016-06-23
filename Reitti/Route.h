@@ -38,10 +38,12 @@
 #import "RouteLegLocation.h"
 #import <MapKit/MapKit.h>
 #import "MatkaRoute.h"
+#import "DigiPlan.h"
 
 @interface Route : NSObject
 
 +(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
++(id)routeFromDigiPlan:(DigiPlan *)digiPlan;
 
 -(double)getTotalWalkLength;
 -(float)getLengthRatioInRoute:(RouteLeg *)leg;

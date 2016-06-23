@@ -356,7 +356,8 @@
         }
         
         if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram || leg.legType == LegTypeBus || leg.legType == LegTypeTrain ) {
-            [tempOthersArray addObject:leg.lineCode];
+            if (leg.lineCode)
+                [tempOthersArray addObject:leg.lineCode];
         }
     }
     
@@ -649,7 +650,7 @@
     MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:shapeCount];
     [routeMapView addOverlay:polyline];
     
-    if (leg.legType != LegTypeWalk) {
+    if (leg.legType != LegTypeWalk && leg.legLocations && leg.legLocations.count > 0) {
         [self plotTransferAnnotation:[leg.legLocations objectAtIndex:0]];
         if (leg.legOrder != self.route.routeLegs.count) {
             [self plotTransferAnnotation:[leg.legLocations lastObject]];
@@ -664,7 +665,7 @@
         polylineRenderer.strokeColor  = [UIColor yellowColor];
         polylineRenderer.borderColor = [UIColor blackColor];
         polylineRenderer.borderMultiplier = 1.1;
-        polylineRenderer.lineWidth	  = 7.0f;
+        polylineRenderer.lineWidth	  = 8.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         
@@ -689,6 +690,12 @@
     NSString * name = loc.name;
     NSString * shortCode = loc.shortCode;
     
+    BikeStation *station = nil;
+    if (loc.locationLegType == LegTypeBicycle) {
+        station = [BikeStation bikeStationFromLegLocation:loc];
+        shortCode = [NSString stringWithFormat:@"%@ - %@", station.bikesAvailableString, station.spacesAvailableString];
+    }
+    
     if (name == nil || name == (id)[NSNull null]) {
         name = @"";
     }
@@ -703,6 +710,8 @@
     
     if (loc.locationLegType == LegTypeWalk) {
         newAnnotation.imageNameForView = @"";
+    }else if (loc.locationLegType == LegTypeBicycle && station) {
+        newAnnotation.imageNameForView = [AppManager stationAnnotionImageNameForBikeStation:station];
     }else{
         newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:loc.locationLegType]];
     }
@@ -1647,6 +1656,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             nextLegLine.backgroundColor = darkerGrayColor;
             nextLegLine.image = nil;
             
+            //Get head sign for routes fetched from digi transit
             NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
             NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
             if (destination != nil) {

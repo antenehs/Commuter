@@ -75,6 +75,7 @@ typedef enum
     refreshingRouteTable = NO;
     nextRoutesRequested = NO;
     prevRoutesRequested = NO;
+    isShowingOptionsView = NO;
     
     tableReloadAnimatedMode = NO;
     tableRowNumberForAnimation = 0;
@@ -113,8 +114,10 @@ typedef enum
     if (toolBarIsShowing) {
         [self hideToolBar:NO animated:YES];
     }
-    [self refreshData];
+    if (!isShowingOptionsView)
+        [self refreshData];
     
+    isShowingOptionsView = NO;
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
@@ -1750,6 +1753,8 @@ typedef enum
         routeOptionsTableViewController.settingsManager = settingsManager;
         routeOptionsTableViewController.routeSearchOptions = [localRouteSearchOptions copy];
         routeOptionsTableViewController.routeOptionSelectionDelegate = self;
+        
+        isShowingOptionsView = YES;
     }
     
     if ([segue.identifier isEqualToString:@"showRouteDisruptions"]) {

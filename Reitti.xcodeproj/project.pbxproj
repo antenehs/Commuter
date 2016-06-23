@@ -495,6 +495,41 @@
 		66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
 		66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
 		66833D3F1CF1B89B005D958C /* RTStopSearchParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */; };
+		66833D4C1CF8F426005D958C /* DigiPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D411CF8F425005D958C /* DigiPlace.m */; };
+		66833D4D1CF8F426005D958C /* DigiPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D411CF8F425005D958C /* DigiPlace.m */; };
+		66833D4E1CF8F426005D958C /* DigiPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D411CF8F425005D958C /* DigiPlace.m */; };
+		66833D4F1CF8F427005D958C /* DigiPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D411CF8F425005D958C /* DigiPlace.m */; };
+		66833D501CF8F427005D958C /* DigiPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D411CF8F425005D958C /* DigiPlace.m */; };
+		66833D511CF8F427005D958C /* DigiGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D431CF8F425005D958C /* DigiGeometry.m */; };
+		66833D521CF8F427005D958C /* DigiGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D431CF8F425005D958C /* DigiGeometry.m */; };
+		66833D531CF8F427005D958C /* DigiGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D431CF8F425005D958C /* DigiGeometry.m */; };
+		66833D541CF8F427005D958C /* DigiGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D431CF8F425005D958C /* DigiGeometry.m */; };
+		66833D551CF8F427005D958C /* DigiGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D431CF8F425005D958C /* DigiGeometry.m */; };
+		66833D561CF8F427005D958C /* DigiIntermediateStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D451CF8F425005D958C /* DigiIntermediateStops.m */; };
+		66833D571CF8F427005D958C /* DigiIntermediateStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D451CF8F425005D958C /* DigiIntermediateStops.m */; };
+		66833D581CF8F427005D958C /* DigiIntermediateStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D451CF8F425005D958C /* DigiIntermediateStops.m */; };
+		66833D591CF8F427005D958C /* DigiIntermediateStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D451CF8F425005D958C /* DigiIntermediateStops.m */; };
+		66833D5A1CF8F427005D958C /* DigiIntermediateStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D451CF8F425005D958C /* DigiIntermediateStops.m */; };
+		66833D5B1CF8F427005D958C /* DigiPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D471CF8F425005D958C /* DigiPlan.m */; };
+		66833D5C1CF8F427005D958C /* DigiPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D471CF8F425005D958C /* DigiPlan.m */; };
+		66833D5D1CF8F427005D958C /* DigiPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D471CF8F425005D958C /* DigiPlan.m */; };
+		66833D5E1CF8F427005D958C /* DigiPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D471CF8F425005D958C /* DigiPlan.m */; };
+		66833D5F1CF8F427005D958C /* DigiPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D471CF8F425005D958C /* DigiPlan.m */; };
+		66833D601CF8F427005D958C /* DigiLegs.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D491CF8F425005D958C /* DigiLegs.m */; };
+		66833D611CF8F427005D958C /* DigiLegs.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D491CF8F425005D958C /* DigiLegs.m */; };
+		66833D621CF8F427005D958C /* DigiLegs.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D491CF8F425005D958C /* DigiLegs.m */; };
+		66833D631CF8F427005D958C /* DigiLegs.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D491CF8F425005D958C /* DigiLegs.m */; };
+		66833D641CF8F427005D958C /* DigiLegs.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D491CF8F425005D958C /* DigiLegs.m */; };
+		66833D651CF8F427005D958C /* DigiPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D4B1CF8F425005D958C /* DigiPattern.m */; };
+		66833D661CF8F427005D958C /* DigiPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D4B1CF8F425005D958C /* DigiPattern.m */; };
+		66833D671CF8F427005D958C /* DigiPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D4B1CF8F425005D958C /* DigiPattern.m */; };
+		66833D681CF8F427005D958C /* DigiPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D4B1CF8F425005D958C /* DigiPattern.m */; };
+		66833D691CF8F427005D958C /* DigiPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D4B1CF8F425005D958C /* DigiPattern.m */; };
+		66833D6C1CF99FE4005D958C /* DigiBikeRentalStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */; };
+		66833D6D1CF99FE4005D958C /* DigiBikeRentalStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */; };
+		66833D6E1CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */; };
+		66833D6F1CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */; };
+		66833D701CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */; };
 		6683CF141CD3FAB30044727B /* BusStopE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E21A0277780002BE16 /* BusStopE.m */; };
 		6683CF181CD922E70044727B /* MatkaApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6683CF171CD922E70044727B /* MatkaApiClient.m */; };
 		6683CF191CD922E70044727B /* MatkaApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6683CF171CD922E70044727B /* MatkaApiClient.m */; };
@@ -2182,6 +2217,20 @@
 		66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DepartureTableViewCell.xib; sourceTree = "<group>"; };
 		66833D391CF1B89A005D958C /* RTStopSearchParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTStopSearchParam.h; sourceTree = "<group>"; };
 		66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTStopSearchParam.m; sourceTree = "<group>"; };
+		66833D401CF8F425005D958C /* DigiPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiPlace.h; sourceTree = "<group>"; };
+		66833D411CF8F425005D958C /* DigiPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiPlace.m; sourceTree = "<group>"; };
+		66833D421CF8F425005D958C /* DigiGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiGeometry.h; sourceTree = "<group>"; };
+		66833D431CF8F425005D958C /* DigiGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiGeometry.m; sourceTree = "<group>"; };
+		66833D441CF8F425005D958C /* DigiIntermediateStops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiIntermediateStops.h; sourceTree = "<group>"; };
+		66833D451CF8F425005D958C /* DigiIntermediateStops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiIntermediateStops.m; sourceTree = "<group>"; };
+		66833D461CF8F425005D958C /* DigiPlan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiPlan.h; sourceTree = "<group>"; };
+		66833D471CF8F425005D958C /* DigiPlan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiPlan.m; sourceTree = "<group>"; };
+		66833D481CF8F425005D958C /* DigiLegs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiLegs.h; sourceTree = "<group>"; };
+		66833D491CF8F425005D958C /* DigiLegs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiLegs.m; sourceTree = "<group>"; };
+		66833D4A1CF8F425005D958C /* DigiPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiPattern.h; sourceTree = "<group>"; };
+		66833D4B1CF8F425005D958C /* DigiPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiPattern.m; sourceTree = "<group>"; };
+		66833D6A1CF99FE3005D958C /* DigiBikeRentalStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiBikeRentalStation.h; sourceTree = "<group>"; };
+		66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiBikeRentalStation.m; sourceTree = "<group>"; };
 		6683CF161CD922E70044727B /* MatkaApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaApiClient.h; sourceTree = "<group>"; };
 		6683CF171CD922E70044727B /* MatkaApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaApiClient.m; sourceTree = "<group>"; };
 		6683CF1B1CD924F90044727B /* MatkaObjectMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaObjectMapping.h; sourceTree = "<group>"; };
@@ -2722,6 +2771,20 @@
 		66034D041CE8E43500EC0769 /* DigiModels */ = {
 			isa = PBXGroup;
 			children = (
+				66833D401CF8F425005D958C /* DigiPlace.h */,
+				66833D411CF8F425005D958C /* DigiPlace.m */,
+				66833D6A1CF99FE3005D958C /* DigiBikeRentalStation.h */,
+				66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */,
+				66833D421CF8F425005D958C /* DigiGeometry.h */,
+				66833D431CF8F425005D958C /* DigiGeometry.m */,
+				66833D441CF8F425005D958C /* DigiIntermediateStops.h */,
+				66833D451CF8F425005D958C /* DigiIntermediateStops.m */,
+				66833D461CF8F425005D958C /* DigiPlan.h */,
+				66833D471CF8F425005D958C /* DigiPlan.m */,
+				66833D481CF8F425005D958C /* DigiLegs.h */,
+				66833D491CF8F425005D958C /* DigiLegs.m */,
+				66833D4A1CF8F425005D958C /* DigiPattern.h */,
+				66833D4B1CF8F425005D958C /* DigiPattern.m */,
 				66833D071CEE45CE005D958C /* DigiDataModels.h */,
 				66833D081CEE45CE005D958C /* DigiRoute.h */,
 				66833D091CEE45CE005D958C /* DigiRoute.m */,
@@ -5927,6 +5990,7 @@
 				660D312A1C3425F60051DDAA /* LinesManager.m in Sources */,
 				66CB961418EEE46100E95CE5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				6684BECC1CB151C80053AAE1 /* TREVehicle.m in Sources */,
+				66833D6C1CF99FE4005D958C /* DigiBikeRentalStation.m in Sources */,
 				667B98341AD5863300C45ADF /* ReittiNotificationHelper.m in Sources */,
 				66FD7F9E1CBA843900C6C731 /* MatkaGeoCode.m in Sources */,
 				664E28871ADAC90100BE2457 /* HSLCommunication.m in Sources */,
@@ -5939,6 +6003,7 @@
 				66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStop.m in Sources */,
+				66833D511CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
 				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
@@ -5958,6 +6023,7 @@
 				666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */,
 				6665D7841C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */,
 				665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */,
+				66833D5B1CF8F427005D958C /* DigiPlan.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
@@ -6006,6 +6072,7 @@
 				66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */,
 				66CC941618E2304600644281 /* HistoryEntity.m in Sources */,
 				66947D00188C58C400642EE1 /* StopViewController.m in Sources */,
+				66833D651CF8F427005D958C /* DigiPattern.m in Sources */,
 				66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */,
 				66F099691AE6ECD700F20D34 /* TSBlurView.m in Sources */,
 				66F0996B1AE6ECD700F20D34 /* TSMessageView.m in Sources */,
@@ -6029,6 +6096,7 @@
 				661090C71B36D037003F2688 /* LinesTableViewController.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,
 				66CA033A1C1778DD00A38858 /* KBPopupDrawableView.m in Sources */,
+				66833D601CF8F427005D958C /* DigiLegs.m in Sources */,
 				66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */,
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
@@ -6056,6 +6124,7 @@
 				660715FD1B45CD2C00033049 /* ProductNames.m in Sources */,
 				66F0996E1AE6EDDD00F20D34 /* HexColor.m in Sources */,
 				66CB960118EEE2B500E95CE5 /* CustomeTableViewCell.m in Sources */,
+				66833D561CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66CA03261C17466E00A38858 /* ASABubbleView.m in Sources */,
 				66056E731C42AAFE00C011FB /* VehicleRef.m in Sources */,
 				66F3FAEA1B4473A200DAA5B4 /* NSString+HTMLEntities.m in Sources */,
@@ -6124,6 +6193,7 @@
 				661831221C0DE22000DA979E /* NSDate+Helper.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
 				66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */,
+				66833D4C1CF8F426005D958C /* DigiPlace.m in Sources */,
 				66FD7F9A1CBA614300C6C731 /* MatkaLine.m in Sources */,
 				66833D2F1CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */,
 				E2F4648B2F3EB635288B2AA3 /* Vehicle.m in Sources */,
@@ -6176,6 +6246,7 @@
 				66C732DC1C556DA5002544BC /* LinesManager.m in Sources */,
 				66C732DD1C556DA5002544BC /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */,
+				66833D6D1CF99FE4005D958C /* DigiBikeRentalStation.m in Sources */,
 				66C732DE1C556DA5002544BC /* ReittiNotificationHelper.m in Sources */,
 				66FD7F9F1CBA843900C6C731 /* MatkaGeoCode.m in Sources */,
 				66C732DF1C556DA5002544BC /* HSLCommunication.m in Sources */,
@@ -6188,6 +6259,7 @@
 				66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				66C732E41C556DA5002544BC /* StopLines.m in Sources */,
 				66C732E51C556DA5002544BC /* LineStop.m in Sources */,
+				66833D521CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
 				66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */,
 				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,
@@ -6207,6 +6279,7 @@
 				66C732F41C556DA5002544BC /* ToneSelectorTableViewController.m in Sources */,
 				66C732F51C556DA5002544BC /* UITableView+Helper.m in Sources */,
 				665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */,
+				66833D5C1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
 				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
@@ -6255,6 +6328,7 @@
 				66C733171C556DA5002544BC /* HTMLString.m in Sources */,
 				66C733181C556DA5002544BC /* HistoryEntity.m in Sources */,
 				66C733191C556DA5002544BC /* StopViewController.m in Sources */,
+				66833D661CF8F427005D958C /* DigiPattern.m in Sources */,
 				66C7331A1C556DA5002544BC /* RoutePreviewView.m in Sources */,
 				66C7331B1C556DA5002544BC /* TSBlurView.m in Sources */,
 				66C7331C1C556DA5002544BC /* TSMessageView.m in Sources */,
@@ -6278,6 +6352,7 @@
 				66C7332C1C556DA5002544BC /* LinesTableViewController.m in Sources */,
 				66C7332D1C556DA5002544BC /* ReittiManagedObjectBase.m in Sources */,
 				66C7332E1C556DA5002544BC /* KBPopupDrawableView.m in Sources */,
+				66833D611CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C7332F1C556DA5002544BC /* EnumManager.m in Sources */,
 				66C733301C556DA5002544BC /* RouteHistoryEntity.m in Sources */,
 				66C733311C556DA5002544BC /* SettingsEntity.m in Sources */,
@@ -6305,6 +6380,7 @@
 				66C733441C556DA5002544BC /* ProductNames.m in Sources */,
 				66C733451C556DA5002544BC /* HexColor.m in Sources */,
 				66C733461C556DA5002544BC /* CustomeTableViewCell.m in Sources */,
+				66833D571CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C733471C556DA5002544BC /* ASABubbleView.m in Sources */,
 				66C733481C556DA5002544BC /* VehicleRef.m in Sources */,
 				66C733491C556DA5002544BC /* NSString+HTMLEntities.m in Sources */,
@@ -6373,6 +6449,7 @@
 				66C7337E1C556DA5002544BC /* NSDate+Helper.m in Sources */,
 				66C7337F1C556DA5002544BC /* LocationsAnnotation.m in Sources */,
 				66C733801C556DA5002544BC /* HTMLOrderedDictionary.m in Sources */,
+				66833D4D1CF8F426005D958C /* DigiPlace.m in Sources */,
 				66FD7F9B1CBA614300C6C731 /* MatkaLine.m in Sources */,
 				66833D301CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */,
 				66C733811C556DA5002544BC /* Vehicle.m in Sources */,
@@ -6386,13 +6463,17 @@
 				66C7350D1C556FA4002544BC /* UITableViewCell+Helper.m in Sources */,
 				66C7350E1C556FA4002544BC /* UIButton+Helper.m in Sources */,
 				6683CF201CD924F90044727B /* MatkaObjectMapping.m in Sources */,
+				66833D631CF8F427005D958C /* DigiLegs.m in Sources */,
+				66833D591CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C7350F1C556FA4002544BC /* KBPopupBubbleView+Animations.m in Sources */,
+				66833D6F1CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,
 				666E08A61CD3D6F90058D5B0 /* ReittiRegionManager.m in Sources */,
 				666E08C61CD3DD7E0058D5B0 /* MatkaLine.m in Sources */,
 				66C735101C556FA4002544BC /* UISearchBar+Helper.m in Sources */,
 				66C735111C556FA4002544BC /* TREAPIClient.m in Sources */,
 				666E08C81CD3DD820058D5B0 /* MatkaGeoCode.m in Sources */,
 				666E08CE1CD3DF470058D5B0 /* MatkaRouteLocation.m in Sources */,
+				66833D541CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66C735131C556FA4002544BC /* RouteLegLocationE.m in Sources */,
 				66C735141C556FA4002544BC /* NSObject+Helper.m in Sources */,
 				66C735151C556FA4002544BC /* UICollectionViewLeftAlignedLayout.m in Sources */,
@@ -6401,12 +6482,14 @@
 				666E08CC1CD3DF420058D5B0 /* MatkaRoute.m in Sources */,
 				66F60DED1C83610900B33511 /* HSLAPIClient.m in Sources */,
 				666E08CA1CD3DEEC0058D5B0 /* ReittiDateFormatter.m in Sources */,
+				66833D5E1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C735161C556FA4002544BC /* RouteLegE.m in Sources */,
 				66F60DEF1C83611700B33511 /* HSLRouteOptionManager.m in Sources */,
 				66C735171C556FA4002544BC /* AppManagerBase.m in Sources */,
 				66C735181C556FA4002544BC /* StopLine.m in Sources */,
 				666E08B91CD3DBFF0058D5B0 /* ReittiStringFormatter.m in Sources */,
 				666E08971CD3D6BB0058D5B0 /* EnumManager.m in Sources */,
+				66833D4F1CF8F427005D958C /* DigiPlace.m in Sources */,
 				666E08C41CD3DD6C0058D5B0 /* MatkaName.m in Sources */,
 				6683CF191CD922E70044727B /* MatkaApiClient.m in Sources */,
 				66C735191C556FA4002544BC /* RouteE.m in Sources */,
@@ -6431,6 +6514,7 @@
 				66C735201C556FA4002544BC /* NamedBookmarkE.m in Sources */,
 				66C735211C556FA4002544BC /* ASABubbleView.m in Sources */,
 				66C735221C556FA4002544BC /* KBPopupBubbleView.m in Sources */,
+				66833D681CF8F427005D958C /* DigiPattern.m in Sources */,
 				66C735231C556FA4002544BC /* HslAndTreApi.m in Sources */,
 				66C735241C556FA4002544BC /* TodayViewController.m in Sources */,
 				66C735251C556FA4002544BC /* StopDeparture.m in Sources */,
@@ -6461,14 +6545,20 @@
 				66C7356C1C556FB5002544BC /* WidgetHelpers.m in Sources */,
 				66034D031CE8D91F00EC0769 /* GraphQLQuery.m in Sources */,
 				666E08AA1CD3D9020058D5B0 /* StaticCity.m in Sources */,
+				66833D501CF8F427005D958C /* DigiPlace.m in Sources */,
 				6683CF241CD929050044727B /* MatkaRouteLocation.m in Sources */,
+				66833D5F1CF8F427005D958C /* DigiPlan.m in Sources */,
 				665BA1B81CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
+				66833D691CF8F427005D958C /* DigiPattern.m in Sources */,
 				66C7356D1C556FB5002544BC /* AppManagerBase.m in Sources */,
 				66C7356E1C556FB5002544BC /* TREAPIClient.m in Sources */,
+				66833D5A1CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C7356F1C556FB5002544BC /* TransportE.m in Sources */,
 				66C735711C556FB5002544BC /* TodayViewController.m in Sources */,
 				666E08BA1CD3DC000058D5B0 /* ReittiStringFormatter.m in Sources */,
 				6683CF211CD924F90044727B /* MatkaObjectMapping.m in Sources */,
+				66833D701CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,
+				66833D641CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C735721C556FB5002544BC /* WidgetDataManager.m in Sources */,
 				66C735731C556FB5002544BC /* KBPopupDrawableView.m in Sources */,
 				66F60DE71C7F8FEE00B33511 /* NSString+Split.m in Sources */,
@@ -6480,6 +6570,7 @@
 				6683CF1A1CD922E70044727B /* MatkaApiClient.m in Sources */,
 				66C735761C556FB5002544BC /* UIView+Helper.m in Sources */,
 				6683CF291CD929140044727B /* MatkaLine.m in Sources */,
+				66833D551CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66C735771C556FB5002544BC /* NSObject+Helper.m in Sources */,
 				66C735781C556FB5002544BC /* KBPopupBubbleView.m in Sources */,
 				66C735791C556FB5002544BC /* UIButton+Helper.m in Sources */,
@@ -6504,13 +6595,17 @@
 				6665D77A1C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
 				661AB3AF1C22E2E30061E1F6 /* UIButton+Helper.m in Sources */,
 				6683CF1F1CD924F90044727B /* MatkaObjectMapping.m in Sources */,
+				66833D621CF8F427005D958C /* DigiLegs.m in Sources */,
+				66833D581CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66CA03381C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */,
+				66833D6E1CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,
 				666E08A51CD3D6F80058D5B0 /* ReittiRegionManager.m in Sources */,
 				666E08C51CD3DD7D0058D5B0 /* MatkaLine.m in Sources */,
 				661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,
 				660CFE1A1C19A168004D73FC /* TREAPIClient.m in Sources */,
 				666E08C71CD3DD810058D5B0 /* MatkaGeoCode.m in Sources */,
 				666E08CD1CD3DF460058D5B0 /* MatkaRouteLocation.m in Sources */,
+				66833D531CF8F427005D958C /* DigiGeometry.m in Sources */,
 				660CFE2E1C19B81A004D73FC /* RouteLegLocationE.m in Sources */,
 				66822F801C2B6C4100511BD2 /* NSObject+Helper.m in Sources */,
 				660D31311C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */,
@@ -6519,12 +6614,14 @@
 				666E08CB1CD3DF410058D5B0 /* MatkaRoute.m in Sources */,
 				66F60DEE1C83610A00B33511 /* HSLAPIClient.m in Sources */,
 				666E08C91CD3DEEC0058D5B0 /* ReittiDateFormatter.m in Sources */,
+				66833D5D1CF8F427005D958C /* DigiPlan.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66F60DF01C83611900B33511 /* HSLRouteOptionManager.m in Sources */,
 				66CA02D31C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66822F671C24695900511BD2 /* StopLine.m in Sources */,
 				666E08B81CD3DBFE0058D5B0 /* ReittiStringFormatter.m in Sources */,
 				666E08961CD3D6BA0058D5B0 /* EnumManager.m in Sources */,
+				66833D4E1CF8F426005D958C /* DigiPlace.m in Sources */,
 				666E08C31CD3DD6B0058D5B0 /* MatkaName.m in Sources */,
 				6683CF181CD922E70044727B /* MatkaApiClient.m in Sources */,
 				660CFE2C1C19B81A004D73FC /* RouteE.m in Sources */,
@@ -6549,6 +6646,7 @@
 				66CA02D91C17126800A38858 /* NamedBookmarkE.m in Sources */,
 				66CA03271C17466E00A38858 /* ASABubbleView.m in Sources */,
 				66CA03351C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
+				66833D671CF8F427005D958C /* DigiPattern.m in Sources */,
 				66DAC7E01A0276690002BE16 /* HslAndTreApi.m in Sources */,
 				66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */,
 				66822F621C2468A300511BD2 /* StopDeparture.m in Sources */,

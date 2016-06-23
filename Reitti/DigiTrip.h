@@ -8,10 +8,12 @@
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
 #import "DigiRoute.h"
+#import "DigiPattern.h"
 
 @interface DigiTrip : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) DigiRoute *route;
+@property (nonatomic, strong) DigiPattern *pattern;
 @property (nonatomic, strong) NSString *tripHeadsign;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;

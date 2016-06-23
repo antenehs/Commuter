@@ -156,4 +156,28 @@
     return route;
 }
 
++(id)routeFromDigiPlan:(DigiPlan *)digiPlan {
+    Route *route = [[Route alloc] init];
+    
+    route.routeLength = digiPlan.distance;
+    route.routeDurationInSeconds = digiPlan.duration;
+    route.numberOfNoneWalkLegs = digiPlan.numberOfNoneWalkLegs;
+    route.startingTimeOfRoute = digiPlan.parsedStartTime;
+    route.endingTimeOfRoute = digiPlan.parsedEndTime;
+    route.timeAtTheFirstStop = digiPlan.timeAtFirstStop;
+    route.startCoords = digiPlan.startCoords;
+    route.destinationCoords = digiPlan.destinationCoords;
+    
+    NSMutableArray *allLegs = [@[] mutableCopy];
+    for (DigiLegs *digiLeg in digiPlan.legs) {
+        RouteLeg *leg = [RouteLeg routeLegFromDigiRouteLeg:digiLeg];
+        if (leg)
+            [allLegs addObject:leg];
+    }
+    
+    route.routeLegs = allLegs;
+    
+    return route;
+}
+
 @end

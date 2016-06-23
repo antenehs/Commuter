@@ -8,6 +8,7 @@
 
 #import "RouteLegLocation.h"
 #import "ASA_Helpers.h"
+#import "DigiDataModels.h"
 
 
 @implementation RouteLegLocation
@@ -97,6 +98,46 @@
     loc.stopCode = matkaStop.stopId;
     loc.shortCode = matkaStop.stopCode;
     loc.stopAddress = matkaStop.name;
+    
+    return loc;
+}
+
++(RouteLegLocation *)routeLocationFromDigiPlace:(DigiPlace *)digiPlace {
+    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
+    
+    //TODO: Parse date from trip
+    loc.arrTime = nil;
+    loc.depTime = nil;
+    loc.name = digiPlace.name;
+    loc.coords = digiPlace.coords;
+    loc.coordsString = [NSString stringWithFormat:@"%f,%f", digiPlace.coords.longitude, digiPlace.coords.latitude];
+    
+    if (digiPlace.intermediateStop) {
+        loc.stopCode = digiPlace.intermediateStop.gtfsId;
+        loc.shortCode = digiPlace.intermediateStop.code;
+        loc.stopAddress = digiPlace.intermediateStop.name;
+    }
+    
+    if (digiPlace.bikeRentalStation) {
+        loc.bikeStationId = digiPlace.bikeRentalStation.stationId;
+        loc.bikesAvailable = digiPlace.bikeRentalStation.bikesAvailable;
+        loc.spacesAvailable = digiPlace.bikeRentalStation.spacesAvailable;
+    }
+    
+    return loc;
+}
+
++(RouteLegLocation *)routeLocationFromDigiIntermidiateStop:(DigiIntermediateStops *)digiStop {
+    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
+    
+    loc.arrTime = nil;
+    loc.depTime = nil;
+    loc.name = digiStop.name;
+    loc.coords = digiStop.coords;
+    loc.coordsString = [NSString stringWithFormat:@"%f,%f", digiStop.coords.longitude, digiStop.coords.latitude];
+    loc.stopCode = digiStop.gtfsId;
+    loc.shortCode = digiStop.code;
+    loc.stopAddress = digiStop.name;
     
     return loc;
 }

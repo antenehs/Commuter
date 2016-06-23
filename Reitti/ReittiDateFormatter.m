@@ -91,6 +91,25 @@
     return _fullDateFormatter;
 }
 
+-(NSDateFormatter *)digiTransitDateFormatter {
+    if (!_digiTransitDateFormatter) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
+        _digiTransitDateFormatter = formatter;
+    }
+    
+    return _digiTransitDateFormatter;
+}
+
+-(NSDateFormatter *)digiTransitTimeFormatter {
+    if (!_digiTransitTimeFormatter) {
+        _digiTransitTimeFormatter = self.hourAndMinFormatter;
+    }
+    
+    return _digiTransitTimeFormatter;
+}
+
 #pragma mark - Public methods
 /**
 Expected format @"YYYYMMdd" and @"HHmm"
@@ -247,6 +266,14 @@ Expected format @"YYYYMMdd" and @"HHmm"
             [today month] == [otherDay month] &&
             [today year] == [otherDay year] &&
             [today era] == [otherDay era]);
+}
+
+-(NSString *)digitransitQueryDateStringFromDate:(NSDate *)date {
+    return [self.digiTransitDateFormatter stringFromDate:date];
+}
+
+-(NSString *)digitransitQueryTimeStringFromDate:(NSDate *)date {
+    return [self.digiTransitTimeFormatter stringFromDate:date];
 }
 
 @end

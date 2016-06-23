@@ -86,6 +86,8 @@
     BOOL nextRoutesRequested;
     BOOL prevRoutesRequested;
     
+    BOOL isShowingOptionsView;
+    
     BOOL toolBarIsShowing;
     
     NSMutableDictionary *lineDetailMap;

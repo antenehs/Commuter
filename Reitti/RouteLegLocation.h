@@ -17,6 +17,8 @@
 #import "EnumManager.h"
 #import "MatkaRouteLocation.h"
 #import "MatkaRouteStop.h"
+#import "DigiIntermediateStops.h"
+#import "DigiPlace.h"
 //#import "RouteLegs.m"
 
 @interface RouteLegLocation : NSObject
@@ -27,6 +29,9 @@
 +(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation;
 +(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop;
 
++(RouteLegLocation *)routeLocationFromDigiPlace:(DigiPlace *)digiPlace;
++(RouteLegLocation *)routeLocationFromDigiIntermidiateStop:(DigiIntermediateStops *)digiStop;
+
 @property(nonatomic) bool isHeaderLocation;
 @property (nonatomic) LegTransportType locationLegType;
 @property (nonatomic) int locationLegOrder;
@@ -35,9 +40,15 @@
 @property (nonatomic, retain) NSDate * arrTime;
 @property (nonatomic, retain) NSDate * depTime;
 @property (nonatomic, retain) NSString * name;
+
 @property (nonatomic, retain) NSString * stopCode;
 @property (nonatomic, retain) NSString * shortCode;
 @property (nonatomic, retain) NSString * stopAddress;
+
+@property (nonatomic, retain) NSString * bikeStationId;
+@property (nonatomic, retain) NSNumber * bikesAvailable;
+@property (nonatomic, retain) NSNumber * spacesAvailable;
+
 
 @property (nonatomic, retain) NSString * coordsString;
 @property (nonatomic) CLLocationCoordinate2D coords;
