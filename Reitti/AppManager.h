@@ -25,6 +25,11 @@
 +(UIColor *)colorForLineType:(LineType)lineType;
 +(UIColor *)colorForStopType:(StopType)stopType;
 
++(NSString *)iosDeviceName;
++(NSString *)iosDeviceModel;
++(NSString *)iosVersionNumber;
++(NSString *)iosDeviceUniqueIdentifier;
+
 //App images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;
 +(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType;

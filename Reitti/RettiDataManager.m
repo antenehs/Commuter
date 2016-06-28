@@ -98,6 +98,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     self.cacheManager = [CacheManager sharedManager];
     
+    self.communicationManager = [WatchCommunicationManager sharedManager];
+    
     HSLGeocodeResposeQueue = [@[] mutableCopy];
     TREGeocodeResponseQueue = [@[] mutableCopy];
     
@@ -819,10 +821,13 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         [namedBookmarkDictionaries addObject:[nmdBookmark dictionaryRepresentation]];
     }
     
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesWidgetSuitName]];
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
     
     [sharedDefaults setObject:namedBookmarkDictionaries forKey:kUserDefaultsNamedBookmarksKey];
     [sharedDefaults synchronize];
+    
+    //Update bookmarks to watch
+    [self.communicationManager transferUserInfo:@{kUserDefaultsNamedBookmarksKey : namedBookmarkDictionaries}];
 }
 
 -(void)updateSourceApiForStops:(NSArray *)savedStops {
@@ -1049,7 +1054,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     NSDictionary *routeOptions = [self.settingsEntity.globalRouteOptions dictionaryRepresentation];
     
     if (routeOptions) {
-        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesWidgetSuitName]];
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
         
         [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
         [sharedDefaults synchronize];

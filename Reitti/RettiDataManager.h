@@ -23,6 +23,7 @@
 #import "ICloudManager.h"
 #import "ReittiRegionManager.h"
 #import "RTStopSearchParam.h"
+#import "WatchCommunicationManager.h"
 
 @class StopEntity;
 @class HistoryEntity;
@@ -188,5 +189,6 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 @property(nonatomic, strong) HSLLiveTrafficManager *hslLiveTrafficManager;
 @property(nonatomic, strong) TRELiveTrafficManager *treLiveTrafficManager;
 @property(nonatomic, strong) CacheManager *cacheManager;
+@property(nonatomic, strong) WatchCommunicationManager *communicationManager;
 
 @end

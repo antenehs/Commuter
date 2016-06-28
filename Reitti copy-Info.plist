@@ -72,6 +72,7 @@
 		<string>MKDirectionsModeFerry</string>
 		<string>MKDirectionsModeOther</string>
 		<string>MKDirectionsModePedestrian</string>
+		<string>MKDirectionsModePlane</string>
 		<string>MKDirectionsModeSubway</string>
 		<string>MKDirectionsModeTrain</string>
 	</array>

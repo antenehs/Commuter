@@ -34,13 +34,9 @@ extern NSString *kProAppRateAppStoreLink;
 
 +(BOOL)isProVersion;
 
-+(NSString *)iosDeviceName;
-+(NSString *)iosDeviceModel;
-+(NSString *)iosVersionNumber;
-+(NSString *)iosDeviceUniqueIdentifier;
-
 +(NSString *)nsUserDefaultsStopsWidgetSuitName;
-+(NSString *)nsUserDefaultsRoutesWidgetSuitName;
++(NSString *)nsUserDefaultsRoutesExtensionSuitName;
++(NSString *)nsUserDefaultsWatchRoutesSuitName;
 
 +(NSString *)appFullName;
 

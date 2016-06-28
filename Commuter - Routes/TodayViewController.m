@@ -81,7 +81,7 @@
 }
 
 - (void)readNamedBookmarksFromUserDefaults {
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesWidgetSuitName]];
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesExtensionSuitName]];
     NSArray *namedBookmarkDictionaries = [self.sharedDefaults objectForKey:kUserDefaultsNamedBookmarksKey];
 //    NSLog(@"%@", namedBookmarkDictionaries);
     
@@ -96,7 +96,7 @@
 }
 
 - (void)readRouteSearchOptionsFromUserDefaults {
-    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesWidgetSuitName]];
+    self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesExtensionSuitName]];
     self.routeSearchOptionsDictionary = [self.sharedDefaults objectForKey:kUserDefaultsRouteSearchOptionsKey];
 //    NSLog(@"%@", self.routeSearchOptionsDictionary);
 }

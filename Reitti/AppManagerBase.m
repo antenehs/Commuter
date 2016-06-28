@@ -11,7 +11,8 @@
 //group.com.ewketApps.commuterDepartures
 NSString *kUserDefaultsSuitNameForDeparturesWidget = @"group.com.ewketApps.commuterDepartures";
 NSString *kUserDefaultsSuitNameForProDeparturesWidget = @"group.com.ewketApps.commuterProDepartures";
-NSString *kUserDefaultsSuitNameForRoutesWidget = @"group.com.ewketApps.commuterProRoutes";
+NSString *kUserDefaultsSuitNameForRoutesExtension = @"group.com.ewketApps.commuterProRoutes";
+NSString *KUserDefaultsSuitNameForWatchRoutes = @"group.com.ewketApps.commuterWatchRoutes";
 
 NSString *kUserDefaultsNamedBookmarksKey = @"namedBookmarksDictionary";
 NSString *kUserDefaultsSavedStopsKey = @"StopCodes";
@@ -78,22 +79,6 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
     return YES;
 }
 
-+(NSString *)iosDeviceName{
-    return [[UIDevice currentDevice] name];
-}
-
-+(NSString *)iosDeviceModel{
-    return [[UIDevice currentDevice] model];
-}
-
-+(NSString *)iosVersionNumber{
-    return [[UIDevice currentDevice] systemVersion];
-}
-
-+(NSString *)iosDeviceUniqueIdentifier{
-    return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-}
-
 +(NSString *)nsUserDefaultsStopsWidgetSuitName{
     if ([self isProVersion])
         return kUserDefaultsSuitNameForProDeparturesWidget;
@@ -101,8 +86,12 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
         return kUserDefaultsSuitNameForDeparturesWidget;
 }
 
-+(NSString *)nsUserDefaultsRoutesWidgetSuitName{
-    return kUserDefaultsSuitNameForRoutesWidget;
++(NSString *)nsUserDefaultsRoutesExtensionSuitName{
+    return kUserDefaultsSuitNameForRoutesExtension;
+}
+
++(NSString *)nsUserDefaultsWatchRoutesSuitName{
+    return KUserDefaultsSuitNameForWatchRoutes;
 }
 
 +(NSString *)appFullName{

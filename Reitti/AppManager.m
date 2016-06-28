@@ -136,6 +136,23 @@
     }
 }
 
+#pragma mark - device related
++(NSString *)iosDeviceName{
+    return [[UIDevice currentDevice] name];
+}
+
++(NSString *)iosDeviceModel{
+    return [[UIDevice currentDevice] model];
+}
+
++(NSString *)iosVersionNumber{
+    return [[UIDevice currentDevice] systemVersion];
+}
+
++(NSString *)iosDeviceUniqueIdentifier{
+    return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+}
+
 #pragma mark - system images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType{
     return [UIImage imageNamed:[AppManager stopAnnotationImageNameForStopType:stopType]];

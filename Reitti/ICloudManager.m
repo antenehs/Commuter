@@ -43,7 +43,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForNamedBookmark:(NamedBookmark *)namedBookmark {
-    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", [namedBookmark getUniqueIdentifier], [AppManagerBase iosDeviceUniqueIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", [namedBookmark getUniqueIdentifier], [AppManager iosDeviceUniqueIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -77,7 +77,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForStopEntity:(StopEntity *)stop {
-    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [AppManagerBase iosDeviceUniqueIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [AppManager iosDeviceUniqueIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -106,7 +106,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForRouteEntity:(RouteEntity *)route {
-    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [AppManagerBase iosDeviceUniqueIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [AppManager iosDeviceUniqueIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -330,8 +330,8 @@ NSString *SavedRouteType = @"SavedRoute";
         return;
     
     for (CKRecord *record in records) {
-        record[kRecordDeviceName] = [AppManagerBase iosDeviceName];
-        record[kRecordDeviceUniqueId] = [AppManagerBase iosDeviceUniqueIdentifier];
+        record[kRecordDeviceName] = [AppManager iosDeviceName];
+        record[kRecordDeviceUniqueId] = [AppManager iosDeviceUniqueIdentifier];
     }
     
     CKModifyRecordsOperation *modifOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:records recordIDsToDelete: nil];

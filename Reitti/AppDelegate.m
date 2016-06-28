@@ -21,6 +21,7 @@
 #import "MainTabBarController.h"
 #import "RettiDataManager.h"
 #import "ReittiRegionManager.h"
+#import "WatchCommunicationManager.h"
 
 @implementation AppDelegate
 
@@ -36,6 +37,10 @@
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
+    WatchCommunicationManager *communicationManager = [WatchCommunicationManager sharedManager];
+    [communicationManager sendMessage:@{@"Name" : @"Object"} replyHandler:^(NSDictionary *replay){
+        
+    }];
     
     //Check if notification is allowed.
     if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {

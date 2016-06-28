@@ -186,6 +186,10 @@
     return coord;
 }
 
++(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord{
+    return [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
+}
+
 +(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset{
     BOOL istommorrow = NO;
     NSDate *offsettedDate;
