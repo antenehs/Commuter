@@ -9,7 +9,9 @@
 #import <WatchKit/WatchKit.h>
 #import <Foundation/Foundation.h>
 #import "WatchCommunicationManager.h"
+#import "HomeAndWorkRowController.h"
+#import "LocationRowController.h"
 
-@interface HomeInterfaceController : WKInterfaceController <WCManagerDelegate>
+@interface HomeInterfaceController : WKInterfaceController <WCManagerDelegate, HomeAndWorkRowControllerDelegate>
 
 @end

@@ -478,6 +478,7 @@
     
     NSDictionary *myDictionary = [NSDictionary dictionaryWithObject:[bookmark getUniqueIdentifier] forKey:@"bookmark"];
     [[NSUserDefaults standardUserDefaults] setObject:myDictionary forKey:@"previousSelectedBookmark"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSInteger)getLastSelectedBookmarkIndexFromCahce{

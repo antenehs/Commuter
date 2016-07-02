@@ -65,7 +65,7 @@
 //                }
 //            }
             
-//            completionBlock(responseArray, nil);
+            completionBlock(nil, nil);
         }else{
             completionBlock(nil, error);
         }
