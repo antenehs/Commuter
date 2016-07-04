@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 
 #import "Route.h"
-#import "ReittiStringFormatter.h"
 #import "ASA_Helpers.h"
 
 @interface Route ()
@@ -114,7 +113,7 @@
         RouteLeg *firstLeg = [self.routeLegs firstObject];
         RouteLegLocation *firstLocation = [firstLeg.legLocations firstObject];
         
-        _startCoords = [ReittiStringFormatter convertStringTo2DCoord:firstLocation.coordsString];
+        _startCoords = [firstLocation.coordsString convertTo2DCoord];
     }
     
     return _startCoords;
@@ -125,11 +124,73 @@
         RouteLeg *lastLeg = [self.routeLegs lastObject];
         RouteLegLocation *lastLocation = [lastLeg.legLocations lastObject];
         
-        _destinationCoords = [ReittiStringFormatter convertStringTo2DCoord:lastLocation.coordsString];
+        _destinationCoords = [lastLocation.coordsString convertTo2DCoord];
     }
     
     return _destinationCoords;
 }
+
+#pragma mark - To and from dictionary
++(instancetype)initFromDictionary: (NSDictionary *)dictionary {
+    if (!dictionary) return nil;
+    
+    Route *route = [Route new];
+    route.routeLength = [route objectOrNilForKey:@"routeLength" fromDictionary:dictionary];
+    route.routeDurationInSeconds = [route objectOrNilForKey:@"routeDurationInSeconds" fromDictionary:dictionary];
+    route.fromLocationName = [route objectOrNilForKey:@"fromLocationName" fromDictionary:dictionary];
+    route.toLocationName = [route objectOrNilForKey:@"toLocationName" fromDictionary:dictionary];
+    
+    NSMutableArray *legs = [@[] mutableCopy];
+    NSArray *legDictionaries = [route objectOrNilForKey:@"routeLegs" fromDictionary:dictionary];
+    for (NSDictionary *legDict in legDictionaries) {
+        RouteLeg *leg = [RouteLeg initFromDictionary:legDict];
+        if (leg) [legs addObject:leg];
+    }
+    
+    route.routeLegs = legs;
+    
+    route.numberOfNoneWalkLegs = [route objectOrNilForKey:@"numberOfNoneWalkLegs" fromDictionary:dictionary];
+    route.startingTimeOfRoute = [route objectOrNilForKey:@"startingTimeOfRoute" fromDictionary:dictionary];
+    route.endingTimeOfRoute = [route objectOrNilForKey:@"endingTimeOfRoute" fromDictionary:dictionary];
+    route.timeAtTheFirstStop = [route objectOrNilForKey:@"timeAtTheFirstStop" fromDictionary:dictionary];
+    
+    NSString *startCoordsString = [route objectOrNilForKey:@"startCoords" fromDictionary:dictionary];
+    route.startCoords = [startCoordsString convertTo2DCoord];
+    
+    NSString *destCoordsString = [route objectOrNilForKey:@"destinationCoords" fromDictionary:dictionary];
+    route.destinationCoords = [destCoordsString convertTo2DCoord];
+    
+    return route;
+}
+
+-(NSDictionary *)dictionaryRepresentation{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.routeLength forKey:@"routeLength"];
+    [mutableDict setValue:self.routeDurationInSeconds forKey:@"routeDurationInSeconds"];
+    [mutableDict setValue:self.fromLocationName forKey:@"fromLocationName"];
+    [mutableDict setValue:self.toLocationName forKey:@"toLocationName"];
+    
+    NSMutableArray *legDictArray = [@[] mutableCopy];
+    for (RouteLeg *leg in self.routeLegs) {
+        NSDictionary *legDict = [leg dictionaryRepresentation];
+        if (legDict) [legDictArray addObject:legDict];
+    }
+    
+    [mutableDict setValue:legDictArray forKey:@"routeLegs"];
+    
+    [mutableDict setValue:self.numberOfNoneWalkLegs forKey:@"numberOfNoneWalkLegs"];
+    [mutableDict setValue:self.startingTimeOfRoute forKey:@"startingTimeOfRoute"];
+    [mutableDict setValue:self.endingTimeOfRoute forKey:@"endingTimeOfRoute"];
+    [mutableDict setValue:self.timeAtTheFirstStop forKey:@"timeAtTheFirstStop"];
+    
+    [mutableDict setValue:[NSString stringRepresentationOf2DCoord:self.startCoords] forKey:@"startCoords"];
+    [mutableDict setValue:[NSString stringRepresentationOf2DCoord:self.destinationCoords] forKey:@"destinationCoords"];
+    
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+
+#ifndef APPLE_WATCH
 
 #pragma mark - Conversion from matka object
 +(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute {
@@ -179,5 +240,15 @@
     
     return route;
 }
+#endif
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
+}
+
+
 
 @end

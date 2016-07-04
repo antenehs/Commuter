@@ -104,17 +104,18 @@
                     <items>
                         <table alignment="left" spacing="0.0" id="jSb-9h-yY8">
                             <items>
-                                <tableRow identifier="WalkRow" selectable="NO" id="HWf-1j-I1J">
+                                <tableRow identifier="RouteLegRow" selectable="NO" id="HWf-1j-I1J" customClass="RouteLegRowController">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" spacing="4" id="tzR-Tj-c3N">
                                         <items>
                                             <group width="22" height="1" alignment="left" layout="vertical" spacing="0.0" id="f20-4N-mMI" userLabel="Time line">
                                                 <items>
-                                                    <group width="1" alignment="left" id="BjC-R4-aX9">
+                                                    <group width="1" height="10" alignment="left" spacing="0.0" id="BjC-R4-aX9">
                                                         <items>
-                                                            <separator height="10" alignment="center" id="uBf-aO-Zll">
+                                                            <separator height="1" alignment="center" id="uBf-aO-Zll">
                                                                 <color key="color" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             </separator>
                                                         </items>
+                                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                                     </group>
                                                     <group width="22" height="22" alignment="center" radius="10" id="63d-ke-AEm">
                                                         <items>
@@ -124,12 +125,13 @@
                                                         </items>
                                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     </group>
-                                                    <group width="1" alignment="left" id="zPg-Lc-RKV">
+                                                    <group width="1" alignment="left" spacing="0.0" id="zPg-Lc-RKV">
                                                         <items>
                                                             <separator width="100" height="1" alignment="center" verticalAlignment="bottom" id="nG7-uV-L3E">
                                                                 <color key="color" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             </separator>
                                                         </items>
+                                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                                     </group>
                                                 </items>
                                                 <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
@@ -173,6 +175,16 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                     </group>
+                                    <connections>
+                                        <outlet property="currentLegLine" destination="nG7-uV-L3E" id="XcI-wt-cmr"/>
+                                        <outlet property="detailLabel" destination="gyU-y2-wDi" id="vXB-iH-IOE"/>
+                                        <outlet property="legTypeImage" destination="CVy-pq-9vw" id="wlK-s4-XDR"/>
+                                        <outlet property="legTypeImageGroup" destination="63d-ke-AEm" id="Xby-3H-d6U"/>
+                                        <outlet property="locationLabel" destination="V8s-zT-ULy" id="OKu-w3-YMf"/>
+                                        <outlet property="previousLegLine" destination="uBf-aO-Zll" id="xST-pG-0aE"/>
+                                        <outlet property="timeLabel" destination="oFM-3m-HX7" id="hJ3-2P-Hmo"/>
+                                        <outlet property="transportNameLabel" destination="YKy-J4-iYh" id="nK4-ON-YG8"/>
+                                    </connections>
                                 </tableRow>
                             </items>
                         </table>

@@ -179,10 +179,24 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
     [self initDeparturesRefreshTimer];
+    [self initDisruptionFetching];
+    
+    //StartVehicleFetching
+    if ([settingsManager shouldShowLiveVehicles]) {
+        [self startFetchingLiveVehicles];
+    }else{
+        [self removeAllVehicleAnnotation];
+    }
+    
+    [self startFetchingBikeStations];
 }
 
 - (void)appWillEnterBackground:(NSNotification *)notification {
     [departuresRefreshTimer invalidate];
+    [refreshTimer invalidate];
+    
+    [reittiDataManager stopFetchingLiveVehicles];
+    [reittiDataManager stopUpdatingBikeStations];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -1988,24 +2002,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (void)showDisruptionCustomBadge:(bool)show{
-//    if (customBadge == nil && show) {
-//        customBadge = [CustomBadge customBadgeWithString:@"!"
-//                                                      withStringColor:[UIColor whiteColor]
-//                                                       withInsetColor:[UIColor colorWithRed:230.0/255.0 green:126.0/255.0 blue:34.0/255.0 alpha:1.0] withBadgeFrame:YES
-//                                                  withBadgeFrameColor:[UIColor whiteColor]
-//                                                            withScale:1.0
-//                                                          withShining:NO];
-//        [customBadge setFrame:CGRectMake(infoAndAboutButton.frame.origin.x + infoAndAboutButton.frame.size.width - 3 - customBadge.frame.size.width/2, infoAndAboutButton.frame.origin.y - customBadge.frame.size.height/2, customBadge.frame.size.width, customBadge.frame.size.height)];
-//        
-//        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOnBadgeDetected)];
-//        tapGesture.delegate = self;
-//        
-//        [customBadge addGestureRecognizer:tapGesture];
-//        
-//        [rightNavButtonsView addSubview:customBadge];
-//    }else{
-//        customBadge.hidden = !show;
-//    }
     UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:4];
 
     if (show) {
@@ -2021,28 +2017,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 
 #pragma mark - text field mehthods
-
-//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-//    
-////    [self.view endEditing:YES];
-////    
-////    if (![searchBar.text isEqualToString:@""]) {
-////        [self requestStopInfoAsyncForCode:[searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-////        [self showProgressHUD];
-////    }
-//}
-
-//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-//    
-//}
-
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     [self performSegueWithIdentifier: @"addressSearchController" sender: self];
 }
-
-//- (void)searchBarTextDidEndEditing:(UISearchBar *)thisSearchBar {
-//    //[thisSearchBar setFrame:searchBarFrame];
-//}
 
 #pragma - mark View transition methods
 
@@ -2050,14 +2027,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:mainSearchBar.text toCoords:prevSearchedCoords fromLocation:nil fromCoords:nil];
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
-
-//- (void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName{
-//    NamedBookmark *bookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForName:bookmarkName];
-//    if (bookmark) {
-//        RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:bookmark.name toCoords:bookmark.coords fromLocation:@"Current location" fromCoords:nil];
-//        [self switchToRouteSearchViewWithRouteParameter:searchParms];
-//    }
-//}
 
 -(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute{
     RouteEntity *route = [self.reittiDataManager fetchSavedRouteFromCoreDataForCode:savedRoute];

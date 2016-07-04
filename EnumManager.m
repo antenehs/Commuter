@@ -286,6 +286,7 @@
 
 //Matka Api stuff
 + (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType {
+    //TODO: This needs to be dynamic. Some IDs changed.
     if (!trasportType) return LineTypeBus;
     NSArray *busTypes = @[@1, @8, @9, @10, @11, @15, @16, @17, @19, @21, @23, @25, @27, @28, @29
                           , @31, @32, @33, @34, @35, @37, @38, @39, @42, @43, @44, @45, @48
@@ -293,11 +294,11 @@
                           , @62, @63, @64, @65, @66, @67, @68, @69, @70];
     
     NSArray *trainTypes = @[@7, @12, @13, @46];
-    NSArray *longdistanceTrainTypes = @[@2, @3, @4, @5, @6, @14, @47];
+    NSArray *longdistanceTrainTypes = @[@2, @3, @4, @5, @6, @14, @26, @47];
     NSArray *metroTypes = @[@40];
     NSArray *tramTypes = @[@36];
-    NSArray *ferryTypes = @[@41];
-    NSArray *airplaneTypes = @[@26];
+    NSArray *ferryTypes = @[@9];
+    NSArray *airplaneTypes = @[@41];
     NSArray *otherTypes = @[@18, @30];
     
     if ([busTypes containsObject:trasportType]) {

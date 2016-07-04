@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+
+#ifndef APPLE_WATCH
 #import <ArcGIS/ArcGIS.h>
+#endif
 
 @interface ReittiStringFormatter : NSObject
 
@@ -20,16 +23,21 @@
 //+(NSString *)formatHourStringFromDate:(NSDate *)date;
 +(NSString *)formatDurationString:(NSInteger)seconds;
 +(NSString *)formatFullDurationString:(NSInteger)seconds;
-+(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
-+(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize;
+
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData;
 +(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator;
-+(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
-+(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
-+(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
 //+(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;
 +(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp;
+
+#ifndef APPLE_WATCH
++(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
++(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize;
++(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
+
++(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
++(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
+#endif
 
 @end

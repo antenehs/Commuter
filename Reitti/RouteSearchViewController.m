@@ -21,6 +21,7 @@
 #import "ASA_Helpers.h"
 #import "TableViewCells.h"
 #import "ReittiDateFormatter.h"
+#import "WatchCommunicationManager.h"
 
 typedef enum
 {
@@ -800,7 +801,22 @@ typedef enum
     [self setBookmarkButtonStatus];
     [self hideToolBar:NO animated:YES];
     
+    [self sendRoutesToWatch:searchedRouteList];
 }
+
+- (void)sendRoutesToWatch:(NSArray *)routes {
+    if (!routes) return;
+    NSMutableArray *routeDictionaries = [@[] mutableCopy];
+    for (Route *route in routes) {
+        route.fromLocationName = fromString;
+        route.toLocationName = toString;
+        NSDictionary *routeDict = [route dictionaryRepresentation];
+        if (routeDict) [routeDictionaries addObject:routeDict];
+    }
+    
+    if (routeDictionaries) [[WatchCommunicationManager sharedManager] transferRoutes:routeDictionaries];
+}
+
 - (void)routeSearchDidFail:(NSString *)error{
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
     [self.refreshControl endRefreshing];

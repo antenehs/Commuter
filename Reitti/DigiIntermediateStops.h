@@ -6,8 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import <MapKit/MapKit.h>
+
+#ifndef APPLE_WATCH
+#import <RestKit/RestKit.h>
+#endif
 
 @interface DigiIntermediateStops : NSObject <NSCoding, NSCopying>
 
@@ -23,7 +26,11 @@
 
 @property (nonatomic)CLLocationCoordinate2D coords;
 
+#ifndef APPLE_WATCH
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 +(RKObjectMapping *)objectMapping;
+#endif
+
+
 
 @end

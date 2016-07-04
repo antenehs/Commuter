@@ -37,10 +37,7 @@
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
-    WatchCommunicationManager *communicationManager = [WatchCommunicationManager sharedManager];
-    [communicationManager sendMessage:@{@"Name" : @"Object"} replyHandler:^(NSDictionary *replay){
-        
-    }];
+    [WatchCommunicationManager sharedManager];
     
     //Check if notification is allowed.
     if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {

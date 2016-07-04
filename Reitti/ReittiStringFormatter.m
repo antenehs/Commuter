@@ -92,54 +92,6 @@
     
 }
 
-+(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font{
-    
-    UIFont *smallerFont = [font fontWithSize:16.0];
-    
-    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-    [numbersDict setObject:font forKey:NSFontAttributeName];
-    
-    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
-    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
-    
-    
-    int minutes = (int)(seconds/60);
-    if (minutes > 59) {
-        NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)(minutes/60)] attributes:numbersDict];
-        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"h " attributes:stringsDict]];
-        
-        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", minutes % 60] attributes:numbersDict]];
-        
-        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"min" attributes:stringsDict]];
-        
-        return formattedString;
-    }else{
-        NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", minutes] attributes:numbersDict];
-        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"min" attributes:stringsDict]];
-        
-        return formattedString;
-    }
-    
-}
-
-+(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize{
-    
-    UIFont *smallerFont = [font fontWithSize:smallFontSize];
-    
-//    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-//    [numbersDict setObject:font forKey:NSFontAttributeName];
-    
-    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
-    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
-    
-    
-    NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:numberString attributes:numbersDict];
-    [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:unitString attributes:stringsDict]];
-    
-    return formattedString;
-}
-
 //Expected format is XXXXXXXX of numbers
 +(NSString *)formatHSLDateWithDots:(NSString *)hslData{
     if (hslData.length != 8 || [hslData intValue] == 0) {
@@ -185,37 +137,6 @@
     }
 }
 
-+(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
-//    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
-    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[AppManagerBase systemOrangeColor] forKey:NSForegroundColorAttributeName];
-    [subStringDict setObject:font forKey:NSFontAttributeName];
-    
-    NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-    
-    if (text == nil)
-        return nil;
-    
-    if (substring == nil)
-        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
-    
-    if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)
-        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
-    
-    NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
-    
-    NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
-    
-    NSMutableAttributedString *notHightlighted1 = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
-    
-    NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:[text substringFromIndex:location.location + location.length ] attributes:restStringDict];
-    
-    [notHightlighted1 appendAttributedString:highlighted];
-    [notHightlighted1 appendAttributedString:notHightlighted2];
-    
-    return notHightlighted1;
-    
-}
-
 //Expected format longitude,latitude
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString{
     NSArray *coords = [coordString componentsSeparatedByString:@","];
@@ -231,6 +152,21 @@
     return [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
 }
 
++(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    [formatter setMaximumFractionDigits:roundPoints];
+    
+    [formatter setRoundingMode: roundUp? NSNumberFormatterRoundUp : NSNumberFormatterRoundDown];
+    
+    NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:doubleVal]];
+    
+    return numberString;
+}
+
+#ifndef APPLE_WATCH
 +(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord {
     if (!xCoord || !yCoord)
         return @"0,0";
@@ -258,18 +194,84 @@
     return kkj3Point;
 }
 
-+(NSString *)formatRoundedNumberFromDouble:(double)doubleVal roundDigits:(int)roundPoints androundUp:(BOOL)roundUp{
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
++(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font{
     
-    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    UIFont *smallerFont = [font fontWithSize:16.0];
     
-    [formatter setMaximumFractionDigits:roundPoints];
+    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+    [numbersDict setObject:font forKey:NSFontAttributeName];
     
-    [formatter setRoundingMode: roundUp? NSNumberFormatterRoundUp : NSNumberFormatterRoundDown];
+    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
+    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
     
-    NSString *numberString = [formatter stringFromNumber:[NSNumber numberWithFloat:doubleVal]];
     
-    return numberString;
+    int minutes = (int)(seconds/60);
+    if (minutes > 59) {
+        NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)(minutes/60)] attributes:numbersDict];
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"h " attributes:stringsDict]];
+        
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", minutes % 60] attributes:numbersDict]];
+        
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"min" attributes:stringsDict]];
+        
+        return formattedString;
+    }else{
+        NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", minutes] attributes:numbersDict];
+        [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@"min" attributes:stringsDict]];
+        
+        return formattedString;
+    }
+    
 }
+
++(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize{
+    
+    UIFont *smallerFont = [font fontWithSize:smallFontSize];
+    
+    //    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+    //    [numbersDict setObject:font forKey:NSFontAttributeName];
+    
+    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
+    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
+    
+    
+    NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:numberString attributes:numbersDict];
+    [formattedString appendAttributedString:[[NSMutableAttributedString alloc] initWithString:unitString attributes:stringsDict]];
+    
+    return formattedString;
+}
+
++(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
+    //    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
+    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[AppManagerBase systemOrangeColor] forKey:NSForegroundColorAttributeName];
+    [subStringDict setObject:font forKey:NSFontAttributeName];
+    
+    NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+    
+    if (text == nil)
+        return nil;
+    
+    if (substring == nil)
+        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+    
+    if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)
+        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+    
+    NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
+    
+    NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
+    
+    NSMutableAttributedString *notHightlighted1 = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
+    
+    NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:[text substringFromIndex:location.location + location.length ] attributes:restStringDict];
+    
+    [notHightlighted1 appendAttributedString:highlighted];
+    [notHightlighted1 appendAttributedString:notHightlighted2];
+    
+    return notHightlighted1;
+}
+
+#endif
 
 @end

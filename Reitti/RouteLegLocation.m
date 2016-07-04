@@ -8,8 +8,10 @@
 
 #import "RouteLegLocation.h"
 #import "ASA_Helpers.h"
-#import "DigiDataModels.h"
 
+#ifndef APPLE_WATCH
+#import "DigiDataModels.h"
+#endif
 
 @implementation RouteLegLocation
 
@@ -25,17 +27,17 @@
 @synthesize shortCode;
 @synthesize stopAddress;
 
--(id)initFromDictionary:(NSDictionary *)legDict{
+-(id)initFromHSLandTREDictionary:(NSDictionary *)legDict{
     if (self = [super init]) {
         self.coordsDictionary = legDict[@"coord"];
         self.coordsString = [NSString stringWithFormat:@"%@,%@",self.coordsDictionary[@"x"],self.coordsDictionary[@"y"]];
         
-        self.arrTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:legDict[@"arrTime"]];
-        self.depTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:legDict[@"depTime"]];
-        self.name = legDict[@"name"];
-        self.stopCode = legDict[@"code"];
-        self.shortCode = legDict[@"shortCode"];
-        self.stopAddress = legDict[@"stopAddress"];
+        self.arrTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:[self objectOrNilForKey:@"arrTime" fromDictionary:legDict]];
+        self.depTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:[self objectOrNilForKey:@"depTime" fromDictionary:legDict]];
+        self.name = [self objectOrNilForKey:@"name" fromDictionary:legDict];
+        self.stopCode = [self objectOrNilForKey:@"code" fromDictionary:legDict];
+        self.shortCode = [self objectOrNilForKey:@"shortCode" fromDictionary:legDict];
+        self.stopAddress = [self objectOrNilForKey:@"stopAddress" fromDictionary:legDict];
         
 //        NSLog(@"leg is %@",self);
     }
@@ -75,6 +77,50 @@
     return _coords;
 }
 
+#pragma mark - Dictionary representation
++(instancetype)initFromDictionary: (NSDictionary *)dictionary {
+    if (!dictionary) return nil;
+    
+    RouteLegLocation *location = [RouteLegLocation new];
+    location.coordsDictionary = [location objectOrNilForKey:@"coordsDictionary" fromDictionary:dictionary];
+    location.arrTime = [location objectOrNilForKey:@"arrTime" fromDictionary:dictionary];
+    location.depTime = [location objectOrNilForKey:@"depTime" fromDictionary:dictionary];
+    location.name = [location objectOrNilForKey:@"locName" fromDictionary:dictionary];
+    location.stopCode = [location objectOrNilForKey:@"stopCode" fromDictionary:dictionary];
+    location.shortCode = [location objectOrNilForKey:@"shortCode" fromDictionary:dictionary];
+    location.stopAddress = [location objectOrNilForKey:@"stopAddress" fromDictionary:dictionary];
+    location.bikeStationId = [location objectOrNilForKey:@"bikeStationId" fromDictionary:dictionary];
+    location.bikesAvailable = [location objectOrNilForKey:@"bikesAvailable" fromDictionary:dictionary];
+    location.spacesAvailable = [location objectOrNilForKey:@"spacesAvailable" fromDictionary:dictionary];
+    
+    location.locationLegType = [[location objectOrNilForKey:@"locationLegType" fromDictionary:dictionary] intValue];
+    location.isHeaderLocation = [[location objectOrNilForKey:@"isHeaderLocation" fromDictionary:dictionary] boolValue];
+    location.locationLegOrder = [[location objectOrNilForKey:@"locationLegOrder" fromDictionary:dictionary] intValue];
+    
+    return location;
+}
+
+-(NSDictionary *)dictionaryRepresentation{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.coordsDictionary forKey:@"coordsDictionary"];
+    [mutableDict setValue:self.arrTime forKey:@"arrTime"];
+    [mutableDict setValue:self.depTime forKey:@"depTime"];
+    [mutableDict setValue:self.name forKey:@"locName"];
+    [mutableDict setValue:self.stopCode forKey:@"stopCode"];
+    [mutableDict setValue:self.shortCode forKey:@"shortCode"];
+    [mutableDict setValue:self.stopAddress forKey:@"stopAddress"];
+    [mutableDict setValue:self.bikeStationId forKey:@"bikeStationId"];
+    [mutableDict setValue:self.bikesAvailable forKey:@"bikesAvailable"];
+    [mutableDict setValue:self.spacesAvailable forKey:@"spacesAvailable"];
+    
+    [mutableDict setValue:[NSNumber numberWithInt:(int)self.locationLegType] forKey:@"locationLegType"];
+    [mutableDict setValue:[NSNumber numberWithBool:self.isHeaderLocation] forKey:@"isHeaderLocation"];
+    [mutableDict setValue:[NSNumber numberWithInt:self.locationLegOrder] forKey:@"locationLegOrder"];
+    
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+#ifndef APPLE_WATCH
 +(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation {
     RouteLegLocation *loc = [[RouteLegLocation alloc] init];
     
@@ -140,6 +186,18 @@
     loc.stopAddress = digiStop.name;
     
     return loc;
+}
+#endif
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [self objectOrNil:object];
+}
+
+- (id)objectOrNil:(id)object {
+    return [object isEqual:[NSNull null]] ? nil : object;
 }
 
 @end

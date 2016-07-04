@@ -137,6 +137,8 @@
 }
 
 #pragma mark - device related
+
+#ifndef APPLE_WATCH
 +(NSString *)iosDeviceName{
     return [[UIDevice currentDevice] name];
 }
@@ -152,6 +154,7 @@
 +(NSString *)iosDeviceUniqueIdentifier{
     return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 }
+#endif
 
 #pragma mark - system images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType{
@@ -240,19 +243,19 @@
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type{
     switch (type) {
         case LegTypeBus:
-            return [UIImage imageNamed:@"bus-filled-light-100.png"];
+            return [UIImage imageNamed:@"bus-filled-light-100"];
         case LegTypeTrain:
-            return [UIImage imageNamed:@"train-filled-light-64.png"];
+            return [UIImage imageNamed:@"train-filled-light-64"];
         case LegTypeMetro:
-            return [UIImage imageNamed:@"metro-logo-orange.png"];
+            return [UIImage imageNamed:@"metro-logo-orange"];
         case LegTypeTram:
-            return [UIImage imageNamed:@"tram-filled-light-64.png"];
+            return [UIImage imageNamed:@"tram-filled-light-64"];
         case LegTypeFerry:
-            return [UIImage imageNamed:@"boat-filled-light-100.png"];
+            return [UIImage imageNamed:@"boat-filled-light-100"];
         case LegTypeService:
-            return [UIImage imageNamed:@"service-bus-filled-purple.png"];
+            return [UIImage imageNamed:@"service-bus-filled-purple"];
         case LegTypeWalk:
-            return [UIImage imageNamed:@"walking-gray-64.png"];
+            return [UIImage imageNamed:@"walking-gray-64"];
         case LegTypeLongDistanceTrain:
             return [UIImage imageNamed:@"longDistTrainLight"];
         case LegTypeAirplane:
@@ -270,6 +273,7 @@
     return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];
 }
 
+#ifndef APPLE_WATCH
 +(NSString *)stationAnnotionImageNameForBikeStation:(BikeStation *)bikeStation {
     if (bikeStation.bikeAvailability == NotAvailable) {
         return @"noBikeAnnotation";
@@ -279,5 +283,6 @@
         return @"highAvailBikeAnnotation";
     }
 }
+#endif
 
 @end

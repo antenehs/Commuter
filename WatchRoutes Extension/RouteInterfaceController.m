@@ -7,6 +7,10 @@
 //
 
 #import "RouteInterfaceController.h"
+#import "RouteLegRowController.h"
+#import "Route.h"
+#import "NamedBookmarkE.h"
+#import "WatchDataManager.h"
 
 @interface RouteInterfaceController ()
 
@@ -19,9 +23,26 @@
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
     
-    [self.routeTable setNumberOfRows:2 withRowType:@"WalkRow"];
+    //TODO: Check if Route or namedbookmark
     
-    // Configure interface objects here.
+    if ([context isKindOfClass:[NamedBookmarkE class]]) {
+        NamedBookmarkE *bookmark = (NamedBookmarkE *)context;
+        
+        
+        CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
+        
+        //    [self presentControllerWithName:@"ActivityView" context:@"Loading Routes..."];
+        WatchDataManager *manager = [WatchDataManager new];
+        [manager getRouteForNamedBookmark:bookmark fromLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
+            //        [self dismissController];
+            //        [self presentControllerWithNames:@[@"RouteView", @"RouteView", @"RouteView"] contexts:@[@"RouteView", @"RouteView", @"RouteView"]];
+            [WKInterfaceController reloadRootControllersWithNames:@[@"RouteView", @"RouteView", @"RouteView", @"RouteView"] contexts:@[@"RouteView", @"RouteView", @"RouteView", @"RouteView"]];
+        }];
+    } else if ([context isKindOfClass:[Route class]]) {
+         Route *route = (Route *)context;
+         if (route) [self setUpViewForRoute:route];
+         else [self dismissController];
+    }
 }
 
 - (void)willActivate {
@@ -32,6 +53,16 @@
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
     [super didDeactivate];
+}
+
+-(void)setUpViewForRoute:(Route *)route {
+    
+    [self.routeTable setNumberOfRows:route.routeLegs.count withRowType:@"RouteLegRow"];
+    
+    for (int i = 0; i < self.routeTable.numberOfRows; i++) {
+        RouteLegRowController *controller = (RouteLegRowController *)[self.routeTable rowControllerAtIndex:i];
+        [controller setUpWithRouteLeg:route.routeLegs[i] inRoute:route];
+    }
 }
 
 @end

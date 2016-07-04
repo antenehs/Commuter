@@ -827,7 +827,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [sharedDefaults synchronize];
     
     //Update bookmarks to watch
-    [self.communicationManager transferUserInfo:@{kUserDefaultsNamedBookmarksKey : namedBookmarkDictionaries}];
+    [self.communicationManager transferNamedBookmarks:namedBookmarkDictionaries];
 }
 
 -(void)updateSourceApiForStops:(NSArray *)savedStops {

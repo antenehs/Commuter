@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "boat-filled-light-100.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "boat-filled-light-100.png",
       "scale" : "2x"
     },
     {

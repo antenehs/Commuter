@@ -24,33 +24,34 @@
 
 
 #import "RouteLeg.h"
-#import "ReittiStringFormatter.h"
+
+#ifndef APPLE_WATCH
 #import "DigiDataModels.h"
+#endif
 
 @implementation RouteLeg
 
 @synthesize legLength;
 @synthesize legDurationInSeconds;
 @synthesize waitingTimeInSeconds;
-//@synthesize legType;
 @synthesize lineCode;
 @synthesize legLocations;
 @synthesize legShapeDictionaries;
 @synthesize showDetailed;
 @synthesize legOrder;
 
--(id)initFromDictionary:(NSDictionary *)legDict{
+-(id)initFromHSLandTREDictionary:(NSDictionary *)legDict{
     if (self = [super init]) {
-        self.legLength = legDict[@"length"];
-        self.legDurationInSeconds = legDict[@"duration"];
-        self.legSpecificType = legDict[@"type"];
+        self.legLength = [self objectOrNilForKey:@"length" fromDictionary:legDict];
+        self.legDurationInSeconds = [self objectOrNilForKey:@"duration" fromDictionary:legDict];
+        self.legSpecificType = [self objectOrNilForKey:@"type" fromDictionary:legDict];
         self.legType = [self getLegTransportType];
-        self.lineCode = legDict[@"code"];
+        self.lineCode = [self objectOrNilForKey:@"code" fromDictionary:legDict];
         
         NSMutableArray *locsArray = [[NSMutableArray alloc] init];
         
         for (NSDictionary *locDict in legDict[@"locs"]) {
-            RouteLegLocation *loc = [[RouteLegLocation alloc] initFromDictionary:locDict];
+            RouteLegLocation *loc = [[RouteLegLocation alloc] initFromHSLandTREDictionary:locDict];
             loc.locationLegOrder = self.legOrder;
             loc.locationLegType = self.legType;
             [locsArray addObject:loc];
@@ -65,11 +66,11 @@
             waitingTimeInSeconds = 0;
         }
         
-        self.legShapeDictionaries = legDict[@"shape"];
+        self.legShapeDictionaries = [self objectOrNilForKey:@"shape" fromDictionary:legDict];
         
         NSMutableArray *shapeArray = [[NSMutableArray alloc] init];
         for (NSDictionary * shapeDict in legDict[@"shape"]) {
-            [shapeArray addObject:[NSString stringWithFormat:@"%@,%@",shapeDict[@"x"],shapeDict[@"y"]]];
+            [shapeArray addObject:[NSString stringWithFormat:@"%@,%@",[self objectOrNilForKey:@"x" fromDictionary:shapeDict] , [self objectOrNilForKey:@"y" fromDictionary:shapeDict]]];
         }
         
         self.legLocations = locsArray;
@@ -78,10 +79,7 @@
             self.showDetailed = NO;
         }else{
             self.showDetailed = NO;
-        }        
-        
-//        NSLog(@"leg is %@",self);
-//        NSLog(@"a dictionary %@",legDict[@"locs"]);
+        }
     }
     return self;
 }
@@ -136,13 +134,33 @@
     return _legShapeCoorStrings;
 }
 
--(int)getNumberOfStopsInLeg{
+-(int)getNumberOfStopsInLeg {
     int count = 0;
     if (self.legType != LegTypeWalk) {
         count = (int)self.legLocations.count;
     }
     
     return count;
+}
+
+-(NSString *)startLocName {
+    if (!_startLocName) {
+        RouteLegLocation *loc = self.legLocations.count > 0 ? self.legLocations[0] : nil;
+        if (loc) _startLocName = loc.name;
+        else _startLocName = @"";
+    }
+    
+    return _startLocName;
+}
+
+-(NSString *)endLocName {
+    if (!_endLocName) {
+        RouteLegLocation *loc = self.legLocations.count > 0 ? [self.legLocations lastObject] : nil;
+        if (loc) _endLocName = loc.name;
+        else _endLocName = @"";
+    }
+    
+    return _endLocName;
 }
 
 -(NSString *)lineDisplayName{
@@ -172,6 +190,66 @@
     }
 }
 
+#pragma mark - to and from dictionary
+
++(instancetype)initFromDictionary: (NSDictionary *)dictionary {
+    if (!dictionary) return nil;
+    
+    RouteLeg *leg = [RouteLeg new];
+    leg.legLength = [leg objectOrNilForKey:@"legLength" fromDictionary:dictionary];
+    leg.legDurationInSeconds = [leg objectOrNilForKey:@"legDurationInSeconds" fromDictionary:dictionary];
+    leg.legSpecificType = [leg objectOrNilForKey:@"legSpecificType" fromDictionary:dictionary];
+    leg.lineCode = [leg objectOrNilForKey:@"lineCode" fromDictionary:dictionary];
+    leg.lineName = [leg objectOrNilForKey:@"lineName" fromDictionary:dictionary];
+    leg.legShapeDictionaries = [leg objectOrNilForKey:@"legShapeDictionaries" fromDictionary:dictionary];
+    
+    NSMutableArray *locations = [@[] mutableCopy];
+    NSArray *locDictionaries = [leg objectOrNilForKey:@"legLocations" fromDictionary:dictionary];
+    for (NSDictionary *locDict in locDictionaries) {
+        RouteLegLocation *location = [RouteLegLocation initFromDictionary:locDict];
+        if (location) [locations addObject:location];
+    }
+    
+    leg.legLocations = locations;
+    
+    leg.startLocName = [leg objectOrNilForKey:@"startLocName" fromDictionary:dictionary];
+    leg.endLocName = [leg objectOrNilForKey:@"endLocName" fromDictionary:dictionary];
+    leg.legType = [[leg objectOrNilForKey:@"legType" fromDictionary:dictionary] intValue];
+    leg.waitingTimeInSeconds = [[leg objectOrNilForKey:@"waitingTimeInSeconds" fromDictionary:dictionary] integerValue];
+    leg.showDetailed = [[leg objectOrNilForKey:@"showDetailed" fromDictionary:dictionary] boolValue];
+    leg.legOrder = [[leg objectOrNilForKey:@"legOrder" fromDictionary:dictionary] intValue];
+    
+    return leg;
+}
+
+-(NSDictionary *)dictionaryRepresentation{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.legLength forKey:@"legLength"];
+    [mutableDict setValue:self.legDurationInSeconds forKey:@"legDurationInSeconds"];
+    [mutableDict setValue:self.legSpecificType forKey:@"legSpecificType"];
+    [mutableDict setValue:self.lineCode forKey:@"lineCode"];
+    [mutableDict setValue:self.lineName forKey:@"lineName"];
+    [mutableDict setValue:self.legShapeDictionaries forKey:@"legShapeDictionaries"];
+    
+    NSMutableArray *locationDictArray = [@[] mutableCopy];
+    for (RouteLegLocation *location in self.legLocations) {
+        NSDictionary *locationDict = [location dictionaryRepresentation];
+        if (locationDict) [locationDictArray addObject:locationDict];
+    }
+    
+    [mutableDict setValue:locationDictArray forKey:@"legLocations"];
+    
+    [mutableDict setValue:self.startLocName forKey:@"startLocName"];
+    [mutableDict setValue:self.endLocName forKey:@"endLocName"];
+    [mutableDict setValue:[NSNumber numberWithInt:(int)self.legType] forKey:@"legType"];
+    [mutableDict setValue:[NSNumber numberWithInteger:self.waitingTimeInSeconds] forKey:@"waitingTimeInSeconds"];
+    [mutableDict setValue:[NSNumber numberWithBool:self.showDetailed] forKey:@"showDetailed"];
+    [mutableDict setValue:[NSNumber numberWithInt:self.legOrder] forKey:@"legOrder"];
+    
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
+#ifndef APPLE_WATCH
 #pragma mark - init from Matka leg
 +(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg{
     RouteLeg *leg = [[RouteLeg alloc] init];
@@ -275,7 +353,7 @@
             [locations addObject:fromLocation];
             [shapeStrings addObject:fromLocation.coordsString];
         }
-
+        
         RouteLegLocation *toLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.to];
         if (toLocation) {
             toLocation.locationLegOrder = digiLeg.legOrder;
@@ -316,6 +394,18 @@
     leg.legShapeCoorStrings = shapeStrings;
     
     return leg;
+}
+#endif
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [self objectOrNil:object];
+}
+
+- (id)objectOrNil:(id)object {
+    return [object isEqual:[NSNull null]] ? nil : object;
 }
 
 @end

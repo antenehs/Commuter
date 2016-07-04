@@ -154,8 +154,10 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
 }
 
 //#F46B00
+//#fa4220
 +(UIColor *)systemOrangeColor{
-    return [UIColor colorWithRed:244.0f/255 green:107.0f/255 blue:0 alpha:1];
+//    return [UIColor colorWithRed:244.0f/255 green:107.0f/255 blue:0 alpha:1];
+    return [UIColor colorWithRed:0.980 green:0.259 blue:0.125 alpha:1.00];
 }
 
 //#F44336

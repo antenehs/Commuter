@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "train-filled-light-64.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "train-filled-light-64.png",
       "scale" : "2x"
     },
     {

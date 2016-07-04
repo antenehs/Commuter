@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NearByStop.h"
 #import "RouteLeg.h"
-#import "BikeStation.h"
 #import "AppManagerBase.h"
+
+#ifndef APPLE_WATCH
+#import "BikeStation.h"
+#import "NearByStop.h"
+#endif
 
 @interface AppManager : AppManagerBase
 
@@ -38,6 +41,9 @@
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
+
+#ifndef APPLE_WATCH
 +(NSString *)stationAnnotionImageNameForBikeStation:(BikeStation *)bikeStation;
+#endif
 
 @end

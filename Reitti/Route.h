@@ -37,13 +37,22 @@
 #import "RouteLeg.h"
 #import "RouteLegLocation.h"
 #import <MapKit/MapKit.h>
-#import "MatkaRoute.h"
+
+#ifndef APPLE_WATCH
 #import "DigiPlan.h"
+#import "MatkaRoute.h"
+#endif
 
 @interface Route : NSObject
 
-+(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
+#ifndef APPLE_WATCH
 +(id)routeFromDigiPlan:(DigiPlan *)digiPlan;
++(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
+#endif
+
+//To and from dictionary
++(instancetype)initFromDictionary: (NSDictionary *)dictionary;
+-(NSDictionary *)dictionaryRepresentation;
 
 -(double)getTotalWalkLength;
 -(float)getLengthRatioInRoute:(RouteLeg *)leg;
@@ -57,6 +66,9 @@
 @property (nonatomic, retain) NSArray * unMappedRouteLegs;
 
 //Computed properties
+@property (nonatomic, strong)NSString *fromLocationName;
+@property (nonatomic, strong)NSString *toLocationName;
+
 @property (nonatomic, readonly, strong)NSNumber *numberOfNoneWalkLegs;
 @property (nonatomic, readonly, strong)NSDate *startingTimeOfRoute;
 @property (nonatomic, readonly, strong)NSDate *endingTimeOfRoute;

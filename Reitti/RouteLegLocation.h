@@ -15,22 +15,30 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
+#import <MapKit/MapKit.h>
+
+#ifndef APPLE_WATCH
 #import "MatkaRouteLocation.h"
 #import "MatkaRouteStop.h"
 #import "DigiIntermediateStops.h"
 #import "DigiPlace.h"
-//#import "RouteLegs.m"
+#endif
 
 @interface RouteLegLocation : NSObject
 
--(id)initFromDictionary:(NSDictionary *)legDict;
--(id)copy;
+-(id)initFromHSLandTREDictionary:(NSDictionary *)legDict;
 
+-(id)copy;
++(instancetype)initFromDictionary: (NSDictionary *)dictionary;
+-(NSDictionary *)dictionaryRepresentation;
+
+#ifndef APPLE_WATCH
 +(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation;
 +(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop;
 
 +(RouteLegLocation *)routeLocationFromDigiPlace:(DigiPlace *)digiPlace;
 +(RouteLegLocation *)routeLocationFromDigiIntermidiateStop:(DigiIntermediateStops *)digiStop;
+#endif
 
 @property(nonatomic) bool isHeaderLocation;
 @property (nonatomic) LegTransportType locationLegType;

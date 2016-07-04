@@ -64,7 +64,7 @@
     int legOrder = 0;
     for (NSDictionary *legDict in [arrayResponse objectAtIndex:0]) {
         //NSLog(@"a dictionary %@",legDict);
-        RouteLeg *leg = [[RouteLeg alloc] initFromDictionary:legDict];
+        RouteLeg *leg = [[RouteLeg alloc] initFromHSLandTREDictionary:legDict];
         leg.legOrder = legOrder;
         [legsArray addObject:leg];
         legOrder++;

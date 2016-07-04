@@ -44,14 +44,8 @@
 +(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
 
 -(double)getTotalWalkLength;
-//-(int)getNumberOfNoneWalkLegs;
 -(float)getLengthRatioInRoute:(RouteLegE *)leg;
 -(bool)isOnlyWalkingRoute;
-//-(NSDate *)getStartingTimeOfRoute;
-//-(NSDate *)getEndingTimeOfRoute;
-//-(NSDate *)getTimeAtTheFirstStop;
-//-(CLLocationCoordinate2D)getStartCoords;
-//-(NSString *)getDestinationCoords;
 
 @property (nonatomic, retain) NSNumber * routeLength;
 @property (nonatomic, retain) NSNumber * routeDurationInSeconds;

@@ -13,6 +13,7 @@
 
 @optional
 -(void)receivedNamedBookmarksArray:(NSArray * _Nonnull)bookmarksArray;
+-(void)receivedRoutesArray:(NSArray * _Nonnull)routesArray;
 
 @end
 
@@ -20,8 +21,11 @@
 
 +(instancetype _Nonnull)sharedManager;
 
--(void)sendMessage:(NSDictionary * _Nonnull)message replyHandler:(void (^ _Nullable)(NSDictionary<NSString *,id> * _Nonnull))replyHandler;
--(void)transferUserInfo:(NSDictionary * _Nonnull)userInfo;
+//-(void)sendMessage:(NSDictionary * _Nonnull)message replyHandler:(void (^ _Nullable)(NSDictionary<NSString *,id> * _Nonnull))replyHandler;
+//-(void)transferUserInfo:(NSDictionary * _Nonnull)userInfo;
+
+-(void)transferNamedBookmarks:(NSArray * _Nullable)bookmarksDictionary;
+-(void)transferRoutes:(NSArray * _Nullable)routesDictionary;
 
 @property (nonatomic, weak)NSObject<WCManagerDelegate> * _Nullable delegate;
 

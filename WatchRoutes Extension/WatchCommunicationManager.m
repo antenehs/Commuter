@@ -9,6 +9,9 @@
 #import "WatchCommunicationManager.h"
 #import "AppManagerBase.h"
 
+NSString *kRoutesUserInfoKey = @"RoutesUserInfoKey";
+NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
+
 @interface WatchCommunicationManager ()
 
 @property (nonatomic, strong)WCSession *session;
@@ -53,6 +56,16 @@
     
 }
 
+-(void)transferNamedBookmarks:(NSArray *)bookmarksDictionary {
+    if (bookmarksDictionary) [self transferUserInfo:@{kNamedBookmarksUserInfoKey : bookmarksDictionary}];
+}
+
+-(void)transferRoutes:(NSArray *)routesDictionary {
+    //TODO: use transferCurrentComplicationUserInfo instead to force complication update
+    
+    if (routesDictionary) [self transferUserInfo:@{kRoutesUserInfoKey : routesDictionary}];
+}
+
 //Userinfo will be queed until watch app is available
 -(void)transferUserInfo:(NSDictionary *)userInfo {
     [self.session transferUserInfo:userInfo];
@@ -60,10 +73,15 @@
 
 -(void)session:(WCSession *)session didReceiveUserInfo:(NSDictionary<NSString *,id> *)userInfo {
     if (!userInfo) return;
-    NSArray *namedBookmarkArray = [userInfo objectForKey:kUserDefaultsNamedBookmarksKey];
+    
+    NSArray *namedBookmarkArray = [userInfo objectForKey:kNamedBookmarksUserInfoKey];
     if (namedBookmarkArray) {
         [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
     }
     
+    NSArray *routesArray = [userInfo objectForKey:kRoutesUserInfoKey];
+    if (routesArray) {
+        [self.delegate receivedRoutesArray:routesArray];
+    }
 }
 @end

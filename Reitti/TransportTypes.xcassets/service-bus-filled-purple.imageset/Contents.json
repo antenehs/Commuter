@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "service-bus-filled-purple.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "service-bus-filled-purple.png",
       "scale" : "2x"
     },
     {

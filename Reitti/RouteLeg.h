@@ -30,17 +30,26 @@
 
 #import <Foundation/Foundation.h>
 #import "RouteLegLocation.h"
+
+#ifndef APPLE_WATCH
 #import "MatkaRouteLeg.h"
 #import "MatkaRouteStop.h"
 #import "MatkaRouteLocation.h"
 #import "DigiLegs.h"
+#endif
 
 @interface RouteLeg : NSObject
 
+#ifndef APPLE_WATCH
 +(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg;
 +(id)routeLegFromDigiRouteLeg:(DigiLegs *)digiLeg;
+#endif
 
--(id)initFromDictionary:(NSDictionary *)legDict;
+-(id)initFromHSLandTREDictionary:(NSDictionary *)legDict;
+
++(instancetype)initFromDictionary: (NSDictionary *)dictionary;
+-(NSDictionary *)dictionaryRepresentation;
+
 -(int)getNumberOfStopsInLeg;
 
 @property (nonatomic, retain) NSNumber * legLength;
@@ -51,12 +60,16 @@
 @property (nonatomic, retain) NSArray * legLocations;
 @property (nonatomic, retain) NSArray * legShapeDictionaries;
 
-//Derived properties
+//Should be set during intialization of later.
 @property (nonatomic) LegTransportType legType;
 @property (nonatomic) NSInteger waitingTimeInSeconds;
-@property (nonatomic, readonly) NSString * lineDisplayName;
-@property (nonatomic, retain) NSArray * legShapeCoorStrings;
 @property (nonatomic) bool showDetailed;
 @property (nonatomic) int legOrder;
+@property (nonatomic, retain) NSString * startLocName;
+@property (nonatomic, retain) NSString * endLocName;
+
+//Derived properties
+@property (nonatomic, readonly) NSString * lineDisplayName;
+@property (nonatomic, retain) NSArray * legShapeCoorStrings;
 
 @end

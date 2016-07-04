@@ -10,11 +10,13 @@
 #import "AppManagerBase.h"
 #import "NamedBookmarkE.h"
 #import "WatchDataManager.h"
+#import "Route.h"
 
 @interface HomeInterfaceController()
 
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (strong, nonatomic) NSArray *namedBookmarks;
+@property (strong, nonatomic) NSArray *transferredRoutes;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *titleLabel;
 @property (strong, nonatomic) WatchCommunicationManager *communicationManager;
@@ -115,11 +117,25 @@
 -(void)searchRouteToBookmark:(NamedBookmarkE *)bookmark {
     CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
 
-    [self presentControllerWithName:@"ActivityView" context:@"Loading Routes..."];
+//    [self presentControllerWithName:@"ActivityView" context:@"Loading Routes..."];
     [self.watchDataManager getRouteForNamedBookmark:bookmark fromLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
-        [self dismissController];
+//        [self dismissController];
         [self presentControllerWithNames:@[@"RouteView", @"RouteView", @"RouteView"] contexts:@[@"RouteView", @"RouteView", @"RouteView"]];
     }];
+//    [self presentControllerWithName:@"RouteView" context:bookmark];
+}
+
+-(void)showRoutesFromPhone {
+    //TODO: Filter out expired routes
+    NSMutableArray *controllerNames = [@[] mutableCopy];
+    NSMutableArray *contexts = [@[] mutableCopy];
+    
+    for (Route *route in self.transferredRoutes) {
+        [controllerNames addObject:@"RouteView"];
+        [contexts addObject:route];
+    }
+    
+    [self presentControllerWithNames:controllerNames contexts:contexts];
 }
 
 #pragma mark - Bookmarks method
@@ -190,6 +206,20 @@
     [self initBookmarksFromBookmarksDictionaries:bookmarksArray];
     [self saveBookmarksToUserDefaults];
     
+}
+
+-(void)receivedRoutesArray:(NSArray * _Nonnull)routesArray {
+    NSLog(@"%@", routesArray);
+    if (![routesArray isKindOfClass:[NSArray class]]) return;
+    
+    NSMutableArray *routes = [@[] mutableCopy];
+    for (NSDictionary *routeDict in routesArray) {
+        Route *route = [Route initFromDictionary:routeDict];
+        if (route) [routes addObject:route];
+    }
+    
+    self.transferredRoutes = routes;
+    [self showRoutesFromPhone];
 }
 
 @end
