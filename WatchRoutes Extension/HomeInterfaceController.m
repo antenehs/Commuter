@@ -12,7 +12,7 @@
 #import "WatchDataManager.h"
 #import "Route.h"
 
-@interface HomeInterfaceController()
+@interface HomeInterfaceController() <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (strong, nonatomic) NSArray *namedBookmarks;
@@ -21,6 +21,10 @@
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *titleLabel;
 @property (strong, nonatomic) WatchCommunicationManager *communicationManager;
 @property (strong, nonatomic) WatchDataManager *watchDataManager;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocation * currentUserLocation;
+
+@property (strong, nonatomic) NSTimer * locationRefreshTimer;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceTable *bookmarksTable;
 
@@ -44,6 +48,8 @@
 
 //    [self readNamedBookmarksFromUserDefaults];
     
+    [self initLocationManager];
+    
     self.communicationManager = [WatchCommunicationManager sharedManager];
     self.communicationManager.delegate = self;
     // Configure interface objects here.
@@ -59,11 +65,13 @@
 
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
+    [self startLocationupdate];
     [super willActivate];
 }
 
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
+    [self.locationRefreshTimer invalidate];
     [super didDeactivate];
 }
 
@@ -115,22 +123,33 @@
 
 #pragma mark - Route methods
 -(void)searchRouteToBookmark:(NamedBookmarkE *)bookmark {
-    CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
+//    CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
 
-//    [self presentControllerWithName:@"ActivityView" context:@"Loading Routes..."];
-    [self.watchDataManager getRouteForNamedBookmark:bookmark fromLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
-//        [self dismissController];
-        [self presentControllerWithNames:@[@"RouteView", @"RouteView", @"RouteView"] contexts:@[@"RouteView", @"RouteView", @"RouteView"]];
+    //TODO: update location and wait for a new one.
+    if (!self.currentUserLocation) {
+        //TODO: Show alert
+        WKAlertAction *action = [WKAlertAction actionWithTitle:@"OK" style:WKAlertActionStyleDefault handler:^{}];
+        [self presentAlertControllerWithTitle:@"Unauthorized Location Access" message: @"Please open commuter on your iPhone and tap on current location." preferredStyle:WKAlertControllerStyleAlert actions:@[action]];
+        return;
+    }
+    
+    [self.watchDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
+        if (!errorString && routes && routes.count > 0) {
+            [self showRoutes:routes];
+        } else {
+            //TODO: Show error message
+        }
+        
+        [self.bookmarksTable setAlpha:1];
     }];
-//    [self presentControllerWithName:@"RouteView" context:bookmark];
 }
 
--(void)showRoutesFromPhone {
+-(void)showRoutes:(NSArray *)routes {
     //TODO: Filter out expired routes
     NSMutableArray *controllerNames = [@[] mutableCopy];
     NSMutableArray *contexts = [@[] mutableCopy];
     
-    for (Route *route in self.transferredRoutes) {
+    for (Route *route in routes) {
         [controllerNames addObject:@"RouteView"];
         [contexts addObject:route];
     }
@@ -219,7 +238,52 @@
     }
     
     self.transferredRoutes = routes;
-    [self showRoutesFromPhone];
+    [self showRoutes:routes];
+}
+
+#pragma mark - CLLocation Manager
+
+-(void)requestLocation {
+    if (self.locationManager) {
+        [self.locationManager requestLocation];
+    }
+}
+
+-(void)startLocationupdate {
+    [self requestLocation];
+    self.locationRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(requestLocation) userInfo:nil repeats:YES];
+}
+
+-(void)initLocationManager {
+    if (self.locationManager == nil) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    }
+    
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        [self startLocationupdate];
+    } else {
+        WKAlertAction *action = [WKAlertAction actionWithTitle:@"OK" style:WKAlertActionStyleDefault handler:^{}];
+        [self presentAlertControllerWithTitle:@"Unauthorized Location Access" message: @"Please open commuter on your iPhone and tap on current location." preferredStyle:WKAlertControllerStyleAlert actions:@[action]];
+    }
+    
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    if ([locations count] == 0) {
+        // error
+        return;
+    }
+    
+    // success
+    self.currentUserLocation = [locations firstObject];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(nonnull NSError *)error {
+    // error
 }
 
 @end
