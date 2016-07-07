@@ -57,11 +57,15 @@
 
 -(void)setUpViewForRoute:(Route *)route {
     
-    [self.routeTable setNumberOfRows:route.routeLegs.count withRowType:@"RouteLegRow"];
+    [self.routeTable setNumberOfRows:route.routeLegs.count + 1 withRowType:@"RouteLegRow"];
     
     for (int i = 0; i < self.routeTable.numberOfRows; i++) {
         RouteLegRowController *controller = (RouteLegRowController *)[self.routeTable rowControllerAtIndex:i];
-        [controller setUpWithRouteLeg:route.routeLegs[i] inRoute:route];
+        if (i < route.routeLegs.count) {
+            [controller setUpWithRouteLeg:route.routeLegs[i] inRoute:route];
+        } else { //destination row
+            [controller setUpAsDestinationForName:route.toLocationName];
+        }
     }
 }
 

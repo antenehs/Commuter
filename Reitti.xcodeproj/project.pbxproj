@@ -868,6 +868,7 @@
 		66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7EB1A04000D0002BE16 /* stopIcon.png */; };
 		66DAE1EE19C398430039081D /* RouteLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE1ED19C398430039081D /* RouteLocation.m */; };
 		66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE20019C61AF60039081D /* LocationsAnnotation.m */; };
+		66E031981D2EA0AA00623223 /* NativeActivityIndicator.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */; };
 		66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
 		66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
 		66E6E5581CB90DA90086F611 /* MatkaStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaStop.m */; };
@@ -1692,6 +1693,7 @@
 		66DAE1ED19C398430039081D /* RouteLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLocation.m; sourceTree = "<group>"; };
 		66DAE1FF19C61AF60039081D /* LocationsAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsAnnotation.h; sourceTree = "<group>"; };
 		66DAE20019C61AF60039081D /* LocationsAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsAnnotation.m; sourceTree = "<group>"; };
+		66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NativeActivityIndicator.xcassets; sourceTree = "<group>"; };
 		66E6E5511CB907A10086F611 /* MatkaCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaCommunicator.h; sourceTree = "<group>"; };
 		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaCommunicator.m; sourceTree = "<group>"; };
 		66E6E5561CB90DA90086F611 /* MatkaStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaStop.h; sourceTree = "<group>"; };
@@ -2369,6 +2371,7 @@
 				662481861D1FFBF700574319 /* Interface.storyboard */,
 				662481891D1FFBF700574319 /* Assets.xcassets */,
 				6624818B1D1FFBF700574319 /* Info.plist */,
+				66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */,
 				6632071B1D27FE5300D8A46D /* ActivityIndicator.xcassets */,
 			);
 			path = WatchRoutes;
@@ -3690,6 +3693,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66E031981D2EA0AA00623223 /* NativeActivityIndicator.xcassets in Resources */,
 				6632071C1D27FE5300D8A46D /* ActivityIndicator.xcassets in Resources */,
 				6624818A1D1FFBF700574319 /* Assets.xcassets in Resources */,
 				662481881D1FFBF700574319 /* Interface.storyboard in Resources */,

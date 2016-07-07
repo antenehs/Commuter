@@ -64,6 +64,8 @@
     }
     
     //Labels
+    [self.transportationGroup setHidden:NO];
+    [self.locationGroup setHidden:NO];
     [self.timeLabel setText:[[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime]];
     
     if (routeLegIndex == 0) {
@@ -83,6 +85,15 @@
     }
     
     [self.detailLabel setText:detailText];
+}
+
+-(void)setUpAsDestinationForName:(NSString *)destinationName {
+    //For now
+    [self.legTypeImageGroup setHidden:YES];
+    [self.transportationGroup setHidden:YES];
+    [self.locationGroup setHidden:NO];
+    
+    [self.locationLabel setText:destinationName];
 }
 
 @end

@@ -23,31 +23,23 @@
     NSString *apiURL = [NSString stringWithFormat:@"%@?%@",self.apiBaseUrl,parameters];
     
     NSURL *url = [NSURL URLWithString:apiURL];
-    //    NSLog(@"%@", urlAsString);
     
-//    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            completionBlock(data, error);
-//        });
-//    }];
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithURL:url
+            completionHandler:^(NSData *data,
+                                NSURLResponse *response,
+                                NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(data, error);
+                });
+                
+            }] resume];
     
-//    NSURLSession *session = [NSURLSession sharedSession];
-//    [[session dataTaskWithURL:url
-//            completionHandler:^(NSData *data,
-//                                NSURLResponse *response,
-//                                NSError *error) {
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    completionBlock(data, error);
-//                });
-//                
-//            }] resume];
-    
-    //TODO: Set a timeout
-    NSError *error = nil;
-    NSData *responseData = [self sendSynchronousRequest:[[NSURLRequest alloc] initWithURL:url] returningResponse:nil error:&error];
-    
-    completionBlock(responseData, error);
+//    //TODO: Set a timeout
+//    NSError *error = nil;
+//    NSData *responseData = [self sendSynchronousRequest:[[NSURLRequest alloc] initWithURL:url] returningResponse:nil error:&error];
+//    
+//    completionBlock(responseData, error);
 }
 
 -(NSData *)sendSynchronousRequest:(NSURLRequest *)request

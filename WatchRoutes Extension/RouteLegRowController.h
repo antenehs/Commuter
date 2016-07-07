@@ -13,6 +13,7 @@
 @interface RouteLegRowController : NSObject
 
 -(void)setUpWithRouteLeg:(RouteLeg *)routeLeg inRoute:(Route *)route;
+-(void)setUpAsDestinationForName:(NSString *)destinationName;
 
 //Timelineviews
 @property (strong, nonatomic) IBOutlet WKInterfaceSeparator *previousLegLine;
@@ -21,6 +22,9 @@
 @property (strong, nonatomic) IBOutlet WKInterfaceSeparator *currentLegLine;
 
 //Leg info labels
+
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *locationGroup;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *transportationGroup;
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *transportNameLabel;
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *timeLabel;
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *locationLabel;

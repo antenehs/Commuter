@@ -48,23 +48,6 @@
     
     [super doApiFetchWithOutMappingWithParams:searchParameters andCompletionBlock:^(NSData *responseData, NSError *error){
         if (!error) {
-            
-//            for (RouteE *route in responseArray) {
-//                route.routeLegs = [self mapRouteLegsFromArray:route.unMappedRouteLegs];
-//                route.routeLength = [route.unMappedRouteLength objectAtIndex:0];
-//                route.routeDurationInSeconds = [route.unMappedRouteDurationInSeconds objectAtIndex:0];
-//                for (RouteLegE *leg in route.routeLegs) {
-//                    @try {
-//                        if (!leg.lineCode)
-//                            continue;
-//                        
-//                        leg.lineName = [ReittiStringFormatterE parseBusNumFromLineCode:leg.lineCode];
-//                    }
-//                    @catch (NSException *exception) {
-//                        leg.lineName = leg.lineCode;
-//                    }
-//                }
-//            }
             NSArray *routes = [self routesFromJSON:responseData error:nil];
             completionBlock(routes, nil);
         }else{

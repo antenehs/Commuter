@@ -10,54 +10,66 @@
             <objects>
                 <controller identifier="Home" title="Commuter" id="AgC-eL-Hgc" customClass="HomeInterfaceController">
                     <items>
+                        <group width="1" height="164.5" alignment="left" id="y7C-x5-PMZ">
+                            <items>
+                                <imageView alignment="center" image="Activity1" id="qbI-1p-7N0"/>
+                            </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="50" bottom="0.0"/>
+                        </group>
                         <group width="1" alignment="left" id="7pH-OC-ycP">
                             <items>
-                                <label width="136" alignment="left" text="Take Me To" id="nkg-ec-Pwh">
-                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                <label width="136" alignment="left" text="GET ROUTES TO.." id="nkg-ec-Pwh">
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="font" type="system" pointSize="14"/>
                                 </label>
                             </items>
-                            <edgeInsets key="margins" left="4" right="0.0" top="0.0" bottom="0.0"/>
+                            <edgeInsets key="margins" left="4" right="0.0" top="4" bottom="0.0"/>
                         </group>
                         <table alignment="left" id="gba-sz-roE">
                             <items>
                                 <tableRow identifier="HomeAndWorkRow" selectable="NO" id="jwh-PL-m83" customClass="HomeAndWorkRowController">
-                                    <group key="rootItem" width="1" height="80" alignment="left" spacing="6" id="AsZ-cm-91W">
+                                    <group key="rootItem" width="1" height="95" alignment="left" spacing="0.0" id="AsZ-cm-91W">
                                         <items>
-                                            <group width="0.5" alignment="center" layout="vertical" id="ZPl-7l-tU9">
-                                                <items>
-                                                    <button width="40" height="40" alignment="center" backgroundImage="Home Filled-Flat" id="qW8-3n-9cK">
-                                                        <connections>
-                                                            <action selector="homeButtonTapped" destination="jwh-PL-m83" id="sPB-8r-i8y"/>
-                                                        </connections>
-                                                    </button>
-                                                    <label width="49.5" alignment="center" text="Home" textAlignment="center" id="Rm3-YQ-lk1">
-                                                        <fontDescription key="font" type="system" pointSize="14"/>
-                                                    </label>
-                                                </items>
-                                                <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="10"/>
-                                            </group>
-                                            <group width="0.5" alignment="center" layout="vertical" id="0EZ-Qf-oJH">
-                                                <items>
-                                                    <button width="40" height="40" alignment="center" backgroundImage="Work Filled-Flat" id="aYo-vZ-KIL">
-                                                        <connections>
-                                                            <action selector="workButtonTapped" destination="jwh-PL-m83" id="BuF-AJ-VPp"/>
-                                                        </connections>
-                                                    </button>
-                                                    <label width="49.5" alignment="center" text="Work" textAlignment="center" id="PrT-vW-OiZ">
-                                                        <fontDescription key="font" type="system" pointSize="14"/>
-                                                    </label>
-                                                </items>
-                                                <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="10"/>
-                                            </group>
+                                            <button alignment="left" id="v9Q-IN-KUZ">
+                                                <group key="contentGroup" width="0.46999999999999997" height="1" alignment="left" layout="vertical" radius="8" spacing="0.0" id="8Q5-3o-9cb">
+                                                    <items>
+                                                        <imageView width="35" height="35" alignment="center" image="Home-template" id="xbz-K9-lcc">
+                                                            <color key="tintColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </imageView>
+                                                        <label width="49.5" alignment="center" text="Home" textAlignment="center" id="Rm3-YQ-lk1">
+                                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                                        </label>
+                                                    </items>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                    <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="10"/>
+                                                </group>
+                                                <connections>
+                                                    <action selector="homeButtonTapped" destination="jwh-PL-m83" id="ySt-Rk-gCk"/>
+                                                </connections>
+                                            </button>
+                                            <button alignment="right" id="JHD-zs-uYG">
+                                                <group key="contentGroup" width="0.46999999999999997" height="1" alignment="left" layout="vertical" radius="8" spacing="0.0" id="5lK-oY-8yp">
+                                                    <items>
+                                                        <imageView width="35" height="35" alignment="center" image="Work-template" id="aSZ-3f-h1l">
+                                                            <color key="tintColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </imageView>
+                                                        <label width="49.5" alignment="center" text="Work" textAlignment="center" id="PrT-vW-OiZ">
+                                                            <fontDescription key="font" type="system" pointSize="14"/>
+                                                        </label>
+                                                    </items>
+                                                    <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                    <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="10"/>
+                                                </group>
+                                                <connections>
+                                                    <action selector="workButtonTapped" destination="jwh-PL-m83" id="ky1-dy-akR"/>
+                                                </connections>
+                                            </button>
                                         </items>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="15"/>
                                     </group>
                                     <connections>
-                                        <outlet property="homeButton" destination="qW8-3n-9cK" id="zfK-qu-7LU"/>
-                                        <outlet property="homeGroup" destination="ZPl-7l-tU9" id="mKr-gE-oY2"/>
                                         <outlet property="homeLabel" destination="Rm3-YQ-lk1" id="ztu-7m-Iy0"/>
-                                        <outlet property="workButton" destination="aYo-vZ-KIL" id="yZR-vF-ujS"/>
-                                        <outlet property="workGroup" destination="0EZ-Qf-oJH" id="IUu-O4-2Eu"/>
                                         <outlet property="workLabel" destination="PrT-vW-OiZ" id="WwG-zT-W4w"/>
                                     </connections>
                                 </tableRow>
@@ -90,12 +102,14 @@
                         </table>
                     </items>
                     <connections>
+                        <outlet property="activityGroup" destination="y7C-x5-PMZ" id="2sY-FB-fSo"/>
+                        <outlet property="activityImage" destination="qbI-1p-7N0" id="kHW-aQ-aDW"/>
                         <outlet property="bookmarksTable" destination="gba-sz-roE" id="Vyk-WN-vGw"/>
                         <outlet property="titleLabel" destination="nkg-ec-Pwh" id="5Ap-tS-iYf"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-6" y="-27"/>
+            <point key="canvasLocation" x="-6" y="-17"/>
         </scene>
         <!--Done-->
         <scene sceneID="mKE-Gu-pkx">
@@ -109,7 +123,7 @@
                                         <items>
                                             <group width="22" height="1" alignment="left" layout="vertical" spacing="0.0" id="f20-4N-mMI" userLabel="Time line">
                                                 <items>
-                                                    <group width="1" height="10" alignment="left" spacing="0.0" id="BjC-R4-aX9">
+                                                    <group width="1" height="59" alignment="left" spacing="0.0" id="BjC-R4-aX9">
                                                         <items>
                                                             <separator height="1" alignment="center" id="uBf-aO-Zll">
                                                                 <color key="color" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -140,7 +154,17 @@
                                                 <items>
                                                     <group width="1" alignment="left" layout="vertical" radius="6" id="ID2-4z-6f0">
                                                         <items>
-                                                            <group width="1" alignment="left" id="x2x-qO-Q1o">
+                                                            <label alignment="left" text="Current location" numberOfLines="2" id="V8s-zT-ULy">
+                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="font" type="system" weight="medium" pointSize="13"/>
+                                                            </label>
+                                                        </items>
+                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
+                                                    </group>
+                                                    <group width="1" alignment="left" layout="vertical" radius="6" id="oKg-Nu-QTh">
+                                                        <items>
+                                                            <group width="1" alignment="left" spacing="3" id="x2x-qO-Q1o">
                                                                 <items>
                                                                     <label alignment="left" text="Walk" id="YKy-J4-iYh">
                                                                         <fontDescription key="font" type="system" weight="semibold" pointSize="16"/>
@@ -150,16 +174,6 @@
                                                                     </label>
                                                                 </items>
                                                             </group>
-                                                            <label alignment="left" text="Current location" numberOfLines="2" id="V8s-zT-ULy">
-                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <fontDescription key="font" type="system" pointSize="13"/>
-                                                            </label>
-                                                        </items>
-                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
-                                                    </group>
-                                                    <group width="1" alignment="left" layout="vertical" radius="6" id="oKg-Nu-QTh">
-                                                        <items>
                                                             <label alignment="left" text="540 km • 7 min" minimumScaleFactor="0.80000000000000004" id="gyU-y2-wDi">
                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="font" type="system" pointSize="13"/>
@@ -180,10 +194,12 @@
                                         <outlet property="detailLabel" destination="gyU-y2-wDi" id="vXB-iH-IOE"/>
                                         <outlet property="legTypeImage" destination="CVy-pq-9vw" id="wlK-s4-XDR"/>
                                         <outlet property="legTypeImageGroup" destination="63d-ke-AEm" id="Xby-3H-d6U"/>
+                                        <outlet property="locationGroup" destination="ID2-4z-6f0" id="AHv-Fn-jdp"/>
                                         <outlet property="locationLabel" destination="V8s-zT-ULy" id="OKu-w3-YMf"/>
                                         <outlet property="previousLegLine" destination="uBf-aO-Zll" id="xST-pG-0aE"/>
                                         <outlet property="timeLabel" destination="oFM-3m-HX7" id="hJ3-2P-Hmo"/>
                                         <outlet property="transportNameLabel" destination="YKy-J4-iYh" id="nK4-ON-YG8"/>
+                                        <outlet property="transportationGroup" destination="oKg-Nu-QTh" id="AfK-N0-u52"/>
                                     </connections>
                                 </tableRow>
                             </items>

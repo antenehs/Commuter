@@ -19,14 +19,16 @@
 @property (strong, nonatomic) NSArray *transferredRoutes;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *titleLabel;
+@property (strong, nonatomic) IBOutlet WKInterfaceTable *bookmarksTable;
+@property (strong, nonatomic) IBOutlet WKInterfaceImage *activityImage;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *activityGroup;
+
 @property (strong, nonatomic) WatchCommunicationManager *communicationManager;
 @property (strong, nonatomic) WatchDataManager *watchDataManager;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation * currentUserLocation;
 
 @property (strong, nonatomic) NSTimer * locationRefreshTimer;
-
-@property (strong, nonatomic) IBOutlet WKInterfaceTable *bookmarksTable;
 
 @end
 
@@ -47,7 +49,7 @@
     [super awakeWithContext:context];
 
 //    [self readNamedBookmarksFromUserDefaults];
-    
+    [self endActivity];
     [self initLocationManager];
     
     self.communicationManager = [WatchCommunicationManager sharedManager];
@@ -123,24 +125,28 @@
 
 #pragma mark - Route methods
 -(void)searchRouteToBookmark:(NamedBookmarkE *)bookmark {
-//    CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
+    CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
 
     //TODO: update location and wait for a new one.
-    if (!self.currentUserLocation) {
-        //TODO: Show alert
-        WKAlertAction *action = [WKAlertAction actionWithTitle:@"OK" style:WKAlertActionStyleDefault handler:^{}];
-        [self presentAlertControllerWithTitle:@"Unauthorized Location Access" message: @"Please open commuter on your iPhone and tap on current location." preferredStyle:WKAlertControllerStyleAlert actions:@[action]];
-        return;
-    }
-    
-    [self.watchDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
+//    if (!self.currentUserLocation) {
+//        //TODO: Show alert
+//        WKAlertAction *action = [WKAlertAction actionWithTitle:@"OK" style:WKAlertActionStyleDefault handler:^{}];
+//        [self presentAlertControllerWithTitle:@"Unauthorized Location Access" message: @"Please open commuter on your iPhone and tap on current location." preferredStyle:WKAlertControllerStyleAlert actions:@[action]];
+//        return;
+//    }
+    [self showActivity];
+    [self.watchDataManager getRouteForNamedBookmark:bookmark fromLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
         if (!errorString && routes && routes.count > 0) {
+            for (Route *route in routes) {
+                route.fromLocationName = @"Current Location";
+                route.toLocationName = bookmark.name;
+            }
             [self showRoutes:routes];
         } else {
             //TODO: Show error message
         }
         
-        [self.bookmarksTable setAlpha:1];
+        [self endActivity];
     }];
 }
 
@@ -284,6 +290,27 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(nonnull NSError *)error {
     // error
+}
+
+#pragma mark - Activity indicator
+-(void)showActivity {
+    [self.titleLabel setHidden:YES];
+    [self.bookmarksTable setHidden:YES];
+    [self.activityGroup setHidden:NO];
+//    [self.activityGroup setAlpha:0];
+    
+    
+    [self.activityImage setImageNamed:@"Activity"];
+    [self.activityImage startAnimatingWithImagesInRange:NSMakeRange(1, 14) duration:1.3 repeatCount:0];
+//    [self animateWithDuration:0.3 animations:^{
+//        [self.activityGroup setAlpha:1];
+//    }];
+}
+
+-(void)endActivity {
+    [self.titleLabel setHidden:NO];
+    [self.bookmarksTable setHidden:NO];
+    [self.activityGroup setHidden:YES];
 }
 
 @end
