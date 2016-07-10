@@ -13,13 +13,16 @@
 @interface RouteLegRowController : NSObject
 
 -(void)setUpWithRouteLeg:(RouteLeg *)routeLeg inRoute:(Route *)route;
--(void)setUpAsDestinationForName:(NSString *)destinationName;
+-(void)setUpAsDestinationForName:(NSString *)destinationName prevLegType:(LegTransportType)prevLegType;
 
 //Timelineviews
-@property (strong, nonatomic) IBOutlet WKInterfaceSeparator *previousLegLine;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *previousLegLine;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *locationCircle;
 @property (strong, nonatomic) IBOutlet WKInterfaceImage *legTypeImage;
 @property (strong, nonatomic) IBOutlet WKInterfaceGroup *legTypeImageGroup;
-@property (strong, nonatomic) IBOutlet WKInterfaceSeparator *currentLegLine;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *currentLegLine1;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *currentLegLine2;
+@property (strong, nonatomic) IBOutlet WKInterfaceGroup *currentLegLine3;
 
 //Leg info labels
 

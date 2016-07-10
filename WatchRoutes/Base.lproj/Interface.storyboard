@@ -40,7 +40,7 @@
                                                             <fontDescription key="font" type="system" pointSize="14"/>
                                                         </label>
                                                     </items>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="10"/>
                                                 </group>
                                                 <connections>
@@ -57,7 +57,7 @@
                                                             <fontDescription key="font" type="system" pointSize="14"/>
                                                         </label>
                                                     </items>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <edgeInsets key="margins" left="0.0" right="0.0" top="10" bottom="10"/>
                                                 </group>
                                                 <connections>
@@ -121,85 +121,108 @@
                                 <tableRow identifier="RouteLegRow" selectable="NO" id="HWf-1j-I1J" customClass="RouteLegRowController">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" spacing="4" id="tzR-Tj-c3N">
                                         <items>
-                                            <group width="22" height="1" alignment="left" layout="vertical" spacing="0.0" id="f20-4N-mMI" userLabel="Time line">
+                                            <group width="1" alignment="right" layout="vertical" radius="6" spacing="0.0" id="Yg8-7O-zm3" userLabel="Leg Info">
                                                 <items>
-                                                    <group width="1" height="59" alignment="left" spacing="0.0" id="BjC-R4-aX9">
+                                                    <group alignment="left" id="Kdf-bc-1Bh" userLabel="LocationGroup">
                                                         <items>
-                                                            <separator height="1" alignment="center" id="uBf-aO-Zll">
-                                                                <color key="color" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </separator>
-                                                        </items>
-                                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                                    </group>
-                                                    <group width="22" height="22" alignment="center" radius="10" id="63d-ke-AEm">
-                                                        <items>
-                                                            <imageView width="15" height="15" alignment="center" verticalAlignment="center" image="walking-template" contentMode="scaleAspectFit" id="CVy-pq-9vw">
-                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </imageView>
-                                                        </items>
-                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </group>
-                                                    <group width="1" alignment="left" spacing="0.0" id="zPg-Lc-RKV">
-                                                        <items>
-                                                            <separator width="100" height="1" alignment="center" verticalAlignment="bottom" id="nG7-uV-L3E">
-                                                                <color key="color" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </separator>
-                                                        </items>
-                                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                                    </group>
-                                                </items>
-                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                            </group>
-                                            <group alignment="right" layout="vertical" radius="6" id="Yg8-7O-zm3" userLabel="Leg Info">
-                                                <items>
-                                                    <group width="1" alignment="left" layout="vertical" radius="6" id="ID2-4z-6f0">
-                                                        <items>
-                                                            <label alignment="left" text="Current location" numberOfLines="2" id="V8s-zT-ULy">
-                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <fontDescription key="font" type="system" weight="medium" pointSize="13"/>
-                                                            </label>
-                                                        </items>
-                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
-                                                    </group>
-                                                    <group width="1" alignment="left" layout="vertical" radius="6" id="oKg-Nu-QTh">
-                                                        <items>
-                                                            <group width="1" alignment="left" spacing="3" id="x2x-qO-Q1o">
+                                                            <group width="22" height="1" heightAdjustment="3" alignment="left" layout="vertical" spacing="0.0" id="OAa-Gh-Lhx">
                                                                 <items>
-                                                                    <label alignment="left" text="Walk" id="YKy-J4-iYh">
-                                                                        <fontDescription key="font" type="system" weight="semibold" pointSize="16"/>
-                                                                    </label>
-                                                                    <label alignment="right" text="10:45" id="oFM-3m-HX7">
-                                                                        <fontDescription key="font" type="system" pointSize="14"/>
-                                                                    </label>
+                                                                    <group width="2" height="20" alignment="center" spacing="0.0" id="BjC-R4-aX9">
+                                                                        <color key="backgroundColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </group>
+                                                                    <group width="10" height="10" alignment="center" verticalAlignment="center" radius="5" id="Z8j-5B-iYU">
+                                                                        <color key="backgroundColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </group>
+                                                                    <group width="2" height="20" alignment="center" verticalAlignment="bottom" id="T2O-C9-dMr">
+                                                                        <color key="backgroundColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </group>
                                                                 </items>
                                                             </group>
-                                                            <label alignment="left" text="540 km • 7 min" minimumScaleFactor="0.80000000000000004" id="gyU-y2-wDi">
-                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <fontDescription key="font" type="system" pointSize="13"/>
-                                                            </label>
+                                                            <group alignment="left" layout="vertical" spacing="0.0" id="fwP-vL-k0S">
+                                                                <items>
+                                                                    <group height="40" alignment="left" layout="vertical" radius="6" id="ID2-4z-6f0">
+                                                                        <items>
+                                                                            <label width="1" alignment="left" verticalAlignment="center" text="Current location" numberOfLines="2" id="V8s-zT-ULy">
+                                                                                <color key="textColor" red="0.81353317481884058" green="0.81353317481884058" blue="0.81353317481884058" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <fontDescription key="font" type="system" weight="medium" pointSize="13"/>
+                                                                            </label>
+                                                                        </items>
+                                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <edgeInsets key="margins" left="4" right="4" top="4" bottom="4"/>
+                                                                    </group>
+                                                                </items>
+                                                                <edgeInsets key="margins" left="0.0" right="0.0" top="4" bottom="2"/>
+                                                            </group>
                                                         </items>
-                                                        <color key="backgroundColor" red="0.1413114244" green="0.1413114244" blue="0.1413114244" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <edgeInsets key="margins" left="4" right="4" top="8" bottom="8"/>
+                                                    </group>
+                                                    <group width="1" alignment="left" id="pLb-3a-fWm" userLabel="Transport">
+                                                        <items>
+                                                            <group width="22" height="1" alignment="left" layout="vertical" spacing="0.0" id="f20-4N-mMI" userLabel="Time line">
+                                                                <items>
+                                                                    <group width="2" height="10" alignment="center" id="wE6-PT-kfd">
+                                                                        <color key="backgroundColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </group>
+                                                                    <group width="22" height="22" alignment="center" radius="10" id="63d-ke-AEm">
+                                                                        <items>
+                                                                            <imageView width="15" height="15" alignment="center" verticalAlignment="center" image="walking-template" contentMode="scaleAspectFit" id="CVy-pq-9vw">
+                                                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            </imageView>
+                                                                        </items>
+                                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </group>
+                                                                    <group width="2" height="23" alignment="center" spacing="0.0" id="zPg-Lc-RKV">
+                                                                        <color key="backgroundColor" red="0.98823529409999999" green="0.73725490199999999" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                                                    </group>
+                                                                </items>
+                                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                                            </group>
+                                                            <group height="55" alignment="left" layout="vertical" radius="6" id="oKg-Nu-QTh">
+                                                                <items>
+                                                                    <group width="1" alignment="left" spacing="3" id="x2x-qO-Q1o">
+                                                                        <items>
+                                                                            <label alignment="left" text="Walk" id="YKy-J4-iYh">
+                                                                                <fontDescription key="font" type="system" weight="semibold" pointSize="16"/>
+                                                                            </label>
+                                                                            <label alignment="right" text="10:45" id="oFM-3m-HX7">
+                                                                                <fontDescription key="font" type="system" pointSize="14"/>
+                                                                            </label>
+                                                                        </items>
+                                                                    </group>
+                                                                    <group width="1" alignment="left" id="wxn-qd-KgZ">
+                                                                        <items>
+                                                                            <label alignment="left" text="540 km • 7 min" minimumScaleFactor="0.80000000000000004" id="gyU-y2-wDi">
+                                                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                <fontDescription key="font" type="system" pointSize="13"/>
+                                                                            </label>
+                                                                        </items>
+                                                                    </group>
+                                                                </items>
+                                                                <color key="backgroundColor" red="0.1413114244" green="0.1413114244" blue="0.1413114244" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <edgeInsets key="margins" left="4" right="4" top="8" bottom="8"/>
+                                                            </group>
+                                                        </items>
                                                     </group>
                                                 </items>
-                                                <edgeInsets key="margins" left="0.0" right="2" top="6" bottom="6"/>
                                             </group>
                                         </items>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                     </group>
                                     <connections>
-                                        <outlet property="currentLegLine" destination="nG7-uV-L3E" id="XcI-wt-cmr"/>
+                                        <outlet property="currentLegLine1" destination="T2O-C9-dMr" id="qYc-c0-kgw"/>
+                                        <outlet property="currentLegLine2" destination="wE6-PT-kfd" id="d3z-Ao-XrK"/>
+                                        <outlet property="currentLegLine3" destination="zPg-Lc-RKV" id="Cpe-4J-dQV"/>
                                         <outlet property="detailLabel" destination="gyU-y2-wDi" id="vXB-iH-IOE"/>
                                         <outlet property="legTypeImage" destination="CVy-pq-9vw" id="wlK-s4-XDR"/>
                                         <outlet property="legTypeImageGroup" destination="63d-ke-AEm" id="Xby-3H-d6U"/>
-                                        <outlet property="locationGroup" destination="ID2-4z-6f0" id="AHv-Fn-jdp"/>
+                                        <outlet property="locationCircle" destination="Z8j-5B-iYU" id="mpV-oS-UIj"/>
+                                        <outlet property="locationGroup" destination="Kdf-bc-1Bh" id="tdH-Si-IX5"/>
                                         <outlet property="locationLabel" destination="V8s-zT-ULy" id="OKu-w3-YMf"/>
-                                        <outlet property="previousLegLine" destination="uBf-aO-Zll" id="xST-pG-0aE"/>
+                                        <outlet property="previousLegLine" destination="BjC-R4-aX9" id="osA-xo-Fvu"/>
                                         <outlet property="timeLabel" destination="oFM-3m-HX7" id="hJ3-2P-Hmo"/>
                                         <outlet property="transportNameLabel" destination="YKy-J4-iYh" id="nK4-ON-YG8"/>
-                                        <outlet property="transportationGroup" destination="oKg-Nu-QTh" id="AfK-N0-u52"/>
+                                        <outlet property="transportationGroup" destination="pLb-3a-fWm" id="sAn-1R-Ydk"/>
                                     </connections>
                                 </tableRow>
                             </items>
@@ -211,27 +234,6 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="265" y="-56"/>
-        </scene>
-        <!--ActivityView-->
-        <scene sceneID="4FN-44-CbW">
-            <objects>
-                <controller identifier="ActivityView" id="EjR-CH-lFf" customClass="ActivityInterfaceController">
-                    <items>
-                        <group alignment="center" verticalAlignment="center" layout="vertical" id="9Ix-KP-Gnb">
-                            <items>
-                                <imageView width="30" height="30" alignment="center" image="ai" id="kiY-e4-kEd"/>
-                                <label alignment="center" verticalAlignment="bottom" text="   Loading..." textAlignment="center" numberOfLines="2" id="BbV-OS-gKR"/>
-                            </items>
-                        </group>
-                    </items>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="activityImage" destination="kiY-e4-kEd" id="SEP-ID-gnv"/>
-                        <outlet property="activityLabel" destination="BbV-OS-gKR" id="eBA-BV-WSX"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="265" y="-358"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

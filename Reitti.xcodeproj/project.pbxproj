@@ -38,6 +38,7 @@
 		66056E721C42AAFE00C011FB /* VehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E671C42AAFE00C011FB /* VehicleLocation.m */; };
 		66056E731C42AAFE00C011FB /* VehicleRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E691C42AAFE00C011FB /* VehicleRef.m */; };
 		66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E811C497E4300C011FB /* GeoCodeDetail.m */; };
+		6605C2841D30FBD100C228B1 /* ComplicationDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6605C2831D30FBD100C228B1 /* ComplicationDataManager.m */; };
 		660715FA1B45CD2C00033049 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715E91B45CD2C00033049 /* Distance.m */; };
 		660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715EB1B45CD2C00033049 /* InactiveReasons.m */; };
 		660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715ED1B45CD2C00033049 /* PeriodProductState.m */; };
@@ -135,7 +136,6 @@
 		663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207161D27E2AE00D8A46D /* HomeAndWorkRowController.m */; };
 		6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207191D27E36400D8A46D /* LocationRowController.m */; };
 		6632071C1D27FE5300D8A46D /* ActivityIndicator.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632071B1D27FE5300D8A46D /* ActivityIndicator.xcassets */; };
-		6632071F1D27FFAE00D8A46D /* ActivityInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6632071E1D27FFAE00D8A46D /* ActivityInterfaceController.m */; };
 		663207221D282F3F00D8A46D /* RouteInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207211D282F3F00D8A46D /* RouteInterfaceController.m */; };
 		663207231D282FE200D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		663207241D291C4100D8A46D /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
@@ -1116,6 +1116,8 @@
 		66056E691C42AAFE00C011FB /* VehicleRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VehicleRef.m; sourceTree = "<group>"; };
 		66056E801C497E4300C011FB /* GeoCodeDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCodeDetail.h; sourceTree = "<group>"; };
 		66056E811C497E4300C011FB /* GeoCodeDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoCodeDetail.m; sourceTree = "<group>"; };
+		6605C2821D30FBD100C228B1 /* ComplicationDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComplicationDataManager.h; sourceTree = "<group>"; };
+		6605C2831D30FBD100C228B1 /* ComplicationDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComplicationDataManager.m; sourceTree = "<group>"; };
 		660715E81B45CD2C00033049 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distance.h; sourceTree = "<group>"; };
 		660715E91B45CD2C00033049 /* Distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Distance.m; sourceTree = "<group>"; };
 		660715EA1B45CD2C00033049 /* InactiveReasons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InactiveReasons.h; sourceTree = "<group>"; };
@@ -1272,8 +1274,6 @@
 		663207181D27E36400D8A46D /* LocationRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationRowController.h; sourceTree = "<group>"; };
 		663207191D27E36400D8A46D /* LocationRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationRowController.m; sourceTree = "<group>"; };
 		6632071B1D27FE5300D8A46D /* ActivityIndicator.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ActivityIndicator.xcassets; sourceTree = "<group>"; };
-		6632071D1D27FFAE00D8A46D /* ActivityInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityInterfaceController.h; sourceTree = "<group>"; };
-		6632071E1D27FFAE00D8A46D /* ActivityInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityInterfaceController.m; sourceTree = "<group>"; };
 		663207201D282F3F00D8A46D /* RouteInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteInterfaceController.h; sourceTree = "<group>"; };
 		663207211D282F3F00D8A46D /* RouteInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteInterfaceController.m; sourceTree = "<group>"; };
 		6632072E1D29501E00D8A46D /* RouteLegRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegRowController.h; sourceTree = "<group>"; };
@@ -2391,8 +2391,6 @@
 				6624819E1D1FFBF700574319 /* NotificationController.m */,
 				662481A01D1FFBF700574319 /* ComplicationController.h */,
 				662481A11D1FFBF700574319 /* ComplicationController.m */,
-				6632071D1D27FFAE00D8A46D /* ActivityInterfaceController.h */,
-				6632071E1D27FFAE00D8A46D /* ActivityInterfaceController.m */,
 				663207141D27E28B00D8A46D /* Rows */,
 				66B391991D205DD000C500CC /* Managers */,
 				66B391A31D2305C900C500CC /* Models */,
@@ -2913,6 +2911,8 @@
 				66B3919B1D205DF900C500CC /* WatchCommunicationManager.m */,
 				66B391B91D2307CC00C500CC /* WatchDataManager.h */,
 				66B391BA1D2307CC00C500CC /* WatchDataManager.m */,
+				6605C2821D30FBD100C228B1 /* ComplicationDataManager.h */,
+				6605C2831D30FBD100C228B1 /* ComplicationDataManager.m */,
 				66B391BC1D23086200C500CC /* WatchHslApi.h */,
 				66B391BD1D23086200C500CC /* WatchHslApi.m */,
 				66B391BF1D23087300C500CC /* WatchApiClient.h */,
@@ -4244,6 +4244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6624819C1D1FFBF700574319 /* ExtensionDelegate.m in Sources */,
+				6605C2841D30FBD100C228B1 /* ComplicationDataManager.m in Sources */,
 				66B391C11D23087300C500CC /* WatchApiClient.m in Sources */,
 				662481A21D1FFBF700574319 /* ComplicationController.m in Sources */,
 				66B391B51D23078B00C500CC /* HSLLocs.m in Sources */,
@@ -4275,7 +4276,6 @@
 				66B391BB1D2307CC00C500CC /* WatchDataManager.m in Sources */,
 				6624819F1D1FFBF700574319 /* NotificationController.m in Sources */,
 				66B3919E1D205DF900C500CC /* WatchCommunicationManager.m in Sources */,
-				6632071F1D27FFAE00D8A46D /* ActivityInterfaceController.m in Sources */,
 				6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

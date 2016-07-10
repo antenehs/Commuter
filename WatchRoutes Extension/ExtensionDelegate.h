@@ -10,4 +10,6 @@
 
 @interface ExtensionDelegate : NSObject <WKExtensionDelegate>
 
+-(NSDate *)complicationDate;
+
 @end

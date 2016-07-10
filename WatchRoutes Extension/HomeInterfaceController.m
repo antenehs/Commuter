@@ -11,6 +11,7 @@
 #import "NamedBookmarkE.h"
 #import "WatchDataManager.h"
 #import "Route.h"
+#import "ComplicationDataManager.h"
 
 @interface HomeInterfaceController() <CLLocationManagerDelegate>
 
@@ -245,6 +246,8 @@
     
     self.transferredRoutes = routes;
     [self showRoutes:routes];
+    if (routes.count > 0)
+        [[ComplicationDataManager sharedManager] setRoute:routes[0]];
 }
 
 #pragma mark - CLLocation Manager

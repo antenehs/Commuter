@@ -22,14 +22,13 @@
     NSInteger routeLegIndex = [route.routeLegs indexOfObject:routeLeg];
     if (routeLegIndex == 0) {
         [self.previousLegLine setHidden:YES];
-        [self.currentLegLine setHidden:NO];
-    } else if (routeLegIndex == route.routeLegs.count - 1) {
-        [self.previousLegLine setHidden:NO];
-        [self.currentLegLine setHidden:YES];
     } else {
         [self.previousLegLine setHidden:NO];
-        [self.currentLegLine setHidden:NO];
     }
+    
+    [self.currentLegLine1 setHidden:NO];
+    [self.currentLegLine2 setHidden:NO];
+    [self.currentLegLine3 setHidden:NO];
     
     RouteLeg *prevLeg = nil;
     RouteLeg *nextLeg = nil;
@@ -47,10 +46,19 @@
         }
     }
     
+    [self.locationCircle setBackgroundColor:[AppManager colorForLegType:routeLeg.legType]];
+    
     if (prevLeg) {
-        [self.previousLegLine setColor:[AppManager colorForLegType:prevLeg.legType]];
+        [self.previousLegLine setBackgroundColor:[AppManager colorForLegType:prevLeg.legType]];
+        if (routeLeg.legType == LegTypeWalk) {
+            [self.locationCircle setBackgroundColor:[AppManager colorForLegType:prevLeg.legType]];
+        }
     }
-    [self.currentLegLine setColor:[AppManager colorForLegType:routeLeg.legType]];
+    
+    [self.currentLegLine1 setBackgroundColor:[AppManager colorForLegType:routeLeg.legType]];
+    [self.currentLegLine2 setBackgroundColor:[AppManager colorForLegType:routeLeg.legType]];
+    [self.currentLegLine3 setBackgroundColor:[AppManager colorForLegType:routeLeg.legType]];
+    
     [self.legTypeImageGroup setBackgroundColor:[AppManager colorForLegType:routeLeg.legType]];
     
     //Transport image
@@ -87,11 +95,15 @@
     [self.detailLabel setText:detailText];
 }
 
--(void)setUpAsDestinationForName:(NSString *)destinationName {
+-(void)setUpAsDestinationForName:(NSString *)destinationName prevLegType:(LegTransportType)prevLegType {
     //For now
     [self.legTypeImageGroup setHidden:YES];
     [self.transportationGroup setHidden:YES];
     [self.locationGroup setHidden:NO];
+    
+    [self.currentLegLine1 setHidden:YES];
+    [self.previousLegLine setBackgroundColor:[AppManager colorForLegType:prevLegType]];
+    [self.locationCircle setBackgroundColor:[AppManager colorForLegType:prevLegType]];
     
     [self.locationLabel setText:destinationName];
 }

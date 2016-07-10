@@ -61,14 +61,18 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
 }
 
 -(void)transferRoutes:(NSArray *)routesDictionary {
-    //TODO: use transferCurrentComplicationUserInfo instead to force complication update
-    
-    if (routesDictionary) [self transferUserInfo:@{kRoutesUserInfoKey : routesDictionary}];
+    if (routesDictionary) [self transferUserInfoForComplication:@{kRoutesUserInfoKey : routesDictionary}];
 }
 
 //Userinfo will be queed until watch app is available
 -(void)transferUserInfo:(NSDictionary *)userInfo {
     [self.session transferUserInfo:userInfo];
+}
+
+-(void)transferUserInfoForComplication:(NSDictionary *)userInfo {
+#ifndef APPLE_WATCH
+    [self.session transferCurrentComplicationUserInfo:userInfo];
+#endif
 }
 
 -(void)session:(WCSession *)session didReceiveUserInfo:(NSDictionary<NSString *,id> *)userInfo {

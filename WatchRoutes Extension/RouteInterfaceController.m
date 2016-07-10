@@ -11,10 +11,12 @@
 #import "Route.h"
 #import "NamedBookmarkE.h"
 #import "WatchDataManager.h"
+#import "ComplicationDataManager.h"
 
 @interface RouteInterfaceController ()
 
 @property (strong, nonatomic) IBOutlet WKInterfaceTable *routeTable;
+@property (strong, nonatomic) Route *route;
 
 @end
 
@@ -40,13 +42,18 @@
         }];
     } else if ([context isKindOfClass:[Route class]]) {
          Route *route = (Route *)context;
-         if (route) [self setUpViewForRoute:route];
-         else [self dismissController];
+        if (route) {
+            [self setUpViewForRoute:route];
+            self.route = route;
+        } else [self dismissController];
     }
 }
 
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
+    if (self.route) {
+        [self updateComplicationDataForRoute:self.route];
+    }
     [super willActivate];
 }
 
@@ -64,9 +71,14 @@
         if (i < route.routeLegs.count) {
             [controller setUpWithRouteLeg:route.routeLegs[i] inRoute:route];
         } else { //destination row
-            [controller setUpAsDestinationForName:route.toLocationName];
+            RouteLeg *lastLeg = [route.routeLegs lastObject];
+            [controller setUpAsDestinationForName:route.toLocationName prevLegType:lastLeg.legType];
         }
     }
+}
+
+-(void)updateComplicationDataForRoute:(Route *)route {
+    [[ComplicationDataManager sharedManager] setRoute:route];
 }
 
 @end
