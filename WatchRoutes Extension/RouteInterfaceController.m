@@ -59,7 +59,12 @@
 
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
+//    [[ComplicationDataManager sharedManager] setRoute:nil];
     [super didDeactivate];
+}
+
+-(void)handleUserActivity:(NSDictionary *)userInfo {
+    
 }
 
 -(void)setUpViewForRoute:(Route *)route {

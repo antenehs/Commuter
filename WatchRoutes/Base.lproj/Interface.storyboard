@@ -10,11 +10,21 @@
             <objects>
                 <controller identifier="Home" title="Commuter" id="AgC-eL-Hgc" customClass="HomeInterfaceController">
                     <items>
-                        <group width="1" height="164.5" alignment="left" id="y7C-x5-PMZ">
+                        <group width="1" height="164.5" alignment="left" layout="vertical" id="y7C-x5-PMZ">
                             <items>
-                                <imageView alignment="center" image="Activity1" id="qbI-1p-7N0"/>
+                                <group width="1" height="0.5" alignment="left" id="xNt-Bq-QGj">
+                                    <items>
+                                        <imageView alignment="center" verticalAlignment="bottom" image="Activity1" id="qbI-1p-7N0"/>
+                                    </items>
+                                </group>
+                                <group width="1" height="0.5" alignment="left" verticalAlignment="center" id="z21-uW-yDN">
+                                    <items>
+                                        <label width="1" alignment="center" text="Loading..." textAlignment="center" id="9my-ab-uTM"/>
+                                    </items>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="0.0"/>
+                                </group>
                             </items>
-                            <edgeInsets key="margins" left="0.0" right="0.0" top="50" bottom="0.0"/>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                         </group>
                         <group width="1" alignment="left" id="7pH-OC-ycP">
                             <items>
@@ -104,6 +114,7 @@
                     <connections>
                         <outlet property="activityGroup" destination="y7C-x5-PMZ" id="2sY-FB-fSo"/>
                         <outlet property="activityImage" destination="qbI-1p-7N0" id="kHW-aQ-aDW"/>
+                        <outlet property="activityLabel" destination="9my-ab-uTM" id="yWC-7M-k7e"/>
                         <outlet property="bookmarksTable" destination="gba-sz-roE" id="Vyk-WN-vGw"/>
                         <outlet property="titleLabel" destination="nkg-ec-Pwh" id="5Ap-tS-iYf"/>
                     </connections>

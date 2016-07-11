@@ -21,4 +21,6 @@ extern NSString* ComplicationShortTextData;
 -(void)setRoute:(Route *)route;
 -(NSDate *)getDepartureTime;
 
+@property(nonatomic, strong)Route *routeForComplication;
+
 @end

@@ -9,6 +9,7 @@
 #import "ComplicationController.h"
 #import "ComplicationDataManager.h"
 #import "ExtensionDelegate.h"
+#import "AppManagerBase.h"
 
 @interface NSDate (ComplicationHelper)
 
@@ -63,6 +64,8 @@
         textProvide = [CLKRelativeDateTextProvider textProviderWithDate:date style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
     } else {
         textProvide = [self placeholderTextProviderForFamily:complication.family];
+//        handler(nil);
+//        return;
     }
     
     CLKComplicationTimelineEntry* entry = nil;
@@ -74,7 +77,7 @@
         
         textTemplate.textProvider = textProvide;
         CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:[UIImage imageNamed:@"Complication/Utilitarian"]];
-//        imageProvider.tintColor = [UIColor blueColor];
+        imageProvider.tintColor = [AppManagerBase systemGreenColor];
         textTemplate.imageProvider = imageProvider;
         entry = [CLKComplicationTimelineEntry entryWithDate:now complicationTemplate:textTemplate];
     }
@@ -92,6 +95,9 @@
 
 - (void)getTimelineEntriesForComplication:(CLKComplication *)complication afterDate:(NSDate *)date limit:(NSUInteger)limit withHandler:(void(^)(NSArray<CLKComplicationTimelineEntry *> * __nullable entries))handler {
     // Call the handler with the timeline entries after to the given date
+//    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
+//    NSDate* endDate = [myDelegate complicationDate];
+    
     handler(nil);
 }
 
@@ -103,11 +109,7 @@
     ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
     NSDate* date = [myDelegate complicationDate];
     
-    if ([date isValidDate]) {
-        handler(date);
-    } else {
-        handler(nil);
-    }
+    handler(date);
 }
 
 -(void)requestedUpdateDidBegin {

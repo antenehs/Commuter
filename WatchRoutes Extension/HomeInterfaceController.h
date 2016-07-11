@@ -12,6 +12,8 @@
 #import "HomeAndWorkRowController.h"
 #import "LocationRowController.h"
 
+typedef void (^RouteSearchBlock)(CLLocation *fromLocation);
+
 @interface HomeInterfaceController : WKInterfaceController <WCManagerDelegate, HomeAndWorkRowControllerDelegate>
 
 @end

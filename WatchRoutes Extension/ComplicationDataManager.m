@@ -32,7 +32,12 @@ NSString* ComplicationShortTextData = @"ComplicationShortTextData";
 }
 
 -(void)setRoute:(Route *)route {
-    [self saveDateToDefaults:route.timeAtTheFirstStop];
+    self.routeForComplication = route;
+    if (route) {
+        [self saveDateToDefaults:route.timeAtTheFirstStop];
+    } else {
+        [self saveDateToDefaults:nil];
+    }
     [self refreshComplications];
 }
 
