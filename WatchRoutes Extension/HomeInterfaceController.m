@@ -100,11 +100,11 @@
     if (home) [otherBookmarks removeObject:home];
     if (work) [otherBookmarks removeObject:work];
     
-    bool homeOrWorkExist = home || work;
+//    bool homeOrWorkExist = home || work;
     
     NSMutableArray *rowTypes = [@[] mutableCopy];
-    if (homeOrWorkExist)
-        [rowTypes addObject:@"HomeAndWorkRow"];
+//    if (homeOrWorkExist)
+    [rowTypes addObject:@"HomeAndWorkRow"];
     
     for (int i = 0; i < otherBookmarks.count; i++)
         [rowTypes addObject:@"LocationRow"];
@@ -121,13 +121,13 @@
     //Setup home and work first
     
     for (int i = 0; i < self.bookmarksTable.numberOfRows; i++) {
-        if (i == 0 && homeOrWorkExist) {
+        if (i == 0) {
             HomeAndWorkRowController *controller = (HomeAndWorkRowController *)[self.bookmarksTable rowControllerAtIndex:i];
             [controller setUpWithHomeBookmark:home andWorkBookmark:work];
             controller.delegate = self;
         } else if (otherBookmarks.count > 0) {
             LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
-            [controller setUpWithNamedBookmark:otherBookmarks[i - (homeOrWorkExist ? 1 : 0)]];
+            [controller setUpWithNamedBookmark:otherBookmarks[i - 1]];
         }
     }
 }
@@ -178,6 +178,11 @@
 }
 
 -(void)showRoutes:(NSArray *)routes {
+    if (routes && routes.count == 1) {
+        [self showRoute:routes[0]];
+        return;
+    }
+    
     //TODO: Filter out expired routes
     NSMutableArray *controllerNames = [@[] mutableCopy];
     NSMutableArray *contexts = [@[] mutableCopy];
@@ -256,6 +261,10 @@
     [self checkLocationAndGetRouteToBookmark:bookmark];
 }
 
+-(void)selectedNoneExistingBookmark:(NSString * _Nonnull)bookmarkName {
+    [self showNoneExistingBookmarkNamed:bookmarkName];
+}
+
 #pragma mark - Communication Manager Delegate methods
 -(void)receivedNamedBookmarksArray:(NSArray *)bookmarksArray {
     
@@ -293,7 +302,7 @@
 
 -(void)startLocationUpdate {
     [self requestLocation];
-    self.locationRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(requestLocation) userInfo:nil repeats:YES];
+    self.locationRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(requestLocation) userInfo:nil repeats:YES];
 }
 
 -(void)initLocationManager {
@@ -384,6 +393,10 @@
 #pragma mark - Specific messages
 -(void)showLocationNotAuthorizedMessage {
     [self showAlertWithTitle:@"Unauthorized Location Access" andMessage:@"Please open commuter on your iPhone and tap on current location."];
+}
+
+-(void)showNoneExistingBookmarkNamed:(NSString *)bookmarkName {
+    [self showAlertWithTitle:nil andMessage:[NSString stringWithFormat:@"%@ address is not set. Set it from Commuter on your iPhone to get directions.", bookmarkName]];
 }
 
 @end

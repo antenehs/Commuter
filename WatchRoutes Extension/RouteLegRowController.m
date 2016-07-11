@@ -77,9 +77,9 @@
     [self.timeLabel setText:[[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime]];
     
     if (routeLegIndex == 0) {
-        [self.locationLabel setText:route.fromLocationName];
+        [self setLocationLabelText:route.fromLocationName];
     } else {
-        [self.locationLabel setText:routeLeg.startLocName];
+        [self setLocationLabelText:routeLeg.startLocName];
     }
     
     NSString *detailText = @"";
@@ -93,6 +93,9 @@
     }
     
     [self.detailLabel setText:detailText];
+    
+    self.routeLeg = routeLeg;
+    self.route = route;
 }
 
 -(void)setUpAsDestinationForName:(NSString *)destinationName prevLegType:(LegTransportType)prevLegType {
@@ -105,7 +108,13 @@
     [self.previousLegLine setBackgroundColor:[AppManager colorForLegType:prevLegType]];
     [self.locationCircle setBackgroundColor:[AppManager colorForLegType:prevLegType]];
     
-    [self.locationLabel setText:destinationName];
+    [self setLocationLabelText:destinationName];
+}
+
+#pragma mark - helpers
+-(void)setLocationLabelText:(NSString *)text {
+    [self.locationLabel setText:text];
+    self.locationName = text;
 }
 
 @end

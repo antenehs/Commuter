@@ -944,6 +944,7 @@
 		66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */; };
 		66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */; };
 		66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */; };
+		66F9383D1D342B68009C7227 /* MapInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F9383C1D342B68009C7227 /* MapInterfaceController.m */; };
 		66FC547D1B23656F005B890D /* routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547B1B23656F005B890D /* routes.json */; };
 		66FC547E1B23656F005B890D /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547C1B23656F005B890D /* stops.json */; };
 		66FC54811B23677B005B890D /* StaticRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54801B23677B005B890D /* StaticRoute.m */; };
@@ -1807,6 +1808,8 @@
 		66F6CEE81B52A86B00F934A2 /* MultiSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSelectTableViewController.h; sourceTree = "<group>"; };
 		66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiSelectTableViewController.m; sourceTree = "<group>"; };
 		66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 11.xcdatamodel"; sourceTree = "<group>"; };
+		66F9383B1D342B68009C7227 /* MapInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapInterfaceController.h; sourceTree = "<group>"; };
+		66F9383C1D342B68009C7227 /* MapInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapInterfaceController.m; sourceTree = "<group>"; };
 		66FC547B1B23656F005B890D /* routes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routes.json; sourceTree = "<group>"; };
 		66FC547C1B23656F005B890D /* stops.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stops.json; sourceTree = "<group>"; };
 		66FC547F1B23677B005B890D /* StaticRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticRoute.h; sourceTree = "<group>"; };
@@ -2397,6 +2400,8 @@
 				662481A31D1FFBF700574319 /* Assets.xcassets */,
 				662481A51D1FFBF700574319 /* Info.plist */,
 				662481951D1FFBF700574319 /* Supporting Files */,
+				66F9383B1D342B68009C7227 /* MapInterfaceController.h */,
+				66F9383C1D342B68009C7227 /* MapInterfaceController.m */,
 			);
 			path = "WatchRoutes Extension";
 			sourceTree = "<group>";
@@ -4248,6 +4253,7 @@
 				66B391C11D23087300C500CC /* WatchApiClient.m in Sources */,
 				662481A21D1FFBF700574319 /* ComplicationController.m in Sources */,
 				66B391B51D23078B00C500CC /* HSLLocs.m in Sources */,
+				66F9383D1D342B68009C7227 /* MapInterfaceController.m in Sources */,
 				66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */,
 				66B391B81D23078B00C500CC /* HSLRoute.m in Sources */,
 				66B391971D20129B00C500CC /* AppManagerBase.m in Sources */,

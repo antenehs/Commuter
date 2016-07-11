@@ -12,6 +12,7 @@
 
 @protocol HomeAndWorkRowControllerDelegate <NSObject>
 -(void)selectedBookmark:(NamedBookmarkE * _Nonnull)bookmark;
+-(void)selectedNoneExistingBookmark:(NSString * _Nonnull)bookmarkName;
 @end
 
 @interface HomeAndWorkRowController : NSObject

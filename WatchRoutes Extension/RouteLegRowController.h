@@ -33,6 +33,8 @@
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *locationLabel;
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *detailLabel;
 
+@property (strong, nonatomic) NSString *locationName;
+@property (nonatomic)CLLocationCoordinate2D *locationCoords;
 @property (strong, nonatomic) Route *route;
 @property (strong, nonatomic) RouteLeg *routeLeg;
 

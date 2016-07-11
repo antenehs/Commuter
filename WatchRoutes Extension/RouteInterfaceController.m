@@ -9,9 +9,11 @@
 #import "RouteInterfaceController.h"
 #import "RouteLegRowController.h"
 #import "Route.h"
+#import "RouteLegLocation.h"
 #import "NamedBookmarkE.h"
 #import "WatchDataManager.h"
 #import "ComplicationDataManager.h"
+#import "MapInterfaceController.h"
 
 @interface RouteInterfaceController ()
 
@@ -80,6 +82,26 @@
             [controller setUpAsDestinationForName:route.toLocationName prevLegType:lastLeg.legType];
         }
     }
+}
+
+-(void)table:(WKInterfaceTable *)table didSelectRowAtIndex:(NSInteger)rowIndex {
+    NSString *locationName = nil;
+    CLLocationCoordinate2D coords;
+    RouteLegRowController *controller = (RouteLegRowController *)[self.routeTable rowControllerAtIndex:rowIndex];
+    locationName = controller.locationName;
+    
+    if (rowIndex < self.route.routeLegs.count) {
+        RouteLegLocation *loc = [controller.routeLeg.legLocations firstObject];
+        if (!loc) return;
+        coords = loc.coords;
+    } else {//Destination row
+        RouteLeg *lastLeg = [self.route.routeLegs lastObject];
+        RouteLegLocation *loc = [lastLeg.legLocations lastObject];
+        if (!loc) return;
+        coords = loc.coords;
+    }
+    
+    [self presentControllerWithName:@"MapView" context:@{LocationNameContextKey: locationName, LocationCoordsContextKey: [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude]}];
 }
 
 -(void)updateComplicationDataForRoute:(Route *)route {

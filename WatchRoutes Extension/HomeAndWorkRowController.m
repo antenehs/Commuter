@@ -12,8 +12,8 @@
 
 -(void)setUpWithHomeBookmark:(NamedBookmarkE *)home andWorkBookmark:(NamedBookmarkE *)work {
     
-    [self.homeGroup setHidden:!home];
-    [self.workGroup setHidden:!work];
+//    [self.homeGroup setHidden:!home];
+//    [self.workGroup setHidden:!work];
     
     self.homeBookmark = home;
     self.workBookmark = work;
@@ -23,11 +23,15 @@
 - (IBAction)homeButtonTapped {
     if (self.homeBookmark)
         [self.delegate selectedBookmark:self.homeBookmark];
+    else
+        [self.delegate selectedNoneExistingBookmark:@"Home"];
 }
 
 - (IBAction)workButtonTapped {
     if (self.workBookmark)
         [self.delegate selectedBookmark:self.workBookmark];
+    else
+        [self.delegate selectedNoneExistingBookmark:@"Work"];
 }
 
 
