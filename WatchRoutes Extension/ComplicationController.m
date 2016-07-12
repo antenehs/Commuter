@@ -27,6 +27,10 @@
 
 @interface ComplicationController ()
 
+@property (nonatomic, strong, readonly)NSDate *complicationDepartureDate;
+@property (nonatomic, strong, readonly)NSString *complicationTransportName;
+@property (nonatomic, strong, readonly)UIImage *complicationImage;
+
 @end
 
 @implementation ComplicationController
@@ -42,10 +46,8 @@
 }
 
 - (void)getTimelineEndDateForComplication:(CLKComplication *)complication withHandler:(void(^)(NSDate * __nullable date))handler {
-    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-    NSDate* date = [myDelegate complicationDate];
     
-    handler(date);
+    handler(self.complicationDepartureDate);
 }
 
 - (void)getPrivacyBehaviorForComplication:(CLKComplication *)complication withHandler:(void(^)(CLKComplicationPrivacyBehavior privacyBehavior))handler {
@@ -56,49 +58,28 @@
 
 - (void)getCurrentTimelineEntryForComplication:(CLKComplication *)complication withHandler:(void(^)(CLKComplicationTimelineEntry * __nullable))handler {
     // Get the current complication data from the extension delegate.
-    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-    NSDate* date = [myDelegate complicationDate];
-
-    CLKTextProvider *textProvide;
-    if ([date isValidDate]) {
-        textProvide = [CLKRelativeDateTextProvider textProviderWithDate:date style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
-    } else {
-        textProvide = [self placeholderTextProviderForFamily:complication.family];
-//        handler(nil);
-//        return;
-    }
     
-    CLKComplicationTimelineEntry* entry = nil;
-    NSDate* now = [NSDate date];
-    
-    // Create the template and timeline entry.
-    if (complication.family == CLKComplicationFamilyUtilitarianSmall) {
-        CLKComplicationTemplateUtilitarianSmallFlat* textTemplate = [[CLKComplicationTemplateUtilitarianSmallFlat alloc] init];
-        
-        textTemplate.textProvider = textProvide;
-        CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:[UIImage imageNamed:@"Complication/Utilitarian"]];
-        imageProvider.tintColor = [AppManagerBase systemGreenColor];
-        textTemplate.imageProvider = imageProvider;
-        entry = [CLKComplicationTimelineEntry entryWithDate:now complicationTemplate:textTemplate];
-    }
-    else {
-        
-    }
-    
+    CLKComplicationTimelineEntry* entry = [self timeLineEntryForDate:[NSDate date] andComplicationFamily:complication.family];
     handler(entry);
 }
 
 - (void)getTimelineEntriesForComplication:(CLKComplication *)complication beforeDate:(NSDate *)date limit:(NSUInteger)limit withHandler:(void(^)(NSArray<CLKComplicationTimelineEntry *> * __nullable entries))handler {
     // Call the handler with the timeline entries prior to the given date
+    
     handler(nil);
 }
 
 - (void)getTimelineEntriesForComplication:(CLKComplication *)complication afterDate:(NSDate *)date limit:(NSUInteger)limit withHandler:(void(^)(NSArray<CLKComplicationTimelineEntry *> * __nullable entries))handler {
     // Call the handler with the timeline entries after to the given date
-//    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-//    NSDate* endDate = [myDelegate complicationDate];
+   
+    CLKComplicationTimelineEntry* nowEntry = [self timeLineEntryForDate:date andComplicationFamily:complication.family];
+    CLKComplicationTimelineEntry* endEntry = [self timeLineEntryForDate:self.complicationDepartureDate andComplicationFamily:complication.family];
     
-    handler(nil);
+    if (nowEntry && endEntry) {
+        handler(@[nowEntry, endEntry]);
+    } else {
+        handler(nil);
+    }
 }
 
 #pragma mark Update Scheduling
@@ -106,10 +87,13 @@
 - (void)getNextRequestedUpdateDateWithHandler:(void(^)(NSDate * __nullable updateDate))handler {
     // Call the handler with the date when you would next like to be given the opportunity to update your complication content
     
-    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-    NSDate* date = [myDelegate complicationDate];
+    NSDate *departureDate = self.complicationDepartureDate;
+    if (departureDate) {
+        NSDate *nextTime = [departureDate dateByAddingTimeInterval:45];
+        handler(nextTime);
+    }
     
-    handler(date);
+    handler(nil);
 }
 
 -(void)requestedUpdateDidBegin {
@@ -120,30 +104,82 @@
 - (void)getPlaceholderTemplateForComplication:(CLKComplication *)complication withHandler:(void(^)(CLKComplicationTemplate * __nullable complicationTemplate))handler {
     // This method will be called once per supported complication, and the results will be cached
     
-    handler([self placeholderTemplateForFamily:complication.family]);
+    handler([self templateForDate:[NSDate date] andFamily:complication.family]);
 }
 
 #pragma mark - Helpers
--(CLKComplicationTemplate *)placeholderTemplateForFamily:(CLKComplicationFamily)family {
-    if (family == CLKComplicationFamilyUtilitarianSmall) {
-        CLKComplicationTemplateUtilitarianSmallFlat* textTemplate = [[CLKComplicationTemplateUtilitarianSmallFlat alloc] init];
-        
-        textTemplate.textProvider = [self placeholderTextProviderForFamily:family];
-        CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:[UIImage imageNamed:@"Complication/Utilitarian"]];
-        //        imageProvider.tintColor = [UIColor blueColor];
-        textTemplate.imageProvider = imageProvider;
-        return textTemplate;
-    }
-    else {
-        // ...configure entries for other complication families.
+-(CLKComplicationTimelineEntry *)timeLineEntryForDate:(NSDate *)date andComplicationFamily:(CLKComplicationFamily)family {
+    CLKComplicationTemplate* template = [self templateForDate:(NSDate *)date andFamily:family];
+    return [CLKComplicationTimelineEntry entryWithDate:date complicationTemplate:template];
+}
+
+-(CLKComplicationTemplate *)templateForDate:(NSDate *)date andFamily:(CLKComplicationFamily)family {
+    if (family == CLKComplicationFamilyUtilitarianSmall || family == CLKComplicationFamilyUtilitarianLarge) {
+        return [self utilitarianTemplateForDate:date andFamily:family];
+    } else if (family == CLKComplicationFamilyModularSmall || family == CLKComplicationFamilyModularLarge)  {
+        return [self modularTemplateForDate:date andFamily:family];
     }
     
     return nil;
 }
 
--(CLKSimpleTextProvider *)placeholderTextProviderForFamily:(CLKComplicationFamily)family {
+-(CLKComplicationTemplate *)utilitarianTemplateForDate:(NSDate *)date andFamily:(CLKComplicationFamily)family {
+    NSDate* departureDate = self.complicationDepartureDate;
+    BOOL isValidDate = departureDate && [date timeIntervalSinceDate:departureDate] < 0;
+    
+    CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:self.complicationImage];
+    imageProvider.tintColor = [AppManagerBase systemGreenColor];
+    
+    CLKTextProvider *textProvider;
     if (family == CLKComplicationFamilyUtilitarianSmall) {
-        return [CLKSimpleTextProvider textProviderWithText:@"--"];
+        if (isValidDate) {
+            textProvider = [CLKRelativeDateTextProvider textProviderWithDate:departureDate style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
+        } else {
+            textProvider = [CLKSimpleTextProvider textProviderWithText:@"--"];
+        }
+        
+        CLKComplicationTemplateUtilitarianSmallFlat* template = [[CLKComplicationTemplateUtilitarianSmallFlat alloc] init];
+        template.textProvider = textProvider;
+        template.imageProvider = imageProvider;
+        
+        return template;
+    } else if (family == CLKComplicationFamilyUtilitarianLarge) {
+        if (isValidDate) {
+            CLKSimpleTextProvider *detailPart;
+            if (self.complicationTransportName) {
+                detailPart = [CLKSimpleTextProvider textProviderWithText:self.complicationTransportName];
+            } else {
+                detailPart = [CLKSimpleTextProvider textProviderWithText:@"DEPARTURE"];
+            }
+            
+            CLKRelativeDateTextProvider *datePart = [CLKRelativeDateTextProvider textProviderWithDate:departureDate style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
+            
+            textProvider = [CLKTextProvider textProviderWithFormat:@"%@ • %@", detailPart, datePart];
+        } else {
+            textProvider = [CLKSimpleTextProvider textProviderWithText:@"NO DEPARTURE"];
+        }
+        
+        CLKComplicationTemplateUtilitarianLargeFlat* template = [[CLKComplicationTemplateUtilitarianLargeFlat alloc] init];
+        template.textProvider = textProvider;
+        template.imageProvider = imageProvider;
+        
+        return template;
+    }
+    
+    return nil;
+}
+
+-(CLKComplicationTemplate *)modularTemplateForDate:(NSDate *)date andFamily:(CLKComplicationFamily)family {
+    CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:self.complicationImage];
+    imageProvider.tintColor = [AppManagerBase systemGreenColor];
+    
+    if (family == CLKComplicationFamilyModularLarge) {
+        CLKComplicationTemplateModularLargeStandardBody* template = [[CLKComplicationTemplateModularLargeStandardBody alloc] init];
+        
+//        template.textProvider = [self textProviderForDate:(NSDate *)date andFamily:family];
+        template.headerImageProvider = imageProvider;
+        
+        return template;
     }
     
     return nil;
@@ -153,6 +189,35 @@
     CLKComplicationServer *server = [CLKComplicationServer sharedInstance];
     for(CLKComplication *complication in server.activeComplications) {
         [server reloadTimelineForComplication:complication];
+    }
+}
+
+#pragma mark - properties
+-(NSDate *)complicationDepartureDate {
+    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
+    NSDictionary* data = [myDelegate complicationData];
+    
+    return [data objectForKey:ComplicationDepartureDate];
+}
+
+-(NSString *)complicationTransportName {
+    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
+    NSDictionary* data = [myDelegate complicationData];
+    
+    return [data objectForKey:ComplicationTransportaionName];
+}
+
+-(UIImage *)complicationImage {
+    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
+    NSDictionary* data = [myDelegate complicationData];
+    
+    NSString *imageName = [data objectForKey:ComplicationImageName];
+    if (imageName) {
+        UIImage *image = [UIImage imageNamed:imageName];
+        if (image) return image;
+        else return [UIImage imageNamed:@"Utilitarian-bus"];
+    } else {
+        return [UIImage imageNamed:@"Utilitarian-bus"];
     }
 }
 

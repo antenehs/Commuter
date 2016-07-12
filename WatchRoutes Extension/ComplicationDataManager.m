@@ -8,10 +8,11 @@
 
 #import "ComplicationDataManager.h"
 #import <ClockKit/ClockKit.h>
+#import "AppManager.h"
 
-NSString* ComplicationCurrentEntry = @"ComplicationCurrentEntry";
-NSString* ComplicationTextData = @"ComplicationTextData";
-NSString* ComplicationShortTextData = @"ComplicationShortTextData";
+NSString* ComplicationDepartureDate = @"ComplicationDepartureDate";
+NSString* ComplicationImageName = @"ComplicationImageName";
+NSString* ComplicationTransportaionName = @"ComplicationTransportaionName";
 
 @implementation ComplicationDataManager
 
@@ -26,23 +27,27 @@ NSString* ComplicationShortTextData = @"ComplicationShortTextData";
     return sharedInstance;
 }
 
--(void)setDepartureTime:(NSDate *)date {
-    [self saveDateToDefaults:date];
-    [self refreshComplications];
-}
-
 -(void)setRoute:(Route *)route {
     self.routeForComplication = route;
     if (route) {
-        [self saveDateToDefaults:route.timeAtTheFirstStop];
+        [self saveObjectToDefaults:route.timeAtTheFirstStop withKey:ComplicationDepartureDate];
+        for (RouteLeg *leg in route.routeLegs) {
+            if (leg.legType != LegTypeWalk) {
+                [self saveObjectToDefaults:[AppManager complicationImageNameForLegTransportType:leg.legType] withKey:ComplicationImageName];
+                [self saveObjectToDefaults:leg.lineDisplayName withKey:ComplicationTransportaionName];
+                break;
+            }
+        }
     } else {
-        [self saveDateToDefaults:nil];
+        [self saveObjectToDefaults:nil withKey:ComplicationDepartureDate];
+        [self saveObjectToDefaults:nil withKey:ComplicationImageName];
+        [self saveObjectToDefaults:nil withKey:ComplicationTransportaionName];
     }
     [self refreshComplications];
 }
 
--(NSDate *)getDepartureTime {
-    return [self getDateFromDefaults];
+-(NSDictionary *)getComplicationData {
+    return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationDepartureDate, ComplicationImageName, ComplicationTransportaionName]];
 }
 
 - (void)refreshComplications {
@@ -53,14 +58,17 @@ NSString* ComplicationShortTextData = @"ComplicationShortTextData";
 }
 
 #pragma mark - Helper methods
--(void)saveDateToDefaults:(NSDate *)date {
-    [[NSUserDefaults standardUserDefaults] setObject:date forKey:@"stopDepartureTime"];
+-(void)saveObjectToDefaults:(id)object withKey:(NSString *)key {
+    [[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(NSDate *)getDateFromDefaults {
-     NSDate * savedDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"stopDepartureTime"];
-    return savedDate;
+-(id)getObjectFromDefaultsForKey:(NSString *)key {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+}
+
+-(NSDictionary *)getDefaultsDictionary {
+    return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationDepartureDate, ComplicationImageName]];
 }
 
 @end

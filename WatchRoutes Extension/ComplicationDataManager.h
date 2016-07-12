@@ -9,17 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "Route.h"
 
-extern NSString* ComplicationCurrentEntry;
-extern NSString* ComplicationTextData;
-extern NSString* ComplicationShortTextData;
+extern NSString* ComplicationDepartureDate;
+extern NSString* ComplicationImageName;
+extern NSString* ComplicationTransportaionName;
 
 @interface ComplicationDataManager : NSObject
 
 +(instancetype)sharedManager;
 
--(void)setDepartureTime:(NSDate *)date;
 -(void)setRoute:(Route *)route;
--(NSDate *)getDepartureTime;
+
+-(NSDictionary *)getComplicationData;
 
 @property(nonatomic, strong)Route *routeForComplication;
 

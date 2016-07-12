@@ -41,6 +41,7 @@
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
++(NSString *)complicationImageNameForLegTransportType:(LegTransportType)type;
 
 #ifndef APPLE_WATCH
 +(NSString *)stationAnnotionImageNameForBikeStation:(BikeStation *)bikeStation;

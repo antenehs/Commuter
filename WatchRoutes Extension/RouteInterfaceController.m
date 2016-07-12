@@ -27,22 +27,7 @@
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
     
-    //TODO: Check if Route or namedbookmark
-    
-    if ([context isKindOfClass:[NamedBookmarkE class]]) {
-        NamedBookmarkE *bookmark = (NamedBookmarkE *)context;
-        
-        
-        CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
-        
-        //    [self presentControllerWithName:@"ActivityView" context:@"Loading Routes..."];
-        WatchDataManager *manager = [WatchDataManager new];
-        [manager getRouteForNamedBookmark:bookmark fromLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
-            //        [self dismissController];
-            //        [self presentControllerWithNames:@[@"RouteView", @"RouteView", @"RouteView"] contexts:@[@"RouteView", @"RouteView", @"RouteView"]];
-            [WKInterfaceController reloadRootControllersWithNames:@[@"RouteView", @"RouteView", @"RouteView", @"RouteView"] contexts:@[@"RouteView", @"RouteView", @"RouteView", @"RouteView"]];
-        }];
-    } else if ([context isKindOfClass:[Route class]]) {
+    if ([context isKindOfClass:[Route class]]) {
          Route *route = (Route *)context;
         if (route) {
             [self setUpViewForRoute:route];

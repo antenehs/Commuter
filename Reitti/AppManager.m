@@ -269,6 +269,27 @@
     }
 }
 
++(NSString *)complicationImageNameForLegTransportType:(LegTransportType)type{
+    switch (type) {
+        case LegTypeBus:
+            return @"Utilitarian-bus";
+        case LegTypeTrain:
+            return @"Utilitarian-train";
+        case LegTypeMetro:
+            return @"Utilitarian-metro";
+        case LegTypeTram:
+            return @"Utilitarian-tram";
+        case LegTypeFerry:
+            return @"Utilitarian-ferry";
+        case LegTypeAirplane:
+            return @"Utilitarian-airplane";
+            
+        default:
+            return @"Utilitarian-bus";
+            break;
+    }
+}
+
 +(UIImage *)vehicleImageForLineType:(LineType)type{
     return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];
 }
