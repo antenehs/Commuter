@@ -84,7 +84,7 @@
     NSDate *timeLineEntryDate = [userInfo objectForKey:@"CLKLaunchedTimelineEntryDateKey"];
     if (timeLineEntryDate) { //Launched from complecation
         [self dismissController]; //Dismis routes view if showing
-        Route *complicationRoute = [[ComplicationDataManager sharedManager] routeForComplication];
+        Route *complicationRoute = [[ComplicationDataManager sharedManager] getComplicationRoute];
         if (complicationRoute) {
             [self showRoute:complicationRoute];
         }

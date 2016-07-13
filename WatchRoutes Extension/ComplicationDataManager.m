@@ -10,9 +10,12 @@
 #import <ClockKit/ClockKit.h>
 #import "AppManager.h"
 
-NSString* ComplicationDepartureDate = @"ComplicationDepartureDate";
-NSString* ComplicationImageName = @"ComplicationImageName";
-NSString* ComplicationTransportaionName = @"ComplicationTransportaionName";
+NSString* ComplicationTransportationsDate = @"ComplicationTransportationsDate";
+NSString* ComplicationTransportationImageName = @"ComplicationTransportationImageName";
+NSString* ComplicationTransportationName = @"ComplicationTransportationName";
+NSString* ComplicationTransportationColor = @"ComplicationTransportationColor";
+NSString* ComplicationTransportations = @"ComplicationTransportations";
+NSString* ComplicationRoute = @"ComplicationRoute";
 
 @implementation ComplicationDataManager
 
@@ -27,27 +30,25 @@ NSString* ComplicationTransportaionName = @"ComplicationTransportaionName";
     return sharedInstance;
 }
 
+-(Route *)getComplicationRoute {
+    NSDictionary *data = [self getComplicationRouteDict];
+    NSDictionary *routedict = [self objectOrNilForKey:ComplicationRoute fromDictionary:data];
+    if (!routedict) return nil;
+    
+    return [Route initFromDictionary:routedict];
+}
+
 -(void)setRoute:(Route *)route {
-    self.routeForComplication = route;
-    if (route) {
-        [self saveObjectToDefaults:route.timeAtTheFirstStop withKey:ComplicationDepartureDate];
-        for (RouteLeg *leg in route.routeLegs) {
-            if (leg.legType != LegTypeWalk) {
-                [self saveObjectToDefaults:[AppManager complicationImageNameForLegTransportType:leg.legType] withKey:ComplicationImageName];
-                [self saveObjectToDefaults:leg.lineDisplayName withKey:ComplicationTransportaionName];
-                break;
-            }
-        }
-    } else {
-        [self saveObjectToDefaults:nil withKey:ComplicationDepartureDate];
-        [self saveObjectToDefaults:nil withKey:ComplicationImageName];
-        [self saveObjectToDefaults:nil withKey:ComplicationTransportaionName];
-    }
+    if (route)
+        [self saveObjectToDefaults:[route dictionaryRepresentation] withKey:ComplicationRoute];
+    else
+        [self saveObjectToDefaults:nil withKey:ComplicationRoute];
+    
     [self refreshComplications];
 }
 
--(NSDictionary *)getComplicationData {
-    return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationDepartureDate, ComplicationImageName, ComplicationTransportaionName]];
+-(NSDictionary *)getComplicationRouteDict {
+    return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationRoute]];
 }
 
 - (void)refreshComplications {
@@ -68,7 +69,13 @@ NSString* ComplicationTransportaionName = @"ComplicationTransportaionName";
 }
 
 -(NSDictionary *)getDefaultsDictionary {
-    return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationDepartureDate, ComplicationImageName]];
+    return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationRoute]];
+}
+
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
 }
 
 @end

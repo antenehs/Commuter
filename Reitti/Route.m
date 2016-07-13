@@ -61,17 +61,24 @@
 -(NSNumber *)numberOfNoneWalkLegs{
     
     if (!_numberOfNoneWalkLegs) {
-        int noneWalkLegs = 0;
-        for (RouteLeg *leg in self.routeLegs) {
-            if (leg.legType != LegTypeWalk) {
-                noneWalkLegs ++;
-            }
-        }
-        
-        _numberOfNoneWalkLegs = [NSNumber numberWithInt:noneWalkLegs];
+        _numberOfNoneWalkLegs = [NSNumber numberWithInteger:self.noneWalkingLegs.count];
     }
     
     return _numberOfNoneWalkLegs;
+}
+
+-(NSArray *)noneWalkingLegs {
+    if (!_noneWalkingLegs) {
+        NSMutableArray *legs = [@[] mutableCopy];
+        for (RouteLeg *leg in self.routeLegs) {
+            if (leg.legType != LegTypeWalk)
+                [legs addObject:leg];
+        }
+        
+        _noneWalkingLegs = legs;
+    }
+    
+    return _noneWalkingLegs;
 }
 
 -(NSDate *)startingTimeOfRoute{

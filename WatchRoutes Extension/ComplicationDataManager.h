@@ -9,18 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "Route.h"
 
-extern NSString* ComplicationDepartureDate;
-extern NSString* ComplicationImageName;
-extern NSString* ComplicationTransportaionName;
+//extern NSString* ComplicationTransportationsDate;
+//extern NSString* ComplicationTransportationImageName;
+//extern NSString* ComplicationTransportationName;
+//extern NSString* ComplicationTransportationColor;
+//extern NSString* ComplicationTransportations;
+extern NSString* ComplicationRoute;
 
 @interface ComplicationDataManager : NSObject
 
 +(instancetype)sharedManager;
 
 -(void)setRoute:(Route *)route;
-
--(NSDictionary *)getComplicationData;
-
-@property(nonatomic, strong)Route *routeForComplication;
+-(Route *)getComplicationRoute;
 
 @end

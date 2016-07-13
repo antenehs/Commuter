@@ -68,7 +68,7 @@
 //Computed properties
 @property (nonatomic, strong)NSString *fromLocationName;
 @property (nonatomic, strong)NSString *toLocationName;
-
+@property (nonatomic, strong)NSArray *noneWalkingLegs;
 @property (nonatomic, readonly, strong)NSNumber *numberOfNoneWalkLegs;
 @property (nonatomic, readonly, strong)NSDate *startingTimeOfRoute;
 @property (nonatomic, readonly, strong)NSDate *endingTimeOfRoute;

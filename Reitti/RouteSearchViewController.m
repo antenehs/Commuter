@@ -801,7 +801,7 @@ typedef enum
     [self setBookmarkButtonStatus];
     [self hideToolBar:NO animated:YES];
     
-    [self sendRoutesToWatch:searchedRouteList];
+//    [self sendRoutesToWatch:searchedRouteList];
 }
 
 - (void)sendRoutesToWatch:(NSArray *)routes {

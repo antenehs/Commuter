@@ -57,11 +57,11 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
 }
 
 -(void)transferNamedBookmarks:(NSArray *)bookmarksDictionary {
-    if (bookmarksDictionary) [self transferUserInfo:@{kNamedBookmarksUserInfoKey : bookmarksDictionary}];
+    if (bookmarksDictionary && bookmarksDictionary.count > 0) [self updateContextWith:@{kNamedBookmarksUserInfoKey : bookmarksDictionary}];
 }
 
 -(void)transferRoutes:(NSArray *)routesDictionary {
-    if (routesDictionary) [self transferUserInfoForComplication:@{kRoutesUserInfoKey : routesDictionary}];
+    if (routesDictionary && routesDictionary.count > 0) [self transferUserInfoForComplication:@{kRoutesUserInfoKey : routesDictionary}];
 }
 
 //Userinfo will be queed until watch app is available
@@ -69,23 +69,52 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
     [self.session transferUserInfo:userInfo];
 }
 
+-(void)updateContextWith:(NSDictionary *)context {
+    [self.session updateApplicationContext:context error:nil];
+}
+
 -(void)transferUserInfoForComplication:(NSDictionary *)userInfo {
 #ifndef APPLE_WATCH
+    //Clear outstanding transfers
+    for (WCSessionUserInfoTransfer *transfer in self.session.outstandingUserInfoTransfers) {
+        [transfer cancel];
+    }
     [self.session transferCurrentComplicationUserInfo:userInfo];
+#endif
+}
+
+-(void)session:(WCSession *)session didFinishUserInfoTransfer:(WCSessionUserInfoTransfer *)userInfoTransfer error:(NSError *)error {
+#ifndef APPLE_WATCH
+    for (WCSessionUserInfoTransfer *transfer in self.session.outstandingUserInfoTransfers) {
+        if(!transfer.isCurrentComplicationInfo) {
+            if (transfer.userInfo[kRoutesUserInfoKey]) {
+                [transfer cancel];
+            }
+        }
+    }
 #endif
 }
 
 -(void)session:(WCSession *)session didReceiveUserInfo:(NSDictionary<NSString *,id> *)userInfo {
     if (!userInfo) return;
     
-    NSArray *namedBookmarkArray = [userInfo objectForKey:kNamedBookmarksUserInfoKey];
-    if (namedBookmarkArray) {
-        [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
-    }
+//    NSArray *namedBookmarkArray = [userInfo objectForKey:kNamedBookmarksUserInfoKey];
+//    if (namedBookmarkArray) {
+//        [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
+//    }
     
     NSArray *routesArray = [userInfo objectForKey:kRoutesUserInfoKey];
     if (routesArray) {
         [self.delegate receivedRoutesArray:routesArray];
+    }
+}
+
+-(void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+    if (!applicationContext) return;
+    
+    NSArray *namedBookmarkArray = [applicationContext objectForKey:kNamedBookmarksUserInfoKey];
+    if (namedBookmarkArray) {
+        [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
     }
 }
 @end

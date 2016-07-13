@@ -7,9 +7,10 @@
 //
 
 #import <WatchKit/WatchKit.h>
+#import "Route.h"
 
 @interface ExtensionDelegate : NSObject <WKExtensionDelegate>
 
--(NSDictionary *)complicationData;
+-(Route *)complicationRoute;
 
 @end

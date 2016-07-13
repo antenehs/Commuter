@@ -163,6 +163,15 @@
     return _endLocName;
 }
 
+-(NSDate *)departureTime {
+    if (!_departureTime) {
+        RouteLegLocation *firstLocation = [self.legLocations firstObject];
+        _departureTime = firstLocation.depTime;
+    }
+    
+    return _departureTime;
+}
+
 -(NSString *)lineDisplayName{
     switch (self.legType) {
         case LegTypeBus:

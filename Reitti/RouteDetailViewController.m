@@ -259,6 +259,8 @@
     
     [routeListTableView reloadData];
 //    [self addTransportTypePictures];
+    
+    [self sendRouteToWatch:self.route];
 }
 
 - (void)setupRoutePreviewView {
@@ -280,6 +282,17 @@
     
     routeView.userInteractionEnabled = NO;
     [topViewBackView addGestureRecognizer:routeView.panGestureRecognizer];
+}
+
+- (void)sendRouteToWatch:(Route *)route {
+    if (!route) return;
+    
+    route.fromLocationName = fromLocation;
+    route.toLocationName = toLocation;
+    NSDictionary *routeDict = [route dictionaryRepresentation];
+    if (!routeDict) return;
+    
+    [[WatchCommunicationManager sharedManager] transferRoutes:@[routeDict]];
 }
 
 //Line maps should come from routeSearchView. Search here if they didn't

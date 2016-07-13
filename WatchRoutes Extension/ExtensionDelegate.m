@@ -24,8 +24,8 @@
     // Use this method to pause ongoing tasks, disable timers, etc.
 }
 
--(NSDictionary *)complicationData {
-    return [[ComplicationDataManager sharedManager] getComplicationData];
+-(Route *)complicationRoute {
+    return [[ComplicationDataManager sharedManager] getComplicationRoute];
 }
 
 @end
