@@ -10,9 +10,17 @@
 #import "NamedBookmarkE.h"
 #import <MapKit/MapKit.h>
 #import "WatchHslApi.h"
+#import "RoutableLocation.h"
 
 @interface WatchDataManager : NSObject
 
--(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
+-(void)saveBookmarks:(NSArray *)bookmarks;
+-(NSArray *)getSavedNamedBookmarkDictionaries;
+
+-(void)saveOtherRecentLocation:(RoutableLocation *)location;
+-(void)saveOtherRecentLocations:(NSArray *)locations;
+-(NSArray *)getOtherRecentLocations;
+
+-(void)getRouteToLocation:(RoutableLocation *)toLocation fromCoordLocation:(CLLocation *)fromLocation routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
 
 @end

@@ -72,8 +72,7 @@ NSString* ComplicationRoute = @"ComplicationRoute";
     return [[NSUserDefaults standardUserDefaults] dictionaryWithValuesForKeys:@[ComplicationRoute]];
 }
 
-- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
-{
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict {
     id object = [dict objectForKey:aKey];
     return [object isEqual:[NSNull null]] ? nil : object;
 }

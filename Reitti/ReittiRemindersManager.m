@@ -222,7 +222,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 
 - (UILocalNotification *)createNotificationForRoutine:(RoutineEntity *)routine {
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertBody = [NSString stringWithFormat:@"Time to go to %@", routine.toDisplayName];
+    localNotification.alertTitle = [NSString stringWithFormat:@"Time to go to %@", routine.toDisplayName];
     localNotification.alertAction = @"Get route info";
     if (routine.toneName == UILocalNotificationDefaultSoundName) {
         localNotification.soundName = UILocalNotificationDefaultSoundName;

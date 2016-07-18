@@ -425,6 +425,8 @@
 		669602B31B1224B3006919CB /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 669602B21B1224B3006919CB /* TabBarViewController.m */; };
 		66978A741C7664B200C45B96 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
 		66978A751C7676F800C45B96 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
+		669E6D021D393E14006C8580 /* RoutableLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E6D011D393E14006C8580 /* RoutableLocation.m */; };
+		669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E6D011D393E14006C8580 /* RoutableLocation.m */; };
 		669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F619C83794005A04B9 /* RouteEntity.m */; };
 		669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */; };
 		66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A73FDC18BA3CED00405043 /* RettiDataManager.m */; };
@@ -1532,6 +1534,8 @@
 		669602D41B14D8E7006919CB /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
 		669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		66978A731C7664B200C45B96 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		669E6D001D393E14006C8580 /* RoutableLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutableLocation.h; sourceTree = "<group>"; };
+		669E6D011D393E14006C8580 /* RoutableLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutableLocation.m; sourceTree = "<group>"; };
 		669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reitti-Bridging-Header.h"; sourceTree = "<group>"; };
 		669EA1F519C83794005A04B9 /* RouteEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteEntity.h; sourceTree = "<group>"; };
 		669EA1F619C83794005A04B9 /* RouteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteEntity.m; sourceTree = "<group>"; };
@@ -2388,6 +2392,8 @@
 				662481981D1FFBF700574319 /* HomeInterfaceController.m */,
 				663207201D282F3F00D8A46D /* RouteInterfaceController.h */,
 				663207211D282F3F00D8A46D /* RouteInterfaceController.m */,
+				66F9383B1D342B68009C7227 /* MapInterfaceController.h */,
+				66F9383C1D342B68009C7227 /* MapInterfaceController.m */,
 				6624819A1D1FFBF700574319 /* ExtensionDelegate.h */,
 				6624819B1D1FFBF700574319 /* ExtensionDelegate.m */,
 				6624819D1D1FFBF700574319 /* NotificationController.h */,
@@ -2400,8 +2406,6 @@
 				662481A31D1FFBF700574319 /* Assets.xcassets */,
 				662481A51D1FFBF700574319 /* Info.plist */,
 				662481951D1FFBF700574319 /* Supporting Files */,
-				66F9383B1D342B68009C7227 /* MapInterfaceController.h */,
-				66F9383C1D342B68009C7227 /* MapInterfaceController.m */,
 			);
 			path = "WatchRoutes Extension";
 			sourceTree = "<group>";
@@ -3110,6 +3114,8 @@
 				660CFE251C19B7FD004D73FC /* RouteModels */,
 				66CA02D61C17126800A38858 /* NamedBookmarkE.h */,
 				66CA02D71C17126800A38858 /* NamedBookmarkE.m */,
+				669E6D001D393E14006C8580 /* RoutableLocation.h */,
+				669E6D011D393E14006C8580 /* RoutableLocation.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4268,6 +4274,7 @@
 				6632072A1D293C8600D8A46D /* RouteLeg.m in Sources */,
 				66B391981D2013EF00C500CC /* NamedBookmarkE.m in Sources */,
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
+				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
 				662481991D1FFBF700574319 /* HomeInterfaceController.m in Sources */,
 				663207281D2925B500D8A46D /* NSObject+Helper.m in Sources */,
 				6632072B1D293D0B00D8A46D /* RouteLegLocation.m in Sources */,
@@ -4920,6 +4927,7 @@
 				66C735791C556FB5002544BC /* UIButton+Helper.m in Sources */,
 				6683CF2C1CD929610044727B /* ReittiMapkitHelper.m in Sources */,
 				66833D141CEE45CE005D958C /* DigiRoute.m in Sources */,
+				669E6D021D393E14006C8580 /* RoutableLocation.m in Sources */,
 				66C7357A1C556FB5002544BC /* RouteLegE.m in Sources */,
 				66C7357B1C556FB5002544BC /* HSLAPIClient.m in Sources */,
 				6683CF141CD3FAB30044727B /* BusStopE.m in Sources */,

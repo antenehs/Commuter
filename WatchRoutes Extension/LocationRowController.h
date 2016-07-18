@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <WatchKit/WatchKit.h>
-#import "NamedBookmarkE.h"
+#import "WidgetAPIProtocols.h"
 
 @interface LocationRowController : NSObject
 
--(void)setUpWithNamedBookmark:(NamedBookmarkE *)namedBookmark;
+-(void)setUpWithNamedBookmark:(NSObject<RoutableLocationProtocol> *)namedBookmark;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceImage *locationImageView;
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *nameLabel;
 
-@property (strong, nonatomic) NamedBookmarkE *bookmark;
+@property (strong, nonatomic) NSObject<RoutableLocationProtocol> *location;
 
 @end

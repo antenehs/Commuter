@@ -10,14 +10,14 @@
 
 @implementation LocationRowController
 
--(void)setUpWithNamedBookmark:(NamedBookmarkE *)namedBookmark {
-    self.bookmark = namedBookmark;
+-(void)setUpWithNamedBookmark:(NSObject<RoutableLocationProtocol> *)location {
+    self.location = location;
 //    UIImage *image = [UIImage imageNamed:namedBookmark.iconPictureName];
 //    if (image) {
 //        [self.locationImageView setImage:image];
 //    }
     
-    [self.nameLabel setText:namedBookmark.name];
+    [self.nameLabel setText:location.name];
 }
 
 @end

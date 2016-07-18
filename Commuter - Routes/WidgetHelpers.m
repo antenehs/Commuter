@@ -20,7 +20,6 @@
 }
 
 +(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord{
-    
     return [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
 }
 

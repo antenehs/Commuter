@@ -12,6 +12,8 @@
 #import "WatchDataManager.h"
 #import "Route.h"
 #import "ComplicationDataManager.h"
+#import "RoutableLocation.h"
+#import "WidgetHelpers.h"
 
 @interface HomeInterfaceController() <CLLocationManagerDelegate>
 
@@ -57,26 +59,22 @@
     
     self.communicationManager = [WatchCommunicationManager sharedManager];
     self.communicationManager.delegate = self;
-    // Configure interface objects here.
     
-    //TODO: Read if there are named bookmarks saved
     [self loadSavedBookmarks];
-    
-    //TODO: Request for new data from phone
-    //Setup table view
-    [self setUpTableView];
-    
 }
 
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [self initLocationManager];
+    [self setUpTableView];
+    
     [super willActivate];
 }
 
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
     [self.locationRefreshTimer invalidate];
+    
     [super didDeactivate];
 }
 
@@ -109,6 +107,13 @@
     for (int i = 0; i < otherBookmarks.count; i++)
         [rowTypes addObject:@"LocationRow"];
     
+    NSArray *recentLocations = [self.watchDataManager getOtherRecentLocations];
+    if (recentLocations.count > 0) {
+        [rowTypes addObject:@"OtherLocationHeader"];
+        for (int i = 0; i < recentLocations.count; i++)
+            [rowTypes addObject:@"LocationRow"];
+    }
+    
     if (rowTypes.count == 0) {
         [rowTypes addObject:@"InfoRow"];
         [self.titleLabel setHidden:YES];
@@ -125,22 +130,25 @@
             HomeAndWorkRowController *controller = (HomeAndWorkRowController *)[self.bookmarksTable rowControllerAtIndex:i];
             [controller setUpWithHomeBookmark:home andWorkBookmark:work];
             controller.delegate = self;
-        } else if (otherBookmarks.count > 0) {
+        } else if (otherBookmarks.count > 0 && i <= otherBookmarks.count) {
             LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
             [controller setUpWithNamedBookmark:otherBookmarks[i - 1]];
+        } else if (recentLocations.count > 0 && i > otherBookmarks.count + 1) {
+            LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
+            [controller setUpWithNamedBookmark:recentLocations[i - 2 - otherBookmarks.count]];
         }
     }
 }
 
 -(void)table:(WKInterfaceTable *)table didSelectRowAtIndex:(NSInteger)rowIndex {
     LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:rowIndex];
-    [self checkLocationAndGetRouteToBookmark:controller.bookmark];
+    [self checkCurrentLocationAndGetRouteToLocation:controller.location];
 }
 
 #pragma mark - Route methods
--(void)checkLocationAndGetRouteToBookmark:(NamedBookmarkE *)bookmark {
+-(void)checkCurrentLocationAndGetRouteToLocation:(NSObject<RoutableLocationProtocol> *)location {
     RouteSearchBlock searchRouteBlock = ^(CLLocation *fromLocation){
-        [self searchRouteToBookmark:bookmark fromLocation:fromLocation];
+        [self searchRouteToLocation:location fromLocation:fromLocation];
     };
     
     if (!self.locationAuthorized) {
@@ -148,7 +156,6 @@
         return;
     }
     
-    //TODO: Check that current location is not old.
     if (self.currentUserLocation) {
         searchRouteBlock(self.currentUserLocation);
     } else {
@@ -159,18 +166,19 @@
     }
 }
                                            
--(void)searchRouteToBookmark:(NamedBookmarkE *)bookmark fromLocation:(CLLocation *)fromLocation {
+-(void)searchRouteToLocation:(NSObject<RoutableLocationProtocol> *)location fromLocation:(CLLocation *)fromLocation {
 //    CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
     [self showActivityWithText:@"Getting routes..."];
-    [self.watchDataManager getRouteForNamedBookmark:bookmark fromLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
+    
+    [self.watchDataManager getRouteToLocation:(RoutableLocation *)location fromCoordLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
         if (!errorString && routes && routes.count > 0) {
             for (Route *route in routes) {
                 route.fromLocationName = @"Current Location";
-                route.toLocationName = bookmark.name;
+                route.toLocationName = location.name;
             }
             [self showRoutes:routes];
         } else {
-            //TODO: Show error message
+            [self showAlertWithTitle:@"Oops. Route search failed." andMessage:errorString ? errorString : @"No routes returned from service."];
         }
         
         [self endActivity];
@@ -202,23 +210,17 @@
     [self presentControllerWithName:@"RouteView" context:route];
 }
 
-#pragma mark - Bookmarks method
+#pragma mark - Locations methods
 -(void)saveBookmarksToUserDefaults {
-    NSMutableArray *bookmarksArray = [@[] mutableCopy];
-    if (self.namedBookmarks) {
-        for (NamedBookmarkE *bookmark in self.namedBookmarks) {
-            [bookmarksArray addObject:[bookmark dictionaryRepresentation]];
-        }
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setObject:bookmarksArray forKey:@"previousReceivedBookmark"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.watchDataManager saveBookmarks:self.namedBookmarks];
 }
 
 -(void)loadSavedBookmarks {
-    NSArray * savedBookmarks = [[NSUserDefaults standardUserDefaults] objectForKey:@"previousReceivedBookmark"];
-    if (savedBookmarks)
+    NSArray * savedBookmarks = [self.watchDataManager getSavedNamedBookmarkDictionaries];
+    if (savedBookmarks) {
         [self initBookmarksFromBookmarksDictionaries:savedBookmarks];
+        [self setUpTableView];
+    }
 }
 
 -(void)initBookmarksFromBookmarksDictionaries:(NSArray *)bookmarkdictionaries {
@@ -230,8 +232,6 @@
         
         self.namedBookmarks = [NSArray arrayWithArray:readNamedBookmarks];
     }
-    
-    [self setUpTableView];
 }
 
 -(NamedBookmarkE *)getHomeBookmark {
@@ -256,9 +256,23 @@
     return nil;
 }
 
+-(void)saveRecentLocationIfNotBookmarked:(RoutableLocation *)location {
+    if ([location.name.lowercaseString isEqualToString:@"current location"]) return;
+
+    if (self.namedBookmarks.count > 0) {
+        for (NamedBookmarkE *bookmark in self.namedBookmarks) {
+            if ([bookmark.name isEqualToString:location.name]) return;
+        }
+    }
+    
+    //Check it doesnt exit already
+    
+    [self.watchDataManager saveOtherRecentLocation:location];
+}
+
 #pragma mark - HomeAndWork table controller Delegate methods
 -(void)selectedBookmark:(NamedBookmarkE * _Nonnull)bookmark {
-    [self checkLocationAndGetRouteToBookmark:bookmark];
+    [self checkCurrentLocationAndGetRouteToLocation:bookmark];
 }
 
 -(void)selectedNoneExistingBookmark:(NSString * _Nonnull)bookmarkName {
@@ -272,6 +286,7 @@
     
     //TODO: Check if anything is modified.
     [self initBookmarksFromBookmarksDictionaries:bookmarksArray];
+    [self setUpTableView];
     [self saveBookmarksToUserDefaults];
     
 }
@@ -283,13 +298,24 @@
     NSMutableArray *routes = [@[] mutableCopy];
     for (NSDictionary *routeDict in routesArray) {
         Route *route = [Route initFromDictionary:routeDict];
-        if (route) [routes addObject:route];
+        if (route) {
+            [routes addObject:route];
+        }
     }
     
     self.transferredRoutes = routes;
     [self showRoutes:routes];
-    if (routes.count > 0) //Set route here in case app is in background. Else set it in route view.
+    if (routes.count > 0) {
+        //Set route here in case app is in background. Else set it in route view.
         [[ComplicationDataManager sharedManager] setRoute:routes[0]];
+        Route *firstRoute = routes[0];
+        if (firstRoute.toLocationName) {
+            RoutableLocation *location = [RoutableLocation new];
+            location.name = firstRoute.toLocationName;
+            location.coords = [WidgetHelpers convert2DCoordToString:firstRoute.destinationCoords];
+            [self saveRecentLocationIfNotBookmarked:location];
+        }
+    }
 }
 
 #pragma mark - CLLocation Manager
@@ -306,6 +332,7 @@
 }
 
 -(void)initLocationManager {
+    self.currentUserLocation = nil;
     if (self.locationManager == nil) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;

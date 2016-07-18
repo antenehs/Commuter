@@ -14,7 +14,7 @@
 //Expected format longitude,latitude
 +(CLLocationCoordinate2D)convertStringTo2DCoord:(NSString *)coordString;
 
-//+(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
++(NSString *)convert2DCoordToString:(CLLocationCoordinate2D)coord;
 
 +(NSString *)commaSepStringFromArray:(NSArray *)array withSeparator:(NSString *)separator;
 

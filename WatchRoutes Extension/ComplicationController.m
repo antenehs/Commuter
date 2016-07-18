@@ -40,13 +40,7 @@
 @end
 
 @interface ComplicationController ()
-
-//@property (nonatomic, strong, readonly)NSDate *complicationDepartureDate;
-//@property (nonatomic, strong, readonly)NSString *complicationTransportName;
-//@property (nonatomic, strong, readonly)UIImage *complicationImage;
-
 @property (nonatomic, strong, readonly)Route *complicationRoute;
-
 @end
 
 @implementation ComplicationController
@@ -89,7 +83,8 @@
         CLKComplicationTemplate* template = [self templateForLeg:nextLeg andFamily:complication.family];
         handler([CLKComplicationTimelineEntry entryWithDate:[NSDate date] complicationTemplate:template]);
     } else {
-        handler(nil);
+        CLKComplicationTemplate* template = [self templateForLeg:nil andFamily:complication.family];
+        handler([CLKComplicationTimelineEntry entryWithDate:[NSDate date] complicationTemplate:template]);
     }
 }
 
@@ -124,36 +119,56 @@
     } else {
         handler(nil);
     }
-   
-//    CLKComplicationTimelineEntry* nowEntry = [self timeLineEntryForDate:date andComplicationFamily:complication.family];
-//    CLKComplicationTimelineEntry* endEntry = [self timeLineEntryForDate:self.complicationDepartureDate andComplicationFamily:complication.family];
-//    
-//    if (nowEntry && endEntry) {
-//        handler(@[nowEntry, endEntry]);
-//    } else {
-//        handler(nil);
-//    }
 }
 
 -(NSArray *)timeLineEntriesForLegs:(NSArray *)legs startDate:(NSDate *)date andComplicationFamily:(CLKComplicationFamily)family {
+    if (legs.count == 0) return nil;
+    
     NSMutableArray *entries = [@[] mutableCopy];
-    int index = 0;
-    for (RouteLeg *leg in legs) {
-        if (index == 0) {
-            CLKComplicationTemplate* template = [self templateForLeg:leg andFamily:family];
-            CLKComplicationTimelineEntry *entry = [CLKComplicationTimelineEntry entryWithDate:date complicationTemplate:template];
-            if (entry) [entries addObject:entry];
-        } else {
-            RouteLeg *prevLeg = legs[index - 1];
-            CLKComplicationTemplate* template = [self templateForLeg:leg andFamily:family];
-            CLKComplicationTimelineEntry *entry = [CLKComplicationTimelineEntry entryWithDate:prevLeg.departureTime complicationTemplate:template];
-            if (entry) [entries addObject:entry];
+    if (family == CLKComplicationFamilyUtilitarianSmall) {
+        //only returns the first stop departure.
+        RouteLeg *firstLeg = legs[0];
+        CLKComplicationTemplate* template1 = [self templateForLeg:firstLeg andFamily:family];
+        CLKComplicationTimelineEntry* nowEntry = [CLKComplicationTimelineEntry entryWithDate:date complicationTemplate:template1];
+        
+        CLKComplicationTemplate* template2 = [self templateForLeg:nil andFamily:family];
+        CLKComplicationTimelineEntry* endEntry = [CLKComplicationTimelineEntry entryWithDate:firstLeg.departureTime complicationTemplate:template2];
+        
+        return @[nowEntry, endEntry];
+    } else if (family == CLKComplicationFamilyUtilitarianLarge) {
+        //Returns all transportation departures and an ETA
+        NSDate *routeArrivalTime = self.complicationRoute.endingTimeOfRoute;
+        int index = 0;
+        for (RouteLeg *leg in legs) {
+            if (index == 0) {
+                CLKComplicationTemplate* template = [self templateForLeg:leg andFamily:family];
+                CLKComplicationTimelineEntry *entry = [CLKComplicationTimelineEntry entryWithDate:date complicationTemplate:template];
+                if (entry) [entries addObject:entry];
+            } else {
+                RouteLeg *prevLeg = legs[index - 1];
+                CLKComplicationTemplate* template = [self templateForLeg:leg andFamily:family];
+                CLKComplicationTimelineEntry *entry = [CLKComplicationTimelineEntry entryWithDate:prevLeg.departureTime complicationTemplate:template];
+                if (entry) [entries addObject:entry];
+            }
+            
+            if (index == legs.count - 1) {
+                //Eta template
+                CLKComplicationTemplate* etaTemplate = [self etaTemplateForDate:routeArrivalTime andFamily:family];
+                CLKComplicationTimelineEntry *entry = [CLKComplicationTimelineEntry entryWithDate:leg.departureTime complicationTemplate:etaTemplate];
+                if (entry) [entries addObject:entry];
+            }
+            
+            index++;
         }
         
-        index++;
+        CLKComplicationTemplate* template2 = [self templateForLeg:nil andFamily:family];
+        CLKComplicationTimelineEntry* endEntry = [CLKComplicationTimelineEntry entryWithDate:routeArrivalTime complicationTemplate:template2];
+        if (endEntry) [entries addObject:endEntry];
+        
+        return entries;
     }
     
-    return entries;
+    return nil;
 }
 
 #pragma mark Update Scheduling
@@ -201,7 +216,7 @@
 
 -(CLKComplicationTemplate *)utilitarianTemplateForLeg:(RouteLeg *)leg andFamily:(CLKComplicationFamily)family {
     CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:[self complicationImageForLeg:leg]];
-    imageProvider.tintColor = [AppManagerBase systemGreenColor];
+    imageProvider.tintColor = [self colorForLeg:leg];
     
     CLKTextProvider *textProvider;
     if (family == CLKComplicationFamilyUtilitarianSmall) {
@@ -220,9 +235,9 @@
             CLKSimpleTextProvider *detailPart;
             detailPart = [CLKSimpleTextProvider textProviderWithText:leg.lineDisplayName];
             
-            CLKRelativeDateTextProvider *datePart = [CLKRelativeDateTextProvider textProviderWithDate:leg.departureTime style:CLKRelativeDateStyleOffset units:NSCalendarUnitMinute];
+            CLKRelativeDateTextProvider *datePart = [CLKRelativeDateTextProvider textProviderWithDate:leg.departureTime style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
             
-            textProvider = [CLKTextProvider textProviderWithFormat:@"%@ • %@", detailPart, datePart];
+            textProvider = [CLKTextProvider textProviderWithFormat:@"%@ • In %@", detailPart, datePart];
         } else {
             textProvider = [CLKSimpleTextProvider textProviderWithText:@"NO DEPARTURE"];
         }
@@ -239,13 +254,33 @@
 
 -(CLKComplicationTemplate *)modularTemplateForLeg:(RouteLeg *)leg andFamily:(CLKComplicationFamily)family {
     CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:[self complicationImageForLeg:leg]];
-    imageProvider.tintColor = [AppManagerBase systemGreenColor];
+    imageProvider.tintColor = [self colorForLeg:leg];
     
     if (family == CLKComplicationFamilyModularLarge) {
         CLKComplicationTemplateModularLargeStandardBody* template = [[CLKComplicationTemplateModularLargeStandardBody alloc] init];
         
-        //        template.textProvider = [self textProviderForDate:(NSDate *)date andFamily:family];
-        template.headerImageProvider = imageProvider;
+//        template.headerImageProvider = imageProvider;
+        template.headerTextProvider = [CLKTextProvider textProviderWithFormat:@"Train N • 6 MIN"];
+        template.body1TextProvider = [CLKTextProvider textProviderWithFormat:@"Towards Pasilan Asema"];
+        template.body2TextProvider = [CLKTextProvider textProviderWithFormat:@"ETA 9:02"];
+        
+        return template;
+    }
+    
+    return nil;
+}
+
+-(CLKComplicationTemplate *)etaTemplateForDate:(NSDate *)etaDate andFamily:(CLKComplicationFamily)family {
+    if (family == CLKComplicationFamilyUtilitarianLarge) {
+        CLKSimpleTextProvider *detailPart;
+        detailPart = [CLKSimpleTextProvider textProviderWithText:@"ETA"];
+        
+        CLKTimeTextProvider *datePart = [CLKTimeTextProvider textProviderWithDate:etaDate];
+        
+        CLKTextProvider *textProvider = [CLKTextProvider textProviderWithFormat:@"%@ %@", detailPart, datePart];
+        
+        CLKComplicationTemplateUtilitarianLargeFlat* template = [[CLKComplicationTemplateUtilitarianLargeFlat alloc] init];
+        template.textProvider = textProvider;
         
         return template;
     }
@@ -268,120 +303,20 @@
     }
 }
 
-/*
--(CLKComplicationTimelineEntry *)timeLineEntryForDate:(NSDate *)date andComplicationFamily:(CLKComplicationFamily)family {
-    CLKComplicationTemplate* template = [self templateForDate:(NSDate *)date andFamily:family];
-    return [CLKComplicationTimelineEntry entryWithDate:date complicationTemplate:template];
+-(UIColor *)colorForLeg:(RouteLeg *)leg {
+    UIColor *defaultColor = [AppManager systemGreenColor];
+    if (!leg) return defaultColor;
+    
+    return [AppManager colorForLegType:leg.legType];
 }
 
--(CLKComplicationTemplate *)templateForDate:(NSDate *)date andFamily:(CLKComplicationFamily)family {
-    if (family == CLKComplicationFamilyUtilitarianSmall || family == CLKComplicationFamilyUtilitarianLarge) {
-        return [self utilitarianTemplateForDate:date andFamily:family];
-    } else if (family == CLKComplicationFamilyModularSmall || family == CLKComplicationFamilyModularLarge)  {
-        return [self modularTemplateForDate:date andFamily:family];
-    }
-    
-    return nil;
-}
 
--(CLKComplicationTemplate *)utilitarianTemplateForDate:(NSDate *)date andFamily:(CLKComplicationFamily)family {
-    NSDate* departureDate = self.complicationDepartureDate;
-    BOOL isValidDate = departureDate && [date timeIntervalSinceDate:departureDate] < 0;
-    
-    CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:self.complicationImage];
-    imageProvider.tintColor = [AppManagerBase systemGreenColor];
-    
-    CLKTextProvider *textProvider;
-    if (family == CLKComplicationFamilyUtilitarianSmall) {
-        if (isValidDate) {
-            textProvider = [CLKRelativeDateTextProvider textProviderWithDate:departureDate style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
-        } else {
-            textProvider = [CLKSimpleTextProvider textProviderWithText:@"--"];
-        }
-        
-        CLKComplicationTemplateUtilitarianSmallFlat* template = [[CLKComplicationTemplateUtilitarianSmallFlat alloc] init];
-        template.textProvider = textProvider;
-        template.imageProvider = imageProvider;
-        
-        return template;
-    } else if (family == CLKComplicationFamilyUtilitarianLarge) {
-        if (isValidDate) {
-            CLKSimpleTextProvider *detailPart;
-            if (self.complicationTransportName) {
-                detailPart = [CLKSimpleTextProvider textProviderWithText:self.complicationTransportName];
-            } else {
-                detailPart = [CLKSimpleTextProvider textProviderWithText:@"DEPARTURE"];
-            }
-            
-            CLKRelativeDateTextProvider *datePart = [CLKRelativeDateTextProvider textProviderWithDate:departureDate style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
-            
-            textProvider = [CLKTextProvider textProviderWithFormat:@"%@ • %@", detailPart, datePart];
-        } else {
-            textProvider = [CLKSimpleTextProvider textProviderWithText:@"NO DEPARTURE"];
-        }
-        
-        CLKComplicationTemplateUtilitarianLargeFlat* template = [[CLKComplicationTemplateUtilitarianLargeFlat alloc] init];
-        template.textProvider = textProvider;
-        template.imageProvider = imageProvider;
-        
-        return template;
-    }
-    
-    return nil;
-}
-
--(CLKComplicationTemplate *)modularTemplateForDate:(NSDate *)date andFamily:(CLKComplicationFamily)family {
-    CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:self.complicationImage];
-    imageProvider.tintColor = [AppManagerBase systemGreenColor];
-    
-    if (family == CLKComplicationFamilyModularLarge) {
-        CLKComplicationTemplateModularLargeStandardBody* template = [[CLKComplicationTemplateModularLargeStandardBody alloc] init];
-        
-//        template.textProvider = [self textProviderForDate:(NSDate *)date andFamily:family];
-        template.headerImageProvider = imageProvider;
-        
-        return template;
-    }
-    
-    return nil;
-}
-*/
 - (void)refreshComplications {
     CLKComplicationServer *server = [CLKComplicationServer sharedInstance];
     for(CLKComplication *complication in server.activeComplications) {
         [server reloadTimelineForComplication:complication];
     }
 }
-
-#pragma mark - properties
-//-(NSDate *)complicationDepartureDate {
-//    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-//    NSDictionary* data = [myDelegate complicationData];
-//    
-//    return [self objectOrNilForKey:ComplicationDepartureDate fromDictionary:data];
-//}
-//
-//-(NSString *)complicationTransportName {
-//    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-//    NSDictionary* data = [myDelegate complicationData];
-//    
-//    return [self objectOrNilForKey:ComplicationTransportaionName fromDictionary:data];
-//}
-//
-//-(UIImage *)complicationImage {
-//    ExtensionDelegate* myDelegate = (ExtensionDelegate*)[[WKExtension sharedExtension] delegate];
-//    NSDictionary* data = [myDelegate complicationData];
-//    
-//    NSString *imageName = [self objectOrNilForKey:ComplicationImageName fromDictionary:data];
-//    
-//    if (imageName) {
-//        UIImage *image = [UIImage imageNamed:imageName];
-//        if (image) return image;
-//        else return [UIImage imageNamed:@"Utilitarian-bus"];
-//    } else {
-//        return [UIImage imageNamed:@"Utilitarian-bus"];
-//    }
-//}
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
 {

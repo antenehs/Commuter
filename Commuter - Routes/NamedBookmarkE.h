@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WidgetAPIProtocols.h"
 
-@interface NamedBookmarkE : NSObject
+@interface NamedBookmarkE : NSObject<RoutableLocationProtocol>
 
 -(NSString *)getFullAddress;
 -(NSString *)getUniqueIdentifier;

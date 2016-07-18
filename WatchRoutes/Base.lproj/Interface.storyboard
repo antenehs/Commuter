@@ -83,13 +83,25 @@
                                         <outlet property="workLabel" destination="PrT-vW-OiZ" id="WwG-zT-W4w"/>
                                     </connections>
                                 </tableRow>
+                                <tableRow identifier="OtherLocationHeader" selectable="NO" id="4Dq-gl-jRn">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="zNA-O1-v3p">
+                                        <items>
+                                            <label width="136" alignment="left" text="RECENT LOCATION" id="64V-k9-uGo">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" type="system" pointSize="13"/>
+                                            </label>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <edgeInsets key="margins" left="4" right="0.0" top="8" bottom="4"/>
+                                    </group>
+                                </tableRow>
                                 <tableRow identifier="LocationRow" id="9Iv-0b-CBE" customClass="LocationRowController">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" spacing="6" id="ptP-Bu-Tqs">
                                         <items>
                                             <imageView width="20" height="20" alignment="left" verticalAlignment="center" image="location-75-template" contentMode="scaleAspectFit" id="v5J-L9-r9n">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
-                                            <label height="40" alignment="left" text="Location" textAlignment="left" id="wq7-Yc-fvv"/>
+                                            <label height="40" alignment="left" verticalAlignment="center" text="Location" textAlignment="left" numberOfLines="2" id="wq7-Yc-fvv"/>
                                         </items>
                                     </group>
                                     <connections>

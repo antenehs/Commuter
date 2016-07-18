@@ -17,3 +17,8 @@ typedef void (^ActionBlock)();
 @protocol WidgetStopSearchProtocol <NSObject>
 - (void)fetchStopForCode:(NSString *)code completionBlock:(ActionBlock)completionBlock;
 @end
+
+@protocol RoutableLocationProtocol <NSObject>
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString * coords;
+@end

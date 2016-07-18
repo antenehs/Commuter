@@ -36,7 +36,7 @@ NSString *LocationCoordsContextKey = @"LocationCoordsContextKey";
         }
         
         if (location) {
-            MKCoordinateSpan coordinateSpan = MKCoordinateSpanMake(0.01, 0.01);
+            MKCoordinateSpan coordinateSpan = MKCoordinateSpanMake(0.005, 0.005);
             [self.mapView addAnnotation:location.coordinate withPinColor: WKInterfaceMapPinColorRed];
             
             [self.mapView setRegion:(MKCoordinateRegionMake(location.coordinate, coordinateSpan))];
