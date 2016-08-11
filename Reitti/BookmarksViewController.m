@@ -32,6 +32,8 @@ const NSInteger kTimerRefreshInterval = 15;
 @interface BookmarksViewController ()
 
 @property (nonatomic, strong) id previewingContext;
+@property (nonatomic, readonly) BOOL showRouteSuggestions;
+@property (nonatomic, readonly) BOOL showStopDepartures;
 
 @end
 
@@ -56,6 +58,7 @@ const NSInteger kTimerRefreshInterval = 15;
 @synthesize reittiDataManager, settingsManager;
 @synthesize namedBRouteDetail;
 @synthesize currentUserLocation, previousCenteredLocation, locationManager;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -120,6 +123,10 @@ const NSInteger kTimerRefreshInterval = 15;
     
     /* Register 3D touch for Peek and Pop if available */
     [self registerFor3DTouchIfAvailable];
+    
+    //Editing
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    [self.navigationController setToolbarHidden:!self.tableView.isEditing animated:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -131,7 +138,6 @@ const NSInteger kTimerRefreshInterval = 15;
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kTimerRefreshInterval target:self selector:@selector(refreshDetailData:) userInfo:nil repeats:YES];
     [locationManager startUpdatingLocation];
     
-    [self.navigationController setToolbarHidden:NO];
     [self setICloudButtonAvailablility];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
@@ -198,10 +204,12 @@ const NSInteger kTimerRefreshInterval = 15;
 }
 
 - (void)requestRoutesIfNeeded{
+    if (!self.showRouteSuggestions) return;
     [self fetchRouteForNamedBookmarks:self.savedNamedBookmarks];
 }
 
 - (void)requestStopDetailsIfNeeded{
+    if (!self.showStopDepartures) return;
     [self fetchStopDetailForBusStops:self.savedStops];
 }
 
@@ -232,6 +240,7 @@ const NSInteger kTimerRefreshInterval = 15;
             continue;
         
         [boomarkActivityIndicator startAnimating];
+        showRoutesButton.hidden = YES;
         numberOfBookmarks ++;
         
         [self.reittiDataManager searchRouteForFromCoords:[ReittiStringFormatter convert2DCoordToString:[currentUserLocation coordinate]] andToCoords:namedBookmark.coords andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
@@ -243,8 +252,10 @@ const NSInteger kTimerRefreshInterval = 15;
             
             [self.tableView asa_reloadDataAnimated];
             numberOfBookmarks--;
-            if (numberOfBookmarks == 0)
+            if (numberOfBookmarks == 0) {
                 [boomarkActivityIndicator stopAnimating];
+                showRoutesButton.hidden = NO;
+            }
         }];
     }
     
@@ -271,6 +282,7 @@ const NSInteger kTimerRefreshInterval = 15;
             continue;
         
         [stopActivityIndicator startAnimating];
+        showDeparturesButton.hidden = YES;
         numberOfStops ++;
         
         RTStopSearchParam *searchParam = [RTStopSearchParam new];
@@ -285,8 +297,10 @@ const NSInteger kTimerRefreshInterval = 15;
             }
             
             numberOfStops--;
-            if (numberOfStops == 0)
+            if (numberOfStops == 0) {
                 [stopActivityIndicator stopAnimating];
+                showDeparturesButton.hidden = NO;
+            }
         }];
     }
 }
@@ -356,6 +370,12 @@ const NSInteger kTimerRefreshInterval = 15;
     }
 }
 
+-(void)updateDetailToggleButtonTitles {
+    [showRoutesButton setTitle:!self.showRouteSuggestions ? @"SHOW ROUTES" : @"HIDE ROUTES" forState:UIControlStateNormal];
+    
+    [showDeparturesButton setTitle:!self.showStopDepartures ? @"SHOW DEPARTURES" : @"HIDE DEPARTURES" forState:UIControlStateNormal];
+}
+
 #pragma mark - location services
 - (void)initLocationManager{
     if (locationManager == nil) {
@@ -404,10 +424,7 @@ const NSInteger kTimerRefreshInterval = 15;
 -(void)routeSearchOptionsChanged:(id)sender {
     [self forceResetRoutesAndRequest];
 }
-- (IBAction)CancelButtonPressed:(id)sender {
-    [delegate viewControllerWillBeDismissed:self.mode];
-    [self dismissViewControllerAnimated:YES completion:nil ];
-}
+
 - (IBAction)clearAllButtonPressed:(id)sender {
     // Delete the row from the data source
     if (dataToLoad.count > 0) {
@@ -464,10 +481,30 @@ const NSInteger kTimerRefreshInterval = 15;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)showRoutesButtonTapped:(id)sender {
+    [SettingsManager setShowBookmarkRoutes:!self.showRouteSuggestions];
+    
+    if (self.showRouteSuggestions) {
+        [self.tableView asa_reloadDataAnimated];
+        [self requestRoutesIfNeeded];
+    }  else {
+        [self.tableView reloadData];
+    }
+    
+    [self updateDetailToggleButtonTitles];
+}
+
+- (IBAction)showDeparturesButtonTapped:(id)sender {
+    [SettingsManager setShowBookmarkDepartures:!self.showStopDepartures];
+    
+    if (self.showStopDepartures) {
+        [self.tableView asa_reloadDataAnimated];
+        [self requestStopDetailsIfNeeded];
+    } else {
+        [self.tableView reloadData];
+    }
+    
+    [self updateDetailToggleButtonTitles];
 }
 
 #pragma mark - Table view data source
@@ -556,7 +593,7 @@ const NSInteger kTimerRefreshInterval = 15;
                 collectionView.restorationIdentifier = nil; /* Just to be sure */
             }else{
                 dateLabel.hidden = YES;
-                if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]]) {
+                if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]] && self.showStopDepartures) {
                     collectionView.hidden = NO;
                     collectionView.restorationIdentifier = [NSString stringWithFormat:@"%li", (long)indexPath.row, nil];
                     collectionView.backgroundColor = [UIColor clearColor];
@@ -595,7 +632,7 @@ const NSInteger kTimerRefreshInterval = 15;
             leavesTime.hidden = YES;
             arrivesTime.hidden = YES;
             
-            if ([self bookmarkHasValidRouteInfo:namedBookmark]) {
+            if ([self bookmarkHasValidRouteInfo:namedBookmark] && self.showRouteSuggestions) {
                 NSArray * routes = [self getRoutesForNamedBookmark:namedBookmark];
                 Route *route = [routes firstObject];
                 
@@ -663,9 +700,9 @@ const NSInteger kTimerRefreshInterval = 15;
         }else if (savedStops.count < 1 && indexPath.section == savedStopsSection){
             return 80;
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]) {
-            return [self bookmarkHasValidRouteInfo:[self.dataToLoad objectAtIndex:dataIndex]] ? 135 : 60;
+            return [self bookmarkHasValidRouteInfo:[self.dataToLoad objectAtIndex:dataIndex]] && self.showRouteSuggestions ? 135 : 60;
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]) {
-            if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]]){
+            if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]] && self.showStopDepartures ){
                 BusStop *stop = [self getDetailStopForBusStop:[self.dataToLoad objectAtIndex:dataIndex]];
                 if (!stop.departures || stop.departures.count < 3) {
                     return 110;
@@ -699,12 +736,21 @@ const NSInteger kTimerRefreshInterval = 15;
             titleLabel.text = @"   LOCATIONS";
             boomarkActivityIndicator.center = CGPointMake(self.view.frame.size.width - 30, 15);
             [view addSubview:boomarkActivityIndicator];
+            
+            showRoutesButton.frame = CGRectMake(self.view.frame.size.width - showRoutesButton.frame.size.width - 10, 3, showRoutesButton.frame.size.width, 24);
+            [self updateDetailToggleButtonTitles];
+            showRoutesButton.hidden = self.savedNamedBookmarks.count == 0;
+            [view addSubview:showRoutesButton];
         }else if (section == savedRouteSection){
             titleLabel.text = @"   SAVED ROUTES";
         }else{
             titleLabel.text = @"   SAVED STOPS";
             stopActivityIndicator.center = CGPointMake(self.view.frame.size.width - 30, 15);
             [view addSubview:stopActivityIndicator];
+            showDeparturesButton.frame = CGRectMake(self.view.frame.size.width - showDeparturesButton.frame.size.width - 6, 3, showDeparturesButton.frame.size.width, 24);
+            [self updateDetailToggleButtonTitles];
+            showDeparturesButton.hidden = self.savedStops.count == 0;
+            [view addSubview:showDeparturesButton];
         }
         
         [view addSubview:titleLabel];
@@ -716,6 +762,10 @@ const NSInteger kTimerRefreshInterval = 15;
         return nil;
     }
 }
+
+//-(UIButton *)toggleShowRoutesButton {
+//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)]
+//}
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -790,6 +840,48 @@ const NSInteger kTimerRefreshInterval = 15;
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate
+{
+    if(editing) {
+        [self.navigationController setToolbarHidden:NO animated:YES];
+        showDeparturesButton.hidden = YES;
+        showRoutesButton.hidden = YES;
+    } else {
+        [self.navigationController setToolbarHidden:YES animated:YES];
+        showDeparturesButton.hidden = NO;
+        showRoutesButton.hidden = NO;
+    }
+
+    [self.tableView reloadData];
+    
+    [super setEditing:editing animated:animate];
+}
+
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    
+}
+
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+    if (sourceIndexPath.section != proposedDestinationIndexPath.section) {
+        NSInteger row = 0;
+        if (sourceIndexPath.section < proposedDestinationIndexPath.section) {
+            row = [tableView numberOfRowsInSection:sourceIndexPath.section] - 1;
+        }
+        return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];
+    }
+    
+    return proposedDestinationIndexPath;
 }
 
 #pragma mark - Table view delegate
@@ -890,6 +982,10 @@ const NSInteger kTimerRefreshInterval = 15;
 #pragma mark - UICollectionView Delegate
 
 #pragma mark - Route detail methods
+-(BOOL)showRouteSuggestions {
+    return [SettingsManager showBookmarkRoutes] && !self.tableView.isEditing;
+}
+
 - (BOOL)shouldUpdateRouteInfoForBookmark:(NamedBookmark *)namedBookmark {
     if (![self isValidBookmarkForRouteSearch:namedBookmark])
         return NO;
@@ -986,6 +1082,10 @@ const NSInteger kTimerRefreshInterval = 15;
 }
 
 #pragma mark - stop detail handling
+-(BOOL)showStopDepartures {
+    return [SettingsManager showBookmarkDepartures] && !self.tableView.isEditing;
+}
+
 -(NSMutableDictionary *)stopDetailMap{
     if (!_stopDetailMap) {
         _stopDetailMap = [@{} mutableCopy];
@@ -1095,23 +1195,6 @@ const NSInteger kTimerRefreshInterval = 15;
     
     return [NSMutableArray arrayWithArray:sortedArray];
 }
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)openAddBookmarkController {
     [self performSegueWithIdentifier:@"addAddress" sender:self];

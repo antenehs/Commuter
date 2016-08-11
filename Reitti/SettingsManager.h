@@ -48,6 +48,11 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(NSInteger)getStartingIndexTab;
 +(void)setStartingIndexTab:(NSInteger)index;
 
++(BOOL)showBookmarkRoutes;
++(void)setShowBookmarkRoutes:(BOOL)show;
++(BOOL)showBookmarkDepartures;
++(void)setShowBookmarkDepartures:(BOOL)show;
+
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 
 @property(nonatomic, strong)SettingsEntity *settingsEntity;

@@ -209,6 +209,8 @@
 		6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
 		6663A08F1B62AB5300DC20D0 /* renameCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08E1B62AB5300DC20D0 /* renameCardJS.js */; };
 		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
+		66656D521D5D0F5400BA291B /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
+		66656D531D5D0F5400BA291B /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
 		6665D7471C088FFB00ACCC3A /* ReittiAppShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */; };
 		6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
 		6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */; };
@@ -1363,6 +1365,8 @@
 		666437B819E1478400B82BE5 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		666437B919E1478400B82BE5 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		666437BB19E1478400B82BE5 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		66656D501D5D0F5400BA291B /* OrderedManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedManagedObject.h; sourceTree = "<group>"; };
+		66656D511D5D0F5400BA291B /* OrderedManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedManagedObject.m; sourceTree = "<group>"; };
 		6665D7451C088FFB00ACCC3A /* ReittiAppShortcutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiAppShortcutManager.h; sourceTree = "<group>"; };
 		6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiAppShortcutManager.m; sourceTree = "<group>"; };
 		6665D74A1C0B532500ACCC3A /* NSArray+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Helper.h"; path = "Helpers/NSArray+Helper.h"; sourceTree = "<group>"; };
@@ -2367,6 +2371,8 @@
 				663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */,
 				665BA1B41CAF0C550091C180 /* RouteSearchParameters.h */,
 				665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */,
+				66656D501D5D0F5400BA291B /* OrderedManagedObject.h */,
+				66656D511D5D0F5400BA291B /* OrderedManagedObject.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4410,6 +4416,7 @@
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				6603A8F91CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
+				66656D521D5D0F5400BA291B /* OrderedManagedObject.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
 				66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */,
 				66CC941618E2304600644281 /* HistoryEntity.m in Sources */,
@@ -4671,6 +4678,7 @@
 				66C733141C556DA5002544BC /* HTMLDocumentType.m in Sources */,
 				6603A8FA1CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				66C733151C556DA5002544BC /* UITableViewCell+Helper.m in Sources */,
+				66656D531D5D0F5400BA291B /* OrderedManagedObject.m in Sources */,
 				66C733161C556DA5002544BC /* RouteOptionsTableViewController.m in Sources */,
 				66C733171C556DA5002544BC /* HTMLString.m in Sources */,
 				66C733181C556DA5002544BC /* HistoryEntity.m in Sources */,

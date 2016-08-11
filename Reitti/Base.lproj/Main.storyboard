@@ -44,6 +44,9 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
@@ -76,9 +79,6 @@
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
             <string>HelveticaNeue-Light</string>
-            <string>HelveticaNeue-Thin</string>
-            <string>HelveticaNeue-Thin</string>
-            <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Thin</string>
             <string>HelveticaNeue-Thin</string>
@@ -1030,7 +1030,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96V-9S-nUc">
                                                     <rect key="frame" x="28" y="8" width="544" height="54"/>
                                                     <string key="text">Trams: 4 and 4T, disrupt route. Operates via Aleksanterinkatu - Snellmankatu - Liisankatu - Central Railway Station - Lasipalatsi. Cause: public event. Estimated time: 17:00 - 18:30.</string>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1075,7 +1075,7 @@
                                                         <constraint firstAttribute="width" constant="172" id="8em-XJ-erA"/>
                                                         <constraint firstAttribute="height" constant="22" id="Nk6-1C-fuD"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1124,7 +1124,7 @@
                                                         <constraint firstAttribute="height" constant="22" id="dsS-E1-PDt"/>
                                                         <constraint firstAttribute="width" constant="211" id="qf4-42-zah"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
@@ -2894,7 +2894,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="8sW-j3-AyC"/>
-                        <barButtonItem title="Widget Setting" id="MGS-b9-kqd">
+                        <barButtonItem id="MGS-b9-kqd">
                             <color key="tintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="5Ru-VG-2eO" kind="presentation" identifier="editSelectionForWidget" id="zLX-h6-Wen"/>
@@ -2903,19 +2903,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="JcP-h3-Bvc">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="bXI-PN-ECG">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GA8-B1-adG">
-                                <rect key="frame" x="20" y="7" width="28" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icloudDownload">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="CancelButtonPressed:" destination="LeF-Fg-lgm" eventType="touchUpInside" id="9bV-eT-z4u"/>
-                                    <segue destination="OTr-z9-GlP" kind="presentation" identifier="iCloudBookmarks" id="Ebj-th-VSW"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="edit" id="bXI-PN-ECG"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="RQu-zy-zGW">
                             <rect key="frame" x="215" y="7" width="170" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2944,6 +2932,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="listSegmentControl" destination="RQu-zy-zGW" id="nfd-fW-NB8"/>
+                        <outlet property="showDeparturesButton" destination="Fg9-t9-gSO" id="hDF-J1-hC0"/>
+                        <outlet property="showRoutesButton" destination="JDG-Ch-cIb" id="mCA-Qn-f9u"/>
                         <outlet property="widgetSettingButton" destination="MGS-b9-kqd" id="pYA-iT-s2b"/>
                     </connections>
                 </tableViewController>
@@ -2965,6 +2955,28 @@
                         <constraint firstItem="898-KA-xEc" firstAttribute="leading" secondItem="Pnr-dK-XaX" secondAttribute="leading" constant="31" id="TfB-V9-Ofu"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JDG-Ch-cIb">
+                    <rect key="frame" x="0.0" y="0.0" width="86" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                    <state key="normal" title="SHOW ROUTES">
+                        <color key="titleColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="showRoutesButtonTapped:" destination="LeF-Fg-lgm" eventType="touchUpInside" id="qsQ-3W-aV5"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fg9-t9-gSO">
+                    <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                    <state key="normal" title="SHOW DEPARTURES">
+                        <color key="titleColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="showDeparturesButtonTapped:" destination="LeF-Fg-lgm" eventType="touchUpInside" id="KKx-U8-6Z9"/>
+                    </connections>
+                </button>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E4Z-qg-hpw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4693" y="-389"/>
@@ -9555,23 +9567,23 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="e2V-qU-oq6"/>
-        <segue reference="tk7-jO-rac"/>
         <segue reference="KcY-jL-JZJ"/>
         <segue reference="oJb-eU-zeZ"/>
-        <segue reference="4dD-ZN-Yab"/>
         <segue reference="U9A-P0-Va2"/>
-        <segue reference="4lM-KH-B6v"/>
-        <segue reference="XlZ-XU-H5m"/>
-        <segue reference="YpZ-AP-yAo"/>
         <segue reference="ocH-Qu-aOm"/>
-        <segue reference="yf4-eP-97K"/>
+        <segue reference="XlZ-XU-H5m"/>
+        <segue reference="4lM-KH-B6v"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="4dD-ZN-Yab"/>
         <segue reference="Tx2-4m-mRF"/>
+        <segue reference="yf4-eP-97K"/>
+        <segue reference="L8L-oR-GI7"/>
         <segue reference="zLX-h6-Wen"/>
-        <segue reference="9x7-C0-VCu"/>
-        <segue reference="CkP-l4-5DX"/>
-        <segue reference="Ltu-K0-x4G"/>
         <segue reference="rqd-oJ-7h3"/>
+        <segue reference="tk7-jO-rac"/>
+        <segue reference="CkP-l4-5DX"/>
+        <segue reference="9x7-C0-VCu"/>
+        <segue reference="e2V-qU-oq6"/>
         <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>

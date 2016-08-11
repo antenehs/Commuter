@@ -602,8 +602,9 @@
     
     if (self._busStop.timetable_link) {
         fullTimeTableButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 107, 0, 100, 30);
-        [fullTimeTableButton setTitle:@"Full timetable" forState:UIControlStateNormal];
+        fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 120, 0, 120, 30);
+        [fullTimeTableButton setTitle:@"FULL TIMETABLE" forState:UIControlStateNormal];
+        fullTimeTableButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
         [fullTimeTableButton setTintColor:[AppManager systemGreenColor]];
         [fullTimeTableButton addTarget:self action:@selector(showFullTimeTable:) forControlEvents:UIControlEventTouchUpInside];
         

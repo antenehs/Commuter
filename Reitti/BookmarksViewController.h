@@ -31,6 +31,9 @@
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIBarButtonItem *widgetSettingButton;
     
+    IBOutlet UIButton *showRoutesButton;
+    IBOutlet UIButton *showDeparturesButton;
+    
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;
     UIColor *systemSubTextColor;

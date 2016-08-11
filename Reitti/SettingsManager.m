@@ -14,6 +14,8 @@ NSString * const shouldShowVehiclesNotificationName = @"SettingsManagerShowVehic
 NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRouteSearchOptionsChangedNotification";
 
 NSString * const kAnalyticsSettingsNsDefaultsKey = @"IsAnalyticsSettingEnabled";
+NSString * const kShowRoutesFromBookmarksKey = @"ShowRoutesFromBookmarks";
+NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 
 @implementation SettingsManager
@@ -106,22 +108,40 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 }
 
 #pragma mark - Settings in NSUserDefaults
++(BOOL)showBookmarkRoutes {
+    return [self readBoolForKey:kShowRoutesFromBookmarksKey withDefault:NO];
+}
+
++(void)setShowBookmarkRoutes:(BOOL)show {
+    [self saveBoolForKey:kShowRoutesFromBookmarksKey boolVal:show];
+}
+
++(BOOL)showBookmarkDepartures {
+    return [self readBoolForKey:kShowDeparturesFromBookmarksKey withDefault:YES];
+}
+
++(void)setShowBookmarkDepartures:(BOOL)show {
+    [self saveBoolForKey:kShowDeparturesFromBookmarksKey boolVal:show];
+}
+
 +(BOOL)isAnalyticsEnabled{
-    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kAnalyticsSettingsNsDefaultsKey];
-    
-    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
-        return YES;
-    
-    return [savedValue boolValue];
+    return [self readBoolForKey:kAnalyticsSettingsNsDefaultsKey withDefault:YES];
+//    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kAnalyticsSettingsNsDefaultsKey];
+//    
+//    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
+//        return YES;
+//    
+//    return [savedValue boolValue];
 }
 
 +(void)enableAnalytics:(BOOL)enable{
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    
-    if (standardUserDefaults) {
-        [standardUserDefaults setObject:[NSNumber numberWithBool:enable] forKey:kAnalyticsSettingsNsDefaultsKey];
-        [standardUserDefaults synchronize];
-    }
+    [self saveBoolForKey:kAnalyticsSettingsNsDefaultsKey boolVal:enable];
+//    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+//    
+//    if (standardUserDefaults) {
+//        [standardUserDefaults setObject:[NSNumber numberWithBool:enable] forKey:kAnalyticsSettingsNsDefaultsKey];
+//        [standardUserDefaults synchronize];
+//    }
 }
 
 +(NSInteger)getStartingIndexTab{
@@ -143,6 +163,25 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 }
 
 #pragma mark - Helpers
+
++(BOOL)readBoolForKey:(NSString *)defaultsKey withDefault:(BOOL)defaultValue {
+    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey];
+    
+    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
+        return defaultValue;
+    
+    return [savedValue boolValue];
+}
+
++(void)saveBoolForKey:(NSString *)defaultsKey boolVal:(BOOL)boolVal {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithBool:boolVal] forKey:defaultsKey];
+        [standardUserDefaults synchronize];
+    }
+}
+
 -(void)postNotificationWithName:(NSString *)name{
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
 }

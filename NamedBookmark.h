@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
-#import "ReittiManagedObjectBase.h"
+#import "OrderedManagedObject.h"
 
-
-@interface NamedBookmark : ReittiManagedObjectBase
+@interface NamedBookmark : OrderedManagedObject
 
 + (NSArray *)getAddressTypeList;
 + (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
