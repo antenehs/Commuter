@@ -11,8 +11,9 @@
 #import "ReittiManagedObjectBase.h"
 #import "EnumManager.h"
 #import "ApiProtocols.h"
+#import "OrderedManagedObject.h"
 
-@interface StopEntity : ReittiManagedObjectBase
+@interface StopEntity : OrderedManagedObject
 
 @property (nonatomic, retain) NSNumber * busStopCode;
 @property (nonatomic, retain) NSArray  * stopLines;

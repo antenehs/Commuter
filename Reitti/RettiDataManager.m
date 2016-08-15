@@ -729,6 +729,22 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self increamentObjectLID];
 }
 
+-(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects {
+    
+    for (int i = 0; i < orderedObjects.count; i++) {
+        
+        OrderedManagedObject *object = orderedObjects[i];
+        if (![object isKindOfClass:[OrderedManagedObject class]]) return;
+        
+        object.order = [NSNumber numberWithInt:i + 1];
+        [self saveManagedObject:object];
+    }
+    
+    if (orderedObjects.count > 0 && [orderedObjects[0] isKindOfClass:[StopEntity class]]) {
+        [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
+    }
+}
+
 -(NSDictionary *)convertListInfoArrayToDictionary:(NSArray *)infoListArray{
     
     NSMutableArray *codesList;
@@ -865,49 +881,49 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSourceApiForStops:savedStops];
 }
 
--(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-    NSString *selectedCodes = [sharedDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
-    
-    if (allStops == nil) {
-        [sharedDefaults setObject:@"" forKey:kUserDefaultsSelectedSavedStopsKey];
-        return;
-    }
-    
-    if (stopCode == 0) {
-        return;
-    }
-    
-    NSRange strRange = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", stopCode]];
-    if (strRange.location != NSNotFound) {
-        StopEntity *new;
-        for (StopEntity *stop in allStops) {
-            
-            if ([stop.busStopCode intValue] != stopCode) {
-                NSRange range = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", [stop.busStopCode intValue]]];
-                if (range.location == NSNotFound) {
-                    new = stop;
-                }
-            }
-        }
-        
-        if (allStops != nil && new != nil) {
-            
-            NSString *newEntry = [NSString stringWithFormat:@"%@", [new busStopCode]];
-            NSString *newStr = [selectedCodes stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%d", stopCode] withString:newEntry ];
-            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
-            [sharedDefaults synchronize];
-        }else{
-            NSString *newStr = [selectedCodes stringByReplacingCharactersInRange:strRange withString:@""];
-            newStr = [newStr stringByReplacingOccurrencesOfString:@",," withString:@","];
-            newStr = [newStr stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
-            [sharedDefaults synchronize];
-        }
-    }
-    
-    [self updateSourceApiForStops:allStops];
-}
+//-(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
+//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
+//    NSString *selectedCodes = [sharedDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
+//    
+//    if (allStops == nil) {
+//        [sharedDefaults setObject:@"" forKey:kUserDefaultsSelectedSavedStopsKey];
+//        return;
+//    }
+//    
+//    if (stopCode == 0) {
+//        return;
+//    }
+//    
+//    NSRange strRange = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", stopCode]];
+//    if (strRange.location != NSNotFound) {
+//        StopEntity *new;
+//        for (StopEntity *stop in allStops) {
+//            
+//            if ([stop.busStopCode intValue] != stopCode) {
+//                NSRange range = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", [stop.busStopCode intValue]]];
+//                if (range.location == NSNotFound) {
+//                    new = stop;
+//                }
+//            }
+//        }
+//        
+//        if (allStops != nil && new != nil) {
+//            
+//            NSString *newEntry = [NSString stringWithFormat:@"%@", [new busStopCode]];
+//            NSString *newStr = [selectedCodes stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%d", stopCode] withString:newEntry ];
+//            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
+//            [sharedDefaults synchronize];
+//        }else{
+//            NSString *newStr = [selectedCodes stringByReplacingCharactersInRange:strRange withString:@""];
+//            newStr = [newStr stringByReplacingOccurrencesOfString:@",," withString:@","];
+//            newStr = [newStr stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
+//            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
+//            [sharedDefaults synchronize];
+//        }
+//    }
+//    
+//    [self updateSourceApiForStops:allStops];
+//}
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     [self fetchAllSavedRouteCodesFromCoreData];
@@ -1158,6 +1174,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     if (!self.stopEntity) {
         self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
+        self.stopEntity.order = [NSNumber numberWithInteger:allSavedStopCodes.count + 1];
     }
     
     //set default values
@@ -1211,7 +1228,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [allSavedStopCodes removeObject:savedStop.busStopCode];
     NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
     [self updateSavedStopsDefaultValueForStops:savedSt];
-    [self updateSelectedStopListForDeletedStop:[savedStop.busStopCode intValue] andAllStops:savedSt];
+//    [self updateSelectedStopListForDeletedStop:[savedStop.busStopCode intValue] andAllStops:savedSt];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
@@ -1233,7 +1250,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [allSavedStopCodes removeAllObjects];
     NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
     [self updateSavedStopsDefaultValueForStops:savedSt];
-    [self updateSelectedStopListForDeletedStop:0 andAllStops:savedSt];
+//    [self updateSelectedStopListForDeletedStop:0 andAllStops:savedSt];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
@@ -1247,6 +1264,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
     
     [request setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
     
     //[request setResultType:NSDictionaryResultType];
     [request setReturnsDistinctResults:YES];
@@ -1522,6 +1542,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     self.routeEntity= (RouteEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"RouteEntity" inManagedObjectContext:self.managedObjectContext];
     //set default values
+    [self.routeEntity setOrder:[NSNumber numberWithInteger:allSavedRouteCodes.count + 1]];
     [self.routeEntity setFromLocationName:fromLocation];
     [self.routeEntity setFromLocationCoordsString:fromCoords];
     [self.routeEntity setToLocationName:toLocation];
@@ -1586,6 +1607,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [NSEntityDescription entityForName:@"RouteEntity" inManagedObjectContext:self.managedObjectContext];
     
     [request setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
     
     //[request setResultType:NSDictionaryResultType];
     [request setReturnsDistinctResults:YES];
@@ -1668,12 +1692,13 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 #pragma mark - named bookmark methods
 -(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)ndBookmark{
-    //Check for existence here first
     if (ndBookmark == nil)
         return nil;
     
+    //Check for existence here first
     if(![self doesNamedBookmarkExistWithName:ndBookmark.name]){
         self.namedBookmark = (NamedBookmark *)[NSEntityDescription insertNewObjectForEntityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+        self.namedBookmark.order = [NSNumber numberWithInteger:allNamedBookmarkNames.count + 1];
         
         [allNamedBookmarkNames addObject:ndBookmark.name];
     }else{
@@ -1711,6 +1736,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     if(![self doesNamedBookmarkExistWithName:dict[kNamedBookmarkName]]){
         bookmark = [[NamedBookmark alloc] initWithDictionary:dict andManagedObjectContext:self.managedObjectContext];
+        self.namedBookmark.order = [NSNumber numberWithInteger:allNamedBookmarkNames.count + 1];
         
         [allNamedBookmarkNames addObject:bookmark.name];
     }else{
@@ -1791,6 +1817,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         exit(-1);  // Fail
     }
     
+    //Update orders
     [allNamedBookmarkNames removeObject:name];
     
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
@@ -1884,6 +1911,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [request setEntity:entity];
     
     [request setReturnsDistinctResults:YES];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error = nil;
     
@@ -2197,6 +2227,18 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
     
     return YES;
+}
+
+-(void)doVersion16CoreDataMigration{
+    
+    //Migration due to addition orders
+    NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
+    NSArray *savedStops = [self fetchAllSavedStopsFromCoreData];
+    NSArray *savedRoutes = [self fetchAllSavedRoutesFromCoreData];
+    
+    [self updateOrderedManagedObjectOrderTo:namedBookmarks];
+    [self updateOrderedManagedObjectOrderTo:savedStops];
+    [self updateOrderedManagedObjectOrderTo:savedRoutes];
 }
 
 #pragma mark - ICloud methods

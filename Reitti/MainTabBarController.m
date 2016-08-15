@@ -115,10 +115,10 @@
     [self.searchController openStopViewForCode:stopCode];
 }
 
--(void)openWidgetSettingsView {
-    [self switchToHomeTab];
-    [self.searchController openWidgetSettingsView];
-}
+//-(void)openWidgetSettingsView {
+//    [self switchToHomeTab];
+//    [self.searchController openWidgetSettingsView];
+//}
 
 -(void)switchToBookmarksTab {
     self.selectedIndex = 2;

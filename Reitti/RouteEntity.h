@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "ReittiManagedObjectBase.h"
+#import "OrderedManagedObject.h"
 
-
-@interface RouteEntity : ReittiManagedObjectBase
+@interface RouteEntity : OrderedManagedObject
 
 @property (nonatomic, retain) NSString * routeUniqueName;
 @property (nonatomic, retain) NSString * fromLocationName;

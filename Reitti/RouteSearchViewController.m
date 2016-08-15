@@ -1637,11 +1637,10 @@ typedef enum
         dataToLoad = [[NSMutableArray alloc] initWithArray:namedBookmarks];
     }
     
+    NSMutableArray *tempArray1 = [[NSMutableArray alloc] initWithArray:savedRoutes];
+    [tempArray1 addObjectsFromArray:savedStops];
     
-    NSMutableArray *tempArray1 = [[NSMutableArray alloc] initWithArray:savedStops];
-    [tempArray1 addObjectsFromArray:savedRoutes];
-    
-    [dataToLoad addObjectsFromArray:[self sortDataArray:tempArray1]];
+    [dataToLoad addObjectsFromArray:tempArray1];
     
     NSMutableArray *tempArray2 = [[NSMutableArray alloc] initWithArray:recentRoutes];
     [tempArray2 addObjectsFromArray:recentStops];

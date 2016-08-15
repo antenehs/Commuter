@@ -92,6 +92,8 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock;
 -(void)stopUpdatingBikeStations;
 
+-(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects;
+
 -(BOOL)isBusStopSaved:(BusStop *)stop;
 -(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode;
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;
@@ -155,6 +157,7 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 +(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 
 -(BOOL)doVersion4_1CoreDataMigration;
+-(void)doVersion16CoreDataMigration;
 
 @property (strong, nonatomic) NSMutableArray *allHistoryStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedStopCodes;

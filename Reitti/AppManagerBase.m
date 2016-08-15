@@ -16,7 +16,7 @@ NSString *KUserDefaultsSuitNameForWatchRoutes = @"group.com.ewketApps.commuterWa
 
 NSString *kUserDefaultsNamedBookmarksKey = @"namedBookmarksDictionary";
 NSString *kUserDefaultsSavedStopsKey = @"StopCodes";
-NSString *kUserDefaultsSelectedSavedStopsKey = @"SelectedStopCodes";
+//NSString *kUserDefaultsSelectedSavedStopsKey = @"SelectedStopCodes";
 NSString *kUserDefaultsStopSourceApiKey = @"StopSourceApi";
 NSString *kUserDefaultsRouteSearchOptionsKey = @"kUserDefaultsRouteSearchOptionsKey";
 

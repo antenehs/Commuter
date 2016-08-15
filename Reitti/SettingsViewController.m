@@ -8,7 +8,6 @@
 
 #import "SettingsViewController.h"
 #import "RettiDataManager.h"
-#import "WidgetSettingsViewController.h"
 #import "SearchController.h"
 #import "AppManager.h"
 
@@ -70,10 +69,10 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         mapSettingsSection = sectionNumber++;
         
         //-----------
-        wigetSectionNumberOfRows = 0;
-        departuresWidgetRow = wigetSectionNumberOfRows++;
-        
-        widgetSettingSection = sectionNumber++;
+//        wigetSectionNumberOfRows = 0;
+//        departuresWidgetRow = wigetSectionNumberOfRows++;
+//        
+//        widgetSettingSection = sectionNumber++;
         
         //-----------
         otherSettingsNumberOfRows = 0;
@@ -102,7 +101,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         trackingOptionRow = advancedModeNumberOfRows++;
         
         advancedModeSection = sectionNumber++;
-        mapSettingsSection = widgetSettingSection = otherSettingsSection = startingTabSection = advancedSettingSection = -1;
+        mapSettingsSection = otherSettingsSection = startingTabSection = advancedSettingSection = -1;
     }
     
     numberOfSections = sectionNumber;
@@ -161,8 +160,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == mapSettingsSection) {
         return mapSectionNumberOfRows;
-    }else if (section == widgetSettingSection) {
-        return wigetSectionNumberOfRows;
     }else if (section == otherSettingsSection) {
         return otherSettingsNumberOfRows;
     }else if (section == startingTabSection){
@@ -189,8 +186,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
             uiSwitch.on = [settingsManager shouldShowLiveVehicles];
         }
-    }else if (indexPath.section == widgetSettingSection) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"widgetSettingCell"];
     }else if (indexPath.section == otherSettingsSection) {
         if (indexPath.row == routeSearchOptionRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"routeSearchOptionsCell"];
@@ -497,11 +492,11 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         controller.viewControllerIndex = kUserLocationRegionSelectionViewControllerTag;
     }
     
-    if ([segue.identifier isEqualToString:@"widgetSettings"]) {
-        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[segue destinationViewController];
-        
-        controller.savedStops = [NSMutableArray arrayWithArray:[self.settingsManager.reittiDataManager fetchAllSavedStopsFromCoreData]];
-    }
+//    if ([segue.identifier isEqualToString:@"widgetSettings"]) {
+//        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[segue destinationViewController];
+//        
+//        controller.savedStops = [NSMutableArray arrayWithArray:[self.settingsManager.reittiDataManager fetchAllSavedStopsFromCoreData]];
+//    }
     
     if ([segue.identifier isEqualToString:@"setRouteSearchOptions"]) {
         RouteOptionsTableViewController *controller = (RouteOptionsTableViewController *)[segue destinationViewController];

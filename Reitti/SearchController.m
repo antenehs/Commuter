@@ -12,7 +12,6 @@
 #import "MyFixedLayoutGuide.h"
 #import "RouteSearchViewController.h"
 #import "InfoViewController.h"
-#import "WidgetSettingsViewController.h"
 #import <Social/Social.h>
 #import "TSMessage.h"
 #import "ReittiNotificationHelper.h"
@@ -100,9 +99,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
         [self.reittiDataManager doVersion4_1CoreDataMigration];
+        [self.reittiDataManager doVersion16CoreDataMigration];
         
         [AppManager setCurrentAppVersion];
     }
+    
+    [self.reittiDataManager doVersion16CoreDataMigration];
     
     [self.navigationController setToolbarHidden:YES animated:NO];
     [self fetchDisruptions];
@@ -2071,9 +2073,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
 
--(void)openWidgetSettingsView{
-    [self performSegueWithIdentifier:@"openWidgetSettingFromHome" sender:self];
-}
+//-(void)openWidgetSettingsView{
+//    [self performSegueWithIdentifier:@"openWidgetSettingFromHome" sender:self];
+//}
 
 #pragma mark - helper methods
 
@@ -2692,12 +2694,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [infoViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
     
-    if ([segue.identifier isEqualToString:@"openWidgetSettingFromHome"]) {
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
-        
-        controller.savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-    }
+//    if ([segue.identifier isEqualToString:@"openWidgetSettingFromHome"]) {
+//        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+//        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
+//        
+//        controller.savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+//    }
     
     if ([segue.identifier isEqualToString:@"showSettings"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;

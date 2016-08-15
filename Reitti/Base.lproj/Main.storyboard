@@ -672,7 +672,6 @@
                         <outlet property="searchResultsLabel" destination="Li3-9Q-t1v" id="iiP-uB-x8N"/>
                         <outlet property="searchResultsView" destination="RPy-oI-JaQ" id="bHq-fg-kh3"/>
                         <outlet property="stopFetchActivityIndicator" destination="SQ6-cg-S34" id="Ldj-H0-Xu5"/>
-                        <segue destination="5Ru-VG-2eO" kind="presentation" identifier="openWidgetSettingFromHome" id="DEk-ct-YDr"/>
                         <segue destination="5LJ-Iz-iZd" kind="presentation" identifier="showNamedBookmark" id="CYY-Jj-YoI"/>
                         <segue destination="5LJ-Iz-iZd" kind="presentation" identifier="showGeoCode" id="X8p-rp-E0z"/>
                         <segue destination="Oiv-6M-ej1" kind="presentation" identifier="openBookmarks" id="oJb-eU-zeZ"/>
@@ -1324,9 +1323,6 @@
                                                         <constraint firstItem="2db-o1-ezt" firstAttribute="leading" secondItem="dad-Da-lyS" secondAttribute="leadingMargin" constant="2" id="o04-Qe-svT"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
-                                                <connections>
-                                                    <segue destination="4TO-H0-BeX" kind="show" identifier="widgetSettings" id="4lM-KH-B6v"/>
-                                                </connections>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="routeSearchOptionsCell" id="pUN-eK-Wnd">
                                                 <rect key="frame" x="0.0" y="199.5" width="600" height="50"/>
@@ -2484,7 +2480,7 @@
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fbh-9m-6rM">
+                                        <imageView userInteractionEnabled="NO" alpha="0.40000000000000002" tag="2008" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fbh-9m-6rM">
                                             <rect key="frame" x="538" y="17" width="1" height="30"/>
                                             <color key="backgroundColor" red="0.85066377943840576" green="0.85066377943840576" blue="0.85066377943840576" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -2498,20 +2494,21 @@
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Edit-gray-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="93l-zs-QEE">
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Edit-gray-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="93l-zs-QEE">
                                             <rect key="frame" x="566" y="22" width="16" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="16" id="1Ud-ts-BRa"/>
                                                 <constraint firstAttribute="height" constant="16" id="1nw-P5-acF"/>
                                             </constraints>
                                         </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCf-qJ-VWF">
+                                        <button opaque="NO" tag="2007" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCf-qJ-VWF">
                                             <rect key="frame" x="547" y="6" width="53" height="48"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="48" id="SVH-18-sA0"/>
                                                 <constraint firstAttribute="width" constant="53" id="iJ7-kL-PH4"/>
                                             </constraints>
-                                            <state key="normal">
+                                            <inset key="imageEdgeInsets" minX="18" minY="16" maxX="18" maxY="16"/>
+                                            <state key="normal" image="Edit-gray-100">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -2896,9 +2893,6 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="8sW-j3-AyC"/>
                         <barButtonItem id="MGS-b9-kqd">
                             <color key="tintColor" red="0.10980392156862745" green="0.67450980392156867" blue="0.47058823529411764" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <segue destination="5Ru-VG-2eO" kind="presentation" identifier="editSelectionForWidget" id="zLX-h6-Wen"/>
-                            </connections>
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="JcP-h3-Bvc">
@@ -9507,6 +9501,7 @@ Helsinki, Finland</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Edit-gray-100" width="100" height="100"/>
         <image name="Edit-gray-100.png" width="100" height="100"/>
         <image name="Info-red-filled-50.png" width="50" height="50"/>
         <image name="Up Left Filled-100.png" width="100" height="100"/>
@@ -9567,23 +9562,21 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KcY-jL-JZJ"/>
-        <segue reference="oJb-eU-zeZ"/>
         <segue reference="U9A-P0-Va2"/>
-        <segue reference="ocH-Qu-aOm"/>
-        <segue reference="XlZ-XU-H5m"/>
-        <segue reference="4lM-KH-B6v"/>
-        <segue reference="YpZ-AP-yAo"/>
         <segue reference="4dD-ZN-Yab"/>
-        <segue reference="Tx2-4m-mRF"/>
         <segue reference="yf4-eP-97K"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="oJb-eU-zeZ"/>
         <segue reference="L8L-oR-GI7"/>
-        <segue reference="zLX-h6-Wen"/>
+        <segue reference="KcY-jL-JZJ"/>
         <segue reference="rqd-oJ-7h3"/>
         <segue reference="tk7-jO-rac"/>
         <segue reference="CkP-l4-5DX"/>
         <segue reference="9x7-C0-VCu"/>
         <segue reference="e2V-qU-oq6"/>
+        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="XlZ-XU-H5m"/>
+        <segue reference="YpZ-AP-yAo"/>
         <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>

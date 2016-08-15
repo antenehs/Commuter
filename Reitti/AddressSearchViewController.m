@@ -102,7 +102,7 @@
     
     [dataToLoad addObjectsFromArray:savedStops];
     [dataToLoad addObjectsFromArray:savedRoutes];
-    dataToLoad = [self sortDataArray:dataToLoad];
+//    dataToLoad = [self sortDataArray:dataToLoad];
     
     NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:recentRoutes];
     [tempArray addObjectsFromArray:recentStops];
