@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -7,7 +7,7 @@
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
+            <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
         </mutableArray>
     </customFonts>
@@ -22,11 +22,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FFo-R0-2rh">
-                        <rect key="frame" x="55" y="5" width="266" height="31"/>
+                        <rect key="frame" x="65" y="5" width="256" height="31"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="31" id="zZo-cy-goT"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
@@ -36,16 +36,16 @@
                         </variation>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="GUC-IH-cWr">
-                        <rect key="frame" x="55" y="29" width="266" height="30.5"/>
+                        <rect key="frame" x="65" y="29" width="256" height="30.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="WqW-tX-LQN">
-                        <rect key="frame" x="15" y="19.5" width="21" height="21"/>
+                        <rect key="frame" x="20" y="15.5" width="28" height="28"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="Xp1-93-qic"/>
-                            <constraint firstAttribute="width" constant="21" id="f5M-ig-13c"/>
+                            <constraint firstAttribute="height" constant="28" id="Xp1-93-qic"/>
+                            <constraint firstAttribute="width" constant="28" id="f5M-ig-13c"/>
                         </constraints>
                     </imageView>
                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bDV-8g-BTT">
@@ -66,8 +66,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="FFo-R0-2rh" secondAttribute="bottom" constant="15.5" id="0xM-Ye-WKM"/>
-                    <constraint firstItem="FFo-R0-2rh" firstAttribute="leading" secondItem="WqW-tX-LQN" secondAttribute="trailing" constant="19" id="79G-bk-Icf"/>
-                    <constraint firstItem="WqW-tX-LQN" firstAttribute="leading" secondItem="RZu-ZT-sZa" secondAttribute="leadingMargin" constant="7" id="8FZ-as-m8Q"/>
+                    <constraint firstItem="FFo-R0-2rh" firstAttribute="leading" secondItem="WqW-tX-LQN" secondAttribute="trailing" constant="17" id="79G-bk-Icf"/>
+                    <constraint firstItem="WqW-tX-LQN" firstAttribute="leading" secondItem="RZu-ZT-sZa" secondAttribute="leadingMargin" constant="12" id="8FZ-as-m8Q"/>
                     <constraint firstItem="FFo-R0-2rh" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="top" constant="5" id="BD2-g6-RNx"/>
                     <constraint firstAttribute="bottomMargin" secondItem="FFo-R0-2rh" secondAttribute="bottom" constant="15.5" id="H9i-Pv-vCM"/>
                     <constraint firstItem="Qo4-rj-Pb8" firstAttribute="top" secondItem="RZu-ZT-sZa" secondAttribute="top" constant="11" id="Lbc-Of-yFz"/>
@@ -108,7 +108,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="home-100.png" width="100" height="100"/>
+        <image name="home-100.png" width="80" height="80"/>
         <image name="iclouddownload-multicolor" width="100" height="100"/>
     </resources>
 </document>

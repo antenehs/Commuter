@@ -571,7 +571,7 @@ const NSInteger kTimerRefreshInterval = 15;
             UILabel *subTitle = (UILabel *)[cell viewWithTag:2003];
             UILabel *dateLabel = (UILabel *)[cell viewWithTag:2004];
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:2005];
-            imageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
+            imageView.image = [AppManager stopIconForStopType:stopEntity.stopType];
             
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             

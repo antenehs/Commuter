@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "gym-100.png",
+      "filename" : "Gym-Circle.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Gym-Circle@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Gym-Circle@3x.png",
       "scale" : "3x"
     }
   ],

@@ -7,7 +7,7 @@
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
+            <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
         </mutableArray>
     </customFonts>
@@ -22,25 +22,25 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leppasuonkatu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xyu-qy-hAa">
-                        <rect key="frame" x="55" y="1" width="266" height="31"/>
+                        <rect key="frame" x="65" y="1" width="256" height="31"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="31" id="dqU-jK-1Ja"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E2034" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zer-rp-csJ">
-                        <rect key="frame" x="55" y="26" width="266" height="21"/>
+                        <rect key="frame" x="65" y="26" width="256" height="21"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="BLG-aY-un4">
-                        <rect key="frame" x="15" y="14.5" width="21" height="21"/>
+                    <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-75" translatesAutoresizingMaskIntoConstraints="NO" id="BLG-aY-un4">
+                        <rect key="frame" x="20" y="11.5" width="28" height="28"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="21" id="yHY-7A-I6k"/>
-                            <constraint firstAttribute="height" constant="21" id="z4Z-NT-7YH"/>
+                            <constraint firstAttribute="width" constant="28" id="yHY-7A-I6k"/>
+                            <constraint firstAttribute="height" constant="28" id="z4Z-NT-7YH"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" tag="2005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3c-n5-APM">
@@ -66,7 +66,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="Q3c-n5-APM" secondAttribute="trailing" constant="1" id="1Qj-me-NcB"/>
-                    <constraint firstItem="BLG-aY-un4" firstAttribute="leading" secondItem="mGT-l0-Mk2" secondAttribute="leadingMargin" constant="7" id="9FH-cs-tY2"/>
+                    <constraint firstItem="BLG-aY-un4" firstAttribute="leading" secondItem="mGT-l0-Mk2" secondAttribute="leadingMargin" constant="12" id="9FH-cs-tY2"/>
                     <constraint firstAttribute="bottomMargin" secondItem="zer-rp-csJ" secondAttribute="bottom" constant="-5.5" id="D49-Yw-j4P"/>
                     <constraint firstAttribute="bottomMargin" secondItem="xyu-qy-hAa" secondAttribute="bottom" constant="15.5" id="DHa-II-bqs"/>
                     <constraint firstItem="zer-rp-csJ" firstAttribute="top" secondItem="mGT-l0-Mk2" secondAttribute="topMargin" constant="18" id="Dj4-97-rcI"/>
@@ -78,7 +78,7 @@
                     <constraint firstItem="BLG-aY-un4" firstAttribute="centerY" secondItem="mGT-l0-Mk2" secondAttribute="centerY" id="gTU-3j-rwy"/>
                     <constraint firstItem="xyu-qy-hAa" firstAttribute="trailing" secondItem="zer-rp-csJ" secondAttribute="trailing" id="gzP-Om-rFx"/>
                     <constraint firstAttribute="trailingMargin" secondItem="5OQ-sG-crs" secondAttribute="trailing" constant="40" id="hOh-Dk-JmM"/>
-                    <constraint firstItem="xyu-qy-hAa" firstAttribute="leading" secondItem="BLG-aY-un4" secondAttribute="trailing" constant="19" id="mWx-7k-Wb8"/>
+                    <constraint firstItem="xyu-qy-hAa" firstAttribute="leading" secondItem="BLG-aY-un4" secondAttribute="trailing" constant="17" id="mWx-7k-Wb8"/>
                     <constraint firstItem="xyu-qy-hAa" firstAttribute="leading" secondItem="zer-rp-csJ" secondAttribute="leading" id="mrf-95-7sE"/>
                     <constraint firstItem="xyu-qy-hAa" firstAttribute="top" secondItem="mGT-l0-Mk2" secondAttribute="topMargin" constant="-3" id="v54-ow-0X0"/>
                     <constraint firstItem="5OQ-sG-crs" firstAttribute="centerY" secondItem="mGT-l0-Mk2" secondAttribute="centerY" id="xFJ-sC-edD"/>
@@ -104,6 +104,6 @@
     </objects>
     <resources>
         <image name="Up Left Filled-100.png" width="100" height="100"/>
-        <image name="home-100.png" width="100" height="100"/>
+        <image name="search-75" width="33" height="33"/>
     </resources>
 </document>

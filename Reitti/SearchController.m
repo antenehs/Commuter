@@ -898,7 +898,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             UITableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
             
             UIImageView *imageView = (UIImageView *)[cell viewWithTag:3001];
-            [imageView setImage:[AppManager stopAnnotationImageForStopType:stop.stopType]];
+            [imageView setImage:[AppManager stopIconForStopType:stop.stopType]];
             
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
             codeLabel.text = @"";

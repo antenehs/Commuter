@@ -20,7 +20,7 @@
 
 -(void)switchToHomeTab;
 -(void)openStopWithCode:(NSString *)stopCode;
--(void)openWidgetSettingsView;
+//-(void)openWidgetSettingsView;
 -(void)switchToBookmarksTab;
 -(void)switchToAddBookmarksTab;
 

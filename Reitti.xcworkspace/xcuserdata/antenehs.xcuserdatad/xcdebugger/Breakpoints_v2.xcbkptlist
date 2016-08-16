@@ -1012,11 +1012,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteDetailViewController.m"
-            timestampString = "490130148.025273"
+            timestampString = "493070990.404743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1995"
-            endingLineNumber = "1995"
+            startingLineNumber = "2013"
+            endingLineNumber = "2013"
             landmarkName = "-convertRouteToLocationList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1236,11 +1236,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteDetailViewController.m"
-            timestampString = "490130148.025273"
+            timestampString = "493070990.404743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1659"
-            endingLineNumber = "1659"
+            startingLineNumber = "1668"
+            endingLineNumber = "1668"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1300,11 +1300,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteDetailViewController.m"
-            timestampString = "490130148.025273"
+            timestampString = "493070990.404743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2030"
-            endingLineNumber = "2030"
+            startingLineNumber = "2048"
+            endingLineNumber = "2048"
             landmarkName = "-convertRouteToLocationList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1316,11 +1316,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteDetailViewController.m"
-            timestampString = "490130148.025273"
+            timestampString = "493070990.404743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2027"
-            endingLineNumber = "2027"
+            startingLineNumber = "2045"
+            endingLineNumber = "2045"
             landmarkName = "-convertRouteToLocationList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1348,11 +1348,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteDetailViewController.m"
-            timestampString = "490130148.025273"
+            timestampString = "493070990.404743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2000"
-            endingLineNumber = "2000"
+            startingLineNumber = "2018"
+            endingLineNumber = "2018"
             landmarkName = "-convertRouteToLocationList:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1508,11 +1508,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "946"
-            endingLineNumber = "946"
+            startingLineNumber = "944"
+            endingLineNumber = "944"
             landmarkName = "-identifyRegionOfCoordinate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1524,11 +1524,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "950"
-            endingLineNumber = "950"
+            startingLineNumber = "948"
+            endingLineNumber = "948"
             landmarkName = "-identifyRegionOfCoordinate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1540,11 +1540,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "953"
-            endingLineNumber = "953"
+            startingLineNumber = "951"
+            endingLineNumber = "951"
             landmarkName = "-identifyRegionOfCoordinate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1652,11 +1652,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RouteDetailViewController.m"
-            timestampString = "490130148.025273"
+            timestampString = "493070990.404743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2110"
-            endingLineNumber = "2110"
+            startingLineNumber = "2128"
+            endingLineNumber = "2128"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1700,7 +1700,7 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/LinesTableViewController.m"
-                  timestampString = "492982633.569443"
+                  timestampString = "493071337.353199"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "299"
@@ -1715,7 +1715,7 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/LinesTableViewController.m"
-                  timestampString = "492982633.569753"
+                  timestampString = "493071337.35333"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "300"
@@ -1780,11 +1780,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "867"
-            endingLineNumber = "867"
+            startingLineNumber = "865"
+            endingLineNumber = "865"
             landmarkName = "-updateSavedStopsDefaultValueForStops:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1812,11 +1812,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "852"
-            endingLineNumber = "852"
+            startingLineNumber = "850"
+            endingLineNumber = "850"
             landmarkName = "-updateSourceApiForStops:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1828,11 +1828,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "860"
-            endingLineNumber = "860"
+            startingLineNumber = "858"
+            endingLineNumber = "858"
             landmarkName = "-updateSourceApiForStops:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1860,11 +1860,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "883"
-            endingLineNumber = "883"
+            startingLineNumber = "881"
+            endingLineNumber = "881"
             landmarkName = "-updateSavedStopsDefaultValueForStops:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2788,11 +2788,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/AppManager.m"
-            timestampString = "489261597.311472"
+            timestampString = "493066541.371922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
             landmarkName = "+lightColorImageForLegTransportType:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3156,11 +3156,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/RettiDataManager.m"
-            timestampString = "492976806.571602"
+            timestampString = "492985953.706246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "848"
-            endingLineNumber = "848"
+            startingLineNumber = "846"
+            endingLineNumber = "846"
             landmarkName = "-updateNamedBookmarksUserDefaultValue"
             landmarkType = "5">
          </BreakpointContent>
@@ -3642,6 +3642,22 @@
             startingLineNumber = "97"
             endingLineNumber = "97"
             landmarkName = "-thereIsMore"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/RouteDetailViewController.m"
+            timestampString = "493071337.100927"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1709"
+            endingLineNumber = "1709"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

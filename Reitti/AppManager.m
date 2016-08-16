@@ -181,6 +181,26 @@
     }
 }
 
++(UIImage *)stopIconForStopType:(StopType)stopType {
+    if (stopType == StopTypeBus) {
+        return [UIImage imageNamed:@"busStopIcon"];
+    }else if (stopType == StopTypeTrain) {
+        return [UIImage imageNamed:@"trainStopIcon"];
+    }else if (stopType == StopTypeTram) {
+        return [UIImage imageNamed:@"tramStopIcon"];
+    }else if (stopType == StopTypeFerry) {
+        return [UIImage imageNamed:@"ferryStopIcon"];
+    }else if (stopType == StopTypeMetro) {
+        return [UIImage imageNamed:@"metroStationIcon"];
+    }else if (stopType == StopTypeAirport) {
+        return [UIImage imageNamed:@"airportIcon"];
+    }else if (stopType == StopTypeBikeStation) {
+        return [UIImage imageNamed:@"bikeStationIcon"];
+    }else{
+        return [UIImage imageNamed:@"busStopIcon"];
+    }
+}
+
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type{
     if (type == VehicleTypeTram) {
         return [UIImage imageNamed:@"tramVAnnot.png"];

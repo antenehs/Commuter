@@ -32,7 +32,7 @@
     
     self.dateLabel.hidden = YES;
     
-    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:(StopType)[record[kStopType] intValue]];
+    self.stopImageView.image = [AppManager stopIconForStopType:(StopType)[record[kStopType] intValue]];
     self.stopNameLabel.text = record[kStopName];
     if (record[kStopCity] && ![record[kStopCity] isEqualToString:@""]) {
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
@@ -47,7 +47,7 @@
     self.dateLabel.hidden = YES;
     self.iCloudDownloadButton.hidden = YES;
     
-    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:stopEntity.stopType];
+    self.stopImageView.image = [AppManager stopIconForStopType:stopEntity.stopType];
     self.stopNameLabel.text = stopEntity.busStopName;
     if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
@@ -61,7 +61,7 @@
     self.dateLabel.hidden = NO;
     self.iCloudDownloadButton.hidden = YES;
     
-    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:historyEntity.stopType];
+    self.stopImageView.image = [AppManager stopIconForStopType:historyEntity.stopType];
     self.stopNameLabel.text = historyEntity.busStopName;
     
     if (historyEntity.busStopCity && ![historyEntity.busStopCity isEqualToString:@""]) {
@@ -78,7 +78,7 @@
     self.dateLabel.hidden = YES;
     self.iCloudDownloadButton.hidden = YES;
     
-    self.stopImageView.image = [AppManager stopAnnotationImageForStopType:[stopGeocode getStopType]];
+    self.stopImageView.image = [AppManager stopIconForStopType:[stopGeocode getStopType]];
     self.stopNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", stopGeocode.name, stopGeocode.getStopShortCode];
     if (stopGeocode.city && ![stopGeocode.city isEqualToString:@""]) {
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopGeocode.getAddress, stopGeocode.city];

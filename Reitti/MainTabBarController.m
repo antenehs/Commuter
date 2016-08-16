@@ -203,10 +203,10 @@
             }
         }
         
-        if ([[url query] isEqualToString:@"widgetSettings"]) {
-            [self openWidgetSettingsView];
-            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"widgetSettings" value:nil];
-        }
+//        if ([[url query] isEqualToString:@"widgetSettings"]) {
+//            [self openWidgetSettingsView];
+//            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromStopsWidget label:@"widgetSettings" value:nil];
+//        }
         
         return YES;
     }

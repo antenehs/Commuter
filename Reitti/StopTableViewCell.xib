@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -7,7 +7,7 @@
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
+            <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
@@ -25,22 +25,22 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown stop" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Kjf-3v-QWa">
-                        <rect key="frame" x="55" y="5" width="267" height="31"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <rect key="frame" x="65" y="5" width="257" height="31"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" red="0.1212069746" green="0.1212069746" blue="0.1212069746" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000 - Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KQA-mT-mvm">
-                        <rect key="frame" x="55" y="29" width="248" height="30.5"/>
+                        <rect key="frame" x="65" y="29" width="238" height="30.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busAnnotation3_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-P7-nlN">
-                        <rect key="frame" x="15" y="17" width="20" height="30"/>
+                        <rect key="frame" x="20" y="15" width="28" height="28"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="6Cb-dT-4XI"/>
-                            <constraint firstAttribute="width" constant="20" id="cxl-Kn-6vS"/>
+                            <constraint firstAttribute="height" constant="28" id="6Cb-dT-4XI"/>
+                            <constraint firstAttribute="width" constant="28" id="cxl-Kn-6vS"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" tag="2004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ki-o7-Bg9">
@@ -81,7 +81,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="Kjf-3v-QWa" secondAttribute="trailing" constant="44" id="4Kc-Ca-R4D"/>
                     <constraint firstAttribute="bottomMargin" secondItem="Kjf-3v-QWa" secondAttribute="bottom" constant="15.5" id="6A3-I6-zCi"/>
                     <constraint firstItem="KQA-mT-mvm" firstAttribute="leading" secondItem="Kjf-3v-QWa" secondAttribute="leading" id="6Ps-zY-hqX"/>
-                    <constraint firstItem="9Gl-P7-nlN" firstAttribute="leading" secondItem="lAL-Ld-vnG" secondAttribute="leadingMargin" constant="7" id="6X5-3Z-1WQ"/>
+                    <constraint firstItem="9Gl-P7-nlN" firstAttribute="leading" secondItem="lAL-Ld-vnG" secondAttribute="leadingMargin" constant="12" id="6X5-3Z-1WQ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="KQA-mT-mvm" secondAttribute="bottom" constant="-8" id="8e7-iM-P2b"/>
                     <constraint firstItem="Kjf-3v-QWa" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="-3" id="A69-ml-aXo"/>
                     <constraint firstItem="Q1Q-G8-QAZ" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="20" id="DGe-hu-Dss"/>
@@ -89,9 +89,9 @@
                     <constraint firstAttribute="bottomMargin" secondItem="9Gl-P7-nlN" secondAttribute="bottom" constant="4.5" id="LGP-lH-JM4"/>
                     <constraint firstItem="5Ki-o7-Bg9" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="top" constant="11" id="MXu-if-8OM"/>
                     <constraint firstItem="Dtj-LG-6m9" firstAttribute="centerY" secondItem="5Ki-o7-Bg9" secondAttribute="centerY" id="XzG-h6-a4p"/>
-                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="leading" secondItem="9Gl-P7-nlN" secondAttribute="trailing" constant="20" id="frh-3x-e9I"/>
+                    <constraint firstItem="Kjf-3v-QWa" firstAttribute="leading" secondItem="9Gl-P7-nlN" secondAttribute="trailing" constant="17" id="frh-3x-e9I"/>
                     <constraint firstItem="Kjf-3v-QWa" firstAttribute="trailing" secondItem="KQA-mT-mvm" secondAttribute="trailing" constant="19" id="hmn-tP-OCx"/>
-                    <constraint firstItem="9Gl-P7-nlN" firstAttribute="centerY" secondItem="lAL-Ld-vnG" secondAttribute="centerY" constant="2.25" id="kpy-mN-0GN"/>
+                    <constraint firstItem="9Gl-P7-nlN" firstAttribute="centerY" secondItem="lAL-Ld-vnG" secondAttribute="centerY" constant="-0.75" id="kpy-mN-0GN"/>
                     <constraint firstItem="KQA-mT-mvm" firstAttribute="top" secondItem="lAL-Ld-vnG" secondAttribute="topMargin" constant="21" id="o98-YV-K8s"/>
                     <constraint firstAttribute="trailing" secondItem="Q1Q-G8-QAZ" secondAttribute="trailing" constant="1" id="qKE-wa-2JT"/>
                     <constraint firstAttribute="trailing" secondItem="5Ki-o7-Bg9" secondAttribute="trailing" constant="15" id="vuW-7a-LPP"/>

@@ -1570,10 +1570,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    UIColor *darkerGrayColor = [UIColor colorWithWhite:0.28 alpha:1];
-    UIColor *darkerGrayColor = [UIColor darkGrayColor];
+//    UIColor *darkerGrayColor = [UIColor darkGrayColor];
     
     RouteLegLocation *loc = [self.routeLocationList objectAtIndex:indexPath.row];
     RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
+    
+    UIColor *darkerGrayColor = [AppManager colorForLegType:selectedLeg.legType];
+    
     UITableViewCell *cell;
     if (loc.isHeaderLocation) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"legHeaderCell"];
@@ -1593,8 +1596,14 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
         startTimeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime];
         
-        [legTypeImage setImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType]];
+        UIImage *image = [AppManager lightColorImageForLegTransportType:loc.locationLegType];
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [legTypeImage setImage:image];
         legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
+        if (selectedLeg.legType != LegTypeWalk)
+            legTypeImage.tintColor = [UIColor whiteColor];
+        else
+            legTypeImage.tintColor = [UIColor darkGrayColor];
         
         dotView.backgroundColor = [UIColor whiteColor];
         dotView.layer.borderColor = [darkerGrayColor CGColor];
@@ -1662,8 +1671,17 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             lineNumberLabel.text = selectedLeg.lineDisplayName;
             
             if (selectedLeg.legType != LegTypeTram) { /* the tram picture is smaller than others */
-                [legTypeImage setImage:[UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)]];
-                legTypeImage.contentMode = UIViewContentModeCenter;
+                UIImage *image = [UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)];
+                image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                [legTypeImage setImage:image];
+                legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
+                if (selectedLeg.legType != LegTypeWalk)
+                    legTypeImage.tintColor = [UIColor whiteColor];
+                else
+                    legTypeImage.tintColor = [UIColor darkGrayColor];
+                
+//                [legTypeImage setImage:[UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)]];
+//                legTypeImage.contentMode = UIViewContentModeCenter;
             }
             
             nextLegLine.backgroundColor = darkerGrayColor;
@@ -1688,7 +1706,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                     break;
                     
                 default:
-                    prevLegLine.backgroundColor = darkerGrayColor;
+                    prevLegLine.backgroundColor = [AppManager colorForLegType:prevLoc.locationLegType];
                     prevLegLine.image = nil;
                     break;
             }

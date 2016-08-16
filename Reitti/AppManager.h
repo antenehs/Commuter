@@ -36,6 +36,7 @@
 //App images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;
 +(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType;
++(UIImage *)stopIconForStopType:(StopType)stopType;
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type;
 +(UIImage *)vehicleImageWithNoBearingForVehicleType:(VehicleType)type;
 +(UIImage *)vehicleImageForLineType:(LineType)type;
