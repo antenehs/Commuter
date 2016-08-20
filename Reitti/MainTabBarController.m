@@ -37,16 +37,16 @@
     tabBarItem3.title = @"Bookmarks";
     tabBarItem4.title = @"Lines";
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(22, 22)];
+    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(20, 20)];
     
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(21, 21)];
+    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(19, 19)];
     
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(23, 25)];
+    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(20, 22)];
     
     UIImage *image4 = [UIImage imageNamed:@"transit-line.png"];
-    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(23, 19)];
+    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(20, 17)];
     
     UINavigationController * homeViewNavController = (UINavigationController *)[[self viewControllers] objectAtIndex:0];
     

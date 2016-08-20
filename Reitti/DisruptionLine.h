@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EnumManager.h"
 
 @interface DisruptionLine : NSObject
 
@@ -15,5 +16,7 @@
 @property (nonatomic, retain) NSNumber * lineType;
 @property (nonatomic, retain) NSString * lineName;
 @property (nonatomic, retain) NSString * lineFullCode;
+
+@property (nonatomic) LineType parsedLineType;
 
 @end

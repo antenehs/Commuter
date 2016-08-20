@@ -175,7 +175,7 @@ typedef enum
 -(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute;
 -(void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo;
 //-(void)openBookmarksView;
--(void)openWidgetSettingsView;
+//-(void)openWidgetSettingsView;
 -(void)openStopViewForCode:(NSString *)code;
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;

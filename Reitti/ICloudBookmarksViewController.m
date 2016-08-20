@@ -54,13 +54,27 @@
     self.dataToLoad = @{};
     self.reittiDataManager = [[RettiDataManager alloc] init];
     
+    if (![ICloudManager isICloudContainerAvailable]) {
+        [self showNoOtherDeviceMessage];
+    } else {
+        [self fetchBookmarks];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
+-(void)fetchBookmarks {
     [self showLoading];
     [self.reittiDataManager fetchallBookmarksFromICloudWithCompletionHandler:^(ICloudBookmarks *result, NSString *errorString){
         if (!errorString) {
             self.dataToLoad = [result getBookmarksExcludingNamedBookmarks:[self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData]
                                                                savedStops:[self.reittiDataManager fetchAllSavedStopsFromCoreData]
-                                                               savedRoutes:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
-
+                                                              savedRoutes:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
+            
             BOOL thereAreOtherDevices = [[[result allBookmarksGrouped] allKeys] count] > 1;
             if (self.dataToLoad.allKeys.count == 0 && thereAreOtherDevices) {
                 [self showSynchedMessage];
@@ -74,12 +88,6 @@
             [self showErrorWithMessage:errorString];
         }
     }];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -328,7 +336,7 @@
     self.activityIndicator.hidden = YES;
     
     self.infoTitleLabel.hidden = NO;
-    self.infoTitleLabel.text = @"No Other Bookmarks Found";
+    self.infoTitleLabel.text = @"No iCloud Bookmarks Found";
     self.infoTitleLabel.textColor = [UIColor grayColor];
     self.infoDetailLabel.hidden = NO;
     self.infoDetailLabel.text = @"To use bookmark sync feature, log in with the same iCloud account on all your devices.";

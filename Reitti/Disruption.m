@@ -7,6 +7,14 @@
 //
 
 #import "Disruption.h"
+#import "ASA_Helpers.h"
+
+NSString *kFinnishCauseText = @"Syy:";
+NSString *kFinnishEstimatedTimeText = @"Arvioitu kesto:";
+NSString *kSwidishCauseText = @"Orsak:";
+NSString *kSwidishEstimatedTimeText = @"Beräknad tid:";
+NSString *kEnglishCauseText = @"Cause:";
+NSString *kEnglishEstimatedTimeText = @"Estimated time:";
 
 @implementation Disruption
 
@@ -31,6 +39,12 @@
     }
 }
 
+-(NSAttributedString *)formattedLocalizedTextWithFont:(UIFont *)font {
+    NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    
+    return [self formattedLocalizedTextForLanguage:language withFont:font];
+}
+
 -(NSString *)finnishText{
     return [self textForLanguage:@"fi"];
 }
@@ -43,7 +57,7 @@
     return [self textForLanguage:@"en"] ? [self textForLanguage:@"en"] : [self textForLanguage:@"fi"];
 }
 
--(NSString *)textForLanguage:(NSString *)language{
+-(NSString *)textForLanguage:(NSString *)language {
     if (!self.disruptionTexts || self.disruptionTexts.count < 1)
         return nil;
     
@@ -54,6 +68,31 @@
     }
     
     return nil;
+}
+
+-(NSAttributedString *)formattedLocalizedTextForLanguage:(NSString *)language withFont:(UIFont *)font {
+    NSString *causeString, *timeString, *text;
+    if ([language hasPrefix:@"fi"]) {
+        causeString = kFinnishCauseText;
+        timeString = kFinnishEstimatedTimeText;
+        text = [self finnishText];
+    }else if ([language hasPrefix:@"sv"]) {
+        causeString = kSwidishCauseText;
+        timeString = kSwidishEstimatedTimeText;
+        text = [self swidishText];
+    }else{
+        causeString = kEnglishCauseText;
+        timeString = kEnglishEstimatedTimeText;
+        text = [self englishText];
+    }
+    
+    NSString *formattedText = [text stringByReplacingOccurrencesOfString:causeString withString:[NSString stringWithFormat:@"\n\n%@", causeString]];
+    BOOL containsCause = [text containsString:causeString];
+    formattedText = [formattedText stringByReplacingOccurrencesOfString:timeString withString:[NSString stringWithFormat:@"%@%@", containsCause ? @"\n" :  @"\n\n", timeString]];
+    
+    UIFont *highlightedFont = [UIFont systemFontOfSize:font.pointSize weight:UIFontWeightMedium];
+    
+    return [ReittiStringFormatter highlightSubstringInString:formattedText substrings:@[causeString, timeString] withNormalFont:font highlightedFont:highlightedFont andHighlightColor:[UIColor darkTextColor]];
 }
 
 -(BOOL)affectsLineWithShortName:(NSString *)lineShortName{
@@ -84,6 +123,21 @@
     }
     
     return NO;
+}
+
+-(NSArray *)disruptionLineNames {
+    if (!_disruptionLineNames) {
+        if (!self.disruptionLines || self.disruptionLines.count == 0) return @[];
+        
+        NSMutableArray *lineCodes = [@[] mutableCopy];
+        for (DisruptionLine *line in self.disruptionLines) {
+            [lineCodes addObject:line.lineName ? line.lineName : @""];
+        }
+        
+        _disruptionLineNames = lineCodes;
+    }
+    
+    return _disruptionLineNames;
 }
 
 @end

@@ -11,5 +11,6 @@
 @implementation DisruptionLine
 
 @synthesize lineId, lineName, lineType, lineDirection;
+@synthesize parsedLineType;
 
 @end

@@ -442,6 +442,7 @@
             for (Disruption *disruption in disruptions) {
                 for (DisruptionLine *line in disruption.disruptionLines) {
                     line.lineFullCode = [HSLAndTRECommon lineJoreCodeForCode:line.lineId andDirection:[line.lineDirection stringValue]];
+                    line.parsedLineType = [EnumManager lineTypeForHSLLineTypeId:[line.lineType stringValue]];
                 }
             }
             completionBlock(disruptions, nil);

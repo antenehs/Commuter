@@ -45,6 +45,8 @@
     [searchResultTableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"poiLocationCell"];
     [searchResultTableView registerNib:[UINib nibWithNibName:@"AddressTableViewCell" bundle:nil] forCellReuseIdentifier:@"addressLocationCell"];
     
+//    searchResultTableView.rowHeight = UITableViewAutomaticDimension;
+//    searchResultTableView.estimatedRowHeight = 60;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -288,18 +290,15 @@
 }
 
 #pragma mark - TableViewMethods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataToLoad.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
 
         StopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
@@ -417,6 +416,12 @@
         }];
     }
 }
+
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.row >= self.dataToLoad.count)
+//        return 60;
+//    
+//}
 
 #pragma mark - scroll view delegates
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{

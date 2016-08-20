@@ -35,6 +35,7 @@
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font;
 +(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize;
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
++(NSAttributedString *)highlightSubstringInString:(NSString *)text substrings:(NSArray *)substring withNormalFont:(UIFont *)font highlightedFont:(UIFont *)highlightedFont andHighlightColor:(UIColor *)highlightedColor;
 
 +(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
 +(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;

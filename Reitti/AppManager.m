@@ -163,42 +163,27 @@
 
 +(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType{
     if (stopType == StopTypeBus) {
-        return @"busAnnotation3_2.png";
+        return @"BusAnnotationFlat";
     }else if (stopType == StopTypeTrain) {
-        return @"trainAnnotation3_2.png";
+        return @"TrainAnnotationFlat";
     }else if (stopType == StopTypeTram) {
-        return @"tramAnnotation3_2.png";
+        return @"TramAnnotationFlat";
     }else if (stopType == StopTypeFerry) {
-        return @"ferryAnnotation3_2.png";
+        return @"FerryAnnotationFlat";
     }else if (stopType == StopTypeMetro) {
-        return @"metroAnnotation3_2.png";
+        return @"MetroAnnotationFlat";
     }else if (stopType == StopTypeAirport) {
-        return @"airportStop";
+        return @"AirportAnnotationFlat";
     }else if (stopType == StopTypeBikeStation) {
         return @"highAvailBikeAnnotation";
     }else{
-        return @"busAnnotation3_2.png";
+        return @"BusAnnotationFlat";
     }
 }
 
 +(UIImage *)stopIconForStopType:(StopType)stopType {
-    if (stopType == StopTypeBus) {
-        return [UIImage imageNamed:@"busStopIcon"];
-    }else if (stopType == StopTypeTrain) {
-        return [UIImage imageNamed:@"trainStopIcon"];
-    }else if (stopType == StopTypeTram) {
-        return [UIImage imageNamed:@"tramStopIcon"];
-    }else if (stopType == StopTypeFerry) {
-        return [UIImage imageNamed:@"ferryStopIcon"];
-    }else if (stopType == StopTypeMetro) {
-        return [UIImage imageNamed:@"metroStationIcon"];
-    }else if (stopType == StopTypeAirport) {
-        return [UIImage imageNamed:@"airportIcon"];
-    }else if (stopType == StopTypeBikeStation) {
-        return [UIImage imageNamed:@"bikeStationIcon"];
-    }else{
-        return [UIImage imageNamed:@"busStopIcon"];
-    }
+    LineType lineType = [EnumManager lineTypeForStopType:stopType];
+    return [self lineIconForLineType:lineType];
 }
 
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type{
@@ -312,6 +297,26 @@
 
 +(UIImage *)vehicleImageForLineType:(LineType)type{
     return [AppManager vehicleImageForLegTrasnportType:[EnumManager legTrasportTypeForLineType:type]];
+}
+
++(UIImage *)lineIconForLineType:(LineType)type {
+    if (type == LineTypeBus) {
+        return [UIImage imageNamed:@"busStopIcon"];
+    }else if (type == LineTypeTrain || type == LineTypeLongDistanceTrain) {
+        return [UIImage imageNamed:@"trainStopIcon"];
+    }else if (type == LineTypeTram) {
+        return [UIImage imageNamed:@"tramStopIcon"];
+    }else if (type == LineTypeFerry) {
+        return [UIImage imageNamed:@"ferryStopIcon"];
+    }else if (type == LineTypeMetro) {
+        return [UIImage imageNamed:@"metroStationIcon"];
+    }else if (type == LineTypeAirplane) {
+        return [UIImage imageNamed:@"airportIcon"];
+    }else if (type == LineTypeBicycle) {
+        return [UIImage imageNamed:@"bikeStationIcon"];
+    }else{
+        return [UIImage imageNamed:@"busStopIcon"];
+    }
 }
 
 #ifndef APPLE_WATCH

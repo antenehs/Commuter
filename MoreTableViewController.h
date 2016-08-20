@@ -13,7 +13,7 @@
     BOOL thereIsDisruptions;
     
     NSInteger moreFeaturesSection, settingsSection, commuterSection;
-    NSInteger routinesRow, ticketsSalesPointsRow, matkakorttiRow, disruptionsRow;
+    NSInteger routinesRow, ticketsSalesPointsRow, icloudBookmarksRow, matkakorttiRow, disruptionsRow;
     NSInteger settingsRow;
     NSInteger aboutCommuterRow, goProRow, newInVersionRow, contactMeRow, rateInAppStoreRow, shareRow;
     NSInteger numberOfMoreFeatures, numberOfSettingsRows, numberOfCommuterRows , numberOfSection;

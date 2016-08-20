@@ -11,7 +11,6 @@
 #import "SVProgressHUD.h"
 #import "MyFixedLayoutGuide.h"
 #import "RouteSearchViewController.h"
-#import "InfoViewController.h"
 #import <Social/Social.h>
 #import "TSMessage.h"
 #import "ReittiNotificationHelper.h"
@@ -207,7 +206,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
     [self setNavBarSize];
-    [mainSearchBar setPlaceholder:@"address, stop or poi"];
+    [mainSearchBar setPlaceholder:@"address, stop or place"];
     
     //StartVehicleFetching
     if ([settingsManager shouldShowLiveVehicles]) {
@@ -2013,9 +2012,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)tapOnBadgeDetected{
+//- (void)tapOnBadgeDetected{
 //    [self performSegueWithIdentifier:@"infoViewSegue" sender:nil ];
-}
+//}
 
 
 #pragma mark - text field mehthods
@@ -2359,7 +2358,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //TODO: Set linesCodes to the bus stop short
     //TODO: Check the selected anotation is the right one
     if (selectedAnnotationView && stop.linesString && stop.linesString.length > 0) {
-        [selectedAnnotationView setSubtitleLabelText:[NSString stringWithFormat:@"Lines: %@", stop.linesString]];
+        [selectedAnnotationView setSubtitleLabelText:[NSString stringWithFormat:@"Code: %@ · %@", stop.code_short, stop.linesString]];
     }
 }
 
@@ -2685,14 +2684,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //        addressSearchViewController.reittiDataManager = self.reittiDataManager;
     }
     
-    if ([segue.identifier isEqualToString:@"infoViewSegue"]) {
-        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
-        InfoViewController *infoViewController = [[navController viewControllers] lastObject];
-        
-        infoViewController.disruptionsList = self.disruptionList;
-        infoViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [infoViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-    }
+//    if ([segue.identifier isEqualToString:@"infoViewSegue"]) {
+//        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
+//        InfoViewController *infoViewController = [[navController viewControllers] lastObject];
+//        
+//        infoViewController.disruptionsList = self.disruptionList;
+//        infoViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+//        [infoViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+//    }
     
 //    if ([segue.identifier isEqualToString:@"openWidgetSettingFromHome"]) {
 //        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
@@ -2705,7 +2704,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         SettingsViewController *controller = (SettingsViewController *)[[navigationController viewControllers] lastObject];
         
-        controller.mapRegion = mapView.region;
         controller.settingsManager = settingsManager;
         controller.delegate = self;
     }

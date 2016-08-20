@@ -135,7 +135,7 @@
 }
 
 +(LineType)lineTypeForHSLLineTypeId:(NSString *)type{
-    //    1 = Helsinki internal bus lines
+    //    1 = Helsinki internal bus lines // All buses in new API
     //    2 = trams
     //    3 = Espoo internal bus lines
     //    4 = Vantaa internal bus lines
@@ -144,13 +144,14 @@
     //    7 = ferry
     //    8 = U-lines
     //    12 = commuter trains
-    //    21 = Helsinki service lines
+    //    21 = Helsinki service lines //All neighboring buses in new api
     //    22 = Helsinki night buses
     //    23 = Espoo service lines
     //    24 = Vantaa service lines
     //    25 = region night buses
     //    36 = Kirkkonummi internal bus lines
     //    39 = Kerava internal bus lines
+    //    50 = Helsinki city bike
     
     if ([type isEqualToString:@"2"]) {
         return LineTypeTram;
@@ -160,6 +161,8 @@
         return LineTypeFerry;
     }else if ([type isEqualToString:@"12"]) {
         return LineTypeTrain;
+    }else if ([type isEqualToString:@"50"]) {
+        return LineTypeBicycle;
     }else{
         return LineTypeBus;
     }

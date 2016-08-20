@@ -891,7 +891,7 @@ const NSInteger kTimerRefreshInterval = 15;
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return listSegmentControl.selectedSegmentIndex == 0;
+    return listSegmentControl.selectedSegmentIndex == 0 && indexPath.row != 0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath

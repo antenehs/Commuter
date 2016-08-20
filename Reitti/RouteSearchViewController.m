@@ -10,7 +10,7 @@
 #import "RouteSearchViewController.h"
 #import "Transport.h"
 #import "RouteDetailViewController.h"
-#import "InfoViewController.h"
+#import "DisruptionViewController.h"
 #import "SVProgressHUD.h"
 #import "RouteViewManager.h"
 #import "SearchController.h"
@@ -1778,9 +1778,9 @@ typedef enum
         if (selectedRowIndexPath.row < self.routeList.count) {
             Route * selectedRoute = [self.routeList objectAtIndex:selectedRowIndexPath.row];
             
-            InfoViewController *destinationViewController = (InfoViewController *)segue.destinationViewController;
+            DisruptionViewController *destinationViewController = (DisruptionViewController *)segue.destinationViewController;
             destinationViewController.disruptionsList = [self disruptionsForRoute:selectedRoute];
-            destinationViewController.viewControllerMode = InfoViewModeStaticRouteDisruptions;
+            destinationViewController.viewControllerMode = DisruptionViewModeStaticRouteDisruptions;
         }
     }
     

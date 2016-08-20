@@ -370,8 +370,7 @@
         
         UILabel *numberLabel = (UILabel *)[cell viewWithTag:1001];
         UILabel *nameLabel = (UILabel *)[cell viewWithTag:1002];
-        UIView *imageContainerView = [cell viewWithTag:1003];
-        UIImageView *imageView = [imageContainerView viewWithTag:1004];
+        UIImageView *imageView = [cell viewWithTag:1004];
         
         numberLabel.text = lineForCell.codeShort;
         if (lineForCell.lineStart && lineForCell.lineEnd) {
@@ -380,20 +379,7 @@
             nameLabel.text = lineForCell.name;
         }
         
-        imageContainerView.layer.cornerRadius = imageContainerView.frame.size.width/2;
-//        imageContainerView.layer.borderWidth = 1;
-//        imageContainerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        imageContainerView.backgroundColor = [AppManager colorForLineType:lineForCell.lineType];
-        if (lineForCell.lineType == LineTypeTram) { /* the tram picture is smaller than others */
-            [imageView setImage:[AppManager vehicleImageForLineType:lineForCell.lineType]];
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-        }else{
-            [imageView setImage:[UIImage asa_imageWithImage:[AppManager vehicleImageForLineType:lineForCell.lineType] scaledToSize:CGSizeMake(imageView.frame.size.width - 4, imageView.frame.size.height - 4)]];
-             imageView.contentMode = UIViewContentModeCenter;
-        }
-        
-        imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        imageView.tintColor = [UIColor whiteColor];
+        imageView.image = [AppManager lineIconForLineType:lineForCell.lineType];
         
         cell.backgroundColor = [UIColor clearColor];
     }

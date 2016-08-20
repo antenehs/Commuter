@@ -13,6 +13,7 @@
 @interface Disruption : NSObject
 
 -(NSString *)localizedText;
+-(NSAttributedString *)formattedLocalizedTextWithFont:(UIFont *)font;
 -(BOOL)affectsLineWithShortName:(NSString *)lineShortName;
 -(BOOL)affectsLineWithFullCode:(NSString *)lineFullCode;
 
@@ -23,5 +24,7 @@
 @property (nonatomic, retain) NSString * disruptionEndTime;
 @property (nonatomic, retain) NSArray * disruptionTexts;
 @property (nonatomic, retain) NSArray * disruptionLines;
+
+@property (nonatomic, retain) NSArray * disruptionLineNames;
 
 @end

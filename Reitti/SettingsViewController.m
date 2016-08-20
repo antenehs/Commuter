@@ -20,7 +20,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 @implementation SettingsViewController
 
-@synthesize mapRegion;
 @synthesize settingsManager;
 @synthesize delegate;
 
@@ -45,6 +44,9 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     regionIncludingCities = @[@"Helsinki, Espoo, Vantaa, Kauniainen, Kerava, Kirkkonummi and Sipoo.",
                               @"Tampere, Pirkkala, Nokia, Kangasala, Lempäälä, Ylöjärvi, Vesijärvi and Orivesi",
                               @"Everywhere in Finland"];
+    
+    mainTableView.backgroundColor = [UIColor clearColor];
+    [mainTableView setBlurredBackgroundWithImageNamed:nil];
     
 }
 
@@ -115,8 +117,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
             self.navigationItem.leftBarButtonItem = nil;
         }
     }
-    
-    [self InitMap];
+
     mainTableView.backgroundColor = [UIColor clearColor];
     
     if (self.advancedSettingsMode) {
@@ -137,20 +138,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 -(BOOL)isModalMode{
     return self.tabBarController == nil;
 }
-
-#pragma mark - mapView methods
--(void)InitMap{
-    
-    if (self.mapRegion.center.latitude == 0) {
-        CLLocationCoordinate2D coord = {.latitude =  60.1674322, .longitude =  24.9137306};
-        MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
-        MKCoordinateRegion region = {coord, span};
-        mapRegion = region;
-    }
-    
-    [backgroundMapView setRegion:mapRegion animated:NO];
-}
-
 
 #pragma - mark table view methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -335,23 +322,6 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     UISegmentedControl *segmentCont = (UISegmentedControl *)sender;
     [settingsManager setMapMode:(MapMode)segmentCont.selectedSegmentIndex];
     [mainTableView reloadData];
-   
-    switch ([settingsManager getMapMode]) {
-        case StandartMapMode:
-            backgroundMapView.mapType = MKMapTypeStandard;
-            break;
-            
-        case HybridMapMode:
-            backgroundMapView.mapType = MKMapTypeHybrid;
-            break;
-            
-        case SateliteMapMode:
-            backgroundMapView.mapType = MKMapTypeSatellite;
-            break;
-            
-        default:
-            break;
-    }
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedMapMode label:nil value:nil];
 }

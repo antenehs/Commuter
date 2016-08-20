@@ -24,7 +24,6 @@
     NSInteger numberOfSections, mapSectionNumberOfRows, otherSettingsNumberOfRows, startingTabSectionNumberOfRows, advancedSectionNumberOfRows, advancedModeNumberOfRows;
     
     IBOutlet UITableView *mainTableView;
-    IBOutlet MKMapView *backgroundMapView;
     
     UISegmentedControl *mapModeSegmentControl;
     
@@ -36,8 +35,6 @@
     NSArray *regionIncludingCities;
     
 }
-
-@property (nonatomic) MKCoordinateRegion mapRegion;
 
 @property (nonatomic) BOOL advancedSettingsMode;
 

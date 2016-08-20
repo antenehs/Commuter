@@ -108,7 +108,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="home-100.png" width="80" height="80"/>
+        <image name="home-100.png" width="100" height="100"/>
         <image name="iclouddownload-multicolor" width="100" height="100"/>
     </resources>
 </document>

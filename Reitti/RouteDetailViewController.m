@@ -1105,7 +1105,6 @@
             
             annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
             [annotationView setFrame:CGRectMake(0, 0, 16, 16)];
-            //                annotationView.centerOffset = CGPointMake(0,-19);
             
             return annotationView;
         }else if (locAnnotation.locationType == StopLocation){

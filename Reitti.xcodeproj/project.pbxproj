@@ -97,7 +97,7 @@
 		66134C031B41D69A0008C6D7 /* routesFiltered.json in Resources */ = {isa = PBXBuildFile; fileRef = 66134C021B41D69A0008C6D7 /* routesFiltered.json */; };
 		66160F061C580577005617CE /* Cool-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 66160F051C580577005617CE /* Cool-96.png */; };
 		66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 66160F071C5CF313005617CE /* app-logo-rounded-small.png */; };
-		661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* InfoViewController.m */; };
+		661721EF19CDA78000E3CD6E /* DisruptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* DisruptionViewController.m */; };
 		6618311F1C0DE1FF00DA979E /* NSDate+SAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618311E1C0DE1FF00DA979E /* NSDate+SAMAdditions.m */; };
 		661831221C0DE22000DA979E /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831211C0DE22000DA979E /* NSDate+Helper.m */; };
 		6618312E1C10FFC900DA979E /* JTMaterialSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */; };
@@ -630,7 +630,7 @@
 		66C7335F1C556DA5002544BC /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715E91B45CD2C00033049 /* Distance.m */; };
 		66C733601C556DA5002544BC /* HslLiveCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */; };
 		66C733611C556DA5002544BC /* SingleSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */; };
-		66C733621C556DA5002544BC /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* InfoViewController.m */; };
+		66C733621C556DA5002544BC /* DisruptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* DisruptionViewController.m */; };
 		66C733631C556DA5002544BC /* EmptyWorkAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F821B349B0600CE670E /* EmptyWorkAddressCell.m */; };
 		66C733641C556DA5002544BC /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */; };
 		66C733651C556DA5002544BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CC118830ED500642EE1 /* main.m */; };
@@ -1221,8 +1221,8 @@
 		66134C021B41D69A0008C6D7 /* routesFiltered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routesFiltered.json; sourceTree = "<group>"; };
 		66160F051C580577005617CE /* Cool-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Cool-96.png"; path = "Pictures/version 4.1/Cool-96.png"; sourceTree = "<group>"; };
 		66160F071C5CF313005617CE /* app-logo-rounded-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-rounded-small.png"; path = "Pictures/version 4.1/app-logo-rounded-small.png"; sourceTree = "<group>"; };
-		661721ED19CDA78000E3CD6E /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
-		661721EE19CDA78000E3CD6E /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		661721ED19CDA78000E3CD6E /* DisruptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisruptionViewController.h; sourceTree = "<group>"; };
+		661721EE19CDA78000E3CD6E /* DisruptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisruptionViewController.m; sourceTree = "<group>"; };
 		661721F719CE0F5000E3CD6E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		661721FB19CE0F5000E3CD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		661721FC19CE0F5000E3CD6E /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -2285,8 +2285,8 @@
 				66CC940918E190D300644281 /* WebViewController.m */,
 				660FB2431B39F30E009C30BF /* AboutTableViewController.h */,
 				660FB2441B39F30E009C30BF /* AboutTableViewController.m */,
-				661721ED19CDA78000E3CD6E /* InfoViewController.h */,
-				661721EE19CDA78000E3CD6E /* InfoViewController.m */,
+				661721ED19CDA78000E3CD6E /* DisruptionViewController.h */,
+				661721EE19CDA78000E3CD6E /* DisruptionViewController.m */,
 				667B982B1AD33A4100C45ADF /* EditAddressTableViewController.h */,
 				667B982C1AD33A4100C45ADF /* EditAddressTableViewController.m */,
 				667B98281AD32A8300C45ADF /* AddressTypeTableViewController.h */,
@@ -4504,7 +4504,7 @@
 				66F60DEA1C834C0B00B33511 /* HSLRouteOptionManager.m in Sources */,
 				665885B51B0B9EA30044F514 /* HslLiveCommunicator.m in Sources */,
 				6665D7801C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */,
-				661721EF19CDA78000E3CD6E /* InfoViewController.m in Sources */,
+				661721EF19CDA78000E3CD6E /* DisruptionViewController.m in Sources */,
 				660E2F831B349B0600CE670E /* EmptyWorkAddressCell.m in Sources */,
 				66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */,
 				66F60DE31C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
@@ -4765,7 +4765,7 @@
 				66F60DEB1C834C0B00B33511 /* HSLRouteOptionManager.m in Sources */,
 				66C733601C556DA5002544BC /* HslLiveCommunicator.m in Sources */,
 				66C733611C556DA5002544BC /* SingleSelectTableViewController.m in Sources */,
-				66C733621C556DA5002544BC /* InfoViewController.m in Sources */,
+				66C733621C556DA5002544BC /* DisruptionViewController.m in Sources */,
 				66C733631C556DA5002544BC /* EmptyWorkAddressCell.m in Sources */,
 				66C733641C556DA5002544BC /* HTMLNode.m in Sources */,
 				66F60DE41C7F8FEE00B33511 /* NSString+Helper.m in Sources */,

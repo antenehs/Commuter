@@ -78,19 +78,9 @@
 }
 
 #pragma mark - view methods
-- (void)setTableBackgroundView {
-    UIView *bluredBackViewContainer = [[UIView alloc] initWithFrame:self.view.bounds];
-    bluredBackViewContainer.backgroundColor = [UIColor whiteColor];
-    UIImageView *mapImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_background.png"]];
-    mapImageView.frame = bluredBackViewContainer.frame;
-    mapImageView.alpha = 0.5;
-    AMBlurView *blurView = [[AMBlurView alloc] initWithFrame:bluredBackViewContainer.frame];
-    
-    [bluredBackViewContainer addSubview:mapImageView];
-    [bluredBackViewContainer addSubview:blurView];
-    
-    self.tableView.backgroundView = bluredBackViewContainer;
+- (void)setTableBackgroundView {    
     self.tableView.backgroundColor = [UIColor clearColor];
+    [self.tableView setBlurredBackgroundWithImageNamed:nil];
 }
 
 - (BOOL)areThereDisruptions {
@@ -123,7 +113,7 @@
     numberOfMoreFeatures = 0;
     routinesRow = [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
     ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion && [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
-//    matkakorttiRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    icloudBookmarksRow = [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
     disruptionsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
     
     moreFeaturesSection = numberOfMoreFeatures > 0 ? numberOfSection++ : -1;
@@ -169,8 +159,8 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"remindersCell" forIndexPath:indexPath];
         }else if (indexPath.row == ticketsSalesPointsRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ticketSellPointCell" forIndexPath:indexPath];
-        }else if (indexPath.row == matkakorttiRow) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"matkakorttiCell" forIndexPath:indexPath];
+        }else if (indexPath.row == icloudBookmarksRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"iCloudBookmarksCell" forIndexPath:indexPath];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
             

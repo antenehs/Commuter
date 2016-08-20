@@ -13,11 +13,11 @@
 #import "SettingsManager.h"
 
 typedef enum{
-    InfoViewModeLiveAllDisruptions = 0,
-    InfoViewModeStaticRouteDisruptions = 1
-}InfoViewControllerMode;
+    DisruptionViewModeLiveAllDisruptions = 0,
+    DisruptionViewModeStaticRouteDisruptions = 1
+}DisruptionViewControllerMode;
 
-@interface InfoViewController : UIViewController<UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ADBannerViewDelegate>{
+@interface DisruptionViewController : UIViewController<UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ADBannerViewDelegate>{
     
     IBOutlet UITableView *disruptionsTableView;
     IBOutlet UIScrollView *mainScrollView;
@@ -36,12 +36,14 @@ typedef enum{
     
     IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
     
+    BOOL searchedForDisruptions;
+    
     ADBannerView *_bannerView;
 }
 
 @property (strong, nonatomic) NSArray * disruptionsList;
 
-@property (nonatomic) InfoViewControllerMode viewControllerMode;
+@property (nonatomic) DisruptionViewControllerMode viewControllerMode;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 

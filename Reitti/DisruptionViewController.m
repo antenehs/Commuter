@@ -6,17 +6,19 @@
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "InfoViewController.h"
+#import "DisruptionViewController.h"
 #import "Disruption.h"
 #import <Social/Social.h>
 #import "CoreDataManager.h"
 #import "SettingsManager.h"
+#import "ASA_Helpers.h"
+#import "AppManager.h"
 
-@interface InfoViewController ()
+@interface DisruptionViewController ()
 
 @end
 
-@implementation InfoViewController
+@implementation DisruptionViewController
 
 @synthesize disruptionsList;
 @synthesize reittiDataManager;
@@ -48,10 +50,15 @@
     scrollVFrame.size.height = self.view.frame.size.height - scrollVFrame.origin.y;
     mainScrollView.frame = scrollVFrame;
     mainScrollView.delegate = self;
+    
+    searchedForDisruptions = NO;
+    
+    disruptionsTableView.rowHeight = UITableViewAutomaticDimension;
+    disruptionsTableView.estimatedRowHeight = 44.0;
     [disruptionsTableView reloadData];
     disruptionsTableView.backgroundColor = [UIColor clearColor];
     
-    if (self.viewControllerMode != InfoViewModeStaticRouteDisruptions) {
+    if (self.viewControllerMode != DisruptionViewModeStaticRouteDisruptions) {
         refreshTimer = [NSTimer scheduledTimerWithTimeInterval:900 target:self selector:@selector(checkDisruptionsButtonPressed:) userInfo:nil repeats:YES];
         if ([settingsManager userLocation] == HSLRegion) {
             [self fetchDisruptions];
@@ -146,29 +153,60 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
         
         Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
-        
+        //Setup info label
         UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
-        infoLabel.text = [disruption localizedText];
+        infoLabel.attributedText = [disruption formattedLocalizedTextWithFont:infoLabel.font];
         
-        CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
+        //Setup lines view
+        UIView *linesContainerView = [cell viewWithTag:1002];
+        NSLayoutConstraint *bottomConstraint;
         
-        CGRect labelSize = [[disruption localizedText] boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
-                                                                attributes:@{
-                                                                             NSFontAttributeName : infoLabel.font
-                                                                             }
-                                                                   context:nil];;
+        for (NSLayoutConstraint *constraint in linesContainerView.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeBottom) {
+                bottomConstraint = constraint;
+                break;
+            }
+        }
+
+        if (disruption.disruptionLines && disruption.disruptionLines.count != 0 && disruption.disruptionLineNames.count != 0) {
+            linesContainerView.hidden = NO;
+            bottomConstraint.active = YES;
+            
+            UIImageView *imageView = (UIImageView *)[linesContainerView viewWithTag:2001];
+            UILabel *linesLabel = (UILabel *)[linesContainerView viewWithTag:2002];
+            
+            imageView.image = [AppManager lineIconForLineType:[disruption.disruptionLines[0] parsedLineType]];
+            linesLabel.text = [ReittiStringFormatter commaSepStringFromArray:disruption.disruptionLineNames withSeparator:@", "];
+            
+        } else {
+            linesContainerView.hidden = YES;
+            bottomConstraint.active = NO;
+        }
+    }else if (!searchedForDisruptions){
+        cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionsCell"];
         
-        infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, labelSize.size.width, labelSize.size.height);
+        checkDisruptionButton = (UIButton *)[cell viewWithTag:1002];
+        UILabel *label = (UILabel *)[cell viewWithTag:1001];
         
+        checkDisruptionButton.hidden = YES;
+        label.text = @"Getting disruptions...";
+        
+        refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
+        [refreshActivityIndicator startAnimating];
     }else{
         if ([settingsManager userLocation] == HSLRegion) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionsCell"];
             
             checkDisruptionButton = (UIButton *)[cell viewWithTag:1002];
             refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
+            
+            UILabel *label = (UILabel *)[cell viewWithTag:1001];
+            
+            checkDisruptionButton.hidden = YES;
+            label.text = @"No Traffic Disruptions";
+            [refreshActivityIndicator stopAnimating];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionInfoCell"];
-//            cell.backgroundColor = [UIColor clearColor];
         }
         
     }
@@ -176,33 +214,33 @@
 //    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (disruptionsList.count > 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
-        UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
-        infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, self.view.frame.size.width - 180, infoLabel.frame.size.height);
-        Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
-        
-        CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
-        
-        CGRect labelSize = [[disruption localizedText] boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
-                                                                attributes:@{
-                                                                             NSFontAttributeName :infoLabel.font
-                                                                             }
-                                                                   context:nil];;
-        if (labelSize.size.height < 40) {
-            labelSize.size.height = 40;
-        }
-        return labelSize.size.height + 20;
-    }else{
-        if (indexPath.row == 0) {
-            return 65;
-        }
-    }
-    
-    return 44;
-}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    if (disruptionsList.count > 0) {
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell"];
+//        UILabel *infoLabel = (UILabel *)[cell viewWithTag:1001];
+//        infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, infoLabel.frame.origin.y, self.view.frame.size.width - 180, infoLabel.frame.size.height);
+//        Disruption *disruption = [disruptionsList objectAtIndex:indexPath.row];
+//        
+//        CGSize maxSize = CGSizeMake(infoLabel.bounds.size.width, CGFLOAT_MAX);
+//        
+//        CGRect labelSize = [[disruption localizedText] boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin
+//                                                                attributes:@{
+//                                                                             NSFontAttributeName :infoLabel.font
+//                                                                             }
+//                                                                   context:nil];;
+//        if (labelSize.size.height < 40) {
+//            labelSize.size.height = 40;
+//        }
+//        return labelSize.size.height + 20;
+//    }else{
+//        if (indexPath.row == 0) {
+//            return 65;
+//        }
+//    }
+//    
+//    return 44;
+//}
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -220,6 +258,8 @@
         }else{
             [self disruptionFetchDidFail:errorString];
         }
+        
+        searchedForDisruptions = YES;
     }];
 }
 

@@ -244,32 +244,91 @@
 
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
     //    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
-    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[AppManagerBase systemOrangeColor] forKey:NSForegroundColorAttributeName];
-    [subStringDict setObject:font forKey:NSFontAttributeName];
+//    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[AppManagerBase systemOrangeColor] forKey:NSForegroundColorAttributeName];
+//    [subStringDict setObject:font forKey:NSFontAttributeName];
+//    
+//    NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
+//    
+//    if (text == nil)
+//        return nil;
+//    
+//    if (substring == nil)
+//        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+//    
+//    if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)
+//        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+//    
+//    NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
+//    
+//    NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
+//    
+//    NSMutableAttributedString *notHightlighted1 = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
+//    
+//    NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:[text substringFromIndex:location.location + location.length ] attributes:restStringDict];
+//    
+//    [notHightlighted1 appendAttributedString:highlighted];
+//    [notHightlighted1 appendAttributedString:notHightlighted2];
+    
+//    return notHightlighted1;
+    
+    return [self highlightSubstringInString:text substrings:@[substring] withNormalFont:font highlightedFont:font andHighlightColor:[AppManagerBase systemOrangeColor]];
+}
+
++(NSAttributedString *)highlightSubstringInString:(NSString *)text substrings:(NSArray *)substrings withNormalFont:(UIFont *)font highlightedFont:(UIFont *)highlightedFont andHighlightColor:(UIColor *)highlightedColor {
+    
+    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:highlightedFont forKey:NSFontAttributeName];
+    if (highlightedColor)
+        [subStringDict setObject:highlightedColor forKey:NSForegroundColorAttributeName];
     
     NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
     
     if (text == nil)
         return nil;
     
-    if (substring == nil)
+    if (substrings == nil || substrings.count == 0)
         return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
     
-    if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)
-        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+    NSMutableAttributedString *finalFormatted = [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+//    if ([text rangeOfString:substrings[0] options:NSCaseInsensitiveSearch].location == NSNotFound)
+//        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
+//    
     
-    NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
+    BOOL firstOccurance = YES;
+    for (int i = 0; i < substrings.count; i++) {
+        NSString *substring = substrings[i];
+        NSString *nextSubString = nil;
+        if (i < substrings.count - 1)
+            nextSubString = substrings[i + 1];
+        
+        NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
+        NSRange nextLocation = [text rangeOfString:nextSubString ? nextSubString : @"#$%$##^$%&$%&@#$%@#$%@#" options:NSCaseInsensitiveSearch];
+        BOOL isLastSubString = !nextSubString || nextLocation.location == NSNotFound;
+        
+        if (location.location == NSNotFound)
+            continue;
+        
+        if (firstOccurance) {
+            finalFormatted = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
+            firstOccurance = NO;
+        }
+        
+        NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
+        
+        NSString *notHighlightedString = nil;
+        if (isLastSubString) {
+            notHighlightedString = [text substringFromIndex:location.location + location.length];
+        } else {
+            NSInteger startLocation = location.location + location.length;
+            NSRange range = NSMakeRange(startLocation, nextLocation.location - startLocation);
+            notHighlightedString = [text substringWithRange:range];
+        }
+        NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:notHighlightedString attributes:restStringDict];
+        
+        [finalFormatted appendAttributedString:highlighted];
+        [finalFormatted appendAttributedString:notHightlighted2];
+    }
     
-    NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
-    
-    NSMutableAttributedString *notHightlighted1 = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
-    
-    NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:[text substringFromIndex:location.location + location.length ] attributes:restStringDict];
-    
-    [notHightlighted1 appendAttributedString:highlighted];
-    [notHightlighted1 appendAttributedString:notHightlighted2];
-    
-    return notHightlighted1;
+    return finalFormatted;
 }
 
 #endif
