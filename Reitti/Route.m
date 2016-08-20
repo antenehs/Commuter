@@ -7,6 +7,7 @@
 
 #import "Route.h"
 #import "ASA_Helpers.h"
+#import "AppManager.h"
 
 @interface Route ()
 
@@ -246,6 +247,28 @@
     route.routeLegs = allLegs;
     
     return route;
+}
+
+-(UIImage *)routeIcon {
+    if (!_routeIcon) {
+        if (!self.routeLegs || self.routeLegs.count == 0)
+            _routeIcon = [UIImage imageNamed:@"up-right-arrow-32"];
+        else {
+            if ([self isOnlyWalkingRoute]) {
+                _routeIcon = [AppManager vehicleImageForLegTrasnportType:LegTypeWalk];
+            } else if ([self numberOfNoneWalkLegs] > 0) {
+                LegTransportType type = [[[self noneWalkingLegs] firstObject] legType];
+                if (type == LegTypeMetro)
+                    _routeIcon = [UIImage imageNamed:@"metro-no-background"];
+                else
+                    _routeIcon = [AppManager vehicleImageForLegTrasnportType:type];
+            } else {
+                _routeIcon = [UIImage imageNamed:@"up-right-arrow-32"];
+            }
+        }
+    }
+    
+    return _routeIcon;
 }
 #endif
 

@@ -10,6 +10,7 @@
 #import "JPSThumbnailAnnotationView.h"
 #import "JPSThumbnail.h"
 #import "AppManager.h"
+#import "ASA_Helpers.h"
 
 NSString * const kJPSThumbnailAnnotationViewReuseID = @"JPSThumbnailAnnotationView";
 
@@ -121,7 +122,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     containerView.layer.cornerRadius = 8.0;
     
     _primaryButtonSmall = [UIButton buttonWithType:UIButtonTypeSystem];
-    UIImage *image = [UIImage imageNamed:@"bus-filled-gray-100.png"];
+    UIImage *image = [UIImage imageNamed:@"up-right-arrow-32"];
     [_primaryButtonSmall setImage:image forState:UIControlStateNormal];
     _primaryButtonSmall.tintColor = [AppManager systemGreenColor];
     _primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
@@ -280,15 +281,26 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     self.primaryButtonLabel.text = @"";
 }
 
-- (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString {
+- (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString withIconImage:(UIImage *)image {
     CGRect buttonFrame = self.primaryButtonSmall.frame;
+    if (image) {
+        [self.primaryButtonSmall setImageEdgeInsets:UIEdgeInsetsMake(4, 4, 4, 4)];
+        [self layoutSubviews];
+    }
     
     [UIView transitionWithView:self duration:0.2 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        
         self.primaryButtonSmall.frame = CGRectMake(buttonFrame.origin.x, buttonFrame.origin.y - 7, buttonFrame.size.width, buttonFrame.size.height);
         
     } completion:^(BOOL finished) {
         [self.primaryButtonLabel setText:durationString];
+        
+        if (image) {
+            [self asa_springAnimationWithDuration:0.3 animation:^{
+                [self.primaryButtonSmall setImage:image forState:UIControlStateNormal];
+                [self.primaryButtonSmall setImageEdgeInsets:UIEdgeInsetsZero];
+                [self layoutSubviews];
+            } completion:^(BOOL finished){}];
+        }
     }];
     
 }

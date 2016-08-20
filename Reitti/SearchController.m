@@ -2366,7 +2366,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (routeList != nil && routeList.count > 0) {
         Route *route = [routeList firstObject];
         NSInteger durationInSeconds = [route.routeDurationInSeconds integerValue];
-        [selectedAnnotationView setGoToHereDurationString:nil duration:[NSString stringWithFormat:@"%d min", (int)durationInSeconds/60]];
+        [selectedAnnotationView setGoToHereDurationString:nil duration:[NSString stringWithFormat:@"%d min", (int)durationInSeconds/60] withIconImage:route.routeIcon];
     }
 }
 - (void)routeSearchDidFail:(NSString *)error{

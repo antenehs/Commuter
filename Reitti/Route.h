@@ -48,6 +48,8 @@
 #ifndef APPLE_WATCH
 +(id)routeFromDigiPlan:(DigiPlan *)digiPlan;
 +(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
+
+@property (nonatomic, strong)UIImage *routeIcon;
 #endif
 
 //To and from dictionary

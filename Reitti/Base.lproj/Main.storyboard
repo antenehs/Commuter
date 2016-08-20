@@ -523,7 +523,7 @@
                                         <constraint firstAttribute="width" constant="30" id="u3j-Lf-qJt"/>
                                     </constraints>
                                     <size key="titleShadowOffset" width="1" height="1"/>
-                                    <state key="normal" title="Button" image="up-right-arrow-32.png">
+                                    <state key="normal" title="Button" image="up-right-arrow-32">
                                         <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <variation key="default">
@@ -9414,6 +9414,7 @@ Helsinki, Finland</string>
         <image name="train-filled-light-64.png" width="64" height="64"/>
         <image name="tram-filled-green-100.png" width="100" height="100"/>
         <image name="tramStopIcon" width="33" height="33"/>
+        <image name="up-right-arrow-32" width="64" height="64"/>
         <image name="up-right-arrow-32.png" width="64" height="64"/>
         <image name="user-50.png" width="50" height="50"/>
         <image name="walking-gray-64.png" width="64" height="64"/>
@@ -9422,22 +9423,22 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="U9A-P0-Va2"/>
+        <segue reference="yf4-eP-97K"/>
         <segue reference="oJb-eU-zeZ"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="rqm-Vp-DPt"/>
+        <segue reference="s3H-Jn-riC"/>
         <segue reference="X8p-rp-E0z"/>
         <segue reference="tk7-jO-rac"/>
-        <segue reference="W50-Av-oNZ"/>
         <segue reference="CkP-l4-5DX"/>
-        <segue reference="Ltu-K0-x4G"/>
         <segue reference="SWb-EE-ndB"/>
-        <segue reference="Q5R-Rv-jo2"/>
         <segue reference="F7i-cJ-TYg"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="Q5R-Rv-jo2"/>
         <segue reference="TZn-kH-clf"/>
-        <segue reference="G3y-0T-rdq"/>
-        <segue reference="ocH-Qu-aOm"/>
-        <segue reference="YpZ-AP-yAo"/>
         <segue reference="XlZ-XU-H5m"/>
-        <segue reference="L45-cf-ZZX"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="ocH-Qu-aOm"/>
         <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>
