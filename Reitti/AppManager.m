@@ -175,7 +175,7 @@
     }else if (stopType == StopTypeAirport) {
         return @"AirportAnnotationFlat";
     }else if (stopType == StopTypeBikeStation) {
-        return @"highAvailBikeAnnotation";
+        return @"BikeStation-100";
     }else{
         return @"BusAnnotationFlat";
     }
@@ -322,11 +322,15 @@
 #ifndef APPLE_WATCH
 +(NSString *)stationAnnotionImageNameForBikeStation:(BikeStation *)bikeStation {
     if (bikeStation.bikeAvailability == NotAvailable) {
-        return @"noBikeAnnotation";
+        return @"BikeStation-0";
     } else if (bikeStation.bikeAvailability == LowAvailability) {
-        return @"lowAvailBikeAnnotation";
+        return @"BikeStation-25";
+    } else if (bikeStation.bikeAvailability == HalfAvailability) {
+        return @"BikeStation-50";
+    } else if (bikeStation.bikeAvailability == HighAvailability) {
+        return @"BikeStation-75";
     } else {
-        return @"highAvailBikeAnnotation";
+        return @"BikeStation-100";
     }
 }
 #endif

@@ -79,12 +79,18 @@
     int bikes = self.bikesAvailable.intValue;
     int total = self.bikesAvailable.intValue + self.spacesAvailable.intValue;
     
-    if (bikes == 0) {
+    CGFloat percentage = ((CGFloat)bikes/total) * 100;
+    
+    if (percentage == 0) {
         return NotAvailable;
-    } else if (bikes < 5 && total > 2 * bikes) {
+    } else if (percentage < 35) {
         return LowAvailability;
-    } else {
+    } else if (percentage >= 35 && percentage < 65) {
+        return HalfAvailability;
+    } else if (percentage >= 65 && percentage < 100) {
         return HighAvailability;
+    } else {
+        return FullAvailability;
     }
 }
 
@@ -92,12 +98,18 @@
     int spaces = self.spacesAvailable.intValue;
     int total = self.bikesAvailable.intValue + self.spacesAvailable.intValue;
     
-    if (spaces == 0) {
+    CGFloat percentage = ((CGFloat)spaces/total) * 100;
+    
+    if (percentage == 0) {
         return NotAvailable;
-    } else if (spaces < 5 && total > 2 * spaces) {
+    } else if (percentage < 35) {
         return LowAvailability;
-    } else {
+    } else if (percentage >= 35 && percentage < 65) {
+        return HalfAvailability;
+    } else if (percentage >= 65 && percentage < 100) {
         return HighAvailability;
+    } else {
+        return FullAvailability;
     }
 }
 

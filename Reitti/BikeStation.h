@@ -32,7 +32,9 @@ typedef enum
 {
     NotAvailable = 0,
     LowAvailability = 1,
-    HighAvailability = 2
+    HalfAvailability = 2,
+    HighAvailability = 3,
+    FullAvailability = 4
 } Availability;
 
 @interface BikeStation : NSObject
