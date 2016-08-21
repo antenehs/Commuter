@@ -287,9 +287,7 @@
     [self.tableView reloadData];
     [self setDoneButtonState];
 }
-- (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-    
-}
+
 - (void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
     
 }

@@ -1322,10 +1322,6 @@ typedef enum
     }
 }
 
-- (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-//    reittiDataManager.routeSearchdelegate = self;
-}
-
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
     
 }

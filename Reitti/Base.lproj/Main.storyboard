@@ -512,7 +512,7 @@
                     <navigationItem key="navigationItem" id="Hlc-60-Z4x">
                         <nil key="title"/>
                         <view key="titleView" opaque="NO" contentMode="scaleToFill" id="ZdX-Hh-cye" userLabel="LeftNavButtons">
-                            <rect key="frame" x="55" y="0.0" width="490" height="44"/>
+                            <rect key="frame" x="191" y="0.0" width="218" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JIW-aM-Seb">
@@ -535,10 +535,10 @@
                                         <action selector="openRouteSearchView:" destination="139-RC-VnC" eventType="touchUpInside" id="r7N-5d-U6P"/>
                                     </connections>
                                 </button>
-                                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9eS-XP-NI8" userLabel="searchBarView">
+                                <view opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9eS-XP-NI8" userLabel="searchBarView">
                                     <rect key="frame" x="38" y="0.0" width="452" height="44"/>
                                     <subviews>
-                                        <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="address, stop or place" translatesAutoresizingMaskIntoConstraints="NO" id="eyJ-tf-8L0">
+                                        <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="minimal" placeholder="address, stop or place" translatesAutoresizingMaskIntoConstraints="NO" id="eyJ-tf-8L0">
                                             <rect key="frame" x="0.0" y="0.0" width="447" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="172" id="i7d-6p-7fz"/>
@@ -553,7 +553,7 @@
                                                 <outlet property="delegate" destination="139-RC-VnC" id="F6c-RX-uNx"/>
                                             </connections>
                                         </searchBar>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STH-LB-fhy">
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="STH-LB-fhy">
                                             <rect key="frame" x="0.0" y="0.0" width="444" height="44"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -654,6 +654,14 @@
                                 </mask>
                             </variation>
                         </view>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="qrX-S3-v1V">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7m2-Fc-rXV">
+                                <rect key="frame" x="540" y="7" width="40" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="5" minY="3" maxX="5" maxY="3"/>
+                                <state key="normal" image="filterIcon"/>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -9380,6 +9388,7 @@ Helsinki, Finland</string>
         <image name="dropped-pin-100.png" width="100" height="100"/>
         <image name="exchange-arrows-white.png" width="151" height="184"/>
         <image name="expand-arrow-50.png" width="100" height="100"/>
+        <image name="filterIcon" width="33" height="33"/>
         <image name="home-100.png" width="100" height="100"/>
         <image name="iCloudIconColored" width="33" height="33"/>
         <image name="iCloudSynched" width="128" height="128"/>

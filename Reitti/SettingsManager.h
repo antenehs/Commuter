@@ -52,6 +52,10 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(void)setShowBookmarkRoutes:(BOOL)show;
 +(BOOL)showBookmarkDepartures;
 +(void)setShowBookmarkDepartures:(BOOL)show;
++(BOOL)askedContactsPermission;
++(void)setAskedContactPermission:(BOOL)asked;
++(NSInteger)getSkippedcontactsRequestTrials;
++(void)setSkippedcontactsRequestTrials:(NSInteger)index;
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

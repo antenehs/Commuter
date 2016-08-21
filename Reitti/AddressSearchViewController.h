@@ -22,7 +22,6 @@
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode;
 - (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark;
 - (void)searchResultSelectedCurrentLocation;
-- (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm;
 - (void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm;
 
 @optional

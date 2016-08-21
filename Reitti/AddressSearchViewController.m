@@ -14,6 +14,8 @@
 #import "ASA_Helpers.h"
 #import "ReittiAnalyticsManager.h"
 #import "TableViewCells.h"
+#import "ContactsManager.h"
+#import "ReittiMapkitHelper.h"
 
 @interface AddressSearchViewController ()
 
@@ -45,8 +47,8 @@
     [searchResultTableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"poiLocationCell"];
     [searchResultTableView registerNib:[UINib nibWithNibName:@"AddressTableViewCell" bundle:nil] forCellReuseIdentifier:@"addressLocationCell"];
     
-//    searchResultTableView.rowHeight = UITableViewAutomaticDimension;
-//    searchResultTableView.estimatedRowHeight = 60;
+    //TODO: Do this after asking user access with a custom popup.
+    [ContactsManager sharedManager]; //Initiate filtering
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -118,7 +120,6 @@
 #pragma mark - IBActions
 - (IBAction)cancelButtonPressed:(id)sender {
     [addressSearchBar resignFirstResponder];
-    [delegate searchViewControllerWillBeDismissed:@""];
     [self dismissViewControllerAnimated:YES completion:nil ];
 }
 
@@ -187,7 +188,7 @@
         unRespondedRequestsCount++;
         isInitialMergedView = NO;
     }else if(searchText.length > 0) {
-        dataToLoad = [ self searchFromBookmarkAndHistoryForKey:searchText];
+        dataToLoad = [ self searchFromBookmarkHistoryContactForKey:searchText];
         [searchResultTableView reloadData];
         isInitialMergedView = NO;
     }else {
@@ -211,7 +212,7 @@
         [searchActivityIndicator startAnimating];
     }
     else {
-        dataToLoad = [ self searchFromBookmarkAndHistoryForKey:searchBar.text];
+        dataToLoad = [ self searchFromBookmarkHistoryContactForKey:searchBar.text];
         [searchResultTableView reloadData];
         
         //Message that search term is short
@@ -243,7 +244,7 @@
 - (void)geocodeSearchDidComplete:(NSArray *)geocodeList isFinalResult:(BOOL)isFinalResult{
     unRespondedRequestsCount--;
     if (!isInitialMergedView) {
-        dataToLoad = [self searchFromBookmarkAndHistoryForKey:addressSearchBar.text];
+        dataToLoad = [self searchFromBookmarkHistoryContactForKey:addressSearchBar.text];
         [dataToLoad addObjectsFromArray:geocodeList];
         [searchResultTableView reloadData];
     }
@@ -258,29 +259,35 @@
 }
 - (void)geocodeSearchDidFail:(NSString *)error forRequest:(NSString *)requestedKey{
     unRespondedRequestsCount--;
-    dataToLoad = [self searchFromBookmarkAndHistoryForKey:addressSearchBar.text];
+    dataToLoad = [self searchFromBookmarkHistoryContactForKey:addressSearchBar.text];
     [searchResultTableView reloadData];
     if (isFinalSearch && unRespondedRequestsCount == 0) {
         searchActivityIndicator.hidden = YES;
         [searchActivityIndicator stopAnimating];
         //Message that there is no result
-        UIAlertView *alertView;
-        if (error != nil) {
-            alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-            
-            [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@5];
-        }else{
-             alertView = [[UIAlertView alloc] initWithTitle:@"Looks like there is a free address name."                                                                                      message:@"The search returned nothing for that search term."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        }
+        [self showErrorMessage:error];
+    }
+    
+//    [SettingsManager setAskedContactPermission:YES];
+//    [[ContactsManager sharedManager] customRequestForAccess];
+}
+
+-(void)showErrorMessage:(NSString *)errorMessage {
+    UIAlertView *alertView;
+    if (errorMessage != nil) {
+        alertView = [[UIAlertView alloc] initWithTitle:errorMessage                                                                                      message:nil
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
+        [alertView show];
         
+        [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:errorMessage value:@5];
+    }else{
+        alertView = [[UIAlertView alloc] initWithTitle:@"Looks like there is a free address name."                                                                                      message:@"The search returned nothing for that search term."
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
+        [alertView show];
     }
 }
 
@@ -390,31 +397,60 @@
     if (indexPath.row >= self.dataToLoad.count)
         return;
     
-    [delegate searchViewControllerWillBeDismissed:addressSearchBar.text];
-    if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
-        GeoCode *selectedGeocode = [self.dataToLoad objectAtIndex:indexPath.row];
-        [self dismissViewControllerAnimated:YES completion:^{
-            [delegate searchResultSelectedAGeoCode:selectedGeocode];
-        }];
-    }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[NamedBookmark class]]){
-        NamedBookmark *selectedBookmark = [self.dataToLoad objectAtIndex:indexPath.row];
+    id selectedAddress = [self.dataToLoad objectAtIndex:indexPath.row];
+    
+    if([selectedAddress isKindOfClass:[GeoCode class]]){
+        GeoCode *selectedGeocode = selectedAddress;
+        if (selectedGeocode.getLocationType == LocationTypeContact) {
+            [self userSelectedContactAddress:selectedGeocode];
+        } else {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [delegate searchResultSelectedAGeoCode:selectedGeocode];
+            }];
+        }
+    }else if([selectedAddress isKindOfClass:[NamedBookmark class]]){
+        NamedBookmark *selectedBookmark = selectedAddress;
         [self dismissViewControllerAnimated:YES completion:^{
             [delegate searchResultSelectedANamedBookmark:selectedBookmark];
         }];
-    }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]){
-        StopEntity *selectedStopEntity = (StopEntity *)[self.dataToLoad objectAtIndex:indexPath.row];
+    }else if([selectedAddress isKindOfClass:[StopEntity class]] || [selectedAddress isKindOfClass:[HistoryEntity class]]){
+        StopEntity *selectedStopEntity = (StopEntity *)selectedAddress;
         [self dismissViewControllerAnimated:YES completion:^{
             [delegate searchResultSelectedAStop:selectedStopEntity];
         }];
-    }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]){
+    }else if([selectedAddress isKindOfClass:[RouteEntity class]] || [selectedAddress isKindOfClass:[RouteHistoryEntity class]]){
 //        [self performSegueWithIdentifier:@"savedRouteSelected" sender:self];
-        RouteEntity * selected = [self.dataToLoad objectAtIndex:indexPath.row];
+        RouteEntity * selected = selectedAddress;
         [self dismissViewControllerAnimated:NO completion:^{
             if ([delegate respondsToSelector:@selector(searchResultSelectedARoute:)]) {
                 [delegate searchResultSelectedARoute:selected];
             }
         }];
     }
+}
+
+-(void)userSelectedContactAddress:(GeoCode *)geoCode {
+    if (geoCode.getLocationType != LocationTypeContact) {
+        return;
+    }
+    
+    [searchActivityIndicator startAnimating];
+    [[ContactsManager sharedManager] getCoordsForGeoCode:geoCode withCompletion:^(GeoCode * coordGeoCode, NSString * errorString) {
+        CLLocationCoordinate2D coords = [ReittiStringFormatter convertStringTo2DCoord:coordGeoCode.coords];
+        BOOL isValid = [ReittiMapkitHelper isValidCoordinate: coords];
+        if (!errorString && isValid) {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [delegate searchResultSelectedAGeoCode:coordGeoCode];
+            }];
+        } else {
+            unRespondedRequestsCount = 1;
+            isFinalSearch = YES;
+            
+            [self showErrorMessage:errorString];
+        }
+        
+        [searchActivityIndicator stopAnimating];
+    }];
 }
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -436,7 +472,7 @@
 
 #pragma mark - helper methods
 
-- (NSMutableArray *)searchFromBookmarkAndHistoryForKey:(NSString *)key{
+- (NSMutableArray *)searchFromBookmarkHistoryContactForKey:(NSString *)key{
     NSMutableArray * searched = [[NSMutableArray alloc] init];
     key = [key lowercaseString];
     
@@ -483,6 +519,9 @@
             [searched addObject:stopEntity];
         }
     }
+    
+    if(key.length > 1)
+        [searched addObjectsFromArray:[[ContactsManager sharedManager] getContactsForSearchTerm:key]];
     
     for (RouteHistoryEntity *routeHistoryEntity in recentRoutes) {
         if ([[routeHistoryEntity.fromLocationName lowercaseString] containsString:key ]) {

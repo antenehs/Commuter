@@ -17,7 +17,8 @@ typedef enum
     LocationTypePOI = 1,
     LocationTypeAddress = 2,
     LocationTypeStop = 3,
-    LocationTypeDroppedPin = 10
+    LocationTypeDroppedPin = 10,
+    LocationTypeContact = 550
 } LocationType;
 
 @interface GeoCode : NSObject

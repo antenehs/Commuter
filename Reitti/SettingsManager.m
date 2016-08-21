@@ -16,6 +16,8 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
 NSString * const kAnalyticsSettingsNsDefaultsKey = @"IsAnalyticsSettingEnabled";
 NSString * const kShowRoutesFromBookmarksKey = @"ShowRoutesFromBookmarks";
 NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks";
+NSString * const kAskedContactsPermission = @"AskedContactsPermission";
+NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 
 @implementation SettingsManager
@@ -124,42 +126,50 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
     [self saveBoolForKey:kShowDeparturesFromBookmarksKey boolVal:show];
 }
 
++(BOOL)askedContactsPermission {
+    return [self readBoolForKey:kAskedContactsPermission withDefault:NO];
+}
+
++(void)setAskedContactPermission:(BOOL)asked {
+    [self saveBoolForKey:kAskedContactsPermission boolVal:asked];
+}
+
++(NSInteger)getSkippedcontactsRequestTrials {
+    return [self readIntegerForKey:kSkippedContactsPermissionTrial withDefault:0];
+}
+
++(void)setSkippedcontactsRequestTrials:(NSInteger)index {
+    [self saveIntegerForKey:kSkippedContactsPermissionTrial integerValue:index];
+}
+
 +(BOOL)isAnalyticsEnabled{
     return [self readBoolForKey:kAnalyticsSettingsNsDefaultsKey withDefault:YES];
-//    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kAnalyticsSettingsNsDefaultsKey];
-//    
-//    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
-//        return YES;
-//    
-//    return [savedValue boolValue];
 }
 
 +(void)enableAnalytics:(BOOL)enable{
     [self saveBoolForKey:kAnalyticsSettingsNsDefaultsKey boolVal:enable];
-//    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-//    
-//    if (standardUserDefaults) {
-//        [standardUserDefaults setObject:[NSNumber numberWithBool:enable] forKey:kAnalyticsSettingsNsDefaultsKey];
-//        [standardUserDefaults synchronize];
-//    }
 }
 
 +(NSInteger)getStartingIndexTab{
-    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kStartingTabNsDefaultsKey];
+//    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kStartingTabNsDefaultsKey];
+//    
+//    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
+//        return 0;
+//    
+//    return [savedValue integerValue];
     
-    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
-        return 0;
-    
-    return [savedValue integerValue];
+    return [self readIntegerForKey:kStartingTabNsDefaultsKey withDefault:0];
 }
 
 +(void)setStartingIndexTab:(NSInteger)index{
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+//    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+//    
+//    if (standardUserDefaults) {
+//        [standardUserDefaults setObject:[NSNumber numberWithInteger:index] forKey:kStartingTabNsDefaultsKey];
+//        [standardUserDefaults synchronize];
+//    }
     
-    if (standardUserDefaults) {
-        [standardUserDefaults setObject:[NSNumber numberWithInteger:index] forKey:kStartingTabNsDefaultsKey];
-        [standardUserDefaults synchronize];
-    }
+    [self saveIntegerForKey:kStartingTabNsDefaultsKey integerValue:index];
 }
 
 #pragma mark - Helpers
@@ -178,6 +188,24 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
     
     if (standardUserDefaults) {
         [standardUserDefaults setObject:[NSNumber numberWithBool:boolVal] forKey:defaultsKey];
+        [standardUserDefaults synchronize];
+    }
+}
+
++(NSInteger)readIntegerForKey:(NSString *)defaultsKey withDefault:(BOOL)defaultValue {
+    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey];
+    
+    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
+        return defaultValue;
+    
+    return [savedValue integerValue];
+}
+
++(void)saveIntegerForKey:(NSString *)defaultsKey integerValue:(NSInteger)integerValue {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:[NSNumber numberWithInteger:integerValue] forKey:defaultsKey];
         [standardUserDefaults synchronize];
     }
 }

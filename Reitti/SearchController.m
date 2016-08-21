@@ -1314,6 +1314,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (geoCode.getLocationType == LocationTypePOI) {
         name = geoCode.name;
         city = geoCode.city;
+    }else if (geoCode.getLocationType == LocationTypeContact) {
+        name = geoCode.name;
+        city = geoCode.fullAddressString;
     }else if (geoCode.getLocationType  == LocationTypeAddress){
         name = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
         city = geoCode.city;
@@ -2484,9 +2487,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     prevSearchedCoords = namedBookmark.coords;
 }
 
-- (void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-//    mainSearchBar.text = prevSearchTerm;
-}
 - (void)searchResultSelectedCurrentLocation{
     
 }

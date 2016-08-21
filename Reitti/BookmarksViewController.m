@@ -26,7 +26,7 @@
 #import "MainTabBarController.h"
 #import "ReittiDateFormatter.h"
 
-const NSInteger kTimerRefreshInterval = 15;
+const NSInteger kTimerRefreshInterval = 60;
 
 @interface BookmarksViewController ()
 

@@ -134,6 +134,8 @@
         return LocationTypeAddress;
     else if (typeId_int == 999)
         return LocationTypeDroppedPin;
+    else if (typeId_int == 550)
+        return LocationTypeContact;
     else
         return LocationTypeAddress;
 }
@@ -177,7 +179,7 @@
 }
 
 -(NSString *)getStreetAddressString{
-    if ([self.locTypeId integerValue] == 1018) {//Apples geocode has different format
+    if ([self.locTypeId integerValue] == 1018 || [self.locTypeId integerValue] == 550) {//Apples geocode has different format
         return self.details.address;
     }else{ //Searches from HSL and TRE has the address as name
         //In case of reverse geocoding, street number and city is included in the name.

@@ -12,6 +12,11 @@
 		6601AC931D29894000EB8972 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
 		6601AC941D29898700EB8972 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		6601AC951D298E0900EB8972 /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
+		66026D8A1D68E38D00219AC6 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D891D68E38D00219AC6 /* ContactsManager.m */; };
+		66026D8B1D68E38D00219AC6 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D891D68E38D00219AC6 /* ContactsManager.m */; };
+		66026D8D1D68E56800219AC6 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66026D8C1D68E56800219AC6 /* AddressBook.framework */; };
+		66026D911D68ED8D00219AC6 /* ContactAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D901D68ED8D00219AC6 /* ContactAddress.m */; };
+		66026D921D68ED8D00219AC6 /* ContactAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D901D68ED8D00219AC6 /* ContactAddress.m */; };
 		66034CFF1CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
 		66034D001CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
 		66034D011CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
@@ -1083,6 +1088,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		66026D881D68E38D00219AC6 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
+		66026D891D68E38D00219AC6 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
+		66026D8C1D68E56800219AC6 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		66026D8F1D68ED8D00219AC6 /* ContactAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactAddress.h; sourceTree = "<group>"; };
+		66026D901D68ED8D00219AC6 /* ContactAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactAddress.m; sourceTree = "<group>"; };
 		66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Departures-Bridging-Header.h"; sourceTree = "<group>"; };
 		66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Departures Pro-Bridging-Header.h"; sourceTree = "<group>"; };
 		66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Routes Pro-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1889,6 +1899,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66026D8D1D68E56800219AC6 /* AddressBook.framework in Frameworks */,
 				66C733831C556DA5002544BC /* Accelerate.framework in Frameworks */,
 				66C733841C556DA5002544BC /* EventKit.framework in Frameworks */,
 				66C733851C556DA5002544BC /* MessageUI.framework in Frameworks */,
@@ -1939,6 +1950,15 @@
 				E2F2C8E1EDE5F3990A6953CB /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		66026D8E1D68ED7100219AC6 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				66026D8F1D68ED8D00219AC6 /* ContactAddress.h */,
+				66026D901D68ED8D00219AC6 /* ContactAddress.m */,
+			);
+			name = Contact;
 			sourceTree = "<group>";
 		};
 		66034D041CE8E43500EC0769 /* DigiModels */ = {
@@ -2328,6 +2348,7 @@
 				661202C61B05083B00D93C2E /* GeoJSON */,
 				66CEE27419FA95810089A6F9 /* Disruption */,
 				66822F5E1C24688C00511BD2 /* Stops */,
+				66026D8E1D68ED7100219AC6 /* Contact */,
 				66056E7E1C497DF600C011FB /* GeoCode */,
 				66056E7F1C497E1900C011FB /* Route */,
 				66034D041CE8E43500EC0769 /* DigiModels */,
@@ -2771,6 +2792,7 @@
 		66947CB418830ED500642EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66026D8C1D68E56800219AC6 /* AddressBook.framework */,
 				663E1EBB1C949EB200C5543A /* CloudKit.framework */,
 				66CF81A41A0EF4F90034C9AB /* Accelerate.framework */,
 				66CB961C18F16ACB00E95CE5 /* EventKit.framework */,
@@ -3055,6 +3077,8 @@
 				663E1EB81C949C5400C5543A /* ICloudManager.m */,
 				6603A8EA1CCFE9EB00991FBF /* ReittiRegionManager.h */,
 				6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */,
+				66026D881D68E38D00219AC6 /* ContactsManager.h */,
+				66026D891D68E38D00219AC6 /* ContactsManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -4367,6 +4391,7 @@
 				665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */,
 				66833D5B1CF8F427005D958C /* DigiPlan.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
+				66026D911D68ED8D00219AC6 /* ContactAddress.m in Sources */,
 				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
 				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
@@ -4446,6 +4471,7 @@
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
 				66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
+				66026D8A1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66E6E55C1CB9279F0086F611 /* MatkaName.m in Sources */,
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
@@ -4628,6 +4654,7 @@
 				665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */,
 				66833D5C1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
+				66026D921D68ED8D00219AC6 /* ContactAddress.m in Sources */,
 				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
 				66C732F81C556DA5002544BC /* CommandView.m in Sources */,
@@ -4707,6 +4734,7 @@
 				66C733311C556DA5002544BC /* SettingsEntity.m in Sources */,
 				66C733321C556DA5002544BC /* HTMLEncoding.m in Sources */,
 				66C733331C556DA5002544BC /* UIERealTimeBlurView.m in Sources */,
+				66026D8B1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */,
 				66E6E55D1CB9279F0086F611 /* MatkaName.m in Sources */,
 				66C733351C556DA5002544BC /* AppManagerBase.m in Sources */,

@@ -583,10 +583,6 @@
 //    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
--(void)searchViewControllerWillBeDismissed:(NSString *)prevSearchTerm{
-    
-}
-
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
     
 }
