@@ -978,8 +978,12 @@ typedef enum
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
             
             if(route.timeAtTheFirstStop != nil){
-                moreInfoLebel.text = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
-                                      [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.timeAtTheFirstStop], numberString];
+                NSString *timeString = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.timeAtTheFirstStop];
+                NSString *fullString = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
+                                      timeString, numberString];
+                NSAttributedString *formattedString = [ReittiStringFormatter highlightSubstringInString:fullString substrings:@[timeString] withNormalFont:moreInfoLebel.font highlightedFont:[UIFont systemFontOfSize:moreInfoLebel.font.pointSize weight:UIFontWeightSemibold] andHighlightColor:[UIColor grayColor]];
+                
+                moreInfoLebel.attributedText = formattedString;
                 
             }else{
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ km walking", numberString];

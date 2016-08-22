@@ -743,6 +743,11 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     if (orderedObjects.count > 0 && [orderedObjects[0] isKindOfClass:[StopEntity class]]) {
         [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
     }
+    
+    if (orderedObjects.count > 0 && [orderedObjects[0] isKindOfClass:[NamedBookmark class]]) {
+        [self updateNamedBookmarksUserDefaultValue];
+        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+    }
 }
 
 -(NSDictionary *)convertListInfoArrayToDictionary:(NSArray *)infoListArray{

@@ -396,7 +396,7 @@
     UIImageView *typeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 6, 18, 18)];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
     titleLabel.font = [titleLabel.font fontWithSize:13];
-    titleLabel.textColor = [AppManager systemGreenColor];
+    titleLabel.textColor = [UIColor darkGrayColor];
     if (section == recentLinesSection) {
         titleLabel.text = @"    RECENT LINES";
     }else if (section == linesFromSavedStopsSection) {

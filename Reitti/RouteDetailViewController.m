@@ -105,7 +105,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     if (!isShowingStopView){
         isShowingStopView = NO;
-        [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
+        [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
     }
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];

@@ -319,15 +319,17 @@ const NSInteger kTimerRefreshInterval = 60;
         }else if (savedNamedBookmarks.count > 0){
             //Identify what location type is missing and add it
             dataToLoad = [[NSMutableArray alloc] init];
-            if (![self isHomeAddressCreated]) {
-                [dataToLoad addObject:[[EmptyHomeAddressCell alloc] init]];
-            }
-            
-            if (![self isWorkAddressCreated]) {
-                [dataToLoad addObject:[[EmptyWorkAddressCell alloc] init]];
-            }
-            
             [dataToLoad addObjectsFromArray:savedNamedBookmarks];
+            
+            if (!self.tableView.isEditing) {
+                if (![self isHomeAddressCreated]) {
+                    [dataToLoad addObject:[[EmptyHomeAddressCell alloc] init]];
+                }
+                
+                if (![self isWorkAddressCreated]) {
+                    [dataToLoad addObject:[[EmptyWorkAddressCell alloc] init]];
+                }
+            }
         }
         
         if (savedStops.count == 0) {
@@ -522,8 +524,8 @@ const NSInteger kTimerRefreshInterval = 60;
 {
     if (listSegmentControl.selectedSegmentIndex == 0){
         if (section == namedBookmarkSection) {
-            NSInteger emptyHome = [self isHomeAddressCreated] ? 0 : 1;
-            NSInteger emptyWork = [self isWorkAddressCreated] ? 0 : 1;
+            NSInteger emptyHome = [self isHomeAddressCreated] || tableView.isEditing ? 0 : 1;
+            NSInteger emptyWork = [self isWorkAddressCreated] || tableView.isEditing ? 0 : 1;
             return self.savedNamedBookmarks.count > 0 ? self.savedNamedBookmarks.count + emptyHome + emptyWork: 2;
         }else if (section == savedRouteSection){
             return self.savedRoutes.count > 1 ? self.savedRoutes.count : 1;
@@ -738,7 +740,7 @@ const NSInteger kTimerRefreshInterval = 60;
     if (listSegmentControl.selectedSegmentIndex == 0) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 60, 30)];
-        titleLabel.font = [titleLabel.font fontWithSize:14];
+        titleLabel.font = [titleLabel.font fontWithSize:13];
         titleLabel.textColor = [UIColor darkGrayColor];
         if (section == namedBookmarkSection) {
             titleLabel.text = @"   LOCATIONS";
@@ -848,6 +850,8 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animate
 {
+    [super setEditing:editing animated:animate];
+    
     if(editing) {
         [self.navigationController setToolbarHidden:NO animated:YES];
         showDeparturesButton.hidden = YES;
@@ -859,16 +863,30 @@ const NSInteger kTimerRefreshInterval = 60;
     }
 
     [self setUpViewForTheSelectedMode];
-    
-    [super setEditing:editing animated:animate];
 }
 
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     if (fromIndexPath.section == namedBookmarkSection) {
-        id movedBookmark = self.savedNamedBookmarks[fromIndexPath.row];
+        //Adjust indexes for empty work and home cells.
+//        NSInteger emptyHomeIndex = [self indexOfEmptyBookmarkOfType:[EmptyHomeAddressCell class]];
+//        NSInteger emptyWorkIndex = [self indexOfEmptyBookmarkOfType:[EmptyWorkAddressCell class]];
+        NSInteger adjustedFromIndex = fromIndexPath.row;
+        NSInteger adjustedToIndex = toIndexPath.row;
+        
+//        if (emptyHomeIndex != NSNotFound) {
+//            adjustedFromIndex = emptyHomeIndex < fromIndexPath.row ? fromIndexPath.row - 1 : fromIndexPath.row;
+//            adjustedToIndex = emptyHomeIndex <= toIndexPath.row ? toIndexPath.row - 1 : toIndexPath.row;
+//        }
+//        
+//        if (emptyWorkIndex != NSNotFound) {
+//            adjustedFromIndex = emptyWorkIndex < fromIndexPath.row ? adjustedFromIndex - 1 : adjustedFromIndex;
+//            adjustedToIndex = emptyWorkIndex <= toIndexPath.row ? adjustedToIndex - 1 : adjustedToIndex;
+//        }
+        
+        id movedBookmark = self.savedNamedBookmarks[adjustedFromIndex];
         [self.savedNamedBookmarks removeObject: movedBookmark];
-        [self.savedNamedBookmarks insertObject:movedBookmark atIndex:toIndexPath.row];
+        [self.savedNamedBookmarks insertObject:movedBookmark atIndex:adjustedToIndex];
         
         [self.reittiDataManager updateOrderedManagedObjectOrderTo:self.savedNamedBookmarks];
     } else if (fromIndexPath.section == savedStopsSection) {
@@ -891,7 +909,7 @@ const NSInteger kTimerRefreshInterval = 60;
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return listSegmentControl.selectedSegmentIndex == 0 && indexPath.row != 0;
+    return listSegmentControl.selectedSegmentIndex == 0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
@@ -1085,8 +1103,8 @@ const NSInteger kTimerRefreshInterval = 60;
     BOOL isBookmarksView = listSegmentControl.selectedSegmentIndex == 0;
     if (isBookmarksView) {
         //this will account for in case there is nothing saved and an empty cell is shown
-        NSInteger emptyHome = [self isHomeAddressCreated] ? 0 : 1;
-        NSInteger emptyWork = [self isWorkAddressCreated] ? 0 : 1;
+        NSInteger emptyHome = [self isHomeAddressCreated] || self.tableView.isEditing ? 0 : 1;
+        NSInteger emptyWork = [self isWorkAddressCreated] || self.tableView.isEditing ? 0 : 1;
         NSInteger numOfNamedBkmrks = self.savedNamedBookmarks.count > 0 ? self.savedNamedBookmarks.count + emptyHome + emptyWork : 2;
 //        NSInteger numOfSavedRoutes = savedRoutes.count > 0 ? savedRoutes.count : 1;
         NSInteger numOfSavedStops = savedStops.count > 0 ? savedStops.count : 1;
@@ -1102,6 +1120,22 @@ const NSInteger kTimerRefreshInterval = 60;
         dataIndex = indexPath.row;
     }
     return dataIndex;
+}
+
+-(NSInteger)indexOfEmptyBookmarkOfType:(Class)class {
+    NSArray *filtered = [self.dataToLoad filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings){
+        if ([(NSObject *)object isKindOfClass:class]) {
+            return YES;
+        }
+        
+        return NO;
+    }]];
+    
+    if (filtered && filtered.count > 0) {
+        return [self.dataToLoad indexOfObject:filtered[0]];
+    }
+    
+    return NSNotFound;
 }
 
 #pragma mark - stop detail handling

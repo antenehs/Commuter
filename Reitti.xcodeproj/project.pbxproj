@@ -17,6 +17,10 @@
 		66026D8D1D68E56800219AC6 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66026D8C1D68E56800219AC6 /* AddressBook.framework */; };
 		66026D911D68ED8D00219AC6 /* ContactAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D901D68ED8D00219AC6 /* ContactAddress.m */; };
 		66026D921D68ED8D00219AC6 /* ContactAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D901D68ED8D00219AC6 /* ContactAddress.m */; };
+		66026D9F1D6B622B00219AC6 /* AnnotationFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */; };
+		66026DA01D6B622B00219AC6 /* AnnotationFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */; };
+		66026DA21D6B624100219AC6 /* AnnotationFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */; };
+		66026DA31D6B624100219AC6 /* AnnotationFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */; };
 		66034CFF1CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
 		66034D001CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
 		66034D011CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
@@ -1093,6 +1097,9 @@
 		66026D8C1D68E56800219AC6 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		66026D8F1D68ED8D00219AC6 /* ContactAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactAddress.h; sourceTree = "<group>"; };
 		66026D901D68ED8D00219AC6 /* ContactAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactAddress.m; sourceTree = "<group>"; };
+		66026D9D1D6B622B00219AC6 /* AnnotationFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationFilterView.h; sourceTree = "<group>"; };
+		66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilterView.m; sourceTree = "<group>"; };
+		66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnotationFilterView.xib; sourceTree = "<group>"; };
 		66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Departures-Bridging-Header.h"; sourceTree = "<group>"; };
 		66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Departures Pro-Bridging-Header.h"; sourceTree = "<group>"; };
 		66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Routes Pro-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2538,6 +2545,9 @@
 				66833D2C1CF0BC4D005D958C /* DepartureTableViewCell.h */,
 				66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */,
 				66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */,
+				66026D9D1D6B622B00219AC6 /* AnnotationFilterView.h */,
+				66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */,
+				66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3836,6 +3846,7 @@
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
 				66F099881AE8075D00F20D34 /* NotificationBackgroundSuccess.png in Resources */,
 				66F099891AE8075D00F20D34 /* NotificationBackgroundSuccess@2x.png in Resources */,
+				66026DA21D6B624100219AC6 /* AnnotationFilterView.xib in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
 				66FC547D1B23656F005B890D /* routes.json in Resources */,
 			);
@@ -3922,6 +3933,7 @@
 				66C734B51C556DA5002544BC /* Time to go 1.mp3 in Resources */,
 				66C734B61C556DA5002544BC /* NotificationBackgroundError.png in Resources */,
 				66C734BB1C556DA5002544BC /* Horse whinny.mp3 in Resources */,
+				66026DA31D6B624100219AC6 /* AnnotationFilterView.xib in Resources */,
 				66C734C41C556DA5002544BC /* DetailImageView.xib in Resources */,
 				66C734C61C556DA5002544BC /* Vibration sound.mp3 in Resources */,
 				66C734D11C556DA5002544BC /* AddressTypeList.plist in Resources */,
@@ -4555,6 +4567,7 @@
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */,
 				661202DD1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m in Sources */,
+				66026D9F1D6B622B00219AC6 /* AnnotationFilterView.m in Sources */,
 				660715FF1B45CD2C00033049 /* Tickets.m in Sources */,
 				66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */,
 				66CA02B91C1637AB00A38858 /* HSLAndTRECommon.m in Sources */,
@@ -4818,6 +4831,7 @@
 				66C733741C556DA5002544BC /* RouteDetailViewController.m in Sources */,
 				66C733751C556DA5002544BC /* AddressTypeTableViewController.m in Sources */,
 				66C733761C556DA5002544BC /* LVThumbnailAnnotationView.m in Sources */,
+				66026DA01D6B622B00219AC6 /* AnnotationFilterView.m in Sources */,
 				66C733771C556DA5002544BC /* Tickets.m in Sources */,
 				66C733781C556DA5002544BC /* GCThumbnailAnnotationView.m in Sources */,
 				66C733791C556DA5002544BC /* HSLAndTRECommon.m in Sources */,

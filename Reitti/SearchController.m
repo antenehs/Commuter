@@ -103,8 +103,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [AppManager setCurrentAppVersion];
     }
     
-    [self.reittiDataManager doVersion16CoreDataMigration];
-    
     [self.navigationController setToolbarHidden:YES animated:NO];
     [self fetchDisruptions];
     
@@ -981,7 +979,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DepartureTableViewCell *cell = (DepartureTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if (cell != nil) {
+    if (cell != nil && [cell isKindOfClass:[DepartureTableViewCell class]]) {
         [self performSegueWithIdentifier:@"openNearbyStop2" sender:self];
     }
 }
