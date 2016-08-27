@@ -12,14 +12,6 @@
 #import "CoreDataManager.h"
 #import "RettiDataManager.h"
 
-NSString * displayTextOptionKey = @"displayText";
-NSString * detailOptionKey = @"detail";
-NSString * valueOptionKey = @"value";
-NSString * pictureOptionKey = @"picture";
-NSString * defaultOptionKey = @"default";
-
-NSInteger kDefaultNumberOfResults = 5;
-
 @interface RouteSearchOptions ()
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 @end
@@ -173,42 +165,42 @@ NSInteger kDefaultNumberOfResults = 5;
 {
     self = [super init];
     
-    self.date = [aDecoder decodeObjectForKey:@"date"];
-    self.selectedTimeType = (RouteTimeType)[[aDecoder decodeObjectForKey:@"selectedTimeType"] intValue];
-    self.selectedRouteSearchOptimization = (RouteSearchOptimization)[[aDecoder decodeObjectForKey:@"selectedRouteSearchOptimization"] intValue];
-    self.selectedRouteTrasportTypes = [aDecoder decodeObjectForKey:@"selectedRouteTrasportTypes"];
-    self.selectedTicketZone = [aDecoder decodeObjectForKey:@"selectedTicketZone"];
-    self.selectedChangeMargine = [aDecoder decodeObjectForKey:@"selectedChangeMargine"];
-    self.selectedWalkingSpeed = [aDecoder decodeObjectForKey:@"selectedWalkingSpeed"];
-    self.numberOfResults = [[aDecoder decodeObjectForKey:@"numberOfResults"] integerValue];
+    self.date = [aDecoder decodeObjectForKey:kRouteSearchDateKey];
+    self.selectedTimeType = (RouteTimeType)[[aDecoder decodeObjectForKey:kSelectedRouteTimeTypeKey] intValue];
+    self.selectedRouteSearchOptimization = (RouteSearchOptimization)[[aDecoder decodeObjectForKey:kSelectedRouteSearchOptimizationKey] intValue];
+    self.selectedRouteTrasportTypes = [aDecoder decodeObjectForKey:kSelectedRouteTrasportTypesKey];
+    self.selectedTicketZone = [aDecoder decodeObjectForKey:kSelectedTicketZoneKey];
+    self.selectedChangeMargine = [aDecoder decodeObjectForKey:kSelectedChangeMargineKey];
+    self.selectedWalkingSpeed = [aDecoder decodeObjectForKey:kSelectedWalkingSpeedKey];
+    self.numberOfResults = [[aDecoder decodeObjectForKey:kNumberOfRouteResultsKey] integerValue];
     
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:date forKey:@"date"];
-    [aCoder encodeObject:[NSNumber numberWithInt:selectedTimeType] forKey:@"selectedTimeType"];
-    [aCoder encodeObject:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:@"selectedRouteSearchOptimization"];
-    [aCoder encodeObject:selectedRouteTrasportTypes forKey:@"selectedRouteTrasportTypes"];
-    [aCoder encodeObject:selectedTicketZone forKey:@"selectedTicketZone"];
-    [aCoder encodeObject:selectedChangeMargine forKey:@"selectedChangeMargine"];
-    [aCoder encodeObject:selectedWalkingSpeed forKey:@"selectedWalkingSpeed"];
-    [aCoder encodeObject:[NSNumber numberWithInteger:numberOfResults] forKey:@"numberOfResults"];
+    [aCoder encodeObject:date forKey:kRouteSearchDateKey];
+    [aCoder encodeObject:[NSNumber numberWithInt:selectedTimeType] forKey:kSelectedRouteTimeTypeKey];
+    [aCoder encodeObject:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:kSelectedRouteSearchOptimizationKey];
+    [aCoder encodeObject:selectedRouteTrasportTypes forKey:kSelectedRouteTrasportTypesKey];
+    [aCoder encodeObject:selectedTicketZone forKey:kSelectedTicketZoneKey];
+    [aCoder encodeObject:selectedChangeMargine forKey:kSelectedChangeMargineKey];
+    [aCoder encodeObject:selectedWalkingSpeed forKey:kSelectedWalkingSpeedKey];
+    [aCoder encodeObject:[NSNumber numberWithInteger:numberOfResults] forKey:kNumberOfRouteResultsKey];
 }
 
 - (NSDictionary *)dictionaryRepresentation
 {
     NSMutableDictionary *dict = [@{} mutableCopy];
     
-    [dict setValue:date forKey:@"date"];
-    [dict setValue:[NSNumber numberWithInt:selectedTimeType] forKey:@"selectedTimeType"];
-    [dict setValue:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:@"selectedRouteSearchOptimization"];
-    [dict setValue:selectedRouteTrasportTypes forKey:@"selectedRouteTrasportTypes"];
-    [dict setValue:selectedTicketZone forKey:@"selectedTicketZone"];
-    [dict setValue:selectedChangeMargine forKey:@"selectedChangeMargine"];
-    [dict setValue:selectedWalkingSpeed forKey:@"selectedWalkingSpeed"];
-    [dict setValue:[NSNumber numberWithInteger:numberOfResults] forKey:@"numberOfResults"];
+    [dict setValue:date forKey:kRouteSearchDateKey];
+    [dict setValue:[NSNumber numberWithInt:selectedTimeType] forKey:kSelectedRouteTimeTypeKey];
+    [dict setValue:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:kSelectedRouteSearchOptimizationKey];
+    [dict setValue:selectedRouteTrasportTypes forKey:kSelectedRouteTrasportTypesKey];
+    [dict setValue:selectedTicketZone forKey:kSelectedTicketZoneKey];
+    [dict setValue:selectedChangeMargine forKey:kSelectedChangeMargineKey];
+    [dict setValue:selectedWalkingSpeed forKey:kSelectedWalkingSpeedKey];
+    [dict setValue:[NSNumber numberWithInteger:numberOfResults] forKey:kNumberOfRouteResultsKey];
     
     return dict;
 }

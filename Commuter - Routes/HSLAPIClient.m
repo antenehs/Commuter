@@ -58,64 +58,13 @@
     if (!searchOptions)
         return parametersDict;
     
-    /* Optimization string */
-    NSString *optimizeString;
-    if ((RouteSearchOptimization)searchOptions[@"selectedRouteSearchOptimization"] == RouteSearchOptionFastest) {
-        optimizeString = @"fastest";
-    }else if ((RouteSearchOptimization)searchOptions[@"selectedRouteSearchOptimization"] == RouteSearchOptionLeastTransfer) {
-        optimizeString = @"least_transfers";
-    }else if ((RouteSearchOptimization)searchOptions[@"selectedRouteSearchOptimization"] == RouteSearchOptionLeastWalking) {
-        optimizeString = @"least_walking";
-    }else{
-        optimizeString = @"default";
-    }
-    
-    [parametersDict setObject:optimizeString forKey:@"optimize"];
-    
-    /* Transport type */
-    if (searchOptions[@"selectedRouteTrasportTypes"] != nil) {
-        NSString *transportTypes;
-        NSArray *selectedTrasportTypes = searchOptions[@"selectedRouteTrasportTypes"];
-        if (selectedTrasportTypes.count == self.transportTypeOptions.allKeys.count)
-            transportTypes = @"all";
-        else if (selectedTrasportTypes.count == 0)
-            transportTypes = @"walk";
-        else {
-            NSMutableArray *selected = [@[] mutableCopy];
-            for (NSString *trans in selectedTrasportTypes) {
-                [selected addObject:[self.transportTypeOptions objectForKey:trans]];
-            }
-            transportTypes = [ReittiStringFormatterE commaSepStringFromArray:selected withSeparator:@"|"];
-        }
-        
-        [parametersDict setObject:transportTypes forKey:@"transport_types"];
-    }
-    
-    /* Ticket Zone */
-    if (searchOptions[@"selectedTicketZone"] != nil && ![searchOptions[@"selectedTicketZone"] isEqualToString:@"All HSL Regions (Default)"]) {
-        [parametersDict setObject:[self.ticketZoneOptions objectForKey:searchOptions[@"selectedTicketZone"]] forKey:@"zone"];
-    }
-    
-    /* Change Margine */
-    if (searchOptions[@"selectedChangeMargine"] != nil && ![searchOptions[@"selectedChangeMargine"] isEqualToString:@"3 minutes (Default)"]) {
-        [parametersDict setObject:[self.changeMargineOptions objectForKey:searchOptions[@"selectedChangeMargine"]] forKey:@"change_margin"];
-    }
-    
-    /* Walking Speed */
-    if (searchOptions[@"selectedWalkingSpeed"] != nil && ![searchOptions[@"selectedWalkingSpeed"] isEqualToString:@"Normal Walking (Default)"]) {
-        [parametersDict setObject:[self.walkingSpeedOptions objectForKey:searchOptions[@"selectedWalkingSpeed"]] forKey:@"walk_speed"];
-    }
-    
+    parametersDict = [[[HSLRouteOptionManager sharedManager] apiRequestParametersDictionaryForRouteOptions:searchOptions] mutableCopy];
     [parametersDict setObject:@"3" forKey:@"show"];
     
-//    if ([searchOptions[@"numberOfResults"] integerValue] == 5) {
-//        [parametersDict setObject:@"5" forKey:@"show"];
-//    }else{
-//        [parametersDict setObject:[NSString stringWithFormat:@"%ld", (long)searchOptions[@"numberOfResults"]] forKey:@"show"];
-//    }
-    
-    /* Options for all search */
-//    [parametersDict setObject:@"full" forKey:@"detail"];
+    //Make sure there is default
+    [parametersDict removeObjectForKey:@"date"];
+    [parametersDict removeObjectForKey:@"time"];
+    [parametersDict removeObjectForKey:@"timeType"];
     
     return parametersDict;
 }

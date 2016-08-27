@@ -164,9 +164,9 @@
         self.timeTypeSegmentControl.selectedSegmentIndex = (int)self.routeSearchOptions.selectedTimeType;
     }else if (indexPath.section == transportTypeSection) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"optionCell"];
-        NSString *transName = [trasportTypes[indexPath.row] objectForKey:@"displayText"];
+        NSString *transName = [trasportTypes[indexPath.row] objectForKey:displayTextOptionKey];
         cell.textLabel.text = transName;
-        cell.imageView.image = [trasportTypes[indexPath.row] objectForKey:@"picture"];
+        cell.imageView.image = [UIImage imageNamed:[trasportTypes[indexPath.row] objectForKey:pictureOptionKey]];
         
         CGSize itemSize = CGSizeMake(25, 25);
         [cell adjustImageViewSize:itemSize];

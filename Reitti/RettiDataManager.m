@@ -1046,15 +1046,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [settingsEntity setSettingsStartDate:[NSDate date]];
     [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
     
-    NSError *error = nil;
-    
-    if (![settingsEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [self updateRouteSearchOptionsToUserDefaultValue];
+    [self saveSettings];
 }
 
 -(void)saveSettings{
@@ -1062,7 +1054,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     if (![settingsEntity.managedObjectContext save:&error]) {
         // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:!!", error, [error userInfo]);
+        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
         exit(-1);  // Fail
     }
     
@@ -1080,6 +1072,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
         [sharedDefaults synchronize];
     }
+    
+    [self.communicationManager transferRouteSearchOptions:routeOptions];
 }
 
 #pragma mark - Core data methods

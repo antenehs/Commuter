@@ -118,79 +118,7 @@
 #pragma mark - Datasource value mapping
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions{
-    NSMutableDictionary *parametersDict = [@{} mutableCopy];
-    
-    /* Optimization string */
-    NSString *optimizeString;
-    if (searchOptions.selectedRouteSearchOptimization == RouteSearchOptionFastest) {
-        optimizeString = @"fastest";
-    }else if (searchOptions.selectedRouteSearchOptimization == RouteSearchOptionLeastTransfer) {
-        optimizeString = @"least_transfers";
-    }else if (searchOptions.selectedRouteSearchOptimization == RouteSearchOptionLeastWalking) {
-        optimizeString = @"least_walking";
-    }else{
-        optimizeString = @"default";
-    }
-    
-    [parametersDict setObject:optimizeString forKey:@"optimize"];
-    
-    /* Search date and time */
-    NSDate * searchDate = searchOptions.date;
-    if (searchDate == nil)
-        searchDate = [NSDate date];
-    
-    NSString *time = [self.hourFormatter stringFromDate:searchDate];
-    NSString *date = [self.dateFormatter stringFromDate:searchDate];
-    
-    NSString *timeType;
-    if (searchOptions.selectedTimeType == RouteTimeNow || searchOptions.selectedTimeType == RouteTimeDeparture)
-        timeType = @"departure";
-    else
-        timeType = @"arrival";
-    
-    [parametersDict setObject:time forKey:@"time"];
-    [parametersDict setObject:date forKey:@"date"];
-    [parametersDict setObject:timeType forKey:@"timetype"];
-    
-    /* Transport type */
-    if (searchOptions.selectedRouteTrasportTypes != nil) {
-        NSString *transportTypes;
-        if (searchOptions.selectedRouteTrasportTypes.count == self.transportTypeOptions.allKeys.count)
-            transportTypes = @"all";
-        else if (searchOptions.selectedRouteTrasportTypes.count == 0)
-            transportTypes = @"walk";
-        else {
-            NSMutableArray *selected = [@[] mutableCopy];
-            for (NSString *trans in searchOptions.selectedRouteTrasportTypes) {
-                [selected addObject:[self.transportTypeOptions objectForKey:trans]];
-            }
-            transportTypes = [ReittiStringFormatter commaSepStringFromArray:selected withSeparator:@"|"];
-        }
-        
-        [parametersDict setObject:transportTypes forKey:@"transport_types"];
-    }
-    
-    /* Ticket Zone */
-    if (searchOptions.selectedTicketZone != nil && ![searchOptions.selectedTicketZone isEqualToString:@"All HSL Regions (Default)"]) {
-        [parametersDict setObject:[self.ticketZoneOptions objectForKey:searchOptions.selectedTicketZone] forKey:@"zone"];
-    }
-    
-    /* Change Margine */
-    if (searchOptions.selectedChangeMargine != nil && ![searchOptions.selectedChangeMargine isEqualToString:@"3 minutes (Default)"]) {
-        [parametersDict setObject:[self.changeMargineOptions objectForKey:searchOptions.selectedChangeMargine] forKey:@"change_margin"];
-    }
-    
-    /* Walking Speed */
-    if (searchOptions.selectedWalkingSpeed != nil && ![searchOptions.selectedWalkingSpeed isEqualToString:@"Normal Walking (Default)"]) {
-        [parametersDict setObject:[self.walkingSpeedOptions objectForKey:searchOptions.selectedWalkingSpeed] forKey:@"walk_speed"];
-    }
-    
-    if (searchOptions.numberOfResults == kDefaultNumberOfResults) {
-        [parametersDict setObject:@"5" forKey:@"show"];
-    }else{
-        [parametersDict setObject:[NSString stringWithFormat:@"%ld", (long)searchOptions.numberOfResults] forKey:@"show"];
-    }
-    
+    NSMutableDictionary *parametersDict = [[[HSLRouteOptionManager sharedManager] apiRequestParametersDictionaryForRouteOptions:[searchOptions dictionaryRepresentation]] mutableCopy];
     /* Options for all search */
     [parametersDict setObject:@"full" forKey:@"detail"];
     
@@ -215,59 +143,38 @@
 
 #pragma mark - Route Search Options
 -(NSArray *)allTrasportTypeNames{
-    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];//TODO: add city bikes
+    return [HSLRouteOptionManager allTrasportTypeNames];
 }
 
 -(NSArray *)getTransportTypeOptions{
-    return @[@{displayTextOptionKey : @"Bus", valueOptionKey : @"bus", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]},
-             @{displayTextOptionKey : @"Metro", valueOptionKey : @"metro", pictureOptionKey : [UIImage imageNamed:@"Subway-100.png"]},
-             @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTrain]},
-             @{displayTextOptionKey : @"Tram", valueOptionKey : @"tram", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTram]},
-             @{displayTextOptionKey : @"Ferry", valueOptionKey : @"ferry", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeFerry]},
-             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}
-             /*
-             ,
-             @{displayTextOptionKey : @"City Bike", valueOptionKey : @"bike", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBicycle]} */
-             ];
+    return [HSLRouteOptionManager getTransportTypeOptionsForDisplay];
 }
 
 -(NSArray *)getTicketZoneOptions{
-    return @[@{displayTextOptionKey : @"All HSL Regions (Default)", valueOptionKey : @"whole", defaultOptionKey : @"yes"},
-             @{displayTextOptionKey : @"Regional" , valueOptionKey: @"region"},
-             @{displayTextOptionKey : @"Helsinki Internal", valueOptionKey : @"helsinki"},
-             @{displayTextOptionKey : @"Espoo Internal", valueOptionKey : @"espoo"},
-             @{displayTextOptionKey : @"Vantaa Internal", valueOptionKey : @"vantaa"}];
+    return [HSLRouteOptionManager getTicketZoneOptionsForDisplay];
 }
 
 -(NSInteger)getDefaultValueIndexForTicketZoneOptions{
-    return 0;
+//    return 0;
+    return [HSLRouteOptionManager getDefaultValueIndexForTicketZoneOptions];
 }
 
 -(NSArray *)getChangeMargineOptions{
-    return @[@{displayTextOptionKey : @"0 minute" , valueOptionKey: @"0"},
-             @{displayTextOptionKey : @"1 minute" , valueOptionKey: @"1"},
-             @{displayTextOptionKey : @"3 minutes (Default)", valueOptionKey : @"3", defaultOptionKey : @"yes"},
-             @{displayTextOptionKey : @"5 minutes", valueOptionKey : @"5"},
-             @{displayTextOptionKey : @"7 minutes", valueOptionKey : @"7"},
-             @{displayTextOptionKey : @"9 minutes", valueOptionKey : @"9"},
-             @{displayTextOptionKey : @"10 minutes", valueOptionKey : @"10"}];
+    return [HSLRouteOptionManager getChangeMargineOptionsForDisplay];
 }
 
 -(NSInteger)getDefaultValueIndexForChangeMargineOptions{
-    return 2;
+//    return 2;
+    return [HSLRouteOptionManager getDefaultValueIndexForChangeMargineOptions];
 }
 
 -(NSArray *)getWalkingSpeedOptions{
-    return @[@{displayTextOptionKey : @"Slow Walking", detailOptionKey : @"20 m/minute", valueOptionKey : @"20"},
-             @{displayTextOptionKey : @"Normal Walking (Default)" , detailOptionKey : @"70 m/minute", valueOptionKey: @"70", defaultOptionKey : @"yes"},
-             @{displayTextOptionKey : @"Fast Walking", detailOptionKey : @"150 m/minute", valueOptionKey : @"150"},
-             @{displayTextOptionKey : @"Running", detailOptionKey : @"250 m/minute", valueOptionKey : @"250"},
-             @{displayTextOptionKey : @"Fast Running", detailOptionKey : @"350 m/minute", valueOptionKey : @"350"},
-             @{displayTextOptionKey : @"Bolting", detailOptionKey : @"500 m/minute", valueOptionKey : @"500"}];
+    return [HSLRouteOptionManager getWalkingSpeedOptionsForDisplay];
 }
 
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions{
-    return 1;
+//    return 1;
+    return [HSLRouteOptionManager getDefaultValueIndexForWalkingSpeedOptions];
 }
 
 #pragma mark - Stops in areas search protocol implementation

@@ -212,21 +212,10 @@
 
 -(NSArray *)getTransportTypeOptions{
     return nil;
-//    return @[@{displayTextOptionKey : @"Bus", valueOptionKey : @"bus", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]},
-//             @{displayTextOptionKey : @"Metro", valueOptionKey : @"metro", pictureOptionKey : [UIImage imageNamed:@"Subway-100.png"]},
-//             @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTrain]},
-//             @{displayTextOptionKey : @"Tram", valueOptionKey : @"tram", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeTram]},
-//             @{displayTextOptionKey : @"Ferry", valueOptionKey : @"ferry", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeFerry]},
-//             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBus]}];
 }
 
 -(NSArray *)getTicketZoneOptions{
     return nil;
-//    return @[@{displayTextOptionKey : @"All HSL Regions (Default)", valueOptionKey : @"whole", defaultOptionKey : @"yes"},
-//             @{displayTextOptionKey : @"Regional" , valueOptionKey: @"region"},
-//             @{displayTextOptionKey : @"Helsinki Internal", valueOptionKey : @"helsinki"},
-//             @{displayTextOptionKey : @"Espoo Internal", valueOptionKey : @"espoo"},
-//             @{displayTextOptionKey : @"Vantaa Internal", valueOptionKey : @"vantaa"}];
 }
 
 -(NSInteger)getDefaultValueIndexForTicketZoneOptions{

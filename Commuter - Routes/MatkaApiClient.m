@@ -106,11 +106,11 @@
     
     /* Optimization string */
     NSString *optimizeString;
-    if ((RouteSearchOptimization)searchOptions[@"selectedRouteSearchOptimization"] == RouteSearchOptionFastest) {
+    if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionFastest) {
         optimizeString = @"2";
-    }else if ((RouteSearchOptimization)searchOptions[@"selectedRouteSearchOptimization"] == RouteSearchOptionLeastTransfer) {
+    }else if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionLeastTransfer) {
         optimizeString = @"3";
-    }else if ((RouteSearchOptimization)searchOptions[@"selectedRouteSearchOptimization"] == RouteSearchOptionLeastWalking) {
+    }else if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionLeastWalking) {
         optimizeString = @"4";
     }else{
         optimizeString = @"1";
@@ -119,13 +119,13 @@
     [parametersDict setObject:optimizeString forKey:@"optimize"];
     
     /* Change Margine */
-    if (searchOptions[@"selectedChangeMargine"] != nil && ![searchOptions[@"selectedChangeMargine"] isEqualToString:@"3 minutes (Default)"]) {
-        [parametersDict setObject:[self.changeMargineOptions objectForKey:searchOptions[@"selectedChangeMargine"]] forKey:@"margin"];
+    if (searchOptions[kSelectedChangeMargineKey] != nil && ![searchOptions[kSelectedChangeMargineKey] isEqualToString:@"3 minutes (Default)"]) {
+        [parametersDict setObject:[self.changeMargineOptions objectForKey:searchOptions[kSelectedChangeMargineKey]] forKey:@"margin"];
     }
     
     /* Walking Speed */
-    if (searchOptions[@"selectedWalkingSpeed"] != nil && ![searchOptions[@"selectedWalkingSpeed"] isEqualToString:@"Normal Walking (Default)"]) {
-        [parametersDict setObject:[self.walkingSpeedOptions objectForKey:searchOptions[@"selectedWalkingSpeed"]] forKey:@"walkspeed"];
+    if (searchOptions[kSelectedWalkingSpeedKey] != nil && ![searchOptions[kSelectedWalkingSpeedKey] isEqualToString:@"Normal Walking (Default)"]) {
+        [parametersDict setObject:[self.walkingSpeedOptions objectForKey:searchOptions[kSelectedWalkingSpeedKey]] forKey:@"walkspeed"];
     }
     
     [parametersDict setObject:@"3" forKey:@"show"];

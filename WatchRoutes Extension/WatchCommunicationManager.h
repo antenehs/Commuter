@@ -26,6 +26,7 @@
 
 -(void)transferNamedBookmarks:(NSArray * _Nullable)bookmarksDictionary;
 -(void)transferRoutes:(NSArray * _Nullable)routesDictionary;
+-(void)transferRouteSearchOptions:(NSDictionary * _Nullable)optionsDictionary;
 
 @property (nonatomic, weak)NSObject<WCManagerDelegate> * _Nullable delegate;
 

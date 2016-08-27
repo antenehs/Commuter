@@ -64,6 +64,10 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
     if (routesDictionary && routesDictionary.count > 0) [self transferUserInfoForComplication:@{kRoutesUserInfoKey : routesDictionary}];
 }
 
+-(void)transferRouteSearchOptions:(NSDictionary *)optionsDictionary {
+//    if (bookmarksDictionary && bookmarksDictionary.count > 0) [self updateContextWith:@{kNamedBookmarksUserInfoKey : bookmarksDictionary}];
+}
+
 //Userinfo will be queed until watch app is available
 -(void)transferUserInfo:(NSDictionary *)userInfo {
     [self.session transferUserInfo:userInfo];

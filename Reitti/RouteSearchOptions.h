@@ -7,28 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef enum
-{
-    RouteTimeNow = 0,
-    RouteTimeDeparture = 1,
-    RouteTimeArrival = 2
-} RouteTimeType;
-
-typedef enum
-{
-    RouteSearchOptionFastest = 0,
-    RouteSearchOptionLeastTransfer = 1,
-    RouteSearchOptionLeastWalking = 2
-} RouteSearchOptimization;
-
-extern NSString * displayTextOptionKey;
-extern NSString * detailOptionKey;
-extern NSString * valueOptionKey;
-extern NSString * pictureOptionKey;
-extern NSString * defaultOptionKey;
-
-extern NSInteger kDefaultNumberOfResults;
+#import "RouteOptionManagerBase.h"
 
 @interface RouteSearchOptions : NSObject <NSCoding>
 
