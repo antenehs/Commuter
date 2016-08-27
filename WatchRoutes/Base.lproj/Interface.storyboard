@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AgC-eL-Hgc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="10032"/>
@@ -109,6 +109,42 @@
                                         <outlet property="nameLabel" destination="wq7-Yc-fvv" id="AbR-Id-iJU"/>
                                     </connections>
                                 </tableRow>
+                                <tableRow identifier="StopsHeader" selectable="NO" id="1r9-c5-RhC">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="GQS-RP-Zgt">
+                                        <items>
+                                            <label width="136" alignment="left" text="SAVED STOPS" id="4ew-d1-c5j">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" type="system" pointSize="13"/>
+                                            </label>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <edgeInsets key="margins" left="4" right="0.0" top="8" bottom="4"/>
+                                    </group>
+                                </tableRow>
+                                <tableRow identifier="StopRow" id="75O-Wb-Inx" customClass="StopRowController">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" spacing="6" id="JdK-Sv-O4l">
+                                        <items>
+                                            <imageView width="20" height="20" alignment="left" verticalAlignment="center" image="busStopIcon" contentMode="scaleAspectFit" id="Y7k-yJ-hWp">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </imageView>
+                                            <group alignment="left" layout="vertical" id="XiS-8n-l9l">
+                                                <items>
+                                                    <label height="20" alignment="left" text="Stop name" textAlignment="left" id="DyR-n3-xCq"/>
+                                                    <label height="15" alignment="left" text="0235 - Helsinki" id="7Br-SR-PcM">
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
+                                            </group>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="stopDetailLabel" destination="7Br-SR-PcM" id="Mtf-G8-pX9"/>
+                                        <outlet property="stopNameLabel" destination="DyR-n3-xCq" id="pXt-IG-LoZ"/>
+                                        <outlet property="stopimage" destination="Y7k-yJ-hWp" id="IT3-4F-gtQ"/>
+                                    </connections>
+                                </tableRow>
                                 <tableRow identifier="InfoRow" selectable="NO" id="PDB-7t-aH2">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" id="YRt-Vg-EgQ">
                                         <items>
@@ -139,6 +175,10 @@
             <objects>
                 <controller identifier="RouteView" title="Done" id="hIv-te-4vY" customClass="RouteInterfaceController">
                     <items>
+                        <dateLabel alignment="right" id="Z7f-8p-aVg">
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <dateFormatterStyle key="timeStyle" short="YES"/>
+                        </dateLabel>
                         <table alignment="left" spacing="0.0" id="jSb-9h-yY8">
                             <items>
                                 <tableRow identifier="RouteLegRow" id="HWf-1j-I1J" customClass="RouteLegRowController">
@@ -256,7 +296,110 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="265" y="-56"/>
+            <point key="canvasLocation" x="263" y="-194"/>
+        </scene>
+        <!--StopDeparturesView-->
+        <scene sceneID="Xmd-pq-G0D">
+            <objects>
+                <controller identifier="StopDeparturesView" id="ulh-YI-Jk2" customClass="StopInterfaceController">
+                    <items>
+                        <table alignment="left" id="CsG-a1-yF2">
+                            <items>
+                                <tableRow identifier="StopRow" id="kyf-BI-8Xv" customClass="StopRowController">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" spacing="6" id="x8Z-MH-8fx">
+                                        <items>
+                                            <imageView width="20" height="20" alignment="left" verticalAlignment="center" image="busStopIcon" contentMode="scaleAspectFit" id="Tit-xn-hdH">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </imageView>
+                                            <group alignment="left" layout="vertical" id="SS6-So-j1r">
+                                                <items>
+                                                    <label height="20" alignment="left" text="Stop name" textAlignment="left" id="wmd-mj-hq6"/>
+                                                    <label height="15" alignment="left" text="0235 - Helsinki" id="4b3-6f-ugU">
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="5"/>
+                                            </group>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="stopDetailLabel" destination="4b3-6f-ugU" id="E6M-Cn-wMp"/>
+                                        <outlet property="stopNameLabel" destination="wmd-mj-hq6" id="5xS-y3-b1Y"/>
+                                        <outlet property="stopimage" destination="Tit-xn-hdH" id="DSk-Of-I7T"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="DepartureRow" selectable="NO" id="Lgl-6l-deL" customClass="DepartureRowController">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="je9-1c-MTW">
+                                        <items>
+                                            <separator alignment="left" id="P4K-iz-Rgw">
+                                                <color key="color" red="0.21722854393115931" green="0.21722854393115931" blue="0.21722854393115931" alpha="1" colorSpace="calibratedRGB"/>
+                                            </separator>
+                                            <group width="1" alignment="left" id="czY-3W-Jue">
+                                                <items>
+                                                    <group width="0.5" alignment="left" id="GIX-3Y-tNN">
+                                                        <items>
+                                                            <label height="20" alignment="left" text="248" id="REq-du-NPD">
+                                                                <fontDescription key="font" type="system" weight="semibold" pointSize="20"/>
+                                                            </label>
+                                                        </items>
+                                                    </group>
+                                                    <group width="0.5" alignment="left" verticalAlignment="center" id="u9m-lQ-AfN">
+                                                        <items>
+                                                            <label alignment="right" text="10:54" id="seD-55-Lgt">
+                                                                <fontDescription key="font" type="system" pointSize="17"/>
+                                                            </label>
+                                                        </items>
+                                                    </group>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="5" bottom="0.0"/>
+                                            </group>
+                                            <group width="1" height="20" alignment="left" id="75I-tD-5o5">
+                                                <items>
+                                                    <label alignment="left" text="Helsinki" id="L2K-ix-F8Q">
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="departureTimeLabel" destination="seD-55-Lgt" id="Vfu-My-q0G"/>
+                                        <outlet property="destinationLabel" destination="L2K-ix-F8Q" id="bbw-wS-cmz"/>
+                                        <outlet property="lineCodeLabel" destination="REq-du-NPD" id="A39-Li-hb6"/>
+                                        <outlet property="rowSeparator" destination="P4K-iz-Rgw" id="ww6-Sv-sOv"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="NoDepartureRow" selectable="NO" id="x7E-ol-ikY">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="C1w-U8-zBO">
+                                        <items>
+                                            <group width="1" height="30" alignment="left" id="hZ6-nc-wfR">
+                                                <items>
+                                                    <label alignment="center" text="No departures in the next 6 hours" textAlignment="center" numberOfLines="2" id="sEQ-hg-7Z0">
+                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <fontDescription key="font" type="system" pointSize="13"/>
+                                                    </label>
+                                                </items>
+                                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                            </group>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="30" bottom="0.0"/>
+                                    </group>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="tableView" destination="CsG-a1-yF2" id="sth-mi-VnC"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="263" y="159.5"/>
         </scene>
         <!--Done-->
         <scene sceneID="Y5z-gy-QQ4">
@@ -283,7 +426,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="534" y="-58"/>
+            <point key="canvasLocation" x="536" y="-194"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

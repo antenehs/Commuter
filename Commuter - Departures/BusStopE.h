@@ -46,6 +46,8 @@
 -(id)initWithDictionary:(NSDictionary *)dict;
 -(NSDictionary *)toDictionary;
 
+-(NSString *)destinationForLineFullCode:(NSString *)fullCode;
+
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 
 @end

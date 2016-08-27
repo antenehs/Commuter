@@ -14,12 +14,16 @@
 #import "ComplicationDataManager.h"
 #import "RoutableLocation.h"
 #import "WidgetHelpers.h"
+#import "StopEntity.h"
+#import "BusStopE.h"
 
 @interface HomeInterfaceController() <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (strong, nonatomic) NSArray *namedBookmarks;
+@property (strong, nonatomic) NSArray *savedStops;
 @property (strong, nonatomic) NSArray *transferredRoutes;
+@property (strong, nonatomic) NSDictionary *routeSearchOptions;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *titleLabel;
 @property (strong, nonatomic) IBOutlet WKInterfaceTable *bookmarksTable;
@@ -61,6 +65,10 @@
     self.communicationManager.delegate = self;
     
     [self loadSavedBookmarks];
+    [self loadSavedStops];
+    self.routeSearchOptions = [self.watchDataManager getRouteSearchOptions];
+    
+    [self setUpTableView];
 }
 
 - (void)willActivate {
@@ -94,24 +102,39 @@
     NamedBookmarkE *home = [self getHomeBookmark];
     NamedBookmarkE *work = [self getWorkBookmark];
     
+    NSMutableArray *bookmarksIndexes = [@[] mutableCopy];
+    NSMutableArray *recentLocationIndexes = [@[] mutableCopy];
+    NSMutableArray *stopsIndexes = [@[] mutableCopy];
+    
     NSMutableArray *otherBookmarks = [self.namedBookmarks mutableCopy];
     if (home) [otherBookmarks removeObject:home];
     if (work) [otherBookmarks removeObject:work];
     
-//    bool homeOrWorkExist = home || work;
-    
     NSMutableArray *rowTypes = [@[] mutableCopy];
-//    if (homeOrWorkExist)
     [rowTypes addObject:@"HomeAndWorkRow"];
     
-    for (int i = 0; i < otherBookmarks.count; i++)
-        [rowTypes addObject:@"LocationRow"];
+    if (otherBookmarks.count > 0) {
+        for (int i = 0; i < otherBookmarks.count; i++) {
+            [bookmarksIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
+            [rowTypes addObject:@"LocationRow"];
+        }
+    }
     
     NSArray *recentLocations = [self.watchDataManager getOtherRecentLocations];
     if (recentLocations.count > 0) {
         [rowTypes addObject:@"OtherLocationHeader"];
-        for (int i = 0; i < recentLocations.count; i++)
+        for (int i = 0; i < recentLocations.count; i++) {
+            [recentLocationIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
             [rowTypes addObject:@"LocationRow"];
+        }
+    }
+    
+    if (self.savedStops.count > 0) {
+        [rowTypes addObject:@"StopsHeader"];
+        for (int i = 0; i < self.savedStops.count; i++) {
+            [stopsIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
+            [rowTypes addObject:@"StopRow"];
+        }
     }
     
     if (rowTypes.count == 0) {
@@ -123,29 +146,57 @@
     
     [self.bookmarksTable setRowTypes:rowTypes];
     
-    //Setup home and work first
-    
     for (int i = 0; i < self.bookmarksTable.numberOfRows; i++) {
         if (i == 0) {
             HomeAndWorkRowController *controller = (HomeAndWorkRowController *)[self.bookmarksTable rowControllerAtIndex:i];
             [controller setUpWithHomeBookmark:home andWorkBookmark:work];
             controller.delegate = self;
-        } else if (otherBookmarks.count > 0 && i <= otherBookmarks.count) {
-            LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
-            [controller setUpWithNamedBookmark:otherBookmarks[i - 1]];
-        } else if (recentLocations.count > 0 && i > otherBookmarks.count + 1) {
-            LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
-            [controller setUpWithNamedBookmark:recentLocations[i - 2 - otherBookmarks.count]];
+        } else if ([rowTypes[i] isEqualToString:@"LocationRow"]) {
+            NSInteger index1 = [bookmarksIndexes indexOfObject:[NSNumber numberWithInt:i]];
+            if (index1 != NSNotFound) {
+                LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
+                [controller setUpWithNamedBookmark:otherBookmarks[index1]];
+            }
+            
+            NSInteger index2 = [recentLocationIndexes indexOfObject:[NSNumber numberWithInt:i]];
+            if (index2 != NSNotFound) {
+                LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:i];
+                [controller setUpWithNamedBookmark:recentLocations[index2]];
+            }
+            
+        } else if ([rowTypes[i] isEqualToString:@"StopRow"]) {
+            NSInteger index = [stopsIndexes indexOfObject:[NSNumber numberWithInt:i]];
+            if (index != NSNotFound) {
+                StopRowController *controller = (StopRowController *)[self.bookmarksTable rowControllerAtIndex:i];
+                [controller setUpWithStop:self.savedStops[index]];
+            }
         }
     }
 }
 
 -(void)table:(WKInterfaceTable *)table didSelectRowAtIndex:(NSInteger)rowIndex {
-    LocationRowController *controller = (LocationRowController *)[self.bookmarksTable rowControllerAtIndex:rowIndex];
-    [self checkCurrentLocationAndGetRouteToLocation:controller.location];
+    id rowController = [self.bookmarksTable rowControllerAtIndex:rowIndex];
+    if ([rowController isKindOfClass:[LocationRowController class]]) {
+        [self checkCurrentLocationAndGetRouteToLocation:((LocationRowController *)rowController).location];
+    }
+    
+    if ([rowController isKindOfClass:[StopRowController class]]) {
+        [self searchStopForStop:((StopRowController *)rowController).stop];
+    }
 }
 
 #pragma mark - Route methods
+-(void)saveSearchOptionsToUserDefaults {
+    [self.watchDataManager saveBookmarks:self.namedBookmarks];
+}
+
+-(void)loadSavedSearchOptions {
+    NSArray * savedBookmarks = [self.watchDataManager getSavedNamedBookmarkDictionaries];
+    if (savedBookmarks) {
+        [self initBookmarksFromBookmarksDictionaries:savedBookmarks];
+        [self setUpTableView];
+    }
+}
 -(void)checkCurrentLocationAndGetRouteToLocation:(NSObject<RoutableLocationProtocol> *)location {
     RouteSearchBlock searchRouteBlock = ^(CLLocation *fromLocation){
         [self searchRouteToLocation:location fromLocation:fromLocation];
@@ -170,7 +221,7 @@
 //    CLLocation *fromLocation = [[CLLocation alloc] initWithLatitude:60.215413888458 longitude:24.866182201828];
     [self showActivityWithText:@"Getting routes..."];
     
-    [self.watchDataManager getRouteToLocation:(RoutableLocation *)location fromCoordLocation:fromLocation routeOptions:nil andCompletionBlock:^(NSArray *routes, NSString *errorString){
+    [self.watchDataManager getRouteToLocation:(RoutableLocation *)location fromCoordLocation:fromLocation routeOptions:self.routeSearchOptions andCompletionBlock:^(NSArray *routes, NSString *errorString){
         if (!errorString && routes && routes.count > 0) {
             for (Route *route in routes) {
                 route.fromLocationName = @"Current Location";
@@ -219,7 +270,6 @@
     NSArray * savedBookmarks = [self.watchDataManager getSavedNamedBookmarkDictionaries];
     if (savedBookmarks) {
         [self initBookmarksFromBookmarksDictionaries:savedBookmarks];
-        [self setUpTableView];
     }
 }
 
@@ -270,6 +320,52 @@
     [self.watchDataManager saveOtherRecentLocation:location];
 }
 
+#pragma mark - Stop methods
+-(void)initStopsFromStopsDictionaries:(NSArray *)stopDictionaries {
+    NSMutableArray *readStops = [@[] mutableCopy];
+    if (stopDictionaries) {
+        for (NSDictionary *stopDict in stopDictionaries) {
+            StopEntity *stop = [StopEntity initWithDictionary:stopDict];
+            if (stop.fetchedFromApi == ReittiHSLApi) {
+                [readStops addObject:stop];
+            }
+        }
+        
+        self.savedStops = [NSArray arrayWithArray:readStops];
+    }
+}
+
+-(void)saveStopsToUserDefaults {
+    [self.watchDataManager saveStops:self.savedStops];
+}
+
+-(void)loadSavedStops {
+    NSArray * savedStops = [self.watchDataManager getSavedStopsDictionaries];
+    if (savedStops) {
+        [self initStopsFromStopsDictionaries:savedStops];
+    }
+}
+
+-(void)searchStopForStop:(StopEntity *)stopEntity {
+    [self showActivityWithText:@"Getting departures..."];
+    
+    [self.watchDataManager fetchStopForCode:[stopEntity.busStopCode stringValue] andCompletionBlock:^(BusStopE *stop, NSString *errorString){
+        if (!errorString && stop) {
+            NSDictionary *stops = @{@"busStop" : stop, @"stopEntity" : stopEntity};
+            [self showStopDepartures:stops];
+        } else {
+            [self showAlertWithTitle:@"Oops." andMessage:errorString ? errorString : @"Fetching departures failed."];
+        }
+        
+        [self endActivity];
+    }];
+}
+
+-(void)showStopDepartures:(NSDictionary *)stop {
+    [self dismissController];
+    [self pushControllerWithName:@"StopDeparturesView" context:stop];
+}
+
 #pragma mark - HomeAndWork table controller Delegate methods
 -(void)selectedBookmark:(NamedBookmarkE * _Nonnull)bookmark {
     [self checkCurrentLocationAndGetRouteToLocation:bookmark];
@@ -289,6 +385,13 @@
     [self setUpTableView];
     [self saveBookmarksToUserDefaults];
     
+}
+
+-(void)receivedSavedStopsArray:(NSArray *)stopsArray {
+    
+    [self initStopsFromStopsDictionaries: stopsArray];
+    [self setUpTableView];
+    [self saveStopsToUserDefaults];
 }
 
 -(void)receivedRoutesArray:(NSArray * _Nonnull)routesArray {
@@ -316,6 +419,11 @@
             [self saveRecentLocationIfNotBookmarked:location];
         }
     }
+}
+
+-(void)receivedRoutesSearchOptions:(NSDictionary *)routeSearchOptions {
+    self.routeSearchOptions = routeSearchOptions;
+    [self.watchDataManager saveRouteSearchOptions:routeSearchOptions];
 }
 
 #pragma mark - CLLocation Manager

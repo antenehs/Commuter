@@ -37,10 +37,12 @@
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;
 +(NSString *)stopAnnotationImageNameForStopType:(StopType)stopType;
 +(UIImage *)stopIconForStopType:(StopType)stopType;
++(NSString *)stopIconNameForStopType:(StopType)stopType;
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type;
 +(UIImage *)vehicleImageWithNoBearingForVehicleType:(VehicleType)type;
 +(UIImage *)vehicleImageForLineType:(LineType)type;
 +(UIImage *)lineIconForLineType:(LineType)type;
++(NSString *)lineIconNameForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
 +(NSString *)complicationImageNameForLegTransportType:(LegTransportType)type;

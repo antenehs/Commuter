@@ -7,6 +7,7 @@
 //
 
 #import "BusStopE.h"
+#import "StopLine.h"
 
 @implementation BusStopE
 
@@ -24,18 +25,18 @@
 @synthesize address_sv;
 
 -(id)initWithDictionary:(NSDictionary *)dict{
-    self.code = [NSNumber numberWithInt:[dict[@"code"] intValue]];
-    self.code_short = dict[@"code_short"];
-    self.name_fi = dict[@"name_fi"];
-    self.name_sv = dict[@"name_sv"];
-    self.city_fi = dict[@"city_fi"];
-    self.city_sv = dict[@"city_sv"];
-    self.lines = dict[@"lines"];
-    self.coords = dict[@"coords"];
-    self.departures = [self plistToDeparturesArray:dict[@"departures"]];
-    self.timetable_link = dict[@"timetable_link"];
-    self.address_fi = dict[@"address_fi"];
-    self.address_sv = dict[@"address_sv"];
+    self.code = [NSNumber numberWithInt:[[self objectOrNilForKey:@"code" fromDictionary:dict] intValue]];
+    self.code_short = [self objectOrNilForKey:@"code_short" fromDictionary:dict];
+    self.name_fi = [self objectOrNilForKey:@"name_fi" fromDictionary:dict];
+    self.name_sv = [self objectOrNilForKey:@"name_sv" fromDictionary:dict];
+    self.city_fi = [self objectOrNilForKey:@"city_fi" fromDictionary:dict];
+    self.city_sv = [self objectOrNilForKey:@"city_sv" fromDictionary:dict];
+    self.lines = [self objectOrNilForKey:@"lines" fromDictionary:dict];
+    self.coords = [self objectOrNilForKey:@"coords" fromDictionary:dict];
+    self.departures = [self plistToDeparturesArray:[self objectOrNilForKey:@"departures" fromDictionary:dict]];
+    self.timetable_link = [self objectOrNilForKey:@"timetable_link" fromDictionary:dict];
+    self.address_fi = [self objectOrNilForKey:@"address_fi" fromDictionary:dict];
+    self.address_sv = [self objectOrNilForKey:@"address_sv" fromDictionary:dict];
     
     return  self;
 }
@@ -57,6 +58,20 @@
     return dict;
 }
 
+- (NSString *)destinationForLineFullCode:(NSString *)fullCode{
+    if (self.lines && self.lines.count > 0) {
+        if ([lines[0] isKindOfClass:[StopLine class]]) {
+            for (StopLine *line in lines) {
+                if ([line.fullCode isEqualToString:fullCode]) {
+                    return line.destination;
+                }
+            }
+        }
+    }
+    
+    return @"Unknown";
+}
+
 -(NSArray *)departuretoPlist:(NSArray *)dipartures{
     
     @try {
@@ -69,9 +84,9 @@
         NSMutableArray *array = [@[] mutableCopy];
         
         for (NSDictionary *dict in dipartures) {
-            NSDictionary *departure = @{@"code":dict[@"code"],
-                                        @"date":[NSString stringWithFormat:@"%d", [dict[@"date"] intValue]],
-                                        @"time":[NSString stringWithFormat:@"%d", [dict[@"time"] intValue]],};
+            NSDictionary *departure = @{@"code":[self objectOrNilForKey:@"code" fromDictionary:dict],
+                                        @"date":[NSString stringWithFormat:@"%d", [[self objectOrNilForKey:@"date" fromDictionary:dict] intValue]],
+                                        @"time":[NSString stringWithFormat:@"%d", [[self objectOrNilForKey:@"time" fromDictionary:dict] intValue]],};
             [array addObject:departure];
         }
         
@@ -152,6 +167,13 @@
     }
     
     return departures;
+}
+
+#pragma mark - Helper Method
+- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
+{
+    id object = [dict objectForKey:aKey];
+    return [object isEqual:[NSNull null]] ? nil : object;
 }
 
 

@@ -186,6 +186,11 @@
     return [self lineIconForLineType:lineType];
 }
 
++(NSString *)stopIconNameForStopType:(StopType)stopType {
+    LineType lineType = [EnumManager lineTypeForStopType:stopType];
+    return [self lineIconNameForLineType:lineType];
+}
+
 +(UIImage *)vehicleImageForVehicleType:(VehicleType)type{
     if (type == VehicleTypeTram) {
         return [UIImage imageNamed:@"tramVAnnot.png"];
@@ -300,22 +305,26 @@
 }
 
 +(UIImage *)lineIconForLineType:(LineType)type {
+    return [UIImage imageNamed:[self lineIconNameForLineType:type]];
+}
+
++(NSString *)lineIconNameForLineType:(LineType)type {
     if (type == LineTypeBus) {
-        return [UIImage imageNamed:@"busStopIcon"];
+        return @"busStopIcon";
     }else if (type == LineTypeTrain || type == LineTypeLongDistanceTrain) {
-        return [UIImage imageNamed:@"trainStopIcon"];
+        return @"trainStopIcon";
     }else if (type == LineTypeTram) {
-        return [UIImage imageNamed:@"tramStopIcon"];
+        return @"tramStopIcon";
     }else if (type == LineTypeFerry) {
-        return [UIImage imageNamed:@"ferryStopIcon"];
+        return @"ferryStopIcon";
     }else if (type == LineTypeMetro) {
-        return [UIImage imageNamed:@"metroStationIcon"];
+        return @"metroStationIcon";
     }else if (type == LineTypeAirplane) {
-        return [UIImage imageNamed:@"airportIcon"];
+        return @"airportIcon";
     }else if (type == LineTypeBicycle) {
-        return [UIImage imageNamed:@"bikeStationIcon"];
+        return @"bikeStationIcon";
     }else{
-        return [UIImage imageNamed:@"busStopIcon"];
+        return @"busStopIcon";
     }
 }
 

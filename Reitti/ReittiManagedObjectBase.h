@@ -6,9 +6,17 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
+#ifndef APPLE_WATCH
 
+#import <CoreData/CoreData.h>
 @interface ReittiManagedObjectBase : NSManagedObject
+
+#else
+
+#import <Foundation/Foundation.h>
+@interface ReittiManagedObjectBase : NSObject
+
+#endif
 
 @property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSDate * dateModified;

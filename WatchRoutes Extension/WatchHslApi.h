@@ -13,5 +13,6 @@
 @interface WatchHslApi : WatchApiClient
 
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock;
+- (void)fetchStopForCode:(NSString *)code andCompletionBlock:(ActionBlock)completionBlock;
 
 @end

@@ -473,18 +473,20 @@
 		66B391C41D2312B600C500CC /* WidgetHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE221C19B09F004D73FC /* WidgetHelpers.m */; };
 		66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
 		66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
-		66BCA6E31D71BFAF0092C5BB /* HSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */; };
-		66BCA6E41D71BFAF0092C5BB /* HSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */; };
-		66BCA6E51D71BFAF0092C5BB /* HSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */; };
-		66BCA6E61D71BFAF0092C5BB /* HSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */; };
-		66BCA6E71D71BFAF0092C5BB /* HSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */; };
-		66BCA6E81D71BFAF0092C5BB /* HSLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */; };
 		66BCA6EB1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
 		66BCA6EC1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
 		66BCA6ED1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
 		66BCA6EE1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
 		66BCA6EF1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
 		66BCA6F01D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
+		66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC941218E22ECB00644281 /* StopEntity.m */; };
+		66BCA6F21D72019A0092C5BB /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
+		66BCA6F31D72020C0092C5BB /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
+		66BCA6F41D7202160092C5BB /* ReittiManagedObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */; };
+		66BCA6F71D72106C0092C5BB /* StopRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6F61D72106C0092C5BB /* StopRowController.m */; };
+		66BCA6FA1D722D9A0092C5BB /* BusStopE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E21A0277780002BE16 /* BusStopE.m */; };
+		66BCA7001D72370F0092C5BB /* StopInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6FF1D72370F0092C5BB /* StopInterfaceController.m */; };
+		66BCA7031D723B990092C5BB /* DepartureRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7021D723B990092C5BB /* DepartureRowController.m */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C5676F1CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
 		66C567701CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
@@ -1610,10 +1612,14 @@
 		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
 		66BCA3811B2F0A2B00166530 /* EnumManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EnumManager.m; path = ../EnumManager.m; sourceTree = "<group>"; };
-		66BCA6E11D71BFAF0092C5BB /* HSLConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLConstants.h; sourceTree = "<group>"; };
-		66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLConstants.m; sourceTree = "<group>"; };
 		66BCA6E91D71C3B40092C5BB /* RouteOptionManagerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteOptionManagerBase.h; sourceTree = "<group>"; };
 		66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteOptionManagerBase.m; sourceTree = "<group>"; };
+		66BCA6F51D72106C0092C5BB /* StopRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopRowController.h; sourceTree = "<group>"; };
+		66BCA6F61D72106C0092C5BB /* StopRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopRowController.m; sourceTree = "<group>"; };
+		66BCA6FE1D72370F0092C5BB /* StopInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopInterfaceController.h; sourceTree = "<group>"; };
+		66BCA6FF1D72370F0092C5BB /* StopInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopInterfaceController.m; sourceTree = "<group>"; };
+		66BCA7011D723B990092C5BB /* DepartureRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepartureRowController.h; sourceTree = "<group>"; };
+		66BCA7021D723B990092C5BB /* DepartureRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DepartureRowController.m; sourceTree = "<group>"; };
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		66C1254419CF5BD400099AFF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
@@ -2437,6 +2443,8 @@
 				662481981D1FFBF700574319 /* HomeInterfaceController.m */,
 				663207201D282F3F00D8A46D /* RouteInterfaceController.h */,
 				663207211D282F3F00D8A46D /* RouteInterfaceController.m */,
+				66BCA6FE1D72370F0092C5BB /* StopInterfaceController.h */,
+				66BCA6FF1D72370F0092C5BB /* StopInterfaceController.m */,
 				66F9383B1D342B68009C7227 /* MapInterfaceController.h */,
 				66F9383C1D342B68009C7227 /* MapInterfaceController.m */,
 				6624819A1D1FFBF700574319 /* ExtensionDelegate.h */,
@@ -2472,6 +2480,10 @@
 				663207191D27E36400D8A46D /* LocationRowController.m */,
 				6632072E1D29501E00D8A46D /* RouteLegRowController.h */,
 				6632072F1D29501E00D8A46D /* RouteLegRowController.m */,
+				66BCA6F51D72106C0092C5BB /* StopRowController.h */,
+				66BCA6F61D72106C0092C5BB /* StopRowController.m */,
+				66BCA7011D723B990092C5BB /* DepartureRowController.h */,
+				66BCA7021D723B990092C5BB /* DepartureRowController.m */,
 			);
 			name = Rows;
 			sourceTree = "<group>";
@@ -3013,8 +3025,6 @@
 				66F60DE91C834C0B00B33511 /* HSLRouteOptionManager.m */,
 				661202C31B04F5B200D93C2E /* HSLLiveTrafficManager.h */,
 				661202C41B04F5B200D93C2E /* HSLLiveTrafficManager.m */,
-				66BCA6E11D71BFAF0092C5BB /* HSLConstants.h */,
-				66BCA6E21D71BFAF0092C5BB /* HSLConstants.m */,
 			);
 			name = HSL;
 			sourceTree = "<group>";
@@ -4326,20 +4336,26 @@
 				66B391AF1D23078B00C500CC /* HSLCoord.m in Sources */,
 				663207251D29257A00D8A46D /* ReittiMapkitHelper.m in Sources */,
 				6632072D1D293DCC00D8A46D /* ReittiStringFormatter.m in Sources */,
+				66BCA6F21D72019A0092C5BB /* StopLine.m in Sources */,
 				66B391C41D2312B600C500CC /* WidgetHelpers.m in Sources */,
 				663207271D2925AE00D8A46D /* NSString+Helper.m in Sources */,
+				66BCA6FA1D722D9A0092C5BB /* BusStopE.m in Sources */,
+				66BCA6F31D72020C0092C5BB /* OrderedManagedObject.m in Sources */,
 				663207221D282F3F00D8A46D /* RouteInterfaceController.m in Sources */,
 				6632072A1D293C8600D8A46D /* RouteLeg.m in Sources */,
 				66B391981D2013EF00C500CC /* NamedBookmarkE.m in Sources */,
+				66BCA6F71D72106C0092C5BB /* StopRowController.m in Sources */,
+				66BCA6F41D7202160092C5BB /* ReittiManagedObjectBase.m in Sources */,
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
+				66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */,
 				662481991D1FFBF700574319 /* HomeInterfaceController.m in Sources */,
 				663207281D2925B500D8A46D /* NSObject+Helper.m in Sources */,
 				6632072B1D293D0B00D8A46D /* RouteLegLocation.m in Sources */,
+				66BCA7001D72370F0092C5BB /* StopInterfaceController.m in Sources */,
 				663207261D29258800D8A46D /* NSArray+Helper.m in Sources */,
 				663207301D29501E00D8A46D /* RouteLegRowController.m in Sources */,
 				66B391B21D23078B00C500CC /* HSLLegs.m in Sources */,
-				66BCA6E81D71BFAF0092C5BB /* HSLConstants.m in Sources */,
 				6601AC941D29898700EB8972 /* EnumManager.m in Sources */,
 				66B391C21D230B5800C500CC /* HSLRouteOptionManager.m in Sources */,
 				663207241D291C4100D8A46D /* Route.m in Sources */,
@@ -4347,6 +4363,7 @@
 				663207291D2925BE00D8A46D /* NSDate+Helper.m in Sources */,
 				66B391BB1D2307CC00C500CC /* WatchDataManager.m in Sources */,
 				6624819F1D1FFBF700574319 /* NotificationController.m in Sources */,
+				66BCA7031D723B990092C5BB /* DepartureRowController.m in Sources */,
 				66B3919E1D205DF900C500CC /* WatchCommunicationManager.m in Sources */,
 				6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */,
 			);
@@ -4484,7 +4501,6 @@
 				660FB2451B39F30E009C30BF /* AboutTableViewController.m in Sources */,
 				66056E6E1C42AAFE00C011FB /* LineRef.m in Sources */,
 				66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */,
-				66BCA6E31D71BFAF0092C5BB /* HSLConstants.m in Sources */,
 				66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */,
 				66056E6A1C42AAFE00C011FB /* DataFrameRef.m in Sources */,
 				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
@@ -4750,7 +4766,6 @@
 				66C7331E1C556DA5002544BC /* AboutTableViewController.m in Sources */,
 				66C7331F1C556DA5002544BC /* LineRef.m in Sources */,
 				66C733201C556DA5002544BC /* UIImage+BoxBlur.m in Sources */,
-				66BCA6E41D71BFAF0092C5BB /* HSLConstants.m in Sources */,
 				66C733211C556DA5002544BC /* CoreDataManager.m in Sources */,
 				66C733221C556DA5002544BC /* DataFrameRef.m in Sources */,
 				66C733231C556DA5002544BC /* TabBarViewController.m in Sources */,
@@ -4887,7 +4902,6 @@
 				66833D591CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C7350F1C556FA4002544BC /* KBPopupBubbleView+Animations.m in Sources */,
 				66833D6F1CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,
-				66BCA6E61D71BFAF0092C5BB /* HSLConstants.m in Sources */,
 				666E08A61CD3D6F90058D5B0 /* ReittiRegionManager.m in Sources */,
 				666E08C61CD3DD7E0058D5B0 /* MatkaLine.m in Sources */,
 				66C735101C556FA4002544BC /* UISearchBar+Helper.m in Sources */,
@@ -4986,7 +5000,6 @@
 				66F60DE71C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				66833D231CEE45CE005D958C /* DigiTrip.m in Sources */,
 				66C735741C556FB5002544BC /* ASABubbleView.m in Sources */,
-				66BCA6E71D71BFAF0092C5BB /* HSLConstants.m in Sources */,
 				66BCA6EF1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				66C735751C556FB5002544BC /* HSLandTRECommonApiClient.m in Sources */,
 				66833D2B1CEE4685005D958C /* DigiTransitCommunicator.m in Sources */,
@@ -5024,7 +5037,6 @@
 				66833D581CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66CA03381C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */,
 				66833D6E1CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,
-				66BCA6E51D71BFAF0092C5BB /* HSLConstants.m in Sources */,
 				666E08A51CD3D6F80058D5B0 /* ReittiRegionManager.m in Sources */,
 				666E08C51CD3DD7D0058D5B0 /* MatkaLine.m in Sources */,
 				661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,

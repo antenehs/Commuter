@@ -67,6 +67,8 @@
             [controller setUpAsDestinationForName:route.toLocationName prevLegType:lastLeg.legType];
         }
     }
+    
+//    [self setTitle:@"Done     10:45"];
 }
 
 -(void)table:(WKInterfaceTable *)table didSelectRowAtIndex:(NSInteger)rowIndex {

@@ -11,6 +11,7 @@
 #import "WatchCommunicationManager.h"
 #import "HomeAndWorkRowController.h"
 #import "LocationRowController.h"
+#import "StopRowController.h"
 
 typedef void (^RouteSearchBlock)(CLLocation *fromLocation);
 

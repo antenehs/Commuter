@@ -13,7 +13,9 @@
 
 @optional
 -(void)receivedNamedBookmarksArray:(NSArray * _Nonnull)bookmarksArray;
+-(void)receivedSavedStopsArray:(NSArray * _Nonnull)stopsArray;
 -(void)receivedRoutesArray:(NSArray * _Nonnull)routesArray;
+-(void)receivedRoutesSearchOptions:(NSDictionary * _Nonnull)routeSearchOptions;
 
 @end
 
@@ -25,6 +27,7 @@
 //-(void)transferUserInfo:(NSDictionary * _Nonnull)userInfo;
 
 -(void)transferNamedBookmarks:(NSArray * _Nullable)bookmarksDictionary;
+-(void)transferSavedStops:(NSArray * _Nullable)stopsDictionaries;
 -(void)transferRoutes:(NSArray * _Nullable)routesDictionary;
 -(void)transferRouteSearchOptions:(NSDictionary * _Nullable)optionsDictionary;
 

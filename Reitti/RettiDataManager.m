@@ -864,6 +864,16 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [sharedDefaults synchronize];
 }
 
+-(void)updateSavedStopsToWatch:(NSArray *)savedStops {
+    NSMutableArray *stopsDictionaries = [@[] mutableCopy];
+    
+    for (StopEntity *stop in savedStops) {
+        [stopsDictionaries addObject:[stop dictionaryRepresentation]];
+    }
+    
+    [[WatchCommunicationManager sharedManager] transferSavedStops:stopsDictionaries];
+}
+
 -(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
 
     NSString *codes = [[NSString alloc] init];
@@ -884,6 +894,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [sharedDefaults synchronize];
     
     [self updateSourceApiForStops:savedStops];
+    [self updateSavedStopsToWatch:savedStops];
 }
 
 //-(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{

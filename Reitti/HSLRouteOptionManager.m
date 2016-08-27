@@ -33,11 +33,14 @@
     
     /* Optimization string */
     NSString *optimizeString;
-    if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionFastest) {
+    NSNumber *optimizationNumber = searchOptions[kSelectedRouteSearchOptimizationKey];
+    RouteSearchOptimization optimization = (RouteSearchOptimization)[optimizationNumber intValue];
+    
+    if (optimization == RouteSearchOptionFastest) {
         optimizeString = @"fastest";
-    }else if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionLeastTransfer) {
+    }else if (optimization == RouteSearchOptionLeastTransfer) {
         optimizeString = @"least_transfers";
-    }else if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionLeastWalking) {
+    }else if (optimization == RouteSearchOptionLeastWalking) {
         optimizeString = @"least_walking";
     }else{
         optimizeString = @"default";

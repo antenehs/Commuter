@@ -10,6 +10,10 @@
 #import "HSLRouteOptionManager.h"
 #import "ReittiStringFormatterE.h"
 #import "Route.h"
+#import "BusStopE.h"
+#import "StopLine.h"
+#import "NSString+Helper.h"
+#import "EnumManager.h"
 
 @implementation WatchHslApi
 
@@ -24,13 +28,12 @@
 
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock {
     
-    //TODO handle options
     NSDictionary *searchParameters = [@{} mutableCopy];
-//    if (!optionsDict) {
-//        searchParameters = [@{} mutableCopy];
-//    } else {
-//        searchParameters = [[self apiRequestParametersDictionaryForRouteOptions:optionsDict] mutableCopy];
-//    }
+    if (!optionsDict) {
+        searchParameters = [@{} mutableCopy];
+    } else {
+        searchParameters = [[self apiRequestParametersDictionaryForRouteOptions:optionsDict] mutableCopy];
+    }
     
     [searchParameters setValue:@"asacommuterwidget2" forKey:@"user"];
     [searchParameters setValue:@"rebekah" forKey:@"pass"];
@@ -39,9 +42,6 @@
     [searchParameters setValue:@"4326" forKey:@"epsg_in"];
     [searchParameters setValue:@"4326" forKey:@"epsg_out"];
     [searchParameters setValue:@"json" forKey:@"format"];
-    
-    //    [optionsDict setValue:[WidgetHelpers convert2DCoordToString:fromCoords] forKey:@"from"];
-    //    [optionsDict setValue:[WidgetHelpers convert2DCoordToString:toCoords] forKey:@"to"];
     
     [searchParameters setValue:[ReittiStringFormatterE convert2DCoordToString:fromCoords] forKey:@"from"];
     [searchParameters setValue:[ReittiStringFormatterE convert2DCoordToString:toCoords] forKey:@"to"];
@@ -55,6 +55,91 @@
         }
     }];
 
+}
+
+- (void)fetchStopForCode:(NSString *)code andCompletionBlock:(ActionBlock)completionBlock{
+    NSMutableDictionary *paramsDict = [@{} mutableCopy];
+    
+    [paramsDict setValue:@"asacommuterwidget2" forKey:@"user"];
+    [paramsDict setValue:@"rebekah" forKey:@"pass"];
+
+    [paramsDict setValue:@"stop" forKey:@"request"];
+    [paramsDict setValue:@"4326" forKey:@"epsg_in"];
+    [paramsDict setValue:@"4326" forKey:@"epsg_out"];
+    [paramsDict setValue:@"json" forKey:@"format"];
+    [paramsDict setValue:@"20" forKey:@"dep_limit"];
+    [paramsDict setValue:@"360" forKey:@"time_limit"];
+    
+    [paramsDict setValue:code forKey:@"code"];
+    
+    [super doApiFetchWithOutMappingWithParams:paramsDict andCompletionBlock:^(NSData *responseData, NSError *error){
+        if (!error) {
+            NSArray *stops = [self stopFromJSON:responseData error:nil];
+            if (stops.count > 0)
+                completionBlock(stops[0], nil);
+            else
+                completionBlock(nil, @"Fetching departures failed");
+        }else{
+            completionBlock(nil, [self stopFetchErrorMessageForError:error]);
+        }
+    }];
+}
+
+-(NSArray *)stopFromJSON:(NSData *)objectNotation error:(NSError **)error{
+    NSError *localError = nil;
+    NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
+    
+    if (localError != nil) {
+        *error = localError;
+        return nil;
+    }
+    
+    NSMutableArray *stops = [[NSMutableArray alloc] init];
+    
+    for (NSDictionary *dict in parsedObject) {
+        BusStopE *stop = [[BusStopE alloc] initWithDictionary:dict];
+        if (stop){
+            [self parseStopLines:stop];
+            [stops addObject:stop];
+        }
+    }
+    
+    return stops;
+}
+
+- (void)parseStopLines:(BusStopE *)stop {
+    //Parse departures and lines
+    if (stop.lines) {
+        NSMutableArray *stopLinesArray = [@[] mutableCopy];
+        for (NSString *lineString in stop.lines) {
+            StopLine *line = [StopLine new];
+            NSArray *info = [lineString asa_stringsBySplittingOnString:@":"];
+            if (info.count >= 2) {
+                line.name = info[1];
+                line.destination = info[1];
+                NSString *lineCode = info[0];
+                line.fullCode = lineCode;
+                line.code = [ReittiStringFormatterE parseBusNumFromLineCode:lineCode];
+                
+                if (lineCode.length == 7) {
+                    line.direction = [lineCode substringWithRange:NSMakeRange(6, 1)];
+                }
+            }
+            line.lineEnd = line.destination;
+            [stopLinesArray addObject:line];
+        }
+        
+        stop.lines = stopLinesArray;
+    }
+}
+
+-(NSString *)stopFetchErrorMessageForError:(NSError *)error{
+    if (!error) return nil;
+    if (error.code == -1009) {
+        return @"No internet connection.";
+    }else{
+        return @"Fetching departures failed";
+    }
 }
 
 -(NSArray *)routesFromJSON:(NSData *)objectNotation error:(NSError **)error{
@@ -128,7 +213,20 @@
 //#pragma mark - Datasource value mapping
 
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(NSDictionary *)searchOptions{
-    return nil;
+    NSMutableDictionary *parametersDict = [@{} mutableCopy];
+    
+    if (!searchOptions)
+        return parametersDict;
+    
+    parametersDict = [[[HSLRouteOptionManager sharedManager] apiRequestParametersDictionaryForRouteOptions:searchOptions] mutableCopy];
+    [parametersDict setObject:@"3" forKey:@"show"];
+    
+    //Make sure there is default
+    [parametersDict removeObjectForKey:@"date"];
+    [parametersDict removeObjectForKey:@"time"];
+    [parametersDict removeObjectForKey:@"timetype"];
+    
+    return parametersDict;
 }
 
 

@@ -14,6 +14,12 @@
 
 @interface WatchDataManager : NSObject
 
+-(void)saveRouteSearchOptions:(NSDictionary *)searchOptions;
+-(NSDictionary *)getRouteSearchOptions;
+
+-(void)saveStops:(NSArray *)stops;
+-(NSArray *)getSavedStopsDictionaries;
+
 -(void)saveBookmarks:(NSArray *)bookmarks;
 -(NSArray *)getSavedNamedBookmarkDictionaries;
 
@@ -22,5 +28,6 @@
 -(NSArray *)getOtherRecentLocations;
 
 -(void)getRouteToLocation:(RoutableLocation *)toLocation fromCoordLocation:(CLLocation *)fromLocation routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
+- (void)fetchStopForCode:(NSString *)code andCompletionBlock:(ActionBlock)completionBlock;
 
 @end

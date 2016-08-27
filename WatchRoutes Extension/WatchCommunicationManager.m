@@ -9,12 +9,17 @@
 #import "WatchCommunicationManager.h"
 #import "AppManagerBase.h"
 
-NSString *kRoutesUserInfoKey = @"RoutesUserInfoKey";
-NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
+NSString *kRoutesContextKey = @"kRoutesContextKey";
+NSString *kNamedBookmarksContextKey = @"kNamedBookmarksContextKey";
+NSString *kSavedStopsContextKey = @"kSavedStopsContextKey";
+NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
 
 @interface WatchCommunicationManager ()
 
 @property (nonatomic, strong)WCSession *session;
+@property (nonatomic, strong)NSArray *namedBookmarks;
+@property (nonatomic, strong)NSArray *savedStops;
+@property (nonatomic, strong)NSDictionary *searchOptions;
 
 @end
 
@@ -57,15 +62,31 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
 }
 
 -(void)transferNamedBookmarks:(NSArray *)bookmarksDictionary {
-    if (bookmarksDictionary && bookmarksDictionary.count > 0) [self updateContextWith:@{kNamedBookmarksUserInfoKey : bookmarksDictionary}];
+    if (!bookmarksDictionary)
+        bookmarksDictionary = @[];
+    
+    self.namedBookmarks = bookmarksDictionary;
+    [self updateContext];
 }
 
 -(void)transferRoutes:(NSArray *)routesDictionary {
-    if (routesDictionary && routesDictionary.count > 0) [self transferUserInfoForComplication:@{kRoutesUserInfoKey : routesDictionary}];
+    if (routesDictionary && routesDictionary.count > 0) [self transferUserInfoForComplication:@{kRoutesContextKey : routesDictionary}];
 }
 
 -(void)transferRouteSearchOptions:(NSDictionary *)optionsDictionary {
-//    if (bookmarksDictionary && bookmarksDictionary.count > 0) [self updateContextWith:@{kNamedBookmarksUserInfoKey : bookmarksDictionary}];
+    if (!optionsDictionary)
+        optionsDictionary = @{};
+    
+    self.searchOptions = optionsDictionary;
+    [self updateContext];
+}
+
+-(void)transferSavedStops:(NSArray *)stopsDictionaries {
+    if (!stopsDictionaries)
+        stopsDictionaries = @[];
+    
+    self.savedStops = stopsDictionaries;
+    [self updateContext];
 }
 
 //Userinfo will be queed until watch app is available
@@ -73,7 +94,17 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
     [self.session transferUserInfo:userInfo];
 }
 
--(void)updateContextWith:(NSDictionary *)context {
+-(void)updateContext {
+    NSMutableDictionary *context = [@{} mutableCopy];
+    if (self.namedBookmarks)
+        context[kNamedBookmarksContextKey] = self.namedBookmarks;
+    
+    if (self.savedStops)
+        context[kSavedStopsContextKey] = self.savedStops;
+    
+    if (self.searchOptions)
+        context[kRouteSearchOptionsContextKey] = self.searchOptions;
+
     [self.session updateApplicationContext:context error:nil];
 }
 
@@ -91,7 +122,7 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
 #ifndef APPLE_WATCH
     for (WCSessionUserInfoTransfer *transfer in self.session.outstandingUserInfoTransfers) {
         if(!transfer.isCurrentComplicationInfo) {
-            if (transfer.userInfo[kRoutesUserInfoKey]) {
+            if (transfer.userInfo[kRoutesContextKey]) {
                 [transfer cancel];
             }
         }
@@ -107,7 +138,7 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
 //        [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
 //    }
     
-    NSArray *routesArray = [userInfo objectForKey:kRoutesUserInfoKey];
+    NSArray *routesArray = [userInfo objectForKey:kRoutesContextKey];
     if (routesArray) {
         [self.delegate receivedRoutesArray:routesArray];
     }
@@ -116,9 +147,19 @@ NSString *kNamedBookmarksUserInfoKey = @"NamedBookmarksUserInfoKey";
 -(void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
     if (!applicationContext) return;
     
-    NSArray *namedBookmarkArray = [applicationContext objectForKey:kNamedBookmarksUserInfoKey];
+    NSArray *namedBookmarkArray = [applicationContext objectForKey:kNamedBookmarksContextKey];
     if (namedBookmarkArray) {
         [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
+    }
+    
+    NSDictionary *routeSearchOptions = [applicationContext objectForKey:kRouteSearchOptionsContextKey];
+    if (routeSearchOptions) {
+        [self.delegate receivedRoutesSearchOptions:routeSearchOptions];
+    }
+    
+    NSArray *savedStopsArray = [applicationContext objectForKey:kSavedStopsContextKey];
+    if (savedStopsArray) {
+        [self.delegate receivedSavedStopsArray:savedStopsArray];
     }
 }
 @end

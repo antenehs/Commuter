@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum
-{
+typedef enum {
     RouteTimeNow = 0,
     RouteTimeDeparture = 1,
     RouteTimeArrival = 2
 } RouteTimeType;
 
-typedef enum
-{
+typedef enum {
     RouteSearchOptionFastest = 0,
     RouteSearchOptionLeastTransfer = 1,
     RouteSearchOptionLeastWalking = 2

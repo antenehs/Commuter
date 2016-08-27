@@ -15,6 +15,11 @@
 
 @interface StopEntity : OrderedManagedObject
 
+-(NSDictionary *)dictionaryRepresentation;
+#if APPLE_WATCH
++(instancetype)initWithDictionary:(NSDictionary *)dict;
+#endif
+
 @property (nonatomic, retain) NSNumber * busStopCode;
 @property (nonatomic, retain) NSArray  * stopLines;
 @property (nonatomic, retain) NSString * busStopShortCode;
@@ -25,10 +30,15 @@
 @property (nonatomic, retain) NSString * busStopWgsCoords;
 @property (nonatomic, retain) NSNumber *fetchedFrom;
 
+#ifndef APPLE_WATCH
+//Uses coredata cache to determine stop type. Not available in watchapp 
 @property (nonatomic) StopType stopType;
+#endif
+
 @property (nonatomic, retain, readonly) NSArray * lineCodes;
 @property (nonatomic, strong, readonly) NSArray * fullLineCodes;
 @property (nonatomic, retain, readonly) NSString * linesString;
+@property (nonatomic, retain, readonly) NSString * iconName;
 
 -(ReittiApi)fetchedFromApi;
 

@@ -9,9 +9,23 @@
 #import "StopEntity.h"
 #import "StopLine.h"
 #import "ReittiStringFormatter.h"
+
+#ifndef APPLE_WATCH
 #import "CacheManager.h"
+#import "AppManager.h"
+#endif
+
+@interface StopEntity ()
+
+#if APPLE_WATCH
+@property (nonatomic, retain) NSString * iconName;
+#endif
+
+@end
 
 @implementation StopEntity
+
+#ifndef APPLE_WATCH
 
 @dynamic busStopCode;
 @dynamic stopLines;
@@ -23,7 +37,28 @@
 @dynamic busStopWgsCoords;
 @dynamic fetchedFrom;
 
+#else
+
+@synthesize busStopCode;
+@synthesize stopLines;
+@synthesize busStopShortCode;
+@synthesize busStopName;
+@synthesize busStopCity;
+@synthesize busStopURL;
+@synthesize busStopCoords;
+@synthesize busStopWgsCoords;
+@synthesize fetchedFrom;
+@synthesize iconName;
+
+-(void)setIconName:(NSString *)name {
+    iconName = name;
+}
+
+#endif
+
+#ifndef APPLE_WATCH
 -(StopType)stopType{
+    //TODO: Really think about this. Type can be saved when saved.
     @try {
         StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.busStopCode]];
         if (staticStop != nil) {
@@ -36,6 +71,12 @@
         
     }
 }
+
+-(NSString *)iconName {
+    return [AppManager stopIconNameForStopType:self.stopType];
+}
+
+#endif
 
 -(void)setStopType:(StopType)stopType{
     self.stopType = stopType;
@@ -102,6 +143,41 @@
         self.fetchedFrom = @0;
         return ReittiAutomaticApi;
     }
+}
+
+#if APPLE_WATCH
++(instancetype)initWithDictionary:(NSDictionary *)dict {
+    if (!dict) return nil;
+    
+    StopEntity *entity = [StopEntity new];
+    entity.busStopCode = dict[@"busStopCode"];
+    entity.busStopShortCode = dict[@"busStopShortCode"];
+    entity.busStopName = dict[@"busStopName"];
+    entity.busStopCity = dict[@"busStopCity"];
+    entity.busStopURL = dict[@"busStopURL"];
+    entity.busStopCoords = dict[@"busStopCoords"];
+    entity.busStopWgsCoords = dict[@"busStopWgsCoords"];
+    entity.fetchedFrom = dict[@"fetchedFrom"];
+    entity.iconName = dict[@"iconName"];
+    
+    return entity;
+}
+#endif
+
+-(NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *dict = [@{} mutableCopy];
+    [dict setValue:self.busStopCode forKey:@"busStopCode"];
+    //    [dict setValue:self.stopLines forKey:@"stopLines"]; //TODO
+    [dict setValue:self.busStopShortCode forKey:@"busStopShortCode"];
+    [dict setValue:self.busStopName forKey:@"busStopName"];
+    [dict setValue:self.busStopCity forKey:@"busStopCity"];
+    [dict setValue:self.busStopURL forKey:@"busStopURL"];
+    [dict setValue:self.busStopCoords forKey:@"busStopCoords"];
+    [dict setValue:self.busStopWgsCoords forKey:@"busStopWgsCoords"];
+    [dict setValue:self.fetchedFrom forKey:@"fetchedFrom"];
+    [dict setValue:self.iconName forKey:@"iconName"];
+    
+    return dict;
 }
 
 @end
