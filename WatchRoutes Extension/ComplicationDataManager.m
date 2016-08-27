@@ -35,7 +35,15 @@ NSString* ComplicationRoute = @"ComplicationRoute";
     NSDictionary *routedict = [self objectOrNilForKey:ComplicationRoute fromDictionary:data];
     if (!routedict) return nil;
     
-    return [Route initFromDictionary:routedict];
+    Route *savedRoute = [Route initFromDictionary:routedict];
+    if (savedRoute) {
+        if ( [[savedRoute endingTimeOfRoute] timeIntervalSinceNow] < -360) {
+            savedRoute = nil;
+            [self setRoute:nil];
+        }
+    }
+    
+    return savedRoute;
 }
 
 -(void)setRoute:(Route *)route {
