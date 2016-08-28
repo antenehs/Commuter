@@ -20,6 +20,10 @@
 -(void)saveStops:(NSArray *)stops;
 -(NSArray *)getSavedStopsDictionaries;
 
+
+-(void)saveStopsWithDepartures:(NSArray *)stops;
+-(NSArray *)getSavedStopsWithDeparturesDictionaries;
+
 -(void)saveBookmarks:(NSArray *)bookmarks;
 -(NSArray *)getSavedNamedBookmarkDictionaries;
 

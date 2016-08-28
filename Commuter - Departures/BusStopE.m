@@ -24,14 +24,25 @@
 @synthesize address_fi;
 @synthesize address_sv;
 
--(id)initWithDictionary:(NSDictionary *)dict{
+-(id)initWithDictionary:(NSDictionary *)dict parseLines:(BOOL)parseLines {
+    NSMutableArray *linesArray = [@[] mutableCopy];
+    
+    NSArray *linesDictionary = [self objectOrNilForKey:@"lines" fromDictionary:dict];
+    
+    if(parseLines) {
+        for (NSDictionary *lineDic in linesDictionary) {
+            StopLine *line = [StopLine initFromDictionary:lineDic];
+            if (dict) [linesArray addObject:line];
+        }
+    }
+    
     self.code = [NSNumber numberWithInt:[[self objectOrNilForKey:@"code" fromDictionary:dict] intValue]];
     self.code_short = [self objectOrNilForKey:@"code_short" fromDictionary:dict];
     self.name_fi = [self objectOrNilForKey:@"name_fi" fromDictionary:dict];
     self.name_sv = [self objectOrNilForKey:@"name_sv" fromDictionary:dict];
     self.city_fi = [self objectOrNilForKey:@"city_fi" fromDictionary:dict];
     self.city_sv = [self objectOrNilForKey:@"city_sv" fromDictionary:dict];
-    self.lines = [self objectOrNilForKey:@"lines" fromDictionary:dict];
+    self.lines = parseLines ? linesArray : linesDictionary;
     self.coords = [self objectOrNilForKey:@"coords" fromDictionary:dict];
     self.departures = [self plistToDeparturesArray:[self objectOrNilForKey:@"departures" fromDictionary:dict]];
     self.timetable_link = [self objectOrNilForKey:@"timetable_link" fromDictionary:dict];
@@ -42,13 +53,19 @@
 }
 
 -(NSDictionary *)toDictionary{
+    NSMutableArray *linesArray = [@[] mutableCopy];
+    for (StopLine *line in self.lines) {
+        NSDictionary *dict = [line dictionaryRepresentation];
+        if (dict) [linesArray addObject:dict];
+    }
+    
     NSDictionary *dict = @{@"code":[NSString stringWithFormat:@"%d", self.code != nil ? [self.code intValue] : 1] ,
                            @"code_short":self.code_short!= nil? self.code_short : @"",
                            @"name_fi":self.name_fi!= nil? self.name_fi : @"",
                            @"name_sv":self.name_sv!= nil? self.name_sv : @"",
                            @"city_fi":self.city_fi!= nil? self.city_fi : @"",
                            @"city_sv":self.city_sv!= nil? self.city_sv : @"",
-                           @"lines":@[],
+                           @"lines":linesArray,
                            @"coords":self.coords!= nil? self.coords : @"",
                            @"departures":self.departures!= nil? [self departuretoPlist:self.departures] : @[],
                            @"timetable_link":self.timetable_link!= nil? self.timetable_link : @"",

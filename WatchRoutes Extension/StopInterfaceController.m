@@ -36,6 +36,7 @@
         
         if (!self.busStop) [self dismissController];
         
+//        [self setTitle:self.stopEntity.busStopName];
         [self setupTableView];
     }
 }
@@ -55,7 +56,7 @@
     [rowTypes addObject:@"StopRow"];
     
     if (self.busStop.departures.count > 0) {
-        for (int i = 0; i < self.busStop.departures.count; i++) {
+        for (int i = 0; i < self.busStop.departures.count && i < 10; i++) {
             [rowTypes addObject:@"DepartureRow"];
         }
     } else {

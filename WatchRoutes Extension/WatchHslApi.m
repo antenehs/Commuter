@@ -97,7 +97,7 @@
     NSMutableArray *stops = [[NSMutableArray alloc] init];
     
     for (NSDictionary *dict in parsedObject) {
-        BusStopE *stop = [[BusStopE alloc] initWithDictionary:dict];
+        BusStopE *stop = [[BusStopE alloc] initWithDictionary:dict parseLines:NO];
         if (stop){
             [self parseStopLines:stop];
             [stops addObject:stop];

@@ -10,6 +10,7 @@
 #import "WidgetHelpers.h"
 #import "RoutableLocation.h"
 #import "StopEntity.h"
+#import "BusStopE.h"
 
 @interface WatchDataManager ()
 
@@ -49,6 +50,30 @@
 
 -(NSArray *)getSavedStopsDictionaries {
     return [self getObjectFromDefaultsForKey:@"previousReceivedStops"];
+}
+
+-(void)saveStopsWithDepartures:(NSArray *)stops {
+    NSMutableArray *stopsArray = [@[] mutableCopy];
+    if (stops) {
+        for (BusStopE *stop in stops)
+            [stopsArray addObject:[stop toDictionary]];
+    }
+    
+    [self saveObjectToDefaults:stopsArray withKey:@"previousReceivedStopsWithDepartures"];
+}
+
+-(NSArray *)getSavedStopsWithDeparturesDictionaries {
+    NSArray *stopsDict = [self getObjectFromDefaultsForKey:@"previousReceivedStopsWithDepartures"];
+    if (!stopsDict) return @[];
+    
+    NSMutableArray *busStops = [@[] mutableCopy];
+    for (NSDictionary *dict in stopsDict) {
+        BusStopE *stop = [[BusStopE alloc] initWithDictionary:dict parseLines:YES];
+        if (stop)
+            [busStops addObject:stop];
+    }
+    
+    return busStops;
 }
 
 -(void)saveBookmarks:(NSArray *)bookmarks {

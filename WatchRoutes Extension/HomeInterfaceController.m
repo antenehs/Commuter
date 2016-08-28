@@ -16,12 +16,14 @@
 #import "WidgetHelpers.h"
 #import "StopEntity.h"
 #import "BusStopE.h"
+#import "ReittiStringFormatterE.h"
 
 @interface HomeInterfaceController() <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (strong, nonatomic) NSArray *namedBookmarks;
 @property (strong, nonatomic) NSArray *savedStops;
+@property (strong, nonatomic) NSMutableArray *fetchedStops;
 @property (strong, nonatomic) NSArray *transferredRoutes;
 @property (strong, nonatomic) NSDictionary *routeSearchOptions;
 
@@ -60,12 +62,14 @@
 
 //    [self readNamedBookmarksFromUserDefaults];
     [self endActivity];
+    self.fetchedStops = [@[] mutableCopy];
     
     self.communicationManager = [WatchCommunicationManager sharedManager];
     self.communicationManager.delegate = self;
     
     [self loadSavedBookmarks];
     [self loadSavedStops];
+    [self loadSavedStopsWithDepartures];
     self.routeSearchOptions = [self.watchDataManager getRouteSearchOptions];
     
     [self setUpTableView];
@@ -347,13 +351,76 @@
     }
 }
 
+-(void)saveStopWithDeparturesToDefaults:(BusStopE *)busStop {
+    if (!busStop) return;
+    
+    NSInteger existingIndex = [self.fetchedStops indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
+        BusStopE *object = (BusStopE *)obj;
+        return [object.code integerValue] == [busStop.code integerValue];
+    }];
+    
+    if (existingIndex != NSNotFound) {
+        [self.fetchedStops removeObjectAtIndex:existingIndex];
+    }
+    
+    if (busStop.departures.count > 3 && busStop.lines.count > 0) {
+        [self.fetchedStops addObject:busStop];
+    }
+    
+    [self.watchDataManager saveStopsWithDepartures:self.fetchedStops];
+}
+
+-(void)loadSavedStopsWithDepartures {
+    self.fetchedStops = [[self.watchDataManager getSavedStopsWithDeparturesDictionaries] mutableCopy];
+}
+
+-(BusStopE *)fetchStopsWithValidDeparturesForCode:(NSNumber *)stopCode {
+    NSInteger existingIndex = [self.fetchedStops indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
+        BusStopE *object = (BusStopE *)obj;
+        return [object.code integerValue] == [stopCode integerValue];
+    }];
+    
+    if (existingIndex == NSNotFound) return nil;
+    
+    BusStopE *existingStop = self.fetchedStops[existingIndex];
+    
+    NSInteger sinceDate = [[ReittiStringFormatterE formatHSLDateFromDate:[NSDate date]] integerValue];
+    NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:[NSDate date]] integerValue];
+    
+    NSMutableArray *fDepartures = [@[] mutableCopy];
+    for (NSDictionary *dept in existingStop.departures) {
+        //                NSLog(@"%@",dept);
+        if ([dept[@"date"] integerValue] >= sinceDate || ([dept[@"date"] integerValue] == sinceDate - 1 && sinceTime < 400)) {
+            if ([dept[@"time"] integerValue] >= sinceTime) {
+                [fDepartures addObject:dept];
+            }
+        }
+    }
+    
+    existingStop.departures = fDepartures;
+    [self saveStopWithDeparturesToDefaults:existingStop];
+    
+    if (fDepartures.count > 4 && existingStop.lines.count > 0)
+        return existingStop;
+    else
+        return nil;
+}
+
 -(void)searchStopForStop:(StopEntity *)stopEntity {
+    BusStopE *exitingStop = [self fetchStopsWithValidDeparturesForCode:stopEntity.busStopCode];
+    if (exitingStop) {
+        NSDictionary *stops = @{@"busStop" : exitingStop, @"stopEntity" : stopEntity};
+        [self showStopDepartures:stops];
+        return;
+    }
+    
     [self showActivityWithText:@"Getting departures..."];
     
     [self.watchDataManager fetchStopForCode:[stopEntity.busStopCode stringValue] andCompletionBlock:^(BusStopE *stop, NSString *errorString){
         if (!errorString && stop) {
             NSDictionary *stops = @{@"busStop" : stop, @"stopEntity" : stopEntity};
             [self showStopDepartures:stops];
+            [self saveStopWithDeparturesToDefaults:stop];
         } else {
             [self showAlertWithTitle:@"Oops." andMessage:errorString ? errorString : @"Fetching departures failed."];
         }

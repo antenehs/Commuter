@@ -43,6 +43,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+ 
     [self.navigationItem setTitle:@"MORE"];
     [self.tabBarController.tabBar setHidden:NO];
     
@@ -365,7 +367,7 @@
     }
     
     [self.navigationItem setTitle:@""];
-    [self.tabBarController.tabBar setHidden:YES];
+//    [self.tabBarController.tabBar setHidden:YES];
 }
 
 

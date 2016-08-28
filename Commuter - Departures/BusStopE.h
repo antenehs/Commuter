@@ -43,7 +43,7 @@
 @property (nonatomic, retain) NSString * address_fi;
 @property (nonatomic, retain) NSString * address_sv;
 
--(id)initWithDictionary:(NSDictionary *)dict;
+-(id)initWithDictionary:(NSDictionary *)dict parseLines:(BOOL)noLines;
 -(NSDictionary *)toDictionary;
 
 -(NSString *)destinationForLineFullCode:(NSString *)fullCode;

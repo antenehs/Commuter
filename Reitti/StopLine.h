@@ -11,6 +11,9 @@
 
 @interface StopLine : NSObject <NSCoding>
 
++ (instancetype)initFromDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)dictionaryRepresentation;
+
 @property (nonatomic, strong) NSString *fullCode;
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *name;

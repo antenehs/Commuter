@@ -573,7 +573,7 @@ int kMaxNumberOfStops = 3;
         NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:date] integerValue];
         
         for (NSDictionary *dict in dictArray) {
-            BusStopE *newStop = [[BusStopE alloc] initWithDictionary:dict];
+            BusStopE *newStop = [[BusStopE alloc] initWithDictionary:dict parseLines:NO];
             
             if (![stops containsObject:[NSString stringWithFormat:@"%@",newStop.code]])
                 continue;
