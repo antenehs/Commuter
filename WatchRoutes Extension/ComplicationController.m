@@ -125,19 +125,24 @@
     if (legs.count == 0) return nil;
     
     NSMutableArray *entries = [@[] mutableCopy];
+    NSDate *routeArrivalTime = self.complicationRoute.endingTimeOfRoute;
+    NSString *destinationLocationName = self.complicationRoute.toLocationName;
+    
     if (family == CLKComplicationFamilyUtilitarianSmall) {
-        //only returns the first stop departure.
+        //only returns the first stop departure and an eta
         RouteLeg *firstLeg = legs[0];
         CLKComplicationTemplate* template1 = [self templateForLeg:firstLeg andFamily:family];
         CLKComplicationTimelineEntry* nowEntry = [CLKComplicationTimelineEntry entryWithDate:date complicationTemplate:template1];
         
+        CLKComplicationTemplate* etaTemplate = [self etaTemplateForDate:routeArrivalTime toLocation:destinationLocationName andFamily:family];
+        CLKComplicationTimelineEntry *etaEntry = [CLKComplicationTimelineEntry entryWithDate:firstLeg.departureTime complicationTemplate:etaTemplate];
+        
         CLKComplicationTemplate* template2 = [self templateForLeg:nil andFamily:family];
         CLKComplicationTimelineEntry* endEntry = [CLKComplicationTimelineEntry entryWithDate:firstLeg.departureTime complicationTemplate:template2];
         
-        return @[nowEntry, endEntry];
-    } else if (family == CLKComplicationFamilyUtilitarianLarge) {
+        return @[nowEntry, etaEntry, endEntry];
+    } else if (family == CLKComplicationFamilyUtilitarianLarge || family == CLKComplicationFamilyModularSmall || family == CLKComplicationFamilyModularLarge) {
         //Returns all transportation departures and an ETA
-        NSDate *routeArrivalTime = self.complicationRoute.endingTimeOfRoute;
         int index = 0;
         for (RouteLeg *leg in legs) {
             if (index == 0) {
@@ -153,7 +158,7 @@
             
             if (index == legs.count - 1) {
                 //Eta template
-                CLKComplicationTemplate* etaTemplate = [self etaTemplateForDate:routeArrivalTime andFamily:family];
+                CLKComplicationTemplate* etaTemplate = [self etaTemplateForDate:routeArrivalTime toLocation:destinationLocationName andFamily:family];
                 CLKComplicationTimelineEntry *entry = [CLKComplicationTimelineEntry entryWithDate:leg.departureTime complicationTemplate:etaTemplate];
                 if (entry) [entries addObject:entry];
             }
@@ -259,28 +264,88 @@
     if (family == CLKComplicationFamilyModularLarge) {
         CLKComplicationTemplateModularLargeStandardBody* template = [[CLKComplicationTemplateModularLargeStandardBody alloc] init];
         
-//        template.headerImageProvider = imageProvider;
-        template.headerTextProvider = [CLKTextProvider textProviderWithFormat:@"Train N • 6 MIN"];
-        template.body1TextProvider = [CLKTextProvider textProviderWithFormat:@"Towards Pasilan Asema"];
-        template.body2TextProvider = [CLKTextProvider textProviderWithFormat:@"ETA 9:02"];
+        template.headerImageProvider = imageProvider;
+        if (leg) {
+            template.headerTextProvider = [CLKSimpleTextProvider textProviderWithText:leg.lineDisplayName];
+            template.body1TextProvider = [CLKSimpleTextProvider textProviderWithText:[NSString stringWithFormat:@"To %@", leg.endLocName]];
+            CLKRelativeDateTextProvider *datePart = [CLKRelativeDateTextProvider textProviderWithDate:leg.departureTime style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
+            
+            CLKTextProvider *timeTextProvider = [CLKTextProvider textProviderWithFormat:@"In %@", datePart];
+            
+            template.body2TextProvider = timeTextProvider;
+        } else {
+            template.headerTextProvider = [CLKSimpleTextProvider textProviderWithText:@"Commuter"];
+            template.body1TextProvider = [CLKSimpleTextProvider textProviderWithText:@"Waiting for route."];
+        }
         
         return template;
+    } else if (family == CLKComplicationFamilyModularSmall) {
+        CLKTextProvider *timeTextProvider, *lineTextProvide;
+        if (leg) {
+            lineTextProvide = [CLKSimpleTextProvider textProviderWithText:leg.lineName];
+            lineTextProvide.tintColor = [self colorForLeg:leg];
+            timeTextProvider = [CLKRelativeDateTextProvider textProviderWithDate:leg.departureTime style:CLKRelativeDateStyleNatural units:NSCalendarUnitMinute];
+            
+            CLKComplicationTemplateModularSmallStackText* stackTextTemplate = [[CLKComplicationTemplateModularSmallStackText alloc] init];
+            stackTextTemplate.line1TextProvider = lineTextProvide;
+            stackTextTemplate.line2TextProvider = timeTextProvider;
+            
+            return stackTextTemplate;
+        } else {
+            timeTextProvider = [CLKSimpleTextProvider textProviderWithText:@"--"];
+            
+            CLKComplicationTemplateModularSmallStackImage* stackImageTemplate = [[CLKComplicationTemplateModularSmallStackImage alloc] init];
+            stackImageTemplate.line1ImageProvider = imageProvider;
+            stackImageTemplate.line2TextProvider = timeTextProvider;
+            
+            return stackImageTemplate;
+        }
     }
     
     return nil;
 }
 
--(CLKComplicationTemplate *)etaTemplateForDate:(NSDate *)etaDate andFamily:(CLKComplicationFamily)family {
-    if (family == CLKComplicationFamilyUtilitarianLarge) {
+-(CLKComplicationTemplate *)etaTemplateForDate:(NSDate *)etaDate toLocation:(NSString *)toLocation andFamily:(CLKComplicationFamily)family {
+    CLKTimeTextProvider *dateProvider = [CLKTimeTextProvider textProviderWithDate:etaDate];
+    CLKImageProvider* imageProvider = [CLKImageProvider imageProviderWithOnePieceImage:[self etaImage]];
+    imageProvider.tintColor = [UIColor whiteColor];
+    
+    if (family == CLKComplicationFamilyUtilitarianSmall) {
         CLKSimpleTextProvider *detailPart;
         detailPart = [CLKSimpleTextProvider textProviderWithText:@"ETA"];
         
-        CLKTimeTextProvider *datePart = [CLKTimeTextProvider textProviderWithDate:etaDate];
+        CLKComplicationTemplateUtilitarianSmallFlat* template = [[CLKComplicationTemplateUtilitarianSmallFlat alloc] init];
+        template.textProvider = dateProvider;
+        template.imageProvider = imageProvider;
         
-        CLKTextProvider *textProvider = [CLKTextProvider textProviderWithFormat:@"%@ %@", detailPart, datePart];
+        return template;
+    } else if (family == CLKComplicationFamilyUtilitarianLarge) {
+        CLKSimpleTextProvider *detailPart;
+        detailPart = [CLKSimpleTextProvider textProviderWithText:@"ETA"];
+        
+        CLKTextProvider *textProvider = [CLKTextProvider textProviderWithFormat:@"%@ %@", detailPart, dateProvider];
         
         CLKComplicationTemplateUtilitarianLargeFlat* template = [[CLKComplicationTemplateUtilitarianLargeFlat alloc] init];
         template.textProvider = textProvider;
+        template.imageProvider = imageProvider;
+        
+        return template;
+    } else if (family == CLKComplicationFamilyModularSmall) {
+        CLKTextProvider *etaTextProvide;
+        
+        etaTextProvide = [CLKSimpleTextProvider textProviderWithText:@"ETA"];
+        
+        CLKComplicationTemplateModularSmallStackText* stackTextTemplate = [[CLKComplicationTemplateModularSmallStackText alloc] init];
+        stackTextTemplate.line1TextProvider = etaTextProvide;
+        stackTextTemplate.line2TextProvider = dateProvider;
+        
+        return stackTextTemplate;
+    } else if (family == CLKComplicationFamilyModularLarge) {
+        CLKComplicationTemplateModularLargeStandardBody* template = [[CLKComplicationTemplateModularLargeStandardBody alloc] init];
+        
+        template.headerImageProvider = imageProvider;
+        template.headerTextProvider = [CLKTextProvider textProviderWithFormat:@"ETA • %@", dateProvider];
+        template.body1TextProvider = [CLKSimpleTextProvider textProviderWithText:[NSString stringWithFormat:@"To %@", toLocation]];;
         
         return template;
     }
@@ -301,6 +366,11 @@
     } else {
         return defaultImage;
     }
+}
+
+-(UIImage *)etaImage {
+    UIImage *image = [UIImage imageNamed:@"finish_flag"];
+    return image;
 }
 
 -(UIColor *)colorForLeg:(RouteLeg *)leg {

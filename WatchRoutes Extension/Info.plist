@@ -28,6 +28,8 @@
 	<array>
 		<string>CLKComplicationFamilyUtilitarianSmall</string>
 		<string>CLKComplicationFamilyUtilitarianLarge</string>
+		<string>CLKComplicationFamilyModularSmall</string>
+		<string>CLKComplicationFamilyModularLarge</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>

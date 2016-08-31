@@ -296,12 +296,16 @@ typedef enum
 
 -(void)setUpToolBar{
     UIImage *image1 = [UIImage imageNamed:@"previous-green-64.png"];
-    CGRect frame = CGRectMake(0, 0, 22, 22);
+    CGRect frame = CGRectMake(0, 0, 28, 28);
+    UIEdgeInsets insets = UIEdgeInsetsMake(5, 5, 5, 5);
     
     UIButton* prevButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [prevButton setFrame:frame];
     [prevButton setImage:image1 forState:UIControlStateNormal];
     prevButton.tintColor = [AppManager systemGreenColor];
+    prevButton.imageEdgeInsets = insets;
+    prevButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    prevButton.layer.cornerRadius = 4;
     
     [prevButton addTarget:self action:@selector(previousRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -322,6 +326,10 @@ typedef enum
     [nextButton setFrame:frame];
     [nextButton setImage:image2 forState:UIControlStateNormal];
     nextButton.tintColor = [AppManager systemGreenColor];
+    nextButton.imageEdgeInsets = insets;
+    nextButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    nextButton.layer.cornerRadius = 4;
+    
     [nextButton addTarget:self action:@selector(nextRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem* nextBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:nextButton];
