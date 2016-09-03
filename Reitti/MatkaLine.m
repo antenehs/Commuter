@@ -10,6 +10,7 @@
 #import "MatkaName.h"
 #import "MatkaStop.h"
 #import "ASA_Helpers.h"
+#import "MatkaTransportTypeManager.h"
 
 @implementation MatkaLine
 
@@ -87,7 +88,10 @@
 
 -(LineType)lineType {
     if (self.transportType) {
-        return [EnumManager lineTypeForMatkaTrasportType:self.transportType];
+        NSString *typeString = [self.transportType stringValue];
+        if (typeString) return [[MatkaTransportTypeManager sharedManager] lineTypeForMatkaTrasportType:typeString];
+        
+        return LineTypeBus;
     }else{
         return LineTypeBus;
     }

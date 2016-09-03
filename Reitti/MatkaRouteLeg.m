@@ -7,6 +7,7 @@
 //
 
 #import "MatkaRouteLeg.h"
+#import "MatkaTransportTypeManager.h"
 
 @implementation MatkaRouteLeg
 
@@ -57,7 +58,10 @@
 
 -(LegTransportType)legType {
     if (self.transportType || self.lineId || self.codeShort) {
-        return [EnumManager legTypeForMatkaTrasportType:self.transportType];
+        NSString *typeString = [self.transportType stringValue];
+        if (typeString) return [[MatkaTransportTypeManager sharedManager] legTypeForMatkaTrasportType:typeString];
+        
+        return LegTypeOther;
     }else{
         return LegTypeWalk;
     }

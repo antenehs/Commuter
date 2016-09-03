@@ -23,6 +23,7 @@
 #import "AppManager.h"
 #import "ReittiRemindersManager.h"
 #import "DigiTransitCommunicator.h"
+#import "MatkaTransportTypeManager.h"
 
 CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
 CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
@@ -92,6 +93,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     self.treCommunication = [[TRECommunication alloc] init];;
     self.matkaCommunicator = [[MatkaCommunicator alloc] init];
+    [MatkaTransportTypeManager sharedManager]; //Init singleton
 
     self.hslLiveTrafficManager = [[HSLLiveTrafficManager alloc] init];
     self.treLiveTrafficManager = [[TRELiveTrafficManager alloc] init];

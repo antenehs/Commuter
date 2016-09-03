@@ -251,5 +251,33 @@
     return responseDescriptor;
 }
 
++ (RKObjectMapping *)matkaTransportTypeObjectMapping {
+    RKObjectMapping* typeMapping = [RKObjectMapping mappingForClass:[MatkaTransportType class] ];
+    [typeMapping addAttributeMappingsFromDictionary:@{
+                                                      @"typeId" : @"typeId",
+                                                      @"companyCode" : @"companyCode",
+                                                      @"TRIDENT.class" : @"tridentClass"
+                                                      }];
+    
+    [typeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"name"
+                                                                                toKeyPath:@"names"
+                                                                              withMapping:[self matkaNameObjectMapping]]];
+    
+    [typeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"TRIDENT.name"
+                                                                                toKeyPath:@"tridentNames"
+                                                                              withMapping:[self matkaNameObjectMapping]]];
+    
+    return typeMapping;
+}
+
++ (RKResponseDescriptor *)matkaTransportTypeResponseDescriptorForPath:(NSString *)keyPath {
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[self matkaTransportTypeObjectMapping]
+                                                                                            method:RKRequestMethodAny
+                                                                                       pathPattern:nil
+                                                                                           keyPath:keyPath
+                                                                                       statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    return responseDescriptor;
+}
+
 
 @end

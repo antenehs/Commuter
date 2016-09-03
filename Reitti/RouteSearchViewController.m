@@ -296,8 +296,8 @@ typedef enum
 
 -(void)setUpToolBar{
     UIImage *image1 = [UIImage imageNamed:@"previous-green-64.png"];
-    CGRect frame = CGRectMake(0, 0, 28, 28);
-    UIEdgeInsets insets = UIEdgeInsetsMake(5, 5, 5, 5);
+    CGRect frame = CGRectMake(0, 0, 40, 28);
+    UIEdgeInsets insets = UIEdgeInsetsMake(5, 11, 5, 11);
     
     UIButton* prevButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [prevButton setFrame:frame];

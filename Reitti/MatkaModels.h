@@ -15,3 +15,4 @@
 #import "MatkaName.h"
 #import "MatkaLine.h"
 #import "MatkaGeoCode.h"
+#import "MatkaTransportType.h"

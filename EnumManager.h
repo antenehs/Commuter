@@ -90,8 +90,8 @@ typedef enum
 +(NSString *)shortDayNameForWeekDay:(WeekDay)weekDay;
 +(WeekDay)weekDayForDayName:(NSString *)dayName;
 
-+ (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType;
-+ (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType;
+//+ (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType;
+//+ (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType;
 
 + (LineType)lineTypeForDigiLineType:(NSString *)trasportType;
 + (LegTransportType)legTypeForDigiTrasportType:(NSString *)trasportType;

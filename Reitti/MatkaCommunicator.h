@@ -11,11 +11,13 @@
 #import "APIClient.h"
 #import "EnumManager.h"
 
-@interface MatkaCommunicator: NSObject <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol> {
+@interface MatkaCommunicator: NSObject <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol, TransportTypeFetchProtocol> {
     NSArray *apiUserNames;
     
     APIClient *timeTableClient;
     APIClient *genericClient;
 }
+
++(instancetype)sharedManager;
 
 @end

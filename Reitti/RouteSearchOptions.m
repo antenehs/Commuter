@@ -181,7 +181,8 @@
 {
     [aCoder encodeObject:date forKey:kRouteSearchDateKey];
     [aCoder encodeObject:[NSNumber numberWithInt:selectedTimeType] forKey:kSelectedRouteTimeTypeKey];
-    [aCoder encodeObject:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:kSelectedRouteSearchOptimizationKey];
+    [aCoder encodeObject:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:
+     kSelectedRouteSearchOptimizationKey];
     [aCoder encodeObject:selectedRouteTrasportTypes forKey:kSelectedRouteTrasportTypesKey];
     [aCoder encodeObject:selectedTicketZone forKey:kSelectedTicketZoneKey];
     [aCoder encodeObject:selectedChangeMargine forKey:kSelectedChangeMargineKey];

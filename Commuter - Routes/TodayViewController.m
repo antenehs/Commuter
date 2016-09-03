@@ -16,6 +16,7 @@
 #import "RouteE.h"
 #import "TransportE.h"
 #import "UIView+Helper.h"
+#import "MatkaTransportTypeManager.h"
 
 #import "NamedBookmarkE.h"
 
@@ -53,6 +54,9 @@
     [super viewDidLoad];
     
     bookmarksScrollView.delegate = self;
+    
+    //Init singlton
+//    [MatkaTransportTypeManager sharedManager];
     
     [self readNamedBookmarksFromUserDefaults];
     [self readRouteSearchOptionsFromUserDefaults];

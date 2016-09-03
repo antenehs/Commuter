@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "WidgetAPIProtocols.h"
 
-@interface MatkaApiClient : NSObject <WidgetRouteSearchProtocol, WidgetStopSearchProtocol>
+@interface MatkaApiClient : NSObject <WidgetRouteSearchProtocol, WidgetStopSearchProtocol, WidgetTransportTypeFetchProtocol>
 
 @end

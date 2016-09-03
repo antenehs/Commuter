@@ -24,6 +24,7 @@
 + (RKObjectMapping *)matkaRouteLocNameMapping;
 + (RKObjectMapping *)matkaRouteLegMapping;
 + (RKResponseDescriptor *)geocodeResponseDescriptorForPath:(NSString *)keyPath;
-
++ (RKObjectMapping *)matkaTransportTypeObjectMapping;
++ (RKResponseDescriptor *)matkaTransportTypeResponseDescriptorForPath:(NSString *)keyPath;
 
 @end

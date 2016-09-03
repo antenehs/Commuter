@@ -97,6 +97,24 @@
     }];
 }
 
+-(void)fetchTransportTypesWithCompletionBlock:(ActionBlock)completionBlock {
+    NSMutableDictionary *options = [@{} mutableCopy];
+    [options setValue:@"ttype" forKey:@"m"];
+    
+    [options setValue:@"asacommuter" forKey:@"user"];
+    [options setValue:@"rebekah" forKey:@"pass"];
+    
+    [timeTableApiClient doXmlApiFetchWithParams:options responseDescriptor:[MatkaObjectMapping matkaTransportTypeResponseDescriptorForPath:@"MATKAXML.TT2TINFO.TRANSPORT"] andCompletionBlock:^(NSArray *transportTypes, NSError *error) {
+        if (!error && transportTypes.count > 0) {
+            
+            completionBlock(transportTypes, nil);
+        } else {
+            //API seems to fail if there is no departure. Differentiate that with other failures
+            completionBlock(nil, error); //TODO: Proper error message
+        }
+    }];
+}
+
 #pragma mark - Route search options
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(NSDictionary *)searchOptions{
     NSMutableDictionary *parametersDict = [@{} mutableCopy];

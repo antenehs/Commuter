@@ -18,6 +18,10 @@ typedef void (^ActionBlock)();
 - (void)fetchStopForCode:(NSString *)code completionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol WidgetTransportTypeFetchProtocol <NSObject>
+- (void)fetchTransportTypesWithCompletionBlock:(ActionBlock)completionBlock;
+@end
+
 @protocol RoutableLocationProtocol <NSObject>
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString * coords;

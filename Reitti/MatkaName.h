@@ -10,6 +10,9 @@
 
 @interface MatkaName : NSObject
 
++(instancetype)initFromDictionary:(NSDictionary *)dict;
+-(NSDictionary *)dictionaryRepresentation;
+
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, strong)NSString *language;
 

@@ -19,6 +19,17 @@
 
 @implementation MatkaCommunicator
 
++(instancetype)sharedManager {
+    static MatkaCommunicator *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [MatkaCommunicator new];
+    });
+    
+    return sharedInstance;
+}
+
 -(id)init{
     self = [super init];
     
@@ -219,6 +230,24 @@
             }
         }];
     }
+}
+
+-(void)fetchTransportTypesWithCompletionBlock:(ActionBlock)completionBlock {
+    NSMutableDictionary *options = [@{} mutableCopy];
+    [options setValue:@"ttype" forKey:@"m"];
+    
+    [options setValue:[self getApiUsername] forKey:@"user"];
+    [options setValue:@"rebekah" forKey:@"pass"];
+    
+    [timeTableClient doXmlApiFetchWithParams:options responseDescriptor:[MatkaObjectMapping matkaTransportTypeResponseDescriptorForPath:@"MATKAXML.TT2TINFO.TRANSPORT"] andCompletionBlock:^(NSArray *transportTypes, NSError *error) {
+        if (!error && transportTypes.count > 0) {
+            
+            completionBlock(transportTypes, nil);
+        } else {
+            //API seems to fail if there is no departure. Differentiate that with other failures
+            completionBlock(nil, error); //TODO: Proper error message
+        }
+    }];
 }
 
 #pragma mark - Route search option

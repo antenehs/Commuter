@@ -10,6 +10,22 @@
 
 @implementation MatkaName
 
++(instancetype)initFromDictionary:(NSDictionary *)dict {
+    MatkaName *nameObject = [[MatkaName alloc] init];
+    
+    nameObject.name = dict[@"name"];
+    nameObject.language = dict[@"language"];
+    
+    return nameObject;
+}
 
+-(NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *dict = [@{} mutableCopy];
+    
+    [dict setValue:self.name forKey:@"name"];
+    [dict setValue:self.language forKey:@"language"];
+    
+    return dict;
+}
 
 @end

@@ -489,6 +489,16 @@
 		66BCA7031D723B990092C5BB /* DepartureRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7021D723B990092C5BB /* DepartureRowController.m */; };
 		66BCA7051D77709B0092C5BB /* WatchIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BCA7041D77709B0092C5BB /* WatchIcons.xcassets */; };
 		66BCA7061D7771870092C5BB /* WatchIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BCA7041D77709B0092C5BB /* WatchIcons.xcassets */; };
+		66BCA7091D78BA660092C5BB /* MatkaTransportType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7081D78BA660092C5BB /* MatkaTransportType.m */; };
+		66BCA70A1D78BA660092C5BB /* MatkaTransportType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7081D78BA660092C5BB /* MatkaTransportType.m */; };
+		66BCA70B1D78BA660092C5BB /* MatkaTransportType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7081D78BA660092C5BB /* MatkaTransportType.m */; };
+		66BCA70C1D78BA660092C5BB /* MatkaTransportType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7081D78BA660092C5BB /* MatkaTransportType.m */; };
+		66BCA70D1D78BA660092C5BB /* MatkaTransportType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7081D78BA660092C5BB /* MatkaTransportType.m */; };
+		66BCA7101D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
+		66BCA7111D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
+		66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
+		66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
+		66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C5676F1CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
 		66C567701CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
@@ -1623,6 +1633,10 @@
 		66BCA7011D723B990092C5BB /* DepartureRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepartureRowController.h; sourceTree = "<group>"; };
 		66BCA7021D723B990092C5BB /* DepartureRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DepartureRowController.m; sourceTree = "<group>"; };
 		66BCA7041D77709B0092C5BB /* WatchIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WatchIcons.xcassets; sourceTree = "<group>"; };
+		66BCA7071D78BA660092C5BB /* MatkaTransportType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaTransportType.h; sourceTree = "<group>"; };
+		66BCA7081D78BA660092C5BB /* MatkaTransportType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaTransportType.m; sourceTree = "<group>"; };
+		66BCA70E1D78C91E0092C5BB /* MatkaTransportTypeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaTransportTypeManager.h; sourceTree = "<group>"; };
+		66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaTransportTypeManager.m; sourceTree = "<group>"; };
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		66C1254419CF5BD400099AFF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
@@ -3347,6 +3361,8 @@
 				66E6E5551CB90D850086F611 /* Models */,
 				66E6E5511CB907A10086F611 /* MatkaCommunicator.h */,
 				66E6E5521CB907A10086F611 /* MatkaCommunicator.m */,
+				66BCA70E1D78C91E0092C5BB /* MatkaTransportTypeManager.h */,
+				66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */,
 			);
 			name = Matka;
 			sourceTree = "<group>";
@@ -3366,6 +3382,8 @@
 				66FD7F991CBA614300C6C731 /* MatkaLine.m */,
 				66FD7F9C1CBA843900C6C731 /* MatkaGeoCode.h */,
 				66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */,
+				66BCA7071D78BA660092C5BB /* MatkaTransportType.h */,
+				66BCA7081D78BA660092C5BB /* MatkaTransportType.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4541,6 +4559,7 @@
 				660FB23C1B39E5ED009C30BF /* MoreTableViewController.m in Sources */,
 				66056E6F1C42AAFE00C011FB /* MonitoredCall.m in Sources */,
 				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
+				66BCA7101D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66A7A9BF18C5FD4200AC9E94 /* StopAnnotation.m in Sources */,
 				6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
 				664E28A11AE2A50300BE2457 /* SettingsViewController.m in Sources */,
@@ -4600,6 +4619,7 @@
 				66CA02D81C17126800A38858 /* NamedBookmarkE.m in Sources */,
 				66822F661C24695900511BD2 /* StopLine.m in Sources */,
 				66056E6D1C42AAFE00C011FB /* FramedVehicleJourneyRef.m in Sources */,
+				66BCA7091D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66056E721C42AAFE00C011FB /* VehicleLocation.m in Sources */,
 				661ABBF0199A924700F93894 /* Route.m in Sources */,
 				66F1383419939B3600B52B6B /* GeoCodeAnnotation.m in Sources */,
@@ -4806,6 +4826,7 @@
 				66C733391C556DA5002544BC /* MoreTableViewController.m in Sources */,
 				66C7333A1C556DA5002544BC /* MonitoredCall.m in Sources */,
 				66C7333B1C556DA5002544BC /* Reachability.m in Sources */,
+				66BCA7111D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66C7333C1C556DA5002544BC /* StopAnnotation.m in Sources */,
 				66C7333D1C556DA5002544BC /* UIView+Helper.m in Sources */,
 				66C7333E1C556DA5002544BC /* SettingsViewController.m in Sources */,
@@ -4865,6 +4886,7 @@
 				66C733691C556DA5002544BC /* NamedBookmarkE.m in Sources */,
 				66C7336A1C556DA5002544BC /* StopLine.m in Sources */,
 				66C7336B1C556DA5002544BC /* FramedVehicleJourneyRef.m in Sources */,
+				66BCA70A1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66C7336C1C556DA5002544BC /* VehicleLocation.m in Sources */,
 				66C7336D1C556DA5002544BC /* Route.m in Sources */,
 				66C7336E1C556DA5002544BC /* GeoCodeAnnotation.m in Sources */,
@@ -4937,6 +4959,7 @@
 				66C735191C556FA4002544BC /* RouteE.m in Sources */,
 				66833D1D1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				66C7351A1C556FA4002544BC /* ReittiStringFormatterE.m in Sources */,
+				66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66F60DE61C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				666E08A91CD3D9010058D5B0 /* StaticCity.m in Sources */,
 				66C7351B1C556FA4002544BC /* WidgetDataManager.m in Sources */,
@@ -4953,6 +4976,7 @@
 				66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */,
 				666E08C21CD3DD670058D5B0 /* MatkaStop.m in Sources */,
+				66BCA70C1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66C735201C556FA4002544BC /* NamedBookmarkE.m in Sources */,
 				66C735211C556FA4002544BC /* ASABubbleView.m in Sources */,
 				66C735221C556FA4002544BC /* KBPopupBubbleView.m in Sources */,
@@ -4999,10 +5023,12 @@
 				66C735711C556FB5002544BC /* TodayViewController.m in Sources */,
 				666E08BA1CD3DC000058D5B0 /* ReittiStringFormatter.m in Sources */,
 				6683CF211CD924F90044727B /* MatkaObjectMapping.m in Sources */,
+				66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66833D701CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,
 				66833D641CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C735721C556FB5002544BC /* WidgetDataManager.m in Sources */,
 				66C735731C556FB5002544BC /* KBPopupDrawableView.m in Sources */,
+				66BCA70D1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66F60DE71C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				66833D231CEE45CE005D958C /* DigiTrip.m in Sources */,
 				66C735741C556FB5002544BC /* ASABubbleView.m in Sources */,
@@ -5072,6 +5098,7 @@
 				660CFE2C1C19B81A004D73FC /* RouteE.m in Sources */,
 				66833D1C1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */,
+				66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66F60DE51C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				666E08A81CD3D9000058D5B0 /* StaticCity.m in Sources */,
 				660CFE1F1C19A209004D73FC /* WidgetDataManager.m in Sources */,
@@ -5088,6 +5115,7 @@
 				66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				666E08D31CD3DF790058D5B0 /* ReittiMapkitHelper.m in Sources */,
 				666E08C11CD3DD660058D5B0 /* MatkaStop.m in Sources */,
+				66BCA70B1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66CA02D91C17126800A38858 /* NamedBookmarkE.m in Sources */,
 				66CA03271C17466E00A38858 /* ASABubbleView.m in Sources */,
 				66CA03351C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
@@ -5803,6 +5831,42 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ArcGIS-Runtime-SDK-iOS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
+					"-DWIDGET_APP",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.CommuterAppPro.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -5850,6 +5914,42 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ArcGIS-Runtime-SDK-iOS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
+					"-DWIDGET_APP",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.CommuterAppPro.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -5900,6 +6000,42 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ArcGIS-Runtime-SDK-iOS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
+					"-DWIDGET_APP",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.CommuterAppPro.Commuter---Routes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -5951,6 +6087,42 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ArcGIS-Runtime-SDK-iOS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
+					"-DWIDGET_APP",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.CommuterAppPro.Commuter---Routes";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -6001,6 +6173,42 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ArcGIS-Runtime-SDK-iOS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
+					"-DWIDGET_APP",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatauluApp.Commuter---Departures";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -6048,6 +6256,42 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ArcGIS-Runtime-SDK-iOS\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Google\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleInterchangeUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleNetworkingUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISO8601DateFormatterValueTransformer\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKValueTransformers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RKXMLReaderSerialization\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RestKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SOCKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TransitionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
+					"-DWIDGET_APP",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatauluApp.Commuter---Departures";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
