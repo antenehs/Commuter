@@ -80,7 +80,6 @@ typedef enum
     pendingRequestCanceled = NO;
     
     showTopLoadingView = NO;
-    showBottomLoadingView = NO;
     
     tableReloadAnimatedMode = NO;
     tableRowNumberForAnimation = 0;
@@ -896,7 +895,7 @@ typedef enum
     if (self.tableViewMode == TableViewModeSuggestions) {
         return self.dataToLoad.count;
     }else{
-        return self.routeList.count + (showTopLoadingView ? 1 : 0) + (showBottomLoadingView ? 1 : 0);
+        return self.routeList.count + (showTopLoadingView ? 1 : 0);
     }
 }
 

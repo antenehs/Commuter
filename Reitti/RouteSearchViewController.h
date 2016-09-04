@@ -77,7 +77,6 @@
     BOOL refreshingRouteTable;
     
     BOOL showTopLoadingView;
-    BOOL showBottomLoadingView;
     
     BOOL nextRoutesRequested;
     BOOL prevRoutesRequested;

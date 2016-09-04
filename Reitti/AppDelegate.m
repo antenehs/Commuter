@@ -200,7 +200,18 @@
     [tabBarController switchToAddBookmarksTab];
 }
 
-							
+#pragma mark - Location notification handling
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    
+    // Check status to see if the app is authorized
+    BOOL canUseLocationNotifications = (status == kCLAuthorizationStatusAuthorizedWhenInUse);
+    
+    if (canUseLocationNotifications) {
+//        [self startShowingLocationNotifications]; // Custom method defined below
+    }
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

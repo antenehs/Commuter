@@ -265,8 +265,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma - mark initialization Methods
 
-- (void)initDataComponentsAndModules
-{
+- (void)initDataComponentsAndModules {
     [self initVariablesAndConstants];
     [self initDataManagers];
     [self initializeMapComponents];
@@ -275,8 +274,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self registerFor3DTouchIfAvailable];
 }
 
-- (void)updateAppShortcuts
-{
+- (void)updateAppShortcuts {
     if([UIApplicationShortcutItem class]){
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
     }
@@ -286,8 +284,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
-- (void)initViewComponents
-{
+- (void)initViewComponents {
     /*init View Components*/
     
     [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
