@@ -58,6 +58,7 @@
 		660716011B45CD2C00033049 /* Value.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F71B45CD2C00033049 /* Value.m */; };
 		660716021B45CD2C00033049 /* ValueState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F91B45CD2C00033049 /* ValueState.m */; };
 		660716171B49CBFA00033049 /* logoutJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 660716161B49CBFA00033049 /* logoutJS.js */; };
+		660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
 		660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
 		660CFE091C188FD8004D73FC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
 		660CFE0A1C188FEC004D73FC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
@@ -5038,6 +5039,7 @@
 				66C7356F1C556FB5002544BC /* TransportE.m in Sources */,
 				66C735711C556FB5002544BC /* TodayViewController.m in Sources */,
 				666E08BA1CD3DC000058D5B0 /* ReittiStringFormatter.m in Sources */,
+				660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */,
 				6683CF211CD924F90044727B /* MatkaObjectMapping.m in Sources */,
 				66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66833D701CF99FE5005D958C /* DigiBikeRentalStation.m in Sources */,

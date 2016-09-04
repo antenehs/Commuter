@@ -85,6 +85,8 @@
     
     NSArray *namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
     
+    //TODO: Sort based on closeness to current location
+    
     int shortcutCount = 0;
     if (namedBookmarks != nil && namedBookmarks.count > 0) {
         //Add upto 3 shortcuts
@@ -96,14 +98,6 @@
             
             [shortcuts addObject:[self createShortcutForNamedBookmark:bookmark]];
         }
-//        
-//        if (namedBookmarks.count > shortcutCount) {
-//            //Add more bookmarks button;
-//            [shortcuts addObject:[self createShortcutForMoreBookmarks]];
-//        }else{
-//            //Add bookmark current location shortcut
-//            [shortcuts addObject:[self createShortcutForAddBookmark]];
-//        }
     }
     
     if (shortcutCount < 3) {

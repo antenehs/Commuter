@@ -17,6 +17,7 @@
 #import "TransportE.h"
 #import "UIView+Helper.h"
 #import "MatkaTransportTypeManager.h"
+#import "NSArray+Helper.h"
 
 #import "NamedBookmarkE.h"
 
@@ -480,26 +481,60 @@
     if (!bookmark)
         return;
     
-    NSDictionary *myDictionary = [NSDictionary dictionaryWithObject:[bookmark getUniqueIdentifier] forKey:@"bookmark"];
-    [[NSUserDefaults standardUserDefaults] setObject:myDictionary forKey:@"previousSelectedBookmark"];
+    NSMutableArray *history = [[self readLastSelectedBookmarksFromCache] mutableCopy];
+    if (!history) history = [@[] mutableCopy];
+    
+    if ([history containsObject:[bookmark getUniqueIdentifier]])
+        [history removeObject:[bookmark getUniqueIdentifier]];
+    
+    [history addObject:[bookmark getUniqueIdentifier]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:history forKey:@"previousSelectedBookmark"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSInteger)getLastSelectedBookmarkIndexFromCahce{
-    NSDictionary * myDictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"previousSelectedBookmark"];
+-(NSArray *)readLastSelectedBookmarksFromCache {
+    id array = (NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:@"previousSelectedBookmark"];
     
-    if (myDictionary) {
-        NSString *bookmarkUniqueName = myDictionary[@"bookmark"];
-        if (bookmarkUniqueName) {
-            for (int i = 0; i < self.namedBookmarks.count; i++) {
-                if ([[self.namedBookmarks[i] getUniqueIdentifier] isEqualToString:bookmarkUniqueName]) {
-                    return i;
-                }
-            }
+    if (array && [array isKindOfClass:[NSArray class]]) return array;
+    else return @[];
+}
+
+- (NSInteger)getLastSelectedBookmarkIndexFromCahce{
+    NSArray * history = [[self readLastSelectedBookmarksFromCache] reversedArray];
+    if (history.count < 1) return 0;
+    //If last one is too close, return second to last.
+    
+    NSString *bookmarkUniqueName = history[0];
+    if (history.count > 1 && self.currentUserLocation) {
+        NamedBookmarkE *bookmark = [self bookmarkWithUniqueIdentifier:bookmarkUniqueName];
+        CLLocationCoordinate2D bookmarkCoords = [WidgetHelpers convertStringTo2DCoord:bookmark.coords];
+        CLLocation *bookmarkLocation = [[CLLocation alloc] initWithLatitude:bookmarkCoords.latitude longitude:bookmarkCoords.longitude];
+        CLLocationDistance dist = [bookmarkLocation distanceFromLocation:self.currentUserLocation];
+        
+        if (dist < 150) {
+            bookmarkUniqueName = history[1];
         }
     }
     
-    return 0;
+    NSInteger index = [self indexOfBookmark:[self bookmarkWithUniqueIdentifier:bookmarkUniqueName]];
+    return index != NSNotFound ? index : 0;
+}
+
+-(NamedBookmarkE *)bookmarkWithUniqueIdentifier:(NSString *)uniqueIdentifier {
+    for (int i = 0; i < self.namedBookmarks.count; i++) {
+        if ([[self.namedBookmarks[i] getUniqueIdentifier] isEqualToString:uniqueIdentifier]) {
+            return self.namedBookmarks[i];
+        }
+    }
+    
+    return nil;
+}
+
+-(NSInteger )indexOfBookmark:(NamedBookmarkE *)bookmark {
+    if (!bookmark) return NSNotFound;
+    
+    return [self.namedBookmarks indexOfObject:bookmark];
 }
 
 #pragma mark - Action methods
