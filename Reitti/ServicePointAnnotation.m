@@ -12,7 +12,7 @@
 
 @synthesize title, subtitle , coordinate, code, imageNameForView, annotIdentifier, isSelected, annotationType;
 
-- (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d  andAnnotationType:(AnnotationType)annotType {
+- (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d  andAnnotationType:(ServiceAnnotationType)annotType {
 	if ((self = [super init])){
         title = ttl;
         coordinate = c2d;

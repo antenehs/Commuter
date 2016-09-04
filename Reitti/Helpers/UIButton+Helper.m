@@ -37,7 +37,7 @@ NSInteger const kCompasModeCurrentLocationButtonTag = 1236;
             self.layer.masksToBounds = YES;
             self.backgroundColor = [UIColor whiteColor];
             self.layer.borderColor = borderColor.CGColor;
-            self.layer.borderWidth = 1.0f;
+            self.layer.borderWidth = 0.5f;
             self.layer.cornerRadius = 4.0;
             //This should be called for the inset to be animated
             [self layoutSubviews];

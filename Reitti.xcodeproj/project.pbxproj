@@ -499,6 +499,10 @@
 		66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
 		66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
 		66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */; };
+		66BCA7171D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */; };
+		66BCA7181D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */; };
+		66BCA71B1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
+		66BCA71C1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C5676F1CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
 		66C567701CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
@@ -1637,6 +1641,10 @@
 		66BCA7081D78BA660092C5BB /* MatkaTransportType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaTransportType.m; sourceTree = "<group>"; };
 		66BCA70E1D78C91E0092C5BB /* MatkaTransportTypeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaTransportTypeManager.h; sourceTree = "<group>"; };
 		66BCA70F1D78C91E0092C5BB /* MatkaTransportTypeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaTransportTypeManager.m; sourceTree = "<group>"; };
+		66BCA7151D7AF15E0092C5BB /* AnnotationFilterOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationFilterOption.h; sourceTree = "<group>"; };
+		66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilterOption.m; sourceTree = "<group>"; };
+		66BCA7191D7AF2D80092C5BB /* AnnotationFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationFilter.h; sourceTree = "<group>"; };
+		66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilter.m; sourceTree = "<group>"; };
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		66C1254419CF5BD400099AFF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
@@ -2435,6 +2443,10 @@
 				663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */,
 				665BA1B41CAF0C550091C180 /* RouteSearchParameters.h */,
 				665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */,
+				66BCA7151D7AF15E0092C5BB /* AnnotationFilterOption.h */,
+				66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */,
+				66BCA7191D7AF2D80092C5BB /* AnnotationFilter.h */,
+				66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4405,6 +4417,7 @@
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
 				661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */,
 				66F3FAE31B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m in Sources */,
+				66BCA7171D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */,
 				664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */,
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				66056E6C1C42AAFE00C011FB /* DirectionRef.m in Sources */,
@@ -4478,6 +4491,7 @@
 				663E1EE41C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */,
 				66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */,
 				663E1EC41C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
+				66BCA71B1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */,
 				66BCA6EB1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */,
 				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
@@ -4672,6 +4686,7 @@
 				66C732C51C556DA5002544BC /* ReittiStringFormatter.m in Sources */,
 				66C732C61C556DA5002544BC /* RouteViewManager.m in Sources */,
 				66C732C71C556DA5002544BC /* HTMLPreprocessedInputStream.m in Sources */,
+				66BCA7181D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */,
 				66C732C81C556DA5002544BC /* AddressSearchViewController.m in Sources */,
 				66C732C91C556DA5002544BC /* SWTableViewCell.m in Sources */,
 				66C732CA1C556DA5002544BC /* DirectionRef.m in Sources */,
@@ -4745,6 +4760,7 @@
 				663E1EE51C9EF2C500C5543A /* NamedBookmarkTableViewCell.m in Sources */,
 				66C732FC1C556DA5002544BC /* RouteSearchViewController.m in Sources */,
 				663E1EC51C95D90A00C5543A /* ICloudBookmarks.m in Sources */,
+				66BCA71C1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */,
 				66BCA6EC1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */,
 				66C732FD1C556DA5002544BC /* HMSegmentedControl.m in Sources */,

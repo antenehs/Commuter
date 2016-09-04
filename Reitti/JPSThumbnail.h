@@ -8,18 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "NearByStop.h"
+#import "EnumManager.h"
+
 @import MapKit;
 
 typedef void (^ActionBlock)();
-
-typedef enum{
-    NearByStopType = 1,
-    SearchedStopType = 2,
-    GeoCodeType = 3,
-    DroppedPinType = 4,
-    LiveVehicleType = 5,
-    BikeStationType = 5
-}AnnotationType;
 
 @interface JPSThumbnail : NSObject
 

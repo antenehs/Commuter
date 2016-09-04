@@ -29,6 +29,10 @@ typedef enum
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock;
 @end
 
+@protocol AnnotationFilterOptionProtocol <NSObject>
+-(NSArray *)annotationFilterOptions;
+@end
+
 @protocol StopDetailFetchProtocol <NSObject>
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock;
 @end

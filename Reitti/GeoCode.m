@@ -9,6 +9,7 @@
 #import "GeoCode.h"
 #import "CacheManager.h"
 #import "ReittiStringFormatter.h"
+#import "AppManager.h"
 
 @implementation GeoCode
 
@@ -207,6 +208,45 @@
     }else{
         return StopTypeBus;
     }
+}
+
+-(NSString *)iconPictureName {
+    if (self.getLocationType == LocationTypeContact) {
+        return @"contactIcon";
+    } else if (self.getLocationType == LocationTypePOI) {
+        return @"location-75.png";
+    } else if (self.getLocationType == LocationTypeAddress) {
+        return @"search-75.png";
+    } else if (self.getLocationType == LocationTypeDroppedPin) {
+        return @"dropped-pin-100.png";
+    } else {
+        return [AppManager stopIconNameForStopType:StopTypeBus];
+    }
+}
+
+-(UIImage *)annotationImage {
+    if (!_annotationImage) {
+        CGRect outerFrame = CGRectMake(0, 0, 83, 124);
+        CGRect topFrame = CGRectMake(3, 0, 77, 77);
+        CGRect baseFrame = CGRectMake(10, 76, 63, 48);
+        
+        UIView *holder = [[UIView alloc] initWithFrame:outerFrame];
+        
+        UIImageView *topImageView = [[UIImageView alloc] initWithFrame:topFrame];
+        [topImageView setImage:[UIImage imageNamed:self.iconPictureName]];
+        [holder addSubview:topImageView];
+        
+        UIImageView *baseImageView = [[UIImageView alloc] initWithFrame:baseFrame];
+        [baseImageView setImage:[UIImage imageNamed:@"AnnotationLeg"]];
+        [holder addSubview:baseImageView];
+        
+        UIGraphicsBeginImageContext(holder.bounds.size);
+        [holder.layer renderInContext:UIGraphicsGetCurrentContext()];
+        _annotationImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    
+    return _annotationImage;
 }
 
 @end

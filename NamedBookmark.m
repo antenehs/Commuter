@@ -96,6 +96,31 @@
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
+-(UIImage *)annotationImage {
+    if (!_annotationImage) {
+        CGRect outerFrame = CGRectMake(0, 0, 83, 124);
+        CGRect topFrame = CGRectMake(3, 0, 77, 77);
+        CGRect baseFrame = CGRectMake(10, 76, 63, 48);
+        
+        UIView *holder = [[UIView alloc] initWithFrame:outerFrame];
+        
+        UIImageView *topImageView = [[UIImageView alloc] initWithFrame:topFrame];
+        [topImageView setImage:[UIImage imageNamed:self.iconPictureName]];
+        [holder addSubview:topImageView];
+        
+        UIImageView *baseImageView = [[UIImageView alloc] initWithFrame:baseFrame];
+        [baseImageView setImage:[UIImage imageNamed:@"AnnotationLeg"]];
+        [holder addSubview:baseImageView];
+        
+        UIGraphicsBeginImageContext(holder.bounds.size);
+        [holder.layer renderInContext:UIGraphicsGetCurrentContext()];
+        _annotationImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    
+    return _annotationImage;
+}
+
 #pragma mark - Helper Method
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
 {

@@ -146,7 +146,7 @@
                                 </constraints>
                                 <color key="tintColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="titleShadowOffset" width="1" height="1"/>
-                                <state key="normal" image="current location filled green.png"/>
+                                <state key="normal" image="current location filled green"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="9Nk-0h-7PN"/>
@@ -465,19 +465,13 @@
                                     <constraint firstAttribute="width" constant="40" id="WHj-u4-Cdc"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BYt-oF-ZIw" customClass="AnnotationFilterView">
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="BYt-oF-ZIw" customClass="AnnotationFilterView">
                                 <rect key="frame" x="15" y="350" width="35" height="35"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="240" id="enO-FE-mGb"/>
+                                    <constraint firstAttribute="width" constant="35" id="CEW-wp-6nK"/>
                                     <constraint firstAttribute="height" constant="35" id="hd6-TZ-Hxl"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="saO-oC-TRo"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="enO-FE-mGb"/>
-                                    </mask>
-                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -491,6 +485,7 @@
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="HFn-6S-gFZ" secondAttribute="bottom" constant="400" id="GLP-4W-3Ww"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="BYt-oF-ZIw" secondAttribute="bottom" constant="15" id="Gwn-fa-id3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RPy-oI-JaQ" secondAttribute="trailing" constant="-16" id="Jti-MW-Bpt"/>
+                            <constraint firstItem="BYt-oF-ZIw" firstAttribute="leading" secondItem="4Yo-N4-ctk" secondAttribute="leading" constant="15" id="OaW-ry-JTu"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="height" secondItem="4Yo-N4-ctk" secondAttribute="height" id="Qck-vJ-oNC"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="leading" secondItem="4Yo-N4-ctk" secondAttribute="leadingMargin" constant="-16" id="Swn-Zg-nhO"/>
                             <constraint firstItem="ymd-Ss-3gB" firstAttribute="centerX" secondItem="4Yo-N4-ctk" secondAttribute="centerX" id="UE6-Pk-Xco"/>
@@ -510,6 +505,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="Ba5-gd-V0w"/>
                                 <exclude reference="Jti-MW-Bpt"/>
                                 <exclude reference="Swn-Zg-nhO"/>
                                 <exclude reference="ZRa-LA-XfP"/>
@@ -675,6 +671,8 @@
                     <connections>
                         <outlet property="activityIndicator" destination="ymd-Ss-3gB" id="Du3-PM-jdb"/>
                         <outlet property="currentLocationButton" destination="5Gn-os-Xrb" id="2rB-xa-CXf"/>
+                        <outlet property="filterAnnotationViewWidthConstraint" destination="CEW-wp-6nK" id="fLJ-wj-zia"/>
+                        <outlet property="filterAnnotationsView" destination="BYt-oF-ZIw" id="BPb-8h-uOx"/>
                         <outlet property="hideSearchResultViewButton" destination="XhT-aI-0GD" id="MWi-UN-y0a"/>
                         <outlet property="listNearbyStops" destination="ITd-LP-49q" id="8zW-2C-TsB"/>
                         <outlet property="mainSearchBar" destination="eyJ-tf-8L0" id="2Mv-hU-tXc"/>
@@ -9389,7 +9387,8 @@ Helsinki, Finland</string>
         <image name="busAnnotation3_2.png" width="79" height="119"/>
         <image name="close-button-white.png" width="100" height="100"/>
         <image name="coolIconColored" width="33" height="33"/>
-        <image name="current location filled green.png" width="100" height="100"/>
+        <image name="current location filled green" width="64" height="64"/>
+        <image name="current location filled green.png" width="34" height="34"/>
         <image name="currentLocation-black.png" width="64" height="83"/>
         <image name="currentLocation3.png" width="285" height="284"/>
         <image name="dark-dotted-line.png" width="6" height="121"/>

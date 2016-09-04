@@ -13,7 +13,7 @@ typedef enum
 {
     ServicePointAnnotationType = 1,
     SalesPointAnnotationType = 2
-} AnnotationType;
+} ServiceAnnotationType;
 
 @interface ServicePointAnnotation : NSObject<MKAnnotation> {
     
@@ -28,8 +28,8 @@ typedef enum
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
-@property (nonatomic, readonly) AnnotationType annotationType;
+@property (nonatomic, readonly) ServiceAnnotationType annotationType;
 
-- (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andAnnotationType:(AnnotationType)annotType;
+- (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andAnnotationType:(ServiceAnnotationType)annotType;
 
 @end

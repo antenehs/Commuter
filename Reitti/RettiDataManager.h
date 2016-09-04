@@ -38,6 +38,8 @@
 extern CLLocationCoordinate2D kHslRegionCenter;
 extern CLLocationCoordinate2D kTreRegionCenter;
 
+extern NSString * const kBookmarksWithAnnotationUpdated;
+
 @interface RettiDataManager : NSObject {
     int nextObjectLID;
     
@@ -54,6 +56,9 @@ extern CLLocationCoordinate2D kTreRegionCenter;
 -(NSString *)getNameOfRegion:(Region)region;
 -(void)resetResponseQueues;
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
+
+/* Annotation filtering */
+-(NSArray *)annotationFilterOptions;
 
 /* Route search options */
 -(NSArray *)allTrasportTypeNames;

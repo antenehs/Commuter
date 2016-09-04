@@ -18,6 +18,7 @@
 #import "BikeStation.h"
 #import "DigiTransitCommunicator.h"
 #import "DigiDataModels.h"
+#import "AnnotationFilterOption.h"
 
 @interface HSLCommunication ()
 
@@ -391,6 +392,14 @@
     }else{
         return @"Unknown Error Occured.";
     }
+}
+
+-(NSArray *)annotationFilterOptions {
+    return @[[AnnotationFilterOption optionForBusStop],
+             [AnnotationFilterOption optionForTramStop],
+             [AnnotationFilterOption optionForTrainStop],
+             [AnnotationFilterOption optionForMetroStop],
+             [AnnotationFilterOption optionForBikeStation]];
 }
 
 #pragma mark - Helpers

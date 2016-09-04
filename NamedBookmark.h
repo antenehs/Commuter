@@ -11,7 +11,9 @@
 #import <MapKit/MapKit.h>
 #import "OrderedManagedObject.h"
 
-@interface NamedBookmark : OrderedManagedObject
+@interface NamedBookmark : OrderedManagedObject {
+    UIImage *_annotationImage;
+}
 
 + (NSArray *)getAddressTypeList;
 + (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
@@ -34,5 +36,7 @@
 @property (nonatomic, retain) NSString * monochromeIconName;
 
 @property (nonatomic, readonly) CLLocationCoordinate2D cl2dCoords;
+
+@property (nonatomic, strong) UIImage *annotationImage;
 
 @end

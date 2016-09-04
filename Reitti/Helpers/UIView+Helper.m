@@ -42,8 +42,8 @@
 - (void)asa_springAnimationWithDuration:(NSTimeInterval)duration animation:(void (^)(void))animation completion:(void (^ __nullable)(BOOL finished))completion {
     [UIView animateWithDuration:duration
                           delay:0
-         usingSpringWithDamping:0.5
-          initialSpringVelocity:1.1
+         usingSpringWithDamping:0.7
+          initialSpringVelocity:0.7
                         options:0
                      animations:animation completion:completion];
 }

@@ -43,7 +43,9 @@ typedef enum
 @property (nonatomic, retain) NSString * city;
 @property (nonatomic, retain) NSString * lang;
 @property (nonatomic, retain) NSString * coords;
-//@property (nonatomic, retain) NSDictionary * details;
 @property (nonatomic, retain) GeoCodeDetail *details;
+
+@property (nonatomic, retain) NSString * iconPictureName;
+@property (nonatomic, strong) UIImage *annotationImage;
 
 @end

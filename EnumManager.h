@@ -71,6 +71,22 @@ typedef enum
     WeekDaySunday = 7
 } WeekDay;
 
+typedef enum{
+    NearByBusStopType = 11,
+    NearByTramStopType = 12,
+    NearByTrainStopType = 13,
+    NearByMetroStopType = 14,
+    NearByFerryStopType = 15,
+    NearByAirportType = 16,
+    SearchedStopType = 2,
+    GeoCodeType = 3,
+    DroppedPinType = 4,
+    LiveVehicleType = 5,
+    BikeStationType = 6,
+    FavouriteType = 7,
+    OtherType = 8
+} AnnotationType;
+
 @interface EnumManager : NSObject
 
 +(StopType)stopTypeForGDTypeString:(NSString *)type;
@@ -90,10 +106,11 @@ typedef enum
 +(NSString *)shortDayNameForWeekDay:(WeekDay)weekDay;
 +(WeekDay)weekDayForDayName:(NSString *)dayName;
 
-//+ (LineType)lineTypeForMatkaTrasportType:(NSNumber *)trasportType;
-//+ (LegTransportType)legTypeForMatkaTrasportType:(NSNumber *)trasportType;
++(LineType)lineTypeForDigiLineType:(NSString *)trasportType;
++(LegTransportType)legTypeForDigiTrasportType:(NSString *)trasportType;
 
-+ (LineType)lineTypeForDigiLineType:(NSString *)trasportType;
-+ (LegTransportType)legTypeForDigiTrasportType:(NSString *)trasportType;
+//Annot type methods
++(BOOL)isNearbyStopAnnotationType:(AnnotationType)annotType;
++(AnnotationType)annotTypeForNearbyStopType:(StopType)stopType;
 
 @end

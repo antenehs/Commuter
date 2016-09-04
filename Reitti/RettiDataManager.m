@@ -25,6 +25,8 @@
 #import "DigiTransitCommunicator.h"
 #import "MatkaTransportTypeManager.h"
 
+NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
+
 CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
 CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
 
@@ -244,6 +246,16 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         return self.treLiveTrafficManager;
     }else if(region == HSLRegion){
         return self.hslLiveTrafficManager;
+    }else{
+        return nil;
+    }
+}
+
+#pragma mark - Annotation filter options
+-(NSArray *)annotationFilterOptions {
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(AnnotationFilterOptionProtocol)]) {
+        return [(NSObject<AnnotationFilterOptionProtocol> *)dataSourceManager annotationFilterOptions];
     }else{
         return nil;
     }
@@ -1206,6 +1218,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
     [self updateSavedStopsToICloud];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
 }
 
 -(void)updateSavedStopIfItExists:(BusStop *)stop{
@@ -1242,6 +1256,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSavedStopsDefaultValueForStops:savedSt];
 //    [self updateSelectedStopListForDeletedStop:[savedStop.busStopCode intValue] andAllStops:savedSt];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
 }
 
 -(void)deleteAllSavedStop{
@@ -1264,6 +1279,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSavedStopsDefaultValueForStops:savedSt];
 //    [self updateSelectedStopListForDeletedStop:0 andAllStops:savedSt];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
 }
 
 //Return array of set dictionaries
@@ -1736,6 +1752,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateNamedBookmarksUserDefaultValue];
     [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+    
     return self.namedBookmark;
 }
 
@@ -1768,6 +1786,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
     [self updateSavedAndHistoryRoutesForNamedBookmark:bookmark];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
     
     return bookmark;
 }
@@ -1804,6 +1824,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         [self updateNamedBookmarksUserDefaultValue];
         [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+        
         return self.namedBookmark;
     }else{
         return nil;
@@ -1835,6 +1857,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
 }
 
 -(void)deleteAllNamedBookmarks{
@@ -1859,6 +1883,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
     [self updateNamedBookmarksUserDefaultValue];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
 }
 
 -(void)deleteSavedAndHistoryRoutesForNamedBookmark:(NamedBookmark *)bookmark{

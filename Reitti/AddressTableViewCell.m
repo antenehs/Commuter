@@ -29,8 +29,9 @@
     self.separatorView.hidden = YES;
     self.addressSelectionButton.hidden = YES;
     
+    [self.addressImageView setImage:[UIImage imageNamed:geoCode.iconPictureName]];
+    
     if (geoCode.getLocationType == LocationTypePOI || geoCode.getLocationType == LocationTypeContact) {
-        [self.addressImageView setImage:geoCode.getLocationType == LocationTypePOI ? [UIImage imageNamed:@"location-75.png"] : [UIImage imageNamed:@"contactIcon"]];
         self.nameLabel.textColor = [UIColor blackColor];
         
         self.nameLabel.text = geoCode.name;
@@ -40,12 +41,9 @@
         self.addressSelectionButton.hidden = NO;
         self.nameLabel.textColor = [UIColor blackColor];
         
-        [self.addressImageView setImage:[UIImage imageNamed:@"search-75.png"]];
         self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
         self.addressLabel.text = [NSString stringWithFormat:@"%@", geoCode.city];
     }else{
-        [self.addressImageView setImage:[UIImage imageNamed:@"dropped-pin-100.png"]];
-        
         self.nameLabel.text = @"Dropped pin";
         self.nameLabel.textColor = [AppManager systemGreenColor];
         self.addressLabel.text = [NSString stringWithFormat:@"%@", [geoCode fullAddressString]];

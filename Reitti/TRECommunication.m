@@ -11,6 +11,7 @@
 #import "AppManager.h"
 #import "ReittiAnalyticsManager.h"
 #import "ASA_Helpers.h"
+#import "AnnotationFilterOption.h"
 
 @interface TRECommunication ()
 
@@ -356,6 +357,11 @@
     [super fetchRevereseGeocodeWithOptionsDictionary:optionsDict withcompletionBlock:completionBlock];
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"HSL" value:nil];
+}
+
+#pragma mark - Annot filter option
+-(NSArray *)annotationFilterOptions {
+    return @[[AnnotationFilterOption optionForBusStop]];
 }
 
 #pragma mark - helpers
