@@ -77,6 +77,10 @@ typedef enum
     nextRoutesRequested = NO;
     prevRoutesRequested = NO;
     isShowingOptionsView = NO;
+    pendingRequestCanceled = NO;
+    
+    showTopLoadingView = NO;
+    showBottomLoadingView = NO;
     
     tableReloadAnimatedMode = NO;
     tableRowNumberForAnimation = 0;
@@ -186,7 +190,7 @@ typedef enum
     if ([[[self.routeList firstObject] startingTimeOfRoute] timeIntervalSinceNow] < -300) {
         localRouteSearchOptions.date = [NSDate date];
         [self setSelectedTimesForDate:localRouteSearchOptions.date];
-        [self searchRouteIfPossible];
+        [self searchRouteIfPossibleByResetingCurrentList:NO];
     }
     
     [self loadData];
@@ -630,7 +634,7 @@ typedef enum
     
     [self setSelectedTimesForDate:lastTime];
     
-    [self searchRouteIfPossible];
+    [self searchRouteIfPossibleByResetingCurrentList:NO];
 }
 
 - (IBAction)currentTimeRoutesButtonPressed:(id)sender {
@@ -671,7 +675,7 @@ typedef enum
     
     [self setSelectedTimesForDate:lastTime];
 
-    [self searchRouteIfPossible];
+    [self searchRouteIfPossibleByResetingCurrentList:NO];
 }
 
 - (IBAction)clearSearchButtonPressed:(id)sender {
@@ -692,6 +696,9 @@ typedef enum
         [routeResultsTableView reloadData];
     }
     [self hideToolBar:YES animated:YES];
+    
+    pendingRequestCanceled = YES;
+    [searchActivitySpinner endRefreshing];
 }
 
 - (IBAction)bookmarkRouteButtonClicked:(id)sender {
@@ -787,10 +794,8 @@ typedef enum
 
     }
     
+    showTopLoadingView = NO;
     [routeResultsTableView reloadData];
-//    [self reloadTableViewAnimatedWithInteralSeconds:0.2];
-//    [searchActivityIndicator stopAnimating];
-//    [SVProgressHUD dismissFromView:self.view];
     [searchActivitySpinner endRefreshing];
     
     [routeResultsTableView setContentOffset:CGPointZero animated:YES];
@@ -798,18 +803,12 @@ typedef enum
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
     [self.refreshControl endRefreshing];
     
-//    if (!searchOptionSelectionView.hidden) {
-//        searchOptionSelectionView.hidden = YES;
-//    }
-    
     if (![fromSearchBar.text isEqualToString:currentLocationText] || ![toSearchBar.text isEqualToString:currentLocationText]) {
         [self.reittiDataManager saveRouteHistoryToCoreData:fromString fromCoords:fromCoords andToLocation:toString toCoords:toCoords];
     }
     
     [self setBookmarkButtonStatus];
     [self hideToolBar:NO animated:YES];
-    
-//    [self sendRoutesToWatch:searchedRouteList];
 }
 
 - (void)sendRoutesToWatch:(NSArray *)routes {
@@ -829,8 +828,6 @@ typedef enum
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
     [self.refreshControl endRefreshing];
     
-//    [searchActivityIndicator stopAnimating];
-    
     if (error != nil) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
                                                            delegate:nil
@@ -839,15 +836,12 @@ typedef enum
         [alertView show];
     }
     
-//    [ self clearSearchButtonPressed:self];
-    
     if (self.tableViewMode == TableViewModeRouteResults) {
         [self setMainTableViewMode:TableViewModeSuggestions];
         [routeResultsTableView reloadData];
     }
     
     [self hideToolBar:YES animated:NO];
-//    [SVProgressHUD dismissFromView:self.view];
     [searchActivitySpinner endRefreshing];
     
     [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@1];
@@ -876,7 +870,7 @@ typedef enum
     [self setSelectedTimesForDate:localRouteSearchOptions.date];
     
     [self setOptionsTextToRouteOptionsLabel];
-    [self searchRouteIfPossible];
+    [self searchRouteIfPossibleByResetingCurrentList:NO];
 }
 
 #pragma mark - TableViewMethods
@@ -902,7 +896,7 @@ typedef enum
     if (self.tableViewMode == TableViewModeSuggestions) {
         return self.dataToLoad.count;
     }else{
-        return self.routeList.count;
+        return self.routeList.count + (showTopLoadingView ? 1 : 0) + (showBottomLoadingView ? 1 : 0);
     }
 }
 
@@ -953,10 +947,17 @@ typedef enum
         
         cell.backgroundColor = [UIColor clearColor];
     }else{
-        if (indexPath.row < self.routeList.count) {
+        NSInteger routeStartIndex = showTopLoadingView ? 1 : 0;
+        
+        if (indexPath.row == 0 && showTopLoadingView) { //Show top loading view.
+            cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell"];
+            JTMaterialSpinner *spinner = (JTMaterialSpinner *)[cell viewWithTag:2001];
+            spinner.circleLayer.lineWidth = 3;
+            [spinner beginRefreshing];
+        } else if (indexPath.row - routeStartIndex < self.routeList.count) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"routeCell"];
             
-            Route *route = [self.routeList objectAtIndex:indexPath.row];
+            Route *route = [self.routeList objectAtIndex:indexPath.row - routeStartIndex];
             
             UILabel *leaveTimeLabel = (UILabel *)[cell viewWithTag:2000];
             UILabel *arriveTimeLabel = (UILabel *)[cell viewWithTag:2005];
@@ -996,8 +997,6 @@ typedef enum
             }else{
                 moreInfoLebel.text = [NSString stringWithFormat:@"%@ km walking", numberString];
             }
-            
-//            walkingDistLabel.text = [NSString stringWithFormat:@"%@ km", numberString];
             
             UIScrollView *transportsScrollView = (UIScrollView *)[cell viewWithTag:2003];
             
@@ -1051,87 +1050,18 @@ typedef enum
             }else{
                 disruptionsButton.hidden = YES;
             }
-            
+         
+            UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 129.5, self.view.frame.size.width, 0.5)];
+            line.backgroundColor = [UIColor lightGrayColor];
+            line.tag = 4006;
+            [cell addSubview:line];
         }
-        
-        UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(0, 129.5, self.view.frame.size.width, 0.5)];
-        line.backgroundColor = [UIColor lightGrayColor];
-        line.tag = 4006;
-        [cell addSubview:line];
         
         cell.backgroundColor = [UIColor clearColor];
     }
     
     return cell;
 }
-
-//- (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth
-//{
-//    float tWidth  = 70;
-//    float x = 0;
-//    UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(12, 0, totalWidth , 36)];
-//    transportsContainer.clipsToBounds = YES;
-//    transportsContainer.tag = 1987;
-//    transportsContainer.layer.cornerRadius = 4;
-//    
-//    for (RouteLeg *leg in route.routeLegs) {
-//        tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
-//        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
-//        CGRect frame = transportView.frame;
-//        transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
-//        transportView.clipsToBounds = YES;
-//        [transportsContainer addSubview:transportView];
-//        x += frame.size.width;
-//        
-//        //Append waiting view if exists
-//        if (leg.waitingTimeInSeconds > 0) {
-//            float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
-//            UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
-//            waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-//            waitingView.clipsToBounds = YES;
-//            if (waitingWidth > 22) {
-//                UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
-//                waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
-//                [waitingView addSubview:waitingImageView];
-//            }
-//            [transportsContainer addSubview:waitingView];
-//            x += waitingWidth;
-//        }
-//    }
-//    transportsContainer.frame = CGRectMake(12, 0, x, 36);
-//    
-//    return transportsContainer;
-//}
-
-//- (void)viewForRoute:(UIView *)transportsContainer longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth route:(Route *)route
-//{
-//    float tWidth;
-//    float x = 0;
-//    for (RouteLeg *leg in route.routeLegs) {
-//        tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
-//        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth*1];
-//        CGRect frame = transportView.frame;
-//        transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
-//        transportView.clipsToBounds = YES;
-//        [transportsContainer addSubview:transportView];
-//        x += frame.size.width;
-//        
-//        //Append waiting view if exists
-//        if (leg.waitingTimeInSeconds > 0) {
-//            float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
-//            UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
-//            waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-//            waitingView.clipsToBounds = YES;
-//            if (waitingWidth > 22) {
-//                UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
-//                waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
-//                [waitingView addSubview:waitingImageView];
-//            }
-//            [transportsContainer addSubview:waitingView];
-//            x += waitingWidth;
-//        }
-//    }
-//}
 
 - (BOOL)isShortestRoute:(Route *)aRoute fromListOfRoutes:(NSArray *)routes{
     for (Route *route in routes) {
@@ -1257,22 +1187,22 @@ typedef enum
     if (self.tableViewMode == TableViewModeSuggestions) {
         return 60;
     }else{
-        return 130;
+        return showTopLoadingView && indexPath.row == 0 ? 90 : 130;
     }
 }
 
 #pragma mark - scroll view delegates
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    if (routeList.count < 1)
-//        return;
-//    
-//    if (scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height - 100) {
-//        [self hideToolBar:NO animated:YES];
-//    }
-//    if (scrollView.contentOffset.y + scrollView.frame.size.height < scrollView.contentSize.height - 150) {
-//        [self hideToolBar:YES animated:YES];
-//    }
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+////    if (routeList.count < 1)
+////        return;
+////    
+////    if (scrollView.contentOffset.y + scrollView.frame.size.height > scrollView.contentSize.height - 100) {
+////        [self hideToolBar:NO animated:YES];
+////    }
+////    if (scrollView.contentOffset.y + scrollView.frame.size.height < scrollView.contentSize.height - 150) {
+////        [self hideToolBar:YES animated:YES];
+////    }
+//}
 
 #pragma mark - UIAlertView delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -1383,7 +1313,10 @@ typedef enum
 }
 
 #pragma mark - helper methods
--(void)searchRouteIfPossible{
+-(void)searchRouteIfPossible {
+    [self searchRouteIfPossibleByResetingCurrentList:YES];
+}
+-(void)searchRouteIfPossibleByResetingCurrentList:(BOOL)reset {
     if (fromCoords != nil && toCoords != nil && (![fromSearchBar.text isEqualToString:@""] && fromSearchBar.text != nil) && (![toSearchBar.text isEqualToString:@""] && toSearchBar.text != nil)) {
         if ([fromSearchBar.text isEqualToString:currentLocationText]) {
             fromCoords = [NSString stringWithFormat:@"%f,%f", self.currentUserLocation.coordinate.longitude, self.currentUserLocation.coordinate.latitude];
@@ -1392,16 +1325,17 @@ typedef enum
             toCoords = [NSString stringWithFormat:@"%f,%f", self.currentUserLocation.coordinate.longitude, self.currentUserLocation.coordinate.latitude];
         }
         
+        //Remove previous search result from table
+        if (reset) {
+            self.routeList = nil;
+            [routeResultsTableView reloadData];
+        }
+        
         if (refreshingRouteTable) {
             refreshingRouteTable = NO;
         }else{
-            //[SVProgressHUD showHUDInView:self.view];
-            [searchActivitySpinner beginRefreshing];
-        }
-        
-        //Remove previous search result from table
-        if (!nextRoutesRequested && !prevRoutesRequested) {
-            self.routeList = nil;
+//            [searchActivitySpinner beginRefreshing];
+            showTopLoadingView = YES;
             [routeResultsTableView reloadData];
         }
         
@@ -1410,14 +1344,7 @@ typedef enum
             [routeResultsTableView reloadData];
         }
         
-        [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil andCompletionBlock:^(NSArray *result, NSString *error){
-            if (!error) {
-                [self routeSearchDidComplete:result];
-                [self fetchDisruptions];
-            }else{
-                [self routeSearchDidFail:error];
-            }
-        }];
+        [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:localRouteSearchOptions andNumberOfResult:nil];
     }else{
         if (refreshingRouteTable) {
             self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
@@ -1441,9 +1368,11 @@ typedef enum
     [self searchRouteIfPossible];
 }
 
--(void)searchRouteForFromCoords:(NSString *)fromCoord andToCoords:(NSString *)toCoord andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock {
+-(void)searchRouteForFromCoords:(NSString *)fromCoord andToCoords:(NSString *)toCoord andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult {
+    pendingRequestCanceled = NO;
     [reittiDataManager searchRouteForFromCoords:fromCoord andToCoords:toCoord andSearchOption:searchOptions andNumberOfResult:numberOfResult andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
-        if (!error) {
+        //Request might have been canceled while route was fetching.
+        if (!error && !pendingRequestCanceled) {
             [self routeSearchDidComplete:result];
             self.useApi = usedApi;
             [self searchLineDetailsForLinesInRoutes:result fromApi:usedApi];
@@ -1528,7 +1457,7 @@ typedef enum
     return nil;
 }
 
--(void)tableViewRefreshing{
+-(void)tableViewRefreshing {
 //    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Reloading Routes..."];
     refreshingRouteTable = YES;
     [self reloadCurrentSearch];
@@ -1542,7 +1471,7 @@ typedef enum
         [self setSelectedTimesForDate:currentTime];
     }
     
-    [self searchRouteIfPossible];
+    [self searchRouteIfPossibleByResetingCurrentList:NO];
 }
 
 -(void)setSelectedTimesForDate:(NSDate *)date{

@@ -65,14 +65,7 @@
     
     NSString *currentLocationText;
     
-//    RouteTimeType selectedTimeType;
-//    NSDate *selectedTime;
-    
-//    RouteSearchOptimization selectedSearchOption;
     RouteSearchOptions *localRouteSearchOptions;
-    
-//    NSString *selectedTimeString;
-//    NSString *selectedDateString;
     
     NSTimer *tableLoadTimer;
     NSMutableArray *routeListCopy;
@@ -83,8 +76,12 @@
     BOOL routeBookmarked;
     BOOL refreshingRouteTable;
     
+    BOOL showTopLoadingView;
+    BOOL showBottomLoadingView;
+    
     BOOL nextRoutesRequested;
     BOOL prevRoutesRequested;
+    BOOL pendingRequestCanceled;
     
     BOOL isShowingOptionsView;
     

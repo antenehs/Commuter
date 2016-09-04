@@ -782,14 +782,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //Animate size
     [self.view asa_springAnimationWithDuration:anim ? 0.5 : 0 animation:^{
         [self hideNearByStopsView:hidden];
-    } completion:^(BOOL finished) {
-        //For a little bounce effect
-//        if (!hidden) {
-//            [UIView transitionWithView:searchResultsView duration:anim ? 0.2 : 0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//                [self increamentNearByStopViewTopSpaceBy:10];
-//            } completion:^(BOOL finished) {}];
-//        }
-    }];
+    } completion:nil];
 }
 
 - (void)hideNearByStopsView:(BOOL)hidden{

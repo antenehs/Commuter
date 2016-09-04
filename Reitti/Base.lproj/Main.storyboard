@@ -59,8 +59,6 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
@@ -73,6 +71,8 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue-Medium</string>
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
@@ -5479,49 +5479,70 @@
                                                     <segue destination="gIr-se-2dR" kind="show" identifier="showDetailedRoute" id="Ixb-Cd-rfH"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="droppedPinCell" rowHeight="60" id="Zig-vB-Fys" customClass="AddressTableViewCell">
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loadingCell" rowHeight="60" id="Zig-vB-Fys" customClass="AddressTableViewCell">
                                                 <rect key="frame" x="0.0" y="152" width="600" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zig-vB-Fys" id="tR2-Pr-I77">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dropped pin" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wNb-gd-YEJ">
+                                                        <view tag="2001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QdB-3d-0vP" customClass="JTMaterialSpinner">
+                                                            <rect key="frame" x="282.5" y="12.5" width="35" height="35"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="35" id="GSh-X2-hEe"/>
+                                                                <constraint firstAttribute="width" constant="35" id="fBd-aI-PVu"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="QdB-3d-0vP" firstAttribute="centerX" secondItem="tR2-Pr-I77" secondAttribute="centerX" id="I0b-0L-z4r"/>
+                                                        <constraint firstItem="QdB-3d-0vP" firstAttribute="centerY" secondItem="tR2-Pr-I77" secondAttribute="centerY" id="ec5-zg-XQB"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="droppedPinCell" rowHeight="60" id="Y8C-ye-fT2" customClass="AddressTableViewCell">
+                                                <rect key="frame" x="0.0" y="212" width="600" height="60"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y8C-ye-fT2" id="JiV-Jt-RIH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dropped pin" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="egE-pb-lgN">
                                                             <rect key="frame" x="55" y="6" width="535" height="31"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.47058823529999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="q8Z-RM-uzj">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="fCf-TO-1ih">
                                                             <rect key="frame" x="55" y="32" width="535" height="21"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropped-pin-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="Aoz-PB-rJH">
+                                                        <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropped-pin-100.png" translatesAutoresizingMaskIntoConstraints="NO" id="51l-2M-B8R">
                                                             <rect key="frame" x="16" y="22" width="18" height="18"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="18" id="gxl-sR-Dcx"/>
+                                                                <constraint firstAttribute="width" constant="18" id="LxX-SB-86C"/>
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="wNb-gd-YEJ" firstAttribute="top" secondItem="tR2-Pr-I77" secondAttribute="topMargin" constant="-2" id="6mT-8L-FHp"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="wNb-gd-YEJ" secondAttribute="trailing" constant="2" id="87O-qj-7th"/>
-                                                        <constraint firstItem="q8Z-RM-uzj" firstAttribute="top" secondItem="tR2-Pr-I77" secondAttribute="topMargin" constant="24" id="Bph-q1-Zv9"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="q8Z-RM-uzj" secondAttribute="bottom" constant="-2" id="Dmn-Zb-xpS"/>
-                                                        <constraint firstItem="Aoz-PB-rJH" firstAttribute="leading" secondItem="tR2-Pr-I77" secondAttribute="leadingMargin" constant="8" id="Feo-cy-KkB"/>
-                                                        <constraint firstItem="wNb-gd-YEJ" firstAttribute="leading" secondItem="q8Z-RM-uzj" secondAttribute="leading" id="LXf-Um-HGP"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="Aoz-PB-rJH" secondAttribute="bottom" constant="11.5" id="VWy-vL-sWC"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="wNb-gd-YEJ" secondAttribute="bottom" constant="14.5" id="e4e-Ze-k83"/>
-                                                        <constraint firstItem="Aoz-PB-rJH" firstAttribute="top" secondItem="tR2-Pr-I77" secondAttribute="topMargin" constant="14" id="saX-dt-OWZ"/>
-                                                        <constraint firstItem="wNb-gd-YEJ" firstAttribute="leading" secondItem="Aoz-PB-rJH" secondAttribute="trailing" constant="21" id="wwd-uZ-gka"/>
-                                                        <constraint firstItem="wNb-gd-YEJ" firstAttribute="trailing" secondItem="q8Z-RM-uzj" secondAttribute="trailing" id="zcI-UG-CBQ"/>
+                                                        <constraint firstItem="fCf-TO-1ih" firstAttribute="top" secondItem="JiV-Jt-RIH" secondAttribute="topMargin" constant="24" id="7Ie-tF-nH4"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="egE-pb-lgN" secondAttribute="trailing" constant="2" id="JqQ-1N-d9t"/>
+                                                        <constraint firstItem="51l-2M-B8R" firstAttribute="leading" secondItem="JiV-Jt-RIH" secondAttribute="leadingMargin" constant="8" id="KXT-Ws-rUh"/>
+                                                        <constraint firstItem="egE-pb-lgN" firstAttribute="trailing" secondItem="fCf-TO-1ih" secondAttribute="trailing" id="YCA-D7-LU2"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="51l-2M-B8R" secondAttribute="bottom" constant="11.5" id="ZJx-nF-z9f"/>
+                                                        <constraint firstItem="51l-2M-B8R" firstAttribute="top" secondItem="JiV-Jt-RIH" secondAttribute="topMargin" constant="14" id="dXa-rq-jNn"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="egE-pb-lgN" secondAttribute="bottom" constant="14.5" id="iXW-hb-Oys"/>
+                                                        <constraint firstItem="egE-pb-lgN" firstAttribute="top" secondItem="JiV-Jt-RIH" secondAttribute="topMargin" constant="-2" id="ik7-Kv-CFa"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="fCf-TO-1ih" secondAttribute="bottom" constant="-2" id="pGc-gI-Bqi"/>
+                                                        <constraint firstItem="egE-pb-lgN" firstAttribute="leading" secondItem="51l-2M-B8R" secondAttribute="trailing" constant="21" id="tlq-X8-bg0"/>
+                                                        <constraint firstItem="egE-pb-lgN" firstAttribute="leading" secondItem="fCf-TO-1ih" secondAttribute="leading" id="wgH-sD-ZL0"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="namedBookmarkCell" rowHeight="60" id="vrq-HN-Rjp" customClass="NamedBookmarkTableViewCell">
-                                                <rect key="frame" x="0.0" y="212" width="600" height="60"/>
+                                                <rect key="frame" x="0.0" y="272" width="600" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vrq-HN-Rjp" id="Tu8-iw-o55">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
@@ -5562,7 +5583,7 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="savedRouteCell" rowHeight="60" id="tRA-qT-UVb" customClass="RouteTableViewCell">
-                                                <rect key="frame" x="0.0" y="272" width="600" height="60"/>
+                                                <rect key="frame" x="0.0" y="332" width="600" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tRA-qT-UVb" id="eo3-Fc-2xQ">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
@@ -5635,7 +5656,7 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="savedStopCell" rowHeight="60" id="fUk-r8-5XG" customClass="StopTableViewCell">
-                                                <rect key="frame" x="0.0" y="332" width="600" height="60"/>
+                                                <rect key="frame" x="0.0" y="392" width="600" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fUk-r8-5XG" id="YnE-CA-6hb">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
@@ -5696,7 +5717,7 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="nextAndPrevCell" rowHeight="60" id="hru-gX-3AX">
-                                                <rect key="frame" x="0.0" y="392" width="600" height="60"/>
+                                                <rect key="frame" x="0.0" y="452" width="600" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hru-gX-3AX" id="Uth-uf-9rB">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
@@ -9438,22 +9459,22 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yf4-eP-97K"/>
-        <segue reference="euA-Pc-fNb"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="Tx2-4m-mRF"/>
-        <segue reference="rqm-Vp-DPt"/>
         <segue reference="X8p-rp-E0z"/>
-        <segue reference="tk7-jO-rac"/>
-        <segue reference="CkP-l4-5DX"/>
-        <segue reference="SWb-EE-ndB"/>
-        <segue reference="F7i-cJ-TYg"/>
-        <segue reference="U9A-P0-Va2"/>
         <segue reference="Q5R-Rv-jo2"/>
         <segue reference="TZn-kH-clf"/>
-        <segue reference="XlZ-XU-H5m"/>
-        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="U9A-P0-Va2"/>
+        <segue reference="SWb-EE-ndB"/>
         <segue reference="ocH-Qu-aOm"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="XlZ-XU-H5m"/>
+        <segue reference="Tx2-4m-mRF"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="euA-Pc-fNb"/>
+        <segue reference="yf4-eP-97K"/>
+        <segue reference="tk7-jO-rac"/>
+        <segue reference="CkP-l4-5DX"/>
+        <segue reference="e2V-qU-oq6"/>
+        <segue reference="9x7-C0-VCu"/>
         <segue reference="FFE-qM-Kep"/>
     </inferredMetricsTieBreakers>
 </document>
