@@ -68,7 +68,7 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     BOOL stopDetailRequested;
     bool stopBookmarked;
     BOOL stopFetchSuccessfulOnce;
-    NSDate *timeToSetAlarm;
+
     NSIndexPath * departuresTableIndex;
     NSInteger pressTime;
     

@@ -12,6 +12,8 @@
 #import "AMBlurView.h"
 #import "EditReminderTableViewController.h"
 #import "ReittiDateFormatter.h"
+#import "Notifications.h"
+#import "UITableView+Helper.h"
 
 @interface RemindersTableViewController ()
 
@@ -28,9 +30,15 @@
     [self initManager];
 //    [self.remindersManager deleteAllSavedRoutines];
     [self fetchSavedData];
+    
+    [self updateSectionNumber];
+    
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 65.0;
+    
     [self.tableView reloadData];
     
-    [self setTableBackgroundView];
+    [self.tableView setBlurredBackgroundWithImageNamed:nil];
     
     CGRect frame = CGRectMake(0, 0, 30, 30);
     UIImage *image1 = [UIImage imageNamed:@"add-button-white.png"];
@@ -51,8 +59,8 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self fetchSavedData];
-    
-    [self.navigationItem setTitle:@"ROUTINES"];
+    [self updateSectionNumber];
+    [self.navigationItem setTitle:@"REMINDERS"];
     
     notificationIsAllowed = [self isNotificationsEnabled];
     [self.tableView reloadData];
@@ -60,14 +68,19 @@
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
+- (void)updateSectionNumber {
+    routinesSection = departureNotifSection = routeNotifSection = -1;
+    routinesSection = 0;
+    
+    NSInteger index = 0;
+    
+    departureNotifSection = self.departureNotifications.count > 0 ? ++index : -1;
+    routeNotifSection = self.routeNotifications.count > 0 ? ++index : -1;
+}
+
 - (void)appWillEnterForeground:(NSNotification *)notification {
     notificationIsAllowed = [self isNotificationsEnabled];
     [self.tableView reloadData];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self setTableBackgroundView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,6 +97,16 @@
     if (self.savedRoutines == nil) {
         self.savedRoutines = [@[] mutableCopy];
     }
+    
+    self.departureNotifications = [[remindersManager getAllDepartureNotifications] mutableCopy];
+    if (!self.departureNotifications) {
+        self.departureNotifications = [@[] mutableCopy];
+    }
+    
+    self.routeNotifications = [[remindersManager getAllRouteNotifications] mutableCopy];
+    if (!self.routeNotifications) {
+        self.routeNotifications = [@[] mutableCopy];
+    }
 }
 
 #pragma mark - view methods
@@ -95,80 +118,97 @@
     self.toolbarItems = toolbarItems;
 }
 
-- (void)setTableBackgroundView {
-    UIView *bluredBackViewContainer = [[UIView alloc] initWithFrame:self.view.bounds];
-    bluredBackViewContainer.backgroundColor = [UIColor whiteColor];
-    UIImageView *mapImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_background.png"]];
-    mapImageView.frame = bluredBackViewContainer.frame;
-    mapImageView.alpha = 0.5;
-    AMBlurView *blurView = [[AMBlurView alloc] initWithFrame:bluredBackViewContainer.frame];
-    
-    [bluredBackViewContainer addSubview:mapImageView];
-    [bluredBackViewContainer addSubview:blurView];
-    
-    self.tableView.backgroundView = bluredBackViewContainer;
-    self.tableView.backgroundColor = [UIColor clearColor];
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 1 + (self.departureNotifications.count > 0 ? 1 : 0) + (self.routeNotifications.count > 0 ? 1 : 0);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    if ([self isNotificationsEnabled]) {
-        return savedRoutines.count > 0 ? savedRoutines.count : 1;
-    }else{
-        return savedRoutines.count > 0 ? savedRoutines.count + 1 : 2;
+    if (section == routinesSection) {
+        if ([self isNotificationsEnabled]) {
+            return savedRoutines.count > 0 ? savedRoutines.count : 1;
+        }else{
+            return savedRoutines.count > 0 ? savedRoutines.count + 1 : 2;
+        }
+    } else if ( section == departureNotifSection) {
+        return self.departureNotifications.count;
+    } else {
+        return self.routeNotifications.count;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     
-//    if (indexPath.section == 0) {
-//        cell = [tableView dequeueReusableCellWithIdentifier:@"addReminderCell" forIndexPath:indexPath];
-//    }else{
-//        
-//    }
     BOOL notifEnabled = [self isNotificationsEnabled];
     
-    NSInteger indexRow = [self dataIndexRowForTableIndexPath:indexPath];
-    
-    if (!notifEnabled && indexPath.row == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"notificationDiabledCell" forIndexPath:indexPath];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }else if (savedRoutines.count == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"addRoutinesCell" forIndexPath:indexPath];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }else{
-        RoutineEntity *routine = [self.savedRoutines objectAtIndex:indexRow];
+    if (indexPath.section == routinesSection) {
+        NSInteger indexRow = [self dataIndexRowForTableIndexPath:indexPath];
         
-        cell = [tableView dequeueReusableCellWithIdentifier:@"reminderCell" forIndexPath:indexPath];
-        UILabel *toLabel = (UILabel *)[cell viewWithTag:2002];
-        UILabel *fromLabel = (UILabel *)[cell viewWithTag:2003];
-        UILabel *timeLabel = (UILabel *)[cell viewWithTag:2004];
-        UILabel *repeatsLabel = (UILabel *)[cell viewWithTag:2005];
-        UISwitch *enableSwitch = (UISwitch *)[cell viewWithTag:2006];
-        
-        toLabel.text = routine.toDisplayName;
-        fromLabel.text = routine.fromDisplayName;
-        timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:routine.routeDate];
-        repeatsLabel.text = [NSString stringWithFormat:@"%@", routine.dayNames];
-        enableSwitch.on = routine.isEnabled;
-        if (enableSwitch.on) {
-            cell.backgroundColor = [UIColor whiteColor];
-            enableSwitch.layer.borderWidth = 0;
+        if (!notifEnabled && indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"notificationDiabledCell" forIndexPath:indexPath];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }else if (savedRoutines.count == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"addRoutinesCell" forIndexPath:indexPath];
+            cell.backgroundColor = [UIColor clearColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }else{
-            cell.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-            enableSwitch.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
-            enableSwitch.layer.borderWidth = 2;
-            enableSwitch.layer.cornerRadius = 15.5;
+            RoutineEntity *routine = [self.savedRoutines objectAtIndex:indexRow];
+            
+            cell = [tableView dequeueReusableCellWithIdentifier:@"routineCell" forIndexPath:indexPath];
+            UILabel *toLabel = (UILabel *)[cell viewWithTag:2002];
+            UILabel *fromLabel = (UILabel *)[cell viewWithTag:2003];
+            UILabel *timeLabel = (UILabel *)[cell viewWithTag:2004];
+            UILabel *repeatsLabel = (UILabel *)[cell viewWithTag:2005];
+            UISwitch *enableSwitch = (UISwitch *)[cell viewWithTag:2006];
+            
+            toLabel.text = routine.toDisplayName;
+            fromLabel.text = routine.fromDisplayName;
+            timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:routine.routeDate];
+            repeatsLabel.text = [NSString stringWithFormat:@"%@", routine.dayNames];
+            enableSwitch.on = routine.isEnabled;
+            if (enableSwitch.on) {
+                cell.backgroundColor = [UIColor whiteColor];
+                enableSwitch.layer.borderWidth = 0;
+            }else{
+                cell.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+                enableSwitch.layer.borderColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+                enableSwitch.layer.borderWidth = 2;
+                enableSwitch.layer.cornerRadius = 15.5;
+            }
+        }
+    } else if (indexPath.section == departureNotifSection || indexPath.section == routeNotifSection) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"departureReminderCell" forIndexPath:indexPath];
+        
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:2001];
+        UILabel *codeLabel = (UILabel *)[cell viewWithTag:2002];
+        UILabel *stopLabel = (UILabel *)[cell viewWithTag:2003];
+        UILabel *timeLabel = (UILabel *)[cell viewWithTag:2004];
+        
+        if (indexPath.section == departureNotifSection) {
+            DepartureNotification *notification = self.departureNotifications[indexPath.row];
+            
+            codeLabel.text = notification.departureLine;
+            stopLabel.text = notification.stopName;
+            timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:notification.fireDate];
+            
+            if (notification.stopIconName) {
+                UIImage *image = [UIImage imageNamed:notification.stopIconName];
+                if (image) [imageView setImage:image];
+            }
+        } else {
+            RouteNotification *notification = self.routeNotifications[indexPath.row];
+            
+            codeLabel.text = notification.title;
+            stopLabel.text = [NSString stringWithFormat:@"To %@", notification.routeToLocation];
+            timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:notification.fireDate];
+            
+            UIImage *image = [UIImage imageNamed:@"routeIcon2"];
+            if (image) [imageView setImage:image];
         }
     }
     
@@ -176,29 +216,55 @@
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (![self isNotificationsEnabled] && indexPath.row == 0) {
-        return 80;
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == routinesSection && self.savedRoutines.count > 0) {
+        return @"ROUTINES";
+    } else if ( section == departureNotifSection) {
+        return @"STOP DEPARTURE REMINDERS";
+    } else if ( section == routeNotifSection){
+        return @"ROUTE REMINDERS";
+    } else {
+        return nil;
     }
-    return 120;
 }
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    return self.savedRoutines.count > 0;
+    if (indexPath.section == 0) {
+        return self.savedRoutines.count > 0;
+    } else {
+        return YES;
+    }
 }
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [remindersManager deleteSavedRoutine:[savedRoutines objectAtIndex:[self dataIndexRowForTableIndexPath:indexPath]]];
-        [savedRoutines removeObjectAtIndex:[self dataIndexRowForTableIndexPath:indexPath]];
-        if (savedRoutines.count != 0) {
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        }else{
-            [self.tableView reloadData];
+        if (indexPath.section == routinesSection) {
+            [remindersManager deleteSavedRoutine:[savedRoutines objectAtIndex:[self dataIndexRowForTableIndexPath:indexPath]]];
+            [savedRoutines removeObjectAtIndex:[self dataIndexRowForTableIndexPath:indexPath]];
+            if (savedRoutines.count != 0) {
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }else{
+                [self.tableView reloadData];
+            }
+        } else if (indexPath.section == departureNotifSection) {
+            [remindersManager cancelNotifications:@[self.departureNotifications[indexPath.row]]];
+            [self.departureNotifications removeObjectAtIndex:indexPath.row];
+            if (self.departureNotifications.count == 0) {
+                [tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+        } else {
+            [remindersManager cancelNotifications:@[self.routeNotifications[indexPath.row]]];
+            [self.routeNotifications removeObjectAtIndex:indexPath.row];
+            if (self.routeNotifications.count == 0) {
+                [tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+            } else {
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
         }
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

@@ -101,6 +101,7 @@ typedef enum{
 +(LineType)lineTypeForStopType:(StopType)stopType;
 
 +(LegTransportType)legTrasportTypeForLineType:(LineType)lineType;
++(NSString *)lineDisplayName:(LegTransportType)legType forLineCode:(NSString *)lineCode;
 
 +(NSString *)dayNameForWeekDay:(WeekDay)weekDay;
 +(NSString *)shortDayNameForWeekDay:(WeekDay)weekDay;

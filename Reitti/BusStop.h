@@ -58,5 +58,6 @@
 @property (nonatomic, retain) NSString * linesString;
 
 @property (nonatomic) StopType stopType;
+@property (nonatomic, retain)NSString *stopIconName;
 
 @end

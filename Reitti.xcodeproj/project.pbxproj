@@ -59,6 +59,8 @@
 		660716021B45CD2C00033049 /* ValueState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F91B45CD2C00033049 /* ValueState.m */; };
 		660716171B49CBFA00033049 /* logoutJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 660716161B49CBFA00033049 /* logoutJS.js */; };
 		660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
+		660A962C1D7DE53000A813A6 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
+		660A962D1D7DE53000A813A6 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
 		660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
 		660CFE091C188FD8004D73FC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
 		660CFE0A1C188FEC004D73FC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
@@ -1188,6 +1190,8 @@
 		660715F81B45CD2C00033049 /* ValueState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueState.h; sourceTree = "<group>"; };
 		660715F91B45CD2C00033049 /* ValueState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueState.m; sourceTree = "<group>"; };
 		660716161B49CBFA00033049 /* logoutJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logoutJS.js; sourceTree = "<group>"; };
+		660A962A1D7DE53000A813A6 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
+		660A962B1D7DE53000A813A6 /* Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notifications.m; sourceTree = "<group>"; };
 		660CFE061C188FD8004D73FC /* Forward-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Forward-light-100.png"; path = "Pictures/version 4.1/Forward-light-100.png"; sourceTree = "<group>"; };
 		660CFE071C188FD8004D73FC /* Back-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Back-light-100.png"; path = "Pictures/version 4.1/Back-light-100.png"; sourceTree = "<group>"; };
 		660CFE141C19A157004D73FC /* HSLAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLAPIClient.h; sourceTree = "<group>"; };
@@ -2448,6 +2452,8 @@
 				66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */,
 				66BCA7191D7AF2D80092C5BB /* AnnotationFilter.h */,
 				66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */,
+				660A962A1D7DE53000A813A6 /* Notifications.h */,
+				660A962B1D7DE53000A813A6 /* Notifications.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4426,6 +4432,7 @@
 				663E1EDD1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */,
+				660A962C1D7DE53000A813A6 /* Notifications.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
 				66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */,
 				6603A8FD1CD29B6200991FBF /* ReittiObject.m in Sources */,
@@ -4695,6 +4702,7 @@
 				663E1EDE1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C732CC1C556DA5002544BC /* ReittiShapeMaker.m in Sources */,
 				66C732CD1C556DA5002544BC /* DisruptionLine.m in Sources */,
+				660A962D1D7DE53000A813A6 /* Notifications.m in Sources */,
 				66C732CE1C556DA5002544BC /* SearchController.m in Sources */,
 				66C732CF1C556DA5002544BC /* HTMLTextNode.m in Sources */,
 				6603A8FE1CD29B6300991FBF /* ReittiObject.m in Sources */,

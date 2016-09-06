@@ -52,8 +52,6 @@
         self.toneName = [AppManager defailtToneName];
     }
     
-    [doneButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-    [doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setDoneButtonState];
     [self setTableBackgroundView];
 }

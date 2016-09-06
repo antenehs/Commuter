@@ -19,7 +19,7 @@
     
     UIDatePicker *datePicker;
     
-    IBOutlet UIButton *doneButton;
+    IBOutlet UIBarButtonItem *doneButton;
 }
 
 @property (nonatomic, strong)RoutineEntity *routine;

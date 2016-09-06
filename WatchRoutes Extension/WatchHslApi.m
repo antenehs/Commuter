@@ -147,7 +147,7 @@
     NSArray *parsedObject = [NSJSONSerialization JSONObjectWithData:objectNotation options:0 error:&localError];
     
     if (localError != nil) {
-        *error = localError;
+//        *error = localError;
         return nil;
     }
     

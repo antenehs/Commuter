@@ -11,12 +11,19 @@
 #import "ReittiNotificationHelper.h"
 #import "CoreDataManager.h"
 #import <EventKit/EventKit.h>
+#import "SettingsManager.h"
 
 @interface ReittiRemindersManager ()
 
 @property (nonatomic, strong)EKEventStore * eventStore;
+@property (nonatomic, strong)SettingsManager *settingsManager;
 
 @end
+
+NSString *kNotificationTypeUserInfoKey = @"kNotificationTypeUserInfoKey";
+NSString *kNotificationTypeRoutine = @"kNotificationTypeRoutine";
+NSString *kNotificationTypeDeparture = @"kNotificationTypeDeparture";
+NSString *kNotificationTypeRoute = @"kNotificationTypeRoute";
 
 NSString *kRoutineNotificationFromName = @"kRoutineNotificationFromName";
 NSString *kRoutineNotificationFromCoords = @"kRoutineNotificationFromCoords";
@@ -43,6 +50,8 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     reminderMessageFormater = @"Your ride will leave in %d minutes.";
     
     self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
+    RettiDataManager *dataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+    self.settingsManager = [[SettingsManager alloc] initWithDataManager:dataManager];
     
     self.allRoutines = [[self fetchAllSavedRoutinesFromCoreData] mutableCopy];
     
@@ -52,8 +61,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     return self;
 }
 
-
--(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date andToneName:(NSString *)toneName{
+-(void)setNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo{
     if ([self isLocalNotificationEnabled]) {
         if (date == nil) {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting notifications failed."];
@@ -61,15 +69,11 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
             return;
         }
         
-        NSTimeInterval seconds = (minute * -60);
-        
-        date = [date dateByAddingTimeInterval:seconds];
-        
         if ([[NSDate date] compare:date] == NSOrderedDescending ) {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already passed."];
-        }else{
+        } else {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
-            [self scheduleOneTimeNotificationForDate:date andMessage:[NSString stringWithFormat:reminderMessageFormater, minute] andToneName:toneName];
+            [self scheduleOneTimeNotificationForDate:date message:message userInfo:userInfo];
         }
         
     }else{
@@ -88,8 +92,94 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     }
 }
 
+#pragma mark - Departure notif methods
+-(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute {
+    DepartureNotification *notification = [DepartureNotification notificationForDeparture:departure stop:stop offsetMin:minute];
+    
+    NSTimeInterval seconds = (minute * -60);
+    NSDate *fireDate = [departure.parsedScheduledDate dateByAddingTimeInterval:seconds];
+    
+    notification.fireDate = fireDate;
+    notification.toneName = [self.settingsManager toneName];
+    
+    NSMutableDictionary *userInfo = [[notification dictionaryRepresentation] mutableCopy];
+    if (userInfo)
+        userInfo[kNotificationTypeUserInfoKey] = kNotificationTypeDeparture;
+    
+    [self setNotificationForDate:fireDate message:notification.body userInfo:userInfo];
+}
+
+-(NSArray *)getAllDepartureNotifications {
+    NSArray *allNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    NSMutableArray *departureNotifications = [@[] mutableCopy];
+    
+    for (UILocalNotification *notification in allNotifications) {
+        if ([[self notificationTypeOf:notification] isEqualToString:kNotificationTypeDeparture]) {
+            DepartureNotification *notif = [[DepartureNotification alloc] initFromDictionary:notification.userInfo];
+            if (notif) {
+                notif.relatedNotification = notification;
+                [departureNotifications addObject:notif];
+            }
+        }
+    }
+    
+    return departureNotifications;
+}
+
+-(NSArray *)getDepartureNotificationsForStop:(BusStop *)stop {
+    NSArray *allDepartureNotifications = [self getAllDepartureNotifications];
+    return [allDepartureNotifications filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"stopName == %@", [DepartureNotification notificationStopNameForStop:stop]]];
+}
+
+#pragma mark - Route notification methods
+-(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute {
+    RouteNotification *routeNotif = [RouteNotification notificationForRoute:route offsetMn:minute];
+    
+    NSTimeInterval seconds = (minute * -60);
+    NSDate *fireDate = [route.startingTimeOfRoute dateByAddingTimeInterval:seconds];
+    
+    routeNotif.fireDate = fireDate;
+    routeNotif.toneName = [self.settingsManager toneName];
+    
+    NSMutableDictionary *userInfo = [[routeNotif dictionaryRepresentation] mutableCopy];
+    if (userInfo)
+        userInfo[kNotificationTypeUserInfoKey] = kNotificationTypeRoute;
+    
+    [self setNotificationForDate:fireDate message:routeNotif.body userInfo:userInfo];
+}
+
+-(NSArray *)getAllRouteNotifications {
+    NSArray *allNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    NSMutableArray *routeNotifications = [@[] mutableCopy];
+    
+    for (UILocalNotification *notification in allNotifications) {
+        if ([[self notificationTypeOf:notification] isEqualToString:kNotificationTypeRoute]) {
+            RouteNotification *notif = [[RouteNotification alloc] initFromDictionary:notification.userInfo];
+            if (notif) {
+                notif.relatedNotification = notification;
+                [routeNotifications addObject:notif];
+            }
+        }
+    }
+    
+    return routeNotifications;
+}
+
+-(NSArray *)getRouteNotificationsForRoute:(Route *)route {
+    NSArray *allRouteNotifications = [self getAllRouteNotifications];
+    return [allRouteNotifications filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"routeUniqueIdentifier == %@", route.routeUniqueName]];
+}
+
+-(void)cancelNotifications:(NSArray *)notifications {
+    for (NotificationBase *notification in notifications) {
+        if (notification.relatedNotification) {
+            [[UIApplication sharedApplication] cancelLocalNotification:notification.relatedNotification];
+        }
+    }
+}
+
 #pragma mark - Local 
-+(BOOL)isFirstRequest{
++(BOOL)isFirstRequest {
     NSString *isAlradyRequested = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
     
     return isAlradyRequested == nil;
@@ -109,15 +199,12 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     UIUserNotificationSettings *grantedSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     
     if (grantedSettings.types == UIUserNotificationTypeNone) {
-//        NSLog(@"No permiossion granted");
         toReturn = NO;
     }
     else if (grantedSettings.types & UIUserNotificationTypeSound & UIUserNotificationTypeAlert ){
-//        NSLog(@"Sound and alert permissions ");
         toReturn = YES;
     }
     else if (grantedSettings.types  & UIUserNotificationTypeAlert){
-//        NSLog(@"Alert Permission Granted");
         toReturn = YES;
     }
     
@@ -140,7 +227,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     
 }
 
--(void)checkIfNotificationsAreValid:(NSArray *)routines{
+-(void)checkIfNotificationsAreValid:(NSArray *)routines {
     NSArray *localNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
     
     int enabledRoutines = 0;
@@ -193,11 +280,6 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     }else if (routine.repeatDays.count == 7){
         NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:timeComponents];
         [self scheduleLocalNotification:localNotification forDate:date withRepeat:NSCalendarUnitDay];
-//    }else if (routine.repeatDays.count == 5 &&
-//              ![routine.repeatDays containsObject:@6] &&
-//              ![routine.repeatDays containsObject:@7]){
-//        NSDate *date = [[NSCalendar currentCalendar] dateFromComponents:timeComponents];
-//        [self scheduleLocalNotification:localNotification forDate:date withRepeat:NSCalendarUnitWeekday];
     }else{
         //Schedule notifications for each day separately
         for (NSNumber *weekDay in routine.repeatDays) {
@@ -230,7 +312,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
         localNotification.soundName = [NSString stringWithFormat:@"%@.mp3",routine.toneName];
     }
     
-    localNotification.userInfo = [self dictionaryDateFromRoutine:routine];
+    localNotification.userInfo = [self dictionaryDataFromRoutine:routine];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
     
@@ -242,19 +324,19 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     notification.fireDate = date;
     
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
-    //    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
--(void)scheduleOneTimeNotificationForDate:(NSDate *)date andMessage:(NSString *)body andToneName:(NSString *)toneName{
+-(void)scheduleOneTimeNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo {
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertBody = body;
+    localNotification.alertBody = message;
+    NSString *toneName = [self.settingsManager toneName];
     if (toneName == UILocalNotificationDefaultSoundName) {
         localNotification.soundName = UILocalNotificationDefaultSoundName;
     }else{
         localNotification.soundName = [toneName containsString:@".mp3"] ? toneName : [NSString stringWithFormat:@"%@.mp3",toneName];
     }
     
-    localNotification.userInfo = nil;
+    localNotification.userInfo = userInfo;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     localNotification.fireDate = date;
     
@@ -264,33 +346,35 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 -(void)cancelAllRoutineLocalNotification{
     NSArray *allNotifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
     for (UILocalNotification *notification in allNotifications) {
-        if ([self isRoutineNotification:notification]) {
+        if ([[self notificationTypeOf:notification] isEqualToString:kNotificationTypeRoutine]) {
             [[UIApplication sharedApplication] cancelLocalNotification:notification];
         }
     }
 }
 
 -(NSString *)uniqueNameForRoutine:(RoutineEntity *)routine{
-//    return [NSString stringWithFormat:@"%@-%@-%@",routine.fromDisplayName, routine.toDisplayName, [ReittiStringFormatter formatFullDate:routine.routeDate]];
     return [routine.objectID description];
 }
 
--(NSDictionary *)dictionaryDateFromRoutine:(RoutineEntity *)routine{
+-(NSDictionary *)dictionaryDataFromRoutine:(RoutineEntity *)routine{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:routine.fromDisplayName forKey:kRoutineNotificationFromName];
     [dict setObject:routine.fromLocationCoords forKey:kRoutineNotificationFromCoords];
     [dict setObject:routine.toDisplayName forKey:kRoutineNotificationToName];
     [dict setObject:routine.toLocationCoords forKey:kRoutineNotificationToCoords];
     [dict setObject:[self uniqueNameForRoutine:routine] forKey:kRoutineNotificationUniqueName];
+    [dict setObject:kNotificationTypeRoutine forKey:kNotificationTypeUserInfoKey];
     
     return dict;
 }
 
-#pragma mark - Static Helpers
--(BOOL)isRoutineNotification:(UILocalNotification *)notification{
-    return notification.userInfo != nil;
+-(NSString *)notificationTypeOf:(UILocalNotification *)notification {
+    if (!notification.userInfo) return @"UNKNOWN";
+    
+    return notification.userInfo[kNotificationTypeUserInfoKey];
 }
 
+#pragma mark - Static Helpers
 +(NSString *)displayStringForSeletedDays:(NSArray *)daysList{
     if (daysList.count == 0) {
         return @"Never";

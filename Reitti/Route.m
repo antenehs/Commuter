@@ -197,6 +197,10 @@
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
+-(NSString *)routeUniqueName {
+    return [NSString stringWithFormat:@"%@ - %@",self.fromLocationName, self.toLocationName];
+}
+
 
 #ifndef APPLE_WATCH
 

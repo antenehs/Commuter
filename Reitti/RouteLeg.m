@@ -24,6 +24,7 @@
 
 
 #import "RouteLeg.h"
+#import "EnumManager.h"
 
 #ifndef APPLE_WATCH
 #import "DigiDataModels.h"
@@ -173,30 +174,7 @@
 }
 
 -(NSString *)lineDisplayName{
-    switch (self.legType) {
-        case LegTypeBus:
-            return [NSString stringWithFormat:@"Bus %@", [self.lineName uppercaseString]];
-        case LegTypeTram:
-            return [NSString stringWithFormat:@"Tram %@", [self.lineName uppercaseString]];
-        case LegTypeTrain:
-            return [NSString stringWithFormat:@"Train %@", [self.lineName uppercaseString]];
-        case LegTypeLongDistanceTrain:
-            return [NSString stringWithFormat:@"Long distance train %@", [self.lineName uppercaseString]];
-        case LegTypeAirplane:
-            return [NSString stringWithFormat:@"Flight %@", [self.lineName uppercaseString]];
-        case LegTypeFerry:
-            return @"Ferry";
-        case LegTypeMetro:
-            return @"Metro";
-        case LegTypeWalk:
-            return @"Walk";
-        case LegTypeBicycle:
-            return @"City Bike";
-            
-        default:
-            return [self.lineName uppercaseString];
-            break;
-    }
+    return [EnumManager lineDisplayName:self.legType forLineCode:self.lineName];
 }
 
 #pragma mark - to and from dictionary

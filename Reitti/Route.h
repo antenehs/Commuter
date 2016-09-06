@@ -77,6 +77,7 @@
 @property (nonatomic, readonly, strong)NSDate *timeAtTheFirstStop;
 @property (nonatomic, readonly)CLLocationCoordinate2D startCoords;
 @property (nonatomic, readonly)CLLocationCoordinate2D destinationCoords;
+@property (nonatomic, strong, readonly)NSString *routeUniqueName;
 
 
 @end

@@ -22,7 +22,7 @@ typedef enum{
     RouteListViewLoactionTop = 3
 } RouteListViewLoaction;
 
-@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
+@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
     
     IBOutlet MKMapView *routeMapView;
     IBOutlet AMBlurView *topBarView;

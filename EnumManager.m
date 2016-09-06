@@ -211,6 +211,33 @@
     }
 }
 
++(NSString *)lineDisplayName:(LegTransportType)legType forLineCode:(NSString *)lineCode {
+    switch (legType) {
+        case LegTypeBus:
+            return [NSString stringWithFormat:@"Bus %@", [lineCode uppercaseString]];
+        case LegTypeTram:
+            return [NSString stringWithFormat:@"Tram %@", [lineCode uppercaseString]];
+        case LegTypeTrain:
+            return [NSString stringWithFormat:@"Train %@", [lineCode uppercaseString]];
+        case LegTypeLongDistanceTrain:
+            return [NSString stringWithFormat:@"Long distance train %@", [lineCode uppercaseString]];
+        case LegTypeAirplane:
+            return [NSString stringWithFormat:@"Flight %@", [lineCode uppercaseString]];
+        case LegTypeFerry:
+            return @"Ferry";
+        case LegTypeMetro:
+            return @"Metro";
+        case LegTypeWalk:
+            return @"Walk";
+        case LegTypeBicycle:
+            return @"City Bike";
+            
+        default:
+            return [lineCode uppercaseString];
+            break;
+    }
+}
+
 +(LegTransportType)legTrasportTypeForLineType:(LineType)lineType{
     if (lineType == LineTypeTram) {
         return LegTypeTram;

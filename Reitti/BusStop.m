@@ -11,6 +11,7 @@
 #import "CacheManager.h"
 #import "ReittiStringFormatter.h"
 #import "StopLine.h"
+#import "AppManager.h"
 
 @interface BusStop ()
 
@@ -50,6 +51,10 @@
         }
     }
     @catch (NSException *exception) {}
+}
+
+-(NSString *)stopIconName {
+    return [AppManager stopIconNameForStopType:self.stopType];
 }
 
 -(NSArray *)lineCodes{

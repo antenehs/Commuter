@@ -20,6 +20,9 @@
 #import "ReittiDateFormatter.h"
 #import "DepartureTableViewCell.h"
 
+typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
+typedef AlertControllerAction (^ActionGenerator)(int minutes);
+
 @interface StopViewController ()
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
@@ -309,33 +312,7 @@
             [self.reittiDataManager deleteSavedStopForCode:codeNumber];
             [delegate deletedSavedStop:self.stopEntity];
         }
-    }else{
-        switch (buttonIndex) {
-            case 0:
-                [self setReminderForOffset:1 andTime:timeToSetAlarm];
-                break;
-            case 1:
-                [self setReminderForOffset:5 andTime:timeToSetAlarm];
-                break;
-            case 2:
-                [self setReminderForOffset:10 andTime:timeToSetAlarm];
-                break;
-            case 3:
-                [self setReminderForOffset:15 andTime:timeToSetAlarm];
-                break;
-            case 4:
-                [self setReminderForOffset:30 andTime:timeToSetAlarm];
-                break;
-            default:
-                break;
-        }
-        
-        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetDepartureReminder label:@"All" value:nil];
     }
-}
-
--(void)setReminderForOffset:(int)offset andTime:(NSDate *)time{
-    [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:offset andTime:time andToneName:[settingsManager toneName]];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -640,23 +617,57 @@
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-    UIActionSheet *actionSheet;
     switch (index) {
         case 0:{
-            actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
-            //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-            actionSheet.tag = 2001;
-            [actionSheet showInView:self.view];
             StopDeparture *departure = [self.departures objectAtIndex:[[departuresTable indexPathForCell:cell] row]];
-//            NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
-            timeToSetAlarm = departure.parsedScheduledDate;
-//            timeToSetAlarm = [(UILabel *)[cell viewWithTag:1001] text];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"When do you want to be reminded." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            ActionGenerator actionGenerator = ^(int minutes){
+                return ^(UIAlertAction *alertAction) {
+                    [self setReminderForDeparture:departure Offset:minutes];
+                    
+                    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetDepartureReminder label:[NSString stringWithFormat:@"%d min", minutes] value:nil];
+                };
+            };
+            
+            UIAlertAction *action1min = [UIAlertAction actionWithTitle:@"1 min before" style:UIAlertActionStyleDefault handler:actionGenerator(1)];
+            UIAlertAction *action5min = [UIAlertAction actionWithTitle:@"5 min before" style:UIAlertActionStyleDefault handler:actionGenerator(5)];
+            UIAlertAction *action10min = [UIAlertAction actionWithTitle:@"10 min before" style:UIAlertActionStyleDefault handler:actionGenerator(10)];
+            UIAlertAction *action15min = [UIAlertAction actionWithTitle:@"15 min before" style:UIAlertActionStyleDefault handler:actionGenerator(15)];
+            UIAlertAction *action30min = [UIAlertAction actionWithTitle:@"30 min before" style:UIAlertActionStyleDefault handler:actionGenerator(30)];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction){}];
+            
+            [alertController addAction:action1min];
+            [alertController addAction:action5min];
+            [alertController addAction:action10min];
+            [alertController addAction:action15min];
+            [alertController addAction:action30min];
+            
+            NSArray *existingNotifs = [[ReittiRemindersManager sharedManger] getDepartureNotificationsForStop:self._busStop];
+            if (existingNotifs && existingNotifs.count > 0) {
+                UIAlertAction *deleteExisting = [UIAlertAction actionWithTitle:@"Cancel Current Reminders" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                    [[ReittiRemindersManager sharedManger] cancelNotifications:existingNotifs];
+                }];
+                
+                [alertController addAction:deleteExisting];
+            }
+            
+            [alertController addAction:cancelAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+            
             [cell hideUtilityButtonsAnimated:YES];
         }
             break;
         default:
             break;
     }
+}
+
+-(void)setReminderForDeparture:(StopDeparture *)departure Offset:(int)offset {
+    [[ReittiRemindersManager sharedManger] setNotificationForDeparture:departure inStop:self._busStop offset:offset];
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state{

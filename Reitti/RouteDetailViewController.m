@@ -26,6 +26,9 @@
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
 
+typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
+typedef AlertControllerAction (^ActionGenerator)(int minutes);
+
 @interface RouteDetailViewController ()
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
@@ -1419,43 +1422,47 @@
 }
 
 - (IBAction)reminderButtonPressed:(id)sender {
-    UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"When do you want to be reminded." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"1 min before", @"5 min before",@"10 min before",@"15 min before", @"30 min before", nil];
-    actionSheet.tag = 2001;
-    [actionSheet showInView:self.view];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == 2001) {
-//        NSString * timeToSetAlarm = [ReittiStringFormatter formatHourStringFromDate:self.route.getStartingTimeOfRoute];
-        reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minutes.";
-        switch (buttonIndex) {
-            case 0:
-                reittiRemindersManager.reminderMessageFormater = @"Get ready to leave in %d minute.";
-                [self setReminderForOffset:1 andTime:self.route.startingTimeOfRoute];
-                break;
-            case 1:
-                [self setReminderForOffset:5 andTime:self.route.startingTimeOfRoute];
-                break;
-            case 2:
-                [self setReminderForOffset:10 andTime:self.route.startingTimeOfRoute];
-                break;
-            case 3:
-                [self setReminderForOffset:15 andTime:self.route.startingTimeOfRoute];
-                break;
-            case 4:
-                [self setReminderForOffset:30 andTime:self.route.startingTimeOfRoute];
-                break;
-            default:
-                break;
-        }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"When do you want to be reminded." message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    ActionGenerator actionGenerator = ^(int minutes){
+        return ^(UIAlertAction *alertAction) {
+            [self setReminderForRouteWithOfset:minutes];
+            
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetRouteReminder label:[NSString stringWithFormat:@"%d min", minutes] value:nil];
+        };
+    };
+    
+    UIAlertAction *action1min = [UIAlertAction actionWithTitle:@"1 min before" style:UIAlertActionStyleDefault handler:actionGenerator(1)];
+    UIAlertAction *action5min = [UIAlertAction actionWithTitle:@"5 min before" style:UIAlertActionStyleDefault handler:actionGenerator(5)];
+    UIAlertAction *action10min = [UIAlertAction actionWithTitle:@"10 min before" style:UIAlertActionStyleDefault handler:actionGenerator(10)];
+    UIAlertAction *action15min = [UIAlertAction actionWithTitle:@"15 min before" style:UIAlertActionStyleDefault handler:actionGenerator(15)];
+    UIAlertAction *action30min = [UIAlertAction actionWithTitle:@"30 min before" style:UIAlertActionStyleDefault handler:actionGenerator(30)];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction){}];
+    
+    [alertController addAction:action1min];
+    [alertController addAction:action5min];
+    [alertController addAction:action10min];
+    [alertController addAction:action15min];
+    [alertController addAction:action30min];
+    
+    NSArray *existingNotifs = [[ReittiRemindersManager sharedManger] getRouteNotificationsForRoute:self.route];
+    if (existingNotifs && existingNotifs.count > 0) {
+        UIAlertAction *deleteExisting = [UIAlertAction actionWithTitle:@"Cancel Current Reminders" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            [[ReittiRemindersManager sharedManger] cancelNotifications:existingNotifs];
+        }];
         
-        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetRouteReminder label:@"All" value:nil];
+        [alertController addAction:deleteExisting];
     }
+    
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
--(void)setReminderForOffset:(int)offset andTime:(NSDate *)time{
-    [[ReittiRemindersManager sharedManger] setNotificationWithMinOffset:offset andTime:time andToneName:[settingsManager toneName]];
+-(void)setReminderForRouteWithOfset:(int)offset {
+    [[ReittiRemindersManager sharedManger] setNotificationForRoute:self.route withMinOffset:offset];
 }
 
 -(void)swipeToLeftDetected:(id)sender{

@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "RoutineEntity.h"
 #import "EnumManager.h"
+#import "BusStop.h"
+#import "StopDeparture.h"
+#import "Notifications.h"
+#import "Route.h"
 
 extern NSString *kRoutineNotificationFromName;
 extern NSString *kRoutineNotificationFromCoords;
@@ -20,11 +24,15 @@ extern NSString *kRoutineNotificationUniqueName;
 
 +(id)sharedManger;
 
-/*Uncomment the following to have reminders*/
-//-(BOOL)isAppAutorizedForReminders;
-//-(void)setReminderWithMinOffset:(int)minute andHourString:(NSString *)timeString;
+-(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute;
+-(NSArray *)getAllDepartureNotifications;
+-(NSArray *)getDepartureNotificationsForStop:(BusStop *)stop;
 
--(void)setNotificationWithMinOffset:(int)minute andTime:(NSDate *)date andToneName:(NSString *)toneName;
+-(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute;
+-(NSArray *)getAllRouteNotifications;
+-(NSArray *)getRouteNotificationsForRoute:(Route *)route;
+
+-(void)cancelNotifications:(NSArray *)notification;
 
 +(BOOL)isFirstRequest;
 -(BOOL)isLocalNotificationEnabled;
