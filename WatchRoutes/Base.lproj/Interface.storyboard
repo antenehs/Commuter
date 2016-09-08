@@ -249,10 +249,10 @@
                                                                 <items>
                                                                     <group width="1" alignment="left" spacing="3" id="x2x-qO-Q1o">
                                                                         <items>
-                                                                            <label alignment="left" text="Walk" id="YKy-J4-iYh">
+                                                                            <label alignment="left" text="Walk" minimumScaleFactor="0.90000000000000002" id="YKy-J4-iYh">
                                                                                 <fontDescription key="font" type="system" weight="semibold" pointSize="16"/>
                                                                             </label>
-                                                                            <label alignment="right" text="10:45" id="oFM-3m-HX7">
+                                                                            <label width="37" alignment="right" text="10:45" minimumScaleFactor="0.80000000000000004" id="oFM-3m-HX7">
                                                                                 <fontDescription key="font" type="system" pointSize="14"/>
                                                                             </label>
                                                                         </items>
@@ -432,7 +432,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="536" y="-194"/>
+            <point key="canvasLocation" x="570" y="-201"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
