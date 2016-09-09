@@ -1,0 +1,891 @@
+
+/* Class = "UILabel"; text = "60 days"; ObjectID = "08C-8L-jtw"; */
+"08C-8L-jtw.text" = "60 days";
+
+/* Class = "UILabel"; text = "Rate in App Store"; ObjectID = "0Bk-qb-nne"; */
+"0Bk-qb-nne.text" = "Rate in App Store";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "0PW-4l-7Xo"; */
+"0PW-4l-7Xo.title" = "Item";
+
+/* Class = "UILabel"; text = "from"; ObjectID = "0Q0-Xm-AwJ"; */
+"0Q0-Xm-AwJ.text" = "from";
+
+/* Class = "UIButton"; normalTitle = "22 stops"; ObjectID = "0UF-Lg-EeF"; */
+"0UF-Lg-EeF.normalTitle" = "22 stops";
+
+/* Class = "UITextField"; placeholder = "Name (Optional)"; ObjectID = "0gP-Wk-mVu"; */
+"0gP-Wk-mVu.placeholder" = "Name (Optional)";
+
+/* Class = "UIButton"; normalTitle = "Route from Here"; ObjectID = "0ni-ZY-uwa"; */
+"0ni-ZY-uwa.normalTitle" = "Route from Here";
+
+/* Class = "UILabel"; text = "Nothing bookmarked yet"; ObjectID = "0sJ-HG-bpd"; */
+"0sJ-HG-bpd.text" = "Nothing bookmarked yet";
+
+/* Class = "UIButton"; normalTitle = "Contact Me"; ObjectID = "1Ik-W1-XoJ"; */
+"1Ik-W1-XoJ.normalTitle" = "Contact Me";
+
+/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "1l4-v7-4wg"; */
+"1l4-v7-4wg.title" = "Done";
+
+/* Class = "UILabel"; text = "21.09.2014"; ObjectID = "1lw-Yc-YAW"; */
+"1lw-Yc-YAW.text" = "21.09.2014";
+
+/* Class = "UILabel"; text = "No departures in the next 6 hours"; ObjectID = "20t-vM-L9N"; */
+"20t-vM-L9N.text" = "No departures in the next 6 hours";
+
+/* Class = "UILabel"; text = "Free and distributable icons"; ObjectID = "24n-77-11X"; */
+"24n-77-11X.text" = "Free and distributable icons";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "2C0-Ut-frT"; */
+"2C0-Ut-frT.text" = "Label";
+
+/* Class = "UIViewController"; title = "StopViewController"; ObjectID = "2Jo-uz-fgw"; */
+"2Jo-uz-fgw.title" = "StopViewController";
+
+/* Class = "UILabel"; text = "- Mon Tue Wed"; ObjectID = "2Nw-rg-3an"; */
+"2Nw-rg-3an.text" = "- Mon Tue Wed";
+
+/* Class = "UITableViewController"; title = "ALERT TONE"; ObjectID = "2a8-iS-Pch"; */
+"2a8-iS-Pch.title" = "ALERT TONE";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "2bN-7z-je6"; */
+"2bN-7z-je6.title" = "Back";
+
+/* Class = "UILabel"; text = "Departures Widget settings"; ObjectID = "2db-o1-ezt"; */
+"2db-o1-ezt.text" = "Departures Widget settings";
+
+/* Class = "UIButton"; normalTitle = "More route options"; ObjectID = "2h4-sA-eZr"; */
+"2h4-sA-eZr.normalTitle" = "More route options";
+
+/* Class = "UILabel"; text = "No routines added yet"; ObjectID = "2hH-x5-R7K"; */
+"2hH-x5-R7K.text" = "No routines added yet";
+
+/* Class = "UIButton"; normalTitle = "Set Address"; ObjectID = "2r8-cu-Jb5"; */
+"2r8-cu-Jb5.normalTitle" = "Set Address";
+
+/* Class = "UILabel"; text = "Show live vehicles"; ObjectID = "3Ca-Ky-ugR"; */
+"3Ca-Ky-ugR.text" = "Show live vehicles";
+
+/* Class = "UILabel"; text = "Default"; ObjectID = "3GO-sP-Qqu"; */
+"3GO-sP-Qqu.text" = "Default";
+
+/* Class = "UIButton"; normalTitle = "RENAME"; ObjectID = "3rQ-Un-GQU"; */
+"3rQ-Un-GQU.normalTitle" = "RENAME";
+
+/* Class = "UINavigationItem"; title = "ROUTE OPTIONS"; ObjectID = "3re-jE-igX"; */
+"3re-jE-igX.title" = "ROUTE OPTIONS";
+
+/* Class = "UILabel"; text = "09:28"; ObjectID = "3vc-3G-b0w"; */
+"3vc-3G-b0w.text" = "09:28";
+
+/* Class = "UILabel"; text = "94 min"; ObjectID = "3w7-2V-hdF"; */
+"3w7-2V-hdF.text" = "94 min";
+
+/* Class = "UIButton"; normalTitle = "Now"; ObjectID = "4HL-gW-fbJ"; */
+"4HL-gW-fbJ.normalTitle" = "Now";
+
+/* Class = "UIBarButtonItem"; title = "Open in Safari"; ObjectID = "4M9-L7-HQA"; */
+"4M9-L7-HQA.title" = "Open in Safari";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "4Rh-4B-hOX"; */
+"4Rh-4B-hOX.text" = "Label";
+
+/* Class = "UILabel"; text = "Current location"; ObjectID = "4Tb-GJ-gIe"; */
+"4Tb-GJ-gIe.text" = "Current location";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "4jK-b2-09o"; */
+"4jK-b2-09o.title" = "Back";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "515-QO-452"; */
+"515-QO-452.text" = "Detail";
+
+/* Class = "UILabel"; text = "09:28"; ObjectID = "548-p2-xly"; */
+"548-p2-xly.text" = "09:28";
+
+/* Class = "UILabel"; text = "0.0 €"; ObjectID = "5fv-rG-lW6"; */
+"5fv-rG-lW6.text" = "0.0 €";
+
+/* Class = "UILabel"; text = "address"; ObjectID = "69P-n8-GUN"; */
+"69P-n8-GUN.text" = "address";
+
+/* Class = "UIButton"; normalTitle = "OpenStopView"; ObjectID = "6Av-g6-0DV"; */
+"6Av-g6-0DV.normalTitle" = "OpenStopView";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "6E6-8L-0HN"; */
+"6E6-8L-0HN.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Set Address"; ObjectID = "6En-LD-DvP"; */
+"6En-LD-DvP.normalTitle" = "Set Address";
+
+/* Class = "UILabel"; text = "Rautatientori"; ObjectID = "6ay-Jn-Ckx"; */
+"6ay-Jn-Ckx.text" = "Rautatientori";
+
+/* Class = "UILabel"; text = "Contact me"; ObjectID = "6sn-yU-tHN"; */
+"6sn-yU-tHN.text" = "Contact me";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "7Mw-K9-bVw"; */
+"7Mw-K9-bVw.text" = "Title";
+
+/* Class = "UILabel"; text = "New in this version"; ObjectID = "896-gp-o5r"; */
+"896-gp-o5r.text" = "New in this version";
+
+/* Class = "UISegmentedControl"; 898-KA-xEc.segmentTitles[0] = "Bookmarks"; ObjectID = "898-KA-xEc"; */
+"898-KA-xEc.segmentTitles[0]" = "Bookmarks";
+
+/* Class = "UISegmentedControl"; 898-KA-xEc.segmentTitles[1] = "Recents"; ObjectID = "898-KA-xEc"; */
+"898-KA-xEc.segmentTitles[1]" = "Recents";
+
+/* Class = "UITextField"; placeholder = "PASSWORD"; ObjectID = "8TB-HG-l8p"; */
+"8TB-HG-l8p.placeholder" = "PASSWORD";
+
+/* Class = "UILabel"; text = "0.0 €"; ObjectID = "8XW-Gh-nT8"; */
+"8XW-Gh-nT8.text" = "0.0 €";
+
+/* Class = "UILabel"; text = "address"; ObjectID = "8Zc-KK-rek"; */
+"8Zc-KK-rek.text" = "address";
+
+/* Class = "UILabel"; text = "New in Commuter 4.0"; ObjectID = "8sX-Uq-vFd"; */
+"8sX-Uq-vFd.text" = "New in Commuter 4.0";
+
+/* Class = "UILabel"; text = "Trams: 4 and 4T, disrupt route. Operates via Aleksanterinkatu - Snellmankatu - Liisankatu - Central Railway Station - Lasipalatsi. Cause: public event. Estimated time: 17:00 - 18:30."; ObjectID = "96V-9S-nUc"; */
+"96V-9S-nUc.text" = "Trams: 4 and 4T, disrupt route. Operates via Aleksanterinkatu - Snellmankatu - Liisankatu - Central Railway Station - Lasipalatsi. Cause: public event. Estimated time: 17:00 - 18:30.";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "9aL-bO-Xys"; */
+"9aL-bO-Xys.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Home"; ObjectID = "9am-94-cvL"; */
+"9am-94-cvL.text" = "Home";
+
+/* Class = "UILabel"; text = "Unknown ticket type"; ObjectID = "9cT-Uh-btQ"; */
+"9cT-Uh-btQ.text" = "Unknown ticket type";
+
+/* Class = "UILabel"; text = "Reminder time"; ObjectID = "9xh-nc-9vB"; */
+"9xh-nc-9vB.text" = "Reminder time";
+
+/* Class = "UILabel"; text = "Sound"; ObjectID = "ANT-SI-rpN"; */
+"ANT-SI-rpN.text" = "Sound";
+
+/* Class = "UILabel"; text = "E2034"; ObjectID = "ATA-A6-kme"; */
+"ATA-A6-kme.text" = "E2034";
+
+/* Class = "UILabel"; text = "Open API for public transport usage and availability data"; ObjectID = "Afw-5c-wwn"; */
+"Afw-5c-wwn.text" = "Open API for public transport usage and availability data";
+
+/* Class = "UILabel"; text = "My card"; ObjectID = "Ao8-f1-AVr"; */
+"Ao8-f1-AVr.text" = "My card";
+
+/* Class = "UILabel"; text = "| arrive at 09:03 "; ObjectID = "AxF-iv-uMa"; */
+"AxF-iv-uMa.text" = "| arrive at 09:03 ";
+
+/* Class = "UILabel"; text = "13:33"; ObjectID = "BBG-A3-Nu6"; */
+"BBG-A3-Nu6.text" = "13:33";
+
+/* Class = "UITabBarItem"; title = "Route"; ObjectID = "BFf-cp-BQ8"; */
+"BFf-cp-BQ8.title" = "Route";
+
+/* Class = "UINavigationItem"; title = "MY CARDS"; ObjectID = "BMz-dD-PTf"; */
+"BMz-dD-PTf.title" = "MY CARDS";
+
+/* Class = "UILabel"; text = "kolmonenkatu 2"; ObjectID = "BR9-q6-HCH"; */
+"BR9-q6-HCH.text" = "kolmonenkatu 2";
+
+/* Class = "UILabel"; text = "09:28"; ObjectID = "BSd-y9-xb9"; */
+"BSd-y9-xb9.text" = "09:28";
+
+/* Class = "UILabel"; text = "Remaining days"; ObjectID = "BZs-3B-Etm"; */
+"BZs-3B-Etm.text" = "Remaining days";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "C1R-2p-sG3"; */
+"C1R-2p-sG3.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Map"; ObjectID = "CCh-1e-pIT"; */
+"CCh-1e-pIT.text" = "Map";
+
+/* Class = "UILabel"; text = "XX"; ObjectID = "Ce3-Iv-Hg6"; */
+"Ce3-Iv-Hg6.text" = "XX";
+
+/* Class = "UILabel"; text = "Tram 4T"; ObjectID = "Cei-aI-A9x"; */
+"Cei-aI-A9x.text" = "Tram 4T";
+
+/* Class = "UIButton"; normalTitle = "View in AppStore"; ObjectID = "Cof-f1-U1Q"; */
+"Cof-f1-U1Q.normalTitle" = "View in AppStore";
+
+/* Class = "UINavigationItem"; title = "title"; ObjectID = "Cyh-rS-GPt"; */
+"Cyh-rS-GPt.title" = "title";
+
+/* Class = "UILabel"; text = "My card"; ObjectID = "DLw-OT-z8R"; */
+"DLw-OT-z8R.text" = "My card";
+
+/* Class = "UINavigationItem"; title = "SYNC"; ObjectID = "DQI-K3-Phe"; */
+"DQI-K3-Phe.title" = "SYNC";
+
+/* Class = "UINavigationItem"; title = "Add Bookmark"; ObjectID = "DTJ-3B-3wF"; */
+"DTJ-3B-3wF.title" = "Add Bookmark";
+
+/* Class = "UILabel"; text = "Mon"; ObjectID = "Dex-Pc-oCo"; */
+"Dex-Pc-oCo.text" = "Mon";
+
+/* Class = "UILabel"; text = "01, 02, 034 , 0T"; ObjectID = "E2W-xM-udX"; */
+"E2W-xM-udX.text" = "01, 02, 034 , 0T";
+
+/* Class = "UILabel"; text = "leave at 08:45"; ObjectID = "E7S-hT-YSU"; */
+"E7S-hT-YSU.text" = "leave at 08:45";
+
+/* Class = "UIViewController"; title = "Route"; ObjectID = "EPj-p9-zap"; */
+"EPj-p9-zap.title" = "Route";
+
+/* Class = "UILabel"; text = "XX"; ObjectID = "ERf-Ih-sQ1"; */
+"ERf-Ih-sQ1.text" = "XX";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "EVA-PW-k5x"; */
+"EVA-PW-k5x.text" = "Location";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Eec-f6-l9W"; */
+"Eec-f6-l9W.normalTitle" = "Button";
+
+/* Class = "UISearchBar"; placeholder = "Set from location"; ObjectID = "Evv-Ap-AFo"; */
+"Evv-Ap-AFo.placeholder" = "Set from location";
+
+/* Class = "UILabel"; text = "Make sure you have logged in to the same account in the other devices."; ObjectID = "F1n-ye-vZm"; */
+"F1n-ye-vZm.text" = "Make sure you have logged in to the same account in the other devices.";
+
+/* Class = "UILabel"; text = "from"; ObjectID = "F5s-9e-r4z"; */
+"F5s-9e-r4z.text" = "from";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "FKg-vx-kEo"; */
+"FKg-vx-kEo.text" = "Leppasuonkatu";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "FQ5-qi-s6H"; */
+"FQ5-qi-s6H.title" = "Item";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "FZ2-gr-tmV"; */
+"FZ2-gr-tmV.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "FdX-En-lt8"; */
+"FdX-En-lt8.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "ADD CARD"; ObjectID = "Fef-Hd-eX6"; */
+"Fef-Hd-eX6.normalTitle" = "ADD CARD";
+
+/* Class = "UIButton"; normalTitle = "SHOW DEPARTURES"; ObjectID = "Fg9-t9-gSO"; */
+"Fg9-t9-gSO.normalTitle" = "SHOW DEPARTURES";
+
+/* Class = "UIButton"; normalTitle = "Route to Here"; ObjectID = "GSS-ru-9GT"; */
+"GSS-ru-9GT.normalTitle" = "Route to Here";
+
+/* Class = "UILabel"; text = "60 days"; ObjectID = "GV8-31-azp"; */
+"GV8-31-azp.text" = "60 days";
+
+/* Class = "UILabel"; text = "Current Location"; ObjectID = "H4Z-ir-xeC"; */
+"H4Z-ir-xeC.text" = "Current Location";
+
+/* Class = "UITableViewController"; title = "Add Address"; ObjectID = "HCg-cf-G57"; */
+"HCg-cf-G57.title" = "Add Address";
+
+/* Class = "UIButton"; normalTitle = "check now"; ObjectID = "HcN-c1-zIv"; */
+"HcN-c1-zIv.normalTitle" = "check now";
+
+/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "I0E-Nj-Amd"; */
+"I0E-Nj-Amd.title" = "Done";
+
+/* Class = "UILabel"; text = "Powered By"; ObjectID = "J0o-Jg-g9m"; */
+"J0o-Jg-g9m.text" = "Powered By";
+
+/* Class = "UILabel"; text = "Looks like notifications are not enabled to this app. Please enable notifications from settings to get notified about routines."; ObjectID = "JAe-Ao-pP4"; */
+"JAe-Ao-pP4.text" = "Looks like notifications are not enabled to this app. Please enable notifications from settings to get notified about routines.";
+
+/* Class = "UIButton"; normalTitle = "SHOW ROUTES"; ObjectID = "JDG-Ch-cIb"; */
+"JDG-Ch-cIb.normalTitle" = "SHOW ROUTES";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "JIW-aM-Seb"; */
+"JIW-aM-Seb.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Keep history for"; ObjectID = "JMR-8A-XIj"; */
+"JMR-8A-XIj.text" = "Keep history for";
+
+/* Class = "UILabel"; text = "!"; ObjectID = "Jp2-f5-5FX"; */
+"Jp2-f5-5FX.text" = "!";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "K3e-xT-bIa"; */
+"K3e-xT-bIa.text" = "Leppasuonkatu";
+
+/* Class = "UIButton"; normalTitle = "Create an 'Oma Matkakortti' account"; ObjectID = "Keq-rs-Z0v"; */
+"Keq-rs-Z0v.normalTitle" = "Create an 'Oma Matkakortti' account";
+
+/* Class = "UILabel"; text = "0 days"; ObjectID = "Lb0-pq-10Y"; */
+"Lb0-pq-10Y.text" = "0 days";
+
+/* Class = "UILabel"; text = "Press and hold"; ObjectID = "LeP-LY-nF7"; */
+"LeP-LY-nF7.text" = "Press and hold";
+
+/* Class = "UILabel"; text = "NEARBY STOPS"; ObjectID = "Li3-9Q-t1v"; */
+"Li3-9Q-t1v.text" = "NEARBY STOPS";
+
+/* Class = "UILabel"; text = "Keep history for"; ObjectID = "MCU-CF-ckJ"; */
+"MCU-CF-ckJ.text" = "Keep history for";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "MFT-UW-GdQ"; */
+"MFT-UW-GdQ.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Route from Here"; ObjectID = "MN2-Ai-WQ0"; */
+"MN2-Ai-WQ0.normalTitle" = "Route from Here";
+
+/* Class = "UILabel"; text = "| arrive 18:09"; ObjectID = "MOg-OE-pdl"; */
+"MOg-OE-pdl.text" = "| arrive 18:09";
+
+/* Class = "UIButton"; normalTitle = "Remember options"; ObjectID = "MTA-MY-F5R"; */
+"MTA-MY-F5R.normalTitle" = "Remember options";
+
+/* Class = "UIButton"; normalTitle = "ADD CARD"; ObjectID = "MUB-i4-B2b"; */
+"MUB-i4-B2b.normalTitle" = "ADD CARD";
+
+/* Class = "UILabel"; text = "To"; ObjectID = "MVp-k9-8Fx"; */
+"MVp-k9-8Fx.text" = "To";
+
+/* Class = "UILabel"; text = "21.09.2014"; ObjectID = "MWv-ZY-dmX"; */
+"MWv-ZY-dmX.text" = "21.09.2014";
+
+/* Class = "UISearchBar"; placeholder = "search"; ObjectID = "Mhq-aW-2ON"; */
+"Mhq-aW-2ON.placeholder" = "search";
+
+/* Class = "UILabel"; text = "21.09.2014"; ObjectID = "N2R-c9-2qN"; */
+"N2R-c9-2qN.text" = "21.09.2014";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "N5K-rn-MW9"; */
+"N5K-rn-MW9.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "01.01.2015 - 01.01.2015"; ObjectID = "N7u-27-wd6"; */
+"N7u-27-wd6.text" = "01.01.2015 - 01.01.2015";
+
+/* Class = "UILabel"; text = "Start creating routines by pressing the 'add' icon on the top. It will make your life much easier."; ObjectID = "NNm-bQ-6jd"; */
+"NNm-bQ-6jd.text" = "Start creating routines by pressing the 'add' icon on the top. It will make your life much easier.";
+
+/* Class = "UILabel"; text = "Default"; ObjectID = "NOJ-KY-1Sc"; */
+"NOJ-KY-1Sc.text" = "Default";
+
+/* Class = "UITextField"; text = "My address"; ObjectID = "NYH-6l-4vC"; */
+"NYH-6l-4vC.text" = "My address";
+
+/* Class = "UILabel"; text = "E2034 - Helsinki"; ObjectID = "NmM-qN-LvN"; */
+"NmM-qN-LvN.text" = "E2034 - Helsinki";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "Nuj-IL-pAf"; */
+"Nuj-IL-pAf.text" = "Leppasuonkatu";
+
+/* Class = "UIButton"; normalTitle = "CANCEL"; ObjectID = "O1V-RC-GEo"; */
+"O1V-RC-GEo.normalTitle" = "CANCEL";
+
+/* Class = "UILabel"; text = "No Other Devices Found"; ObjectID = "OJ4-FG-Twe"; */
+"OJ4-FG-Twe.text" = "No Other Devices Found";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "OJe-iX-q1o"; */
+"OJe-iX-q1o.text" = "Title";
+
+/* Class = "UILabel"; text = "SHOW STOPS"; ObjectID = "OND-dq-mUI"; */
+"OND-dq-mUI.text" = "SHOW STOPS";
+
+/* Class = "UILabel"; text = "E2034"; ObjectID = "PHv-Zf-VNx"; */
+"PHv-Zf-VNx.text" = "E2034";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "PSH-R9-MOs"; */
+"PSH-R9-MOs.text" = "Leppasuonkatu";
+
+/* Class = "UILabel"; text = "Work"; ObjectID = "PWh-Wb-dcH"; */
+"PWh-Wb-dcH.text" = "Work";
+
+/* Class = "UILabel"; text = "Towards Vuosari/n\n24 minutes ride"; ObjectID = "PZa-fl-PGy"; */
+"PZa-fl-PGy.text" = "Towards Vuosari/n\n24 minutes ride";
+
+/* Class = "UILabel"; text = "Monday"; ObjectID = "Q4J-5g-lsj"; */
+"Q4J-5g-lsj.text" = "Monday";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "RAz-mA-GEK"; */
+"RAz-mA-GEK.title" = "Back";
+
+/* Class = "UISegmentedControl"; RQu-zy-zGW.segmentTitles[0] = "Bookmarks"; ObjectID = "RQu-zy-zGW"; */
+"RQu-zy-zGW.segmentTitles[0]" = "Bookmarks";
+
+/* Class = "UISegmentedControl"; RQu-zy-zGW.segmentTitles[1] = "History"; ObjectID = "RQu-zy-zGW"; */
+"RQu-zy-zGW.segmentTitles[1]" = "History";
+
+/* Class = "UITableViewController"; title = "REMINDER"; ObjectID = "RdK-bv-YbB"; */
+"RdK-bv-YbB.title" = "REMINDER";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Rdf-fZ-XPT"; */
+"Rdf-fZ-XPT.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "E2034 - Helsinki"; ObjectID = "Rf1-Ac-qGe"; */
+"Rf1-Ac-qGe.text" = "E2034 - Helsinki";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Rfa-Tb-URE"; */
+"Rfa-Tb-URE.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Value"; ObjectID = "Rkb-XT-Lbw"; */
+"Rkb-XT-Lbw.text" = "Value";
+
+/* Class = "UIButton"; normalTitle = "Reset to defaults"; ObjectID = "Rn2-Qo-DyT"; */
+"Rn2-Qo-DyT.normalTitle" = "Reset to defaults";
+
+/* Class = "UILabel"; text = "Current location"; ObjectID = "SMl-vx-Cwg"; */
+"SMl-vx-Cwg.text" = "Current location";
+
+/* Class = "UISegmentedControl"; Sep-eh-xDI.segmentTitles[0] = " Map "; ObjectID = "Sep-eh-xDI"; */
+"Sep-eh-xDI.segmentTitles[0]" = " Map ";
+
+/* Class = "UISegmentedControl"; Sep-eh-xDI.segmentTitles[1] = "Route"; ObjectID = "Sep-eh-xDI"; */
+"Sep-eh-xDI.segmentTitles[1]" = "Route";
+
+/* Class = "UISegmentedControl"; Sep-eh-xDI.segmentTitles[2] = "Bookmarks"; ObjectID = "Sep-eh-xDI"; */
+"Sep-eh-xDI.segmentTitles[2]" = "Bookmarks";
+
+/* Class = "UISegmentedControl"; Sep-eh-xDI.segmentTitles[3] = "Lines"; ObjectID = "Sep-eh-xDI"; */
+"Sep-eh-xDI.segmentTitles[3]" = "Lines";
+
+/* Class = "UILabel"; text = "Departs at 16:57"; ObjectID = "Sge-m0-ein"; */
+"Sge-m0-ein.text" = "Departs at 16:57";
+
+/* Class = "UILabel"; text = "Metro"; ObjectID = "T8j-gq-UIO"; */
+"T8j-gq-UIO.text" = "Metro";
+
+/* Class = "UIButton"; normalTitle = "Bookmark Address"; ObjectID = "Tgr-zy-L9E"; */
+"Tgr-zy-L9E.normalTitle" = "Bookmark Address";
+
+/* Class = "UILabel"; text = "Metro"; ObjectID = "U1U-bL-2ak"; */
+"U1U-bL-2ak.text" = "Metro";
+
+/* Class = "UILabel"; text = "Loading departures..."; ObjectID = "UD4-dK-WMy"; */
+"UD4-dK-WMy.text" = "Loading departures...";
+
+/* Class = "UITableViewController"; title = "COMMUTER"; ObjectID = "VNd-wE-1K4"; */
+"VNd-wE-1K4.title" = "COMMUTER";
+
+/* Class = "UILabel"; text = "01.01 - 31.01"; ObjectID = "VTw-bE-dIS"; */
+"VTw-bE-dIS.text" = "01.01 - 31.01";
+
+/* Class = "UILabel"; text = "234 m"; ObjectID = "Vig-GM-Mbe"; */
+"Vig-GM-Mbe.text" = "234 m";
+
+/* Class = "UILabel"; text = "Excluding: Bus, Metro, Train, Tram, Ferry, Uline"; ObjectID = "Wfs-Yd-mdr"; */
+"Wfs-Yd-mdr.text" = "Excluding: Bus, Metro, Train, Tram, Ferry, Uline";
+
+/* Class = "UILabel"; text = "Leppasuonkatu 2"; ObjectID = "WhR-me-Drn"; */
+"WhR-me-Drn.text" = "Leppasuonkatu 2";
+
+/* Class = "UILabel"; text = "E2034"; ObjectID = "XQv-Q9-reK"; */
+"XQv-Q9-reK.text" = "E2034";
+
+/* Class = "UINavigationItem"; title = "DISRUPTIONS"; ObjectID = "XSx-f5-b6Z"; */
+"XSx-f5-b6Z.title" = "DISRUPTIONS";
+
+/* Class = "UILabel"; text = "Leppasuonkatu 29"; ObjectID = "Xdk-VY-nrK"; */
+"Xdk-VY-nrK.text" = "Leppasuonkatu 29";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "Xgz-vb-1ei"; */
+"Xgz-vb-1ei.normalTitle" = "Cancel";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "XhT-aI-0GD"; */
+"XhT-aI-0GD.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "XrW-tB-vo7"; */
+"XrW-tB-vo7.text" = "Leppasuonkatu";
+
+/* Class = "UILabel"; text = "09:28"; ObjectID = "Xsx-QZ-qVw"; */
+"Xsx-QZ-qVw.text" = "09:28";
+
+/* Class = "UIButton"; normalTitle = "Delete Bookmark"; ObjectID = "Xu7-BM-eq6"; */
+"Xu7-BM-eq6.normalTitle" = "Delete Bookmark";
+
+/* Class = "UILabel"; text = "Learn why"; ObjectID = "Y3E-uQ-iub"; */
+"Y3E-uQ-iub.text" = "Learn why";
+
+/* Class = "UILabel"; text = "2050"; ObjectID = "YCS-A2-Ga8"; */
+"YCS-A2-Ga8.text" = "2050";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "YM2-Pk-3uv"; */
+"YM2-Pk-3uv.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Go Pro"; ObjectID = "YMu-rK-NXL"; */
+"YMu-rK-NXL.text" = "Go Pro";
+
+/* Class = "UILabel"; text = "No routes bookmarked yet"; ObjectID = "ZTj-hf-8Rm"; */
+"ZTj-hf-8Rm.text" = "No routes bookmarked yet";
+
+/* Class = "UILabel"; text = "No Stops Nearby"; ObjectID = "Zt9-tQ-gfC"; */
+"Zt9-tQ-gfC.text" = "No Stops Nearby";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "ZyZ-Yc-5Ip"; */
+"ZyZ-Yc-5Ip.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "a3W-o2-uMD"; */
+"a3W-o2-uMD.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Current location"; ObjectID = "aBc-h9-KiA"; */
+"aBc-h9-KiA.text" = "Current location";
+
+/* Class = "UIButton"; normalTitle = "Rate In App Store"; ObjectID = "aKF-A5-QdY"; */
+"aKF-A5-QdY.normalTitle" = "Rate In App Store";
+
+/* Class = "UILabel"; text = "HSL and TRE APIs"; ObjectID = "adk-eo-5z4"; */
+"adk-eo-5z4.text" = "HSL and TRE APIs";
+
+/* Class = "UITableViewController"; title = "REPEAT"; ObjectID = "al2-eP-lLF"; */
+"al2-eP-lLF.title" = "REPEAT";
+
+/* Class = "UIBarButtonItem"; title = "Show on map"; ObjectID = "asb-dx-k0g"; */
+"asb-dx-k0g.title" = "Show on map";
+
+/* Class = "UILabel"; text = "270"; ObjectID = "bRf-Ip-tvV"; */
+"bRf-Ip-tvV.text" = "270";
+
+/* Class = "UILabel"; text = "1h 23min"; ObjectID = "bSu-xj-TJg"; */
+"bSu-xj-TJg.text" = "1h 23min";
+
+/* Class = "UILabel"; text = "Clear history older than"; ObjectID = "bmV-Zd-dTJ"; */
+"bmV-Zd-dTJ.text" = "Clear history older than";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "cCx-wT-EgB"; */
+"cCx-wT-EgB.text" = "Leppasuonkatu";
+
+/* Class = "UINavigationItem"; title = "SETTINGS"; ObjectID = "cUy-ST-Iog"; */
+"cUy-ST-Iog.title" = "SETTINGS";
+
+/* Class = "UILabel"; text = "XX:XX"; ObjectID = "cWt-qy-nCM"; */
+"cWt-qy-nCM.text" = "XX:XX";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "cZR-f6-fuN"; */
+"cZR-f6-fuN.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Wrong username or password or the new user account has not been activated."; ObjectID = "cjW-Bm-xrz"; */
+"cjW-Bm-xrz.text" = "Wrong username or password or the new user account has not been activated.";
+
+/* Class = "UITextField"; placeholder = "USERNAME"; ObjectID = "cqJ-2o-am8"; */
+"cqJ-2o-am8.placeholder" = "USERNAME";
+
+/* Class = "UIButton"; normalTitle = "DELETE"; ObjectID = "ctB-8a-Szf"; */
+"ctB-8a-Szf.normalTitle" = "DELETE";
+
+/* Class = "UILabel"; text = "Default"; ObjectID = "dBH-gP-tDh"; */
+"dBH-gP-tDh.text" = "Default";
+
+/* Class = "UILabel"; text = "iCloud Bookmarks"; ObjectID = "dDc-xp-5Kc"; */
+"dDc-xp-5Kc.text" = "iCloud Bookmarks";
+
+/* Class = "UINavigationController"; title = "Home"; ObjectID = "dE0-re-BB2"; */
+"dE0-re-BB2.title" = "Home";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "eAn-69-mCD"; */
+"eAn-69-mCD.text" = "Title";
+
+/* Class = "UILabel"; text = "Commuter is an app made to provide an easy way to plan public transport journeys and get stop time tables. It uses HSL's and TRE's Open API for all the data. It supports public transport in the capital city region and Tampere region with more cities coming soon. There will also be more improvements and new features regularly. Feel free to contact me about feature requests. Last but not least, it is almost mandatory that you write a review in the App store or share on Facebook/Twitter to spread the love. If not there will be 1000 years of darkness. Seriously."; ObjectID = "eGj-Tf-kT3"; */
+"eGj-Tf-kT3.text" = "Commuter is an app made to provide an easy way to plan public transport journeys and get stop time tables. It uses HSL's and TRE's Open API for all the data. It supports public transport in the capital city region and Tampere region with more cities coming soon. There will also be more improvements and new features regularly. Feel free to contact me about feature requests. Last but not least, it is almost mandatory that you write a review in the App store or share on Facebook/Twitter to spread the love. If not there will be 1000 years of darkness. Seriously.";
+
+/* Class = "UILabel"; text = "08:30"; ObjectID = "eM2-Fb-OdA"; */
+"eM2-Fb-OdA.text" = "08:30";
+
+/* Class = "UIButton"; normalTitle = "Debug"; ObjectID = "ePF-iA-Oci"; */
+"ePF-iA-Oci.normalTitle" = "Debug";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "eQz-gQ-0ei"; */
+"eQz-gQ-0ei.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Dropped pin"; ObjectID = "egE-pb-lgN"; */
+"egE-pb-lgN.text" = "Dropped pin";
+
+/* Class = "UISearchBar"; placeholder = "address, stop or place"; ObjectID = "eyJ-tf-8L0"; */
+"eyJ-tf-8L0.placeholder" = "address, stop or place";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "f1u-Kb-XMZ"; */
+"f1u-Kb-XMZ.text" = "Leppasuonkatu";
+
+/* Class = "UITextField"; placeholder = "Travel Card Number"; ObjectID = "f3i-Jk-Tnb"; */
+"f3i-Jk-Tnb.placeholder" = "Travel Card Number";
+
+/* Class = "UILabel"; text = "Unknown"; ObjectID = "fCf-TO-1ih"; */
+"fCf-TO-1ih.text" = "Unknown";
+
+/* Class = "UILabel"; text = "Feature usage tracking"; ObjectID = "fEP-7H-Zco"; */
+"fEP-7H-Zco.text" = "Feature usage tracking";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "fF4-Ha-BAi"; */
+"fF4-Ha-BAi.text" = "Title";
+
+/* Class = "UILabel"; text = "13:33"; ObjectID = "fM6-50-2hA"; */
+"fM6-50-2hA.text" = "13:33";
+
+/* Class = "UILabel"; text = "Metro"; ObjectID = "fUe-ui-Nop"; */
+"fUe-ui-Nop.text" = "Metro";
+
+/* Class = "UILabel"; text = "About Commuter"; ObjectID = "g52-DS-FHA"; */
+"g52-DS-FHA.text" = "About Commuter";
+
+/* Class = "UILabel"; text = "E2034 - Helsinki"; ObjectID = "gIb-Zr-0kK"; */
+"gIb-Zr-0kK.text" = "E2034 - Helsinki";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "gMi-Nh-yXe"; */
+"gMi-Nh-yXe.title" = "Item";
+
+/* Class = "UILabel"; text = "Start point"; ObjectID = "gN3-Zd-PPt"; */
+"gN3-Zd-PPt.text" = "Start point";
+
+/* Class = "UIButton"; normalTitle = "Got it"; ObjectID = "gVg-M9-Xvv"; */
+"gVg-M9-Xvv.normalTitle" = "Got it";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "h1q-eE-mjx"; */
+"h1q-eE-mjx.text" = "Label";
+
+/* Class = "UILabel"; text = "No valid season ticket"; ObjectID = "hhd-Jc-jBq"; */
+"hhd-Jc-jBq.text" = "No valid season ticket";
+
+/* Class = "UILabel"; text = "No traffic disruptions"; ObjectID = "hhe-Vw-8Wb"; */
+"hhe-Vw-8Wb.text" = "No traffic disruptions";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "hkM-qw-CqH"; */
+"hkM-qw-CqH.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "Disruptions"; ObjectID = "hra-ee-beV"; */
+"hra-ee-beV.text" = "Disruptions";
+
+/* Class = "UIButton"; normalTitle = "See full timetable"; ObjectID = "hzs-Be-oyg"; */
+"hzs-Be-oyg.normalTitle" = "See full timetable";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "iOz-Tx-0qT"; */
+"iOz-Tx-0qT.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "ily-fg-ufL"; */
+"ily-fg-ufL.text" = "Leppasuonkatu";
+
+/* Class = "UINavigationItem"; title = "Route"; ObjectID = "isR-ib-HMt"; */
+"isR-ib-HMt.title" = "Route";
+
+/* Class = "UIButton"; normalTitle = "OpenRouteView"; ObjectID = "jpc-NB-puz"; */
+"jpc-NB-puz.normalTitle" = "OpenRouteView";
+
+/* Class = "UILabel"; text = "XXX"; ObjectID = "jyc-bj-EFl"; */
+"jyc-bj-EFl.text" = "XXX";
+
+/* Class = "UILabel"; text = "leave 17:23"; ObjectID = "kPS-LZ-G6a"; */
+"kPS-LZ-G6a.text" = "leave 17:23";
+
+/* Class = "UIButton"; normalTitle = "Route to Here"; ObjectID = "kWh-jL-E5H"; */
+"kWh-jL-E5H.normalTitle" = "Route to Here";
+
+/* Class = "UILabel"; text = "No disruption info in your area"; ObjectID = "kdp-gJ-0g5"; */
+"kdp-gJ-0g5.text" = "No disruption info in your area";
+
+/* Class = "UILabel"; text = "from"; ObjectID = "kfv-WJ-u9K"; */
+"kfv-WJ-u9K.text" = "from";
+
+/* Class = "UITableViewController"; title = "ROUTINES"; ObjectID = "kp9-Yc-MXa"; */
+"kp9-Yc-MXa.title" = "ROUTINES";
+
+/* Class = "UILabel"; text = "The boondocks"; ObjectID = "lM0-2I-zv0"; */
+"lM0-2I-zv0.text" = "The boondocks";
+
+/* Class = "UILabel"; text = "Spread the love"; ObjectID = "mAJ-7A-4Jt"; */
+"mAJ-7A-4Jt.text" = "Spread the love";
+
+/* Class = "UIButton"; normalTitle = "Settings"; ObjectID = "mpv-vQ-gMP"; */
+"mpv-vQ-gMP.normalTitle" = "Settings";
+
+/* Class = "UILabel"; text = "Value"; ObjectID = "mv2-2q-yia"; */
+"mv2-2q-yia.text" = "Value";
+
+/* Class = "UILabel"; text = "Unknown stop - 0000"; ObjectID = "nKr-w1-lfe"; */
+"nKr-w1-lfe.text" = "Unknown stop - 0000";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "nOE-gW-gtH"; */
+"nOE-gW-gtH.text" = "Location";
+
+/* Class = "UILabel"; text = "XX:XX"; ObjectID = "nUX-bm-wuk"; */
+"nUX-bm-wuk.text" = "XX:XX";
+
+/* Class = "UIButton"; normalTitle = "Add card ... "; ObjectID = "nca-Vm-PpF"; */
+"nca-Vm-PpF.normalTitle" = "Add card ... ";
+
+/* Class = "UILabel"; text = "Home"; ObjectID = "nmL-2F-4s6"; */
+"nmL-2F-4s6.text" = "Home";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "o1M-V6-f3O"; */
+"o1M-V6-f3O.text" = "Title";
+
+/* Class = "UILabel"; text = "Unknown -> Unknown"; ObjectID = "o6x-KU-HyK"; */
+"o6x-KU-HyK.text" = "Unknown -> Unknown";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "oS0-yC-8fx"; */
+"oS0-yC-8fx.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Press on the star icon on your route search result for easy access later."; ObjectID = "oSC-WA-bUu"; */
+"oSC-WA-bUu.text" = "Press on the star icon on your route search result for easy access later.";
+
+/* Class = "UILabel"; text = "E2034 - Helsinki"; ObjectID = "omn-zx-r6D"; */
+"omn-zx-r6D.text" = "E2034 - Helsinki";
+
+/* Class = "UILabel"; text = "Reminders Tone"; ObjectID = "opU-8n-xyW"; */
+"opU-8n-xyW.text" = "Reminders Tone";
+
+/* Class = "UILabel"; text = "UNKNOWN TICKET TYPE"; ObjectID = "ovg-k9-dnY"; */
+"ovg-k9-dnY.text" = "UNKNOWN TICKET TYPE";
+
+/* Class = "UILabel"; text = "Icons8.com"; ObjectID = "p2O-T8-c0m"; */
+"p2O-T8-c0m.text" = "Icons8.com";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "p46-IV-kLU"; */
+"p46-IV-kLU.text" = "Detail";
+
+/* Class = "UISearchBar"; placeholder = "Set destination"; ObjectID = "prP-pT-jCT"; */
+"prP-pT-jCT.placeholder" = "Set destination";
+
+/* Class = "UILabel"; text = "13:24"; ObjectID = "psz-2G-Gr8"; */
+"psz-2G-Gr8.text" = "13:24";
+
+/* Class = "UILabel"; text = "Unknown"; ObjectID = "qHc-ca-nIi"; */
+"qHc-ca-nIi.text" = "Unknown";
+
+/* Class = "UILabel"; text = "| arrive at 09:03 "; ObjectID = "qJg-Mt-jso"; */
+"qJg-Mt-jso.text" = "| arrive at 09:03 ";
+
+/* Class = "UILabel"; text = "Unknown"; ObjectID = "qbE-aM-7Yv"; */
+"qbE-aM-7Yv.text" = "Unknown";
+
+/* Class = "UILabel"; text = "XXX"; ObjectID = "qr0-B4-l9e"; */
+"qr0-B4-l9e.text" = "XXX";
+
+/* Class = "UILabel"; text = "Clear old history"; ObjectID = "qzl-5n-skI"; */
+"qzl-5n-skI.text" = "Clear old history";
+
+/* Class = "UIButton"; normalTitle = "Log out"; ObjectID = "r7S-Qe-84w"; */
+"r7S-Qe-84w.normalTitle" = "Log out";
+
+/* Class = "UINavigationItem"; title = "PLANNER"; ObjectID = "rW2-Xt-wnu"; */
+"rW2-Xt-wnu.title" = "PLANNER";
+
+/* Class = "UILabel"; text = "17:30 at the first stop · 1,1 km walking"; ObjectID = "rY9-N3-UUh"; */
+"rY9-N3-UUh.text" = "17:30 at the first stop · 1,1 km walking";
+
+/* Class = "UIButton"; normalTitle = "Reload"; ObjectID = "rbv-A1-x2X"; */
+"rbv-A1-x2X.normalTitle" = "Reload";
+
+/* Class = "UILabel"; text = "Pohjoinen Rautatiekatu 29 B 324\nHelsinki, Finland"; ObjectID = "rmJ-Ra-QtU"; */
+"rmJ-Ra-QtU.text" = "Pohjoinen Rautatiekatu 29 B 324\nHelsinki, Finland";
+
+/* Class = "UILabel"; text = "Route search options"; ObjectID = "s1W-9G-kZp"; */
+"s1W-9G-kZp.text" = "Route search options";
+
+/* Class = "UINavigationItem"; title = "Address Type"; ObjectID = "sNf-os-QuJ"; */
+"sNf-os-QuJ.title" = "Address Type";
+
+/* Class = "UILabel"; text = "21.09.2014"; ObjectID = "sWf-XX-gFc"; */
+"sWf-XX-gFc.text" = "21.09.2014";
+
+/* Class = "UILabel"; text = "Settings"; ObjectID = "sWi-01-wZ5"; */
+"sWi-01-wZ5.text" = "Settings";
+
+/* Class = "UILabel"; text = "Reminders"; ObjectID = "sb7-uq-gRK"; */
+"sb7-uq-gRK.text" = "Reminders";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "sd7-eM-LgG"; */
+"sd7-eM-LgG.normalTitle" = "Cancel";
+
+/* Class = "UILabel"; text = "Current location"; ObjectID = "tba-F8-R4F"; */
+"tba-F8-R4F.text" = "Current location";
+
+/* Class = "UILabel"; text = "from"; ObjectID = "u09-gB-fqX"; */
+"u09-gB-fqX.text" = "from";
+
+/* Class = "UISegmentedControl"; u52-70-qr8.segmentTitles[0] = "Standard"; ObjectID = "u52-70-qr8"; */
+"u52-70-qr8.segmentTitles[0]" = "Standard";
+
+/* Class = "UISegmentedControl"; u52-70-qr8.segmentTitles[1] = "Hybrid"; ObjectID = "u52-70-qr8"; */
+"u52-70-qr8.segmentTitles[1]" = "Hybrid";
+
+/* Class = "UISegmentedControl"; u52-70-qr8.segmentTitles[2] = "Satellite"; ObjectID = "u52-70-qr8"; */
+"u52-70-qr8.segmentTitles[2]" = "Satellite";
+
+/* Class = "UILabel"; text = "Ticket Sales Points"; ObjectID = "uXy-zf-yye"; */
+"uXy-zf-yye.text" = "Ticket Sales Points";
+
+/* Class = "UILabel"; text = "08:30"; ObjectID = "uZ0-s2-ZLq"; */
+"uZ0-s2-ZLq.text" = "08:30";
+
+/* Class = "UILabel"; text = "Advanced Settings"; ObjectID = "ubC-2n-5fg"; */
+"ubC-2n-5fg.text" = "Advanced Settings";
+
+/* Class = "UILabel"; text = "Repeat"; ObjectID = "ukI-L6-xH7"; */
+"ukI-L6-xH7.text" = "Repeat";
+
+/* Class = "UIButton"; normalTitle = "Set Address"; ObjectID = "vNe-mo-oup"; */
+"vNe-mo-oup.normalTitle" = "Set Address";
+
+/* Class = "UILabel"; text = "2, 3T, 9"; ObjectID = "vdA-hP-Pqq"; */
+"vdA-hP-Pqq.text" = "2, 3T, 9";
+
+/* Class = "UILabel"; text = "09:28"; ObjectID = "w7b-eZ-YoL"; */
+"w7b-eZ-YoL.text" = "09:28";
+
+/* Class = "UILabel"; text = "Matkakortti Monitor"; ObjectID = "wea-yC-Quh"; */
+"wea-yC-Quh.text" = "Matkakortti Monitor";
+
+/* Class = "UITabBarItem"; title = "Bookmarks"; ObjectID = "wj5-S2-c7f"; */
+"wj5-S2-c7f.title" = "Bookmarks";
+
+/* Class = "UILabel"; text = "0 days"; ObjectID = "x06-j3-gy1"; */
+"x06-j3-gy1.text" = "0 days";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "xCD-bf-ldW"; */
+"xCD-bf-ldW.text" = "Leppasuonkatu";
+
+/* Class = "UILabel"; text = "You have not yet added any cards to 'Oma Matkakortti' service."; ObjectID = "xjw-xj-5WJ"; */
+"xjw-xj-5WJ.text" = "You have not yet added any cards to 'Oma Matkakortti' service.";
+
+/* Class = "UILabel"; text = "leave at 09:03"; ObjectID = "xoP-ut-u0c"; */
+"xoP-ut-u0c.text" = "leave at 09:03";
+
+/* Class = "UISegmentedControl"; xuE-nk-2KA.segmentTitles[0] = "Now"; ObjectID = "xuE-nk-2KA"; */
+"xuE-nk-2KA.segmentTitles[0]" = "Now";
+
+/* Class = "UISegmentedControl"; xuE-nk-2KA.segmentTitles[1] = "Departure"; ObjectID = "xuE-nk-2KA"; */
+"xuE-nk-2KA.segmentTitles[1]" = "Departure";
+
+/* Class = "UISegmentedControl"; xuE-nk-2KA.segmentTitles[2] = "Arrival"; ObjectID = "xuE-nk-2KA"; */
+"xuE-nk-2KA.segmentTitles[2]" = "Arrival";
+
+/* Class = "UINavigationItem"; title = "MORE"; ObjectID = "xzA-AO-BJl"; */
+"xzA-AO-BJl.title" = "MORE";
+
+/* Class = "UILabel"; text = "1.1 km"; ObjectID = "xzV-FH-iel"; */
+"xzV-FH-iel.text" = "1.1 km";
+
+/* Class = "UIButton"; normalTitle = "LOGIN"; ObjectID = "yLs-BY-Iei"; */
+"yLs-BY-Iei.normalTitle" = "LOGIN";
+
+/* Class = "UIViewController"; title = "Line"; ObjectID = "yUq-Kc-Ch6"; */
+"yUq-Kc-Ch6.title" = "Line";
+
+/* Class = "UISearchBar"; placeholder = "search for a line"; ObjectID = "yX2-CR-FY5"; */
+"yX2-CR-FY5.placeholder" = "search for a line";
+
+/* Class = "UILabel"; text = "E"; ObjectID = "ycF-7D-Niz"; */
+"ycF-7D-Niz.text" = "E";
+
+/* Class = "UIBarButtonItem"; title = "Full timetable"; ObjectID = "yfl-U9-zSz"; */
+"yfl-U9-zSz.title" = "Full timetable";
+
+/* Class = "UILabel"; text = "From"; ObjectID = "ym3-1C-zTC"; */
+"ym3-1C-zTC.text" = "From";
+
+/* Class = "UILabel"; text = "Leppasuonkatu"; ObjectID = "yo3-IX-dTp"; */
+"yo3-IX-dTp.text" = "Leppasuonkatu";
+
+/* Class = "UILabel"; text = "Espoo"; ObjectID = "z41-9C-qCU"; */
+"z41-9C-qCU.text" = "Espoo";
+
+/* Class = "UIButton"; normalTitle = "Share"; ObjectID = "z5J-Aa-o6d"; */
+"z5J-Aa-o6d.normalTitle" = "Share";
+
+/* Class = "UILabel"; text = "kolmonenkatu 2"; ObjectID = "zDH-GU-GWK"; */
+"zDH-GU-GWK.text" = "kolmonenkatu 2";
+
+/* Class = "UILabel"; text = "E2034 - Helsinki"; ObjectID = "zpu-zw-W8Z"; */
+"zpu-zw-W8Z.text" = "E2034 - Helsinki";

@@ -1,0 +1,75 @@
+
+/* Class = "WKInterfaceLabel"; text = "No bookmarks set on your phone. Search for a route on your phone to see it here. "; ObjectID = "0Sr-AD-GiW"; */
+"0Sr-AD-GiW.text" = "No bookmarks set on your phone. Search for a route on your phone to see it here. ";
+
+/* Class = "WKInterfaceLabel"; text = "0235 - Helsinki"; ObjectID = "4b3-6f-ugU"; */
+"4b3-6f-ugU.text" = "0235 - Helsinki";
+
+/* Class = "WKInterfaceLabel"; text = "SAVED STOPS"; ObjectID = "4ew-d1-c5j"; */
+"4ew-d1-c5j.text" = "SAVED STOPS";
+
+/* Class = "WKInterfaceLabel"; text = "RECENT LOCATION"; ObjectID = "64V-k9-uGo"; */
+"64V-k9-uGo.text" = "RECENT LOCATION";
+
+/* Class = "WKInterfaceLabel"; text = "0235 - Helsinki"; ObjectID = "7Br-SR-PcM"; */
+"7Br-SR-PcM.text" = "0235 - Helsinki";
+
+/* Class = "WKInterfaceLabel"; text = "Loading..."; ObjectID = "9my-ab-uTM"; */
+"9my-ab-uTM.text" = "Loading...";
+
+/* Class = "WKInterfaceController"; title = "Commuter"; ObjectID = "AgC-eL-Hgc"; */
+"AgC-eL-Hgc.title" = "Commuter";
+
+/* Class = "WKInterfaceLabel"; text = "Stop name"; ObjectID = "DyR-n3-xCq"; */
+"DyR-n3-xCq.text" = "Stop name";
+
+/* Class = "WKInterfaceLabel"; text = "Alert Label"; ObjectID = "IdU-wH-bcW"; */
+"IdU-wH-bcW.text" = "Alert Label";
+
+/* Class = "WKInterfaceLabel"; text = "Helsinki"; ObjectID = "L2K-ix-F8Q"; */
+"L2K-ix-F8Q.text" = "Helsinki";
+
+/* Class = "WKInterfaceController"; title = "Done"; ObjectID = "O1I-4J-8X4"; */
+"O1I-4J-8X4.title" = "Done";
+
+/* Class = "WKInterfaceLabel"; text = "Work"; ObjectID = "PrT-vW-OiZ"; */
+"PrT-vW-OiZ.text" = "Work";
+
+/* Class = "WKInterfaceLabel"; text = "248"; ObjectID = "REq-du-NPD"; */
+"REq-du-NPD.text" = "248";
+
+/* Class = "WKInterfaceLabel"; text = "Home"; ObjectID = "Rm3-YQ-lk1"; */
+"Rm3-YQ-lk1.text" = "Home";
+
+/* Class = "WKInterfaceLabel"; text = "Current location"; ObjectID = "V8s-zT-ULy"; */
+"V8s-zT-ULy.text" = "Current location";
+
+/* Class = "WKInterfaceLabel"; text = "Walk"; ObjectID = "YKy-J4-iYh"; */
+"YKy-J4-iYh.text" = "Walk";
+
+/* Class = "WKInterfaceLabel"; text = "540 km • 7 min"; ObjectID = "gyU-y2-wDi"; */
+"gyU-y2-wDi.text" = "540 km • 7 min";
+
+/* Class = "WKInterfaceController"; title = "Done"; ObjectID = "hIv-te-4vY"; */
+"hIv-te-4vY.title" = "Done";
+
+/* Class = "WKInterfaceLabel"; text = "Label"; ObjectID = "mZN-So-72o"; */
+"mZN-So-72o.text" = "Label";
+
+/* Class = "WKInterfaceLabel"; text = "GET ROUTES TO.."; ObjectID = "nkg-ec-Pwh"; */
+"nkg-ec-Pwh.text" = "GET ROUTES TO..";
+
+/* Class = "WKInterfaceLabel"; text = "10:45"; ObjectID = "oFM-3m-HX7"; */
+"oFM-3m-HX7.text" = "10:45";
+
+/* Class = "WKInterfaceLabel"; text = "No departures in the next 6 hours"; ObjectID = "sEQ-hg-7Z0"; */
+"sEQ-hg-7Z0.text" = "No departures in the next 6 hours";
+
+/* Class = "WKInterfaceLabel"; text = "10:54"; ObjectID = "seD-55-Lgt"; */
+"seD-55-Lgt.text" = "10:54";
+
+/* Class = "WKInterfaceLabel"; text = "Stop name"; ObjectID = "wmd-mj-hq6"; */
+"wmd-mj-hq6.text" = "Stop name";
+
+/* Class = "WKInterfaceLabel"; text = "Location"; ObjectID = "wq7-Yc-fvv"; */
+"wq7-Yc-fvv.text" = "Location";

@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "No Address Bookmarked Yet."; ObjectID = "HME-hk-c71"; */
+"HME-hk-c71.text" = "No Address Bookmarked Yet.";
+
+/* Class = "UILabel"; text = "09:21 from the first stop"; ObjectID = "HMb-Zr-sZK"; */
+"HMb-Zr-sZK.text" = "09:21 from the first stop";
+
+/* Class = "UILabel"; text = "leave at 08:45"; ObjectID = "Hcl-nf-6XC"; */
+"Hcl-nf-6XC.text" = "leave at 08:45";
+
+/* Class = "UILabel"; text = "| arrive at 09:03 "; ObjectID = "gNF-Vu-6h1"; */
+"gNF-Vu-6h1.text" = "| arrive at 09:03 ";
+
+/* Class = "UILabel"; text = "Leppasuonkatu 2"; ObjectID = "h0F-s5-waY"; */
+"h0F-s5-waY.text" = "Leppasuonkatu 2";
+
+/* Class = "UIButton"; normalTitle = "Add Bookmark"; ObjectID = "udw-15-MU8"; */
+"udw-15-MU8.normalTitle" = "Add Bookmark";
