@@ -31,6 +31,8 @@
     
     
     IBOutlet UIButton *footerButton;
+    
+    BOOL isIOS10;
 }
 
 @end

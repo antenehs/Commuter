@@ -58,14 +58,18 @@
     
     //Init singlton
 //    [MatkaTransportTypeManager sharedManager];
+    isIOS10 = [self.extensionContext respondsToSelector:@selector(setWidgetLargestAvailableDisplayMode:)];
+    if (isIOS10) {
+        [self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];
+    }
     
     [self readNamedBookmarksFromUserDefaults];
     [self readRouteSearchOptionsFromUserDefaults];
 //    [self setUpView];
     [self initBookmarkRouteMap];
     
-    activityIndicator.circleLayer.lineWidth = 2;
-    activityIndicator.circleLayer.strokeColor = [UIColor whiteColor].CGColor;
+    activityIndicator.circleLayer.lineWidth = 1;
+    activityIndicator.circleLayer.strokeColor = [UIColor lightGrayColor].CGColor;
     activityIndicator.hidden = YES;
     
     userLocationIsAvailable = fetchRouteWhenLocationIsKnow = NO;
@@ -79,6 +83,13 @@
     [self readNamedBookmarksFromUserDefaults];
     [self readRouteSearchOptionsFromUserDefaults];
     [self setUpView];
+}
+
+-(void)widgetActiveDisplayModeDidChange:(NCWidgetDisplayMode)activeDisplayMode withMaximumSize:(CGSize)maxSize {
+    if (activeDisplayMode == NCWidgetDisplayModeCompact)
+        self.preferredContentSize = maxSize;
+    else
+        self.preferredContentSize = CGSizeMake(0, 235);
 }
 
 -(void) dealloc {
@@ -117,7 +128,7 @@
 }
 
 - (void)setUpView{
-    self.preferredContentSize = CGSizeMake(320, 230);
+    self.preferredContentSize = CGSizeMake(320, 235);
     
     [self.bookmarkButtons removeAllObjects];
     int x = 5;
@@ -139,10 +150,10 @@
             UIButton *bookmarkButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y, buttonSize, buttonSize)];
             [bookmarkButton setImage:[UIImage imageNamed:namedBookmark.iconPictureName] forState:UIControlStateNormal];
             [bookmarkButton addTarget:self action:@selector(bookmarkButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-            [bookmarkButton setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-            bookmarkButton.layer.borderColor = [UIColor whiteColor].CGColor;
-            bookmarkButton.layer.borderWidth = 1.0f;
-            bookmarkButton.layer.cornerRadius = buttonSize/2.0;
+            [bookmarkButton setImageEdgeInsets:UIEdgeInsetsZero];
+//            bookmarkButton.layer.borderColor = [UIColor whiteColor].CGColor;
+//            bookmarkButton.layer.borderWidth = 1.0f;
+//            bookmarkButton.layer.cornerRadius = buttonSize/2.0;
             bookmarkButton.tag = 3131;
             [self.bookmarkButtons addObject:bookmarkButton];
             
@@ -154,6 +165,7 @@
             nameLabel.adjustsFontSizeToFitWidth = YES;
             nameLabel.font = [UIFont systemFontOfSize:10];
             nameLabel.text = namedBookmark.name;
+            nameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
             nameLabel.tag = 3131;
             nameLabel.textAlignment = NSTextAlignmentCenter;
             
@@ -162,7 +174,7 @@
             x += buttonSize + buttonSpacing;
         }
         
-        [bookmarksScrollView setContentSize:CGSizeMake(x - 15, bookmarksScrollView.frame.size.height) ];
+        [bookmarksScrollView setContentSize:CGSizeMake(x, bookmarksScrollView.frame.size.height) ];
         
         //TODO: This is temporary
         NSInteger prevSelectedButtonIndex = [self getLastSelectedBookmarkIndexFromCahce];
@@ -186,6 +198,7 @@
         nameLabel.minimumScaleFactor = 0.8;
         nameLabel.adjustsFontSizeToFitWidth = YES;
         nameLabel.font = [UIFont systemFontOfSize:10];
+        nameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
         nameLabel.text = @"Bookmarks";
         nameLabel.textAlignment = NSTextAlignmentCenter;
         
@@ -233,6 +246,10 @@
     [self setBubbleArrowPositionForView:self.activeBookmarkButton animated:YES];
     
     bookmarkNameLabel.text = [namedBookmark getFullAddress];
+    bookmarkNameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
+    routeArriveAtLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
+    routeMoreDetailLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
+    routeLeaveAtLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
     
     RouteE *route = [self validRouteForTheActiveBookmarkButton];
     if (route) {
@@ -345,7 +362,7 @@
     self.bubleView.draggable = NO;
     self.bubleView.alpha = 0.15;
     self.bubleView.cornerRadius = 5;
-    self.bubleView.drawableColor = [UIColor lightGrayColor];
+    self.bubleView.drawableColor = isIOS10? [UIColor darkGrayColor] : [UIColor lightGrayColor];
     [self.bubleView showInView:detailContainerView atIndex:0 animated:NO];
 }
 
@@ -370,6 +387,12 @@
 - (void)setScrollViewButtonsStatus{
     CGSize scrollViewContentSize = bookmarksScrollView.contentSize;
     CGRect scrollViewBounds = bookmarksScrollView.bounds;
+    
+    [rightScrollViewButton setImage:[rightScrollViewButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    rightScrollViewButton.tintColor = isIOS10 ? [UIColor grayColor] : [UIColor lightGrayColor];
+    
+    [leftScrollViewButton setImage:[leftScrollViewButton.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    leftScrollViewButton.tintColor = isIOS10 ? [UIColor grayColor] : [UIColor lightGrayColor];
     
     if (scrollViewBounds.origin.x > 5) {
         leftScrollViewButton.hidden = NO;

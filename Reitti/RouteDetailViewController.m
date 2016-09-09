@@ -258,7 +258,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
-    [routeListView addSubview:topLine];
+//    [routeListView addSubview:topLine];
     
     [routeListTableView reloadData];
 //    [self addTransportTypePictures];

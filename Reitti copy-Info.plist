@@ -95,6 +95,8 @@
 		<string>Aspergit Bold.otf</string>
 		<string>Aspergit Light.otf</string>
 	</array>
+	<key>UIApplicationShortcutWidget</key>
+	<string>reitti.CommuterAppPro.Commuter---Departures-Pro</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreenPro</string>
 	<key>UIMainStoryboardFile</key>

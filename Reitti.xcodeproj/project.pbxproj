@@ -5854,7 +5854,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
 				);
 				INFOPLIST_FILE = "Commuter - Departures copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = (
@@ -5937,7 +5937,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
 				);
 				INFOPLIST_FILE = "Commuter - Departures copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = (
@@ -6023,7 +6023,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
 				);
 				INFOPLIST_FILE = "Commuter - Routes copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = (
@@ -6110,7 +6110,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
 				);
 				INFOPLIST_FILE = "Commuter - Routes copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = (
@@ -6196,7 +6196,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
 				);
 				INFOPLIST_FILE = "Commuter - Departures/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = (
@@ -6279,7 +6279,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"/**",
 				);
 				INFOPLIST_FILE = "Commuter - Departures/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = (

@@ -35,6 +35,8 @@
     
     NSTimer *userLocationWaitTimer;
     
+    BOOL isIOS10;
+    
 }
 
 @end

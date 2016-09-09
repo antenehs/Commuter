@@ -47,6 +47,12 @@ int kMaxNumberOfStops = 3;
     self.widgetDataManager = [[WidgetDataManager alloc] init];
     
 //    self.thereIsMore = NO;
+    isIOS10 = [self.extensionContext respondsToSelector:@selector(setWidgetLargestAvailableDisplayMode:)];
+    if (isIOS10) {
+        [self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];
+    }
+    
+    //TODO: Setup view for compact and the other mode. Show closest when compact
     
     self.enoughCatchedDepartures = NO;
     [self setUpView];
@@ -83,6 +89,13 @@ int kMaxNumberOfStops = 3;
     [self fetchStops];
 }
 
+-(void)widgetActiveDisplayModeDidChange:(NCWidgetDisplayMode)activeDisplayMode withMaximumSize:(CGSize)maxSize {
+    if (activeDisplayMode == NCWidgetDisplayModeCompact)
+        self.preferredContentSize = maxSize;
+    else
+        self.preferredContentSize = CGSizeMake(320, (self.stopList.count*100) + (self.stopList.count == 0 ? 90 : 50) + (thereIsMore || cachedMode || (thereIsMore && enoughCatchedDepartures) ? 44 : 0));
+}
+
 -(NSMutableArray *)stopCodeList {
     NSMutableArray *codeList = [[self arrayFromCommaSeparatedString:self.stopCodesString] mutableCopy];
     
@@ -102,12 +115,14 @@ int kMaxNumberOfStops = 3;
 - (void)setUpView{
     departuresTable.backgroundColor = [UIColor clearColor];
     //    departuresTable.sectionFooterHeight = 44;
-    routesButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-    routesButton.layer.borderWidth = 0.5;
+//    routesButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    routesButton.backgroundColor = [AppManagerBase systemGreenColor];
+//    routesButton.layer.borderWidth = 0.5;
     routesButton.layer.cornerRadius = 5;
     
-    bookmarksButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-    bookmarksButton.layer.borderWidth = 0.5;
+//    bookmarksButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    bookmarksButton.backgroundColor = [AppManagerBase systemGreenColor];
+//    bookmarksButton.layer.borderWidth = 0.5;
     bookmarksButton.layer.cornerRadius = 5;
     //    infoLabel.hidden = YES;
     //    [self updateContentSizeForTableRows:0];
@@ -130,11 +145,12 @@ int kMaxNumberOfStops = 3;
 
 - (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins
 {
-    margins.bottom = 0.0;
-    margins.left = 0.0;
-    margins.right = 0.0;
-    margins.top = 5.0;
-    return margins;
+//    margins.bottom = 0.0;
+//    margins.left = 0.0;
+//    margins.right = 0.0;
+//    margins.top = 5.0;
+//    return margins;
+    return UIEdgeInsetsZero;
 }
 
 #pragma mark - main method
@@ -316,18 +332,20 @@ int kMaxNumberOfStops = 3;
         if (stop) {
             
             @try {
-                UIView *backView = [cell viewWithTag:1000];
-                backView.layer.cornerRadius = 5.0;
+                UIView *lineView = [cell viewWithTag:1000];
+                lineView.backgroundColor = isIOS10 ? [UIColor grayColor] : [UIColor lightGrayColor];
                 
                 UILabel *nameLabel = (UILabel *)[cell viewWithTag:1001];
                 nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];
+                nameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
                 
                 UILabel *departuresLabel = (UILabel *)[cell viewWithTag:1002];
                 departuresLabel.text = @"No departures in the next 6 hours";
                 
-                NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:[UIColor orangeColor] forKey:NSForegroundColorAttributeName];
+                NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:[AppManagerBase systemGreenColor] forKey:NSForegroundColorAttributeName];
                 [busNumberDict setObject:[UIFont systemFontOfSize:18.0] forKey:NSFontAttributeName];
-                NSDictionary *timeDict = [NSDictionary dictionaryWithObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+                //TODO: Fix for dark background
+                NSDictionary *timeDict = [NSDictionary dictionaryWithObject:[UIColor darkGrayColor] forKey:NSForegroundColorAttributeName];
                 
                 NSMutableAttributedString *departuresString = [[NSMutableAttributedString alloc] initWithString:@"" attributes: busNumberDict];
                 NSMutableAttributedString *tempStr = [NSMutableAttributedString alloc];
@@ -378,6 +396,7 @@ int kMaxNumberOfStops = 3;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    [moreButton setTitleColor:[AppManagerBase systemGreenColor] forState:UIControlStateNormal];
     if (cachedMode) {
         [moreButton setTitle:@"reloading departures..." forState:UIControlStateNormal];
         moreButton.enabled = NO;
@@ -435,18 +454,25 @@ int kMaxNumberOfStops = 3;
             stopView.hidden = YES;
             if (stop) {
                 stopView.hidden = NO;
-                UIView *backView = [stopView viewWithTag:1000];
-                backView.layer.cornerRadius = 5.0;
+                UIView *lineView = [stopView viewWithTag:1000];
+                lineView.backgroundColor = isIOS10 ? [UIColor lightGrayColor] : [UIColor lightGrayColor];
                 
                 UILabel *nameLabel = (UILabel *)[stopView viewWithTag:1001];
                 nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];
+                nameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
+                
+                UIColor *timeColor = isIOS10 ? [UIColor darkGrayColor] : [UIColor lightGrayColor];
                 
                 UILabel *departuresLabel = (UILabel *)[stopView viewWithTag:1002];
                 departuresLabel.text = @"No departures in the next 6 hours";
+                departuresLabel.textColor = timeColor;
                 
-                NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:[UIColor orangeColor] forKey:NSForegroundColorAttributeName];
+                //TODO: color
+                UIColor *numberColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
+                NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:numberColor forKey:NSForegroundColorAttributeName];
                 [busNumberDict setObject:[UIFont systemFontOfSize:18.0] forKey:NSFontAttributeName];
-                NSDictionary *timeDict = [NSDictionary dictionaryWithObject:[UIColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+                
+                NSDictionary *timeDict = [NSDictionary dictionaryWithObject:timeColor forKey:NSForegroundColorAttributeName];
                 
                 NSMutableAttributedString *departuresString = [[NSMutableAttributedString alloc] initWithString:@"" attributes: busNumberDict];
                 NSMutableAttributedString *tempStr = [NSMutableAttributedString alloc];
@@ -508,6 +534,8 @@ int kMaxNumberOfStops = 3;
     }else{
         footerButton.hidden = YES;
     }
+    
+    [footerButton setTitleColor:[AppManagerBase systemGreenColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)stopViewSelected:(id)sender {

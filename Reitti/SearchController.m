@@ -1541,16 +1541,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             
-//            if (isTrain) {
-//                if (annot.vehicleType != VehicleTypeTrain) {
-//                    continue;
-//                }
-//            }else{
-//                if (annot.vehicleType == VehicleTypeTrain) {
-//                    continue;
-//                }
-//            }
-            
             if (![codeList containsObject:annot.code]) {
                 [annotToRemove addObject:annotation];
             }else{
@@ -1565,6 +1555,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             @try {
                 Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                if (!vehicleToUpdate) continue;
                 
                 if (vehicleToUpdate.vehicleType == VehicleTypeBus ) {
                     vehicleToUpdate.bearing = [self getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
