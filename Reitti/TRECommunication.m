@@ -12,6 +12,7 @@
 #import "ReittiAnalyticsManager.h"
 #import "ASA_Helpers.h"
 #import "AnnotationFilterOption.h"
+#import "DigiTransitCommunicator.h"
 
 @interface TRECommunication ()
 
@@ -294,6 +295,11 @@
     }];
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedStopFromApi label:@"TRE" value:nil];
+}
+
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
+    //Use name as name in case of HSL region
+    [[DigiTransitCommunicator finlandDigiTransitCommunicator] fetchDeparturesForStopName:name withCompletionHandler:completionBlock];
 }
 
 #pragma mark - Line detail fetch protocol implementation

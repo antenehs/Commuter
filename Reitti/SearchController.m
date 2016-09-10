@@ -749,8 +749,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 #pragma mark - nearby stops list methods
 -(void)setupNearByStopsListTableviewFor:(NSArray *)nearByStops{
     if (![self isNearByStopsListViewHidden]) {
-        if (nearByStops.count > 3) {
-            [self fetchStopsDetailsForBusStopShorts:[nearByStops objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)]]];
+        if (nearByStops.count > 4) {
+            [self fetchStopsDetailsForBusStopShorts:[nearByStops objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 4)]]];
         }else{
             [self fetchStopsDetailsForBusStopShorts:nearByStops];
         }

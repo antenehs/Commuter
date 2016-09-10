@@ -66,6 +66,26 @@ typedef enum : NSUInteger {
     }];
 }
 
+-(void)fetchDeparturesForStopName:(NSString *)name withCompletionHandler:(ActionBlock)completionBlock {
+    [self fetchStopsForName:name withCompletionBlock:^(NSArray *stops, NSString *errorString){
+        //Filter applicable stops
+        if (!errorString && stops.count > 0) {
+            NSMutableArray *allDepartures = [@[] mutableCopy];
+            for (DigiStop *digiStop in stops) {
+                for (DigiStoptime *stopTime in digiStop.stoptimes) {
+                    StopDeparture *dep = [StopDeparture departureForDigiStopTime:stopTime];
+                    if (dep)
+                        [allDepartures addObject:dep];
+                }
+            }
+            
+            completionBlock(allDepartures, nil);
+        } else {
+            completionBlock(nil, errorString);
+        }
+    }];
+}
+
 -(NSString *)stopGraphQlQueryForName:(NSString *)name {
     return [NSString stringWithFormat:@"{ stops(name: \"%@\") { name,code,gtfsId,url,platformCode,lat,lon,routes {shortName,longName,type},stoptimesWithoutPatterns (numberOfDepartures: 20){scheduledDeparture,realtimeDeparture,realtimeState,realtime,serviceDay,trip {route {shortName,longName, type},tripHeadsign}}}}", name];
 }

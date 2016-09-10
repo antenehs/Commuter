@@ -13,6 +13,7 @@
 #import "MatkaObjectMapping.h"
 #import "ReittiDateFormatter.h"
 #import "AnnotationFilterOption.h"
+#import "DigiTransitCommunicator.h"
 
 @interface MatkaCommunicator()
 
@@ -126,6 +127,11 @@
             completionBlock(nil, nil); //TODO: Proper error message
         }
     }];
+}
+
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
+    //Use name as name in case of HSL region
+    [[DigiTransitCommunicator finlandDigiTransitCommunicator] fetchDeparturesForStopName:name withCompletionHandler:completionBlock];
 }
 
 - (void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {

@@ -198,7 +198,7 @@
                                 <frame key="frameInset" minY="100" width="320" height="100"/>
                                 <subviews>
                                     <view tag="1000" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pVe-e7-smb">
-                                        <frame key="frameInset" minX="27" minY="99" width="295" height="1"/>
+                                        <frame key="frameInset" minY="99" width="322" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="E5x-if-Dgc"/>
@@ -262,7 +262,7 @@
                                     <constraint firstAttribute="trailing" secondItem="pVe-e7-smb" secondAttribute="trailing" constant="-2" id="Xov-c0-6vF"/>
                                     <constraint firstAttribute="trailing" secondItem="di8-Tp-02f" secondAttribute="trailing" constant="5" id="aIo-Wl-12R"/>
                                     <constraint firstItem="pVe-e7-smb" firstAttribute="top" secondItem="Ua5-EN-okW" secondAttribute="top" constant="99" id="b0r-0u-Akk"/>
-                                    <constraint firstItem="pVe-e7-smb" firstAttribute="leading" secondItem="Ua5-EN-okW" secondAttribute="leading" constant="27" id="kl5-zN-Vt7"/>
+                                    <constraint firstItem="pVe-e7-smb" firstAttribute="leading" secondItem="Ua5-EN-okW" secondAttribute="leading" id="kl5-zN-Vt7"/>
                                     <constraint firstItem="2Sp-vR-BZ1" firstAttribute="top" secondItem="Ua5-EN-okW" secondAttribute="top" constant="13" id="lfG-tT-xUI"/>
                                     <constraint firstAttribute="height" constant="100" id="ol6-Z8-DyZ"/>
                                     <constraint firstAttribute="centerX" secondItem="K8U-gD-O70" secondAttribute="centerX" id="qCr-Ui-0yF"/>
@@ -274,7 +274,7 @@
                                 <frame key="frameInset" minY="200" width="320" height="100"/>
                                 <subviews>
                                     <view tag="1000" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="we1-yN-Hi7">
-                                        <frame key="frameInset" minX="27" minY="99" width="295" height="1"/>
+                                        <frame key="frameInset" minY="99" width="322" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="gki-AZ-Ujf"/>
@@ -334,7 +334,7 @@
                                     <constraint firstItem="gO2-PY-JQX" firstAttribute="leading" secondItem="4Ds-Hf-VNk" secondAttribute="trailing" constant="8" id="9yk-Q5-Eo0"/>
                                     <constraint firstAttribute="centerX" secondItem="1lL-XH-teu" secondAttribute="centerX" id="K1K-W0-2Yc"/>
                                     <constraint firstItem="4Ds-Hf-VNk" firstAttribute="top" secondItem="DMe-sV-qzc" secondAttribute="top" constant="13" id="M7k-dP-UIH"/>
-                                    <constraint firstItem="we1-yN-Hi7" firstAttribute="leading" secondItem="DMe-sV-qzc" secondAttribute="leading" constant="27" id="ViH-uB-MNL"/>
+                                    <constraint firstItem="we1-yN-Hi7" firstAttribute="leading" secondItem="DMe-sV-qzc" secondAttribute="leading" id="ViH-uB-MNL"/>
                                     <constraint firstItem="DvG-cx-bxx" firstAttribute="leading" secondItem="DMe-sV-qzc" secondAttribute="leading" constant="45" id="bqM-NR-1JH"/>
                                     <constraint firstItem="1lL-XH-teu" firstAttribute="height" secondItem="DMe-sV-qzc" secondAttribute="height" id="c46-aP-bQs"/>
                                     <constraint firstAttribute="centerY" secondItem="shd-Bb-9Io" secondAttribute="centerY" constant="-3" id="cGH-ps-SLK"/>

@@ -12,24 +12,7 @@
 
 @class TRECommunication;
 
-//@protocol TRECommunicationDelegate <NSObject>
-//- (void)treStopFetchDidComplete:(TRECommunication *)communicator;
-//- (void)treStopFetchFailed:(int)errorCode;
-//- (void)treStopInAreaFetchDidComplete:(TRECommunication *)communicator;
-//- (void)treStopInAreaFetchFailed:(int)errorCode;
-//- (void)treLineInfoFetchDidComplete:(TRECommunication *)communicator;
-//- (void)treLineInfoFetchFailed:(TRECommunication *)communicator;
-//- (void)treGeocodeSearchDidComplete:(TRECommunication *)communicator;
-//- (void)treGeocodeSearchFailed:(int)errorCode;
-//- (void)treReverseGeocodeSearchDidComplete:(TRECommunication *)communicator;
-//- (void)treReverseGeocodeSearchFailed:(int)errorCode;
-//- (void)treRouteSearchDidComplete:(TRECommunication *)communicator;
-//- (void)treRouteSearchFailed:(int)errorCode;
-//- (void)treDisruptionFetchComplete:(TRECommunication *)communicator;
-//- (void)treDisruptionFetchFailed:(int)errorCode;
-//@end
-
-@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, AnnotationFilterOptionProtocol> {
+@interface TRECommunication : HSLAndTRECommon <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, LineDetailFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, AnnotationFilterOptionProtocol> {
     
     NSArray *treApiUserNames;
     NSInteger nextApiUsernameIndex;
@@ -38,7 +21,5 @@
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions;
 
 +(NSString *)parseBusNumFromLineCode:(NSString *)lineCode;
-
-//@property (nonatomic, weak) id <TRECommunicationDelegate> delegate;
 
 @end
