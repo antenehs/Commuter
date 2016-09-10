@@ -491,14 +491,16 @@ int kMaxNumberOfStops = 3;
 }
 
 -(void)setUpFooterButton{
-    if (cachedMode) {
+    if (cachedMode && !enoughCatchedDepartures) {
         [footerButton setTitle:@"reloading departures..." forState:UIControlStateNormal];
         footerButton.enabled = NO;
         footerButton.hidden = NO;
-    }else if (self.thereIsMore && enoughCatchedDepartures) {
+        footerButton.titleLabel.textColor = [AppManagerBase systemGreenColor];
+    }else if (self.thereIsMore) {
         [footerButton setTitle:@"more..." forState:UIControlStateNormal];
         footerButton.enabled = YES;
         footerButton.hidden = NO;
+        footerButton.titleLabel.textColor = [AppManagerBase systemOrangeColor];
     }else{
         footerButton.hidden = YES;
     }
