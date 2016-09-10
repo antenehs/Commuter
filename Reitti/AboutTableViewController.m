@@ -103,18 +103,18 @@
 }
 
 - (IBAction)contactUsButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Feel free to contact me for anything, even just to say hi!" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Request A Feature",@"Report A Bug",@"Say Hi!", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Feel free to contact me for anything, even just to say hi!", @"Feel free to contact me for anything, even just to say hi!") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Request A Feature", @"Request A Feature"), NSLocalizedString(@"Report A Bug", @"Report A Bug"), NSLocalizedString(@"Say Hi!", @"Say Hi!"), nil];
     //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
     actionSheet.tag = 1002;
     [actionSheet showInView:self.view];
 }
 
 - (IBAction)requestAFeatureButtonPressed:(id)sender {
-    [self sendEmailWithSubject:@"[Feature Request] - "];
+    [self sendEmailWithSubject:NSLocalizedString(@"[Feature Request] - ", @"[Feature Request] - ")];
 }
 
 - (IBAction)tweetorFacebookAboutThisAppPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"They say sharing is caring, right?." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share on Facebook",@"Share on Twitter", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"They say sharing is caring, right?.", @"They say sharing is caring, right?.") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Share on Facebook", @"Share on Facebook"), NSLocalizedString(@"Share on Twitter", @"Share on Twitter"), nil];
     //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
     actionSheet.tag = 1001;
     [actionSheet showInView:self.view];
@@ -196,10 +196,10 @@
         [self presentViewController:controller animated:YES completion:Nil];
         
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sorry", @"Sorry")
+                                                            message:NSLocalizedString(@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup", @"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup")
                                                            delegate:nil
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                                   otherButtonTitles:nil];
         [alertView show];
     }
@@ -211,10 +211,10 @@
         SLComposeViewController *tweetSheet = [[ReittiEmailAndShareManager sharedManager] slComposeVcForTwitter];
         [self presentViewController:tweetSheet animated:YES completion:nil];
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sorry", @"Sorry")
+                                                            message:NSLocalizedString(@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup", @"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup")
                                                            delegate:nil
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                                   otherButtonTitles:nil];
         [alertView show];
     }

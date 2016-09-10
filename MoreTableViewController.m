@@ -44,8 +44,8 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
- 
-    [self.navigationItem setTitle:@"MORE"];
+
+    [self.navigationItem setTitle:NSLocalizedString(@"MORE", @"MORE")];
     [self.tabBarController.tabBar setHidden:NO];
     
     if (thereIsDisruptions != [self areThereDisruptions] ) {
@@ -202,7 +202,7 @@
 #pragma mark - ibactions
 
 - (IBAction)contactUsButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Feel free to contact me for anything, even just to say hi!" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Request A Feature",@"Report A Bug",@"Say Hi!", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Feel free to contact me for anything, even just to say hi!" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Request A Feature", @"Request A Feature"), NSLocalizedString(@"Report A Bug", @"Report A Bug"), NSLocalizedString(@"Say Hi!", @"Say Hi!"), nil];
     //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
     actionSheet.tag = 1002;
     [actionSheet showInView:self.view];

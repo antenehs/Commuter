@@ -138,13 +138,13 @@
     self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
     if (viewControllerMode == ViewControllerModeAddNewAddress || viewControllerMode == ViewControllerModeEditAddress) {
         self.navigationItem.rightBarButtonItem.style = UIBarButtonSystemItemDone;
-        self.navigationItem.rightBarButtonItem.title = @"Done";
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Done", @"Done");
         self.navigationItem.rightBarButtonItem.enabled = YES;
         
         if (viewControllerMode == ViewControllerModeAddNewAddress){
-            self.navigationController.navigationBar.topItem.title = @"Add bookmark";
+            self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Add bookmark", @"Add bookmark");
         }else{
-            self.navigationController.navigationBar.topItem.title = @"Edit bookmark";
+            self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Edit bookmark", @"Edit bookmark");
         }
         
         //this is to prevent showing map in at first before setting an address
@@ -152,12 +152,12 @@
             [self setUpMapView];
         
     }else if(viewControllerMode == ViewControllerModeViewNamedBookmark) {
-        self.navigationItem.rightBarButtonItem.title = @"Edit";
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Edit", @"Edit");
         self.navigationItem.rightBarButtonItem.enabled = YES;
         self.navigationController.navigationBar.topItem.title = self.name;
         [self setUpMapView];
     }else{
-        self.navigationItem.rightBarButtonItem.title = @"Edit";
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Edit", @"Edit");
         self.navigationItem.rightBarButtonItem.enabled = NO;
         self.navigationController.navigationBar.topItem.title = self.name;
         [self setUpMapView];
@@ -332,7 +332,7 @@
             
             UIButton *editAddressButton = (UIButton *)[cell viewWithTag:3001];
             editAddressButton.hidden = NO;
-            [editAddressButton setTitle:@"Set Address" forState:UIControlStateNormal];
+            [editAddressButton setTitle:NSLocalizedString(@"Set Address", @"Set Address") forState:UIControlStateNormal];
         }
         
         if (self.viewControllerMode == ViewControllerModeEditAddress || self.viewControllerMode == ViewControllerModeAddNewAddress) {
@@ -451,7 +451,7 @@
 }
 
 - (IBAction)doneOrEditButtonPressed:(id)sender {
-    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"Edit"]) {
+    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:NSLocalizedString(@"Edit", @"Edit")]) {
         if (viewControllerMode == ViewControllerModeViewNamedBookmark) {
             self.viewControllerMode = ViewControllerModeEditAddress;
             
@@ -459,7 +459,7 @@
         }
     }else{
         if ([nameTextView.text isEqualToString:@""]){
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Name field cannot be empty" andContent:nil];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Name field cannot be empty", @"Name field cannot be empty") andContent:nil];
             return;
         }
         
@@ -483,13 +483,13 @@
                     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmark.name value:allBookmarks ? [NSNumber numberWithInteger:allBookmarks.count] : @0];
                 }];
             }else{
-                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Bookmark with the name exists already" andContent:@"Please give another name."];
+                [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
             }
         }else if (viewControllerMode == ViewControllerModeEditAddress){
             
             if (self.geoCode != nil) { //IS creating a new named bookmark from GEOCODE
                 if ([self.reittiDataManager doesNamedBookmarkExistWithName:newBookmark.name]){
-                    [ReittiNotificationHelper showSimpleMessageWithTitle:@"Bookmark with the name exists already" andContent:@"Please give another name."];
+                    [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
                 }else{
                     [self.reittiDataManager saveNamedBookmarkToCoreData:newBookmark];
                     dataSaved = YES;
@@ -503,7 +503,7 @@
                 }else{
                     //name is modified, ask for overwrite confirmation
                     if ([self.reittiDataManager doesNamedBookmarkExistWithName:newBookmark.name]){
-                        [ReittiNotificationHelper showSimpleMessageWithTitle:@"Bookmark with the name exists already" andContent:@"Please give another name."];
+                        [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
                     }else{
                         self.namedBookmark = [self.reittiDataManager updateNamedBookmarkToCoreDataWithID:self.namedBookmark.objectLID withNamedBookmark:newBookmark];
                         dataSaved = YES;
@@ -521,7 +521,11 @@
 
 - (IBAction)deleteBookmarkButtonPressed:(id)sender {
     if (viewControllerMode == ViewControllerModeEditAddress){
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to delete your bookmark?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to delete your bookmark?", @"Are you sure you want to delete your bookmark?")
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                   destructiveButtonTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                        otherButtonTitles:nil];
         actionSheet.tag = 1001;
         [actionSheet showInView:self.view];
     }
@@ -611,7 +615,7 @@
 
 - (void)reverseGeocodeSearchDidFail:(NSString *)error{
     if (requestedForSaving)
-        [ReittiNotificationHelper showErrorBannerMessage:@"Current location cannot be determined." andContent:nil];
+        [ReittiNotificationHelper showErrorBannerMessage:NSLocalizedString(@"Current location cannot be determined.", @"Current location cannot be determined.") andContent:nil];
 }
 
 #pragma mark - uitextview delegate methods

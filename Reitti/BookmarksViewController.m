@@ -373,9 +373,9 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 -(void)updateDetailToggleButtonTitles {
-    [showRoutesButton setTitle:!self.showRouteSuggestions ? @"SHOW ROUTES" : @"HIDE ROUTES" forState:UIControlStateNormal];
-    
-    [showDeparturesButton setTitle:!self.showStopDepartures ? @"SHOW DEPARTURES" : @"HIDE DEPARTURES" forState:UIControlStateNormal];
+    [showRoutesButton setTitle:!self.showRouteSuggestions ? NSLocalizedString(@"SHOW ROUTES", @"SHOW ROUTES") : NSLocalizedString(@"HIDE ROUTES", @"HIDE ROUTES") forState:UIControlStateNormal];
+
+    [showDeparturesButton setTitle:!self.showStopDepartures ? NSLocalizedString(@"SHOW DEPARTURES", @"SHOW DEPARTURES") : NSLocalizedString(@"HIDE DEPARTURES", @"HIDE DEPARTURES") forState:UIControlStateNormal];
 }
 
 #pragma mark - location services
@@ -432,12 +432,16 @@ const NSInteger kTimerRefreshInterval = 60;
     if (dataToLoad.count > 0) {
         NSString * message;
         if (mode == 0) {
-            message  = @"Hold on! Are you sure you want to delete all your bookmarks? This action cannot be undone";
+            message  = NSLocalizedString(@"Hold on! Are you sure you want to delete all your bookmarks? This action cannot be undone", @"Hold on! Are you sure you want to delete all your bookmarks? This action cannot be undone");
         }else{
-            message  = @"Hold on! Are you sure you want to delete all your history? This action cannot be undone";
+            message  = NSLocalizedString(@"Hold on! Are you sure you want to delete all your history? This action cannot be undone", @"Hold on! Are you sure you want to delete all your history? This action cannot be undone");
         }
         
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:message delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:message
+                                                                 delegate:self
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                   destructiveButtonTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                        otherButtonTitles:nil];
         
         [actionSheet showInView:self.view];
     }    
@@ -552,15 +556,15 @@ const NSInteger kTimerRefreshInterval = 60;
             UILabel *title = (UILabel *)[cell viewWithTag:1001];
             UILabel *subTitle = (UILabel *)[cell viewWithTag:1002];
             
-            title.text = @"No routes bookmarked yet";
-            subTitle.text = @"Press on the star icon on your route search result for easy access later.";
+            title.text = NSLocalizedString(@"No routes bookmarked yet", @"No routes bookmarked yet");
+            subTitle.text = NSLocalizedString(@"Press on the star icon on your route search result for easy access later.", @"Press on the star icon on your route search result for easy access later.");
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[EmptyBookmarkCell class]] && indexPath.section == savedStopsSection){
             cell = [tableView dequeueReusableCellWithIdentifier:@"nothingSavedCell"];
             UILabel *title = (UILabel *)[cell viewWithTag:1001];
             UILabel *subTitle = (UILabel *)[cell viewWithTag:1002];
             
-            title.text = @"No stops bookmarked yet";
-            subTitle.text = @"Press on the star icon on the stop view and you'll be amazed how much time you'll save.";
+            title.text = NSLocalizedString(@"No stops bookmarked yet", @"No stops bookmarked yet");
+            subTitle.text = NSLocalizedString(@"Press on the star icon on the stop view and you'll be amazed how much time you'll save.", @"Press on the star icon on the stop view and you'll be amazed how much time you'll save.");
         }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             
@@ -661,8 +665,8 @@ const NSInteger kTimerRefreshInterval = 60;
                     transportsScrollView.userInteractionEnabled = NO;
                     [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
                     
-                    leavesTime.text = [NSString stringWithFormat:@"leave at %@ ", [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
-                    arrivesTime.text = [NSString stringWithFormat:@"| arrive at %@", [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
+                    leavesTime.text = [NSString stringWithFormat:NSLocalizedString(@"leave at %@ ", @"leave at %@ "), [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
+                    arrivesTime.text = [NSString stringWithFormat:NSLocalizedString(@"| arrive at %@", @"| arrive at %@"), [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
                 }
             }else{
                 transportsScrollView.hidden = YES;
@@ -688,7 +692,7 @@ const NSInteger kTimerRefreshInterval = 60;
         }
     }
     @catch (NSException *exception) {
-        NSLog(@"Exception when displaying table: %@", [exception description]);
+//        NSLog(NSLog@"Exception when displaying table: %@", [exception description]);
         //This is to leave on extra empty row
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -743,7 +747,7 @@ const NSInteger kTimerRefreshInterval = 60;
         titleLabel.font = [titleLabel.font fontWithSize:13];
         titleLabel.textColor = [UIColor darkGrayColor];
         if (section == namedBookmarkSection) {
-            titleLabel.text = @"   LOCATIONS";
+            titleLabel.text = NSLocalizedString(@"   LOCATIONS", @"   LOCATIONS");
             boomarkActivityIndicator.center = CGPointMake(self.view.frame.size.width - 30, 15);
             [view addSubview:boomarkActivityIndicator];
             
@@ -752,9 +756,9 @@ const NSInteger kTimerRefreshInterval = 60;
             showRoutesButton.hidden = self.savedNamedBookmarks.count == 0 || tableView.isEditing;
             [view addSubview:showRoutesButton];
         }else if (section == savedRouteSection){
-            titleLabel.text = @"   SAVED ROUTES";
+            titleLabel.text = NSLocalizedString(@"   SAVED ROUTES", @"   SAVED ROUTES");
         }else{
-            titleLabel.text = @"   SAVED STOPS";
+            titleLabel.text = NSLocalizedString(@"   SAVED STOPS", @"   SAVED STOPS");
             stopActivityIndicator.center = CGPointMake(self.view.frame.size.width - 30, 15);
             [view addSubview:stopActivityIndicator];
             showDeparturesButton.frame = CGRectMake(self.view.frame.size.width - showDeparturesButton.frame.size.width - 6, 3, showDeparturesButton.frame.size.width, 24);
@@ -1620,7 +1624,7 @@ const NSInteger kTimerRefreshInterval = 60;
     {
         self.previewingContext = [self registerForPreviewingWithDelegate:self sourceView:self.tableView];
     }else{
-        NSLog(@"3D Touch is not available on this device.!");
+//        NSLog(@"3D Touch is not available on this device.!");
         
         // handle a 3D Touch alternative (long gesture recognizer)
     }

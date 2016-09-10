@@ -58,9 +58,9 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     if (self.routine != nil) {
-        [self.navigationItem setTitle:@"Edit Routine"];
+        [self.navigationItem setTitle:NSLocalizedString(@"Edit Routine", @"Edit Routine")];
     }else{
-        [self.navigationItem setTitle:@"Add Routine"];
+        [self.navigationItem setTitle:NSLocalizedString(@"Add Routine", @"Add Routine")];
     }
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
@@ -136,7 +136,7 @@
             if (self.fromString != nil) {
                 addressLabel.text = self.fromDisplayName != nil ? self.fromDisplayName : self.fromString;
             }else{
-                addressLabel.text = @"address";
+                addressLabel.text = NSLocalizedString(@"address", @"address");
             }
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"toCell" forIndexPath:indexPath];
@@ -144,7 +144,7 @@
             if (self.toString != nil) {
                 addressLabel.text = self.toDisplayName != nil ? self.toDisplayName : self.toString;
             }else{
-                addressLabel.text = @"address";
+                addressLabel.text = NSLocalizedString(@"address", @"address");
             }
         }
     }else{
@@ -155,7 +155,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"soundCell" forIndexPath:indexPath];
             
             if ([self.toneName isEqualToString:UILocalNotificationDefaultSoundName]) {
-                cell.detailTextLabel.text = @"Default iOS sound";
+                cell.detailTextLabel.text = NSLocalizedString(@"Default iOS sound", @"Default iOS notification sound");
             }else{
                 cell.detailTextLabel.text = self.toneName;
             }
@@ -237,9 +237,7 @@
     [self setDoneButtonState];
 }
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
-    NSString *address = @"Unknown Address";
-    
-    address = [NSString stringWithFormat:@"%@, %@", [geoCode getStreetAddressString], [geoCode city]];
+    NSString *address = [NSString stringWithFormat:@"%@, %@", [geoCode getStreetAddressString], [geoCode city]];
     
     if (addressRequestedForFrom) {
         self.fromString = address;
@@ -255,9 +253,7 @@
     [self setDoneButtonState];
 }
 - (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
-    NSString *address = @"Unknown Address";
-    
-    address = [NSString stringWithFormat:@"%@, %@", [namedBookmark streetAddress], [namedBookmark city]];
+    NSString *address = [NSString stringWithFormat:@"%@, %@", [namedBookmark streetAddress], [namedBookmark city]];
     
     if (addressRequestedForFrom) {
         self.fromString = address;
@@ -275,10 +271,10 @@
 - (void)searchResultSelectedCurrentLocation{
     //TODO: Test this case letter
     if (addressRequestedForFrom) {
-        self.fromString = @"Current location";
+        self.fromString = NSLocalizedString(@"Current location", @"Current location");
         self.fromCoords = @"";
     }else{
-        self.toString = @"Current location";
+        self.toString = NSLocalizedString(@"Current location", @"Current location");
         self.toCoords = @"";
     }
     

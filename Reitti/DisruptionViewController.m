@@ -123,12 +123,12 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 //    NSLog(@"offset : %f and origin: %f",scrollView.contentOffset.y ,aboutContainerView.frame.origin.y);
     if (scrollView.contentOffset.y - 30> aboutCommuterCellOriginY) {
-        titleLabel.text = @"About Commuter";
+        titleLabel.text = NSLocalizedString(@"About Commuter", @"About Commuter");
         [titleImageView setImage:[UIImage imageNamed:@"appIconRounded.png"]];
     }
     
     if (scrollView.contentOffset.y - 30 < aboutCommuterCellOriginY) {
-        titleLabel.text = @"Disruptions";
+        titleLabel.text = NSLocalizedString(@"Disruptions", @"Disruptions");
         [titleImageView setImage:[UIImage imageNamed:@"warningIconRounded.png"]];
     }
     
@@ -189,7 +189,7 @@
         UILabel *label = (UILabel *)[cell viewWithTag:1001];
         
         checkDisruptionButton.hidden = YES;
-        label.text = @"Getting disruptions...";
+        label.text = NSLocalizedString(@"Getting disruptions...", @"Getting disruptions...");
         
         refreshActivityIndicator = (UIActivityIndicatorView *)[cell viewWithTag:1003];
         [refreshActivityIndicator startAnimating];
@@ -203,7 +203,7 @@
             UILabel *label = (UILabel *)[cell viewWithTag:1001];
             
             checkDisruptionButton.hidden = YES;
-            label.text = @"No Traffic Disruptions";
+            label.text = NSLocalizedString(@"No Traffic Disruptions", @"No Traffic Disruptions");
             [refreshActivityIndicator stopAnimating];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"noDisruptionInfoCell"];

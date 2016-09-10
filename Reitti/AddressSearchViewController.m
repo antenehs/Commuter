@@ -217,9 +217,9 @@
         
         //Message that search term is short
         if (isFinalSearch) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"At least 3 letters, that's the rule."                                                                                      message:@"The search term is too short. Minimum length is 3."
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"At least 3 letters, that's the rule.", @"To tell atleast 3 letters is required to search") message:NSLocalizedString(@"The search term is too short. Minimum length is 3.", @"The search term is too short. Minimum length is 3.")
                                                                delegate:nil
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                                       otherButtonTitles:nil];
             [alertView show];
         }
@@ -277,15 +277,16 @@
     if (errorMessage != nil) {
         alertView = [[UIAlertView alloc] initWithTitle:errorMessage                                                                                      message:nil
                                               delegate:nil
-                                     cancelButtonTitle:@"OK"
+                                     cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                      otherButtonTitles:nil];
         [alertView show];
         
         [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:errorMessage value:@5];
     }else{
-        alertView = [[UIAlertView alloc] initWithTitle:@"Looks like there is a free address name."                                                                                      message:@"The search returned nothing for that search term."
+        alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Looks like there is a free address name.", @"Indicates as search term returned nothing")
+                                               message:NSLocalizedString(@"The search returned nothing for that search term.", @"The search returned nothing for that search term.")
                                               delegate:nil
-                                     cancelButtonTitle:@"OK"
+                                     cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
                                      otherButtonTitles:nil];
         [alertView show];
     }

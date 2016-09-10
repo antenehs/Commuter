@@ -5,3 +5,69 @@
   Created by Anteneh Sahledengel on 9/9/16.
   Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 */
+
+//  AboutTableViewController.m
+"Request A Feature" = "Request A Feature";
+"Report A Bug" = "Report A Bug";
+"Say Hi!" = "Say Hi!";
+"MORE" = "MORE";
+"Feel free to contact me for anything, even just to say hi!" = "Feel free to contact me for anything, even just to say hi!";
+"Cancel" = "Cancel";
+"[Feature Request] - " = "[Feature Request] - ";
+"They say sharing is caring, right?." = "They say sharing is caring, right?.";
+"Share on Facebook" = "Share on Facebook";
+"Share on Twitter" = "Share on Twitter";
+"Sorry" = "Sorry";
+"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup" = "You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup";
+"OK" = "OK";
+"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup" = "You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup";
+
+//AddressSearchViewController.m
+"At least 3 letters, that's the rule." = "At least 3 letters, that's the rule.";
+"The search term is too short. Minimum length is 3." = "The search term is too short. Minimum length is 3.";
+"Looks like there is a free address name." = "Looks like there is a free address name.";
+"The search returned nothing for that search term." = "The search returned nothing for that search term.";
+
+//  BookmarksViewController.m
+"SHOW ROUTES" = "SHOW ROUTES";
+"HIDE ROUTES" = "HIDE ROUTES";
+"SHOW DEPARTURES" = "SHOW DEPARTURES";
+"HIDE DEPARTURES" = "HIDE DEPARTURES";
+"Hold on! Are you sure you want to delete all your bookmarks? This action cannot be undone" = "Hold on! Are you sure you want to delete all your bookmarks? This action cannot be undone";
+"Hold on! Are you sure you want to delete all your history? This action cannot be undone" = "Hold on! Are you sure you want to delete all your history? This action cannot be undone";
+"Delete" = "Delete";
+"No routes bookmarked yet" = "No routes bookmarked yet";
+"Press on the star icon on your route search result for easy access later." = "Press on the star icon on your route search result for easy access later.";
+"No stops bookmarked yet" = "No stops bookmarked yet";
+"Press on the star icon on the stop view and you'll be amazed how much time you'll save." = "Press on the star icon on the stop view and you'll be amazed how much time you'll save.";
+"leave at %@ " = "leave at %@ ";
+"| arrive at %@" = "| arrive at %@";
+"   LOCATIONS" = "   LOCATIONS";
+"   SAVED ROUTES" = "   SAVED ROUTES";
+"   SAVED STOPS" = "   SAVED STOPS";
+
+//  DisruptionViewController.m
+"About Commuter" = "About Commuter";
+"Disruptions" = "Disruptions";
+"No Traffic Disruptions" = "No Traffic Disruptions";
+"Getting disruptions..." = "Getting disruptions...";
+
+//  EditAddressTableViewController.m
+"Done" = "Done";
+"Add bookmark" = "Add bookmark";
+"Edit bookmark" = "Edit bookmark";
+"Edit" = "Edit";
+"Set Address" = "Set Address";
+"Name field cannot be empty" = "Name field cannot be empty";
+"Bookmark with the name exists already" = "Bookmark with the name exists already";
+"Please give another name." = "Please give another name.";
+"Are you sure you want to delete your bookmark?" = "Are you sure you want to delete your bookmark?";
+"Current location cannot be determined." = "Current location cannot be determined.";
+
+//  EditReminderTableViewController.m
+"Edit Routine" = "Edit Routine";
+"Add Routine" = "Add Routine";
+"address" = "address";
+"Default iOS sound" = "Default iOS sound";
+"Current location" = "Current location";
+
