@@ -37,6 +37,9 @@
 
 @property (nonatomic, readonly) CLLocationCoordinate2D cl2dCoords;
 
+@property (nonatomic)BOOL isHomeAddress;
+@property (nonatomic)BOOL isWorkAddress;
 @property (nonatomic, strong) UIImage *annotationImage;
+
 
 @end

@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, kKBPopupPointerSide) {
 #define kKBPopupDefaultUsePointerArrow       YES
 #define kKBPopupDefaultDraggable             YES
 #define kKBPopupDefaultShadowBackgroundColor [UIColor blackColor]
-#define kKBPopupDefaultDrawableColor         [UIColor colorWithRed:0.95f green:0.0f blue:0.0f alpha:1.0f]
+#define kKBPopupDefaultDrawableColor         [UIColor clearColor]
 #define kKBPopupDefaultBorderColor           [UIColor blackColor]
 #define kKBPopupDefaultShadowOpacity         0.4f
 #define kKBPopupDefaultShadowRadius          3.0f

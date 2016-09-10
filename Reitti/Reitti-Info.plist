@@ -84,6 +84,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow access to be able to search your contacts for addresses</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Access should be granted to use many of the features in this app.</string>
 	<key>NSRemindersUsageDescription</key>
@@ -96,6 +98,8 @@
 		<string>Aspergit Bold.otf</string>
 		<string>Aspergit Light.otf</string>
 	</array>
+	<key>UIApplicationShortcutWidget</key>
+	<string>reitti.aikatauluApp.Commuter---Departures</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

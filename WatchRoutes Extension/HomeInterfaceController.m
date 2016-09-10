@@ -291,7 +291,7 @@
 
 -(NamedBookmarkE *)getHomeBookmark {
     if (self.namedBookmarks.count > 0) {
-        NSArray *array = [self.namedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name == %@ || self.iconPictureName == %@",@"Home", @"home-100.png" ]];
+        NSArray *array = [self.namedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.isHomeAddress == true" ]];
         if (array != nil && array.count > 0) {
             return array[0];
         }
@@ -302,7 +302,7 @@
 
 -(NamedBookmarkE *)getWorkBookmark {
     if (self.namedBookmarks.count > 0) {
-        NSArray *array = [self.namedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name == %@ || self.iconPictureName == %@",@"Work", @"work-filled-100.png" ]];
+        NSArray *array = [self.namedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.isWorkAddress == true" ]];
         if (array != nil && array.count > 0) {
             return array[0];
         }

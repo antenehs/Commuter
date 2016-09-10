@@ -55,6 +55,8 @@
 -(NSDictionary *)toDictionary{
     NSMutableArray *linesArray = [@[] mutableCopy];
     for (StopLine *line in self.lines) {
+        if (![line isKindOfClass:[StopLine class]])
+            break;
         NSDictionary *dict = [line dictionaryRepresentation];
         if (dict) [linesArray addObject:dict];
     }

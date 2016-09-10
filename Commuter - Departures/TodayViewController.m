@@ -46,26 +46,19 @@ int kMaxNumberOfStops = 3;
     // Do any additional setup after loading the view from its nib.
     self.widgetDataManager = [[WidgetDataManager alloc] init];
     
-//    self.thereIsMore = NO;
+    isCompactMode = NO;
+    
     isIOS10 = [self.extensionContext respondsToSelector:@selector(setWidgetLargestAvailableDisplayMode:)];
     if (isIOS10) {
         [self.extensionContext setWidgetLargestAvailableDisplayMode:NCWidgetDisplayModeExpanded];
+        isCompactMode = [self.extensionContext widgetActiveDisplayMode] == NCWidgetDisplayModeCompact;
     }
-    
-    //TODO: Setup view for compact and the other mode. Show closest when compact
     
     self.enoughCatchedDepartures = NO;
     [self setUpView];
     
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsStopsWidgetSuitName]];
     [self fetchSavedStopsFromDefaults];
-    
-//    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:kUserDefaultsSavedStopsKey]] count];
-    
-//    NSArray *stopCodeList = [self arrayFromCommaSeparatedString:self.stopCodes];
-//    totalNumberOfStops = stopCodeList.count;
-    
-//    self.thereIsMore = self.stopCodeList.count > kMaxNumberOfStops;
     
     self.stopList = [self getStopsFromCacheAfterTime:[NSDate date] andStops:self.stopCodeList];
     if (cachedMode) {
@@ -78,9 +71,7 @@ int kMaxNumberOfStops = 3;
         }
     }
     
-    //    self.stopList = [@[] mutableCopy];
     [self setUpStopViewsForStops:self.stopList];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -91,9 +82,13 @@ int kMaxNumberOfStops = 3;
 
 -(void)widgetActiveDisplayModeDidChange:(NCWidgetDisplayMode)activeDisplayMode withMaximumSize:(CGSize)maxSize {
     if (activeDisplayMode == NCWidgetDisplayModeCompact)
-        self.preferredContentSize = maxSize;
+        self.preferredContentSize = CGSizeMake(320, 100);
     else
         self.preferredContentSize = CGSizeMake(320, (self.stopList.count*100) + (self.stopList.count == 0 ? 90 : 50) + (thereIsMore || cachedMode || (thereIsMore && enoughCatchedDepartures) ? 44 : 0));
+    
+    isCompactMode = activeDisplayMode == NCWidgetDisplayModeCompact;
+    
+    [self setUpStopViewsForStops:self.stopList];
 }
 
 -(NSMutableArray *)stopCodeList {
@@ -114,18 +109,11 @@ int kMaxNumberOfStops = 3;
 
 - (void)setUpView{
     departuresTable.backgroundColor = [UIColor clearColor];
-    //    departuresTable.sectionFooterHeight = 44;
-//    routesButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     routesButton.backgroundColor = [AppManagerBase systemGreenColor];
-//    routesButton.layer.borderWidth = 0.5;
     routesButton.layer.cornerRadius = 5;
     
-//    bookmarksButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     bookmarksButton.backgroundColor = [AppManagerBase systemGreenColor];
-//    bookmarksButton.layer.borderWidth = 0.5;
     bookmarksButton.layer.cornerRadius = 5;
-    //    infoLabel.hidden = YES;
-    //    [self updateContentSizeForTableRows:0];
     
     moreButton = [[UIButton alloc] init];
     [moreButton setTitle:@"more..." forState:UIControlStateNormal];
@@ -134,22 +122,18 @@ int kMaxNumberOfStops = 3;
 }
 
 - (void)updateContentSizeForTableRows:(int)row{
-//    CGRect tableF = departuresTable.frame;
-//    departuresTable.frame = CGRectMake(tableF.origin.x, tableF.origin.y, tableF.size.width,  ([departuresTable numberOfRowsInSection:0] * departuresTable.rowHeight) + (self.thereIsMore || cachedMode ? 44 : 0));
-    self.preferredContentSize = CGSizeMake(320, (self.stopList.count*100) + (self.stopList.count == 0 ? 90 : 50) + (self.thereIsMore || cachedMode || (self.thereIsMore && enoughCatchedDepartures) ? 44 : 0));
+    if (isCompactMode && self.stopList.count > 0) {
+        self.preferredContentSize = CGSizeMake(320, 100);
+    } else {
+        self.preferredContentSize = CGSizeMake(320, (self.stopList.count*100) + (self.stopList.count == 0 ? 100 : 60) + (self.thereIsMore || cachedMode || (self.thereIsMore && enoughCatchedDepartures) ? 44 : 0));
+    }
     
-    routeButtonTopConstraint.constant = self.stopList.count == 0 ? 55 : (self.stopList.count * 100) + (self.thereIsMore || cachedMode || (self.thereIsMore && enoughCatchedDepartures) ? 44 : 0) + 10;
-    bookmarkButtonTopConstraint.constant = self.stopList.count == 0 ? 55 : (self.stopList.count * 100) + (self.thereIsMore || cachedMode || (self.thereIsMore && enoughCatchedDepartures) ? 44 : 0) + 10;
+    routeButtonTopConstraint.constant = self.stopList.count == 0 ? 55 : (self.stopList.count * 100) + (self.thereIsMore || cachedMode || (self.thereIsMore && enoughCatchedDepartures) ? 44 : 0) + 20;
+    bookmarkButtonTopConstraint.constant = self.stopList.count == 0 ? 55 : (self.stopList.count * 100) + (self.thereIsMore || cachedMode || (self.thereIsMore && enoughCatchedDepartures) ? 44 : 0) + 20;
     
 }
 
-- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins
-{
-//    margins.bottom = 0.0;
-//    margins.left = 0.0;
-//    margins.right = 0.0;
-//    margins.top = 5.0;
-//    return margins;
+- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins {
     return UIEdgeInsetsZero;
 }
 
@@ -157,11 +141,7 @@ int kMaxNumberOfStops = 3;
 
 -(void)fetchSavedStopsFromDefaults{
     NSLog(@"%@", sharedDefaults);
-//    self.stopCodes = [sharedDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
-//    if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
-//        stopCodes = [sharedDefaults objectForKey:kUserDefaultsSavedStopsKey];
-//    }
-    
+
     stopCodesString = [sharedDefaults objectForKey:kUserDefaultsSavedStopsKey];
     
     self.stopSourceApiMap = [sharedDefaults objectForKey:kUserDefaultsStopSourceApiKey];
@@ -190,17 +170,6 @@ int kMaxNumberOfStops = 3;
             infoLabel.hidden = YES;
         }
     }
-    
-//    HslAndTreApi *hslAPI = [[HslAndTreApi alloc] init];
-    
-//    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:kUserDefaultsSavedStopsKey]] count];
-    
-//    NSMutableArray *stopCodeList = [[self arrayFromCommaSeparatedString:self.stopCodes] mutableCopy];
-    
-//    self.thereIsMore = self.stopCodeList.count > kMaxNumberOfStops;
-//    if (self.thereIsMore) {
-//        [stopCodeList removeObjectsInRange:NSMakeRange(kMaxNumberOfStops, stopCodeList.count - kMaxNumberOfStops)];
-//    }
     
     if (self.stopCodeList.count != 0 ) {
         if ([[self.stopCodeList firstObject] isEqualToString:@""]) {
@@ -244,19 +213,8 @@ int kMaxNumberOfStops = 3;
             }
             
             if (stopsToFetch == 0) {
-                //TODO: sor
-                [resultList sortUsingComparator:^NSComparisonResult(id a, id b) {
-                    //We can cast all types to ReittiManagedObjectBase since we are only interested in the date modified property
-                    NSString *firstCode = [[(BusStopE*)a code] stringValue];
-                    NSString *secondCode = [[(BusStopE*)b code] stringValue];
-                    
-                    if (firstCode == nil) {
-                        return NSOrderedDescending;
-                    }
+                [self sortArray:resultList withOrder:codes];
                 
-                    //Decending by date - latest to earliest
-                    return [codes indexOfObject:firstCode] > [codes indexOfObject:secondCode];
-                }];
                 completionHandler(resultList, failedCount > 0 ? @"Stop fetch failed for some stops" : nil);
             }
         }];
@@ -280,6 +238,20 @@ int kMaxNumberOfStops = 3;
     }
 }
 
+-(void)sortArray:(NSMutableArray *)array withOrder:(NSArray *)codes {
+    [array sortUsingComparator:^NSComparisonResult(id a, id b) {
+        NSString *firstCode = [[(BusStopE*)a code] stringValue];
+        NSString *secondCode = [[(BusStopE*)b code] stringValue];
+        
+        if (firstCode == nil) {
+            return NSOrderedDescending;
+        }
+        
+        //Decending by date - latest to earliest
+        return [codes indexOfObject:firstCode] > [codes indexOfObject:secondCode];
+    }];
+}
+
 #pragma mark - ibactions
 - (IBAction)searchRouteButtonClicked:(id)sender {
     // Open the main app
@@ -291,11 +263,6 @@ int kMaxNumberOfStops = 3;
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?bookmarks", [AppManagerBase mainAppUrl]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
-//- (IBAction)openWidgetSettings {
-//    // Open the main app
-//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@?widgetSettings", [AppManagerBase mainAppUrl]]];
-//    [self.extensionContext openURL:url completionHandler:nil];
-//}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -456,6 +423,7 @@ int kMaxNumberOfStops = 3;
                 stopView.hidden = NO;
                 UIView *lineView = [stopView viewWithTag:1000];
                 lineView.backgroundColor = isIOS10 ? [UIColor lightGrayColor] : [UIColor lightGrayColor];
+                lineView.hidden = isCompactMode || i == stops.count - 1;
                 
                 UILabel *nameLabel = (UILabel *)[stopView viewWithTag:1001];
                 nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];

@@ -114,6 +114,7 @@
     
     NSString *subtitle = [bookmark.name isEqualToString:bookmark.streetAddress] ? nil : bookmark.streetAddress;
     NSString *iconName = bookmark.monochromeIconName != nil ? bookmark.monochromeIconName : bookmark.iconPictureName;
+    
     UIApplicationShortcutIcon * shortcutIcon = [UIApplicationShortcutIcon iconWithTemplateImageName:iconName];
     UIApplicationShortcutItem * shortcutItem = [[UIApplicationShortcutItem alloc] initWithType:[ReittiAppShortcutManager shortcutIdentifierStringValue:NamedBookmarkShortcutType] localizedTitle:bookmark.name localizedSubtitle:subtitle icon:shortcutIcon userInfo: @{@"namedBookmarkName" : bookmark.name , @"namedBookmarkCoords" : bookmark.coords}];
     

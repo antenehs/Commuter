@@ -83,6 +83,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>Allow access to be able to search your contacts for addresses</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Access should be granted to use many of the features in this app.</string>
 	<key>NSRemindersUsageDescription</key>
@@ -96,7 +98,7 @@
 		<string>Aspergit Light.otf</string>
 	</array>
 	<key>UIApplicationShortcutWidget</key>
-	<string>reitti.CommuterAppPro.Commuter---Departures-Pro</string>
+	<string>reitti.CommuterAppPro.Commuter---Routes</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreenPro</string>
 	<key>UIMainStoryboardFile</key>

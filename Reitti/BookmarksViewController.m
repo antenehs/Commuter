@@ -1203,7 +1203,7 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (BOOL)isHomeAddressCreated{
     if (savedNamedBookmarks.count > 0) {
-        NSArray *array = [savedNamedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name == %@ || self.iconPictureName == %@",@"Home", @"home-100.png" ]];
+        NSArray *array = [savedNamedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.isHomeAddress == true" ]];
         if (array != nil && array.count > 0) {
             return YES;
         }
@@ -1214,7 +1214,7 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (BOOL)isWorkAddressCreated{
     if (savedNamedBookmarks.count > 0) {
-        NSArray *array = [savedNamedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.name == %@ || self.iconPictureName == %@",@"Work", @"work-filled-100.png" ]];
+        NSArray *array = [savedNamedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.isWorkAddress == true" ]];
         if (array != nil && array.count > 0) {
             return YES;
         }

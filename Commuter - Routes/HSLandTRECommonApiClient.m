@@ -29,9 +29,6 @@
     [optionsDict setValue:@"4326" forKey:@"epsg_out"];
     [optionsDict setValue:@"json" forKey:@"format"];
     
-//    [optionsDict setValue:[WidgetHelpers convert2DCoordToString:fromCoords] forKey:@"from"];
-//    [optionsDict setValue:[WidgetHelpers convert2DCoordToString:toCoords] forKey:@"to"];
-    
     [optionsDict setValue:[ReittiStringFormatter convert2DCoordToString:fromCoords] forKey:@"from"];
     [optionsDict setValue:[ReittiStringFormatter convert2DCoordToString:toCoords] forKey:@"to"];
     

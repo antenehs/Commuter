@@ -96,6 +96,14 @@
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
+-(BOOL)isHomeAddress {
+    return [self.name isEqualToString:@"Home"] || [self.iconPictureName isEqualToString:@"home-100.png"];
+}
+
+-(BOOL)isWorkAddress {
+    return [self.name isEqualToString:@"Work"] || [self.iconPictureName isEqualToString:@"work-filled-100.png"];
+}
+
 -(UIImage *)annotationImage {
     if (!_annotationImage) {
         CGRect outerFrame = CGRectMake(0, 0, 83, 124);

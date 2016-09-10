@@ -227,24 +227,6 @@
 -(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
     //Use code as name in case of HSL region
     [[DigiTransitCommunicator hslDigiTransitCommunicator] fetchDeparturesForStopName:code withCompletionHandler:completionBlock];
-    
-//    [[DigiTransitCommunicator hslDigiTransitCommunicator] fetchStopsForName:code withCompletionBlock:^(NSArray *stops, NSString *errorString){
-//        //Filter applicable stops
-//        if (!errorString && stops.count > 0) {
-//            NSMutableArray *allDepartures = [@[] mutableCopy];
-//            for (DigiStop *digiStop in stops) {
-//                for (DigiStoptime *stopTime in digiStop.stoptimes) {
-//                    StopDeparture *dep = [StopDeparture departureForDigiStopTime:stopTime];
-//                    if (dep)
-//                        [allDepartures addObject:dep];
-//                }
-//            }
-//            
-//            completionBlock(allDepartures, nil);
-//        } else {
-//            completionBlock(nil, errorString);
-//        }
-//    }];
 }
 
 #pragma mark - Line detail fetch protocol implementation

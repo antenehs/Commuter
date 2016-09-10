@@ -33,6 +33,7 @@
     IBOutlet UIButton *footerButton;
     
     BOOL isIOS10;
+    BOOL isCompactMode;
 }
 
 @end

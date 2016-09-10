@@ -1,0 +1,1263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CIDR_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Black.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/EmptyHomeAddressCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/RemindersTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti copy-Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes copy-Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/RemindersTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Regular.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/WidgetDataManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RouteLegLocationE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RouteLegLocationE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/WidgetDataManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/HSLandTRECommonApiClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/Commuter - Routes.entitlements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/HSLandTRECommonApiClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RouteLegE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TransportE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TodayViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RouteLegE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/NamedBookmarkE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/HSLAPIClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TodayViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/NamedBookmarkE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/MatkaApiClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TransportE.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/MatkaApiClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/HSLAPIClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/WidgetAPIProtocols.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/WidgetHelpers.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/WidgetHelpers.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/Base.lproj/MainInterface.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RoutableLocation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TREAPIClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RouteE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RoutableLocation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TransportE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/TREAPIClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/RouteE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Routes/fi.lproj/MainInterface.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-Regular.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StaticRoute.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Podfile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-SemiboldItalic.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/NamedBookmark.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/logoutJS.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/HSLCommunicator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/TodayViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/MainInterface.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/AikatauluWidget.entitlements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/TodayViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/AikatauluWidget/HSLCommunicator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiStringFormatter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/VehicleLocation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SVProgressHUD.bundle" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/fi.lproj/InfoPlist.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/fi.lproj/Localizable.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/fi.lproj/Main.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/fi.lproj/LaunchScreenPro.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/fi.lproj/LaunchScreen.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/en.lproj/InfoPlist.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/en.lproj/Localizable.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLRegion.kml" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RTStopSearchParam.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/APIClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Espoo.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTokenizer.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/APIClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DepartureTableViewCell.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTokenizer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASPolylineView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Lahti.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DataFrameRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Transport.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ServicePointAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteTableViewCell.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Transport.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GoogleService-Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DroppedPinManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeDetail.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DroppedPinManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LinesTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiLegs.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LinesTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Commuter - Departures Pro-Bridging-Header.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREFramedVehicleJourneyRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/PubTransCommunicator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLServicePointManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DataFrameRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JPSThumbnail.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LineRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTreeEnumerator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTextNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CoreDataManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiIntermediateStops.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRoute.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MyFixedLayoutGuide.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DirectionRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiIntermediateStops.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MonitoredVehicleJourney.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MyFixedLayoutGuide.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Transport.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiModels.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLReader.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTextNode.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/VersionInfoViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteSearchViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ICloudBookmarks.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLSelector.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MBProgressHUD.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiDateFormatter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SettingsViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LinesManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NearByStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RTStopSearchParam.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HistoryEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LVThumbnail.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CustomeTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/VehicleLocation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/OrderedManagedObject.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/changeToFullVersionJS.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LVThumbnail.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BusStopShort.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/OrderedManagedObject.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CacheManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/OperatorRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CacheManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteDetailViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLString.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NamedBookmarkTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RoutineEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SettingsManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteOptionManagerBase.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLString.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NamedBookmarkTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiPlan.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DetailImageView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AMBlurView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Geometry.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiPlace.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LineStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AMBlurView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASPolylineRenderer.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TravelCardManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/OlderImages.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NamedBookmarkTableViewCell.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASPolylineRenderer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TRECommunication.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteHistoryEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Value.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TravelCardViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CustomeTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteHistoryEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundWarningIcon.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Value.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TravelCardViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/deleteCardJS.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTypeList.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaTransportType.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ServicePoint.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LocationsAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/createCardJS.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaTransportType.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCode.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASABubbleView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLCommunication.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CoreDataManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundErrorIcon@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLCommunication.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Jyvaskula.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ApiProtocols.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiLegs.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MonitoredCall.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLLine.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MultiSelectTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MonitoredCall.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLLine.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helsinki.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundError.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLEncoding.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DevHslVehicle.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLEncoding.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLRouteOptionManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DevHslVehicle.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DisruptionViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DisruptionText.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilterView.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MultiSelectTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiBikeRentalStation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiShapeMaker.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTokenizerState.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/WebViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiShapeMaker.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiRemindersManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiRegionManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiGeometry.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiRemindersManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiRegionManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DirectionRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/main.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Vehicle.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Icons.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationButtonBackground.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Line.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SettingsManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DisruptionLine.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RettiDataManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLSelector.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTypeTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundWarning@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/UICollectionViewLeftAlignedLayout.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RettiDataManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Notifications.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilterView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundMessage@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Notifications.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiBikeRentalStation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREMonitoredVehicleJourney.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/WebViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SingleSelectTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DisruptionLine.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREMonitoredVehicleJourney.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiManagedObjectBase.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiGeometry.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GraphQLQuery.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TRELiveTrafficManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiManagedObjectBase.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BusStopShort.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLServicePointManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeDetail.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Turku.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti-Prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiPlace.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ServicePointAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DisruptionText.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TRERegion.kml" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationButtonBackground@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MainTabBarController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilterOption.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ProductNames.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/EditAddressTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BookmarksViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MainTabBarController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundMessage.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ProductNames.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/EditAddressTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BookmarksViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaGeoCode.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLElement.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREOnwardCalls.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DetailImageView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREOnwardCalls.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Default-568h@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ContactsManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLSerialization.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSBlurView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLSerialization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteCacheEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLRouteOptionManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSBlurView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiStringFormatter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSMessage.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AppManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Vehicle.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiNotificationHelper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSMessage.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/InactiveReasons.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRoute.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiNotificationHelper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaObjectMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLNode.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JPSThumbnailAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWCellScrollView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWUtilityButtonView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWCellScrollView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWLongPressGestureRecognizer.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWUtilityButtonView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWLongPressGestureRecognizer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/UIScrollView+APParallaxHeader.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/NSMutableArray+SWUtilityButtons.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWConstants.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/UIScrollView+APParallaxHeader.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/NSMutableArray+SWUtilityButtons.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWUtilityButtonTapGestureRecognizer.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SWTableViewCell/SWUtilityButtonTapGestureRecognizer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteLeg.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiStoptime.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLNode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaLine.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteLocation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteLeg.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLElement.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TabBarViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaLine.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteLocation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TRECommunication.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RoutePreviewView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/PeriodProductState.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Oulu.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Line.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RoutePreviewView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundSuccessIcon.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/FailedGeoCodeFetch.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaName.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ValueState.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaCommunicator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TransportTypes.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Geometry.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiPlan.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaObjectMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaCommunicator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/UIImage+BoxBlur.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteSearchOptions.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JPSThumbnailAnnotationView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLPreprocessedInputStream.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DepartureTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLSupport.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JPSThumbnailAnnotationView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLPreprocessedInputStream.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupHeaders.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupBubbleView+Animations.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupDrawableView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupBubbleView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupBubbleView+Animations.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupBubbleView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/KBPopupBubble/KBPopupDrawableView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BusStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/FramedVehicleJourneyRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ICloudManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SingleSelectTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREVehicleLocation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/FramedVehicleJourneyRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopLine.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREVehicleLocation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiAnalyticsManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopLine.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLNamespace.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/EmptyWorkAddressCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiAnalyticsManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiDateFormatter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SettingsViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Features.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AppDelegate.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/PubTransCommunicator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HexColor.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLParser.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CookieEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HexColor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteCacheEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLParser.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/VersionInfoViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CookieEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 4.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 3.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 12.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 11.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 10.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 16.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 9.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 2.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 15.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 14.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 7.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 6.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 13.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 8.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.xcdatamodeld/Reitti 5.xcdatamodel" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSMessageView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiPattern.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DepartureTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiPattern.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotations/GCThumbnailAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotations/GCThumbnail.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotations/GCThumbnailAnnotationView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotations/GCThumbnailAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotations/GCThumbnailAnnotationView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotations/GCThumbnail.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/EditReminderTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TravelCardManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JPSThumbnailAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/EditReminderTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ServicePointsViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/InactiveReasons.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/renameCardJS.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiTransitCommunicator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ToneSelectorTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLEntities.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiTransitCommunicator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiEmailAndShareManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ToneSelectorTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/WelcomeViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiTrip.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BikeStation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteOptionsTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/WelcomeViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti.entitlements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HslLiveCommunicator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiAppShortcutManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteOptionsTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRouteStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiEmailAndShareManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HslLiveCommunicator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiAppShortcutManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LVThumbnailAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRouteStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundError@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteViewManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressSearchViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteSearchParameters.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteViewManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressSearchViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteSearchParameters.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DataModels.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/appicon3_app.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/appicon4_app.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/appicon1_settings.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/Version 2.3/app-logo-new-rounded.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/Subway-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/bookmarks-colored-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/Bar Chart-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/Back-light-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/app-logo-rounded-small.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/Forward-light-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/Cool-96.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/notification-tone-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/advanced-setting-100.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/version 4.1/reload-128.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/appicon1_retina.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/appicon2_app.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Pictures/appicon1_spotlight.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JPSThumbnail.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRouteLocation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TicketNames.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/OperatorRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSMessageView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GraphQLQuery.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/EmptyWorkAddressCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BikeStation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Default@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteSearchOptions.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/GeoCodeAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ServicePointsViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SVProgressHUD.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopTableViewCell.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteSearchViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/PeriodProductState.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SVProgressHUD.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/UICollectionViewLeftAlignedLayout.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundWarning.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilterOption.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LVThumbnailAnnotation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiSearchManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TSMessagesDefaultDesign.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopLines.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSDate+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UIView+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UITableView+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UISearchBar+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSArray+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/ReittiMapkitHelper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UISearchBar+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSArray+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/ReittiMapkitHelper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSObject+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UIButton+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UIImage+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UIButton+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UIView+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UITableViewCell+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UIImage+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UITableViewCell+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/SAMCategories/NSDate+SAMAdditions.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/SAMCategories/NSDate+SAMAdditions.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSString+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSDate+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSObject+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/NSString+Helper.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Helpers/UITableView+Helper.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Disruption.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AboutTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundSuccessIcon@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CustomBadge.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREVehiceDataModels.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AboutTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JTMaterialSpinner.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CustomBadge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASA_Helpers.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Route.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Commuter - Departures-Bridging-Header.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Attributes.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopLines.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LVThumbnailAnnotationView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRouteLocation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Tampere.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopDeparture.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiSearchManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTypes.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREFramedVehicleJourneyRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopDeparture.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREVehicle.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTypeTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/JTMaterialSpinner.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASABubbleView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BusStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLTreeEnumerator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Kuopio.gpx" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MonitoredVehicleJourney.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Tickets.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Base.lproj/LaunchScreenPro.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Base.lproj/LaunchScreen.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Base.lproj/Main.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLAndTRECommon.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SearchController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HistoryEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Tickets.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTableViewCell.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLAndTRECommon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLEntities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteOptionManagerBase.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SearchController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ICloudBookmarksViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaModels.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLDocument.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiObject.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ICloudBookmarksViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLOrderedDictionary.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AppDelegate.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ReittiObject.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CommandView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BaseClass.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLOrderedDictionary.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundWarningIcon@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/CommandView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AppManagerBase.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MBProgressHUD.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TicketNames.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Images.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AppManagerBase.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LocationsAnnotation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Route.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DetailImageView.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLQuirksMode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Features.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SettingsEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundSuccess@2x.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Properties.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SettingsEntity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LVThumbnailAnnotationView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TableViewCells.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ICloudBookmarks.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ContactsManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti-Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/VehicleRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reachability.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NewInVersionPictures.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiRoute.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/VehicleRef.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/hsl-region.geojson" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/BaseClass.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Fonts/timeburner_regular.ttf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Fonts/Aspergit Bold.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Fonts/Aspergit Light.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Fonts/trench100free.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Fonts/Aspergit.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiStoptime.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SVProgressHUD-Prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HMSegmentedControl/HMSegmentedControl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HMSegmentedControl/HMSegmentedControl.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteDetailViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/UIERealTimeBlurView.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AppManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaName.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/StopTableViewCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LineStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLDocumentType.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Attributes.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RoutePreviewView.xib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Commuter - Routes Pro-Bridging-Header.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLDocumentType.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundErrorIcon.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/FailedGeoCodeFetch.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TRELiveTrafficManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NotificationBackgroundSuccess.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TabBarViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Disruption.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Features.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ASPolylineView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiRoute.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reachability.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LinesManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TravelCard.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaGeoCode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/UIImage+BoxBlur.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRouteLeg.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TravelCard.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NSString+HTMLEntities.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Distance.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteLegLocation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaRouteLeg.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AddressTableViewCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NSString+HTMLEntities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Distance.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RouteLegLocation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ContactAddress.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiTrip.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ServicePoint.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLDocument.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/UIERealTimeBlurView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ContactAddress.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/versionInfo.html" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaTransportTypeManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Properties.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/MatkaTransportTypeManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SwitchToRouteViewSegue.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/LineRef.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLLiveTrafficManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/Reitti-Bridging-Header.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/SwitchToRouteViewSegue.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/AnnotationFilterView.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/RoutineEntity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HSLLiveTrafficManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLComment.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/NearByStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DigiDataModels.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ValueState.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/ICloudManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/HTMLComment.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/DisruptionViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Reitti/TREVehicle.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-Bold.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Light.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/routes.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures copy-Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StaticCity.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/HSLCardServicePoints.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StaticCity.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/EnumManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/logginJS.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-HeavyItalic.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/BusStopE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/HslAndTreApi.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/MainInterface.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/search-green-50.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/stopIcon.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/HslAndTreApi.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/ReittiStringFormatterE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/Commuter - Departures.entitlements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/ReittiStringFormatterE.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/TodayViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/BusStopE.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/bookmark-green-50.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Departures/TodayViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/stops.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/EnumManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ReittiTests/fi.lproj/InfoPlist.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ReittiTests/ReittiTests-Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ReittiTests/ReittiTests.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ReittiTests/en.lproj/InfoPlist.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Heavy.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Reittiopas/TodayViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Reittiopas/MainInterface.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Reittiopas/TodayViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Reittiopas/search-green-50.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Reittiopas/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Commuter - Reittiopas/bookmark-green-50.png" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/NativeActivityIndicator.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/WatchRoutes.entitlements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/WatchIcons.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/Assets.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/ActivityIndicator.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/fi.lproj/Interface.strings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes/Base.lproj/Interface.storyboard" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-LightItalic.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/EmptyBookmarkCell.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LineDetailViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-MediumItalic.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MoreTableViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/StopInterfaceController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLCoord.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/MapInterfaceController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/Info.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HomeInterfaceController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HomeInterfaceController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchRoutes Extension.entitlements" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchHslApi.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/LocationRowController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/DepartureRowController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchDataManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/LocationRowController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchApiClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLRoute.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/RouteLegRowController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/ComplicationDataManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/DepartureRowController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/ComplicationDataManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchApiClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HomeAndWorkRowController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLRoute.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLCoord.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/NotificationController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/MapInterfaceController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchCommunicationManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/ComplicationController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/PushNotificationPayload.apns" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLLegs.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLLocs.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/ComplicationController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HomeAndWorkRowController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLLegs.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/HSLLocs.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/NotificationController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/StopInterfaceController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchCommunicationManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/ExtensionDelegate.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/RouteLegRowController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchHslApi.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/StopRowController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/Assets.xcassets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/RouteInterfaceController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/WatchDataManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/StopRowController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/ExtensionDelegate.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WatchRoutes Extension/RouteInterfaceController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LineDetailViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-Light.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFXMLRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFPropertyListRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFNetworkActivityIndicatorManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFXMLRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFURLConnectionOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFJSONRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPClient.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFURLConnectionOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPClient.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFNetworkActivityIndicatorManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFJSONRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/UIImageView+AFNetworking.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFImageRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/UIImageView+AFNetworking.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFNetworking.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFImageRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/AFNetworking/AFNetworking/AFPropertyListRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RKXMLReaderSerialization/RKXMLReaderSerialization-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RKXMLReaderSerialization/RKXMLReaderSerialization.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RKXMLReaderSerialization/RKXMLReaderSerialization-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/TransitionKit/TransitionKit.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/TransitionKit/TransitionKit-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/TransitionKit/TransitionKit-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RKValueTransformers/RKValueTransformers-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RKValueTransformers/RKValueTransformers.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RKValueTransformers/RKValueTransformers-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/XMLReader/XMLReader.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/XMLReader/XMLReader-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/XMLReader/XMLReader-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/ISO8601DateFormatterValueTransformer/ISO8601DateFormatterValueTransformer-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/ISO8601DateFormatterValueTransformer/ISO8601DateFormatterValueTransformer.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/ISO8601DateFormatterValueTransformer/ISO8601DateFormatterValueTransformer-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/AFNetworking/AFNetworking.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/AFNetworking/AFNetworking-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/AFNetworking/AFNetworking-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/SOCKit/SOCKit-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/SOCKit/SOCKit-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/SOCKit/SOCKit.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RestKit/RestKit-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RestKit/RestKit-prefix.pch" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/RestKit/RestKit.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods-acknowledgements.markdown" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods-frameworks.sh" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods.debug.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods.release.xcconfig" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods-dummy.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods-resources.sh" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Target Support Files/Pods/Pods-acknowledgements.plist" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleSymbolUtilities/Libraries/libGSDK_Overload_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/XMLReader/XMLReader.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/XMLReader/XMLReader.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleNetworkingUtilities/Libraries/libGTMSessionFetcher_full_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleNetworkingUtilities/Libraries/libGTMSessionFetcher_core_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/ModuleHeaders/Core-Module.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/ModuleHeaders/Analytics-Module.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/ModuleHeaders/CloudMessaging-Module.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/ModuleHeaders/AppInvite-Module.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/ModuleHeaders/SignIn-Module.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/ModuleHeaders/AdMob-Module.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLCore/Public/GGLConfiguration.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLCore/Public/GMRConfiguration.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLCore/Public/GGLErrorCode.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLCore/Public/GGLContext.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLCore/Public/Core.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLAnalytics/Public/GGLContext+Analytics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Headers/GGLAnalytics/Public/Analytics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Libraries/libGGLAnalytics.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/Google/Libraries/libGGLCore.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_GTMURLBuilder_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTMStackTrace_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_NSScannerJSON_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_NSStringXML_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_core_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_StringEncoding_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_UIFont+LineHeight_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_DebugUtils_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_SystemVersion_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_NSDictionary+URLArguments_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_AddressBook_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_NSStringHTML_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_KVO_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_iPhone_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_RoundedRectPath_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_Regex_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleUtilities/Libraries/libGTM_NSData+zlib.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleInterchangeUtilities/Libraries/libProtocolBuffers_external.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RKValueTransformers/Code/RKValueTransformers.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RKValueTransformers/Code/RKValueTransformers.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/ArcGIS-Runtime-SDK-iOS/ArcGIS.framework/Versions/Current/Resources/ArcGIS.bundle" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKState.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TransitionKit.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKStateMachine.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKEvent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKTransition.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKStateMachine.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKTransition.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKState.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/TransitionKit/Code/TKEvent.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAITracker.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAIEcommerceProduct.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAIEcommerceFields.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAIEcommerceProductAction.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAILogger.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAIFields.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAIEcommercePromotion.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAI.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAITrackedViewController.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Headers/Public/GAIDictionaryBuilder.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/GoogleAnalytics/Libraries/libGoogleAnalytics.a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKHTTPRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRouter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKPaginator.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKResponseDescriptor.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRouteSet.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKManagedObjectRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRouter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRequestDescriptor.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRouteSet.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectRequestOperationSubclass.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRequestDescriptor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRoute.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKManagedObjectRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKResponseMapperOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectManager.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKPathMatcher.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKRoute.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectParameterization.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKResponseMapperOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKPaginator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKHTTPRequestOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKResponseDescriptor.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectRequestOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKObjectParameterization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network/RKPathMatcher.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Network.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKSerialization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKOperationStateMachine.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/lcl_config_logger_RK.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKMIMETypeSerialization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKStringTokenizer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/lcl_config_components_RK.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKDictionaryUtilities.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKPathUtilities.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKLumberjackLogger.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKURLEncodedSerialization.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKDictionaryUtilities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKOperationStateMachine.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKLumberjackLogger.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKLog.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKDotNetDateFormatter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKErrors.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKMIMETypes.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKNSJSONSerialization.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKLog.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKMIMETypes.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKDotNetDateFormatter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKPathUtilities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKMacros.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKURLEncodedSerialization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKErrors.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/lcl_config_extensions_RK.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKNSJSONSerialization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKMIMETypeSerialization.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/Support/RKStringTokenizer.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMappingOperationDataSource.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKAttributeMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMappingResult.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMappingResult.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKPropertyMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKPropertyInspector.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKRelationshipMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKPropertyInspector.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectUtilities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKHTTPUtilities.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKRelationshipMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectMappingOperationDataSource.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKHTTPUtilities.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKErrorMessage.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectMappingOperationDataSource.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKErrorMessage.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectMappingMatcher.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKDynamicMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectMappingMatcher.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKObjectUtilities.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMappingOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMappingOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKDynamicMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMappingErrors.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMapperOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKPropertyMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMapperOperation_Private.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMapperOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKAttributeMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/ObjectMapping/RKMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKEntityCache.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKCoreData.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKInMemoryManagedObjectCache.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectMappingOperationDataSource.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKRelationshipConnectionOperation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectCaching.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectStore.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKFetchRequestManagedObjectCache.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKEntityMapping.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectMappingOperationDataSource.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKPropertyInspector+CoreData.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectStore.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKRelationshipConnectionOperation.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKPropertyInspector+CoreData.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKEntityMapping.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/NSManagedObjectContext+RKAdditions.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/NSManagedObject+RKAdditions.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKFetchRequestManagedObjectCache.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKEntityByAttributeCache.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/NSManagedObjectContext+RKAdditions.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/NSManagedObject+RKAdditions.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKEntityByAttributeCache.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectImporter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKEntityCache.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKConnectionDescription.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKInMemoryManagedObjectCache.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKManagedObjectImporter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/CoreData/RKConnectionDescription.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Code/RestKit.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Vendor/LibComponentLogging/Core/lcl_RK.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RestKit/Vendor/LibComponentLogging/Core/lcl_RK.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/ISO8601DateFormatterValueTransformer/Code/ISO8601DateFormatterValueTransformer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/ISO8601DateFormatterValueTransformer/Code/ISO8601DateFormatterValueTransformer.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/ISO8601DateFormatterValueTransformer/Code/RKISO8601DateFormatter.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/ISO8601DateFormatterValueTransformer/Code/RKISO8601DateFormatter.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/SOCKit/SOCKit.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/SOCKit/SOCKit.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RKXMLReaderSerialization/RKXMLReaderSerialization.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Pods/RKXMLReaderSerialization/RKXMLReaderSerialization.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-Medium.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StaticStop.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/EmptyBookmarkCell.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StaticStop.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-RegularItalic.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Thin.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Train.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Time to go 1.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Time to go 2.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Vibration sound.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Time to go 5.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Horse whinny.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Time to go 3.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Choo choo train.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Mellow mood.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Time to go 4.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sounds/Wheels on the bus.mp3" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-BoldItalic.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MoreTableViewController.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/StaticRoute.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Ultralight.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-Heavy.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/NamedBookmark.m" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Bold.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoText-Semibold.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Semibold.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SanFranciscoDisplay-Medium.otf" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/routesFiltered.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/EmptyHomeAddressCell.m" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/Library/Caches/AppCode2016.2/DerivedData/Reitti-aftxxbcfbfsqxwcjzxdsofrfoali/Build/Products/Debug-iphoneos/libPods.a">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/AppCode2016.2/DerivedData/Reitti-aftxxbcfbfsqxwcjzxdsofrfoali/Build/Products/Debug-iphoneos/libPods.a" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../Reitti" />
+          <root url="file:///Applications/Xcode.app/Contents/PlugIns/Xcode3Core.ideplugin/Contents/SharedSupport/Developer/Library/Frameworks/InterfaceBuilderKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/PlugIns/Xcode3Core.ideplugin/Contents/SharedSupport/Developer/Library/Frameworks/DTPerformanceSession.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/HealthKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/MapKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/ClockKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/EventKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreText.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/WatchKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreData.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreLocation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Contacts.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/MobileCoreServices.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreMotion.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Foundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/ImageIO.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Security.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/WatchConnectivity.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/PassKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/HomeKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/UIKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/usr/include" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/HealthKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/PassKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreAudioKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MultipeerConnectivity.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AssetsLibrary.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WatchConnectivity.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreVideo.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/StoreKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SceneKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenGLES.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CFNetwork.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AddressBookUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WatchKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GSS.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AudioUnit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreSpotlight.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/LocalAuthentication.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/HealthKitUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Metal.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/VideoToolbox.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaToolbox.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Contacts.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/QuickLook.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SafariServices.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameplayKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WebKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CloudKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreImage.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKitUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Photos.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaPlayer.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AVFoundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/JavaScriptCore.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/PushKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreTelephony.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreText.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ReplayKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SpriteKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Twitter.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/NetworkExtension.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreAudio.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreData.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MapKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ContactsUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMedia.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaAccessibility.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ExternalAccessory.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Security.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ModelIO.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GLKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AudioToolbox.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MetalKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/HomeKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameController.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AVKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreBluetooth.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AdSupport.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMIDI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Social.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SystemConfiguration.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accounts.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/NotificationCenter.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ImageIO.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/PhotosUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MobileCoreServices.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AddressBook.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/NewsstandKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MessageUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreLocation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/QuartzCore.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/iAd.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/7.3.0/include" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../Reitti" />
+          <root url="file:///Applications/Xcode.app/Contents/PlugIns/Xcode3Core.ideplugin/Contents/SharedSupport/Developer/Library/Frameworks/InterfaceBuilderKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/PlugIns/Xcode3Core.ideplugin/Contents/SharedSupport/Developer/Library/Frameworks/DTPerformanceSession.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/HealthKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/MapKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/ClockKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/EventKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreText.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/WatchKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreData.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreLocation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Contacts.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/MobileCoreServices.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/CoreMotion.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Foundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/ImageIO.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/Security.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/WatchConnectivity.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/PassKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/HomeKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/UIKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/usr/include" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/HealthKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/PassKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreAudioKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MultipeerConnectivity.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AssetsLibrary.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WatchConnectivity.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreVideo.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/StoreKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SceneKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenGLES.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CFNetwork.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AddressBookUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WatchKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GSS.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AudioUnit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreSpotlight.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/LocalAuthentication.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/HealthKitUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Metal.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/VideoToolbox.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaToolbox.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Contacts.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/QuickLook.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SafariServices.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameplayKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/WebKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CloudKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreImage.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/EventKitUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Photos.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MetalPerformanceShaders.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaPlayer.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AVFoundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/JavaScriptCore.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/PushKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreTelephony.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreText.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ReplayKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SpriteKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Twitter.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/NetworkExtension.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreAudio.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreData.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Foundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MapKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ContactsUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMedia.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MediaAccessibility.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ExternalAccessory.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Security.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ModelIO.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GLKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AudioToolbox.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MetalKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/HomeKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameController.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AVKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreBluetooth.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AdSupport.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMIDI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Social.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SystemConfiguration.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/Accounts.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/NotificationCenter.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/ImageIO.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/PhotosUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MobileCoreServices.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AddressBook.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/NewsstandKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/MessageUI.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GameKit.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreLocation.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/QuartzCore.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/iAd.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework/Headers" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/7.3.0/include" />
+          <root url="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>

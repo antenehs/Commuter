@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="Project Files" />
+    <option name="FILE_MASK" value="*controller.m" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="002780a1-436d-4f5f-a8a8-6b6fa979b3b1" name="Default" comment="" />
+    <ignored path="Reitti Commuter.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="FavoritesManager">
+    <favorites_list name="Reitti" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="AFHTTPClient.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPClient.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="51" column="40" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
+              <folding>
+                <marker date="1473452578000" expanded="false" signature="1157:1269" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AboutTableViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Reitti/AboutTableViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding>
+                <element signature="e#3492#3635#0" expanded="true" />
+                <element signature="e#3668#3707#0" expanded="true" />
+                <element signature="e#3753#3814#0" expanded="true" />
+                <element signature="e#3816#3867#1" expanded="true" />
+                <element signature="e#3869#3910#1" expanded="true" />
+                <element signature="e#4123#4190#0" expanded="true" />
+                <element signature="e#4326#4423#0" expanded="true" />
+                <element signature="e#4456#4495#0" expanded="true" />
+                <element signature="e#4541#4602#0" expanded="true" />
+                <element signature="e#4604#4663#1" expanded="true" />
+                <element signature="e#7237#7274#0" expanded="true" />
+                <element signature="e#7343#7640#0" expanded="true" />
+                <element signature="e#7781#7812#0" expanded="true" />
+                <element signature="e#8304#8341#0" expanded="true" />
+                <element signature="e#8410#8697#0" expanded="true" />
+                <element signature="e#8838#8869#0" expanded="true" />
+                <marker date="1473455002000" expanded="false" signature="104:248" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookmarksViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Reitti/BookmarksViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="29" />
+              <folding>
+                <element signature="e#14051#14100#0" expanded="true" />
+                <element signature="e#16033#16238#0" expanded="true" />
+                <element signature="e#16278#16479#0" expanded="true" />
+                <element signature="e#16735#16774#0" expanded="true" />
+                <element signature="e#16849#16888#0" expanded="true" />
+                <element signature="e#21218#21293#0" expanded="true" />
+                <element signature="e#21323#21496#0" expanded="true" />
+                <element signature="e#21901#21974#0" expanded="true" />
+                <element signature="e#22004#22205#0" expanded="true" />
+                <element signature="e#27853#27904#0" expanded="true" />
+                <element signature="e#28065#28120#0" expanded="true" />
+                <element signature="e#31793#31844#0" expanded="true" />
+                <element signature="e#32447#32504#0" expanded="true" />
+                <element signature="e#32551#32606#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DisruptionViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Reitti/DisruptionViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="24" />
+              <folding>
+                <element signature="e#4389#4444#0" expanded="true" />
+                <element signature="e#4631#4680#0" expanded="true" />
+                <element signature="e#7147#7218#0" expanded="true" />
+                <element signature="e#7865#7936#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditAddressTableViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Reitti/EditAddressTableViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="36" />
+              <folding>
+                <element signature="e#6024#6059#0" expanded="true" />
+                <element signature="e#6268#6319#0" expanded="true" />
+                <element signature="e#6404#6457#0" expanded="true" />
+                <element signature="e#6749#6784#0" expanded="true" />
+                <element signature="e#7018#7053#0" expanded="true" />
+                <element signature="e#13784#13833#0" expanded="true" />
+                <element signature="e#17923#17958#0" expanded="true" />
+                <element signature="e#18292#18371#0" expanded="true" />
+                <element signature="e#19954#20055#0" expanded="true" />
+                <element signature="e#20067#20144#0" expanded="true" />
+                <element signature="e#20501#20602#0" expanded="true" />
+                <element signature="e#20614#20691#0" expanded="true" />
+                <element signature="e#21537#21638#0" expanded="true" />
+                <element signature="e#21650#21727#0" expanded="true" />
+                <element signature="e#22405#22524#0" expanded="true" />
+                <element signature="e#22678#22717#0" expanded="true" />
+                <element signature="e#22792#22831#0" expanded="true" />
+                <element signature="e#26085#26188#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditReminderTableViewController.m" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Reitti/EditReminderTableViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="37" />
+              <folding>
+                <element signature="e#1892#1943#0" expanded="true" />
+                <element signature="e#1995#2044#0" expanded="true" />
+                <element signature="e#4670#4711#0" expanded="true" />
+                <element signature="e#5108#5149#0" expanded="true" />
+                <element signature="e#5700#5774#0" expanded="true" />
+                <element signature="e#9847#9906#0" expanded="true" />
+                <element signature="e#9974#10033#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AddressSearchViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Reitti/AddressSearchViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1142">
+              <caret line="287" column="58" selection-start-line="287" selection-start-column="58" selection-end-line="287" selection-end-column="58" />
+              <folding>
+                <element signature="e#8439#8549#0" expanded="true" />
+                <element signature="e#8558#8685#0" expanded="true" />
+                <element signature="e#8834#8865#0" expanded="true" />
+                <element signature="e#11334#11365#0" expanded="true" />
+                <element signature="e#11654#11762#0" expanded="true" />
+                <element signature="e#11818#11943#0" expanded="true" />
+                <element signature="e#12058#12089#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MoreTableViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MoreTableViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="197">
+              <caret line="357" column="8" selection-start-line="357" selection-start-column="8" selection-end-line="357" selection-end-column="8" />
+              <folding>
+                <element signature="e#1236#1271#0" expanded="true" />
+                <element signature="e#7505#7566#0" expanded="true" />
+                <element signature="e#7568#7619#1" expanded="true" />
+                <element signature="e#7621#7662#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WebViewController.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Reitti/WebViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="149" column="57" selection-start-line="149" selection-start-column="57" selection-end-line="149" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AFHTTPRequestOperation.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPRequestOperation.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1473452578000" expanded="false" signature="1167:1218" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPClient.m" />
+        <option value="$PROJECT_DIR$/Reitti/WebViewController.m" />
+        <option value="$PROJECT_DIR$/MoreTableViewController.m" />
+        <option value="$PROJECT_DIR$/Reitti/AboutTableViewController.m" />
+        <option value="$PROJECT_DIR$/Reitti/AddressSearchViewController.m" />
+        <option value="$PROJECT_DIR$/Reitti/BookmarksViewController.m" />
+        <option value="$PROJECT_DIR$/Reitti/DisruptionViewController.m" />
+        <option value="$PROJECT_DIR$/Reitti/EditAddressTableViewController.m" />
+        <option value="$PROJECT_DIR$/Reitti/EditReminderTableViewController.m" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="773" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Cidr.FilesView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Reitti" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Reitti" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Reitti" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Reitti" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Reitti" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="View Controllers" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeViewNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.lastSelected" value="configurable.group.appearance" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="ReadonlyStatusHandler">
+    <option name="SHOW_DIALOG" value="false" />
+  </component>
+  <component name="RunManager" selected="Application.Reitti">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Reitti" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Reitti" RUN_TARGET_NAME="Reitti" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="OCGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Reitti" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="OCUnitRunConfiguration" factoryName="XCTest/Kiwi" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="ReittiTests" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Reitti" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Reitti" CONFIG_NAME="Debug" SCHEME_NAME="Reitti" RUN_TARGET_PROJECT_NAME="Reitti" RUN_TARGET_NAME="Reitti" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Reitti Pro" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Reitti Pro" CONFIG_NAME="Debug" SCHEME_NAME="Reitti Pro" RUN_TARGET_PROJECT_NAME="Reitti" RUN_TARGET_NAME="Reitti Pro" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Commuter - Departures" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Commuter - Departures" CONFIG_NAME="Debug" SCHEME_NAME="Commuter - Departures" RUN_TARGET_PROJECT_NAME="Reitti" RUN_TARGET_NAME="Reitti" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Commuter - Departures Pro" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Commuter - Departures Pro" CONFIG_NAME="Debug" SCHEME_NAME="Commuter - Departures Pro" RUN_TARGET_PROJECT_NAME="Reitti" RUN_TARGET_NAME="Reitti Pro" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Commuter - Routes Pro" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="Commuter - Routes Pro" CONFIG_NAME="Debug" SCHEME_NAME="Commuter - Routes Pro" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="WatchRoutes" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="WatchRoutes" CONFIG_NAME="Debug" SCHEME_NAME="WatchRoutes" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="WatchRoutes (Notification)" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="WatchRoutes" CONFIG_NAME="Debug" SCHEME_NAME="WatchRoutes (Notification)" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="WatchRoutes (Glance)" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="WatchRoutes" CONFIG_NAME="Debug" SCHEME_NAME="WatchRoutes (Glance)" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="WatchRoutes (Complication)" type="AppleRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Reitti" TARGET_NAME="WatchRoutes" CONFIG_NAME="Debug" SCHEME_NAME="WatchRoutes (Complication)" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
+      <envs />
+      <method />
+    </configuration>
+    <list size="9">
+      <item index="0" class="java.lang.String" itemvalue="Application.Reitti" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Reitti Pro" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Commuter - Departures" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Commuter - Departures Pro" />
+      <item index="4" class="java.lang.String" itemvalue="Application.Commuter - Routes Pro" />
+      <item index="5" class="java.lang.String" itemvalue="Application.WatchRoutes" />
+      <item index="6" class="java.lang.String" itemvalue="Application.WatchRoutes (Notification)" />
+      <item index="7" class="java.lang.String" itemvalue="Application.WatchRoutes (Glance)" />
+      <item index="8" class="java.lang.String" itemvalue="Application.WatchRoutes (Complication)" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1280" height="773" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection Results" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.50142044" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Reitti/SearchController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="125" column="86" selection-start-line="125" selection-start-column="86" selection-end-line="125" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFXMLRequestOperation.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1473452578000" expanded="false" signature="1166:1218" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/UIImageView+AFNetworking.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1473452578000" expanded="false" signature="1169:1219" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFImageRequestOperation.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFJSONRequestOperation.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPRequestOperation.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1473452578000" expanded="false" signature="1167:1218" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pods/AFNetworking/AFNetworking/AFHTTPClient.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="51" column="40" selection-start-line="51" selection-start-column="40" selection-end-line="51" selection-end-column="40" />
+          <folding>
+            <marker date="1473452578000" expanded="false" signature="1157:1269" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/WebViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="149" column="57" selection-start-line="149" selection-start-column="57" selection-end-line="149" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MoreTableViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="357" column="8" selection-start-line="357" selection-start-column="8" selection-end-line="357" selection-end-column="8" />
+          <folding>
+            <element signature="e#1236#1271#0" expanded="true" />
+            <element signature="e#7505#7566#0" expanded="true" />
+            <element signature="e#7568#7619#1" expanded="true" />
+            <element signature="e#7621#7662#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/AddressSearchViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1142">
+          <caret line="287" column="58" selection-start-line="287" selection-start-column="58" selection-end-line="287" selection-end-column="58" />
+          <folding>
+            <element signature="e#8439#8549#0" expanded="true" />
+            <element signature="e#8558#8685#0" expanded="true" />
+            <element signature="e#8834#8865#0" expanded="true" />
+            <element signature="e#11334#11365#0" expanded="true" />
+            <element signature="e#11654#11762#0" expanded="true" />
+            <element signature="e#11818#11943#0" expanded="true" />
+            <element signature="e#12058#12089#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/AboutTableViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <element signature="e#3492#3635#0" expanded="true" />
+            <element signature="e#3668#3707#0" expanded="true" />
+            <element signature="e#3753#3814#0" expanded="true" />
+            <element signature="e#3816#3867#1" expanded="true" />
+            <element signature="e#3869#3910#1" expanded="true" />
+            <element signature="e#4123#4190#0" expanded="true" />
+            <element signature="e#4326#4423#0" expanded="true" />
+            <element signature="e#4456#4495#0" expanded="true" />
+            <element signature="e#4541#4602#0" expanded="true" />
+            <element signature="e#4604#4663#1" expanded="true" />
+            <element signature="e#7237#7274#0" expanded="true" />
+            <element signature="e#7343#7640#0" expanded="true" />
+            <element signature="e#7781#7812#0" expanded="true" />
+            <element signature="e#8304#8341#0" expanded="true" />
+            <element signature="e#8410#8697#0" expanded="true" />
+            <element signature="e#8838#8869#0" expanded="true" />
+            <marker date="1473455002000" expanded="false" signature="104:248" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/BookmarksViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="29" />
+          <folding>
+            <element signature="e#14051#14100#0" expanded="true" />
+            <element signature="e#16033#16238#0" expanded="true" />
+            <element signature="e#16278#16479#0" expanded="true" />
+            <element signature="e#16735#16774#0" expanded="true" />
+            <element signature="e#16849#16888#0" expanded="true" />
+            <element signature="e#21218#21293#0" expanded="true" />
+            <element signature="e#21323#21496#0" expanded="true" />
+            <element signature="e#21901#21974#0" expanded="true" />
+            <element signature="e#22004#22205#0" expanded="true" />
+            <element signature="e#27853#27904#0" expanded="true" />
+            <element signature="e#28065#28120#0" expanded="true" />
+            <element signature="e#31793#31844#0" expanded="true" />
+            <element signature="e#32447#32504#0" expanded="true" />
+            <element signature="e#32551#32606#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/DisruptionViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="24" />
+          <folding>
+            <element signature="e#4389#4444#0" expanded="true" />
+            <element signature="e#4631#4680#0" expanded="true" />
+            <element signature="e#7147#7218#0" expanded="true" />
+            <element signature="e#7865#7936#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/EditAddressTableViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="36" />
+          <folding>
+            <element signature="e#6024#6059#0" expanded="true" />
+            <element signature="e#6268#6319#0" expanded="true" />
+            <element signature="e#6404#6457#0" expanded="true" />
+            <element signature="e#6749#6784#0" expanded="true" />
+            <element signature="e#7018#7053#0" expanded="true" />
+            <element signature="e#13784#13833#0" expanded="true" />
+            <element signature="e#17923#17958#0" expanded="true" />
+            <element signature="e#18292#18371#0" expanded="true" />
+            <element signature="e#19954#20055#0" expanded="true" />
+            <element signature="e#20067#20144#0" expanded="true" />
+            <element signature="e#20501#20602#0" expanded="true" />
+            <element signature="e#20614#20691#0" expanded="true" />
+            <element signature="e#21537#21638#0" expanded="true" />
+            <element signature="e#21650#21727#0" expanded="true" />
+            <element signature="e#22405#22524#0" expanded="true" />
+            <element signature="e#22678#22717#0" expanded="true" />
+            <element signature="e#22792#22831#0" expanded="true" />
+            <element signature="e#26085#26188#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Reitti/EditReminderTableViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="37" />
+          <folding>
+            <element signature="e#1892#1943#0" expanded="true" />
+            <element signature="e#1995#2044#0" expanded="true" />
+            <element signature="e#4670#4711#0" expanded="true" />
+            <element signature="e#5108#5149#0" expanded="true" />
+            <element signature="e#5700#5774#0" expanded="true" />
+            <element signature="e#9847#9906#0" expanded="true" />
+            <element signature="e#9974#10033#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

@@ -15,9 +15,12 @@
 //    IBOutlet UIView *bookmarksContainerView;
     IBOutlet UIScrollView *bookmarksScrollView;
     IBOutlet UIView *detailContainerView;
+    IBOutlet NSLayoutConstraint *detailContainerLeadingConstraint;
     
     IBOutlet UIButton *rightScrollViewButton;
     IBOutlet UIButton *leftScrollViewButton;
+    
+    IBOutlet UIView *compactModeBookmarkButtonView;
     
     IBOutlet JTMaterialSpinner *activityIndicator;
     
@@ -25,7 +28,6 @@
     IBOutlet UIButton *addBookmarkButton;
     
     IBOutlet UILabel *bookmarkNameLabel;
-    
     
     IBOutlet UIView *routeInfoContainerView;
     IBOutlet UIScrollView *routeViewScrollView;
@@ -36,6 +38,8 @@
     NSTimer *userLocationWaitTimer;
     
     BOOL isIOS10;
+    BOOL isCompactMode;
+    BOOL firstViewModeChange;
     
 }
 

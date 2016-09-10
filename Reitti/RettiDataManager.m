@@ -847,6 +847,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 -(void)updateNamedBookmarksUserDefaultValue{
+    if (![AppManager isProVersion]) return;
     
     NSArray * namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
     
