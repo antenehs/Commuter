@@ -28,10 +28,12 @@
 +(UIColor *)colorForLineType:(LineType)lineType;
 +(UIColor *)colorForStopType:(StopType)stopType;
 
+#ifndef APPLE_WATCH
 +(NSString *)iosDeviceName;
 +(NSString *)iosDeviceModel;
 +(NSString *)iosVersionNumber;
-+(NSString *)iosDeviceUniqueIdentifier;
+//+(NSString *)iosDeviceUniqueIdentifier;
+#endif
 
 //App images
 +(UIImage *)stopAnnotationImageForStopType:(StopType)stopType;

@@ -156,6 +156,7 @@ typedef enum
     bool ignoreRegionChange;
     BOOL canShowDroppedPin;
     BOOL isShowingBikeAnnotations;
+    BOOL isShowingWelcomeView;
     CGRect searchBarFrame;
     
     NSIndexPath * departuresTableIndex;

@@ -13,6 +13,7 @@ NSString * const userlocationChangedNotificationName = @"SettingsManagerUserLoca
 NSString * const shouldShowVehiclesNotificationName = @"SettingsManagerShowVehiclesChangedNotification";
 NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRouteSearchOptionsChangedNotification";
 
+NSString * const kDeviceIdNsDefaultsKey = @"DeviceIdNsDefaultsKey";
 NSString * const kAnalyticsSettingsNsDefaultsKey = @"IsAnalyticsSettingEnabled";
 NSString * const kShowRoutesFromBookmarksKey = @"ShowRoutesFromBookmarks";
 NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks";
@@ -110,6 +111,17 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 }
 
 #pragma mark - Settings in NSUserDefaults
++(NSString *)uniqueDeviceIdentifier {
+    NSString *uniqueId = [self readStringForKey:kDeviceIdNsDefaultsKey];
+    
+    if (!uniqueId) {
+        uniqueId = [[NSUUID UUID] UUIDString];
+        [self saveStringForKey:kDeviceIdNsDefaultsKey stringVal:uniqueId];
+    }
+    
+    return uniqueId;
+}
+
 +(BOOL)showBookmarkRoutes {
     return [self readBoolForKey:kShowRoutesFromBookmarksKey withDefault:NO];
 }
@@ -151,28 +163,32 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 }
 
 +(NSInteger)getStartingIndexTab{
-//    NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:kStartingTabNsDefaultsKey];
-//    
-//    if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])
-//        return 0;
-//    
-//    return [savedValue integerValue];
-    
     return [self readIntegerForKey:kStartingTabNsDefaultsKey withDefault:0];
 }
 
 +(void)setStartingIndexTab:(NSInteger)index{
-//    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-//    
-//    if (standardUserDefaults) {
-//        [standardUserDefaults setObject:[NSNumber numberWithInteger:index] forKey:kStartingTabNsDefaultsKey];
-//        [standardUserDefaults synchronize];
-//    }
-    
     [self saveIntegerForKey:kStartingTabNsDefaultsKey integerValue:index];
 }
 
 #pragma mark - Helpers
+
++(NSString *)readStringForKey:(NSString *)defaultsKey {
+    NSString *savedValue = [[NSUserDefaults standardUserDefaults] stringForKey:defaultsKey];
+    
+    if (![savedValue isKindOfClass:[NSString class]]) return nil;
+    
+    return savedValue;
+}
+
++(void)saveStringForKey:(NSString *)defaultsKey stringVal:(NSString *)stringVal {
+    if (!stringVal) return;
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:stringVal forKey:defaultsKey];
+        [standardUserDefaults synchronize];
+    }
+}
 
 +(BOOL)readBoolForKey:(NSString *)defaultsKey withDefault:(BOOL)defaultValue {
     NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey];

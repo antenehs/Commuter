@@ -43,6 +43,7 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 -(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions;
 
 //NSUserDefaults settings
++(NSString *)uniqueDeviceIdentifier;
 +(BOOL)isAnalyticsEnabled;
 +(void)enableAnalytics:(BOOL)enable;
 +(NSInteger)getStartingIndexTab;

@@ -43,8 +43,6 @@
     [self.tableView setBlurredBackgroundWithImageNamed:nil];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    self.navigationItem.rightBarButtonItem = nil;
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"StopTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedStopCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"RouteTableViewCell" bundle:nil] forCellReuseIdentifier:@"savedRouteCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"namedBookmarkCell"];
@@ -56,6 +54,7 @@
     
     if (![ICloudManager isICloudContainerAvailable]) {
         [self showNoOtherDeviceMessage];
+        self.navigationItem.rightBarButtonItem = nil;
     } else {
         [self fetchBookmarks];
     }
@@ -160,24 +159,19 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-//- (IBAction)downloadAllButtonTapped:(id)sender {
-//    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Are you sure you want to import all bookmarks?"
-//                                                                   message:@"Duplicate bookmarks will be replaced by the one from your other devices."
-//                                                            preferredStyle:UIAlertControllerStyleAlert];
-//    
-//    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault
-//                                                          handler:^(UIAlertAction * action) {
-//                                                              [self downloadAllBookmarks];
-//                                                          }];
-//    
-//    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Nope" style:UIAlertActionStyleCancel
-//                                                        handler:^(UIAlertAction * action) {}];
-//
-//    [alert addAction:defaultAction];
-//    [alert addAction:laterAction];
-//    
-//    [self presentViewController:alert animated:YES completion:nil];
-//}
+- (IBAction)resetButtonTapped:(id)sender {
+    [self showLoading];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *errorString) {
+        if (errorString) {
+            [self showErrorWithMessage:errorString];
+        } else {
+            [self showResetSuccessfulMessage];
+        }
+        
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }];
+}
 
 - (IBAction)downloadNamedBookmarkButtonTapped:(NamedBookmarkTableViewCell *)bookmarkCell {
     CKRecord *record = bookmarkCell.iCloudRecord;
@@ -330,16 +324,26 @@
     self.infoDetailLabel.hidden = YES;
 }
 
+-(void)showResetSuccessfulMessage {
+    [self showIcloudMessageWithTitle:@"iCloud Bookmarks Reseted" andMessage:@"New bookmarks will be uploaded from your devices when you launch the app next time."];
+    self.tableView.hidden = YES;
+}
+
 -(void)showNoOtherDeviceMessage {
+    [self showIcloudMessageWithTitle:@"No iCloud Bookmarks Found" andMessage:@"To use bookmark sync feature, log in with the same iCloud account on all your devices."];
+    self.tableView.hidden = YES;
+}
+
+-(void)showIcloudMessageWithTitle:(NSString *)title andMessage:(NSString *)message {
     self.tableView.hidden = YES;
     self.infoViewImageView.image = [UIImage imageNamed:@"iCloudIcon"];
     self.activityIndicator.hidden = YES;
     
     self.infoTitleLabel.hidden = NO;
-    self.infoTitleLabel.text = @"No iCloud Bookmarks Found";
+    self.infoTitleLabel.text = title;
     self.infoTitleLabel.textColor = [UIColor grayColor];
     self.infoDetailLabel.hidden = NO;
-    self.infoDetailLabel.text = @"To use bookmark sync feature, log in with the same iCloud account on all your devices.";
+    self.infoDetailLabel.text = message;
 }
 
 -(void)showSynchedMessage {

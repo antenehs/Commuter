@@ -139,7 +139,8 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
 
-- (void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
+-(void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
+-(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
 -(SettingsEntity *)fetchSettings;
 -(void)saveSettings;
@@ -173,14 +174,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 @property (strong, nonatomic) HSLCommunication *hslCommunication;
 @property (strong, nonatomic) TRECommunication *treCommunication;
 @property (strong, nonatomic) MatkaCommunicator *matkaCommunicator;
-
-//@property (nonatomic, weak) id <RettiDataManagerDelegate> delegate;
-//@property (nonatomic, weak) id <RettiGeocodeSearchDelegate> geocodeSearchdelegate;
-//@property (nonatomic, weak) id <RettiReverseGeocodeSearchDelegate> reverseGeocodeSearchdelegate;
-////@property (nonatomic, weak) id <RettiRouteSearchDelegate> routeSearchdelegate;
-//@property (nonatomic, weak) id <RettiLineInfoSearchDelegate> lineSearchdelegate;
-//@property (nonatomic, weak) id <ReittiDisruptionFetchDelegate> disruptionFetchDelegate;
-//@property (nonatomic, weak) id <ReittiLiveVehicleFetchDelegate> vehicleFetchDelegate;
 
 @property (strong, nonatomic) StopEntity *stopEntity;
 @property (strong, nonatomic) HistoryEntity *historyEntity;

@@ -10,6 +10,7 @@
 #import "ReittiModels.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
+#import "SettingsManager.h"
 
 NSString *NamedBookmarkType = @"NamedBookmark";
 NSString *SavedStopType = @"SavedStop";
@@ -43,7 +44,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForNamedBookmark:(NamedBookmark *)namedBookmark {
-    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", [namedBookmark getUniqueIdentifier], [AppManager iosDeviceUniqueIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", [namedBookmark getUniqueIdentifier], [SettingsManager uniqueDeviceIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -77,7 +78,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForStopEntity:(StopEntity *)stop {
-    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [AppManager iosDeviceUniqueIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [SettingsManager uniqueDeviceIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -106,7 +107,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForRouteEntity:(RouteEntity *)route {
-    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [AppManager iosDeviceUniqueIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", route.routeUniqueName , [SettingsManager uniqueDeviceIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 
@@ -156,12 +157,10 @@ NSString *SavedRouteType = @"SavedRoute";
     
     __block int totalCount = 3;
     __block int failedCount = 0;
-//    __block NSString *errorString = nil;
     
     [self fetchAllNamedBookmarksWithCompletionHandler:^(NSArray *results, NSString *error){
         totalCount--;
         if(error) {
-//            errorString = error;
             failedCount++;
         } else {
             bookmarks.allNamedBookmarks = results;
@@ -175,7 +174,6 @@ NSString *SavedRouteType = @"SavedRoute";
     [self fetchAllStopsWithCompletionHandler:^(NSArray *results, NSString *error){
         totalCount--;
         if(error) {
-//            errorString = error;
             failedCount++;
         } else {
             bookmarks.allSavedStops = results;
@@ -189,7 +187,6 @@ NSString *SavedRouteType = @"SavedRoute";
     [self fetchAllRoutesWithCompletionHandler:^(NSArray *results, NSString *error){
         totalCount--;
         if(error) {
-//            errorString = error;
             failedCount++;
         } else {
             bookmarks.allSavedRoutes = results;
@@ -197,6 +194,19 @@ NSString *SavedRouteType = @"SavedRoute";
         
         if (totalCount == 0) {
             completionHandler(bookmarks, failedCount == 3 ? error : nil);
+        }
+    }];
+}
+
+-(void)deleteAllRecordsWithCompletion:(ActionBlock)completion {
+    [self fetchAllBookmarksWithCompletionHandler:^(ICloudBookmarks *bookmaks, NSString *error){
+        if (!error ) {
+            NSArray *allRecordIds = bookmaks.allRecordIds;
+            [self deleteRecordsWithId:allRecordIds withCompletion:^(NSString *error){
+                completion (error);
+            }];
+        } else {
+            completion (error);
         }
     }];
 }
@@ -233,7 +243,7 @@ NSString *SavedRouteType = @"SavedRoute";
     for (NamedBookmark *bookmark in namedBookmarks)
         [recordIds addObject: [NamedBookmark recordIdForNamedBookmark:bookmark]];
     
-    [self deleteRecordsWithId:recordIds];
+    [self deleteRecordsWithId:recordIds withCompletion:nil];
 }
 
 #pragma mark - Stop methods
@@ -268,7 +278,7 @@ NSString *SavedRouteType = @"SavedRoute";
     for (StopEntity *stop in savedStops)
         [recordIds addObject: [StopEntity recordIdForStopEntity:stop]];
     
-    [self deleteRecordsWithId:recordIds];
+    [self deleteRecordsWithId:recordIds withCompletion:nil];
 }
 
 #pragma mark -Route methods
@@ -303,7 +313,7 @@ NSString *SavedRouteType = @"SavedRoute";
     for (RouteEntity *route in savedRoutes)
         [recordIds addObject: [RouteEntity recordIdForRouteEntity:route]];
     
-    [self deleteRecordsWithId:recordIds];
+    [self deleteRecordsWithId:recordIds withCompletion:nil];
 }
 
 #pragma mark - Generic iCloud methods
@@ -331,7 +341,7 @@ NSString *SavedRouteType = @"SavedRoute";
     
     for (CKRecord *record in records) {
         record[kRecordDeviceName] = [AppManager iosDeviceName];
-        record[kRecordDeviceUniqueId] = [AppManager iosDeviceUniqueIdentifier];
+        record[kRecordDeviceUniqueId] = [SettingsManager uniqueDeviceIdentifier];
     }
     
     CKModifyRecordsOperation *modifOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:records recordIDsToDelete: nil];
@@ -346,13 +356,24 @@ NSString *SavedRouteType = @"SavedRoute";
     [self.privateDB addOperation:modifOperation];
 }
 
-- (void)deleteRecordsWithId:(NSArray *)recordIds {
+- (void)deleteRecordsWithId:(NSArray *)recordIds withCompletion:(ActionBlock)completion {
     CKModifyRecordsOperation *modifOperation = [[CKModifyRecordsOperation alloc] initWithRecordsToSave:nil recordIDsToDelete:recordIds];
     
     modifOperation.savePolicy = CKRecordSaveAllKeys;
     modifOperation.modifyRecordsCompletionBlock = ^(NSArray<CKRecord *> * savedRecords, NSArray<CKRecordID *> * deletedRecordIDs, NSError * error){
         if(error) {
             NSLog(@"Error: %@", error.localizedDescription);
+            if (completion) {
+                [self asa_ExecuteBlockInUIThread:^{
+                    completion([self errorStringForICloudError:error]);
+                }];
+            }
+        }
+        
+        if (completion) {
+            [self asa_ExecuteBlockInUIThread:^{
+                completion(nil);
+            }];
         }
     };
     

@@ -23,6 +23,8 @@ extern NSString *SavedRouteType;
 
 //Fetch, save and delete methods
 - (void)fetchAllBookmarksWithCompletionHandler:(ActionBlock)completionHandler ;
+-(void)deleteAllRecordsWithCompletion:(ActionBlock)completion;
+
 - (void)saveNamedBookmarksToICloud:(NSArray *)namedBookmarks;
 - (void)deleteNamedBookmarksFromICloud:(NSArray *)namedBookmarks;
 

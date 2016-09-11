@@ -43,5 +43,6 @@ extern NSString *kRouteToCoords;
 @property (nonatomic, strong)NSArray *allNamedBookmarks;
 @property (nonatomic, strong)NSArray *allSavedStops;
 @property (nonatomic, strong)NSArray *allSavedRoutes;
+@property (nonatomic, strong, readonly)NSArray *allRecordIds;
 
 @end

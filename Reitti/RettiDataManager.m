@@ -2287,6 +2287,12 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [[ICloudManager sharedManager] fetchAllBookmarksWithCompletionHandler:completionHandler];
 }
 
+-(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler {
+    if (![ICloudManager isICloudContainerAvailable]) return;
+    
+    [[ICloudManager sharedManager] deleteAllRecordsWithCompletion:completionHandler];
+}
+
 - (void)updateSavedNamedBookmarksToICloud {
     if (![ICloudManager isICloudContainerAvailable]) return;
     

@@ -38,12 +38,7 @@
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
     [WatchCommunicationManager sharedManager];
-    
-    //Check if notification is allowed.
-    if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
-        [[ReittiRemindersManager sharedManger] registerNotification];
-    }
-    
+      
     if (launchOptions != nil) {
         // Launched from push notification
         UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
@@ -153,6 +148,10 @@
         return;
     
     [self openStopViewForCode:stopCode];
+}
+
+-(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

@@ -151,9 +151,9 @@
     return [[UIDevice currentDevice] systemVersion];
 }
 
-+(NSString *)iosDeviceUniqueIdentifier{
-    return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-}
+//+(NSString *)iosDeviceUniqueIdentifier{
+//    return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+//}
 #endif
 
 #pragma mark - system images

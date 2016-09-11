@@ -111,6 +111,8 @@ NSString *kRouteToCoords = @"kRouteToCoords";
     return ids;
 }
 
+
+
 -(NSDictionary *)groupRecordsByDevice:(NSArray *)records {
     NSMutableDictionary *groupedDictionary = [@{} mutableCopy];
     NSMutableArray *deviceIds = [@[] mutableCopy];
@@ -132,6 +134,21 @@ NSString *kRouteToCoords = @"kRouteToCoords";
     }
     
     return groupedDictionary;
+}
+
+#pragma mark - convinence methods
+-(NSArray *)allRecordIds {
+    NSMutableArray *allArray = [@[] mutableCopy];
+    [allArray addObjectsFromArray:self.allNamedBookmarks ? self.allNamedBookmarks : @[]];
+    [allArray addObjectsFromArray:self.allSavedRoutes ? self.allSavedRoutes : @[]];
+    [allArray addObjectsFromArray:self.allSavedStops ? self.allSavedStops : @[]];
+    
+    NSMutableArray *allRecordIds = [@[] mutableCopy];
+    for (CKRecord *record in allArray) {
+        [allRecordIds addObject:record.recordID];
+    }
+    
+    return allRecordIds;
 }
 
 @end

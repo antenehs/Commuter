@@ -97,10 +97,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
             [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
+        } else {
+            //Do this only once for this version.
+            [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *error){}];
         }
         
         [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
-        
+        isShowingWelcomeView = YES;
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
         [self.reittiDataManager doVersion4_1CoreDataMigration];
@@ -199,7 +202,16 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-
+    
+    //Do this here not to show permission popup on welcome view.
+    if (!isShowingWelcomeView) {
+        [self initializeMapComponents];
+        //Check if notification is allowed.
+        if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
+            [[ReittiRemindersManager sharedManger] registerNotification];
+        }
+    }
+    
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
     [self setNavBarSize];
@@ -222,6 +234,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self initDeparturesRefreshTimer];
     
     viewApearForTheFirstTime = NO;
+    isShowingWelcomeView = NO; //View can appear only once while showing welcome view
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -268,7 +281,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)initDataComponentsAndModules {
     [self initVariablesAndConstants];
     [self initDataManagers];
-    [self initializeMapComponents];
     [self initDisruptionFetching];
     [self setBookmarkedStopsToDefaults];
     [self registerFor3DTouchIfAvailable];
@@ -400,6 +412,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
     retryCount = 0;
     annotationAnimCounter = 0;
+    
+    isShowingWelcomeView = NO;
     
     firstRecievedLocation = YES;
     userLocationUpdated = NO;

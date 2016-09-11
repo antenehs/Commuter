@@ -50,6 +50,10 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
     return self;
 }
 
+-(void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(NSError *)error {
+    NSLog(@"Error Occured when activating communication session: %@", error);
+}
+
 //Requires watch app to be running
 -(void)sendMessage:(NSDictionary *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
     [self.session sendMessage:message replyHandler:replyHandler errorHandler:^(NSError *error){
@@ -61,6 +65,7 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
     
 }
 
+#ifndef APPLE_WATCH
 -(void)transferNamedBookmarks:(NSArray *)bookmarksDictionary {
     if (!bookmarksDictionary)
         bookmarksDictionary = @[];
@@ -88,13 +93,19 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
     self.savedStops = stopsDictionaries;
     [self updateContext];
 }
+#endif
 
+//Not available for watch becuse session.ispaired is not available.
+#ifndef APPLE_WATCH
 //Userinfo will be queed until watch app is available
 -(void)transferUserInfo:(NSDictionary *)userInfo {
+    if (!self.session.isPaired) return;
     [self.session transferUserInfo:userInfo];
 }
 
 -(void)updateContext {
+    if (!self.session.isPaired) return;
+    
     NSMutableDictionary *context = [@{} mutableCopy];
     if (self.namedBookmarks)
         context[kNamedBookmarksContextKey] = self.namedBookmarks;
@@ -109,14 +120,14 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
 }
 
 -(void)transferUserInfoForComplication:(NSDictionary *)userInfo {
-#ifndef APPLE_WATCH
+    if (!self.session.isPaired) return;
     //Clear outstanding transfers
     for (WCSessionUserInfoTransfer *transfer in self.session.outstandingUserInfoTransfers) {
         [transfer cancel];
     }
     [self.session transferCurrentComplicationUserInfo:userInfo];
-#endif
 }
+#endif
 
 -(void)session:(WCSession *)session didFinishUserInfoTransfer:(WCSessionUserInfoTransfer *)userInfoTransfer error:(NSError *)error {
 #ifndef APPLE_WATCH
@@ -132,12 +143,6 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
 
 -(void)session:(WCSession *)session didReceiveUserInfo:(NSDictionary<NSString *,id> *)userInfo {
     if (!userInfo) return;
-    
-//    NSArray *namedBookmarkArray = [userInfo objectForKey:kNamedBookmarksUserInfoKey];
-//    if (namedBookmarkArray) {
-//        [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
-//    }
-    
     NSArray *routesArray = [userInfo objectForKey:kRoutesContextKey];
     if (routesArray) {
         [self.delegate receivedRoutesArray:routesArray];

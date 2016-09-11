@@ -23,13 +23,12 @@
 
 +(instancetype _Nonnull)sharedManager;
 
-//-(void)sendMessage:(NSDictionary * _Nonnull)message replyHandler:(void (^ _Nullable)(NSDictionary<NSString *,id> * _Nonnull))replyHandler;
-//-(void)transferUserInfo:(NSDictionary * _Nonnull)userInfo;
-
+#ifndef APPLE_WATCH
 -(void)transferNamedBookmarks:(NSArray * _Nullable)bookmarksDictionary;
 -(void)transferSavedStops:(NSArray * _Nullable)stopsDictionaries;
 -(void)transferRoutes:(NSArray * _Nullable)routesDictionary;
 -(void)transferRouteSearchOptions:(NSDictionary * _Nullable)optionsDictionary;
+#endif
 
 @property (nonatomic, weak)NSObject<WCManagerDelegate> * _Nullable delegate;
 
