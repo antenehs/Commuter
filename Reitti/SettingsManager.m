@@ -23,6 +23,7 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 
 @implementation SettingsManager
 
+#ifndef APPLE_WATCH
 @synthesize reittiDataManager, settingsEntity;
 
 -(id)initWithDataManager:(RettiDataManager *)dataManager{
@@ -109,6 +110,8 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
     
     [self postNotificationWithName:routeSearchOptionsChangedNotificationName];
 }
+
+#endif
 
 #pragma mark - Settings in NSUserDefaults
 +(NSString *)uniqueDeviceIdentifier {

@@ -71,6 +71,8 @@ const NSInteger kTimerRefreshInterval = 60;
 {
     [super viewDidLoad];
     firstTimeLocation = YES;
+    trackedMoveOnce = NO;
+    trackedNumbersOnce = NO;
     
     namedBookmarkSection = 0, savedStopsSection = 1, savedRouteSection = 2;
 
@@ -872,21 +874,8 @@ const NSInteger kTimerRefreshInterval = 60;
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     if (fromIndexPath.section == namedBookmarkSection) {
-        //Adjust indexes for empty work and home cells.
-//        NSInteger emptyHomeIndex = [self indexOfEmptyBookmarkOfType:[EmptyHomeAddressCell class]];
-//        NSInteger emptyWorkIndex = [self indexOfEmptyBookmarkOfType:[EmptyWorkAddressCell class]];
         NSInteger adjustedFromIndex = fromIndexPath.row;
         NSInteger adjustedToIndex = toIndexPath.row;
-        
-//        if (emptyHomeIndex != NSNotFound) {
-//            adjustedFromIndex = emptyHomeIndex < fromIndexPath.row ? fromIndexPath.row - 1 : fromIndexPath.row;
-//            adjustedToIndex = emptyHomeIndex <= toIndexPath.row ? toIndexPath.row - 1 : toIndexPath.row;
-//        }
-//        
-//        if (emptyWorkIndex != NSNotFound) {
-//            adjustedFromIndex = emptyWorkIndex < fromIndexPath.row ? adjustedFromIndex - 1 : adjustedFromIndex;
-//            adjustedToIndex = emptyWorkIndex <= toIndexPath.row ? adjustedToIndex - 1 : adjustedToIndex;
-//        }
         
         id movedBookmark = self.savedNamedBookmarks[adjustedFromIndex];
         [self.savedNamedBookmarks removeObject: movedBookmark];
@@ -908,6 +897,11 @@ const NSInteger kTimerRefreshInterval = 60;
     }
     
     [self loadSavedValues];
+    
+    if (!trackedMoveOnce) {
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionReorderedBookmarks label:@"" value:nil];
+        trackedMoveOnce = YES;
+    }
 }
 
 // Override to support conditional rearranging of the table view.
@@ -1237,6 +1231,13 @@ const NSInteger kTimerRefreshInterval = 60;
     self.savedNamedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
     
     [self initNamedBookmarkRouteDictionary];
+    
+    if (!trackedNumbersOnce) {
+        [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserNumberOfNamedBookmarks value:[NSString stringWithFormat:@"%ld", namedBookmarks.count]];
+        [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserNumberOfSavedStops value:[NSString stringWithFormat:@"%ld", sStops.count]];
+        [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserNumberOfSavedRoutes value:[NSString stringWithFormat:@"%ld", sRoutes.count]];
+        trackedNumbersOnce = YES;
+    }
 }
 
 - (NSMutableArray *)sortDataArray:(NSMutableArray *)array{

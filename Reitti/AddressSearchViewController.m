@@ -452,6 +452,8 @@
         
         [searchActivityIndicator stopAnimating];
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSelectedContactAddress label:@"" value:nil];
 }
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

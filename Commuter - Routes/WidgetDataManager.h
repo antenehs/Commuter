@@ -29,8 +29,9 @@ typedef struct {
     CLLocationCoordinate2D bottomRightCorner;
 } RTCoordinateRegion;
 
+#ifndef DEPARTURES_WIDGET
 -(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
-
+#endif
 -(void)fetchStopForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
 @end

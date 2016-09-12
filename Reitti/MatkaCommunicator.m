@@ -9,6 +9,7 @@
 #import "MatkaCommunicator.h"
 #import "MatkaStop.h"
 #import "ReittiStringFormatter.h"
+#import "ReittiAnalyticsManager.h"
 #import "ReittiModels.h"
 #import "MatkaObjectMapping.h"
 #import "ReittiDateFormatter.h"
@@ -74,6 +75,8 @@
             completionBlock(nil, @"Route search failed."); //TODO: Proper error message
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRouteFromApi label:@"MATKA" value:nil];
 }
 
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock {
@@ -105,6 +108,8 @@
             completionBlock(nil, @"Error occured"); //TODO: Proper error message
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedNearbyStopsFromApi label:@"MATKA" value:nil];
 }
 
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock {
@@ -127,6 +132,8 @@
             completionBlock(nil, nil); //TODO: Proper error message
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedStopFromApi label:@"MATKA" value:nil];
 }
 
 -(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
@@ -154,6 +161,8 @@
             completionBlock(nil, @"Error occured"); //TODO: Proper error message
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedAddressFromApi label:@"MATKA" value:nil];
 }
 
 - (void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
@@ -178,6 +187,8 @@
             completionBlock(nil, @"Error occured"); //TODO: Proper error message
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"MATKA" value:nil];
 }
 
 - (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
@@ -205,6 +216,8 @@
             completionBlock(nil, nil); //TODO: Proper error message
         }
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"MATKA" value:nil];
 }
 
 - (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock {
@@ -237,6 +250,8 @@
             }
         }];
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedLineFromApi label:@"MATKA" value:nil];
 }
 
 -(void)fetchTransportTypesWithCompletionBlock:(ActionBlock)completionBlock {

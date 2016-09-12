@@ -13,6 +13,7 @@ typedef void (^ActionBlock)();
 
 @interface ContactsManager : NSObject {
     NSInteger requestCount;
+    BOOL trackedAccessOnce;
 }
 
 +(instancetype)sharedManager;

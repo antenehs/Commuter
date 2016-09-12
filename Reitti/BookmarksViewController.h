@@ -46,6 +46,8 @@
     UIActivityIndicatorView *stopActivityIndicator;
     
     BOOL firstTimeLocation;
+    BOOL trackedMoveOnce;
+    BOOL trackedNumbersOnce;
     
     NSInteger namedBookmarkSection, savedStopsSection, savedRouteSection;
 }

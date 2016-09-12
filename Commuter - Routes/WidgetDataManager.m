@@ -9,8 +9,10 @@
 #import "WidgetDataManager.h"
 #import "WidgetHelpers.h"
 #import "BusStopE.h"
-#import "ReittiRegionManager.h"
 
+#ifndef DEPARTURES_WIDGET
+#import "ReittiRegionManager.h"
+#endif
 @interface WidgetDataManager ()
 
 //@property (nonatomic) RTCoordinateRegion helsinkiRegion;
@@ -36,6 +38,7 @@
     return self;
 }
 
+#ifndef DEPARTURES_WIDGET
 -(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock{
     
     id dataSourceManager = [self getDataSourceForCurrentUserLocation:location.coordinate];
@@ -63,6 +66,7 @@
 
     }
 }
+#endif
 
 -(NSString *)routeSearchErrorMessageForError:(NSError *)error{
     if (!error) return nil;
@@ -100,6 +104,18 @@
 
 #pragma mark - DataSorce management
 
+-(id)getDataSourceForApi:(ReittiApi)api {
+    if (api == ReittiHSLApi) {
+        return self.hslApiClient;
+    } else if (api == ReittiTREApi) {
+        return self.treApiClient;
+    } else {
+        return self.matkaApiClient;
+    }
+}
+
+#ifndef DEPARTURES_WIDGET
+
 -(id)getDataSourceForCurrentUserLocation:(CLLocationCoordinate2D)coordinate{
     Region currentUserLocation = [self identifyRegionOfCoordinate:coordinate];
     if (currentUserLocation == TRERegion) {
@@ -111,42 +127,7 @@
     }
 }
 
--(id)getDataSourceForApi:(ReittiApi)api {
-    if (api == ReittiHSLApi) {
-        return self.hslApiClient;
-    } else if (api == ReittiTREApi) {
-        return self.treApiClient;
-    } else {
-        return self.matkaApiClient;
-    }
-}
-
-
-#pragma mark - Region Management
-//- (void)initRegionCoordinates {
-//    CLLocationCoordinate2D coord1 = {.latitude = 60.765052 , .longitude = 23.742929 };
-//    CLLocationCoordinate2D coord2 = {.latitude = 59.928294 , .longitude = 25.786386};
-//    RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
-//    self.helsinkiRegion = helsinkiRegionCoords;
-//    
-//    CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
-//    CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
-//    RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
-//    self.tampereRegion = tampereRegionCoords;
-//}
-
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
-    
-//    if ([self isCoordinateInRegion:self.helsinkiRegion coordinate:coords]) {
-//        return HSLRegion;
-//    }
-//    
-//    if ([self isCoordinateInRegion:self.tampereRegion coordinate:coords]) {
-//        return TRERegion;
-//    }
-//    
-//    return OtherRegion;
-    
     if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
         return HSLRegion;
     }
@@ -157,16 +138,7 @@
     
     return FINRegion;
 }
-
-//-(BOOL)isCoordinateInRegion:(RTCoordinateRegion)region coordinate:(CLLocationCoordinate2D)coords{
-//    if (coords.latitude < region.topLeftCorner.latitude &&
-//        coords.latitude > region.bottomRightCorner.latitude &&
-//        coords.longitude > region.topLeftCorner.longitude &&
-//        coords.longitude < region.bottomRightCorner.longitude) {
-//        return YES;
-//    }else
-//        return NO;
-//}
+#endif
 
 #pragma mark - Helpers
 

@@ -89,8 +89,6 @@
     NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
     if ([parameters respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
         parameters = [parameters stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    }else{
-        parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
     
     NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];
@@ -143,8 +141,6 @@
     NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
     if ([parameters respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
         parameters = [parameters stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    }else{
-        parameters = [parameters stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
     
     NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];

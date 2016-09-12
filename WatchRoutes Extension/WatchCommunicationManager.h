@@ -23,6 +23,9 @@
 
 +(instancetype _Nonnull)sharedManager;
 
+-(void)sendUsedComplicationTypeMessage:(NSString * _Nullable)complicationType;
+-(void)sendWatchAppEventWithAction:(NSString * _Nullable)action andLabel:(NSString * _Nullable)label;
+
 #ifndef APPLE_WATCH
 -(void)transferNamedBookmarks:(NSArray * _Nullable)bookmarksDictionary;
 -(void)transferSavedStops:(NSArray * _Nullable)stopsDictionaries;

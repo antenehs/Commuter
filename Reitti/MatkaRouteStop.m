@@ -35,7 +35,11 @@
 
 -(NSString *)coordString {
     if (!_coordString) {
+#if !(DEPARTURES_WIDGET)
         _coordString = [ReittiStringFormatter coordStringFromKkj3CoorsWithX:_xCoord andY:_yCoord];
+#else
+        _coordString = [NSString stringWithFormat:@"%@,%@", _xCoord, _yCoord];
+#endif
     }
     return _coordString;
 }

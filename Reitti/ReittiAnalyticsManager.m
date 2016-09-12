@@ -8,7 +8,9 @@
 
 #import "ReittiAnalyticsManager.h"
 #import "SettingsManager.h"
-#import <Google/Analytics.h>
+//#import <Google/Analytics.h>
+
+@import Firebase;
 
 //Categories
 NSString *kEventCategoryAppInstallation = @"CategoryAppInstallation";
@@ -30,6 +32,7 @@ NSString *kActionNewAppInstallation = @"NewAppInstallation";
 //1. Home View Controller
 NSString *kActionListNearByStops = @"ListNearByStops";
 NSString *kActionOpenGeoLocationFromDroppedPin = @"OpenGeoLocationFromDroppedPin";
+NSString *kActionFilteredStops = @"kActionFilteredStops";
 
 //2. Route Search View Controller
 NSString *kActionSearchedRoute = @"SearchedRoute";
@@ -55,6 +58,7 @@ NSString *kActionViewedSavedStop = @"ViewedSavedStop";
 NSString *kActionInteractWithHistoryObject = @"InteractWithHistoryObject";
 NSString *kActionOpenedWidgetSettingsFromBookmarks = @"OpenedWidgetSettingsFromBookmarks";
 NSString *kActionEditedNamedBookmark = @"EditedNamedBookmark";
+NSString *kActionReorderedBookmarks = @"ReorderedBookmarks";
 
 //4.1 Edit Address TableView Controller
 NSString *kActionCreatedNewNamedBookmark = @"CreatedNewNamedBookmark";
@@ -62,6 +66,7 @@ NSString *kActionSelectedCurrentAddressForNamedBookmark = @"SelectedCurrentAddre
 
 //4.2 ICloud Sync View Controller
 NSString *kActionDownloadedICloudBookmark = @"DownloadedICloudBookmark";
+NSString *kActionResetICloudBookmarks = @"ResetICloudBookmarks";
 
 //5. Lines View Controller
 NSString *kActionViewedLine = @"ViewedLine";
@@ -90,6 +95,19 @@ NSString *kActionChangedHistoryCleaningDay = @"ChangedHistoryCleaningDay";
 NSString *kActionChangedAnalyticsOption = @"ChangedAnalyticsOption";
 NSString *kActionChangedStartingTabOption = @"ChangedStartingTabOption";
 
+//9. Address Search View Controller
+NSString *kActionSelectedContactAddress = @"SelectedContactAddress";
+
+//User properties
+NSString *kUserPropertyHasAppleWatchPaired = @"has_apple_watch_paired";
+NSString *kUserUsedComplicationType = @"used_complication_type";
+NSString *kUserNumberOfNamedBookmarks = @"number_of_namedBookmarks";
+NSString *kUserNumberOfSavedStops = @"number_of_savedStops";
+NSString *kUserNumberOfSavedRoutes = @"number_of_savedRoutes";
+NSString *kUserNumberOfAddressesInContact = @"number_of_contact";
+NSString *kUserAllowedContactSearching = @"allowed_contacts";
+NSString *kUserAllowedReminders = @"allowed_reminders";
+
 //Api use Actions
 NSString *kActionSearchedRouteFromApi = @"SearchedRouteFromApi";
 NSString *kActionSearchedStopFromApi = @"SearchedStopFromApi";
@@ -97,6 +115,7 @@ NSString *kActionSearchedLineFromApi = @"SearchedLineFromApi";
 NSString *kActionSearchedNearbyStopsFromApi = @"SearchedNearbyStopsFromApi";
 NSString *kActionSearchedAddressFromApi = @"SearchedAddressFromApi";
 NSString *kActionSearchedReverseGeoCodeFromApi = @"SearchedReverseGeoCodeFromApi";
+NSString *kActionSearchedRealtimeDepartureFromApi = @"SearchedRealtimeDepartureFromApi";
 
 //Error case Actions
 NSString *kActionApiSearchFailed = @"ApiSearchFailed";
@@ -121,6 +140,7 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     
     if (self) {
         @try {
+            /*
             // Configure tracker from GoogleService-Info.plist.
             NSError *configureError;
             [[GGLContext sharedInstance] configureWithError:&configureError];
@@ -132,6 +152,9 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
             // Optional: configure GAI options.
             GAI *gai = [GAI sharedInstance];
             gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+            */
+            //Configure firebase tracking
+            [FIRApp configure];
         }
         @catch (NSException *exception) {
             self.isEnabled = NO;
@@ -149,12 +172,21 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     [SettingsManager enableAnalytics:enabled];
 }
 
+-(void)trackUserProperty:(NSString *)userProperty value:(NSString *)value {
+    [FIRAnalytics setUserPropertyString:value forName:userProperty];
+}
+
 -(void)trackScreenViewForScreenName:(NSString *)screenName{
     if (self.isEnabled) {
         @try {
+            
+            [FIRAnalytics logEventWithName:@"screen_view"
+                                parameters:@{ @"screen_name": screenName }];
+            /*
             id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
             [tracker set:kGAIScreenName value:screenName];
             [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+             */
         }
         @catch (NSException *exception) {}
     }
@@ -179,6 +211,14 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
 -(void)trackEventForEventCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
     if (self.isEnabled) {
         @try {
+            [FIRAnalytics logEventWithName:category
+                                parameters:@{
+                                             @"action": action ? action : @"",
+                                             @"label": label ? label : @"",
+                                             @"value": value ? value : @""
+                                             }];
+            
+            /*
             // May return nil if a tracker has not already been initialized with a property
             id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
             
@@ -189,6 +229,7 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
                                                                   action:action         // Event action (required)
                                                                    label:label          // Event label
                                                                    value:value] build]];// Event value
+             */
         }
         @catch (NSException *exception) {}
     }

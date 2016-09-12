@@ -58,6 +58,8 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     //Do some sanity check
     [self checkIfNotificationsAreValid:self.allRoutines];
     
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    
     return self;
 }
 

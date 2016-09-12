@@ -151,6 +151,16 @@
 }
 
 -(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    if ([[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
+        [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserAllowedReminders value:@"true"];
+    }
+}
+
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+}
+
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     
 }
 

@@ -205,11 +205,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     //Do this here not to show permission popup on welcome view.
     if (!isShowingWelcomeView) {
-        [self initializeMapComponents];
         //Check if notification is allowed.
         if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
             [[ReittiRemindersManager sharedManger] registerNotification];
         }
+        
+        [self initializeMapComponents];
     }
     
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
@@ -532,6 +533,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
            [reittiDataManager stopUpdatingBikeStations];
         }
     }
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionFilteredStops label:[NSString stringWithFormat:@"%@ - %@", changedOption.name, changedOption.isEnabled ? @"On" : @"Off"] value:nil];
 }
 
 - (void)setFilterViewOptionsHidded:(BOOL)hidden {

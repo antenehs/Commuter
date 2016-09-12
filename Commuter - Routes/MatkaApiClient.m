@@ -40,6 +40,7 @@
     return self;
 }
 
+#ifndef DEPARTURES_WIDGET
 - (void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(NSDictionary *)optionsDict andCompletionBlock:(ActionBlock)completionBlock {
     NSMutableDictionary *searchParameters;
     if (!optionsDict) {
@@ -73,6 +74,8 @@
         }
     }];
 }
+
+#endif
 
 - (void)fetchStopForCode:(NSString *)code completionBlock:(ActionBlock)completionBlock {
     

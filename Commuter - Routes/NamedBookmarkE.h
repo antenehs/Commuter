@@ -28,5 +28,7 @@
 @property (nonatomic, retain) NSString * monochromeIconName;
 
 @property (nonatomic, retain) NSDate * dateModified;
+@property (nonatomic, readonly)BOOL isHomeAddress;
+@property (nonatomic, readonly)BOOL isWorkAddress;
 
 @end

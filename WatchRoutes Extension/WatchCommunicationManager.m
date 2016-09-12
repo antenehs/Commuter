@@ -9,10 +9,18 @@
 #import "WatchCommunicationManager.h"
 #import "AppManagerBase.h"
 
+#ifndef APPLE_WATCH
+#import "ReittiAnalyticsManager.h"
+#endif
+
 NSString *kRoutesContextKey = @"kRoutesContextKey";
 NSString *kNamedBookmarksContextKey = @"kNamedBookmarksContextKey";
 NSString *kSavedStopsContextKey = @"kSavedStopsContextKey";
 NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
+
+NSString *kUsedComplicationTypeKey = @"kUsedComplicationTypeKey";
+NSString *kWatchEventActionKey = @"kWatchEventActionKey";
+NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 
 @interface WatchCommunicationManager ()
 
@@ -45,6 +53,13 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
         self.session = [WCSession defaultSession];
         self.session.delegate = self;
         [self.session activateSession];
+#ifndef APPLE_WATCH
+        if (!self.session.isPaired) {
+            [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserPropertyHasAppleWatchPaired value:@"true"];
+        } else {
+            [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserPropertyHasAppleWatchPaired value:@"false"];
+        }
+#endif
     }
     
     return self;
@@ -62,7 +77,30 @@ NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
 }
 
 -(void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
+    if (!message) return;
+#ifndef APPLE_WATCH
+    if (message[kUsedComplicationTypeKey]) {
+        [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserUsedComplicationType value:message[kUsedComplicationTypeKey]];
+    }
     
+    if (message[kWatchEventActionKey]) {
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:message[kWatchEventActionKey] label:message[kWatchEventLabelKey] value:nil];
+    }
+#endif
+}
+
+-(void)sendUsedComplicationTypeMessage:(NSString * _Nullable)complicationType {
+    if (!complicationType) return;
+    
+    [self.session sendMessage:@{kUsedComplicationTypeKey : complicationType} replyHandler:^(NSDictionary *reply){} errorHandler:^(NSError *error) {}];
+}
+
+-(void)sendWatchAppEventWithAction:(NSString * _Nullable)action andLabel:(NSString * _Nullable)label {
+    if (!action) return;
+    
+    if (!label) label = @"";
+    
+    [self.session sendMessage:@{kWatchEventActionKey : action, kWatchEventLabelKey : label} replyHandler:^(NSDictionary *reply){} errorHandler:^(NSError *error) {}];
 }
 
 #ifndef APPLE_WATCH

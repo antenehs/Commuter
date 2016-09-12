@@ -171,6 +171,8 @@
         
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionResetICloudBookmarks label:@"" value:nil];
 }
 
 - (IBAction)downloadNamedBookmarkButtonTapped:(NamedBookmarkTableViewCell *)bookmarkCell {

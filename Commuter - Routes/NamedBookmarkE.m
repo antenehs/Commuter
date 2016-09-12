@@ -10,6 +10,14 @@
 
 @implementation NamedBookmarkE
 
+-(BOOL)isHomeAddress {
+    return [self.name isEqualToString:@"Home"] || [self.iconPictureName isEqualToString:@"home-100.png"];
+}
+
+-(BOOL)isWorkAddress {
+    return [self.name isEqualToString:@"Work"] || [self.iconPictureName isEqualToString:@"work-filled-100.png"];
+}
+
 #pragma mark - to and from dictionary methods
 
 -(id)initWithDictionary:(NSDictionary *)dict{

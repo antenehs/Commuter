@@ -12,6 +12,10 @@
 #import "ReittiMapkitHelper.h"
 #import "ReittiDateFormatter.h"
 
+#if MAIN_APP
+#import "ReittiAnalyticsManager.h"
+#endif
+
 NSString *kHslDigiTransitGraphQlUrl = @"http://api.digitransit.fi/routing/v1/routers/hsl/index/graphql";
 NSString *kFinlandDigiTransitGraphQlUrl = @"http://api.digitransit.fi/routing/v1/routers/finland/index/graphql";
 
@@ -84,6 +88,10 @@ typedef enum : NSUInteger {
             completionBlock(nil, errorString);
         }
     }];
+    
+#if MAIN_APP
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRealtimeDepartureFromApi label:@"DIGITRANSIT" value:nil];
+#endif
 }
 
 -(NSString *)stopGraphQlQueryForName:(NSString *)name {

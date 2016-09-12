@@ -29,6 +29,7 @@ extern NSString *kActionNewAppInstallation;
 //1. Home View Controller
 extern NSString *kActionListNearByStops;
 extern NSString *kActionOpenGeoLocationFromDroppedPin;
+extern NSString *kActionFilteredStops;
 
 //2. Route Search View Controller
 extern NSString *kActionSearchedRoute;
@@ -54,6 +55,7 @@ extern NSString *kActionViewedSavedStop;
 extern NSString *kActionInteractWithHistoryObject;
 extern NSString *kActionOpenedWidgetSettingsFromBookmarks;
 extern NSString *kActionEditedNamedBookmark;
+extern NSString *kActionReorderedBookmarks;
 
 //4.1 Edit Address TableView Controller
 extern NSString *kActionCreatedNewNamedBookmark;
@@ -61,6 +63,7 @@ extern NSString *kActionSelectedCurrentAddressForNamedBookmark;
 
 //4.2 ICloud Sync View Controller
 extern NSString *kActionDownloadedICloudBookmark;
+extern NSString *kActionResetICloudBookmarks;
 
 //5. Lines View Controller
 extern NSString *kActionViewedLine;
@@ -89,6 +92,19 @@ extern NSString *kActionChangedHistoryCleaningDay;
 extern NSString *kActionChangedAnalyticsOption;
 extern NSString *kActionChangedStartingTabOption;
 
+//9. Address Search View Controller
+extern NSString *kActionSelectedContactAddress;
+
+//User properties
+extern NSString *kUserPropertyHasAppleWatchPaired;
+extern NSString *kUserUsedComplicationType;
+extern NSString *kUserNumberOfNamedBookmarks;
+extern NSString *kUserNumberOfSavedStops;
+extern NSString *kUserNumberOfSavedRoutes;
+extern NSString *kUserNumberOfAddressesInContact;
+extern NSString *kUserAllowedContactSearching;
+extern NSString *kUserAllowedReminders;
+
 //Api use Actions
 extern NSString *kActionSearchedRouteFromApi;
 extern NSString *kActionSearchedStopFromApi;
@@ -96,6 +112,7 @@ extern NSString *kActionSearchedLineFromApi;
 extern NSString *kActionSearchedNearbyStopsFromApi;
 extern NSString *kActionSearchedAddressFromApi;
 extern NSString *kActionSearchedReverseGeoCodeFromApi;
+extern NSString *kActionSearchedRealtimeDepartureFromApi;
 
 //Error case Actions
 extern NSString *kActionApiSearchFailed;
@@ -106,6 +123,7 @@ extern NSString *kActionApiSearchFailed;
 -(id)init;
 
 //Tracking
+-(void)trackUserProperty:(NSString *)userProperty value:(NSString *)value;
 -(void)trackScreenViewForScreenName:(NSString *)screenName;
 -(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value;
 -(void)trackFeatureUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;

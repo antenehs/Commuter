@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#ifndef APPLE_WATCH
 #import "RettiDataManager.h"
 #import "SettingsEntity.h"
 
@@ -21,9 +23,11 @@ extern NSString * const mapModeChangedNotificationName;
 extern NSString * const userlocationChangedNotificationName;
 extern NSString * const shouldShowVehiclesNotificationName;
 extern NSString * const routeSearchOptionsChangedNotificationName;
+#endif
 
 @interface SettingsManager : NSObject
 
+#ifndef APPLE_WATCH
 -(id)initWithDataManager:(RettiDataManager *)dataManager;
 
 -(MapMode)getMapMode;
@@ -41,6 +45,7 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 -(void)setNumberOfDaysToKeepHistory:(int)days;
 -(void)setToneName:(NSString *)toneName;
 -(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions;
+#endif
 
 //NSUserDefaults settings
 +(NSString *)uniqueDeviceIdentifier;
@@ -58,9 +63,10 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(NSInteger)getSkippedcontactsRequestTrials;
 +(void)setSkippedcontactsRequestTrials:(NSInteger)index;
 
+#ifndef APPLE_WATCH
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 
 @property(nonatomic, strong)SettingsEntity *settingsEntity;
-
+#endif
 
 @end

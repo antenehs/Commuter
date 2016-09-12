@@ -8,6 +8,7 @@
 
 #import "ComplicationController.h"
 #import "ComplicationDataManager.h"
+#import "WatchCommunicationManager.h"
 #import "ExtensionDelegate.h"
 #import "AppManager.h"
 #import "Route.h"
@@ -86,6 +87,8 @@
         CLKComplicationTemplate* template = [self templateForLeg:nil andFamily:complication.family];
         handler([CLKComplicationTimelineEntry entryWithDate:[NSDate date] complicationTemplate:template]);
     }
+    
+    [self trackUsedComplicationType: complication.family];
 }
 
 - (void)getTimelineEntriesForComplication:(CLKComplication *)complication beforeDate:(NSDate *)date limit:(NSUInteger)limit withHandler:(void(^)(NSArray<CLKComplicationTimelineEntry *> * __nullable entries))handler {
@@ -380,6 +383,20 @@
     return [AppManager colorForLegType:leg.legType];
 }
 
+-(void)trackUsedComplicationType:(CLKComplicationFamily)family {
+    NSString *typeString = @"Unknown";
+    if (family == CLKComplicationFamilyUtilitarianSmall) {
+        typeString = @"UtilitarianSmall";
+    } else if (family == CLKComplicationFamilyUtilitarianLarge) {
+        typeString = @"UtilitarianLarge";
+    } else if (family == CLKComplicationFamilyModularSmall) {
+        typeString = @"ModularSmall";
+    } else if (family == CLKComplicationFamilyModularLarge) {
+        typeString = @"ModularLarge";
+    }
+    
+    [[WatchCommunicationManager sharedManager] sendUsedComplicationTypeMessage:typeString];
+}
 
 - (void)refreshComplications {
     CLKComplicationServer *server = [CLKComplicationServer sharedInstance];

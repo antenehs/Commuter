@@ -7,6 +7,7 @@
 //
 
 #import "MapInterfaceController.h"
+#import "WatchCommunicationManager.h"
 
 NSString *LocationNameContextKey = @"LocationNameContextKey";
 NSString *LocationCoordsContextKey = @"LocationCoordsContextKey";
@@ -52,6 +53,8 @@ NSString *LocationCoordsContextKey = @"LocationCoordsContextKey";
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
     [super willActivate];
+    
+    [[WatchCommunicationManager sharedManager] sendWatchAppEventWithAction:@"Watch_viewed_location_on_map" andLabel:@""];
 }
 
 - (void)didDeactivate {

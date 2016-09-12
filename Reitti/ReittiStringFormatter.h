@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-#ifndef APPLE_WATCH
+#if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
 #import <ArcGIS/ArcGIS.h>
 #endif
 
@@ -37,6 +37,9 @@
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font;
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substrings:(NSArray *)substring withNormalFont:(UIFont *)font highlightedFont:(UIFont *)highlightedFont andHighlightColor:(UIColor *)highlightedColor;
 
+#endif
+
+#if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
 +(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
 +(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
 #endif

@@ -10,6 +10,7 @@
 #import <AddressBook/AddressBook.h>
 #import "ASA_Helpers.h"
 #import "SettingsManager.h"
+#import "ReittiAnalyticsManager.h"
 
 @interface ContactsManager ()
 
@@ -41,6 +42,7 @@
         [self asa_ExecuteBlockInBackground:^{
             [self customRequestForAccess];
         }];
+        trackedAccessOnce = NO;
     }
     
     return self;
@@ -94,6 +96,11 @@
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
         if (granted){
             self.contactsWithAddress = [self filterContactsWithAddressFrom:addressBook];
+            if (!trackedAccessOnce) {
+                [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserAllowedContactSearching value:@"true"];
+                [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserNumberOfAddressesInContact value:[NSString stringWithFormat:@"%lu", (unsigned long)self.contactsWithAddress.count]];
+                trackedAccessOnce = YES;
+            }
             return;
         }
         NSLog(@"Not authorized");

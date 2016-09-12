@@ -183,10 +183,12 @@
     id rowController = [self.bookmarksTable rowControllerAtIndex:rowIndex];
     if ([rowController isKindOfClass:[LocationRowController class]]) {
         [self checkCurrentLocationAndGetRouteToLocation:((LocationRowController *)rowController).location];
+        [[WatchCommunicationManager sharedManager] sendWatchAppEventWithAction:@"Watch_search_route" andLabel:((LocationRowController *)rowController).location.name];
     }
     
     if ([rowController isKindOfClass:[StopRowController class]]) {
         [self searchStopForStop:((StopRowController *)rowController).stop];
+        [[WatchCommunicationManager sharedManager] sendWatchAppEventWithAction:@"Watch_search_stop" andLabel:@""];
     }
 }
 
@@ -234,7 +236,9 @@
             }
             [self showRoutes:routes];
         } else {
-            [self showAlertWithTitle:@"Oops. Route search failed." andMessage:errorString ? errorString : @"No routes returned from service."];
+            NSString *errorMessage = errorString ? errorString : @"No routes returned from service.";
+            [self showAlertWithTitle:@"Oops. Route search failed." andMessage:errorMessage];
+            [[WatchCommunicationManager sharedManager] sendWatchAppEventWithAction:@"Watch_error_api_fetch" andLabel:errorMessage];
         }
         
         [self endActivity];
@@ -422,7 +426,9 @@
             [self showStopDepartures:stops];
             [self saveStopWithDeparturesToDefaults:stop];
         } else {
-            [self showAlertWithTitle:@"Oops." andMessage:errorString ? errorString : @"Fetching departures failed."];
+            NSString *errorMessage = errorString ? errorString : @"Fetching departures failed.";
+            [self showAlertWithTitle:@"Oops." andMessage:errorMessage];
+            [[WatchCommunicationManager sharedManager] sendWatchAppEventWithAction:@"Watch_error_api_fetch" andLabel:errorMessage];
         }
         
         [self endActivity];
@@ -600,6 +606,7 @@
 
 -(void)showNoneExistingBookmarkNamed:(NSString *)bookmarkName {
     [self showAlertWithTitle:nil andMessage:[NSString stringWithFormat:@"%@ address is not set. Set it from Commuter on your iPhone to get directions.", bookmarkName]];
+    [[WatchCommunicationManager sharedManager] sendWatchAppEventWithAction:@"Watch_error_message_no_address" andLabel:bookmarkName];
 }
 
 @end
