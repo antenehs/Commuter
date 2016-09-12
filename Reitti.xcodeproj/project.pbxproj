@@ -3640,6 +3640,7 @@
 				6617220919CE0F5000E3CD6E /* Embed App Extensions */,
 				E6747CC90480F114D84F1734 /* [CP] Embed Pods Frameworks */,
 				5733BEB2D65AFE9EF9116F3A /* [CP] Copy Pods Resources */,
+				66EAF8F01D875E780077BC5C /* upload symbols to firebase */,
 			);
 			buildRules = (
 			);
@@ -3683,6 +3684,7 @@
 				662481B01D1FFBF700574319 /* Embed Watch Content */,
 				D9E28DF776BB2294FE05780C /* [CP] Embed Pods Frameworks */,
 				7186809BE36BF390D019CACF /* [CP] Copy Pods Resources */,
+				66EAF8EF1D875CD00077BC5C /* Upload symbols to Firebase */,
 			);
 			buildRules = (
 			);
@@ -4310,6 +4312,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\nrm -fr Frameworks\nfi";
+		};
+		66EAF8EF1D875CD00077BC5C /* Upload symbols to Firebase */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload symbols to Firebase";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:69378195651:ios:2e581fca8115eddd\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/antenehs/Documents/Apps/Reitti Commuter/Reitti/firebase_uploadkey.json\"";
+		};
+		66EAF8F01D875E780077BC5C /* upload symbols to firebase */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "upload symbols to firebase";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:69378195651:ios:2e581fca8115eddd\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/antenehs/Documents/Apps/Reitti Commuter/Reitti/firebase_uploadkey.json\"";
 		};
 		7186809BE36BF390D019CACF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

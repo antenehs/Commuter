@@ -5,7 +5,16 @@ PODS:
     - FirebaseAnalytics (~> 3.3)
   - Firebase/Core (3.5.2):
     - Firebase/Analytics
+  - Firebase/Crash (3.5.2):
+    - Firebase/Analytics
+    - FirebaseCrash (= 1.0.7)
   - FirebaseAnalytics (3.3.1):
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseCrash (1.0.7):
+    - FirebaseAnalytics (~> 3.2)
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
@@ -48,6 +57,7 @@ PODS:
 DEPENDENCIES:
   - ArcGIS-Runtime-SDK-iOS
   - Firebase/Core
+  - Firebase/Crash
   - RestKit (~> 0.24.0)
   - RKXMLReaderSerialization (from `https://github.com/RestKit/RKXMLReaderSerialization.git`, branch `master`)
 
@@ -66,6 +76,7 @@ SPEC CHECKSUMS:
   ArcGIS-Runtime-SDK-iOS: 0d62980b8ed60c1ee8ca292c1c644e74e0e922aa
   Firebase: 94e63112efcad75226c0356a8f3032397b8547c9
   FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
+  FirebaseCrash: 2efeb3715b76ac843b841529ce413efb67e5fd4d
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
@@ -78,6 +89,6 @@ SPEC CHECKSUMS:
   TransitionKit: 3a14b6acc7cf2d1dd3e454e24dbad1cfab9a1ef1
   XMLReader: c7e54b707c368e2fa545d8313276b4de13a36ff5
 
-PODFILE CHECKSUM: 0904e50d8bca56bcf1282a7e3818af7682c0bcdc
+PODFILE CHECKSUM: 0b1ba6943648ea62a7d481b64c4c2c57b1cba24b
 
 COCOAPODS: 1.0.1
