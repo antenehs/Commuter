@@ -17,6 +17,7 @@
 #import "StopEntity.h"
 #import "BusStopE.h"
 #import "ReittiStringFormatterE.h"
+#import "RouteSummaryInterfaceController.h"
 
 @interface HomeInterfaceController() <CLLocationManagerDelegate>
 
@@ -247,27 +248,33 @@
 
 -(void)showRoutes:(NSArray *)routes {
     if (routes && routes.count == 1) {
-        [self showRoute:routes[0]];
+        //This is for local search and should not be delayed.
+        [self showRoute:routes[0] withDelay:NO];
         return;
     }
     
-    //TODO: Filter out expired routes
-    NSMutableArray *controllerNames = [@[] mutableCopy];
-    NSMutableArray *contexts = [@[] mutableCopy];
-    
-    for (Route *route in routes) {
-        [controllerNames addObject:@"RouteView"];
-        [contexts addObject:route];
-    }
-    
-    [self dismissController];
-    [self presentControllerWithNames:controllerNames contexts:contexts];
+    [self popToRootController];
+    [self pushRouteSummaryWithContext:routes];
 }
 
 -(void)showRoute:(Route *)route {
+    [self showRoute:route withDelay:YES];
+}
+
+-(void)showRoute:(Route *)route withDelay:(BOOL)delay {
     if (!route) return;
-    [self dismissController];
-    [self presentControllerWithName:@"RouteView" context:route];
+    
+    [self popToRootController];
+    //Add the delay to give pop time to finish.
+    [self performSelector:@selector(pushRouteDetailWithContext:) withObject:route afterDelay:delay ? 1 : 0];
+}
+
+-(void)pushRouteSummaryWithContext:(NSArray *)context {
+    [self pushControllerWithName:@"RouteSummary" context:context];
+}
+
+-(void)pushRouteDetailWithContext:(NSArray *)context {
+    [self pushControllerWithName:@"RouteView" context:context];
 }
 
 #pragma mark - Locations methods
@@ -481,11 +488,11 @@
     }
     
     self.transferredRoutes = routes;
-    [self showRoutes:routes];
     if (routes.count > 0) {
         //Set route here in case app is in background. Else set it in route view.
         [[ComplicationDataManager sharedManager] setRoute:routes[0]];
         Route *firstRoute = routes[0];
+        [self showRoute:firstRoute];
         if (firstRoute.toLocationName) {
             RoutableLocation *location = [RoutableLocation new];
             location.name = firstRoute.toLocationName;

@@ -82,7 +82,7 @@
     NSString *locationName = self.stopEntity.busStopName;
     CLLocationCoordinate2D coords = [self.stopEntity.busStopCoords convertTo2DCoord];
     
-    [self presentControllerWithName:@"MapView" context:@{LocationNameContextKey: locationName, LocationCoordsContextKey: [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude]}];
+    [self pushControllerWithName:@"MapView" context:@{LocationNameContextKey: locationName, LocationCoordsContextKey: [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude]}];
 }
 
 @end

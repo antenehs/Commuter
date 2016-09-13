@@ -826,7 +826,7 @@
             startingLineNumber = "86"
             endingLineNumber = "86"
             landmarkName = "-startingTimeOfRoute"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2314,7 +2314,7 @@
             startingLineNumber = "126"
             endingLineNumber = "126"
             landmarkName = "-legShapeCoorStrings"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2324,11 +2324,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "-init"
             landmarkType = "7">
          </BreakpointContent>
@@ -2372,11 +2372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "-setUpTableView"
             landmarkType = "7">
          </BreakpointContent>
@@ -2404,11 +2404,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "-setUpTableView"
             landmarkType = "7">
          </BreakpointContent>
@@ -2442,7 +2442,7 @@
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "-setUpWithRouteLeg:inRoute:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2452,11 +2452,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "-searchRouteToLocation:fromLocation:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2474,7 +2474,7 @@
             startingLineNumber = "44"
             endingLineNumber = "44"
             landmarkName = "-willActivate"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2532,11 +2532,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
             landmarkName = "-requestLocation"
             landmarkType = "7">
          </BreakpointContent>
@@ -2548,11 +2548,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "-searchRouteToLocation:fromLocation:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2570,7 +2570,7 @@
             startingLineNumber = "95"
             endingLineNumber = "95"
             landmarkName = "-updateComplicationDataForRoute:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2586,7 +2586,7 @@
             startingLineNumber = "41"
             endingLineNumber = "41"
             landmarkName = "-willActivate"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2596,11 +2596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "-checkCurrentLocationAndGetRouteToLocation:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2612,11 +2612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "-initLocationManager"
             landmarkType = "7">
          </BreakpointContent>
@@ -2628,28 +2628,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
+            startingLineNumber = "557"
+            endingLineNumber = "557"
             landmarkName = "-locationManager:didFailWithError:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "-showRoutes:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2666,7 +2650,7 @@
             startingLineNumber = "54"
             endingLineNumber = "54"
             landmarkName = "-handleUserActivity:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2676,11 +2660,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "-setUpTableView"
             landmarkType = "7">
          </BreakpointContent>
@@ -2788,11 +2772,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495404391.460536"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "-updateContext"
             landmarkType = "7">
             <Locations>
@@ -2836,11 +2820,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495404391.460536"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "-transferUserInfoForComplication:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2852,11 +2836,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495404391.460536"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "-transferUserInfoForComplication:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2996,11 +2980,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "-searchRouteToLocation:fromLocation:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3012,11 +2996,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "483"
-            endingLineNumber = "483"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "-receivedRoutesArray:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3044,11 +3028,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "-setUpTableView"
             landmarkType = "7">
          </BreakpointContent>
@@ -3529,11 +3513,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495404391.460536"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "-transferUserInfo:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3561,11 +3545,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495404391.460536"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "-session:didReceiveApplicationContext:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3593,11 +3577,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495404391.460536"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "195"
-            endingLineNumber = "195"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "-session:didReceiveApplicationContext:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3609,11 +3593,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "-loadSavedStops"
             landmarkType = "7">
          </BreakpointContent>
@@ -3625,11 +3609,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "466"
-            endingLineNumber = "466"
+            startingLineNumber = "473"
+            endingLineNumber = "473"
             landmarkName = "-receivedSavedStopsArray:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3641,11 +3625,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "-setUpTableView"
             landmarkType = "7">
          </BreakpointContent>
@@ -3657,11 +3641,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
             landmarkName = "-searchStopForStop:"
             landmarkType = "7">
             <Locations>
@@ -3705,11 +3689,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "494070141.67181"
+            timestampString = "495484593.646198"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-table:didSelectRowAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3791,7 +3775,7 @@
             startingLineNumber = "31"
             endingLineNumber = "31"
             landmarkName = "-awakeWithContext:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3817,11 +3801,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "407"
-            endingLineNumber = "407"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "-fetchStopsWithValidDeparturesForCode:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3833,11 +3817,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/HomeInterfaceController.m"
-            timestampString = "495405714.145238"
+            timestampString = "495493318.673488"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
             landmarkName = "-saveStopWithDeparturesToDefaults:"
             landmarkType = "7">
          </BreakpointContent>
@@ -4537,11 +4521,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495405772.965137"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "-sendWatchAppEventWithAction:andLabel:"
             landmarkType = "7">
             <Locations>
@@ -4550,45 +4534,45 @@
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[WatchCommunicationManager sendWatchAppEventWithAction:andLabel:]"
-                  moduleName = "Reitti Pro"
+                  moduleName = "WatchRoutes Extension"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/WatchRoutes%20Extension/WatchCommunicationManager.m"
-                  timestampString = "495409382.102264"
+                  timestampString = "495492741.720896"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "143">
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "153">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__66-[WatchCommunicationManager sendWatchAppEventWithAction:andLabel:]_block_invoke"
-                  moduleName = "Reitti Pro"
+                  moduleName = "WatchRoutes Extension"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/WatchRoutes%20Extension/WatchCommunicationManager.m"
-                  timestampString = "495409382.107757"
+                  timestampString = "495492741.723939"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "52">
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "51">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__66-[WatchCommunicationManager sendWatchAppEventWithAction:andLabel:]_block_invoke_2"
-                  moduleName = "Reitti Pro"
+                  moduleName = "WatchRoutes Extension"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/WatchRoutes%20Extension/WatchCommunicationManager.m"
-                  timestampString = "495409382.12907"
+                  timestampString = "495492741.727189"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "52">
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "51">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -4600,12 +4584,108 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchRoutes Extension/WatchCommunicationManager.m"
-            timestampString = "495405922.386528"
+            timestampString = "495492059.487349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-session:didReceiveMessage:replyHandler:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchRoutes Extension/RouteSummaryRowController.h"
+            timestampString = "495489291.986448"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "thirdLegImage"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[RouteSummaryRowController thirdLegImage]"
+                  moduleName = "WatchRoutes Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/WatchRoutes%20Extension/RouteSummaryRowController.h"
+                  timestampString = "495492741.738985"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[RouteSummaryRowController setThirdLegImage:]"
+                  moduleName = "WatchRoutes Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/WatchRoutes%20Extension/RouteSummaryRowController.h"
+                  timestampString = "495492741.742233"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "57">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchRoutes Extension/HomeInterfaceController.m"
+            timestampString = "495493318.673488"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "-showRoutes:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchRoutes Extension/HomeInterfaceController.m"
+            timestampString = "495493318.673488"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "-showRoute:withDelay:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchRoutes Extension/HomeInterfaceController.m"
+            timestampString = "495493318.673488"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
+            landmarkName = "-pushRouteDetailWithContext:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

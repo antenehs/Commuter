@@ -8,6 +8,7 @@
 
 #import "WatchCommunicationManager.h"
 #import "AppManagerBase.h"
+#import "ASA_Helpers.h"
 
 #ifndef APPLE_WATCH
 #import "ReittiAnalyticsManager.h"
@@ -183,7 +184,9 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
     if (!userInfo) return;
     NSArray *routesArray = [userInfo objectForKey:kRoutesContextKey];
     if (routesArray) {
-        [self.delegate receivedRoutesArray:routesArray];
+        [self asa_ExecuteBlockInUIThread:^{
+            [self.delegate receivedRoutesArray:routesArray];
+        }];
     }
 }
 
@@ -192,17 +195,23 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
     
     NSArray *namedBookmarkArray = [applicationContext objectForKey:kNamedBookmarksContextKey];
     if (namedBookmarkArray) {
-        [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
+        [self asa_ExecuteBlockInUIThread:^{
+            [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
+        }];
     }
     
     NSDictionary *routeSearchOptions = [applicationContext objectForKey:kRouteSearchOptionsContextKey];
     if (routeSearchOptions) {
-        [self.delegate receivedRoutesSearchOptions:routeSearchOptions];
+        [self asa_ExecuteBlockInUIThread:^{
+            [self.delegate receivedRoutesSearchOptions:routeSearchOptions];
+        }];
     }
     
     NSArray *savedStopsArray = [applicationContext objectForKey:kSavedStopsContextKey];
     if (savedStopsArray) {
-        [self.delegate receivedSavedStopsArray:savedStopsArray];
+        [self asa_ExecuteBlockInUIThread:^{
+            [self.delegate receivedSavedStopsArray:savedStopsArray];
+        }];
     }
 }
 @end

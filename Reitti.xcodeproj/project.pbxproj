@@ -440,6 +440,9 @@
 		669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E6D011D393E14006C8580 /* RoutableLocation.m */; };
 		669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F619C83794005A04B9 /* RouteEntity.m */; };
 		669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */; };
+		66A2FB081D887612004A6C24 /* RouteSummaryRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */; };
+		66A2FB0B1D887A01004A6C24 /* RouteSummaryInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A2FB0A1D887A01004A6C24 /* RouteSummaryInterfaceController.m */; };
+		66A2FB0E1D889213004A6C24 /* RouteHeaderRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A2FB0D1D889213004A6C24 /* RouteHeaderRowController.m */; };
 		66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A73FDC18BA3CED00405043 /* RettiDataManager.m */; };
 		66A7A9B818C5DB9400AC9E94 /* BusStopShort.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9B718C5DB9400AC9E94 /* BusStopShort.m */; };
 		66A7A9BF18C5FD4200AC9E94 /* StopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9BE18C5FD4200AC9E94 /* StopAnnotation.m */; };
@@ -1602,6 +1605,12 @@
 		669EA1F619C83794005A04B9 /* RouteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteEntity.m; sourceTree = "<group>"; };
 		669EA1F819C83794005A04B9 /* RouteHistoryEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteHistoryEntity.h; sourceTree = "<group>"; };
 		669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteHistoryEntity.m; sourceTree = "<group>"; };
+		66A2FB061D887612004A6C24 /* RouteSummaryRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSummaryRowController.h; sourceTree = "<group>"; };
+		66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSummaryRowController.m; sourceTree = "<group>"; };
+		66A2FB091D887A01004A6C24 /* RouteSummaryInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSummaryInterfaceController.h; sourceTree = "<group>"; };
+		66A2FB0A1D887A01004A6C24 /* RouteSummaryInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSummaryInterfaceController.m; sourceTree = "<group>"; };
+		66A2FB0C1D889213004A6C24 /* RouteHeaderRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteHeaderRowController.h; sourceTree = "<group>"; };
+		66A2FB0D1D889213004A6C24 /* RouteHeaderRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteHeaderRowController.m; sourceTree = "<group>"; };
 		66A73FDB18BA3CED00405043 /* RettiDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RettiDataManager.h; sourceTree = "<group>"; };
 		66A73FDC18BA3CED00405043 /* RettiDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RettiDataManager.m; sourceTree = "<group>"; };
 		66A7A9B618C5DB9400AC9E94 /* BusStopShort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopShort.h; sourceTree = "<group>"; };
@@ -2500,6 +2509,8 @@
 				66B391961D2011DF00C500CC /* WatchRoutes Extension.entitlements */,
 				662481971D1FFBF700574319 /* HomeInterfaceController.h */,
 				662481981D1FFBF700574319 /* HomeInterfaceController.m */,
+				66A2FB091D887A01004A6C24 /* RouteSummaryInterfaceController.h */,
+				66A2FB0A1D887A01004A6C24 /* RouteSummaryInterfaceController.m */,
 				663207201D282F3F00D8A46D /* RouteInterfaceController.h */,
 				663207211D282F3F00D8A46D /* RouteInterfaceController.m */,
 				66BCA6FE1D72370F0092C5BB /* StopInterfaceController.h */,
@@ -2537,6 +2548,10 @@
 				663207161D27E2AE00D8A46D /* HomeAndWorkRowController.m */,
 				663207181D27E36400D8A46D /* LocationRowController.h */,
 				663207191D27E36400D8A46D /* LocationRowController.m */,
+				66A2FB0C1D889213004A6C24 /* RouteHeaderRowController.h */,
+				66A2FB0D1D889213004A6C24 /* RouteHeaderRowController.m */,
+				66A2FB061D887612004A6C24 /* RouteSummaryRowController.h */,
+				66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */,
 				6632072E1D29501E00D8A46D /* RouteLegRowController.h */,
 				6632072F1D29501E00D8A46D /* RouteLegRowController.m */,
 				66BCA6F51D72106C0092C5BB /* StopRowController.h */,
@@ -4460,6 +4475,7 @@
 				662481A21D1FFBF700574319 /* ComplicationController.m in Sources */,
 				66B391B51D23078B00C500CC /* HSLLocs.m in Sources */,
 				66F9383D1D342B68009C7227 /* MapInterfaceController.m in Sources */,
+				66A2FB0B1D887A01004A6C24 /* RouteSummaryInterfaceController.m in Sources */,
 				66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */,
 				66B391B81D23078B00C500CC /* HSLRoute.m in Sources */,
 				66B391971D20129B00C500CC /* AppManagerBase.m in Sources */,
@@ -4477,6 +4493,7 @@
 				6632072A1D293C8600D8A46D /* RouteLeg.m in Sources */,
 				66B391981D2013EF00C500CC /* NamedBookmarkE.m in Sources */,
 				66BCA6F71D72106C0092C5BB /* StopRowController.m in Sources */,
+				66A2FB0E1D889213004A6C24 /* RouteHeaderRowController.m in Sources */,
 				66BCA6F41D7202160092C5BB /* ReittiManagedObjectBase.m in Sources */,
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
@@ -4498,6 +4515,7 @@
 				66BCA7031D723B990092C5BB /* DepartureRowController.m in Sources */,
 				66B3919E1D205DF900C500CC /* WatchCommunicationManager.m in Sources */,
 				6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */,
+				66A2FB081D887612004A6C24 /* RouteSummaryRowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
