@@ -15,7 +15,6 @@
     AnnotationFilter *filter = [[AnnotationFilter alloc] init];
     if (filter) {
         filter.filterOptions = filterOptions;
-        //TODO: Update enabled status from saved value.
     }
     
     return filter;

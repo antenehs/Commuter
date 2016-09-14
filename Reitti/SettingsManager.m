@@ -16,6 +16,7 @@ NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRo
 NSString * const kDeviceIdNsDefaultsKey = @"DeviceIdNsDefaultsKey";
 NSString * const kAnalyticsSettingsNsDefaultsKey = @"IsAnalyticsSettingEnabled";
 NSString * const kShowRoutesFromBookmarksKey = @"ShowRoutesFromBookmarks";
+NSString * const kAnnotationTypesEnableStateKey = @"AnnotationTypesEnableStateKey";
 NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks";
 NSString * const kAskedContactsPermission = @"AskedContactsPermission";
 NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
@@ -139,6 +140,35 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 
 +(void)setShowBookmarkDepartures:(BOOL)show {
     [self saveBoolForKey:kShowDeparturesFromBookmarksKey boolVal:show];
+}
+
++(BOOL)isAnnotationTypeEnabled:(AnnotationType)type {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *statusDic = [standardUserDefaults dictionaryForKey:kAnnotationTypesEnableStateKey];
+    
+    if (!statusDic) return YES;
+    NSString *typeString = [NSString stringWithFormat:@"%d", type];
+    
+    NSNumber *statusNumber = statusDic[typeString];
+    if (!statusNumber && ![statusNumber isKindOfClass:[NSNumber class]]) return true;
+    
+    return [statusNumber boolValue];
+}
+
++(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(AnnotationType)type {
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSMutableDictionary *statusDic = [[standardUserDefaults dictionaryForKey:kAnnotationTypesEnableStateKey] mutableCopy];
+    if (!statusDic) statusDic = [@{} mutableCopy];
+    
+    NSString *typeString = [NSString stringWithFormat:@"%d", type];
+    statusDic[typeString] = [NSNumber numberWithBool:enabled];
+    
+    if (standardUserDefaults) {
+        [standardUserDefaults setObject:statusDic forKey:kAnnotationTypesEnableStateKey];
+        [standardUserDefaults synchronize];
+    }
 }
 
 +(BOOL)askedContactsPermission {

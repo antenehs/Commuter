@@ -280,6 +280,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 #pragma - mark initialization Methods
 
 - (void)initDataComponentsAndModules {
+    [self updateFilter]; //This should be called first.
     [self initVariablesAndConstants];
     [self initDataManagers];
     [self initDisruptionFetching];
@@ -305,13 +306,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
 //    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
     
+    [self updateFilter];
     [self initGuestureRecognizers];
     [self setNeedsStatusBarAppearanceUpdate];
     [self setNavBarApearance];
     [self setMapModeForSettings];
     [self setupListTableViewAppearance];
     [self hideNearByStopsView:YES animated:NO];
-    [self updateFilter];
     [self plotBookmarks];
 }
 
@@ -378,6 +379,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
+    
+    mapViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideFilterViewOptions)];
+    
+    [self.mapView addGestureRecognizer:mapViewTapGestureRecognizer];
 }
 
 - (void)initVariablesAndConstants
@@ -420,6 +425,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     userLocationUpdated = NO;
     
     mapMode = MainMapViewModeStopsAndLive;
+    
+    if (!self.annotationFilter) self.annotationFilter = [[AnnotationFilter alloc] init];
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
 }
@@ -489,6 +496,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)updateFilter {
     NSArray *optionsForRegion = [reittiDataManager annotationFilterOptions];
     
+    for (AnnotationFilterOption *option in optionsForRegion) {
+        option.isEnabled = [SettingsManager isAnnotationTypeEnabled:option.annotType];
+    }
+    
     self.annotationFilter = [AnnotationFilter initWithOptions:optionsForRegion];
     [self updateFilterView];
 }
@@ -501,6 +512,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         __weak SearchController *weakSelf = self;
         [self.filterAnnotationsView setUpWithFilter:self.annotationFilter
                               withFilterChangeBlock:^(AnnotationFilter *newFilter, AnnotationFilterOption *changedOption){
+                                  [SettingsManager saveAnnotationTypeEnabled:changedOption.isEnabled type:changedOption.annotType];
                                   [weakSelf updateViewForFilterChange:newFilter changedOption:changedOption];
                               }
                               withSizeChangeHandler:^(CGSize size){
@@ -537,8 +549,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionFilteredStops label:[NSString stringWithFormat:@"%@ - %@", changedOption.name, changedOption.isEnabled ? @"On" : @"Off"] value:nil];
 }
 
-- (void)setFilterViewOptionsHidded:(BOOL)hidden {
-    [self.filterAnnotationsView setFilterOptionsHidden:hidden];
+- (void)hideFilterViewOptions {
+    [self.filterAnnotationsView setFilterOptionsHidden:YES];
 }
 
 #pragma mark - Nav bar and toolbar methods
@@ -806,7 +818,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }else{
         [self setNearbyStopsViewTopSpacing:self.view.frame.size.height/2 - 10];
         isSearchResultsViewDisplayed = YES;
-        [self setFilterViewOptionsHidded:YES];
+        [self hideFilterViewOptions];
     }
     
     if(!hidden)

@@ -92,6 +92,7 @@ typedef enum
     
     UITapGestureRecognizer *searchResultsViewGestureRecognizer;
     UITapGestureRecognizer *centerTapRecognizer;
+    UITapGestureRecognizer *mapViewTapGestureRecognizer;
     
     UIPanGestureRecognizer *stopViewDragGestureRecognizer;
     UIPanGestureRecognizer *searchResultViewDragGestureRecognizer;

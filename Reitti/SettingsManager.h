@@ -58,6 +58,8 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(void)setShowBookmarkRoutes:(BOOL)show;
 +(BOOL)showBookmarkDepartures;
 +(void)setShowBookmarkDepartures:(BOOL)show;
++(BOOL)isAnnotationTypeEnabled:(AnnotationType)type;
++(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(AnnotationType)type;
 +(BOOL)askedContactsPermission;
 +(void)setAskedContactPermission:(BOOL)asked;
 +(NSInteger)getSkippedcontactsRequestTrials;
