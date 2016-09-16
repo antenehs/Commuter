@@ -48,6 +48,7 @@
     BOOL firstTimeLocation;
     BOOL trackedMoveOnce;
     BOOL trackedNumbersOnce;
+    BOOL swipedToDelete;
     
     NSInteger namedBookmarkSection, savedStopsSection, savedRouteSection;
 }

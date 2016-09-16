@@ -96,6 +96,7 @@ extern NSString *kActionChangedStartingTabOption;
 extern NSString *kActionSelectedContactAddress;
 
 //User properties
+extern NSString *kUserPropertyIsProUser;
 extern NSString *kUserPropertyHasAppleWatchPaired;
 extern NSString *kUserUsedComplicationType;
 extern NSString *kUserNumberOfNamedBookmarks;
@@ -125,7 +126,7 @@ extern NSString *kActionApiSearchFailed;
 //Tracking
 -(void)trackUserProperty:(NSString *)userProperty value:(NSString *)value;
 -(void)trackScreenViewForScreenName:(NSString *)screenName;
--(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value;
+//-(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value;
 -(void)trackFeatureUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;
 -(void)trackApiUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;
 -(void)trackErrorEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;

@@ -65,10 +65,13 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     
     EKEventStore * _eventStore;
     BOOL stopFetched;
+    BOOL stopFetchFailed;
     BOOL stopDetailRequested;
     bool stopBookmarked;
     BOOL stopFetchSuccessfulOnce;
 
+    NSString *stopFetchFailMessage;
+    
     NSIndexPath * departuresTableIndex;
     NSInteger pressTime;
     

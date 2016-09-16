@@ -106,15 +106,23 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     if (!isShowingStopView){
         isShowingStopView = NO;
         [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
     }
-    
-    [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    if (isShowingStopView){
+        //Reset view to what it was before becuase when going to stopview, navigation bar is
+        //enabled.
+        [self moveRouteViewToLocation:currentRouteListViewLocation animated:NO];
+    }
+    
     [self.navigationController setToolbarHidden:YES animated:NO];
     if (self.tabBarController) {
         [self.tabBarController.tabBar setHidden:YES];
@@ -1603,7 +1611,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         startTimeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime];
         
         UIImage *image = [AppManager lightColorImageForLegTransportType:loc.locationLegType];
-        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        if (selectedLeg.legType != LegTypeMetro)
+            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [legTypeImage setImage:image];
         legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
         if (selectedLeg.legType != LegTypeWalk)
@@ -1678,7 +1687,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             
             if (selectedLeg.legType != LegTypeTram) { /* the tram picture is smaller than others */
                 UIImage *image = [UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)];
-                image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                if (selectedLeg.legType != LegTypeMetro)
+                    image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                 [legTypeImage setImage:image];
                 legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
                 if (selectedLeg.legType != LegTypeWalk)
@@ -2228,6 +2238,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 
 - (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit{
     if ([viewControllerToCommit isKindOfClass:[StopViewController class]]) {
+        //if navigation bar is hidden, unhide it by moving to mid location.
+        [self.navigationController setNavigationBarHidden:NO];
         [self.navigationController showViewController:viewControllerToCommit sender:nil];
         isShowingStopView = YES;
     }else if ([viewControllerToCommit isKindOfClass:[UINavigationController class]]) {

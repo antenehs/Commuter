@@ -65,6 +65,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self initDataManagerIfNull];
     
     stopFetched = NO;
+    stopFetchFailed = NO;
     stopDetailRequested = NO;
     stopFetchSuccessfulOnce = NO;
     
@@ -426,6 +427,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     stopDetailRequested = YES;
+    stopFetchFailed = NO;
     
     RTStopSearchParam *searchParam = [RTStopSearchParam new];
     searchParam.longCode = code;
@@ -512,33 +514,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         
         @try {
             [cell setupFromStopDeparture:departure compactMode:NO];
-//            UILabel *timeLabel = (UILabel *)[cell viewWithTag:1001];
-//            NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate];
-//            if (!formattedHour || formattedHour.length < 1 ) {
-//                NSString *notFormattedTime = departure.time ;
-//                formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-//                timeLabel.text = formattedHour;
-//            } else {
-//                if ([departure.parsedScheduledDate timeIntervalSinceNow] < 300) {
-//                    timeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:formattedHour
-//                                                                                       substring:formattedHour
-//                                                                                  withNormalFont:timeLabel.font];
-//                    ;
-//                }else{
-//                    timeLabel.text = formattedHour;
-//                }
-//            }
-//            
-//            if (departure.isRealTime) {
-//                timeLabel.backgroundColor = [AppManager systemGreenColor];
-//            }
-//            
-//            UILabel *codeLabel = (UILabel *)[cell viewWithTag:1003];
-//            
-//            codeLabel.text = departure.code;
-//            
-//            UILabel *destinationLabel = (UILabel *)[cell viewWithTag:1004];
-//            destinationLabel.text = departure.destination;
         }
         @catch (NSException *exception) {
             if (self.departures.count == 1) {
@@ -550,6 +525,12 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
         cell.backgroundColor = [UIColor clearColor];
+        
+        UILabel *infoLabel = [cell viewWithTag:1003];
+        if (stopFetchFailed && stopFetchFailMessage) {
+            infoLabel.text = stopFetchFailMessage;
+        }
+        
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         return cell;
@@ -696,6 +677,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 #pragma - mark RettiDataManager Delegate methods
 -(void)stopFetchDidComplete:(BusStop *)stop{
     stopFetched = YES;
+    stopFetchFailed = NO;
     if (stop != nil) {
         self._busStop = stop;
         [self setUpStopViewForBusStop:self._busStop];
@@ -709,6 +691,10 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 -(void)stopFetchDidFail:(NSString *)error{
     stopFetched = YES;
+    stopFetchFailed = YES;
+    
+    stopFetchFailMessage = error;
+    
     [departuresTable reloadData];
 //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
 //                                                       delegate:nil

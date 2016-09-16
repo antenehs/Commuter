@@ -99,6 +99,7 @@ NSString *kActionChangedStartingTabOption = @"ChangedStartingTabOption";
 NSString *kActionSelectedContactAddress = @"SelectedContactAddress";
 
 //User properties
+NSString *kUserPropertyIsProUser = @"is_pro_user";
 NSString *kUserPropertyHasAppleWatchPaired = @"has_apple_watch_paired";
 NSString *kUserUsedComplicationType = @"used_complication_type";
 NSString *kUserNumberOfNamedBookmarks = @"number_of_namedBookmarks";
@@ -181,7 +182,7 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
         @try {
             
             [FIRAnalytics logEventWithName:@"screen_view"
-                                parameters:@{ @"screen_name": screenName }];
+                                parameters:@{ kFIRParameterItemName: screenName }];
             /*
             id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
             [tracker set:kGAIScreenName value:screenName];
@@ -192,47 +193,55 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     }
 }
 
--(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value{
-    [self trackEventForEventCategory:kEventCategoryAppInstallation action:device label:version value:value];
-}
+//-(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value{
+//    [self trackEventForEventCategory:kEventCategoryAppInstallation action:device label:version value:value];
+//}
 
 -(void)trackFeatureUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
-    [self trackEventForEventCategory:kEventCategoryFeatureUse action:action label:label value:value];
+    [self trackEventForEventName:action category:label value:value];
 }
 
 -(void)trackApiUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
-    [self trackEventForEventCategory:kEventCategoryApiUse action:action label:label value:value];
+    
+    [self trackEventForEventName:action category:label value:value];
 }
 
 -(void)trackErrorEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
-    [self trackEventForEventCategory:kEventCategoryError action:action label:label value:value];
+    [self trackEventForEventName:action category:label value:value];
 }
 
--(void)trackEventForEventCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
+-(void)trackEventForEventName:(NSString *)name category:(NSString *)category value:(NSNumber *)value{
     if (self.isEnabled) {
         @try {
-            [FIRAnalytics logEventWithName:category
+            [FIRAnalytics logEventWithName:name
                                 parameters:@{
-                                             @"action": action ? action : @"",
-                                             @"label": label ? label : @"",
-                                             @"value": value ? value : @""
+                                             kFIRParameterItemCategory: category ? category : @"",
+                                             kFIRParameterValue: value ? value : @0
                                              }];
             
-            /*
-            // May return nil if a tracker has not already been initialized with a property
-            id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-            
-            if (!tracker)
-                return;
-            
-            [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category       // Event category (required)
-                                                                  action:action         // Event action (required)
-                                                                   label:label          // Event label
-                                                                   value:value] build]];// Event value
-             */
         }
         @catch (NSException *exception) {}
     }
 }
+
+//-(void)trackEventForEventCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
+//    if (self.isEnabled) {
+//        @try {
+//            /*
+//            // May return nil if a tracker has not already been initialized with a property
+//            id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+//            
+//            if (!tracker)
+//                return;
+//            
+//            [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category       // Event category (required)
+//                                                                  action:action         // Event action (required)
+//                                                                   label:label          // Event label
+//                                                                   value:value] build]];// Event value
+//             */
+//        }
+//        @catch (NSException *exception) {}
+//    }
+//}
 
 @end

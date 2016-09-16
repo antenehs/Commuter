@@ -84,7 +84,7 @@
     [optionsDict setValue:@"4326" forKey:@"epsg_in"];
     [optionsDict setValue:@"4326" forKey:@"epsg_out"];
     [optionsDict setValue:@"json" forKey:@"format"];
-    [optionsDict setValue:@"60" forKey:@"limit"];
+    [optionsDict setValue:@"40" forKey:@"limit"];
     
     [optionsDict setValue:[ReittiStringFormatter convert2DCoordToString:regionCenter] forKey:@"center_coordinate"];
     [optionsDict setValue:[NSString stringWithFormat:@"%ld", diameter] forKey:@"diameter"];

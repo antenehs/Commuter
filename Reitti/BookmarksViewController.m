@@ -73,6 +73,7 @@ const NSInteger kTimerRefreshInterval = 60;
     firstTimeLocation = YES;
     trackedMoveOnce = NO;
     trackedNumbersOnce = NO;
+    swipedToDelete = NO;
     
     namedBookmarkSection = 0, savedStopsSection = 1, savedRouteSection = 2;
 
@@ -492,18 +493,20 @@ const NSInteger kTimerRefreshInterval = 60;
 - (IBAction)showRoutesButtonTapped:(id)sender {
     [SettingsManager setShowBookmarkRoutes:!self.showRouteSuggestions];
     
+    [self updateDetailToggleButtonTitles];
+    
     if (self.showRouteSuggestions) {
         [self.tableView asa_reloadDataAnimated];
         [self requestRoutesIfNeeded];
     }  else {
         [self.tableView reloadData];
     }
-    
-    [self updateDetailToggleButtonTitles];
 }
 
 - (IBAction)showDeparturesButtonTapped:(id)sender {
     [SettingsManager setShowBookmarkDepartures:!self.showStopDepartures];
+    
+    [self updateDetailToggleButtonTitles];
     
     if (self.showStopDepartures) {
         [self.tableView asa_reloadDataAnimated];
@@ -511,8 +514,6 @@ const NSInteger kTimerRefreshInterval = 60;
     } else {
         [self.tableView reloadData];
     }
-    
-    [self updateDetailToggleButtonTitles];
 }
 
 #pragma mark - Table view data source
@@ -854,21 +855,31 @@ const NSInteger kTimerRefreshInterval = 60;
     }   
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animate
-{
+//Will be used to differentiate swipe to delete with edit button calling setEditing
+-(void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    [super tableView:tableView willBeginEditingRowAtIndexPath:indexPath];
+    
+    swipedToDelete = YES;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate {
     [super setEditing:editing animated:animate];
     
-    if(editing) {
-        [self.navigationController setToolbarHidden:NO animated:YES];
-        showDeparturesButton.hidden = YES;
-        showRoutesButton.hidden = YES;
+    if (swipedToDelete) {
+        swipedToDelete = NO;
     } else {
-        [self.navigationController setToolbarHidden:YES animated:YES];
-        showDeparturesButton.hidden = NO;
-        showRoutesButton.hidden = NO;
+        if(editing) {
+            [self.navigationController setToolbarHidden:NO animated:YES];
+            showDeparturesButton.hidden = YES;
+            showRoutesButton.hidden = YES;
+        } else {
+            [self.navigationController setToolbarHidden:YES animated:YES];
+            showDeparturesButton.hidden = NO;
+            showRoutesButton.hidden = NO;
+        }
+        
+        [self setUpViewForTheSelectedMode];
     }
-
-    [self setUpViewForTheSelectedMode];
 }
 
 // Override to support rearranging the table view.
@@ -1427,43 +1438,7 @@ const NSInteger kTimerRefreshInterval = 60;
         }
         
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From saved stop" value:nil];
-    }
-//    else if ([segue.identifier isEqualToString:@"routeSelected"]){
-//        if (dataIndex < self.dataToLoad.count){
-//            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
-//                
-//                RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
-//                
-//                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//                [self configureRouteSearchNavigationController:navigationController withRouteEntity:selected];
-//            }
-//        }
-//        
-//        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved route" value:nil];
-//    }
-//    else if ([segue.identifier isEqualToString:@"routeToNamedBookmark"]){
-//        if (dataIndex < self.dataToLoad.count){
-//            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[NamedBookmark class]]){
-//                
-//                NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
-//                
-//                UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//                [self configureRouteSearchNavigationController:navigationController withNamedBookmark:selected];
-//            }
-//        }
-//        
-//        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From named bookmark" value:nil];
-//    }
-//    else if([segue.identifier isEqualToString:@"editSelectionForWidget"]){
-//        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
-//        
-//        controller.savedStops = self.savedStops;
-//        
-//        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenedWidgetSettingsFromBookmarks label:@"All" value:nil];
-//        
-//    }
-    else if([segue.identifier isEqualToString:@"addAddress"] ||
+    } else if([segue.identifier isEqualToString:@"addAddress"] ||
              [segue.identifier isEqualToString:@"setHomeAddress"] ||
              [segue.identifier isEqualToString:@"setHomeAddressButton"] ||
              [segue.identifier isEqualToString:@"setWorkAddress"] ||

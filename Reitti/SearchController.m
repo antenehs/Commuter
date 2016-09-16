@@ -34,6 +34,8 @@
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
 
+@import Firebase;
+
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
 
@@ -96,7 +98,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
-            [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
+//            [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
         } else {
             //Do this only once for this version.
             [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *error){}];
@@ -215,7 +217,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
-    [self setNavBarSize];
+//    [self setNavBarSize];
     [mainSearchBar setPlaceholder:@"address, stop or place"];
     
     //StartVehicleFetching
@@ -252,7 +254,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self setNavBarSize];
+//    [self setNavBarSize];
     
     [self hideNearByStopsView:[self isNearByStopsListViewHidden] animated:YES];
     
@@ -316,13 +318,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self plotBookmarks];
 }
 
--(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext{
+-(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext {
     self.managedObjectContext = mngdObjectContext;
     [self initDataComponentsAndModules];
 }
 
-- (void)initDataManagers
-{
+- (void)initDataManagers {
     if (self.managedObjectContext == nil) {
         self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
     }
@@ -368,8 +369,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
-- (void)initGuestureRecognizers
-{
+- (void)initGuestureRecognizers {
     stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
@@ -385,8 +385,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.mapView addGestureRecognizer:mapViewTapGestureRecognizer];
 }
 
-- (void)initVariablesAndConstants
-{
+- (void)initVariablesAndConstants {
     //Vars
     topLayoutGuide = 46;
     bottomLayoutGuide = -10;
@@ -560,6 +559,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     CGRect titleViewFrame = titleView.frame;
     titleViewFrame.size.width = navigationBarSize.width;
     self.navigationItem.titleView.frame = titleViewFrame;
+    [self.view layoutIfNeeded];
 }
 
 - (void)setNavBarApearance{
@@ -1121,6 +1121,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [mapView setRegion:region animated:YES];
     
+    FIRCrashLog(@"Centering map to coordinate: %@", [ReittiStringFormatter convert2DCoordToString:coordinate]);
+    
     return toReturn;
 }
 
@@ -1260,6 +1262,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             
             [mapView removeAnnotations:annotToRemove];
             
+            NSMutableArray *allAnots = [@[] mutableCopy];
             for (BusStopShort *stop in newStops) {
                 AnnotationType type = [EnumManager annotTypeForNearbyStopType:stop.stopType];
                 if (![self.annotationFilter isAnnotationTypeEnabled:type]) continue;
@@ -1282,15 +1285,25 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 stopAnT.annotationType = [EnumManager annotTypeForNearbyStopType:stop.stopType];
                 stopAnT.stopType = stop.stopType;
                 stopAnT.reuseIdentifier = @"NearByStopAnnotation";
-                stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
+                __weak SearchController *weakSelf = self;
+                stopAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
                 if (stop.code) {
-                    stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
-                    stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                    stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                    stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
                 }
                 
-//                [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
-                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+                FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@ currentMapRegion: %@", name, codeShort, stop.coords, [ReittiStringFormatter convert2DCoordToString:self.mapView.region.center]);
+                if (CLLocationCoordinate2DIsValid(coordinate)) {
+                    //add the Station object to the array if its coordinate is valid
+                    [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+                } else {
+                    //otherwise just log an error and go to the next station
+                    FIRCrashLog(@"Invalid station coordinate: %f, %f", coordinate.latitude, coordinate.longitude);
+                }
+//                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
             }
+            
+            [self.mapView addAnnotations:allAnots];
         }
     }
     @catch (NSException *exception) {
@@ -1334,9 +1347,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
     stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
     if (stop.code) {
-        stopAnT.secondaryButtonBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
-        stopAnT.disclosureBlock = ^{ [self openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+        __weak SearchController *weakSelf = self;
+        stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+        stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
     }
+    
+    FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@", name, shortCode, stop.coords);
+    
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:stopAnT];
     [mapView addAnnotation:annot];
     
@@ -1381,8 +1398,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
     geoAnT.coordinate = coordinate;
     geoAnT.annotationType = GeoCodeType;
     geoAnT.reuseIdentifier = @"geoLocationAnnotation";
-    geoAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
-    geoAnT.secondaryButtonBlock = ^{ [self showGeoCode:geoCode];};
+    __weak SearchController *weakSelf = self;
+    geoAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
+    geoAnT.secondaryButtonBlock = ^{ [weakSelf showGeoCode:geoCode];};
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:geoAnT];
     [mapView addAnnotation:annot];
     
@@ -1422,8 +1440,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     bookmrkAnT.coordinate = coordinate;
     bookmrkAnT.annotationType = FavouriteType;
     bookmrkAnT.reuseIdentifier = @"namedBookmarkAnnotation";
-    bookmrkAnT.primaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:name andCoords:coordinate];};
-    bookmrkAnT.secondaryButtonBlock = ^{ [self showNamedBookmark:namedBookmark];};
+    __weak SearchController *weakSelf = self;
+    bookmrkAnT.primaryButtonBlock = ^{ [weakSelf openRouteForNamedAnnotationWithTitle:name andCoords:coordinate];};
+    bookmrkAnT.secondaryButtonBlock = ^{ [weakSelf showNamedBookmark:namedBookmark];};
+    
+    FIRCrashLog(@"Named bookmark annotation coord: %@", namedBookmark.coords);
     
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:bookmrkAnT];
     [mapView addAnnotation:annot];
@@ -1453,9 +1474,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     annotTN.coordinate = coordinate;
 //    annotTN.annotationType = DroppedPinType;
     annotTN.reuseIdentifier = @"geoLocationAnnotation";
-    annotTN.primaryButtonBlock = ^{ [self openRouteFromAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
-    annotTN.secondaryButtonBlock = ^{ [self openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
-    annotTN.middleButtonBlock = ^{ [self showDroppedPinGeoCode];};
+    __weak SearchController *weakSelf = self;
+    annotTN.primaryButtonBlock = ^{ [weakSelf openRouteFromAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
+    annotTN.secondaryButtonBlock = ^{ [weakSelf openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
+    annotTN.middleButtonBlock = ^{ [weakSelf showDroppedPinGeoCode];};
     GCThumbnailAnnotation *annot = [GCThumbnailAnnotation annotationWithThumbnail:annotTN];
     [mapView addAnnotation:annot];
     
@@ -1499,9 +1521,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 bikeAnT.coordinate = station.coordinates;
                 bikeAnT.annotationType = BikeStationType;
                 bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:station];
-                bikeAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:station.coordinates];};
+                __weak SearchController *weakSelf = self;
+                bikeAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:station.coordinates];};
+                
+                FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.xCoord, station.yCoord );
                 
                 [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
+//                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
             }
             
             if (allAnots.count > 0) {

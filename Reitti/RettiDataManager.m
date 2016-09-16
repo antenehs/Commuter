@@ -466,7 +466,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
                 }
                 
             } else {
-                completionBlock(nil, @"Fetching stop detail failed. Please try again later.", usedApi);
+                completionBlock(nil, error, usedApi);
             }
         }];
         

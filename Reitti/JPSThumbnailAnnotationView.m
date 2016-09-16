@@ -95,7 +95,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 - (void)setupTitleLabel {
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(-60.0f, -48.0f, 190.0f, 20.0f)];
     _titleLabel.textColor = [UIColor blackColor];
-    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17.0f];
+    _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:17.0f];
     _titleLabel.minimumScaleFactor = 0.7f;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_titleLabel];
