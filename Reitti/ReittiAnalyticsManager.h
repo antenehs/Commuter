@@ -80,6 +80,7 @@ extern NSString *kActionViewedGoProDetail;
 extern NSString *kActionGoToProVersionAppStore;
 extern NSString *kActionTappedRateButton;
 extern NSString *kActionTappedShareButton;
+extern NSString *kActionTappedTranslateCell;
 
 //8. Settings View Controller
 extern NSString *kActionChangedRouteSearchOption;

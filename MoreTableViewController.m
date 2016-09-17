@@ -14,6 +14,7 @@
 #import "ReittiEmailAndShareManager.h"
 #import "AppManager.h"
 #import "WebViewController.h"
+#import "ReittiConfigManager.h"
 
 @interface MoreTableViewController ()
 
@@ -31,8 +32,9 @@
     self.clearsSelectionOnViewWillAppear = YES;
     
     [self initDataManager];
+    appTranslateUrl = [self appTranslationLink];
     
-    thereIsDisruptions = [self areThereDisruptions];
+//    thereIsDisruptions = [self areThereDisruptions];
 //    canShowDisruptions = YES;
     
 //    [self checkForDisruptionAvailability];
@@ -48,17 +50,14 @@
     [self.navigationItem setTitle:NSLocalizedString(@"MORE", @"MORE")];
     [self.tabBarController.tabBar setHidden:NO];
     
-    if (thereIsDisruptions != [self areThereDisruptions] ) {
-        thereIsDisruptions = [self areThereDisruptions];
-        [self.tableView reloadData];
-    }
+//    if (thereIsDisruptions != [self areThereDisruptions] ) {
+//        thereIsDisruptions = [self areThereDisruptions];
+//        [self.tableView reloadData];
+//    }
+//    thereIsDisruptions = [self areThereDisruptions];
+    [self.tableView reloadData];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self setTableBackgroundView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,23 +86,11 @@
 
 - (BOOL)areThereDisruptions {
     UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:4];
-    
     return moreTabBarItem.badgeValue != nil;
 }
 
-//- (void)checkForDisruptionAvailability {
-//    if (([self.settingsManager userLocation] != HSLRegion)) {
-//        canShowDisruptions = NO;
-//    }else{
-//        canShowDisruptions = YES;
-//    }
-//}
-
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
-    thereIsDisruptions = [self areThereDisruptions];
-    
-    
-    
+//    thereIsDisruptions = [self areThereDisruptions];
     [self.tableView reloadData];
 }
 
@@ -113,9 +100,9 @@
     numberOfSection = 0;
     
     numberOfMoreFeatures = 0;
-    routinesRow = [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
-    ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion && [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
-    icloudBookmarksRow = [AppManager isProVersion] ? numberOfMoreFeatures++ : -1;
+    routinesRow = numberOfMoreFeatures++;
+    ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    icloudBookmarksRow = numberOfMoreFeatures++;
     disruptionsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
     
     moreFeaturesSection = numberOfMoreFeatures > 0 ? numberOfSection++ : -1;
@@ -127,6 +114,7 @@
     
     numberOfCommuterRows = 0;
     aboutCommuterRow = numberOfCommuterRows++;
+    translateRow = appTranslateUrl ? numberOfCommuterRows++ : -1;
     goProRow = ![AppManager isProVersion] ? numberOfCommuterRows++ : -1;
     newInVersionRow = numberOfCommuterRows++;
     contactMeRow = numberOfCommuterRows++;
@@ -159,28 +147,33 @@
     if (indexPath.section == moreFeaturesSection) {
         if (indexPath.row == routinesRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"remindersCell" forIndexPath:indexPath];
+            if (![AppManager isProVersion])
+                [self setFeatureCellAsProOnly:cell];
         }else if (indexPath.row == ticketsSalesPointsRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ticketSellPointCell" forIndexPath:indexPath];
+            if (![AppManager isProVersion])
+                [self setFeatureCellAsProOnly:cell];
         }else if (indexPath.row == icloudBookmarksRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"iCloudBookmarksCell" forIndexPath:indexPath];
+            if (![AppManager isProVersion])
+                [self setFeatureCellAsProOnly:cell];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
             
             UIView *disruptionsView = [cell viewWithTag:1003];
             disruptionsView.layer.cornerRadius = 10;
             
-            disruptionsView.hidden = !thereIsDisruptions;
+            disruptionsView.hidden = ![self areThereDisruptions];
         }
     }else if (indexPath.section == settingsSection){
         cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell" forIndexPath:indexPath];
     }else{
         if (indexPath.row == aboutCommuterRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell" forIndexPath:indexPath];
-            
-//            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1001];
-//            imageView.image = [AppManager roundedAppLogoSmall];
         }else if (indexPath.row == goProRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"goProCell" forIndexPath:indexPath];
+        }else if (indexPath.row == translateRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"helpTranslateCell" forIndexPath:indexPath];
         }else if (indexPath.row == newInVersionRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"newInVersionCell" forIndexPath:indexPath];
             
@@ -197,6 +190,43 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == commuterSection) {
+        if (indexPath.row == translateRow) {
+            [[UIApplication sharedApplication] openURL:appTranslateUrl];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedTranslateCell label:@"" value:nil];
+        }
+    }
+}
+
+-(void)setFeatureCellAsProOnly:(UITableViewCell *)cell {
+    if ([cell viewWithTag:1987]) [[cell viewWithTag:1987] removeFromSuperview];
+    
+    UIButton *overlayButton = [[UIButton alloc] initWithFrame:cell.contentView.frame];
+    overlayButton.titleLabel.text = nil;
+    overlayButton.backgroundColor = [UIColor whiteColor];
+    overlayButton.alpha = 0.45;
+    overlayButton.tag = 1987;
+    [overlayButton addTarget:self action:@selector(goToProVersionInAppStore) forControlEvents:UIControlEventTouchUpInside];
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    UIImage *lockImage = [[UIImage imageNamed:@"lock-50"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
+    imageView.image = lockImage;
+    imageView.tintColor = [UIColor lightGrayColor];
+    cell.accessoryView = imageView;
+    
+    [cell.contentView addSubview:overlayButton];
+}
+
+#pragma mark - helpers
+- (NSURL *)appTranslationLink {
+    NSString *urlString = [[ReittiConfigManager sharedManager] appTranslationLink];
+    if (!urlString) return nil;
+    
+    return [NSURL URLWithString:urlString];
 }
 
 #pragma mark - ibactions
@@ -284,24 +314,6 @@
     [self presentViewController:mc animated:YES completion:NULL];
 }
 
-//- (void)sendEmailWithSubject:(NSString *)subject{
-//    // Email Subject
-//    NSString *emailTitle = subject;
-//    // Email Content
-//    NSString *messageBody = @"";
-//    // To address
-//    NSArray *toRecipents = [NSArray arrayWithObject:@"ewketapps@gmail.com"];
-//    
-//    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-//    mc.mailComposeDelegate = self;
-//    [mc setSubject:emailTitle];
-//    [mc setMessageBody:messageBody isHTML:NO];
-//    [mc setToRecipients:toRecipents];
-//    
-//    // Present mail view controller on screen
-//    [self presentViewController:mc animated:YES completion:NULL];
-//    
-//}
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
@@ -341,6 +353,13 @@
     }
 }
 
+-(void)goToProVersionInAppStore {
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+//    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"More View" value:nil];
+    
+    [self performSegueWithIdentifier:@"viewProFeatures" sender:self];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -357,6 +376,7 @@
         webViewController._pageTitle = @"COMMUTER PRO";
         
         webViewController.actionButtonTitle = @"Go to AppStore";
+        
         webViewController.action = ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"More View" value:nil];

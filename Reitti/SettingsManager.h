@@ -65,6 +65,8 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(NSInteger)getSkippedcontactsRequestTrials;
 +(void)setSkippedcontactsRequestTrials:(NSInteger)index;
 
++(NSInteger)showGoProInStopViewRequestCount;
+
 #ifndef APPLE_WATCH
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 

@@ -19,6 +19,7 @@
 #import "CacheManager.h"
 #import "ReittiDateFormatter.h"
 #import "DepartureTableViewCell.h"
+#import "ReittiConfigManager.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
 typedef AlertControllerAction (^ActionGenerator)(int minutes);
@@ -68,10 +69,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     stopFetchFailed = NO;
     stopDetailRequested = NO;
     stopFetchSuccessfulOnce = NO;
+    stopHasRealtimeDepartures = YES;
     
     stopBookmarked = NO;
     departuresTableIndex = nil;
-    pressTime = 0;
+//    pressTime = 0;
     
     modalMode = [NSNumber numberWithBool:NO];
     
@@ -129,9 +131,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     return [[MyFixedLayoutGuide alloc] initWithLength:topBarView.frame.size.height];
 }
 
-- (id<UILayoutSupport>)bottomLayoutGuide {
-    return [[MyFixedLayoutGuide alloc] initWithLength:-bottomBarView.frame.origin.y];
-}
+//- (id<UILayoutSupport>)bottomLayoutGuide {
+//    return [[MyFixedLayoutGuide alloc] initWithLength:-bottomBarView.frame.origin.y];
+//}
 
 
 #pragma mark - initialization
@@ -277,27 +279,33 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     }
 }
 
-- (IBAction)showMapViewButtonPressed:(id)sender {
-    departuresTableViewContainer.hidden = !departuresTableViewContainer.hidden;
-    if (departuresTableViewContainer.hidden) {
-        [showLocationBarButtonItem setTitle:@"Show departures"];
-    }else{
-        [showLocationBarButtonItem setTitle:@"Show on map"];
-    }
-    [self startTimer];
+- (IBAction)goProButtonTapped:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"Stop View" value:nil];
 }
 
-- (IBAction)hideMapViewButtonPressed:(id)sender {
-    departuresTableViewContainer.hidden = NO;
-//    NSLog(@"Time is %d", pressTime);
-    if (pressTime < 1) {
-        pressingInfoLabel.hidden = NO;
-    }else{
-        pressingInfoLabel.hidden = YES;
-    }
-    pressTime = 0;
-    [timer invalidate];
-}
+
+//- (IBAction)showMapViewButtonPressed:(id)sender {
+//    departuresTableViewContainer.hidden = !departuresTableViewContainer.hidden;
+//    if (departuresTableViewContainer.hidden) {
+//        [showLocationBarButtonItem setTitle:@"Show departures"];
+//    }else{
+//        [showLocationBarButtonItem setTitle:@"Show on map"];
+//    }
+//    [self startTimer];
+//}
+
+//- (IBAction)hideMapViewButtonPressed:(id)sender {
+//    departuresTableViewContainer.hidden = NO;
+////    NSLog(@"Time is %d", pressTime);
+//    if (pressTime < 1) {
+//        pressingInfoLabel.hidden = NO;
+//    }else{
+//        pressingInfoLabel.hidden = YES;
+//    }
+//    pressTime = 0;
+//    [timer invalidate];
+//}
 
 -(IBAction)showFullTimeTable:(id)sender{
     [self performSegueWithIdentifier:@"seeFullTimeTable" sender:self];
@@ -475,23 +483,48 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     tableViewController.refreshControl = self.refreshControl;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (BOOL)thereAreLiveDepartures {
+    if (!self.departures || self.departures.count < 1) return NO;
+    for (StopDeparture *dep in self.departures) {
+        if (dep.isRealTime) return YES;
+    }
+    
+    return NO;
+}
+
+-(NSInteger)showGoProRequestCount {
+    if (!_showGoProRequestCount) {
+        _showGoProRequestCount = [NSNumber numberWithInteger:[SettingsManager showGoProInStopViewRequestCount]];
+    }
+    
+    return [_showGoProRequestCount integerValue];
+}
+
+- (BOOL)shouldShowGoProRow {
+    BOOL canShow = NO;
+    if (![AppManager isProVersion] && [self thereAreLiveDepartures]) {
+        NSInteger requestCount = [self showGoProRequestCount];
+        NSInteger minInterval = [[ReittiConfigManager sharedManager] intervalBetweenGoProShowsInStopView];
+        canShow = requestCount > 0 && requestCount % minInterval == 0;
+    }
+    
+    return canShow;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.departures.count > 0) {
-        return self.departures.count;
+        return [self shouldShowGoProRow] ? self.departures.count + 1 : self.departures.count;
     }else{
         return stopFetched ? 1 : 0;
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DepartureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departureCell"];
     
     CustomeTableViewCell __weak *weakCell = (CustomeTableViewCell *)cell;
@@ -510,16 +543,21 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     
     if (self.departures.count > 0) {
-        StopDeparture *departure = [self.departures objectAtIndex:indexPath.row];
-        
-        @try {
-            [cell setupFromStopDeparture:departure compactMode:NO];
-        }
-        @catch (NSException *exception) {
-            if (self.departures.count == 1) {
-                UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
-                infoCell.backgroundColor = [UIColor clearColor];
-                return infoCell;
+        if ([self shouldShowGoProRow] && indexPath.row == 0) {
+            return [tableView dequeueReusableCellWithIdentifier:@"goProCell"];
+        } else {
+            NSInteger departureIndex = [self shouldShowGoProRow] ? indexPath.row - 1 : indexPath.row;
+            StopDeparture *departure = [self.departures objectAtIndex:departureIndex];
+            
+            @try {
+                [cell setupFromStopDeparture:departure compactMode:NO];
+            }
+            @catch (NSException *exception) {
+                if (self.departures.count == 1) {
+                    UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"infoCell"];
+                    infoCell.backgroundColor = [UIColor clearColor];
+                    return infoCell;
+                }
             }
         }
     }else{
@@ -660,19 +698,19 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
 }
 
-#pragma mark - timer methods
-- (void) startTimer {
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.1
-                                     target:self
-                                   selector:@selector(tick:)
-                                   userInfo:nil
-                                    repeats:YES];
-}
+//#pragma mark - timer methods
+//- (void) startTimer {
+//    timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+//                                     target:self
+//                                   selector:@selector(tick:)
+//                                   userInfo:nil
+//                                    repeats:YES];
+//}
 
-- (void) tick:(NSTimer *) timer {
-    //do something here..
-    pressTime ++;
-}
+//- (void) tick:(NSTimer *) timer {
+//    //do something here..
+//    pressTime ++;
+//}
 
 #pragma - mark RettiDataManager Delegate methods
 -(void)stopFetchDidComplete:(BusStop *)stop{

@@ -909,6 +909,8 @@
 		66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7EB1A04000D0002BE16 /* stopIcon.png */; };
 		66DAE1EE19C398430039081D /* RouteLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE1ED19C398430039081D /* RouteLocation.m */; };
 		66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE20019C61AF60039081D /* LocationsAnnotation.m */; };
+		66DD9ACB1D8D5098009C59AB /* ReittiConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */; };
+		66DD9ACC1D8D5098009C59AB /* ReittiConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */; };
 		66E031981D2EA0AA00623223 /* NativeActivityIndicator.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */; };
 		66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
 		66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
@@ -1785,6 +1787,8 @@
 		66DAE1ED19C398430039081D /* RouteLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLocation.m; sourceTree = "<group>"; };
 		66DAE1FF19C61AF60039081D /* LocationsAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsAnnotation.h; sourceTree = "<group>"; };
 		66DAE20019C61AF60039081D /* LocationsAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsAnnotation.m; sourceTree = "<group>"; };
+		66DD9AC91D8D5098009C59AB /* ReittiConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiConfigManager.h; sourceTree = "<group>"; };
+		66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiConfigManager.m; sourceTree = "<group>"; };
 		66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NativeActivityIndicator.xcassets; sourceTree = "<group>"; };
 		66E6E5511CB907A10086F611 /* MatkaCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaCommunicator.h; sourceTree = "<group>"; };
 		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaCommunicator.m; sourceTree = "<group>"; };
@@ -3197,6 +3201,8 @@
 				6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */,
 				66026D881D68E38D00219AC6 /* ContactsManager.h */,
 				66026D891D68E38D00219AC6 /* ContactsManager.m */,
+				66DD9AC91D8D5098009C59AB /* ReittiConfigManager.h */,
+				66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -4573,6 +4579,7 @@
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStop.m in Sources */,
 				66833D511CF8F427005D958C /* DigiGeometry.m in Sources */,
+				66DD9ACB1D8D5098009C59AB /* ReittiConfigManager.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
 				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
@@ -4843,6 +4850,7 @@
 				66C732E41C556DA5002544BC /* StopLines.m in Sources */,
 				66C732E51C556DA5002544BC /* LineStop.m in Sources */,
 				66833D521CF8F427005D958C /* DigiGeometry.m in Sources */,
+				66DD9ACC1D8D5098009C59AB /* ReittiConfigManager.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
 				66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */,
 				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,

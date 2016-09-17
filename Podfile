@@ -23,6 +23,10 @@ def crash_reporting
   pod 'Firebase/Crash'
 end
 
+def remote_config
+  pod 'Firebase/RemoteConfig'
+end
+
 def arcGIS_pod
     pod ‘ArcGIS-Runtime-SDK-iOS’
 end
@@ -40,12 +44,14 @@ abstract_target 'Networking' do
 	target 'Reitti' do
 		analytics_pods
     crash_reporting
+    remote_config
 		arcGIS_pod
   end
 
   target 'Reitti Pro' do
   	analytics_pods
     crash_reporting
+    remote_config
   	arcGIS_pod
   end
 

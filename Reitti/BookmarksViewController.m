@@ -992,7 +992,7 @@ const NSInteger kTimerRefreshInterval = 60;
     lineName.textColor = [UIColor blackColor];
     
     NSDate *departureTime = departure.parsedScheduledDate;
-    if (departure.isRealTime) {
+    if (departure.isRealTime && [AppManager isProVersion]) {
         realtimeIndicatorImageView.hidden = NO;
 //        timeLabel.textColor = [AppManager systemGreenColor];
         if (departure.parsedRealtimeDate) {

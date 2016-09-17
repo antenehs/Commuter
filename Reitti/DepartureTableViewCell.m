@@ -38,7 +38,7 @@
     
     NSDate *departureTime = departure.parsedScheduledDate;
     
-    if (departure.isRealTime) {
+    if (departure.isRealTime && [AppManager isProVersion]) {
         self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                                       target: self
                                                     selector: @selector(changeRealtimeImage)

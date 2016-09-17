@@ -10,12 +10,13 @@
 #import <MessageUI/MessageUI.h>
 
 @interface MoreTableViewController : UITableViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate>{
-    BOOL thereIsDisruptions;
+//    BOOL thereIsDisruptions;
+    NSURL *appTranslateUrl;
     
     NSInteger moreFeaturesSection, settingsSection, commuterSection;
     NSInteger routinesRow, ticketsSalesPointsRow, icloudBookmarksRow, matkakorttiRow, disruptionsRow;
     NSInteger settingsRow;
-    NSInteger aboutCommuterRow, goProRow, newInVersionRow, contactMeRow, rateInAppStoreRow, shareRow;
+    NSInteger aboutCommuterRow, goProRow, translateRow, newInVersionRow, contactMeRow, rateInAppStoreRow, shareRow;
     NSInteger numberOfMoreFeatures, numberOfSettingsRows, numberOfCommuterRows , numberOfSection;
     
     BOOL canShowLines;

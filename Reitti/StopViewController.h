@@ -35,14 +35,9 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;
-    IBOutlet AMBlurView *bottomBarView;
+//    IBOutlet AMBlurView *bottomBarView;
     IBOutlet AMBlurView *topToolBar;
     IBOutlet NSLayoutConstraint *topToolbarHeightConstraint;
-    
-    
-    UIColor *systemBackgroundColor;
-    UIColor *systemTextColor;
-    UIColor *systemSubTextColor;
     
     IBOutlet UILabel *stopCodeLabel;
     IBOutlet UILabel *stopNameLabel;
@@ -55,27 +50,30 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     IBOutlet UILabel *stopViewTitle;
     IBOutlet UILabel *stopViewSubTitle;
     IBOutlet UIButton *bookmarkButton;
-    IBOutlet UIButton *seeFullTimeTableButton;
-    IBOutlet UIButton *showLocationButton;
+//    IBOutlet UIButton *seeFullTimeTableButton;
+//    IBOutlet UIButton *showLocationButton;
     IBOutlet UIActivityIndicatorView *activityView;
-    IBOutlet UILabel *pressingInfoLabel;
-    IBOutlet UIBarButtonItem *showLocationBarButtonItem;
+//    IBOutlet UILabel *pressingInfoLabel;
+//    IBOutlet UIBarButtonItem *showLocationBarButtonItem;
     
     UIButton *fullTimeTableButton;
     
-    EKEventStore * _eventStore;
+//    EKEventStore * _eventStore;
     BOOL stopFetched;
     BOOL stopFetchFailed;
     BOOL stopDetailRequested;
     bool stopBookmarked;
     BOOL stopFetchSuccessfulOnce;
+    BOOL stopHasRealtimeDepartures;
+    
+    NSNumber *_showGoProRequestCount;
 
     NSString *stopFetchFailMessage;
     
     NSIndexPath * departuresTableIndex;
-    NSInteger pressTime;
+//    NSInteger pressTime;
     
-    NSTimer *timer;
+//    NSTimer *timer;
     
     ADBannerView *_bannerView;
 }

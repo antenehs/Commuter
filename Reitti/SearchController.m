@@ -303,7 +303,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)initViewComponents {
     /*init View Components*/
     
-    [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
+//    [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
     activityIndicator.hidden = NO;
     
 //    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
@@ -493,13 +493,16 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (void)updateFilter {
-    NSArray *optionsForRegion = [reittiDataManager annotationFilterOptions];
-    
-    for (AnnotationFilterOption *option in optionsForRegion) {
-        option.isEnabled = [SettingsManager isAnnotationTypeEnabled:option.annotType];
+    if ([AppManager isProVersion]) {
+        NSArray *optionsForRegion = [reittiDataManager annotationFilterOptions];
+        
+        for (AnnotationFilterOption *option in optionsForRegion) {
+            option.isEnabled = [SettingsManager isAnnotationTypeEnabled:option.annotType];
+        }
+        
+        self.annotationFilter = [AnnotationFilter initWithOptions:optionsForRegion];
     }
     
-    self.annotationFilter = [AnnotationFilter initWithOptions:optionsForRegion];
     [self updateFilterView];
 }
 

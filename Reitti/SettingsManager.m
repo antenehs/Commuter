@@ -21,6 +21,7 @@ NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks
 NSString * const kAskedContactsPermission = @"AskedContactsPermission";
 NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
+NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequestCount";
 
 @implementation SettingsManager
 
@@ -187,6 +188,13 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
     [self saveIntegerForKey:kSkippedContactsPermissionTrial integerValue:index];
 }
 
++(NSInteger)showGoProInStopViewRequestCount {
+    NSInteger saved = [self readIntegerForKey:kShowGoProInStopViewRequestCount withDefault:0];
+    [self saveIntegerForKey:kShowGoProInStopViewRequestCount integerValue:saved < NSIntegerMax ? saved + 1 : 0];
+    
+    return saved;
+}
+
 +(BOOL)isAnalyticsEnabled{
     return [self readBoolForKey:kAnalyticsSettingsNsDefaultsKey withDefault:YES];
 }
@@ -241,7 +249,7 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
     }
 }
 
-+(NSInteger)readIntegerForKey:(NSString *)defaultsKey withDefault:(BOOL)defaultValue {
++(NSInteger)readIntegerForKey:(NSString *)defaultsKey withDefault:(NSInteger)defaultValue {
     NSNumber *savedValue = [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey];
     
     if (!savedValue || ![savedValue isKindOfClass:[NSNumber class]])

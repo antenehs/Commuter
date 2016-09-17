@@ -22,6 +22,7 @@
 #import "RettiDataManager.h"
 #import "ReittiRegionManager.h"
 #import "WatchCommunicationManager.h"
+#import "ReittiConfigManager.h"
 
 @implementation AppDelegate
 
@@ -35,6 +36,7 @@
 {
     //Init Singletons
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
+    [ReittiConfigManager sharedManager]; //Firebase remote config
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
     [WatchCommunicationManager sharedManager];

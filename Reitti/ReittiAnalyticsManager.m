@@ -83,6 +83,7 @@ NSString *kActionViewedGoProDetail = @"ViewedGoProDetail";
 NSString *kActionGoToProVersionAppStore = @"GoToProVersionAppStore";
 NSString *kActionTappedRateButton = @"TappedRateButton";
 NSString *kActionTappedShareButton = @"TappedShareButton";
+NSString *kActionTappedTranslateCell = @"TappedTranslateCell";
 
 //8. Settings View Controller
 NSString *kActionChangedRouteSearchOption = @"ChangedRouteSearchOption";
@@ -155,7 +156,8 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
             gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
             */
             //Configure firebase tracking
-            [FIRApp configure];
+            if (![FIRApp defaultApp]) //Make sure the default app is not already initialized
+                [FIRApp configure];
         }
         @catch (NSException *exception) {
             self.isEnabled = NO;
