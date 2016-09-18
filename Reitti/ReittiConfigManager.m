@@ -36,8 +36,8 @@ NSString *kDefaultConfigValueString = @"DefaultText";
 -(instancetype)init {
     self = [super init];
     if (self) {
-        if (![FIRApp defaultApp])
-            [FIRApp configure];
+//        if (![FIRApp defaultApp])
+//            [FIRApp configure];
         
         self.remoteConfig = [FIRRemoteConfig remoteConfig];
         [self.remoteConfig setDefaults:[self defaultConfigValues]];

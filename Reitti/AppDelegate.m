@@ -24,6 +24,8 @@
 #import "WatchCommunicationManager.h"
 #import "ReittiConfigManager.h"
 
+@import Firebase;
+
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -36,16 +38,17 @@
 {
     //Init Singletons
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
-    [ReittiConfigManager sharedManager]; //Firebase remote config
+    [FIRApp configure];
+    [ReittiConfigManager sharedManager]; // Remote config
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
     [WatchCommunicationManager sharedManager];
-      
+    
     if (launchOptions != nil) {
         // Launched from push notification
         UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
         if (locationNotification) {
-            [self searchRouteFromRoutineNotification:locationNotification];
+            [self handleLocalNotification:locationNotification];
         }
     }
     
@@ -172,7 +175,7 @@
 {
     UIApplicationState applicationState = application.applicationState;
     if (application.applicationState == UIApplicationStateInactive || applicationState == UIApplicationStateBackground) {
-        [self searchRouteFromRoutineNotification:notification];
+        [self handleLocalNotification:notification];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
     }else if (application.applicationState == UIApplicationStateActive) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertTitle
@@ -183,9 +186,41 @@
     }
 }
 
--(void)searchRouteFromRoutineNotification:(UILocalNotification *)locationNotification{
-    RouteSearchParameters *searchParams = [[RouteSearchParameters alloc] initWithToLocation:locationNotification.userInfo[kRoutineNotificationToName] toCoords:locationNotification.userInfo[kRoutineNotificationToCoords] fromLocation:locationNotification.userInfo[kRoutineNotificationFromName] fromCoords:locationNotification.userInfo[kRoutineNotificationFromCoords]];
-    [self switchToRouteSearchViewWithRouteParameter:searchParams];
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    if (application.applicationState == UIApplicationStateActive) {
+        if (!userInfo || !userInfo[@"aps"]) return;
+        NSDictionary *aps = userInfo[@"aps"];
+        NSString *title = nil;
+        NSString *message = aps[@"alert"];
+        //Title is inclueded
+        if ([message isKindOfClass:[NSDictionary class]]) {
+            title = ((NSDictionary *)message)[@"title"];
+            message = ((NSDictionary *)message)[@"body"];
+        }
+        
+        if (message) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                            message:message
+                                                           delegate:nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil, nil];
+            [alert show];
+        }
+    }
+}
+
+-(void)handleLocalNotification:(UILocalNotification *)localNotification {
+    if (!localNotification.userInfo || !localNotification.userInfo[kNotificationTypeUserInfoKey]) return;
+    
+    if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeRoutine]) {
+        RouteSearchParameters *searchParams = [[RouteSearchParameters alloc] initWithToLocation:localNotification.userInfo[kRoutineNotificationToName] toCoords:localNotification.userInfo[kRoutineNotificationToCoords] fromLocation:localNotification.userInfo[kRoutineNotificationFromName] fromCoords:localNotification.userInfo[kRoutineNotificationFromCoords]];
+        [self switchToRouteSearchViewWithRouteParameter:searchParams];
+    } else if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeDeparture]) {
+        NSNumber *stopCode = localNotification.userInfo[kNotificationStopCode];
+        if (stopCode)
+            [self openStopDetailForStopWithCode:[stopCode stringValue]];
+    } else if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeRoute]) {
+        [self switchToRouteSearchViewWithRouteParameter:nil];
+    }
 }
 
 -(void)switchToHomeTab {

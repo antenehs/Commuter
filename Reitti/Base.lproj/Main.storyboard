@@ -6238,11 +6238,9 @@
                                     <frame key="frameInset" width="375" height="247"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-lo-sYL">
-                                            <frame key="frameInset" minX="8" minY="8" width="584" height="231.5"/>
+                                        <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRS-lo-sYL">
                                             <subviews>
-                                                <datePicker tag="1002" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="A5P-DU-4lO">
-                                                    <frame key="frameInset" minX="8" minY="61" width="568" height="162"/>
+                                                <datePicker tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="A5P-DU-4lO">
                                                     <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="430419306.61011201">
                                                         <!--2014-08-22 16:55:06 +0000-->
@@ -6254,8 +6252,7 @@
                                                         <!--2037-12-31 11:00:00 +0000-->
                                                     </date>
                                                 </datePicker>
-                                                <segmentedControl opaque="NO" tag="1003" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xuE-nk-2KA">
-                                                    <frame key="frameInset" minX="138" minY="8" width="307" height="33"/>
+                                                <segmentedControl opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xuE-nk-2KA">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="307" id="iAc-o8-cP8"/>
                                                     </constraints>
@@ -6360,8 +6357,7 @@
                                     <frame key="frameInset" width="375" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1001" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MTA-MY-F5R">
-                                            <frame key="frameInset" minX="190.5" minY="9" width="219" height="30"/>
+                                        <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MTA-MY-F5R">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="219" id="ZAo-SK-Sex"/>
                                             </constraints>
@@ -6393,8 +6389,7 @@
                                     <frame key="frameInset" width="375" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="1001" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rn2-Qo-DyT">
-                                            <frame key="frameInset" minX="190.5" minY="9" width="219" height="30"/>
+                                        <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rn2-Qo-DyT">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="219" id="ETV-Cc-JCv"/>
                                             </constraints>
@@ -9181,22 +9176,22 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="e2V-qU-oq6"/>
-        <segue reference="jpb-bi-pHf"/>
         <segue reference="yf4-eP-97K"/>
         <segue reference="Tx2-4m-mRF"/>
         <segue reference="oJb-eU-zeZ"/>
         <segue reference="X8p-rp-E0z"/>
-        <segue reference="SWb-EE-ndB"/>
         <segue reference="Q5R-Rv-jo2"/>
         <segue reference="U9A-P0-Va2"/>
-        <segue reference="ocH-Qu-aOm"/>
-        <segue reference="fk8-2d-CEg"/>
-        <segue reference="XlZ-XU-H5m"/>
-        <segue reference="YpZ-AP-yAo"/>
-        <segue reference="lwh-ia-2sg"/>
+        <segue reference="SWb-EE-ndB"/>
+        <segue reference="jpb-bi-pHf"/>
+        <segue reference="e2V-qU-oq6"/>
         <segue reference="9x7-C0-VCu"/>
+        <segue reference="lwh-ia-2sg"/>
         <segue reference="Ltu-K0-x4G"/>
         <segue reference="LYq-ah-4yR"/>
+        <segue reference="ocH-Qu-aOm"/>
+        <segue reference="YpZ-AP-yAo"/>
+        <segue reference="XlZ-XU-H5m"/>
+        <segue reference="Gru-ad-IZy"/>
     </inferredMetricsTieBreakers>
 </document>

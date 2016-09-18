@@ -11,6 +11,8 @@
 #import "BusStop.h"
 #import "Route.h"
 
+extern NSString *kNotificationStopCode;
+
 @interface NotificationBase : NSObject
 
 -(NSDictionary *)dictionaryRepresentation;
@@ -24,6 +26,8 @@
 
 @end
 
+
+
 @interface DepartureNotification : NotificationBase
 
 -(NSDictionary *)dictionaryRepresentation;
@@ -33,11 +37,14 @@
 +(NSString *)notificationStopNameForStop:(BusStop *)stop;
 
 @property (nonatomic, strong)NSString *stopName;
+@property (nonatomic, strong)NSNumber *stopCode;
 @property (nonatomic, strong)NSString *stopIconName;
 @property (nonatomic, strong)NSString *departureLine;
 @property (nonatomic, strong)NSDate *departureTime;
 
 @end
+
+
 
 @interface RouteNotification : NotificationBase
 

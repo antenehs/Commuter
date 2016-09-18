@@ -9,6 +9,8 @@
 #import "Notifications.h"
 #import "EnumManager.h"
 
+NSString *kNotificationStopCode = @"stopCode";
+
 @implementation NotificationBase
 
 -(NSDictionary *)dictionaryRepresentation {
@@ -42,6 +44,7 @@
     notif.title = @"";
     notif.body = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minute];
     notif.stopName = [DepartureNotification notificationStopNameForStop:stop];
+    notif.stopCode = stop.code;
     notif.stopIconName = stop.stopIconName;
     
     LineType lineType = [EnumManager lineTypeForStopType:stop.stopType];
@@ -60,6 +63,7 @@
     NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];
     
     [dict setValue:self.stopName forKey:@"stopName"];
+    [dict setValue:self.stopCode forKey:kNotificationStopCode];
     [dict setValue:self.stopIconName forKey:@"stopIconName"];
     [dict setValue:self.departureLine forKey:@"departureLine"];
     [dict setValue:self.departureTime forKey:@"departureTime"];
@@ -73,6 +77,7 @@
     self = [super initFromDictionary:dict];
     if (self) {
         self.stopName = dict[@"stopName"];
+        self.stopCode = dict[kNotificationStopCode];
         self.stopIconName = dict[@"stopIconName"];
         self.departureLine = dict[@"departureLine"];
         self.departureTime = dict[@"departureTime"];

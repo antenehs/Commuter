@@ -54,7 +54,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 -(UIImage *)imageForSpotlight{
 
     CGSize finalSize = CGSizeMake(100, 100);
-    return [[UIImage imageNamed:self.iconPictureName] asa_addCircleBackgroundWithColor:[UIColor whiteColor] andImageSize:finalSize andInset:CGPointMake(20, 20) andOffset:CGPointZero];
+    return [[UIImage imageNamed:self.iconPictureName] asa_addCircleBackgroundWithColor:[UIColor whiteColor] andImageSize:finalSize andInset:CGPointMake(15, 15) andOffset:CGPointZero];
 }
 
 @end
@@ -94,7 +94,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 -(UIImage *)imageForSpotlight{
     
     CGSize finalSize = CGSizeMake(100, 100);
-    return [[AppManager stopAnnotationImageForStopType:self.stopType] asa_addCircleBackgroundWithColor:[UIColor whiteColor] andImageSize:finalSize andInset:CGPointMake(25, 12) andOffset:CGPointMake(0, 5)];
+    return [[AppManager stopIconForStopType:self.stopType] asa_addCircleBackgroundWithColor:[UIColor whiteColor] andImageSize:finalSize andInset:CGPointMake(15, 15) andOffset:CGPointZero];
 }
 @end
 
@@ -132,7 +132,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 -(UIImage *)imageForSpotlight{
     
     CGSize finalSize = CGSizeMake(100, 100);
-    return [[UIImage imageNamed:@"routeIcon2.png"] asa_addCircleBackgroundWithColor:[UIColor whiteColor] andImageSize:finalSize andInset:CGPointMake(20, 20) andOffset:CGPointZero];
+    return [[UIImage imageNamed:@"routeIcon2.png"] asa_addCircleBackgroundWithColor:[UIColor whiteColor] andImageSize:finalSize andInset:CGPointMake(15, 15) andOffset:CGPointZero];
 }
 @end
 

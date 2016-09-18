@@ -96,7 +96,8 @@
 }
 
 -(void)setupAndSwithToRouteSearchViewWithSearchParameters:(RouteSearchParameters *)searchParameters {
-    [self setupRouteSearchViewWithSearchParameters:searchParameters];
+    if (searchParameters)
+        [self setupRouteSearchViewWithSearchParameters:searchParameters];
     [self switchToRouteSearchViewController];
 }
 

@@ -14,6 +14,11 @@
 #import "Notifications.h"
 #import "Route.h"
 
+extern NSString *kNotificationTypeUserInfoKey;
+extern NSString *kNotificationTypeRoutine;
+extern NSString *kNotificationTypeDeparture;
+extern NSString *kNotificationTypeRoute;
+
 extern NSString *kRoutineNotificationFromName;
 extern NSString *kRoutineNotificationFromCoords;
 extern NSString *kRoutineNotificationToName;

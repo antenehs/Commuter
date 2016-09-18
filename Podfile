@@ -27,6 +27,10 @@ def remote_config
   pod 'Firebase/RemoteConfig'
 end
 
+def push_notification
+  pod 'Firebase/Messaging'
+end
+
 def arcGIS_pod
     pod ‘ArcGIS-Runtime-SDK-iOS’
 end
@@ -45,6 +49,7 @@ abstract_target 'Networking' do
 		analytics_pods
     crash_reporting
     remote_config
+    push_notification
 		arcGIS_pod
   end
 
@@ -52,6 +57,7 @@ abstract_target 'Networking' do
   	analytics_pods
     crash_reporting
     remote_config
+    push_notification
   	arcGIS_pod
   end
 

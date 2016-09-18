@@ -155,9 +155,9 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
             GAI *gai = [GAI sharedInstance];
             gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
             */
-            //Configure firebase tracking
-            if (![FIRApp defaultApp]) //Make sure the default app is not already initialized
-                [FIRApp configure];
+//            //Configure firebase tracking
+//            if (![FIRApp defaultApp]) //Make sure the default app is not already initialized
+//                [FIRApp configure];
         }
         @catch (NSException *exception) {
             self.isEnabled = NO;

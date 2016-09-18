@@ -58,8 +58,6 @@
 		660716011B45CD2C00033049 /* Value.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F71B45CD2C00033049 /* Value.m */; };
 		660716021B45CD2C00033049 /* ValueState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F91B45CD2C00033049 /* ValueState.m */; };
 		660716171B49CBFA00033049 /* logoutJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 660716161B49CBFA00033049 /* logoutJS.js */; };
-		6609BDEB1D860E9100B5316A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6609BDEA1D860E9100B5316A /* GoogleService-Info.plist */; };
-		6609BDEC1D860E9100B5316A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6609BDEA1D860E9100B5316A /* GoogleService-Info.plist */; };
 		660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
 		660A962C1D7DE53000A813A6 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
 		660A962D1D7DE53000A813A6 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
@@ -192,6 +190,8 @@
 		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
 		664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */; };
 		664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFF519929DF5000B4F18 /* GeoCode.m */; };
+		664BAECE1D8ED1890070F15F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 664BAECD1D8ED1890070F15F /* GoogleService-Info.plist */; };
+		664BAED01D8ED22D0070F15F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 664BAECF1D8ED22D0070F15F /* GoogleService-Info.plist */; };
 		664E28701AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E286F1AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m */; };
 		664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */; };
 		664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28831ADAC1E400BE2457 /* TRECommunication.m */; };
@@ -1203,7 +1203,6 @@
 		660715F81B45CD2C00033049 /* ValueState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueState.h; sourceTree = "<group>"; };
 		660715F91B45CD2C00033049 /* ValueState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueState.m; sourceTree = "<group>"; };
 		660716161B49CBFA00033049 /* logoutJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logoutJS.js; sourceTree = "<group>"; };
-		6609BDEA1D860E9100B5316A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		660A962A1D7DE53000A813A6 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
 		660A962B1D7DE53000A813A6 /* Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notifications.m; sourceTree = "<group>"; };
 		660CFE061C188FD8004D73FC /* Forward-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Forward-light-100.png"; path = "Pictures/version 4.1/Forward-light-100.png"; sourceTree = "<group>"; };
@@ -1378,6 +1377,8 @@
 		664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSearchViewController.m; sourceTree = "<group>"; };
 		664ADFF419929DF5000B4F18 /* GeoCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCode.h; sourceTree = "<group>"; };
 		664ADFF519929DF5000B4F18 /* GeoCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoCode.m; sourceTree = "<group>"; };
+		664BAECD1D8ED1890070F15F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		664BAECF1D8ED22D0070F15F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Pro Version Google services/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		664E286E1AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+APParallaxHeader.h"; sourceTree = "<group>"; };
 		664E286F1AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+APParallaxHeader.m"; sourceTree = "<group>"; };
 		664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiManagedObjectBase.h; sourceTree = "<group>"; };
@@ -2566,6 +2567,22 @@
 			name = Rows;
 			sourceTree = "<group>";
 		};
+		664BAECC1D8ED1700070F15F /* Pro Google services */ = {
+			isa = PBXGroup;
+			children = (
+				664BAECF1D8ED22D0070F15F /* GoogleService-Info.plist */,
+			);
+			name = "Pro Google services";
+			sourceTree = "<group>";
+		};
+		664BAED11D8ED2320070F15F /* Free Google services */ = {
+			isa = PBXGroup;
+			children = (
+				664BAECD1D8ED1890070F15F /* GoogleService-Info.plist */,
+			);
+			name = "Free Google services";
+			sourceTree = "<group>";
+		};
 		664E28711AD86A6600BE2457 /* APParallaxHeader */ = {
 			isa = PBXGroup;
 			children = (
@@ -2948,7 +2965,8 @@
 				66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */,
 				66C735CA1C557127002544BC /* LaunchScreenPro.xib */,
 				661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */,
-				6609BDEA1D860E9100B5316A /* GoogleService-Info.plist */,
+				664BAED11D8ED2320070F15F /* Free Google services */,
+				664BAECC1D8ED1700070F15F /* Pro Google services */,
 				66A73FD618B645CF00405043 /* XIB */,
 				66947CD018830ED500642EE1 /* Images.xcassets */,
 				66947CED1885D71F00642EE1 /* Pictures */,
@@ -3819,6 +3837,9 @@
 							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};
@@ -3956,7 +3977,7 @@
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
 				666BC1DC1B5C259700889DD2 /* Time to go 5.mp3 in Resources */,
 				6603A8F31CCFFF2100991FBF /* TRERegion.kml in Resources */,
-				6609BDEB1D860E9100B5316A /* GoogleService-Info.plist in Resources */,
+				664BAECE1D8ED1890070F15F /* GoogleService-Info.plist in Resources */,
 				664E28891ADAE6AD00BE2457 /* Tampere.gpx in Resources */,
 				66F099861AE8075D00F20D34 /* NotificationBackgroundMessage.png in Resources */,
 				666BC1D51B5C259700889DD2 /* Choo choo train.mp3 in Resources */,
@@ -4083,7 +4104,7 @@
 				66C734B01C556DA5002544BC /* InfoPlist.strings in Resources */,
 				66C734B11C556DA5002544BC /* HSLCardServicePoints.json in Resources */,
 				66C734B31C556DA5002544BC /* Train.mp3 in Resources */,
-				6609BDEC1D860E9100B5316A /* GoogleService-Info.plist in Resources */,
+				664BAED01D8ED22D0070F15F /* GoogleService-Info.plist in Resources */,
 				66C734B41C556DA5002544BC /* stops.json in Resources */,
 				66C734B51C556DA5002544BC /* Time to go 1.mp3 in Resources */,
 				66C734B61C556DA5002544BC /* NotificationBackgroundError.png in Resources */,
@@ -4360,7 +4381,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:69378195651:ios:2e581fca8115eddd\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/antenehs/Documents/Apps/Reitti Commuter/Reitti/firebase_uploadkey.json\"";
+			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:69378195651:ios:8289ef345e41a878\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/antenehs/Documents/Apps/Reitti Commuter/Reitti/firebase_uploadkey.json\"";
 		};
 		7186809BE36BF390D019CACF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
