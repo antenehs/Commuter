@@ -64,17 +64,22 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 -(void)setNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo{
-    if ([self isLocalNotificationEnabled]) {
+    //If it is first time, just create it becuase the user will be asked to enable it anyways.
+    if ([self isLocalNotificationEnabled] || ![ReittiRemindersManager notificationAccessRequested]) {
+        BOOL showConfirmation = [ReittiRemindersManager notificationAccessRequested];
+        
+        [self registerNotification];
         if (date == nil) {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting notifications failed."];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting reminder failed."];
             
             return;
         }
-        
+    
         if ([[NSDate date] compare:date] == NSOrderedDescending ) {
             [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already passed."];
         } else {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
+            if (showConfirmation)
+                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
             [self scheduleOneTimeNotificationForDate:date message:message userInfo:userInfo];
         }
         
@@ -107,6 +112,8 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     NSMutableDictionary *userInfo = [[notification dictionaryRepresentation] mutableCopy];
     if (userInfo)
         userInfo[kNotificationTypeUserInfoKey] = kNotificationTypeDeparture;
+    
+    
     
     [self setNotificationForDate:fireDate message:notification.body userInfo:userInfo];
 }
@@ -147,6 +154,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     if (userInfo)
         userInfo[kNotificationTypeUserInfoKey] = kNotificationTypeRoute;
     
+    
     [self setNotificationForDate:fireDate message:routeNotif.body userInfo:userInfo];
 }
 
@@ -181,17 +189,17 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 #pragma mark - Local 
-+(BOOL)isFirstRequest {
-    NSString *isAlradyRequested = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
++(BOOL)notificationAccessRequested {
+    NSString *isAlradyRequested = [[NSUserDefaults standardUserDefaults] objectForKey:@"NotificationAccessRequested"];
     
-    return isAlradyRequested == nil;
+    return isAlradyRequested != nil;
 }
 
--(void)setIsFirstRequest{
+-(void)setNotificationAccessRequested{
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
     if (standardUserDefaults) {
-        [standardUserDefaults setObject:@"YES" forKey:@"ISFirstTimeRequestForNotification"];
+        [standardUserDefaults setObject:@"YES" forKey:@"NotificationAccessRequested"];
         [standardUserDefaults synchronize];
     }
 }
@@ -222,8 +230,9 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     [UIUserNotificationSettings settingsForTypes:types categories:nil];
     
     [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
     
-    [self setIsFirstRequest];
+    [self setNotificationAccessRequested];
     
     //If notifications is not enabled at this point, must be the user disagreed.
     

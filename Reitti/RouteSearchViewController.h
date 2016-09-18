@@ -44,6 +44,7 @@
     IBOutlet UIView *searchBarsView;
     IBOutlet UIActivityIndicatorView *searchActivityIndicator;
     IBOutlet JTMaterialSpinner *searchActivitySpinner;
+    JTMaterialSpinner *loadingCellSpinner;
     IBOutlet AMBlurView *selectTimeButton;
     IBOutlet UILabel *selectedTimeLabel;
     IBOutlet UILabel *routeOptionsLable;

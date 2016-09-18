@@ -190,12 +190,12 @@ NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequest
 
 +(NSInteger)showGoProInStopViewRequestCount {
     NSInteger saved = [self readIntegerForKey:kShowGoProInStopViewRequestCount withDefault:0];
-    [self saveIntegerForKey:kShowGoProInStopViewRequestCount integerValue:saved < NSIntegerMax ? saved + 1 : 0];
+    [self saveIntegerForKey:kShowGoProInStopViewRequestCount integerValue:saved < 200 ? saved + 1 : 0];
     
     return saved;
 }
 
-+(BOOL)isAnalyticsEnabled{
++(BOOL)isAnalyticsEnabled {
     return [self readBoolForKey:kAnalyticsSettingsNsDefaultsKey withDefault:YES];
 }
 

@@ -105,19 +105,29 @@ typedef enum
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [self.navigationItem setTitle:@"PLANNER"];
     if (![self isModalMode]) {
         [self.tabBarController.tabBar setHidden:NO];
     }
     
     [self setUpToolBar];
     if (toolBarIsShowing) {
-        [self hideToolBar:NO animated:YES];
+        [self hideToolBar:NO animated:NO];
     }
+    
+    //The spinner seems to be stoped when view disappears. Start it again here.
+    if (loadingCellSpinner && showTopLoadingView) {
+        [loadingCellSpinner beginRefreshing];
+    }
+    
+    NSIndexPath *indexPath = routeResultsTableView.indexPathForSelectedRow;
+    if (indexPath) {
+        [routeResultsTableView deselectRowAtIndexPath:indexPath animated:animated];
+    }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self.navigationItem setTitle:@"PLANNER"];
+    
     if (!isShowingOptionsView)
         [self refreshData];
     
@@ -797,10 +807,9 @@ typedef enum
     [routeResultsTableView reloadData];
     [searchActivitySpinner endRefreshing];
     
-    [routeResultsTableView setContentOffset:CGPointZero animated:YES];
-    
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@""];
-    [self.refreshControl endRefreshing];
+    
+    [self initRefreshControl]; // In case it was set to nil
     
     if (![fromSearchBar.text isEqualToString:currentLocationText] || ![toSearchBar.text isEqualToString:currentLocationText]) {
         [self.reittiDataManager saveRouteHistoryToCoreData:fromString fromCoords:fromCoords andToLocation:toString toCoords:toCoords];
@@ -874,6 +883,7 @@ typedef enum
 
 #pragma mark - TableViewMethods
 - (void)initRefreshControl{
+    if (showTopLoadingView) return;
     
     tableViewController.tableView = routeResultsTableView;
     
@@ -950,9 +960,9 @@ typedef enum
         
         if (indexPath.row == 0 && showTopLoadingView) { //Show top loading view.
             cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell"];
-            JTMaterialSpinner *spinner = (JTMaterialSpinner *)[cell viewWithTag:2001];
-            spinner.circleLayer.lineWidth = 3;
-            [spinner beginRefreshing];
+            loadingCellSpinner = (JTMaterialSpinner *)[cell viewWithTag:2001];
+            loadingCellSpinner.circleLayer.lineWidth = 3;
+            [loadingCellSpinner beginRefreshing];
         } else if (indexPath.row - routeStartIndex < self.routeList.count) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"routeCell"];
             
@@ -1059,6 +1069,7 @@ typedef enum
         cell.backgroundColor = [UIColor clearColor];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     return cell;
 }
 
@@ -1335,7 +1346,10 @@ typedef enum
         }else{
 //            [searchActivitySpinner beginRefreshing];
             showTopLoadingView = YES;
+            [self.refreshControl endRefreshing];
+            tableViewController.refreshControl = nil;
             [routeResultsTableView reloadData];
+            [routeResultsTableView scrollRectToVisible:CGRectMake(1, 1, 1, 1) animated:YES];
         }
         
         if (self.tableViewMode == TableViewModeSuggestions) {
@@ -1371,11 +1385,17 @@ typedef enum
     pendingRequestCanceled = NO;
     [reittiDataManager searchRouteForFromCoords:fromCoord andToCoords:toCoord andSearchOption:searchOptions andNumberOfResult:numberOfResult andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
         //Request might have been canceled while route was fetching.
-        if (!error && !pendingRequestCanceled) {
-            [self routeSearchDidComplete:result];
-            self.useApi = usedApi;
-            [self searchLineDetailsForLinesInRoutes:result fromApi:usedApi];
-            [self fetchDisruptions];
+        if (!error) {
+            if (!pendingRequestCanceled) {
+                [self routeSearchDidComplete:result];
+                self.useApi = usedApi;
+                [self searchLineDetailsForLinesInRoutes:result fromApi:usedApi];
+                [self fetchDisruptions];
+            } else {
+                showTopLoadingView = NO;
+                [routeResultsTableView reloadData];
+                [self.refreshControl endRefreshing];
+            }
         }else{
             [self routeSearchDidFail:error];
         }
@@ -1683,17 +1703,21 @@ typedef enum
     
     if ([segue.identifier isEqualToString:@"showDetailedRoute"]) {
         NSIndexPath *selectedRowIndexPath = [routeResultsTableView indexPathForSelectedRow];
-        if (selectedRowIndexPath.row < self.routeList.count) {
-            Route * selectedRoute = [self.routeList objectAtIndex:selectedRowIndexPath.row];
+        NSInteger routeStartIndex = showTopLoadingView ? 1 : 0;
+        NSInteger selectedRow = selectedRowIndexPath.row - routeStartIndex;
+        if (selectedRow < self.routeList.count) {
+            Route * selectedRoute = [self.routeList objectAtIndex:selectedRow];
             
             RouteDetailViewController *destinationViewController = (RouteDetailViewController *)segue.destinationViewController;
             
-            [self configureDetailViewControllerWithRoute:selectedRoute andSelectedRouteIndex:(int)selectedRowIndexPath.row routeDetailViewController:destinationViewController];
+            [self configureDetailViewControllerWithRoute:selectedRoute andSelectedRouteIndex:(int)selectedRow routeDetailViewController:destinationViewController];
             
             [self.navigationItem setTitle:@""];
             if (![self isModalMode]) {
                 [self.tabBarController.tabBar setHidden:YES];
             }
+            
+            pendingRequestCanceled = YES; //Discard current search if route is selected.
         }
     }
     

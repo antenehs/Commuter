@@ -94,7 +94,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (![AppManager isProVersion])
         [self showGoProNotification];
     
-    [self showRateAppNotification];
+    [self performSelector:@selector(showRateAppNotification) withObject:nil afterDelay:10];
     
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
@@ -121,6 +121,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (startingIndex >= 0 && startingIndex <= 3) {
         self.tabBarController.selectedIndex = startingIndex;
     }
+    
+    currentLocationButton.hidden = YES; // just to prevent annoying color splash on sreen when view loads
 }
 
 - (void)showRateAppNotification{
@@ -205,12 +207,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     
+    currentLocationButton.hidden = NO;
+    
     //Do this here not to show permission popup on welcome view.
     if (!isShowingWelcomeView) {
         //Check if notification is allowed.
-        if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
-            [[ReittiRemindersManager sharedManger] registerNotification];
-        }
+//        if (![[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
+//            [[ReittiRemindersManager sharedManger] registerNotification];
+//        }
         
         [self initializeMapComponents];
     }
@@ -303,7 +307,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)initViewComponents {
     /*init View Components*/
     
-//    [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
+    [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
     activityIndicator.hidden = NO;
     
 //    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
@@ -1093,7 +1097,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if ([settingsManager userLocation] == HSLRegion) {
             //Helsinki center location
             coordinate = kHslRegionCenter;
-        }else{
+        }else if ([settingsManager userLocation] == TRERegion){
             //tampere center location
             coordinate = kTreRegionCenter;
         }
