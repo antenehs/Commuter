@@ -42,7 +42,9 @@
     [ReittiConfigManager sharedManager]; // Remote config
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
-    [WatchCommunicationManager sharedManager];
+    SettingsManager *settingManager = [[SettingsManager alloc] initWithDataManager:[[RettiDataManager alloc] init]];
+    //Set region support before sending data to watch
+    [[WatchCommunicationManager sharedManager] updateWatchLocalSearchSupported:[settingManager isHSLRegion]];
     
     if (launchOptions != nil) {
         // Launched from push notification

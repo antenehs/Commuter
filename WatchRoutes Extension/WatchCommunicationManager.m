@@ -9,6 +9,7 @@
 #import "WatchCommunicationManager.h"
 #import "AppManagerBase.h"
 #import "ASA_Helpers.h"
+#import "SettingsManager.h"
 
 #ifndef APPLE_WATCH
 #import "ReittiAnalyticsManager.h"
@@ -16,6 +17,7 @@
 
 NSString *kRoutesContextKey = @"kRoutesContextKey";
 NSString *kNamedBookmarksContextKey = @"kNamedBookmarksContextKey";
+NSString *kWatchLocalSearchSupported = @"kWatchLocalSearchSupported";
 NSString *kSavedStopsContextKey = @"kSavedStopsContextKey";
 NSString *kRouteSearchOptionsContextKey = @"kRouteSearchOptionsContextKey";
 
@@ -29,6 +31,8 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 @property (nonatomic, strong)NSArray *namedBookmarks;
 @property (nonatomic, strong)NSArray *savedStops;
 @property (nonatomic, strong)NSDictionary *searchOptions;
+
+@property (nonatomic, strong)NSNumber * watchLocalSearchSupported;
 
 @end
 
@@ -60,10 +64,20 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
         } else {
             [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserPropertyHasAppleWatchPaired value:@"false"];
         }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLocationSet:) name:userlocationChangedNotificationName object:nil];
+#endif
+        
+#if APPLE_WATCH
+        self.userRegionSupportLocalSearch = [SettingsManager watchRegionSupportsLocalSearching];
 #endif
     }
     
     return self;
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(NSError *)error {
@@ -105,6 +119,17 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 }
 
 #ifndef APPLE_WATCH
+-(void)updateWatchLocalSearchSupported:(BOOL)supported {
+    self.watchLocalSearchSupported = [NSNumber numberWithBool:supported];
+    [self updateContext];
+}
+
+-(void)userLocationSet:(NSNotification *)notification {
+    if (notification.object && [notification.object isKindOfClass:[SettingsManager class]]) {
+        BOOL isHSLRegion = [((SettingsManager *)notification.object) isHSLRegion];
+        [self updateWatchLocalSearchSupported:isHSLRegion];
+    }
+}
 -(void)transferNamedBookmarks:(NSArray *)bookmarksDictionary {
     if (!bookmarksDictionary)
         bookmarksDictionary = @[];
@@ -146,6 +171,9 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
     if (!self.session.isPaired) return;
     
     NSMutableDictionary *context = [@{} mutableCopy];
+    if (self.watchLocalSearchSupported)
+        context[kWatchLocalSearchSupported] = self.watchLocalSearchSupported;
+    
     if (self.namedBookmarks)
         context[kNamedBookmarksContextKey] = self.namedBookmarks;
     
@@ -193,25 +221,42 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 -(void)session:(WCSession *)session didReceiveApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
     if (!applicationContext) return;
     
-    NSArray *namedBookmarkArray = [applicationContext objectForKey:kNamedBookmarksContextKey];
-    if (namedBookmarkArray) {
+    #if APPLE_WATCH
+    NSNumber *localSearchSupportInRegion = applicationContext[kWatchLocalSearchSupported];
+    BOOL localSearchSupported = localSearchSupportInRegion ? [localSearchSupportInRegion boolValue] : self.userRegionSupportLocalSearch;
+    
+    self.userRegionSupportLocalSearch = localSearchSupported;
+    [SettingsManager setWatchRegionSupportsLocalSearching: localSearchSupported];
+    
+    if (localSearchSupported) {
+        NSArray *namedBookmarkArray = [applicationContext objectForKey:kNamedBookmarksContextKey];
+        if (namedBookmarkArray) {
+            [self asa_ExecuteBlockInUIThread:^{
+                [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
+            }];
+        }
+        
+        NSDictionary *routeSearchOptions = [applicationContext objectForKey:kRouteSearchOptionsContextKey];
+        if (routeSearchOptions) {
+            [self asa_ExecuteBlockInUIThread:^{
+                [self.delegate receivedRoutesSearchOptions:routeSearchOptions];
+            }];
+        }
+        
+        NSArray *savedStopsArray = [applicationContext objectForKey:kSavedStopsContextKey];
+        if (savedStopsArray) {
+            [self asa_ExecuteBlockInUIThread:^{
+                [self.delegate receivedSavedStopsArray:savedStopsArray];
+            }];
+        }
+    } else {
+        //Hack to refresh the view in case location changed. This is rare in reallife
         [self asa_ExecuteBlockInUIThread:^{
-            [self.delegate receivedNamedBookmarksArray:namedBookmarkArray];
+            [self.delegate receivedNamedBookmarksArray:@[]];
         }];
     }
     
-    NSDictionary *routeSearchOptions = [applicationContext objectForKey:kRouteSearchOptionsContextKey];
-    if (routeSearchOptions) {
-        [self asa_ExecuteBlockInUIThread:^{
-            [self.delegate receivedRoutesSearchOptions:routeSearchOptions];
-        }];
-    }
-    
-    NSArray *savedStopsArray = [applicationContext objectForKey:kSavedStopsContextKey];
-    if (savedStopsArray) {
-        [self asa_ExecuteBlockInUIThread:^{
-            [self.delegate receivedSavedStopsArray:savedStopsArray];
-        }];
-    }
+    #endif
 }
+
 @end

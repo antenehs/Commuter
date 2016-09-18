@@ -110,6 +110,32 @@
                                         <outlet property="nameLabel" destination="wq7-Yc-fvv" id="AbR-Id-iJU"/>
                                     </connections>
                                 </tableRow>
+                                <tableRow identifier="InfoRow" selectable="NO" id="PDB-7t-aH2">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="YRt-Vg-EgQ">
+                                        <items>
+                                            <label alignment="center" text="Waiting for route" textAlignment="center" numberOfLines="2" id="Mvz-q0-V2c">
+                                                <fontDescription key="font" type="system" pointSize="16"/>
+                                            </label>
+                                            <label alignment="center" text="Search for a route on your phone to see it here. " textAlignment="center" numberOfLines="6" id="0Sr-AD-GiW">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" type="system" pointSize="13"/>
+                                            </label>
+                                        </items>
+                                        <edgeInsets key="margins" left="18" right="18" top="15" bottom="15"/>
+                                    </group>
+                                </tableRow>
+                                <tableRow identifier="notSupportedRow" selectable="NO" id="2Yz-px-kUA">
+                                    <group key="rootItem" width="1" alignment="left" id="99L-z8-Wtb">
+                                        <items>
+                                            <label alignment="center" text="ℹ Local route searching coming soon in your region." textAlignment="left" numberOfLines="3" id="Eqj-ZQ-kP8">
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" type="system" pointSize="9"/>
+                                            </label>
+                                        </items>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <edgeInsets key="margins" left="0.0" right="0.0" top="8" bottom="3"/>
+                                    </group>
+                                </tableRow>
                                 <tableRow identifier="StopsHeader" selectable="NO" id="1r9-c5-RhC">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" id="GQS-RP-Zgt">
                                         <items>
@@ -145,16 +171,6 @@
                                         <outlet property="stopNameLabel" destination="DyR-n3-xCq" id="pXt-IG-LoZ"/>
                                         <outlet property="stopimage" destination="Y7k-yJ-hWp" id="IT3-4F-gtQ"/>
                                     </connections>
-                                </tableRow>
-                                <tableRow identifier="InfoRow" selectable="NO" id="PDB-7t-aH2">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="YRt-Vg-EgQ">
-                                        <items>
-                                            <label alignment="center" text="No bookmarks set on your phone. Search for a route on your phone to see it here. " textAlignment="center" numberOfLines="6" id="0Sr-AD-GiW">
-                                                <fontDescription key="font" type="system" pointSize="14"/>
-                                            </label>
-                                        </items>
-                                        <edgeInsets key="margins" left="10" right="10" top="20" bottom="20"/>
-                                    </group>
                                 </tableRow>
                             </items>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>

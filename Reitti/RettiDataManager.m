@@ -672,6 +672,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock {
+    if (![AppManager isProVersion]) return;
+    
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
     if ([dataSourceManager conformsToProtocol:@protocol(BikeStationFetchProtocol)]) {

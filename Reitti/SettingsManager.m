@@ -22,6 +22,7 @@ NSString * const kAskedContactsPermission = @"AskedContactsPermission";
 NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequestCount";
+NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocalSearching";
 
 @implementation SettingsManager
 
@@ -36,6 +37,11 @@ NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequest
     [self.reittiDataManager updateRouteSearchOptionsToUserDefaultValue];
     
     return self;
+}
+
+//Temp hack/helper
+-(BOOL)isHSLRegion {
+    return [self userLocation] == HSLRegion;
 }
 
 -(MapMode)getMapMode{
@@ -210,6 +216,16 @@ NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequest
 +(void)setStartingIndexTab:(NSInteger)index{
     [self saveIntegerForKey:kStartingTabNsDefaultsKey integerValue:index];
 }
+
+#if APPLE_WATCH
++(BOOL)watchRegionSupportsLocalSearching {
+    return [self readBoolForKey:kWatchRegionSupportsLocalSearching withDefault:YES];
+}
+
++(void)setWatchRegionSupportsLocalSearching:(BOOL)supports {
+    [self saveBoolForKey:kWatchRegionSupportsLocalSearching boolVal:supports];
+}
+#endif
 
 #pragma mark - Helpers
 

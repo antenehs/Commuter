@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EnumManager.h"
+
 #ifndef APPLE_WATCH
 #import "RettiDataManager.h"
 #import "SettingsEntity.h"
@@ -64,13 +66,20 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(void)setAskedContactPermission:(BOOL)asked;
 +(NSInteger)getSkippedcontactsRequestTrials;
 +(void)setSkippedcontactsRequestTrials:(NSInteger)index;
-
 +(NSInteger)showGoProInStopViewRequestCount;
+
+#if APPLE_WATCH
++(BOOL)watchRegionSupportsLocalSearching;
++(void)setWatchRegionSupportsLocalSearching:(BOOL)supports;
+#endif
 
 #ifndef APPLE_WATCH
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 
 @property(nonatomic, strong)SettingsEntity *settingsEntity;
 #endif
+
+//Temoporarily make user location to apple watch
+@property(nonatomic, readonly)BOOL isHSLRegion;
 
 @end

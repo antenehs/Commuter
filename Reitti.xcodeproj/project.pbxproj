@@ -48,6 +48,7 @@
 		66056E731C42AAFE00C011FB /* VehicleRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E691C42AAFE00C011FB /* VehicleRef.m */; };
 		66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E811C497E4300C011FB /* GeoCodeDetail.m */; };
 		6605C2841D30FBD100C228B1 /* ComplicationDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6605C2831D30FBD100C228B1 /* ComplicationDataManager.m */; };
+		660711F91D8F18D1000BA8D1 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28B21AE2FD4500BE2457 /* SettingsManager.m */; };
 		660715FA1B45CD2C00033049 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715E91B45CD2C00033049 /* Distance.m */; };
 		660715FB1B45CD2C00033049 /* InactiveReasons.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715EB1B45CD2C00033049 /* InactiveReasons.m */; };
 		660715FC1B45CD2C00033049 /* PeriodProductState.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715ED1B45CD2C00033049 /* PeriodProductState.m */; };
@@ -4525,6 +4526,7 @@
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
 				66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */,
+				660711F91D8F18D1000BA8D1 /* SettingsManager.m in Sources */,
 				662481991D1FFBF700574319 /* HomeInterfaceController.m in Sources */,
 				663207281D2925B500D8A46D /* NSObject+Helper.m in Sources */,
 				6632072B1D293D0B00D8A46D /* RouteLegLocation.m in Sources */,

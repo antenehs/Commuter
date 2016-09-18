@@ -105,6 +105,10 @@
 
 #pragma mark - Table view methods
 -(void)setUpTableView {
+    BOOL supportsLocalSearching = [[WatchCommunicationManager sharedManager] userRegionSupportLocalSearch];
+    
+    NSMutableArray *rowTypes = [@[] mutableCopy];
+    
     NamedBookmarkE *home = [self getHomeBookmark];
     NamedBookmarkE *work = [self getWorkBookmark];
     
@@ -116,35 +120,42 @@
     if (home) [otherBookmarks removeObject:home];
     if (work) [otherBookmarks removeObject:work];
     
-    NSMutableArray *rowTypes = [@[] mutableCopy];
-    [rowTypes addObject:@"HomeAndWorkRow"];
-    
-    if (otherBookmarks.count > 0) {
-        for (int i = 0; i < otherBookmarks.count; i++) {
-            [bookmarksIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
-            [rowTypes addObject:@"LocationRow"];
-        }
-    }
-    
     NSArray *recentLocations = [self.watchDataManager getOtherRecentLocations];
-    if (recentLocations.count > 0) {
-        [rowTypes addObject:@"OtherLocationHeader"];
-        for (int i = 0; i < recentLocations.count; i++) {
-            [recentLocationIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
-            [rowTypes addObject:@"LocationRow"];
+    
+    if (supportsLocalSearching) {
+        
+        [rowTypes addObject:@"HomeAndWorkRow"];
+        
+        if (otherBookmarks.count > 0) {
+            for (int i = 0; i < otherBookmarks.count; i++) {
+                [bookmarksIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
+                [rowTypes addObject:@"LocationRow"];
+            }
+        }
+        
+        if (recentLocations.count > 0) {
+            [rowTypes addObject:@"OtherLocationHeader"];
+            for (int i = 0; i < recentLocations.count; i++) {
+                [recentLocationIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
+                [rowTypes addObject:@"LocationRow"];
+            }
+        }
+        
+        if (self.savedStops.count > 0) {
+            [rowTypes addObject:@"StopsHeader"];
+            for (int i = 0; i < self.savedStops.count; i++) {
+                [stopsIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
+                [rowTypes addObject:@"StopRow"];
+            }
         }
     }
     
-    if (self.savedStops.count > 0) {
-        [rowTypes addObject:@"StopsHeader"];
-        for (int i = 0; i < self.savedStops.count; i++) {
-            [stopsIndexes addObject:[NSNumber numberWithInt:rowTypes.count]];
-            [rowTypes addObject:@"StopRow"];
-        }
-    }
+    [rowTypes addObject:@"InfoRow"];
     
-    if (rowTypes.count == 0) {
-        [rowTypes addObject:@"InfoRow"];
+    //When no bookmark or only one row
+    if (rowTypes.count == 0 || rowTypes.count == 1) {
+        if (!supportsLocalSearching)
+            [rowTypes addObject:@"notSupportedRow"];
         [self.titleLabel setHidden:YES];
     } else {
         [self.titleLabel setHidden:NO];
@@ -266,7 +277,7 @@
     
     [self popToRootController];
     //Add the delay to give pop time to finish.
-    [self performSelector:@selector(pushRouteDetailWithContext:) withObject:route afterDelay:delay ? 1 : 0];
+    [self performSelector:@selector(pushRouteDetailWithContext:) withObject:route afterDelay:delay ? 0.5 : 0];
 }
 
 -(void)pushRouteSummaryWithContext:(NSArray *)context {

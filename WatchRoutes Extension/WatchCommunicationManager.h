@@ -12,6 +12,7 @@
 @protocol WCManagerDelegate <NSObject>
 
 @optional
+
 -(void)receivedNamedBookmarksArray:(NSArray * _Nonnull)bookmarksArray;
 -(void)receivedSavedStopsArray:(NSArray * _Nonnull)stopsArray;
 -(void)receivedRoutesArray:(NSArray * _Nonnull)routesArray;
@@ -31,8 +32,14 @@
 -(void)transferSavedStops:(NSArray * _Nullable)stopsDictionaries;
 -(void)transferRoutes:(NSArray * _Nullable)routesDictionary;
 -(void)transferRouteSearchOptions:(NSDictionary * _Nullable)optionsDictionary;
+-(void)updateWatchLocalSearchSupported:(BOOL)supported;
 #endif
 
 @property (nonatomic, weak)NSObject<WCManagerDelegate> * _Nullable delegate;
+
+#if APPLE_WATCH
+@property (nonatomic)BOOL userRegionSupportLocalSearch;
+
+#endif
 
 @end

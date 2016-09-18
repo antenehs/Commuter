@@ -2518,6 +2518,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 #pragma mark - Bike station fetching
 //Bike stations needs to be updated constantly to get available bikes
 - (void)startFetchingBikeStations {
+    if (![AppManager isProVersion]) return;
+    
     if (![self.annotationFilter isAnnotationTypeEnabled:BikeStationType]) return;
     
     [self.reittiDataManager startFetchingBikeStationsWithCompletionBlock:^(NSArray *bikeStations, NSString *errorString){
