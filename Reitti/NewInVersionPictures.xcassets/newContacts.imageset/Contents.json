@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "newContacts.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "newBikeStations.png",
       "scale" : "2x"
     },
     {

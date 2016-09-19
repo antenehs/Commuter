@@ -544,7 +544,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     if (self.departures.count > 0) {
         if ([self shouldShowGoProRow] && indexPath.row == 0) {
-            return [tableView dequeueReusableCellWithIdentifier:@"goProCell"];
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"goProCell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
         } else {
             NSInteger departureIndex = [self shouldShowGoProRow] ? indexPath.row - 1 : indexPath.row;
             StopDeparture *departure = [self.departures objectAtIndex:departureIndex];

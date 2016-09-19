@@ -43,8 +43,8 @@
         tLabel.text = ttle;
         dLabel.text = desc;
         
-        tLabel.textColor = [UIColor whiteColor];
-        dLabel.textColor = [UIColor whiteColor];
+        tLabel.textColor = [UIColor darkTextColor];
+        dLabel.textColor = [UIColor darkTextColor];
     }
     
     return self;

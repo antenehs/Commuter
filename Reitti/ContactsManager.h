@@ -12,7 +12,7 @@
 typedef void (^ActionBlock)();
 
 @interface ContactsManager : NSObject {
-    NSInteger requestCount;
+//    NSInteger requestCount;
     BOOL trackedAccessOnce;
 }
 

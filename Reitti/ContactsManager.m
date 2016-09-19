@@ -35,8 +35,8 @@
     self = [super init];
     if (self) {
         //Fetch contacts with address
-        requestCount = [SettingsManager getSkippedcontactsRequestTrials];
-        [SettingsManager setSkippedcontactsRequestTrials:requestCount + 1];
+//        requestCount = [SettingsManager getSkippedcontactsRequestTrials];
+//        [SettingsManager setSkippedcontactsRequestTrials:requestCount + 1];
         self.contactsWithAddress = @[];
         self.streetAddressBookMap = [@{} mutableCopy];
         [self asa_ExecuteBlockInBackground:^{
@@ -54,9 +54,9 @@
         return;
     }
     
-    if (requestCount < 1) {
-        return;
-    }
+//    if (requestCount < 1) {
+//        return;
+//    }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Would you like to search your contacts for addresses?" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
@@ -151,7 +151,8 @@
         ABMultiValueRef addressRef = ABRecordCopyValue((__bridge ABRecordRef)record, kABPersonAddressProperty);
         for (int i = 0; i < ABMultiValueGetCount(addressRef); i++) {
             NSDictionary *addressDict = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, i);
-            if (![[addressDict[@"CountryCode"] lowercaseString] isEqualToString:@"fi"])
+            if ((addressDict[@"CountryCode"] && ![[addressDict[@"CountryCode"] lowercaseString] isEqualToString:@"fi"]) &&
+                ![[addressDict[@"Country"] lowercaseString] isEqualToString:@"finland"])
                 continue;
             
             GeoCode *geoCode = [[GeoCode alloc] init];

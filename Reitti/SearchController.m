@@ -96,7 +96,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [self performSelector:@selector(showRateAppNotification) withObject:nil afterDelay:10];
     
-    if ([AppManager isNewInstallOrNewVersion]) {
+    if (![AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
 //            [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
         } else {

@@ -127,6 +127,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    [self updateSectionNumber];
     if (section == routinesSection) {
         if ([self isNotificationsEnabled]) {
             return savedRoutines.count > 0 ? savedRoutines.count : 1;
@@ -253,7 +254,7 @@
             [remindersManager cancelNotifications:@[self.departureNotifications[indexPath.row]]];
             [self.departureNotifications removeObjectAtIndex:indexPath.row];
             if (self.departureNotifications.count == 0) {
-                [tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                [tableView deleteSections:[NSIndexSet indexSetWithIndex:departureNotifSection] withRowAnimation:UITableViewRowAnimationFade];
             } else {
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }
@@ -261,7 +262,7 @@
             [remindersManager cancelNotifications:@[self.routeNotifications[indexPath.row]]];
             [self.routeNotifications removeObjectAtIndex:indexPath.row];
             if (self.routeNotifications.count == 0) {
-                [tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                [tableView deleteSections:[NSIndexSet indexSetWithIndex:routeNotifSection] withRowAnimation:UITableViewRowAnimationFade];
             } else {
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }

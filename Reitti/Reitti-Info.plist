@@ -42,7 +42,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.1</string>
+	<string>5.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -84,10 +84,16 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>App would like to use bluetooth.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>App would like to create a calendar event.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Allow access to be able to search your contacts for addresses</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Access should be granted to use many of the features in this app.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App would like to store a photo.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Access should be allowed to use the reminder feature of the app.</string>
 	<key>UIAppFonts</key>
@@ -125,8 +131,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

@@ -11,11 +11,18 @@
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 
+NSString *kImageKey = @"ImageKey";
+NSString *kTitleKey = @"TitleKey";
+NSString *kDescKey = @"DescKey";
+
 @interface WelcomeViewController ()
 
-@property (nonatomic, strong)NSMutableArray *imagesArray;
-@property (nonatomic, strong)NSMutableArray *titleArray;
-@property (nonatomic, strong)NSMutableArray *descArray;
+@property (nonatomic, strong)NSArray *featuresWithImage;
+@property (nonatomic, strong)NSArray *featuresCompact;
+
+//@property (nonatomic, strong)NSMutableArray *imagesArray;
+//@property (nonatomic, strong)NSMutableArray *titleArray;
+//@property (nonatomic, strong)NSMutableArray *descArray;
 
 @end
 
@@ -28,7 +35,9 @@
     // Do any additional setup after loading the view.
     [self initContentArrays];
     
-    doneButton.layer.cornerRadius = 10;
+    doneButton.layer.cornerRadius = 6;
+    doneButton.backgroundColor = [UIColor darkGrayColor];
+    doneButton.titleLabel.textColor = [UIColor greenColor];
     
     scrollingBackView = [[UIView alloc] initWithFrame:self.view.frame];
     
@@ -65,7 +74,7 @@
 -(void)setupScrollingBackView {
     CGRect backViewFrame = self.view.frame;
     backViewFrame.size.height = backViewFrame.size.height > backViewFrame.size.width ? backViewFrame.size.height : backViewFrame.size.width;
-    backViewFrame.size.width = ((self.imagesArray.count * backViewFrame.size.width)/2) + backViewFrame.size.width;
+    backViewFrame.size.width = ((self.featuresWithImage.count * backViewFrame.size.width)/2) + backViewFrame.size.width;
     scrollingBackView.frame = backViewFrame;
     
     if (!scrollingBackView.superview) {
@@ -117,68 +126,46 @@
 }
 
 - (void)initContentArrays {
-    self.imagesArray = [NSMutableArray arrayWithObjects:@"newBikeStations",
-                                   @"newWholeFinland",
-                                   nil];
-    self.titleArray = [NSMutableArray arrayWithObjects:@"Helsinki City Bikes",
-                                  @"Everywhere In Finland",
-                                  nil];
-    self.descArray = [NSMutableArray arrayWithObjects:@"Now you can see HSL's city bikes on the map with a realtime update of available bikes and return spaces.",
-                                 @"Commuter now works everywhere in Finland. Get routes, timetables and lines info where ever you live.",
-                                 nil];
-    /* Save for free version
-     self.imagesArray = [NSMutableArray arrayWithObjects:@"new-icloudSync",
-     @"new-tre-live",
-     nil];
-     self.titleArray = [NSMutableArray arrayWithObjects:@"iCloud Sync",
-     @"Live Vehicles in Tampere",
-     nil];
-     self.descArray = [NSMutableArray arrayWithObjects:@"Easily sync your bookmarks in all your devices using iCloud. No registration. No separate login.",
-     @"Finally live vehicles tracking in Tampere. See all bus locations from the map or specific vehicles from the line views.",
-     nil];
-     */
+    
+    NSDictionary *appleWatchApp = @{kImageKey: @"newAppleWatch", kTitleKey: @"Apple Watch App", kDescKey: @"New Apple Watch app that is actually useful. See your departure time on complications or search for routes right from the app."};
+    NSDictionary *realtimeDeparture = @{kImageKey: @"newRealtimeDeparture", kTitleKey: @"Real-time Departures", kDescKey: @"Get real-time departure times. Don't wait for a canceled train."};
+    NSDictionary *newWidgetsPro = @{kImageKey: @"newWidgetsPro", kTitleKey: @"Re-designed Widgets", kDescKey: @"Widgets are now redesigned for iOS 10. Also get route to a relevant destination right from the home screen."};
+    NSDictionary *newWidgetsFree = @{kImageKey: @"newWidgetFree", kTitleKey: @"Re-desinged Widget", kDescKey: @"Departures widget is redesigned for iOS 10. Also get departures right from the home screen."};
+    NSDictionary *newDisruptions = @{kImageKey: @"newDisruptions", kTitleKey: @"Revamped Disruptions", kDescKey: @"Easily see lines affected by disruption including cause and validity time."};
+    NSDictionary *newReminders = @{kImageKey: @"newReminders", kTitleKey: @"Reminders", kDescKey: @"New reminders manager to easily create, see and cancel reminders from stops and routes."};
+    NSDictionary *newWholeFinland = @{kImageKey: @"newWholeFinland", kTitleKey: @"Everywhere In Finland", kDescKey: @"Commuter now works everywhere in Finland. Get routes, timetables and lines info where ever you live."};
+    
+    NSDictionary *newContacts = @{kImageKey: @"newContacts", kTitleKey: @"Search Your Csontacts", kDescKey: @"No need to save all of your friends' addresses anymore. Search right from Contacts."};
+    
+    
+    if ([AppManager isProVersion]) {
+        self.featuresWithImage = @[appleWatchApp, realtimeDeparture, newWidgetsPro, newDisruptions, newReminders, newContacts];
+        self.featuresCompact = @[];
+    } else {
+        self.featuresWithImage = @[newWholeFinland, newWidgetsFree, newContacts];
+        self.featuresCompact = @[];
+    }
 }
 
 - (void)setUpScrollView{
     
-    if (![AppManager isProVersion]) {
-        //Remove backwards to prevent changing of indexes
-     
-//        [imagesArray removeObjectAtIndex:7];
-//        [imagesArray removeObjectAtIndex:5];
-//        [imagesArray removeObjectAtIndex:4];
-//        [imagesArray removeObjectAtIndex:0];
-//        
-//        [titleArray removeObjectAtIndex:7];
-//        [titleArray removeObjectAtIndex:5];
-//        [titleArray removeObjectAtIndex:4];
-//        [titleArray removeObjectAtIndex:0];
-//        
-//        [descArray removeObjectAtIndex:7];
-//        [descArray removeObjectAtIndex:5];
-//        [descArray removeObjectAtIndex:4];
-//        [descArray removeObjectAtIndex:0];
-    }
-    
     float xPosition = 0;
-//    float width = 0.8 * self.view.frame.size.width;
-//    float height = 0.8 * self.view.frame.size.height;
     
     CGRect vFrame = CGRectMake(0, 0, mainScrollView.frame.size.width, mainScrollView.frame.size.height);
     pageWidth = vFrame.size.width;
-    for (int i = 0; i < self.imagesArray.count; i++) {
+    for (NSDictionary *feature in self.featuresWithImage) {
         DetailImageView* iView = [[DetailImageView alloc] initFromNib];
         
         UIImageView *imageView = (UIImageView *)[iView viewWithTag:1001];
-        [imageView setImage:[UIImage imageNamed:[self.imagesArray objectAtIndex:i]]];
+        [imageView setImage:[UIImage imageNamed:feature[kImageKey]]];
         
         UILabel *titleLabel = (UILabel *)[iView viewWithTag:1002];
-        titleLabel.text = [self.titleArray objectAtIndex:i];
+        titleLabel.text = feature[kTitleKey];
         titleLabel.textColor = [UIColor whiteColor];
         
         UILabel *descLabel = (UILabel *)[iView viewWithTag:1003];
-        descLabel.text = [self.descArray objectAtIndex:i];
-        descLabel.textColor = [UIColor whiteColor];
+        descLabel.text = feature[kDescKey];
+        descLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1];
         
         [iView setBackgroundColor:[UIColor clearColor]];
         
@@ -202,7 +189,7 @@
     
     mainScrollView.contentSize = CGSizeMake(xPosition, vFrame.size.height);
     
-    pageControl.numberOfPages = self.imagesArray.count /* + 1 */;
+    pageControl.numberOfPages = self.featuresWithImage.count + self.featuresCompact.count;
 }
 
 

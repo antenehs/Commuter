@@ -339,7 +339,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 
 -(void)scheduleOneTimeNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo {
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertBody = message;
+    localNotification.alertTitle = message;
     NSString *toneName = [self.settingsManager toneName];
     if (toneName == UILocalNotificationDefaultSoundName) {
         localNotification.soundName = UILocalNotificationDefaultSoundName;
