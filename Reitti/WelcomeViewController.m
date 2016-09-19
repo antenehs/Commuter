@@ -134,7 +134,6 @@ NSString *kDescKey = @"DescKey";
     NSDictionary *newDisruptions = @{kImageKey: @"newDisruptions", kTitleKey: @"Revamped Disruptions", kDescKey: @"Easily see lines affected by disruption including cause and validity time."};
     NSDictionary *newReminders = @{kImageKey: @"newReminders", kTitleKey: @"Reminders", kDescKey: @"New reminders manager to easily create, see and cancel reminders from stops and routes."};
     NSDictionary *newWholeFinland = @{kImageKey: @"newWholeFinland", kTitleKey: @"Everywhere In Finland", kDescKey: @"Commuter now works everywhere in Finland. Get routes, timetables and lines info where ever you live."};
-    
     NSDictionary *newContacts = @{kImageKey: @"newContacts", kTitleKey: @"Search Your Csontacts", kDescKey: @"No need to save all of your friends' addresses anymore. Search right from Contacts."};
     
     
