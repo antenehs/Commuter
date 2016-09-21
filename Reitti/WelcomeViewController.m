@@ -36,7 +36,7 @@ NSString *kDescKey = @"DescKey";
     [self initContentArrays];
     
     doneButton.layer.cornerRadius = 6;
-    doneButton.backgroundColor = [UIColor darkGrayColor];
+    doneButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1];
     doneButton.titleLabel.textColor = [UIColor greenColor];
     
     scrollingBackView = [[UIView alloc] initWithFrame:self.view.frame];
@@ -74,7 +74,7 @@ NSString *kDescKey = @"DescKey";
 -(void)setupScrollingBackView {
     CGRect backViewFrame = self.view.frame;
     backViewFrame.size.height = backViewFrame.size.height > backViewFrame.size.width ? backViewFrame.size.height : backViewFrame.size.width;
-    backViewFrame.size.width = ((self.featuresWithImage.count * backViewFrame.size.width)/2) + backViewFrame.size.width;
+    backViewFrame.size.width = (((self.featuresWithImage.count + 1) * backViewFrame.size.width)/2) + backViewFrame.size.width;
     scrollingBackView.frame = backViewFrame;
     
     if (!scrollingBackView.superview) {
@@ -134,7 +134,7 @@ NSString *kDescKey = @"DescKey";
     NSDictionary *newDisruptions = @{kImageKey: @"newDisruptions", kTitleKey: @"Revamped Disruptions", kDescKey: @"Easily see lines affected by disruption including cause and validity time."};
     NSDictionary *newReminders = @{kImageKey: @"newReminders", kTitleKey: @"Reminders", kDescKey: @"New reminders manager to easily create, see and cancel reminders from stops and routes."};
     NSDictionary *newWholeFinland = @{kImageKey: @"newWholeFinland", kTitleKey: @"Everywhere In Finland", kDescKey: @"Commuter now works everywhere in Finland. Get routes, timetables and lines info where ever you live."};
-    NSDictionary *newContacts = @{kImageKey: @"newContacts", kTitleKey: @"Search Your Csontacts", kDescKey: @"No need to save all of your friends' addresses anymore. Search right from Contacts."};
+    NSDictionary *newContacts = @{kImageKey: @"newContacts", kTitleKey: @"Search Your Contacts", kDescKey: @"No need to save all of your friends' addresses anymore. Search right from Contacts."};
     
     
     if ([AppManager isProVersion]) {
@@ -174,21 +174,21 @@ NSString *kDescKey = @"DescKey";
         xPosition += vFrame.size.width;
         
     }
-//    NSArray* allTheViewsInMyNIB = [[NSBundle mainBundle] loadNibNamed:@"Features" owner:self options:nil];
-//    UIView *moreView = allTheViewsInMyNIB[0];
-//    [moreView setBackgroundColor:[UIColor clearColor]];
-//    
-//    vFrame.origin.x = xPosition;
-//    moreView.frame = vFrame;
-//    
-//    [mainScrollView addSubview:moreView];
-//    xPosition += vFrame.size.width;
+    NSArray* allTheViewsInMyNIB = [[NSBundle mainBundle] loadNibNamed:@"Features" owner:self options:nil];
+    UIView *moreView = allTheViewsInMyNIB[0];
+    [moreView setBackgroundColor:[UIColor clearColor]];
+    
+    vFrame.origin.x = xPosition;
+    moreView.frame = vFrame;
+    
+    [mainScrollView addSubview:moreView];
+    xPosition += vFrame.size.width;
     
     [mainScrollView layoutIfNeeded];
     
     mainScrollView.contentSize = CGSizeMake(xPosition, vFrame.size.height);
     
-    pageControl.numberOfPages = self.featuresWithImage.count + self.featuresCompact.count;
+    pageControl.numberOfPages = self.featuresWithImage.count + ([AppManager isProVersion] ? 1 : 0);
 }
 
 

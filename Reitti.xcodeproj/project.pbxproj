@@ -290,7 +290,6 @@
 		66780D971C5409F800C838AA /* Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D931C5409F800C838AA /* Attributes.m */; };
 		66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */; };
 		6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
-		667B98091AD00FE000C45ADF /* hsl-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 667B98081AD00FE000C45ADF /* hsl-region.geojson */; };
 		667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */; };
 		667B98111AD3261100C45ADF /* AddressTypeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 667B98101AD3261100C45ADF /* AddressTypeList.plist */; };
 		667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98291AD32A8300C45ADF /* AddressTypeTableViewController.m */; };
@@ -476,6 +475,8 @@
 		66B391C21D230B5800C500CC /* HSLRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE91C834C0B00B33511 /* HSLRouteOptionManager.m */; };
 		66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */; };
 		66B391C41D2312B600C500CC /* WidgetHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE221C19B09F004D73FC /* WidgetHelpers.m */; };
+		66B601201D91C1360056B7FA /* finland-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 66B6011F1D91C1360056B7FA /* finland-region.geojson */; };
+		66B601211D91C1370056B7FA /* finland-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 66B6011F1D91C1360056B7FA /* finland-region.geojson */; };
 		66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
 		66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		66BCA6EB1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
@@ -733,7 +734,6 @@
 		66C733FD1C556DA5002544BC /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 66F0996F1AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json */; };
 		66C733FE1C556DA5002544BC /* NotificationBackgroundWarningIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png */; };
 		66C734021C556DA5002544BC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66947CD018830ED500642EE1 /* Images.xcassets */; };
-		66C734051C556DA5002544BC /* hsl-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 667B98081AD00FE000C45ADF /* hsl-region.geojson */; };
 		66C734081C556DA5002544BC /* Transport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA419993CC300E7AC7A /* Transport.xib */; };
 		66C7340A1C556DA5002544BC /* trench100free.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5218BF2E1E002DDC7B /* trench100free.otf */; };
 		66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5818BF3785002DDC7B /* Aspergit Bold.otf */; };
@@ -1482,7 +1482,6 @@
 		66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiEmailAndShareManager.m; sourceTree = "<group>"; };
 		6679ADC619C1CA3700DD38DD /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
-		667B98081AD00FE000C45ADF /* hsl-region.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "hsl-region.geojson"; sourceTree = "<group>"; };
 		667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiRemindersManager.h; sourceTree = "<group>"; };
 		667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiRemindersManager.m; sourceTree = "<group>"; };
 		667B98101AD3261100C45ADF /* AddressTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AddressTypeList.plist; sourceTree = "<group>"; };
@@ -1650,6 +1649,7 @@
 		66B391BD1D23086200C500CC /* WatchHslApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchHslApi.m; sourceTree = "<group>"; };
 		66B391BF1D23087300C500CC /* WatchApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchApiClient.h; sourceTree = "<group>"; };
 		66B391C01D23087300C500CC /* WatchApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchApiClient.m; sourceTree = "<group>"; };
+		66B6011F1D91C1360056B7FA /* finland-region.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "finland-region.geojson"; sourceTree = "<group>"; };
 		66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
@@ -2986,7 +2986,7 @@
 				66947CBE18830ED500642EE1 /* InfoPlist.strings */,
 				66947CC118830ED500642EE1 /* main.m */,
 				66947CC318830ED500642EE1 /* Reitti-Prefix.pch */,
-				667B98081AD00FE000C45ADF /* hsl-region.geojson */,
+				66B6011F1D91C1360056B7FA /* finland-region.geojson */,
 				667B98101AD3261100C45ADF /* AddressTypeList.plist */,
 				664749DA1AE59B3E0050137E /* versionInfo.html */,
 			);
@@ -3960,7 +3960,6 @@
 				66F099701AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json in Resources */,
 				66F0998F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				66947CD118830ED500642EE1 /* Images.xcassets in Resources */,
-				667B98091AD00FE000C45ADF /* hsl-region.geojson in Resources */,
 				66C59DA519993CC300E7AC7A /* Transport.xib in Resources */,
 				66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */,
 				66FD7F931CB94B4700C6C731 /* Jyvaskula.gpx in Resources */,
@@ -3976,6 +3975,7 @@
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
+				66B601201D91C1360056B7FA /* finland-region.geojson in Resources */,
 				666BC1DC1B5C259700889DD2 /* Time to go 5.mp3 in Resources */,
 				6603A8F31CCFFF2100991FBF /* TRERegion.kml in Resources */,
 				664BAECE1D8ED1890070F15F /* GoogleService-Info.plist in Resources */,
@@ -4050,6 +4050,7 @@
 				66C733BF1C556DA5002544BC /* NotificationBackgroundSuccessIcon.png in Resources */,
 				6632070C1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */,
 				66C733C31C556DA5002544BC /* Subway-100.png in Resources */,
+				66B601211D91C1370056B7FA /* finland-region.geojson in Resources */,
 				66C733C51C556DA5002544BC /* LaunchScreen.xib in Resources */,
 				66C733CB1C556DA5002544BC /* versionInfo.html in Resources */,
 				66C733CC1C556DA5002544BC /* advanced-setting-100.png in Resources */,
@@ -4064,7 +4065,6 @@
 				66C733FD1C556DA5002544BC /* TSMessagesDefaultDesign.json in Resources */,
 				66C733FE1C556DA5002544BC /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				66C734021C556DA5002544BC /* Images.xcassets in Resources */,
-				66C734051C556DA5002544BC /* hsl-region.geojson in Resources */,
 				66C734081C556DA5002544BC /* Transport.xib in Resources */,
 				66C7340A1C556DA5002544BC /* trench100free.otf in Resources */,
 				66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */,
