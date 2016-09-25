@@ -35,28 +35,26 @@
     self = [super init];
     if (self) {
         //Fetch contacts with address
-//        requestCount = [SettingsManager getSkippedcontactsRequestTrials];
-//        [SettingsManager setSkippedcontactsRequestTrials:requestCount + 1];
+        requestCount = [SettingsManager getSkippedcontactsRequestTrials];
+        [SettingsManager setSkippedcontactsRequestTrials:requestCount + 1];
         self.contactsWithAddress = @[];
         self.streetAddressBookMap = [@{} mutableCopy];
-        [self asa_ExecuteBlockInBackground:^{
-            [self customRequestForAccess];
-        }];
+        [self customRequestForAccess];
         trackedAccessOnce = NO;
     }
     
     return self;
 }
 
--(void)customRequestForAccess {
+-(BOOL)customRequestForAccess {
     if ([SettingsManager askedContactsPermission] || [self isAuthorized]) {
         [self requestAccessAndFilterContacts];
-        return;
+        return YES;
     }
     
-//    if (requestCount < 1) {
-//        return;
-//    }
+    if (requestCount < 0) { //
+        return NO;
+    }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Would you like to search your contacts for addresses?" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
@@ -67,6 +65,7 @@
     
     UIAlertAction* later = [UIAlertAction actionWithTitle:@"Later" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
         [SettingsManager setSkippedcontactsRequestTrials:-30];
+        requestCount = -30; //Also update it for this session
     }];
     
     [alertController addAction:later];
@@ -78,6 +77,8 @@
     if (searchNavBar.childViewControllers.count > 0) {
         [[searchNavBar.childViewControllers lastObject] presentViewController:alertController animated:YES completion:nil];
     }
+    
+    return YES;
 //    [viewController presentViewController:alertController animated:YES completion:nil];
 }
 
@@ -175,7 +176,7 @@
 }
 
 -(NSArray *)getContactsForSearchTerm:(NSString *)searchTerm {
-    [self customRequestForAccess];
+    if(![self customRequestForAccess]) return @[];
     
     if (!self.contactsWithAddress || self.contactsWithAddress.count == 0)
         return @[];

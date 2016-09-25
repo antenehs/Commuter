@@ -12,12 +12,12 @@
 typedef void (^ActionBlock)();
 
 @interface ContactsManager : NSObject {
-//    NSInteger requestCount;
+    NSInteger requestCount;
     BOOL trackedAccessOnce;
 }
 
 +(instancetype)sharedManager;
--(void)customRequestForAccess;
+-(BOOL)customRequestForAccess;
 
 -(BOOL)isAuthorized;
 -(BOOL)isAccessRequested;
