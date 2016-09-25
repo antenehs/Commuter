@@ -98,14 +98,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
-//            [[ReittiAnalyticsManager sharedManager] trackAppInstallationWithDevice:[AppManager iosDeviceModel] osversion:[AppManager iosVersionNumber] value:nil];
+            //Only for this hot fix version. dont show for upgrade case since it is just shown
+            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+            isShowingWelcomeView = YES;
         } else {
             //Do this only once for this version.
             [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *error){}];
         }
         
-        [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
-        isShowingWelcomeView = YES;
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
         [self.reittiDataManager doVersion4_1CoreDataMigration];

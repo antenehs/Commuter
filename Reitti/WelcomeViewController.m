@@ -135,10 +135,11 @@ NSString *kDescKey = @"DescKey";
     NSDictionary *newReminders = @{kImageKey: @"newReminders", kTitleKey: @"Reminders", kDescKey: @"New reminders manager to easily create, see and cancel reminders from stops and routes."};
     NSDictionary *newWholeFinland = @{kImageKey: @"newWholeFinland", kTitleKey: @"Everywhere In Finland", kDescKey: @"Commuter now works everywhere in Finland. Get routes, timetables and lines info where ever you live."};
     NSDictionary *newContacts = @{kImageKey: @"newContacts", kTitleKey: @"Search Your Contacts", kDescKey: @"No need to save all of your friends' addresses anymore. Search right from Contacts."};
+    NSDictionary *newStopFilter = @{kImageKey: @"newStopFilter", kTitleKey: @"Stops Filter", kDescKey: @"You feel the map view is a bit crouded with stops you are not interested in? Filter away!"};
     
     
     if ([AppManager isProVersion]) {
-        self.featuresWithImage = @[appleWatchApp, realtimeDeparture, newWidgetsPro, newDisruptions, newReminders, newContacts];
+        self.featuresWithImage = @[appleWatchApp, realtimeDeparture, newWidgetsPro, newDisruptions, newReminders, newStopFilter, newContacts];
         self.featuresCompact = @[];
     } else {
         self.featuresWithImage = @[newWholeFinland, newWidgetsFree, newContacts];
@@ -174,6 +175,7 @@ NSString *kDescKey = @"DescKey";
         xPosition += vFrame.size.width;
         
     }
+    
     NSArray* allTheViewsInMyNIB = [[NSBundle mainBundle] loadNibNamed:@"Features" owner:self options:nil];
     UIView *moreView = allTheViewsInMyNIB[0];
     [moreView setBackgroundColor:[UIColor clearColor]];
@@ -188,7 +190,7 @@ NSString *kDescKey = @"DescKey";
     
     mainScrollView.contentSize = CGSizeMake(xPosition, vFrame.size.height);
     
-    pageControl.numberOfPages = self.featuresWithImage.count + ([AppManager isProVersion] ? 1 : 0);
+    pageControl.numberOfPages = self.featuresWithImage.count + 1;
 }
 
 
