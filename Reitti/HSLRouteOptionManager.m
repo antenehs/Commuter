@@ -78,7 +78,11 @@
         else {
             NSMutableArray *selected = [@[] mutableCopy];
             for (NSString *trans in selectedTrasportTypes) {
-                [selected addObject:[[HSLRouteOptionManager transportTypeOptions] objectForKey:trans]];
+                NSString *selectedType = [[HSLRouteOptionManager transportTypeOptions] objectForKey:trans];
+                if (selectedType) //Just in case. This should never happen ever
+                    [selected addObject:selectedType];
+                else
+                    NSLog(@"========================SOMETHINGGG WASSSS WROOOOOOOOOOONGGGGGG. NOOOOOOOOOOOOOOOOOOO ==========");
             }
             transportTypes = [RouteOptionManagerBase commaSepStringFromArray:selected withSeparator:@"|"];
         }
@@ -123,11 +127,12 @@
              @"Train" : @"train",
              @"Tram" : @"tram",
              @"Ferry" : @"ferry",
-             @"Uline" : @"uline"};
+             @"Uline" : @"uline",
+             @"City Bike" : @"City Bike"};
 }
 
 +(NSArray *)allTrasportTypeNames{
-    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];//TODO: add city bikes
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline", @"City Bike"];//TODO: add city bikes
 }
 
 +(NSArray *)getTransportTypeOptionsForDisplay {
@@ -136,10 +141,8 @@
              @{displayTextOptionKey : @"Train", valueOptionKey : @"train", pictureOptionKey : @"train-filled-light-64"},
              @{displayTextOptionKey : @"Tram", valueOptionKey : @"tram", pictureOptionKey : @"tram-filled-light-64"},
              @{displayTextOptionKey : @"Ferry", valueOptionKey : @"ferry", pictureOptionKey : @"boat-filled-light-100"},
-             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : @"bus-filled-light-100"}
-             /*
-              ,
-              @{displayTextOptionKey : @"City Bike", valueOptionKey : @"bike", pictureOptionKey : [AppManager lightColorImageForLegTransportType:LegTypeBicycle]} */
+             @{displayTextOptionKey : @"Uline", valueOptionKey : @"uline", pictureOptionKey : @"bus-filled-light-100"},
+              @{displayTextOptionKey : @"City Bike", valueOptionKey : @"bike", pictureOptionKey : @"bikeYellow"}
              ];
 }
 
