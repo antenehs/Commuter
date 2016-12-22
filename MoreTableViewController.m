@@ -99,6 +99,11 @@
     
     numberOfSection = 0;
     
+    numberOfDebugRows = 0;
+    useDigiTransitRow = numberOfDebugRows++;
+    
+    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
+    
     numberOfMoreFeatures = 0;
     routinesRow = numberOfMoreFeatures++;
     ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
@@ -122,6 +127,11 @@
     shareRow = numberOfCommuterRows++;;
     
     commuterSection = numberOfSection++;
+    
+    numberOfDebugRows = 0;
+    useDigiTransitRow = numberOfDebugRows++;
+    
+    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -136,6 +146,8 @@
         return numberOfSettingsRows;
     }else if(section == commuterSection){
         return numberOfCommuterRows;
+    }else if(section == debugFeaturesSection){
+        return numberOfDebugRows;
     }
     
     return 0;
@@ -165,9 +177,9 @@
             
             disruptionsView.hidden = ![self areThereDisruptions];
         }
-    }else if (indexPath.section == settingsSection){
+    } else if (indexPath.section == settingsSection){
         cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell" forIndexPath:indexPath];
-    }else{
+    } else if (indexPath.section == commuterSection){
         if (indexPath.row == aboutCommuterRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"aboutCommuterCell" forIndexPath:indexPath];
         }else if (indexPath.row == goProRow) {
@@ -186,6 +198,10 @@
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"shareCell" forIndexPath:indexPath];
         }
+    } else if (indexPath.section == debugFeaturesSection) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"useDigiTransit" forIndexPath:indexPath];
+        UISwitch *useSwitch = [cell viewWithTag:1005];
+        useSwitch.on = [SettingsManager useDigiTransit];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -251,6 +267,12 @@
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedRateButton label:[AppManager appFullName] value:nil];
 }
 
+#pragma mark - Debug Actions
+- (IBAction)apiUseSettingChanged:(UISwitch *)sender {
+    [SettingsManager setUseDigiTrnsit:sender.on];
+}
+
+
 - (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"matkakorttimonitorapp://?"]]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"matkakorttimonitorapp://"]];
@@ -261,8 +283,7 @@
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSelectedMatkakorttiMonitor label:@"Twitter" value:nil];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (actionSheet.tag == 1002){
         switch (buttonIndex) {
             case 0:

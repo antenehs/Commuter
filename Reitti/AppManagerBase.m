@@ -79,6 +79,14 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
     return YES;
 }
 
++(BOOL)isDebugMode {
+#ifdef DEBUG
+    return YES;
+#else
+    return NO;
+#endif
+}
+
 +(NSString *)nsUserDefaultsStopsWidgetSuitName{
     if ([self isProVersion])
         return kUserDefaultsSuitNameForProDeparturesWidget;

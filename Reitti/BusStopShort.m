@@ -46,13 +46,6 @@
     return self;
 }
 
--(NSString *)linesString{
-    if (!self.lines)
-        return nil;
-
-    return [ReittiStringFormatter commaSepStringFromArray:self.lines withSeparator:@","];
-}
-
 -(StopType)stopType{
     @try {
         if (!_staticStop) {
@@ -70,23 +63,26 @@
     }
 }
 
--(NSArray *)lines{
-//    @try {
-//        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
-//        if (staticStop != nil) {
-//            return staticStop.lineNames;
-//        }else{
-//            return @[];
-//        }
-//    }
-//    @catch (NSException *exception) {
-//        
-//    }
-    return @[];
+#pragma mark - Init from other stops
+
++(id)stopFromBusStop:(BusStop *)busStop {
+    BusStopShort *stop = [[BusStopShort alloc] init];
+    
+    stop.gtfsId = busStop.gtfsId;
+    stop.code = busStop.code;
+    stop.codeShort = busStop.code_short;
+    stop.name = busStop.name_fi;
+    stop.city = busStop.city_fi;
+    stop.coords = busStop.coords;
+    stop.address = busStop.address_fi;
+    stop.distance = busStop.distance;
+    stop.lines = busStop.lines;
+    stop.linesString = busStop.linesString;
+    stop.stopType = busStop.stopType;
+    
+    return stop;
 }
 
-
-#pragma mark - Init from other stops
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStopShort *stop = [[BusStopShort alloc] init];
     

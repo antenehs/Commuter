@@ -350,7 +350,7 @@
     }else if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[GeoCode class]]){
         GeoCode *geoCode = [self.dataToLoad objectAtIndex:indexPath.row];
 
-        if (geoCode.getLocationType == LocationTypeStop) {
+        if (geoCode.locationType == LocationTypeStop) {
             StopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             
             [cell setupFromStopGeocode:geoCode];
@@ -367,7 +367,7 @@
             cell.nameLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.nameLabel.text substring:addressSearchBar.text withNormalFont:cell.nameLabel.font];
             cell.addressLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:cell.addressLabel.text substring:addressSearchBar.text withNormalFont:cell.addressLabel.font];
             
-            if (geoCode.getLocationType  == LocationTypeAddress) {
+            if (geoCode.locationType  == LocationTypeAddress) {
                 [cell addTargetForAddressSelection:self selector:@selector(selectAddressForStreetNumberPressed:)];
             }
             
@@ -402,7 +402,7 @@
     
     if([selectedAddress isKindOfClass:[GeoCode class]]){
         GeoCode *selectedGeocode = selectedAddress;
-        if (selectedGeocode.getLocationType == LocationTypeContact) {
+        if (selectedGeocode.locationType == LocationTypeContact) {
             [self userSelectedContactAddress:selectedGeocode];
         } else {
             [self dismissViewControllerAnimated:YES completion:^{
@@ -431,7 +431,7 @@
 }
 
 -(void)userSelectedContactAddress:(GeoCode *)geoCode {
-    if (geoCode.getLocationType != LocationTypeContact) {
+    if (geoCode.locationType != LocationTypeContact) {
         return;
     }
     

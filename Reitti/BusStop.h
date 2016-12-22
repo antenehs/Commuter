@@ -27,17 +27,22 @@
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 #import "EnumManager.h"
-#import "ReittiModels.h"
+//#import "ReittiModels.h"
 #import "MatkaStop.h"
 #import "ReittiObject.h"
+#import "DigiStopAtDistance.h"
 
 @interface BusStop : ReittiObject
 
 - (void)updateDeparturesFromRealtimeDepartures:(NSArray *)realtimeDepartures;
 - (NSString *)destinationForLineFullCode:(NSString *)fullCode;
+
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop;
++ (id)stopFromDigiStopAtDistance:(DigiStopAtDistance *)digiStopAtDistance;
++ (id)stopFromDigiStop:(DigiStop *)digiStop;
 
 @property (nonatomic, retain) NSNumber * code;
+@property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, retain) NSString * code_short;
 @property (nonatomic, retain) NSString * name_fi;
 @property (nonatomic, retain) NSString * name_sv;
@@ -52,6 +57,7 @@
 @property (nonatomic, retain) NSString * omatlahdot_link;
 @property (nonatomic, retain) NSString * address_fi;
 @property (nonatomic, retain) NSString * address_sv;
+@property (nonatomic, strong) NSNumber *distance;
 
 @property (nonatomic, retain) NSArray * lineCodes;
 @property (nonatomic, retain) NSArray * lineFullCodes;

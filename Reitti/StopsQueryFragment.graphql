@@ -1,0 +1,32 @@
+name,
+code,
+desc,
+vehicleType,
+zoneId,
+gtfsId,
+url,
+platformCode,
+lat,
+lon,
+routes {
+    shortName,
+    longName,
+    type,
+    gtfsId,
+    desc
+},
+stoptimesWithoutPatterns (numberOfDepartures: 20){
+    scheduledDeparture,
+    realtimeDeparture,
+    realtimeState,
+    realtime,
+    serviceDay,
+    trip {
+        route {
+            shortName,
+            longName,
+            type
+        },
+        tripHeadsign
+    }
+}

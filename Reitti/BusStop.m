@@ -12,6 +12,8 @@
 #import "ReittiStringFormatter.h"
 #import "StopLine.h"
 #import "AppManager.h"
+#import "StopDeparture.h"
+#import "MatkaLine.h"
 
 @interface BusStop ()
 
@@ -40,14 +42,19 @@
 
 -(StopType)stopType{
     @try {
-        if (!_staticStop) {
-            _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
-        }
-        
-        if (_staticStop) {
-            return _staticStop.reittiStopType;
-        }else{
-            return StopTypeBus;
+        if (_stopType == StopTypeUnknown) {
+            NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
+            if (!_staticStop) {
+                _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+            }
+            
+            if (_staticStop) {
+                return _staticStop.reittiStopType;
+            }else{
+                return StopTypeBus;
+            }
+        } else {
+            return _stopType;
         }
     }
     @catch (NSException *exception) {}
@@ -139,6 +146,44 @@
 }
 
 #pragma mark - Init from other class
+
++ (id)stopFromDigiStopAtDistance:(DigiStopAtDistance *)digiStopAtDistance {
+    return nil;
+}
+
++ (id)stopFromDigiStop:(DigiStop *)digiStop {
+    BusStop *stop = [[BusStop alloc] init];
+    
+    //FIXME: Think about this
+    stop.code = digiStop.numberId;
+    stop.gtfsId = digiStop.gtfsId;
+    stop.code_short = digiStop.code;
+    stop.name_fi = digiStop.name;
+    stop.name_sv = digiStop.name;
+    stop.stopType = digiStop.stopType;
+    stop.city_fi = @"";
+    stop.city_sv = @"";
+    stop.timetable_link = digiStop.url;
+    stop.address_fi = digiStop.desc;
+    stop.address_sv = digiStop.desc;
+    stop.fetchedFromApi = ReittiDigiTransitApi;
+    stop.coords = digiStop.coordString;
+    stop.wgs_coords = digiStop.coordString;
+    
+    NSMutableArray *lines = [@[] mutableCopy];
+    for (DigiRoute *digiRoute in digiStop.routes) {
+        [lines addObject:[StopLine stopLineFromDigiRoute:digiRoute]];
+    }
+    stop.lines = lines;
+    
+    NSMutableArray *departures = [@[] mutableCopy];
+    for (DigiStoptime *digiTime in digiStop.stoptimes) {
+        [departures addObject:[StopDeparture departureForDigiStopTime:digiTime]];
+    }
+    stop.departures = departures;
+    
+    return stop;
+}
 
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStop *stop = [[BusStop alloc] init];

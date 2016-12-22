@@ -16,4 +16,6 @@
 - (CLLocationCoordinate2D)convertTo2DCoord;
 + (NSString *)stringRepresentationOf2DCoord:(CLLocationCoordinate2D)coord;
 
+- (NSNumber *)asa_numberValue;
+
 @end

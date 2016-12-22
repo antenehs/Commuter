@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ApiProtocols.h"
 #import "APIClient.h"
 
-@interface DigiTransitCommunicator : APIClient
+@interface DigiTransitCommunicator : APIClient <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol>
 
 +(id)hslDigiTransitCommunicator;
 +(id)treDigiTransitCommunicator;
 +(id)finlandDigiTransitCommunicator;
 
--(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchDeparturesForStopName:(NSString *)name withCompletionHandler:(ActionBlock)completionBlock;
--(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlockl;
 
 @end

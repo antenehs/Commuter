@@ -68,6 +68,9 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(void)setSkippedcontactsRequestTrials:(NSInteger)index;
 +(NSInteger)showGoProInStopViewRequestCount;
 
++(BOOL)useDigiTransit;
++(void)setUseDigiTrnsit:(BOOL)use;
+
 #if APPLE_WATCH
 +(BOOL)watchRegionSupportsLocalSearching;
 +(void)setWatchRegionSupportsLocalSearching:(BOOL)supports;

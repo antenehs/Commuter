@@ -78,7 +78,7 @@
     self.dateLabel.hidden = YES;
     self.iCloudDownloadButton.hidden = YES;
     
-    self.stopImageView.image = [AppManager stopIconForStopType:[stopGeocode getStopType]];
+    self.stopImageView.image = [AppManager stopIconForStopType:stopGeocode.stopType];
     self.stopNameLabel.text = [NSString stringWithFormat:@"%@ (%@)", stopGeocode.name, stopGeocode.getStopShortCode];
     if (stopGeocode.city && ![stopGeocode.city isEqualToString:@""]) {
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopGeocode.getAddress, stopGeocode.city];

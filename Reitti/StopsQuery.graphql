@@ -1,0 +1,8 @@
+#Arguments - name: \"%@\"
+{
+    stops([*ARGUMENTS*]) {
+
+        [*STOP_FRAGMENT*]
+
+    }
+}

@@ -30,6 +30,13 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
 CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
 
+@interface RettiDataManager ()
+
+@property(nonatomic, strong)DigiTransitCommunicator *hslDigitransitCommunicator;
+@property(nonatomic, strong)DigiTransitCommunicator *finlandDigitransitCommunicator;
+
+@end
+
 @implementation RettiDataManager
 
 @synthesize managedObjectContext;
@@ -89,12 +96,14 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 - (void)initElements {
-    HSLCommunication *hCommunicator = [[HSLCommunication alloc] init];
     
-    self.hslCommunication = hCommunicator;
-    
+    self.hslCommunication = [[HSLCommunication alloc] init];
     self.treCommunication = [[TRECommunication alloc] init];;
     self.matkaCommunicator = [[MatkaCommunicator alloc] init];
+    
+    self.hslDigitransitCommunicator = [DigiTransitCommunicator hslDigiTransitCommunicator];
+    self.finlandDigitransitCommunicator = [DigiTransitCommunicator finlandDigiTransitCommunicator];
+    
     [MatkaTransportTypeManager sharedManager]; //Init singleton
 
     self.hslLiveTrafficManager = [[HSLLiveTrafficManager alloc] init];
@@ -185,20 +194,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
-//- (void)initRegionCoordinates {
-//    CLLocationCoordinate2D coord1 = {.latitude = 60.409784 , .longitude = 24.392395 };
-//    CLLocationCoordinate2D coord2 = {.latitude = 59.908222 , .longitude = 25.304260};
-//    RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
-//    self.helsinkiRegion = helsinkiRegionCoords;
-//    
-//    CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
-//    CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
-//    RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
-//    self.tampereRegion = tampereRegionCoords;
-//}
-
 #pragma mark - regional datasource
 -(ReittiApi)getApiForRegion:(Region)region {
+    //FIXME: TIME TO REFACTOR SETTINGS, to add support for use for digitransit api
     if (region == HSLRegion) {
         return ReittiHSLApi;
     }else if(region == TRERegion){
@@ -228,13 +226,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 -(id)getDataSourceForRegion:(Region)region{
     return [self getDataSourceForApi:[self getApiForRegion:region]];
-//    if (region == TRERegion) {
-//        return self.treCommunication;
-//    }else if(region == HSLRegion){
-//        return self.hslCommunication;
-//    }else{
-//        return self.matkaCommunicator;
-//    }
 }
 
 -(id)getLiveTrafficManagerForCurrentRegion{
@@ -560,9 +551,11 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 #pragma mark - Reverse geocode methods
 
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
-    Region region = [self identifyRegionOfCoordinate:coords];
+    //FIXME: Temporary as hell
+//    Region region = [self identifyRegionOfCoordinate:coords];
+//    id dataSourceManager = [self getDataSourceForRegion:region];
     
-    id dataSourceManager = [self getDataSourceForRegion:region];
+    id dataSourceManager = self.hslDigitransitCommunicator;
     
     if ([dataSourceManager conformsToProtocol:@protocol(ReverseGeocodeProtocol)]) {
         [(NSObject<ReverseGeocodeProtocol> *)dataSourceManager searchAddresseForCoordinate:coords withCompletionBlock:completionBlock];
@@ -576,7 +569,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
 //    geoCodeRequestedFor = userLocationRegion;
     
-    id dataSourceManager = [self getDataSourceForCurrentRegion];
+//    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    
+    id dataSourceManager = self.hslDigitransitCommunicator;
     
     if ([dataSourceManager conformsToProtocol:@protocol(GeocodeProtocol)]) {
         __block NSInteger requestCalls = 2;
@@ -811,7 +806,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 -(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode{
-    if (geoCode.getLocationType != LocationTypeStop)
+    if (geoCode.locationType != LocationTypeStop)
         return nil;
     
     BusStopShort *castedBSS = [[BusStopShort alloc] init];
@@ -914,49 +909,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSavedStopsToWatch:savedStops];
 }
 
-//-(void)updateSelectedStopListForDeletedStop:(int)stopCode andAllStops:(NSArray *)allStops{
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-//    NSString *selectedCodes = [sharedDefaults objectForKey:kUserDefaultsSelectedSavedStopsKey];
-//    
-//    if (allStops == nil) {
-//        [sharedDefaults setObject:@"" forKey:kUserDefaultsSelectedSavedStopsKey];
-//        return;
-//    }
-//    
-//    if (stopCode == 0) {
-//        return;
-//    }
-//    
-//    NSRange strRange = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", stopCode]];
-//    if (strRange.location != NSNotFound) {
-//        StopEntity *new;
-//        for (StopEntity *stop in allStops) {
-//            
-//            if ([stop.busStopCode intValue] != stopCode) {
-//                NSRange range = [selectedCodes rangeOfString:[NSString stringWithFormat:@"%d", [stop.busStopCode intValue]]];
-//                if (range.location == NSNotFound) {
-//                    new = stop;
-//                }
-//            }
-//        }
-//        
-//        if (allStops != nil && new != nil) {
-//            
-//            NSString *newEntry = [NSString stringWithFormat:@"%@", [new busStopCode]];
-//            NSString *newStr = [selectedCodes stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%d", stopCode] withString:newEntry ];
-//            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
-//            [sharedDefaults synchronize];
-//        }else{
-//            NSString *newStr = [selectedCodes stringByReplacingCharactersInRange:strRange withString:@""];
-//            newStr = [newStr stringByReplacingOccurrencesOfString:@",," withString:@","];
-//            newStr = [newStr stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
-//            [sharedDefaults setObject:newStr forKey:kUserDefaultsSelectedSavedStopsKey];
-//            [sharedDefaults synchronize];
-//        }
-//    }
-//    
-//    [self updateSourceApiForStops:allStops];
-//}
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     [self fetchAllSavedRouteCodesFromCoreData];
@@ -965,14 +917,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
     
-//    if ([self isCoordinateInRegion:self.helsinkiRegion coordinate:coords]) {
-//        return HSLRegion;
-//    }
-//    
-//    if ([self isCoordinateInRegion:self.tampereRegion coordinate:coords]) {
-//        return TRERegion;
-//    }
-
     if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
         return HSLRegion;
     }
@@ -983,25 +927,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     
     return FINRegion;
 }
-
-//-(MKCoordinateRegion)mapRegionForRtCoordinateRegion:(RTCoordinateRegion)coordRegion{
-//    CLLocationCoordinate2D center = CLLocationCoordinate2DMake((coordRegion.topLeftCorner.latitude + coordRegion.bottomRightCorner.latitude)/2 , (coordRegion.topLeftCorner.longitude + coordRegion.bottomRightCorner.longitude)/2 );
-//    
-//    CLLocationDegrees latitudeDelta = coordRegion.topLeftCorner.latitude - coordRegion.bottomRightCorner.latitude;
-//    CLLocationDegrees longtudeDelta = coordRegion.bottomRightCorner.longitude - coordRegion.topLeftCorner.longitude;
-//    
-//    return MKCoordinateRegionMake(center, MKCoordinateSpanMake(latitudeDelta, longtudeDelta));
-//}
-
-//-(MKCoordinateRegion)regionForCurrentUserLocation{
-//    if ([self userLocationRegion] == HSLRegion) {
-//        return [self mapRegionForRtCoordinateRegion:helsinkiRegion];
-//    }else if ([self userLocationRegion] == TRERegion){
-//        return [self mapRegionForRtCoordinateRegion:tampereRegion];
-//    }else{
-//        return MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
-//    }
-//}
 
 #pragma mark - Settings Methods
 -(SettingsEntity *)fetchSettings{

@@ -11,32 +11,27 @@
 #import <MapKit/MapKit.h>
 #import "GeoCodeDetail.h"
 #import "MatkaGeoCode.h"
-
-typedef enum
-{
-    LocationTypePOI = 1,
-    LocationTypeAddress = 2,
-    LocationTypeStop = 3,
-    LocationTypeDroppedPin = 10,
-    LocationTypeContact = 550
-} LocationType;
+#import "DigiGeoCode.h"
+#import "DigiStop.h"
 
 @interface GeoCode : NSObject
 
 -(id)initWithMapItem:(MKMapItem *)mapItem;
 +(id)geocodeForMatkaGeocode:(MatkaGeoCode *)matkaGeocode;
++(id)geocodeForDigiGeocode:(DigiGeoCode *)digiGeocode;
++(id)geocodeForDigiStop:(DigiStop *)digiStop;
 
 -(NSString *)getHouseNumber;
 -(NSString *)getAddress;
 -(NSString *)getStopShortCode;
 -(NSNumber *)getStopCode;
--(LocationType)getLocationType;
--(void)setLocationType:(LocationType)type;
+
 -(NSString *)fullAddressString;
 -(NSString *)getStreetAddressString;
--(StopType)getStopType;
 
-@property (nonatomic, retain) NSString * locType;
+//-(StopType)getStopType;
+
+//@property (nonatomic, retain) NSString * locType;
 @property (nonatomic, retain) NSNumber * locTypeId;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * matchedName;
@@ -44,6 +39,11 @@ typedef enum
 @property (nonatomic, retain) NSString * lang;
 @property (nonatomic, retain) NSString * coords;
 @property (nonatomic, retain) GeoCodeDetail *details;
+@property (nonatomic) LocationType locationType;
+@property (nonatomic) StopType stopType;
+
+//-(LocationType)getLocationType;
+//-(void)setLocationType:(LocationType)type;
 
 @property (nonatomic, retain) NSString * iconPictureName;
 @property (nonatomic, strong) UIImage *annotationImage;

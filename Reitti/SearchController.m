@@ -1287,7 +1287,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 stopAnT.code = stop.code;
                 stopAnT.shortCode = codeShort;
                 stopAnT.title = name;
-                stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", codeShort];
+                if (stop.linesString) {
+                    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@ · %@",codeShort, stop.linesString];
+                } else {
+                    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", codeShort];
+                }
+                
                 stopAnT.coordinate = coordinate;
                 stopAnT.annotationType = [EnumManager annotTypeForNearbyStopType:stop.stopType];
                 stopAnT.stopType = stop.stopType;
@@ -1385,13 +1390,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     NSString * name = @"";
     NSString * city = @"";
     
-    if (geoCode.getLocationType == LocationTypePOI) {
+    if (geoCode.locationType == LocationTypePOI) {
         name = geoCode.name;
         city = geoCode.city;
-    }else if (geoCode.getLocationType == LocationTypeContact) {
+    }else if (geoCode.locationType == LocationTypeContact) {
         name = geoCode.name;
         city = geoCode.fullAddressString;
-    }else if (geoCode.getLocationType  == LocationTypeAddress){
+    }else if (geoCode.locationType  == LocationTypeAddress){
         name = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
         city = geoCode.city;
     }else{
@@ -1741,6 +1746,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]])
         {
+            //FIXME: code should be string and gtfs already in the annotation
             JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
             NSString *code = @"";
             if([stopAnnotation.thumbnail.code isKindOfClass:[NSNumber class]])
@@ -2419,6 +2425,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)nearByStopFetchDidComplete:(NSArray *)stopList{
     
     if (stopList.count > 0) {
+        NSArray *fetchedStops = stopList;
+        
         if ([stopList.firstObject isKindOfClass:NearByStop.class]) {
             //TODO: Check if update is needed by checking existing list and values in cache
             //Do the check in separate thread
@@ -2429,11 +2437,22 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 [tempArray addObject:sStop];
             }
             
-            self.nearByStopList = tempArray;
+            fetchedStops = tempArray;
             //TODO: Store in stops cache
-        }else{
-            self.nearByStopList = stopList;
+        } else if ([stopList.firstObject isKindOfClass:[BusStop class]] ) {
+            //Cast BusStop to BusStopShort
+            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+            
+            for (BusStop *stop in stopList) {
+                BusStopShort *sStop = [BusStopShort stopFromBusStop:stop];
+                [tempArray addObject:sStop];
+                [self setDetailStopForBusStopShort:sStop busStop:stop];
+            }
+            
+            fetchedStops = tempArray;
         }
+        
+        self.nearByStopList = fetchedStops;
     }
     
     [self setupNearByStopsListTableviewFor:stopList];
@@ -2566,7 +2585,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:geoCode.coords]];
     //Check if it is type busstop
-    if (geoCode.getLocationType == LocationTypeStop) {
+    if (geoCode.locationType == LocationTypeStop) {
         //Convert GeoCode to busStopShort
         [self plotStopAnnotation:[reittiDataManager castStopGeoCodeToBusStopShort:geoCode] withSelect:YES isBookmark:NO];
         
@@ -2863,7 +2882,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)configureStopViewController:(StopViewController *)stopViewController withBusStopShort:(BusStopShort *)busStop{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
-        stopViewController.stopCode = [NSString stringWithFormat:@"%d", [busStop.code intValue]];
+        if ([SettingsManager useDigiTransit] && busStop.gtfsId) {
+            stopViewController.stopCode = busStop.gtfsId;
+        } else {
+            stopViewController.stopCode = [NSString stringWithFormat:@"%d", [busStop.code intValue]];
+        }
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:busStop.coords];
         stopViewController.stopShortCode = busStop.codeShort;
         stopViewController.stopName = busStop.name;

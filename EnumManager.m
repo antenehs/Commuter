@@ -96,6 +96,32 @@
     }
 }
 
++(StopType)stopTypeFromLineType:(LineType)lineType {
+    
+    switch (lineType) {
+        case LineTypeBus:
+            return StopTypeBus;
+        case LineTypeTram:
+            return StopTypeTram;
+        case LineTypeTrain:
+            return StopTypeTrain;
+        case LineTypeMetro:
+            return StopTypeMetro;
+        case LineTypeFerry:
+            return StopTypeFerry;
+        case LineTypeLongDistanceTrain:
+            return StopTypeTrain;
+        case LineTypeAirplane:
+            return StopTypeAirport;
+        case LineTypeOther:
+            return StopTypeOther;
+        case LineTypeBicycle:
+            return StopTypeBikeStation;
+        default:
+            return StopTypeOther;
+    }
+}
+
 +(VehicleType)vehicleTypeForTypeName:(NSString *)type{
     if ([type isEqualToString:@"tram"]) {
         return VehicleTypeTram;

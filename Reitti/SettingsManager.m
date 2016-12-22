@@ -20,6 +20,7 @@ NSString * const kAnnotationTypesEnableStateKey = @"AnnotationTypesEnableStateKe
 NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks";
 NSString * const kAskedContactsPermission = @"AskedContactsPermission";
 NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
+NSString * const kUseDigiTransitApi = @"UseDigiTransitApi";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequestCount";
 NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocalSearching";
@@ -215,6 +216,14 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
 
 +(void)setStartingIndexTab:(NSInteger)index{
     [self saveIntegerForKey:kStartingTabNsDefaultsKey integerValue:index];
+}
+
++(BOOL)useDigiTransit {
+    return [self readBoolForKey:kUseDigiTransitApi withDefault:YES];
+}
+
++(void)setUseDigiTrnsit:(BOOL)use {
+    [self saveBoolForKey:kUseDigiTransitApi boolVal:use];
 }
 
 #if APPLE_WATCH

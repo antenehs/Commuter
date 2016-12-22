@@ -12,6 +12,27 @@
 
 @synthesize fullCode, code, name, direction, destination, lineStart, lineEnd, lineType;
 
+#pragma mark - Init from other models
+#ifndef APPLE_WATCH
++(id)stopLineFromDigiRoute:(DigiRoute *)digiRoute {
+    
+    StopLine *line = [[StopLine alloc] init];
+    
+    line.fullCode = digiRoute.gtfsId;
+    line.code = [digiRoute.shortName uppercaseString];
+    line.name = digiRoute.longName;
+    line.direction = @"1";
+    line.lineType = digiRoute.lineType;
+    
+    //FIXME: Parse these
+    line.destination = digiRoute.longName;
+    line.lineStart = digiRoute.longName;
+    line.lineEnd = digiRoute.longName;
+    
+    return line;
+}
+#endif
+
 #pragma mark - NSCoding Methods
 
 - (id)initWithCoder:(NSCoder *)aDecoder

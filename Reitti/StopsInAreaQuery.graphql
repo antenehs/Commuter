@@ -1,0 +1,18 @@
+{
+    stopsByRadius([*ARGUMENTS*]) {
+        edges {
+            node {
+                stop {
+                    [*STOP_FRAGMENT*]
+                }
+                distance
+            }
+        }
+        pageInfo {
+            hasNextPage,
+            hasPreviousPage,
+            startCursor,
+            endCursor
+        }
+    }
+}

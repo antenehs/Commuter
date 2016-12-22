@@ -10,14 +10,15 @@
 
 typedef enum
 {
-    StopTypeBus = 0,
-    StopTypeTram = 1,
-    StopTypeTrain = 2,
-    StopTypeMetro = 3,
-    StopTypeFerry = 4,
-    StopTypeOther = 5,
-    StopTypeAirport = 6,
-    StopTypeBikeStation = 7
+    StopTypeUnknown = 0,
+    StopTypeBus = 1,
+    StopTypeTram = 2,
+    StopTypeTrain = 3,
+    StopTypeMetro = 4,
+    StopTypeFerry = 5,
+    StopTypeOther = 6,
+    StopTypeAirport = 7,
+    StopTypeBikeStation = 8
 } StopType;
 
 typedef enum
@@ -60,8 +61,7 @@ typedef enum
     
 } LegTransportType;
 
-typedef enum
-{
+typedef enum {
     WeekDayMonday = 1,
     WeekDayTuesday = 2,
     WeekDayWedensday = 3,
@@ -71,7 +71,7 @@ typedef enum
     WeekDaySunday = 7
 } WeekDay;
 
-typedef enum{
+typedef enum {
     NearByBusStopType = 11,
     NearByTramStopType = 12,
     NearByTrainStopType = 13,
@@ -87,11 +87,21 @@ typedef enum{
     OtherType = 8
 } AnnotationType;
 
+typedef enum {
+    LocationTypeUnknown = 0,
+    LocationTypePOI = 1,
+    LocationTypeAddress = 2,
+    LocationTypeStop = 3,
+    LocationTypeDroppedPin = 10,
+    LocationTypeContact = 550
+} LocationType;
+
 @interface EnumManager : NSObject
 
 +(StopType)stopTypeForGDTypeString:(NSString *)type;
 +(StopType)stopTypeForPubTransStopType:(NSString *)type;
 +(StopType)stopTypeFromLegType:(LegTransportType)type;
++(StopType)stopTypeFromLineType:(LineType)lineType;
 
 +(VehicleType)vehicleTypeForTypeName:(NSString *)type;
 +(VehicleType)vehicleTypeForLineType:(LineType)lineType;

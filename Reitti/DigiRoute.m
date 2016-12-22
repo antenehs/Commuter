@@ -62,6 +62,11 @@ NSString *const kDigiRouteLongName = @"longName";
     return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
 }
 
+#pragma mark - Derived properties
+-(LineType)lineType {
+    return [EnumManager lineTypeForDigiLineType:self.type];
+}
+
 #pragma mark - Helper Method
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
 {
@@ -117,10 +122,11 @@ NSString *const kDigiRouteLongName = @"longName";
 +(RKObjectMapping *)objectMapping {
     RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[DigiRoute class] ];
     [routeMapping addAttributeMappingsFromDictionary:@{
-                                                       @"type" : @"type",
+                                                       @"type"      : @"type",
                                                        @"shortName" : @"shortName",
-                                                       @"longName"     : @"longName",
-                                                       @"gtfsId"     : @"gtfsId"
+                                                       @"longName"  : @"longName",
+                                                       @"gtfsId"    : @"gtfsId",
+                                                       @"desc"      : @"desc"
                                                        }];
     return routeMapping;
 }

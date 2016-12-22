@@ -9,10 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
 
+#ifndef APPLE_WATCH
+#import "DigiDataModels.h"
+#endif
+
+
 @interface StopLine : NSObject <NSCoding>
 
 + (instancetype)initFromDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)dictionaryRepresentation;
+
+#ifndef APPLE_WATCH
++(id)stopLineFromDigiRoute:(DigiRoute *)digiRoute;
+#endif
 
 @property (nonatomic, strong) NSString *fullCode;
 @property (nonatomic, strong) NSString *code;

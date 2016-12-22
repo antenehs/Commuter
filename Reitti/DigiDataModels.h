@@ -6,6 +6,7 @@
 //
 
 #import "DigiStop.h"
+#import "DigiStopAtDistance.h"
 #import "DigiTrip.h"
 #import "DigiRoute.h"
 #import "DigiStoptime.h"
@@ -16,3 +17,5 @@
 #import "DigiGeometry.h"
 #import "DigiPlan.h"
 #import "DigiBikeRentalStation.h"
+#import "DigiFeatureProperties.h"
+#import "DigiGeoCode.h"

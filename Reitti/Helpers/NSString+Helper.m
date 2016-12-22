@@ -41,4 +41,12 @@
     return [NSString stringWithFormat:@"%f,%f", coord.longitude, coord.latitude];
 }
 
+-(NSNumber *)asa_numberValue {
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *myNumber = [f numberFromString:self];
+    
+    return myNumber;
+}
+
 @end

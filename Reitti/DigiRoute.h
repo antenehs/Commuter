@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+#import "EnumManager.h"
 
 @interface DigiRoute : NSObject <NSCoding, NSCopying>
 
@@ -14,6 +15,9 @@
 @property (nonatomic, strong) NSString *shortName;
 @property (nonatomic, strong) NSString *longName;
 @property (nonatomic, strong) NSString *gtfsId;
+@property (nonatomic, strong) NSString *desc;
+
+@property (nonatomic) LineType lineType;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 +(RKObjectMapping *)objectMapping;

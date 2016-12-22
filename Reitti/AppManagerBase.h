@@ -33,6 +33,7 @@ extern NSString *kProAppRateAppStoreLink;
 +(NSString *)currentAppVersion;
 
 +(BOOL)isProVersion;
++(BOOL)isDebugMode;
 
 +(NSString *)nsUserDefaultsStopsWidgetSuitName;
 +(NSString *)nsUserDefaultsRoutesExtensionSuitName;

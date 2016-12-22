@@ -6,13 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ReittiObject.h"
 
-
-
-@interface Geometry : NSObject <NSCoding, NSCopying>
+@interface Geometry : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSArray *coordinates;
+
+@property (nonatomic, strong) NSString *coordString;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

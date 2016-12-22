@@ -113,9 +113,9 @@
         else
             self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", [self.namedBookmark streetAddress], [self.namedBookmark city]];
     }else if (viewControllerMode == ViewControllerModeViewGeoCode){
-        if (self.geoCode.getLocationType == LocationTypePOI)
+        if (self.geoCode.locationType == LocationTypePOI)
             self.name = self.geoCode.name;
-        else if (self.geoCode.getLocationType == LocationTypeAddress)
+        else if (self.geoCode.locationType == LocationTypeAddress)
             self.name = self.geoCode.name;
         else
             self.name = self.geoCode.name;

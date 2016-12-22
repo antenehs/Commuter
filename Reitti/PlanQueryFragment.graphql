@@ -1,0 +1,75 @@
+
+itineraries {
+    startTime,
+    endTime,
+    walkDistance,
+    walkTime,
+    waitingTime,
+    duration,
+    legs {
+        mode,
+        startTime,
+        endTime,
+        duration,
+        distance,
+        rentedBike,
+        transitLeg,
+        realTime,
+        from {
+            lat,
+            lon,
+            name,
+            bikeRentalStation {
+                stationId,
+                name,
+                bikesAvailable,
+                spacesAvailable,
+                realtime,
+            },
+            stop {
+                name,
+                gtfsId,
+                code
+            }
+        },
+        to {
+            lat,
+            lon,
+            name,
+            bikeRentalStation {
+                stationId,
+                name,
+                bikesAvailable,
+                spacesAvailable,
+                realtime,
+            },
+            stop {
+                name,
+                gtfsId,
+                code,
+            }
+        },
+        intermediateStops {
+            gtfsId,
+            code,
+            name,
+            lat,
+            lon,
+        },
+        trip {
+            tripHeadsign,
+            route {
+                longName,
+                shortName,
+                type,
+                gtfsId
+            },
+            pattern {
+                geometry {
+                    lat,
+                    lon
+                }
+            }
+        }
+    }
+}

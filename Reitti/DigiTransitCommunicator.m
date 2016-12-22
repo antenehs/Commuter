@@ -11,9 +11,11 @@
 #import "ReittiStringFormatter.h"
 #import "ReittiMapkitHelper.h"
 #import "ReittiDateFormatter.h"
+#import "GraphQLQuery.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
+#import "StopDeparture.h"
 #endif
 
 NSString *kHslDigiTransitGraphQlUrl = @"http://api.digitransit.fi/routing/v1/routers/hsl/index/graphql";
@@ -29,6 +31,11 @@ typedef enum : NSUInteger {
 
 @property (nonatomic)DigiTransitSource source;
 
+@property (nonatomic, strong) APIClient *addressSearchClient;
+@property (nonatomic, strong) APIClient *addressReverseClient;
+
+@property (nonatomic, strong) NSDictionary *searchFilterBoundary;
+
 @end
 
 @implementation DigiTransitCommunicator
@@ -37,6 +44,12 @@ typedef enum : NSUInteger {
     DigiTransitCommunicator *communicator = [DigiTransitCommunicator new];
     communicator.apiBaseUrl = kHslDigiTransitGraphQlUrl;
     communicator.source = HslApi;
+    
+    communicator.searchFilterBoundary = @{@"boundary.rect.min_lon" : @"25.332469",
+                                          @"boundary.rect.min_lat" : @"60.017154",
+                                          @"boundary.rect.max_lon" : @"24.507191",
+                                          @"boundary.rect.max_lat" : @"60.256700"};
+    
     return communicator;
 }
 
@@ -54,20 +67,105 @@ typedef enum : NSUInteger {
     return communicator;
 }
 
+-(id)init {
+    self = [super init];
+    if (self) {
+        self.addressSearchClient = [[APIClient alloc] init];
+        self.addressSearchClient.apiBaseUrl = @"https://api.digitransit.fi/geocoding/v1/search";
+        
+        self.addressReverseClient = [[APIClient alloc] init];
+        self.addressReverseClient.apiBaseUrl = @"https://api.digitransit.fi/geocoding/v1/reverse";
+    }
+    
+    return self;
+}
+
+#pragma mark - Stop in area fetching methods
+- (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock {
+    
+    [super doGraphQlQuery:[self stopInAreadGraphQlQueryForRegionCenterCoords:regionCenter andDiameter:diameter] responseDiscriptor:[DigiStopAtDistance responseDiscriptorForPath:@"data.stopsByRadius.edges"] andCompletionBlock:^(NSArray *stops, NSError *error){
+        if (!error && stops.count > 0) {
+            NSMutableArray *allStops = [@[] mutableCopy];
+            for (DigiStopAtDistance *stopAtDist in stops) {
+                [allStops addObject:[BusStop stopFromDigiStop:stopAtDist.stop]];
+            }
+            completionBlock(allStops, nil);
+        } else {
+            completionBlock(nil, @"Stop fetch failed");//Proper error message here.
+        }
+    }];
+    
+}
+
+-(NSString *)stopInAreadGraphQlQueryForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter {
+    
+    return [GraphQLQuery stopInAreaQueryStringWithArguments:@{@"lat" : [NSNumber numberWithDouble:regionCenter.latitude],
+                                                              @"lon" : [NSNumber numberWithDouble:regionCenter.longitude],
+                                                              @"radius": [NSNumber numberWithInteger:diameter/2]}];
+}
+
 #pragma mark - Stop detail fetching
+- (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock {
+    if (!stopCode)  {
+        completionBlock(nil, @"No stopCode");
+        return;
+    }
+    
+    [self fetchStopsForIds:@[stopCode] withCompletionBlock:^(NSArray *stops, NSError *error){
+        if (!error && stops.count > 0) {
+            completionBlock(stops.firstObject, nil);
+        } else {
+            completionBlock(nil, @"Stop fetch failed");//Proper error message here.
+        }
+    }];
+}
+
+
+-(void)fetchStopsForIds:(NSArray *)stopIds withCompletionBlock:(ActionBlock)completionBlock {
+    if (!stopIds || stopIds.count < 1){
+        completionBlock(nil, @"No Stop Ids");
+        return;
+    }
+    
+    [super doGraphQlQuery:[self stopGraphQlQueryForArguments:@{@"ids" : stopIds }] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
+        if (!error && stops.count > 0) {
+            NSMutableArray *allStops = [@[] mutableCopy];
+            for (DigiStop *digiStop in stops) {
+                [allStops addObject:[BusStop stopFromDigiStop:digiStop]];
+            }
+            completionBlock(allStops, nil);
+        } else {
+            completionBlock(nil, @"Stop fetch failed");//Proper error message here.
+        }
+    }];
+}
+
+
 -(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock {
     if (!stopName){
         completionBlock(nil, @"No Stop Name");
         return;
     }
     
-    [super doGraphQlQuery:[self stopGraphQlQueryForName:stopName] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
+    [super doGraphQlQuery:[self stopGraphQlQueryForArguments:@{@"name" : stopName}] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
         if (!error) {
             completionBlock(stops, nil);
         } else {
             completionBlock(nil, @"Stop fetch failed");//Proper error message here. 
         }
     }];
+}
+
+-(NSString *)stopGraphQlQueryForArguments:(NSDictionary *)arguments {
+    //    return [NSString stringWithFormat:@"{ stops(name: \"%@\") { name,code,gtfsId,url,platformCode,lat,lon,routes {shortName,longName,type},stoptimesWithoutPatterns (numberOfDepartures: 20){scheduledDeparture,realtimeDeparture,realtimeState,realtime,serviceDay,trip {route {shortName,longName, type},tripHeadsign}}}}", name];
+    
+    return [GraphQLQuery stopQueryStringWithArguments:arguments];
+}
+
+#pragma mark - Realtime departure fetching methods
+-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
+    //Use code as name in case of HSL region
+    [self fetchDeparturesForStopName:code withCompletionHandler:completionBlock];
 }
 
 -(void)fetchDeparturesForStopName:(NSString *)name withCompletionHandler:(ActionBlock)completionBlock {
@@ -92,10 +190,6 @@ typedef enum : NSUInteger {
 #if MAIN_APP
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRealtimeDepartureFromApi label:@"DIGITRANSIT" value:nil];
 #endif
-}
-
--(NSString *)stopGraphQlQueryForName:(NSString *)name {
-    return [NSString stringWithFormat:@"{ stops(name: \"%@\") { name,code,gtfsId,url,platformCode,lat,lon,routes {shortName,longName,type},stoptimesWithoutPatterns (numberOfDepartures: 20){scheduledDeparture,realtimeDeparture,realtimeState,realtime,serviceDay,trip {route {shortName,longName, type},tripHeadsign}}}}", name];
 }
 
 #pragma mark - Route search
@@ -123,15 +217,119 @@ typedef enum : NSUInteger {
     if (![ReittiMapkitHelper isValidCoordinate:fromCoords] || ![ReittiMapkitHelper isValidCoordinate:toCoords])
         return nil;
     
-    NSString *fromCoordLat = [NSString stringWithFormat:@"%f", fromCoords.latitude];
-    NSString *fromCoordLon = [NSString stringWithFormat:@"%f", fromCoords.longitude];
-    NSString *toCoordLat = [NSString stringWithFormat:@"%f", toCoords.latitude];
-    NSString *toCoordLon = [NSString stringWithFormat:@"%f", toCoords.longitude];
-    
     NSString *date = [[ReittiDateFormatter sharedFormatter] digitransitQueryDateStringFromDate:options.date];
     NSString *time = [[ReittiDateFormatter sharedFormatter] digitransitQueryTimeStringFromDate:options.date];
     
-    return [NSString stringWithFormat:@"{plan(from: {lat: %@, lon: %@}, to: {lat: %@, lon: %@}, numItineraries: 5, modes: \"BICYCLE_RENT,BUS,TRAM,SUBWAY,RAIL,FERRY,WALK\", allowBikeRental: true, date: \"%@\", time: \"%@\") { itineraries{ startTime, endTime, walkDistance, walkTime, waitingTime, duration, legs { mode, startTime, endTime, duration, distance, rentedBike, transitLeg, realTime, from { lat, lon, name, bikeRentalStation { stationId, name, bikesAvailable, spacesAvailable, realtime }, stop { name, gtfsId, code } }, to { lat, lon, name, bikeRentalStation { stationId, name, bikesAvailable, spacesAvailable, realtime}, stop { name, gtfsId, code } }, intermediateStops { gtfsId, code, name, lat, lon, }, trip { tripHeadsign, route {longName,shortName, type, gtfsId}, pattern { geometry { lat, lon, } } } } }}}", fromCoordLat, fromCoordLon, toCoordLat, toCoordLon, date, time];
+    NSDictionary *arguments = @{@"from" : @{@"lat": [NSNumber numberWithDouble:fromCoords.latitude], @"lon": [NSNumber numberWithDouble:fromCoords.longitude]},
+                                @"to" : @{@"lat": [NSNumber numberWithDouble:toCoords.latitude], @"lon": [NSNumber numberWithDouble:toCoords.longitude]},
+                                @"numItineraries" : @5,
+                                @"modes" : @"BICYCLE_RENT,BUS,TRAM,SUBWAY,RAIL,FERRY,WALK",
+                                @"allowBikeRental" : [NSNumber numberWithBool:YES],
+                                @"date" : date,
+                                @"time" : time
+                                };
+    
+    return [GraphQLQuery planQueryStringWithArguments:arguments];
+}
+
+#pragma mark - Geocode methods
+- (void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    __block NSInteger requestCalls = 2;
+    __block NSMutableArray *allResults = [@[] mutableCopy];
+    __block NSArray *addressResults = @[];
+    __block NSArray *stopResults = @[];
+    
+    [self fetchStopsForName:searchTerm withCompletionBlock:^(NSArray *responseArray, NSError *error){
+        requestCalls--;
+        if (!error && responseArray) {
+            
+            NSMutableArray *results = [@[] mutableCopy];
+            for (DigiStop *digiStop in responseArray) {
+                [results addObject:[GeoCode geocodeForDigiStop:digiStop]];
+            }
+            
+            stopResults = results;
+            
+            if (requestCalls == 0){
+                allResults = [@[] mutableCopy];
+                [allResults addObjectsFromArray:addressResults];
+                [allResults addObjectsFromArray:stopResults];
+                completionBlock(allResults, nil);
+            }
+        }
+    }];
+    
+    [optionsDict setValue:searchTerm forKey:@"text"];
+    [optionsDict setValue:@"venue,street,locality" forKey:@"layers"];
+    [optionsDict setValue:@"50" forKey:@"size"];
+    
+//    if (self.searchFilterBoundary)
+//        [optionsDict addEntriesFromDictionary:self.searchFilterBoundary];
+    
+    [self.addressSearchClient doJsonApiFetchWithParams:optionsDict responseDescriptor:[DigiGeoCode responseDiscriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        requestCalls--;
+        if (!error && responseArray) {
+            
+            NSMutableArray *results = [@[] mutableCopy];
+            for (DigiGeoCode *digiGeocode in responseArray) {
+                [results addObject:[GeoCode geocodeForDigiGeocode:digiGeocode]];
+            }
+            
+            addressResults = results;
+            
+            if (requestCalls == 0){
+                allResults = [@[] mutableCopy];
+                [allResults addObjectsFromArray:addressResults];
+                [allResults addObjectsFromArray:stopResults];
+                completionBlock(allResults, nil);
+            }
+        }
+    }];
+    
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedAddressFromApi label:@"HSL:DIGI" value:nil];
+}
+
+#pragma mark - Reverese geocode methods
+- (void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    
+    NSString *latString = [NSString stringWithFormat:@"%f", coords.latitude];
+    NSString *lonString = [NSString stringWithFormat:@"%f", coords.longitude];
+    
+    [optionsDict setValue:latString forKey:@"point.lat"];
+    [optionsDict setValue:lonString forKey:@"point.lon"];
+    [optionsDict setValue:@"address" forKey:@"layers"];
+    [optionsDict setValue:@"1" forKey:@"size"];
+    
+    [self.addressReverseClient doJsonApiFetchWithParams:optionsDict responseDescriptor:[DigiGeoCode responseDiscriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        if (!error && responseArray && responseArray.count > 0) {
+            
+            completionBlock([GeoCode geocodeForDigiGeocode:responseArray[0]], nil);
+        }else{
+            completionBlock(nil, [self formattedReverseGeocodeFetchErrorMessageForError:error]);
+        }
+    }];
+    
+    
+    [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"HSL:DIGI" value:nil];
+    
+}
+
+-(NSString *)formattedReverseGeocodeFetchErrorMessageForError:(NSError *)error{
+    NSString *errorString = @"";
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        default:
+            errorString = @"No address was found for the coordinates";
+            break;
+    }
+    
+    return errorString;
 }
 
 @end

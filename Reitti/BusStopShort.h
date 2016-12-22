@@ -8,17 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "NearByStop.h"
-#import "ReittiModels.h"
+//#import "ReittiModels.h"
 #import "MatkaStop.h"
 #import "ReittiObject.h"
+#import "BusStop.h"
 
 @interface BusStopShort : ReittiObject
 
 -(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop;
+
++(id)stopFromBusStop:(BusStop *)stop;
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 //-(void)setStopTypeForGDTypeString:(NSString *)type;
 
 @property (nonatomic, retain) NSNumber * code;
+@property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, retain) NSString * codeShort;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * city;

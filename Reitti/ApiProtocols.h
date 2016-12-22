@@ -18,7 +18,9 @@ typedef enum
     ReittiCurrentRegionApi = 1, //Api favored for the current user location
     ReittiHSLApi = 100,
     ReittiTREApi = 200,
-    ReittiMatkaApi = 300
+    ReittiMatkaApi = 300,
+    ReittiDigiTransitApi = 400,
+    ReittiDigiTransitHslApi = 500
 } ReittiApi;
 
 @protocol RouteSearchProtocol <NSObject>

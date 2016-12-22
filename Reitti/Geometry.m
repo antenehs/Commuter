@@ -23,7 +23,15 @@ NSString *const kGeometryCoordinates = @"coordinates";
 @synthesize type = _type;
 @synthesize coordinates = _coordinates;
 
+-(NSString *)coordString {
+    
+    NSNumber *longitude = [self.coordinates objectAtIndex:0];
+    NSNumber *latitude = [self.coordinates objectAtIndex:1];
+    
+    return [NSString stringWithFormat:@"%@,%@", longitude, latitude];
+}
 
+#pragma mark - Initialization and factory methods
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
 {
     return [[self alloc] initWithDictionary:dict];
@@ -108,5 +116,26 @@ NSString *const kGeometryCoordinates = @"coordinates";
     return copy;
 }
 
+#pragma mark - Mappable protocol implemention
+
+#ifndef APPLE_WATCH
++(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[Geometry objectMapping]
+                                                        method:RKRequestMethodAny
+                                                   pathPattern:nil
+                                                       keyPath:path
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++(RKObjectMapping *)objectMapping {
+    RKObjectMapping* geocodeMapping = [RKObjectMapping mappingForClass:[Geometry class] ];
+    [geocodeMapping addAttributeMappingsFromDictionary:@{
+                                                         @"type" : @"type",
+                                                         @"coordinates" : @"coordinates"
+                                                         }];
+    
+    return geocodeMapping;
+}
+#endif
 
 @end

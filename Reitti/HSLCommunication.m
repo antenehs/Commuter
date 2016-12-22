@@ -19,6 +19,7 @@
 #import "DigiTransitCommunicator.h"
 #import "DigiDataModels.h"
 #import "AnnotationFilterOption.h"
+#import "SettingsManager.h"
 
 @interface HSLCommunication ()
 
@@ -64,8 +65,8 @@
 
 #pragma mark - Route search protocol implementation
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock{
-    
-    if (![options.selectedRouteTrasportTypes containsObject:@"City Bike"]) {
+    //![options.selectedRouteTrasportTypes containsObject:@"City Bike"]
+    if (![SettingsManager useDigiTransit]) {
         NSDictionary *optionsDict = [self apiRequestParametersDictionaryForRouteOptions:options];
         
         NSString *username = [self getApiUsername];
@@ -181,14 +182,18 @@
 #pragma mark - Stops in areas search protocol implementation
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock{
     
-    NSMutableDictionary *optionsDict = [@{} mutableCopy];
-    
-    NSString *username = [self getApiUsername];
-    
-    [optionsDict setValue:username forKey:@"user"];
-    [optionsDict setValue:@"rebekah" forKey:@"pass"];
-    
-    [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
+    if ([SettingsManager useDigiTransit]) {
+        [[DigiTransitCommunicator hslDigiTransitCommunicator] fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withCompletionBlock:completionBlock];
+    } else {
+        NSMutableDictionary *optionsDict = [@{} mutableCopy];
+        
+        NSString *username = [self getApiUsername];
+        
+        [optionsDict setValue:username forKey:@"user"];
+        [optionsDict setValue:@"rebekah" forKey:@"pass"];
+        
+        [super fetchStopsInAreaForRegionCenterCoords:regionCenter andDiameter:diameter withOptionsDictionary:optionsDict withCompletionBlock:completionBlock];
+    }
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedNearbyStopsFromApi label:@"HSL" value:nil];
     
@@ -197,29 +202,34 @@
 #pragma mark - stop detail fetch protocol implementation
 
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock{
-    NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
-    NSString *username = [self getApiUsername];
-    
-    [optionsDict setValue:username forKey:@"user"];
-    [optionsDict setValue:@"rebekah" forKey:@"pass"];
-    
-    [super fetchStopDetailForCode:stopCode andOptionsDictionary:optionsDict withCompletionBlock:^(NSArray *fetchResult, NSString *error){
-        if (!error) {
-            if (fetchResult.count > 0) {
-                //Assuming the stop code was unique and there is only one result
-                BusStop *stop = fetchResult[0];
-                
-                //Parse lines and departures
-                [self parseStopLines:stop];
-                [self parseStopDepartures:stop];
-                
-                completionBlock(stop, nil);
+    if ([SettingsManager useDigiTransit]) {
+        [[DigiTransitCommunicator hslDigiTransitCommunicator] fetchStopDetailForCode:stopCode withCompletionBlock:completionBlock];
+    } else {
+        NSMutableDictionary *optionsDict = [@{} mutableCopy];
+        
+        NSString *username = [self getApiUsername];
+        
+        [optionsDict setValue:username forKey:@"user"];
+        [optionsDict setValue:@"rebekah" forKey:@"pass"];
+        
+        [super fetchStopDetailForCode:stopCode andOptionsDictionary:optionsDict withCompletionBlock:^(NSArray *fetchResult, NSString *error){
+            if (!error) {
+                if (fetchResult.count > 0) {
+                    //Assuming the stop code was unique and there is only one result
+                    BusStop *stop = fetchResult[0];
+                    
+                    //Parse lines and departures
+                    [self parseStopLines:stop];
+                    [self parseStopDepartures:stop];
+                    
+                    completionBlock(stop, nil);
+                }
+            }else{
+                completionBlock(nil, error);
             }
-        }else{
-            completionBlock(nil, error);
-        }
-    }];
+        }];
+    }
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedStopFromApi label:@"HSL" value:nil];
 }

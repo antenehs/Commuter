@@ -9,6 +9,7 @@
 #import "AddressTableViewCell.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
+#import "SettingsManager.h"
 
 @interface AddressTableViewCell ()
 
@@ -31,17 +32,22 @@
     
     [self.addressImageView setImage:[UIImage imageNamed:geoCode.iconPictureName]];
     
-    if (geoCode.getLocationType == LocationTypePOI || geoCode.getLocationType == LocationTypeContact) {
+    if (geoCode.locationType == LocationTypePOI || geoCode.locationType == LocationTypeContact) {
         self.nameLabel.textColor = [UIColor blackColor];
         
         self.nameLabel.text = geoCode.name;
         self.addressLabel.text = [NSString stringWithFormat:@"%@", [geoCode fullAddressString]];
-    }else if (geoCode.getLocationType  == LocationTypeAddress) {
+    }else if (geoCode.locationType  == LocationTypeAddress) {
         self.separatorView.hidden = NO;
         self.addressSelectionButton.hidden = NO;
         self.nameLabel.textColor = [UIColor blackColor];
         
-        self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
+        //Digi API already has the number on the name
+        if ([SettingsManager useDigiTransit]) {
+            self.nameLabel.text = geoCode.name;
+        } else {
+            self.nameLabel.text = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
+        }
         self.addressLabel.text = [NSString stringWithFormat:@"%@", geoCode.city];
     }else{
         self.nameLabel.text = @"Dropped pin";

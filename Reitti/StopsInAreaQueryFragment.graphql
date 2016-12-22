@@ -1,0 +1,15 @@
+
+edges {
+    node {
+        stop {
+            name
+        }
+        distance
+    }
+}
+pageInfo {
+    hasNextPage,
+    hasPreviousPage,
+    startCursor,
+    endCursor
+}

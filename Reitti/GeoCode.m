@@ -10,10 +10,11 @@
 #import "CacheManager.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
+#import "SettingsManager.h"
 
 @implementation GeoCode
 
-@synthesize locType;
+//@synthesize locType;
 @synthesize locTypeId;
 @synthesize name;
 @synthesize matchedName;
@@ -46,7 +47,7 @@
     GeoCode *geoCode = [[GeoCode alloc] init];
     
     geoCode.name = matkaGeocode.name;
-    geoCode.locType = matkaGeocode.category;
+//    geoCode.locType = matkaGeocode.category;
     geoCode.locTypeId = matkaGeocode.type;
     geoCode.coords = matkaGeocode.coordString;
     geoCode.city = matkaGeocode.city;
@@ -55,6 +56,43 @@
     detail.address = matkaGeocode.address;
     detail.shortCode = matkaGeocode.code;
     detail.houseNumber = matkaGeocode.number;
+    
+    geoCode.details = detail;
+    
+    return geoCode;
+}
+
++(id)geocodeForDigiGeocode:(DigiGeoCode *)digiGeocode {
+    GeoCode *geoCode = [[GeoCode alloc] init];
+    
+    geoCode.name = digiGeocode.properties.name;
+    geoCode.locationType = digiGeocode.locationType;
+    geoCode.coords = digiGeocode.geometry.coordString;
+    geoCode.city = digiGeocode.city;
+
+    GeoCodeDetail *detail = [GeoCodeDetail new];
+    detail.address = digiGeocode.properties.street;
+    detail.houseNumber = digiGeocode.properties.houseNumber;
+    
+    geoCode.details = detail;
+    
+    return geoCode;
+}
+
++(id)geocodeForDigiStop:(DigiStop *)digiStop {
+    GeoCode *geoCode = [[GeoCode alloc] init];
+    
+    geoCode.name = digiStop.name;
+    geoCode.locationType = LocationTypeStop;
+    geoCode.coords = digiStop.coordString;
+    geoCode.stopType = digiStop.stopType;
+    //TODO: No city.. do somelthing about it
+//    geoCode.city = digiStop.city;
+    
+    GeoCodeDetail *detail = [GeoCodeDetail new];
+    detail.address = digiStop.desc;
+    detail.shortCode = digiStop.code;
+    detail.code = digiStop.gtfsId;
     
     geoCode.details = detail;
     
@@ -125,23 +163,28 @@
     }
 }
 
--(LocationType)getLocationType{
-    int typeId_int = [self.locTypeId intValue];
-    if((0 < typeId_int && typeId_int < 10) || typeId_int == 108 || typeId_int == 1008 || typeId_int == 1018) //1018 = from apple, 108 from matka
-        return LocationTypePOI;
-    else if (typeId_int == 10)
-        return LocationTypeStop;
-    else if (typeId_int == 900)
-        return LocationTypeAddress;
-    else if (typeId_int == 999)
-        return LocationTypeDroppedPin;
-    else if (typeId_int == 550)
-        return LocationTypeContact;
-    else
-        return LocationTypeAddress;
+-(LocationType)getLocationType {
+    if (_locationType == LocationTypeUnknown && self.locTypeId) {
+        int typeId_int = [self.locTypeId intValue];
+        if((0 < typeId_int && typeId_int < 10) || typeId_int == 108 || typeId_int == 1008 || typeId_int == 1018) //1018 = from apple, 108 from matka
+            _locationType = LocationTypePOI;
+        else if (typeId_int == 10)
+            _locationType = LocationTypeStop;
+        else if (typeId_int == 900)
+            _locationType = LocationTypeAddress;
+        else if (typeId_int == 999)
+            _locationType = LocationTypeDroppedPin;
+        else if (typeId_int == 550)
+            _locationType = LocationTypeContact;
+        else
+            _locationType = LocationTypeAddress;
+    }
+    
+    return _locationType;
 }
 
 -(void)setLocationType:(LocationType)type{
+    _locationType = type;
     switch (type) {
         case LocationTypePOI:
             self.locTypeId = [NSNumber numberWithInt:1];
@@ -186,25 +229,29 @@
         //In case of reverse geocoding, street number and city is included in the name.
         if ([self.name containsString:self.city ? self.city : @""]) {
             return self.name;
-        }else{
+        } else if ([SettingsManager useDigiTransit]) {
+            return self.name;
+        } else {
             return [[NSString stringWithFormat:@"%@ %@", self.name, self.getHouseNumber] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         }
     }
 }
 
--(StopType)getStopType{
+-(StopType)stopType{
     if ([self getLocationType] == LocationTypeStop) {
         @try {
-            StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", [self getStopCode]]];
-            if (staticStop != nil) {
-                return staticStop.reittiStopType;
-            }else{
-                return StopTypeBus;
+            if (_stopType == StopTypeUnknown) {
+                StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", [self getStopCode]]];
+                if (staticStop != nil) {
+                    _stopType = staticStop.reittiStopType;
+                }else{
+                    _stopType = StopTypeBus;
+                }
             }
         }
-        @catch (NSException *exception) {
-            
-        }
+        @catch (NSException *exception) {}
+        
+        return _stopType;
     }else{
         return StopTypeBus;
     }

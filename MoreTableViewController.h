@@ -13,11 +13,12 @@
 //    BOOL thereIsDisruptions;
     NSURL *appTranslateUrl;
     
-    NSInteger moreFeaturesSection, settingsSection, commuterSection;
+    NSInteger debugFeaturesSection, moreFeaturesSection, settingsSection, commuterSection;
+    NSInteger useDigiTransitRow;
     NSInteger routinesRow, ticketsSalesPointsRow, icloudBookmarksRow, matkakorttiRow, disruptionsRow;
     NSInteger settingsRow;
     NSInteger aboutCommuterRow, goProRow, translateRow, newInVersionRow, contactMeRow, rateInAppStoreRow, shareRow;
-    NSInteger numberOfMoreFeatures, numberOfSettingsRows, numberOfCommuterRows , numberOfSection;
+    NSInteger numberOfDebugRows, numberOfMoreFeatures, numberOfSettingsRows, numberOfCommuterRows , numberOfSection;
     
     BOOL canShowLines;
 //    BOOL canShowDisruptions;

@@ -186,6 +186,40 @@ NSString *const kStopsUrl = @"url";
     return copy;
 }
 
+#pragma mark - computed properties
+-(StopType)stopType {
+    if (_stopType == StopTypeUnknown) {
+        if (self.routes && self.routes.count > 0) {
+            DigiRoute *firstRoute = self.routes.firstObject;
+            _stopType = [EnumManager stopTypeFromLineType:[EnumManager lineTypeForDigiLineType:firstRoute.type]];
+        } else {
+            _stopType = StopTypeBus;
+        }
+    }
+    
+    return _stopType;
+}
+
+-(NSString *)coordString {
+    return [NSString stringWithFormat:@"%@,%@", self.lon , self.lat];
+}
+
+-(NSNumber *)numberId {
+    
+    NSArray *comps = [self.gtfsId componentsSeparatedByString:@":"];
+    
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *myNumber = [f numberFromString:comps.lastObject];
+    
+    if (myNumber) {
+        return myNumber;
+    }
+    
+    return @0;
+}
+
+#pragma mark - Object mapping
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStop objectMapping]
                                                         method:RKRequestMethodAny
@@ -202,7 +236,10 @@ NSString *const kStopsUrl = @"url";
                                                           @"lon" : @"lon",
                                                           @"lat" : @"lat",
                                                           @"name" : @"name",
-                                                          @"url" : @"url"
+                                                          @"url" : @"url",
+                                                          @"desc" : @"desc",
+                                                          @"vehicleType" : @"vehicleType",
+                                                          @"zoneId" : @"zoneId"
                                                           }];
     
     [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"stoptimesWithoutPatterns"
