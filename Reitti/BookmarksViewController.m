@@ -77,14 +77,12 @@ const NSInteger kTimerRefreshInterval = 60;
     
     namedBookmarkSection = 0, savedStopsSection = 1, savedRouteSection = 2;
 
+    if (settingsManager == nil) {
+        settingsManager = [SettingsManager sharedManager];
+    }
+    
     if (self.reittiDataManager == nil) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        
-        if (settingsManager == nil) {
-            settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        }
-        
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     [self loadSavedValues];

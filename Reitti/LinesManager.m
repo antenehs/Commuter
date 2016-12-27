@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "SettingsManager.h"
 #import "StopEntity.h"
+#import "SettingsManager.h"
 
 NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
 NSString *kStopLineCodesKey = @"stopLineCodes";
@@ -45,9 +46,9 @@ NSString *kStopLinesKey = @"stopLines";
         [self initLocationManager];
         self.reittiDataManager = [[RettiDataManager alloc] init];
         
-        SettingsManager *settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+//        SettingsManager *settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
         
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+//        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
     
     return self;
@@ -158,16 +159,11 @@ NSString *kStopLinesKey = @"stopLines";
     //always search from current user api since line searches are done from current user location
     [self.reittiDataManager fetchStopsInAreaForRegion:region fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:^(NSArray *stopsList, NSString *errorMessage, ReittiApi usedApi){
         if (!errorMessage) {
-            [self fetchStopsDetailsForBusStopShorts:stopsList withCompletionBlock:^(NSArray *detailStops){
-                if (detailStops.count > 0) {
+            if ([SettingsManager useDigiTransit]) {
+                if (stopsList.count > 0) {
                     NSMutableArray *lineCodes = [@[] mutableCopy];
                     NSMutableArray *lines = [@[] mutableCopy];
-                    for (BusStop *stop in detailStops) {
-//                        for (NSString *lineCode in stop.lineFullCodes) {
-//                            if (![lineCodes containsObject:lineCodes]) {
-//                                [lineCodes addObject:lineCode];
-//                            }
-//                        }
+                    for (BusStop *stop in stopsList) {
                         for (StopLine *line in stop.lines) {
                             if (line.fullCode) {
                                 if (![lineCodes containsObject:lineCodes]) {
@@ -182,7 +178,28 @@ NSString *kStopLinesKey = @"stopLines";
                 }else{
                     completionBlock(@[], @[]);
                 }
-            }];
+            } else {
+                [self fetchStopsDetailsForBusStopShorts:stopsList withCompletionBlock:^(NSArray *detailStops){
+                    if (detailStops.count > 0) {
+                        NSMutableArray *lineCodes = [@[] mutableCopy];
+                        NSMutableArray *lines = [@[] mutableCopy];
+                        for (BusStop *stop in detailStops) {
+                            for (StopLine *line in stop.lines) {
+                                if (line.fullCode) {
+                                    if (![lineCodes containsObject:lineCodes]) {
+                                        [lineCodes addObject:line.fullCode];
+                                        [lines addObject:line];
+                                    }
+                                }
+                            }
+                        }
+                        
+                        completionBlock(lineCodes, lines);
+                    }else{
+                        completionBlock(@[], @[]);
+                    }
+                }];
+            }
             
         }else{
             completionBlock(nil);

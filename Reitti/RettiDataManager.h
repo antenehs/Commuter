@@ -32,7 +32,6 @@
 @class CookieEntity;
 @class NamedBookmark;
 @class FailedGeoCodeFetch;
-@class SettingsEntity;
 @class HSLLiveTrafficManager;
 
 extern CLLocationCoordinate2D kHslRegionCenter;
@@ -49,10 +48,10 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 
 +(id)sharedManager;
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
--(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords;
+//-(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords;
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords;
 //-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords;
--(void)setUserLocationToRegion:(Region)region;
+//-(void)setUserLocationToRegion:(Region)region;
 -(NSString *)getNameOfRegion:(Region)region;
 -(void)resetResponseQueues;
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
@@ -142,11 +141,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
--(SettingsEntity *)fetchSettings;
--(void)saveSettings;
--(void)resetSettings;
--(void)updateRouteSearchOptionsToUserDefaultValue;
-
 -(int)getAppOpenCountAndIncreament;
 -(void)setAppOpenCountValue:(int)value;
 
@@ -180,7 +174,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 @property (strong, nonatomic) RouteEntity *routeEntity;
 @property (strong, nonatomic) RouteHistoryEntity *routeHistoryEntity;
 @property (strong, nonatomic) CookieEntity *cookieEntity;
-@property (strong, nonatomic) SettingsEntity *settingsEntity;
 @property (strong, nonatomic) NamedBookmark *namedBookmark;
 
 @property (nonatomic) Region userLocationRegion;

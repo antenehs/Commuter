@@ -44,7 +44,6 @@ typedef enum
 @synthesize darkMode, isRootViewController;
 @synthesize locationManager, currentUserLocation;
 @synthesize refreshControl;
-@synthesize managedObjectContext;
 @synthesize disruptionsList;
 
 #define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
@@ -170,19 +169,15 @@ typedef enum
     
     if (self.reittiDataManager == nil) {
         
-        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
         
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        self.settingsManager = [SettingsManager sharedManager];
         
         self.droppedPinGeoCode = [[DroppedPinManager sharedManager] droppedPin];
     }
     
     if (self.settingsManager == nil) {
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        self.settingsManager = [SettingsManager sharedManager];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self

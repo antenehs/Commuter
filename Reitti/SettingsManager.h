@@ -11,7 +11,8 @@
 #import "EnumManager.h"
 
 #ifndef APPLE_WATCH
-#import "RettiDataManager.h"
+//#import "RettiDataManager.h"
+#import "ReittiRegionManager.h"
 #import "SettingsEntity.h"
 
 typedef enum
@@ -30,8 +31,9 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 @interface SettingsManager : NSObject
 
 #ifndef APPLE_WATCH
--(id)initWithDataManager:(RettiDataManager *)dataManager;
++(id)sharedManager;
 
+-(NSDate *)settingsStartDate;
 -(MapMode)getMapMode;
 -(Region)userLocation;
 -(BOOL)shouldShowLiveVehicles;
@@ -77,9 +79,9 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 #endif
 
 #ifndef APPLE_WATCH
-@property(nonatomic, strong)RettiDataManager *reittiDataManager;
+//@property(nonatomic, strong)RettiDataManager *reittiDataManager;
 
-@property(nonatomic, strong)SettingsEntity *settingsEntity;
+//@property(nonatomic, strong)SettingsEntity *settingsEntity;
 #endif
 
 //Temoporarily make user location to apple watch

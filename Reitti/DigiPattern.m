@@ -8,7 +8,6 @@
 #import "DigiPattern.h"
 #import "DigiGeometry.h"
 
-
 NSString *const kDigiPatternGeometry = @"geometry";
 
 
@@ -113,6 +112,27 @@ NSString *const kDigiPatternGeometry = @"geometry";
     
     return copy;
 }
+
+#pragma mark - Derived properties
+-(NSArray *)shapeCoordinates {
+    if (!_shapeCoordinates) {
+        if (self.geometry && self.geometry.count > 0) {
+            NSMutableArray *tempArray = [@[] mutableCopy];
+            for (DigiGeometry *geometry in self.geometry) {
+                if (geometry.location) [tempArray addObject:geometry.location];
+            }
+            
+            _shapeCoordinates = tempArray;
+        } else {
+            _shapeCoordinates = @[];
+        }
+    }
+    
+    return _shapeCoordinates;
+}
+
+#pragma mark - Mapping
+
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     return [RKResponseDescriptor responseDescriptorWithMapping:[DigiPattern objectMapping]

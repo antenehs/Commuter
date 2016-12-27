@@ -7,6 +7,9 @@
 //
 
 #import "SettingsManager.h"
+#import "AppManager.h"
+
+NSString * const kSettingsEntityName = @"SettingsEntity";
 
 NSString * const mapModeChangedNotificationName = @"SettingsManagerMapModeChangedNotification";
 NSString * const userlocationChangedNotificationName = @"SettingsManagerUserLocationChangedNotification";
@@ -25,97 +28,223 @@ NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequestCount";
 NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocalSearching";
 
+#ifndef APPLE_WATCH
+
+#import "CoreDataManager.h"
+#import "WatchCommunicationManager.h"
+
+@interface SettingsManager ()
+
+@property (strong, nonatomic) SettingsEntity *settingsEntity;
+@property (strong, nonatomic) CoreDataManager *coreDataManager;
+@property (nonatomic, strong) WatchCommunicationManager *communicationManager;
+
+@end
+
+#endif
+
 @implementation SettingsManager
 
 #ifndef APPLE_WATCH
-@synthesize reittiDataManager, settingsEntity;
 
--(id)initWithDataManager:(RettiDataManager *)dataManager{
-    self.reittiDataManager = dataManager;
+@synthesize settingsEntity;
+
+-(id)initWithDataManager:(id)dataManager{
+//    self.reittiDataManager = dataManager;
     
-    [self.reittiDataManager fetchSettings];
+//    [self.reittiDataManager fetchSettings];
     
-    [self.reittiDataManager updateRouteSearchOptionsToUserDefaultValue];
+//    [self.reittiDataManager updateRouteSearchOptionsToUserDefaultValue];
+    
+    return [self init];
+}
+
++(instancetype)sharedManager {
+    static SettingsManager *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [SettingsManager new];
+    });
+    
+    return sharedInstance;
+}
+
+-(id)init {
+    self = [super init];
+    if (self) {
+        self.coreDataManager = [CoreDataManager sharedManager];
+        [self fetchCoreDataSettings];
+        
+        self.communicationManager = [WatchCommunicationManager sharedManager];
+        
+        [self updateRouteSearchOptionsToUserDefaultValue];
+    }
     
     return self;
 }
+
+
+-(void)fetchCoreDataSettings {
+    NSArray *systemSettings = [self.coreDataManager fetchAllObjectsForEntityNamed:kSettingsEntityName];
+    
+    if (systemSettings.count > 0) {
+        self.settingsEntity = [systemSettings objectAtIndex:0];
+        
+        //Migration to datamodel version 7
+        if (settingsEntity.showLiveVehicle == nil) {
+            [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
+        }
+        
+        //Migration to datamodel version 14
+        if (settingsEntity.toneName == nil) {
+            [settingsEntity setToneName:[AppManager defailtToneName]];
+        }
+    }
+    else {
+        [self resetSettings];
+    }
+}
+
+-(void)resetSettings{
+    if (settingsEntity == nil) {
+        settingsEntity = (SettingsEntity *)[self.coreDataManager createNewObjectForEntityNamed:kSettingsEntityName];
+    }
+    
+    //set default values
+    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
+    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
+    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
+    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+    [settingsEntity setToneName:[AppManager defailtToneName]];
+    [settingsEntity setSettingsStartDate:[NSDate date]];
+    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+    
+    [self saveSettings];
+}
+
+-(void)saveSettings {
+    [self.coreDataManager saveState];
+}
+
+-(void)updateRouteSearchOptionsToUserDefaultValue {
+    
+    [self fetchCoreDataSettings];
+    NSDictionary *routeOptions = [self.settingsEntity.globalRouteOptions dictionaryRepresentation];
+    
+    if (routeOptions) {
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
+        
+        [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
+        [sharedDefaults synchronize];
+    }
+    
+    [self.communicationManager transferRouteSearchOptions:routeOptions];
+}
+
 
 //Temp hack/helper
 -(BOOL)isHSLRegion {
     return [self userLocation] == HSLRegion;
 }
 
--(MapMode)getMapMode{
-    [self.reittiDataManager fetchSettings];
-    return (MapMode)[self.reittiDataManager.settingsEntity.mapMode  intValue];
+-(NSDate *)settingsStartDate{
+    [self fetchCoreDataSettings];
+    
+    return self.settingsEntity.settingsStartDate;
 }
+
+-(MapMode)getMapMode{
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return (MapMode)[self.settingsEntity.mapMode  intValue];
+}
+
 -(Region)userLocation{
-    [self.reittiDataManager fetchSettings];
-    return (Region)[self.reittiDataManager.settingsEntity.userLocation intValue];
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return (Region)[self.settingsEntity.userLocation intValue];
 }
 
 -(BOOL)shouldShowLiveVehicles{
-    [self.reittiDataManager fetchSettings];
-    return [self.reittiDataManager.settingsEntity.showLiveVehicle boolValue];
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return [self.settingsEntity.showLiveVehicle boolValue];
 }
 
 -(BOOL)isClearingHistoryEnabled{
-    [self.reittiDataManager fetchSettings];
-    return [self.reittiDataManager.settingsEntity.clearOldHistory boolValue];
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return [self.settingsEntity.clearOldHistory boolValue];
 }
 -(int)numberOfDaysToKeepHistory{
-    [self.reittiDataManager fetchSettings];
-    return [self.reittiDataManager.settingsEntity.numberOfDaysToKeepHistory intValue];
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return [self.settingsEntity.numberOfDaysToKeepHistory intValue];
 }
 
 -(NSString *)toneName{
-    [self.reittiDataManager fetchSettings];
-    return self.reittiDataManager.settingsEntity.toneName;
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return self.settingsEntity.toneName;
 }
 
 -(RouteSearchOptions *)globalRouteOptions{
-    [self.reittiDataManager fetchSettings];
-    return self.reittiDataManager.settingsEntity.globalRouteOptions;
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return self.settingsEntity.globalRouteOptions;
 }
 
 -(void)setMapMode:(MapMode)mapMode{
-    [self.reittiDataManager.settingsEntity setMapMode:[NSNumber numberWithInt:mapMode]];
-    [self.reittiDataManager saveSettings];
+    [self.settingsEntity setMapMode:[NSNumber numberWithInt:mapMode]];
+    [self saveSettings];
     
     [self postNotificationWithName:mapModeChangedNotificationName];
 }
 -(void)setUserLocation:(Region)userLocation{
-    [self.reittiDataManager.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
-    [self.reittiDataManager saveSettings];
-    self.reittiDataManager.userLocationRegion = userLocation;
+    [self.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
+    [self saveSettings];
+    
+    //TODO: DAta manager should subscribe to the notification or fetch it everytime.
+//    self.reittiDataManager.userLocationRegion = userLocation;
     
     [self postNotificationWithName:userlocationChangedNotificationName];
 }
 
 -(void)showLiveVehicle:(BOOL)show{
-    [self.reittiDataManager.settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:show]];
-    [self.reittiDataManager saveSettings];
+    [self.settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:show]];
+    [self saveSettings];
     
     [self postNotificationWithName:shouldShowVehiclesNotificationName];
 }
 
 -(void)enableClearingOldHistory:(BOOL)clear{
-    [self.reittiDataManager.settingsEntity setClearOldHistory:[NSNumber numberWithBool:clear]];
-    [self.reittiDataManager saveSettings];
+    [self.settingsEntity setClearOldHistory:[NSNumber numberWithBool:clear]];
+    [self saveSettings];
 }
 -(void)setNumberOfDaysToKeepHistory:(int)days{
-    [self.reittiDataManager.settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:days]];
-    [self.reittiDataManager saveSettings];
+    [self.settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:days]];
+    [self saveSettings];
 }
 
 -(void)setToneName:(NSString *)toneName{
-    [self.reittiDataManager.settingsEntity setToneName:toneName];
-    [self.reittiDataManager saveSettings];
+    [self.settingsEntity setToneName:toneName];
+    [self saveSettings];
 }
 
 -(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions{
-    [self.reittiDataManager.settingsEntity setGlobalRouteOptions:globalRouteOptions];
-    [self.reittiDataManager saveSettings];
+    [self.settingsEntity setGlobalRouteOptions:globalRouteOptions];
+    [self saveSettings];
+    
+    [self updateRouteSearchOptionsToUserDefaultValue];
     
     [self postNotificationWithName:routeSearchOptionsChangedNotificationName];
 }

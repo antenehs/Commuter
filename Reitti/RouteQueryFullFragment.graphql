@@ -1,0 +1,25 @@
+id
+desc
+gtfsId
+mode
+shortName
+longName
+type
+url
+bikesAllowed
+stops {
+    name
+    code
+    lat
+    lon
+    gtfsId
+}
+patterns {
+    geometry {
+        lat
+        lon
+    }
+}
+alerts {
+    id
+}

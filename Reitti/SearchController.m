@@ -336,8 +336,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //dataManger.managedObjectContext = self.managedObjectContext;
     self.reittiDataManager = dataManger;
     
-    self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-    [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    self.settingsManager = [SettingsManager sharedManager];
     
     //Clean history more than the specified date
     if ([settingsManager isClearingHistoryEnabled]) {
@@ -2797,30 +2796,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         addressSearchViewController.routeSearchMode = NO;
         addressSearchViewController.simpleSearchMode = YES;
-//        addressSearchViewController.darkMode = self.darkMode;
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
-//        addressSearchViewController.droppedPinGeoCode = droppedPinGeoCode;
         addressSearchViewController.delegate = self;
+        //FIXME: THis should be dealt with. Is messsy
         addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [addressSearchViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-//        addressSearchViewController.reittiDataManager = self.reittiDataManager;
     }
-    
-//    if ([segue.identifier isEqualToString:@"infoViewSegue"]) {
-//        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
-//        InfoViewController *infoViewController = [[navController viewControllers] lastObject];
-//        
-//        infoViewController.disruptionsList = self.disruptionList;
-//        infoViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-//        [infoViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-//    }
-    
-//    if ([segue.identifier isEqualToString:@"openWidgetSettingFromHome"]) {
-//        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-//        WidgetSettingsViewController *controller = (WidgetSettingsViewController *)[[navigationController viewControllers] lastObject];
-//        
-//        controller.savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-//    }
     
     if ([segue.identifier isEqualToString:@"showSettings"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
@@ -2837,7 +2817,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         controller.namedBookmark = selectedNamedBookmark;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
         controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
     
     if ([segue.identifier isEqualToString:@"showGeoCode"]) {
@@ -2850,13 +2829,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
             controller.namedBookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         }else{
             controller.geoCode = selectedGeoCode;
             controller.currentUserLocation = self.currentUserLocation;
             controller.viewControllerMode = ViewControllerModeViewGeoCode;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-            [controller.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
         }
     }
     
@@ -2893,7 +2870,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
 }
 
@@ -2906,7 +2882,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
         stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        [stopViewController.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
 }
 

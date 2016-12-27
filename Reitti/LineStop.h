@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MatkaStop.h"
+#import "DigiStopShort.h"
 
 
 @interface LineStop : NSObject <NSCoding, NSCopying>
@@ -25,5 +26,6 @@
 - (NSDictionary *)dictionaryRepresentation;
 
 + (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop;
++ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort;
 
 @end

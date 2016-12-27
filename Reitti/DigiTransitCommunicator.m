@@ -16,10 +16,11 @@
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
 #import "StopDeparture.h"
+#import "Line.h"
 #endif
 
-NSString *kHslDigiTransitGraphQlUrl = @"http://api.digitransit.fi/routing/v1/routers/hsl/index/graphql";
-NSString *kFinlandDigiTransitGraphQlUrl = @"http://api.digitransit.fi/routing/v1/routers/finland/index/graphql";
+NSString *kHslDigiTransitGraphQlUrl = @"https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql";
+NSString *kFinlandDigiTransitGraphQlUrl = @"https://api.digitransit.fi/routing/v1/routers/finland/index/graphql";
 
 typedef enum : NSUInteger {
     HslApi,
@@ -202,9 +203,16 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [super doGraphQlQuery:queryString responseDiscriptor:[DigiPlan responseDiscriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *routes, NSError *error){
-        if (!error) {
-            completionBlock(routes, nil);
+    [super doGraphQlQuery:queryString responseDiscriptor:[DigiPlan responseDiscriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *digiRoutes, NSError *error){
+        if (!error && digiRoutes && digiRoutes.count > 0) {
+            NSMutableArray *allRoutes = [@[] mutableCopy];
+            for (DigiPlan *plan in digiRoutes) {
+                Route *route = [Route routeFromDigiPlan:plan];
+                if (route) {
+                    [allRoutes addObject:route];
+                }
+            }
+            completionBlock(allRoutes, nil);
         } else {
             completionBlock(nil, @"Route fetch failed");//Proper error message here.
         }
@@ -330,6 +338,30 @@ typedef enum : NSUInteger {
     }
     
     return errorString;
+}
+
+#pragma mark - Line fetch methods
+- (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
+    [self fetchLinesWithArguments:@{@"name" : searchTerm} withCompletionBlock:completionBlock];
+}
+
+- (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock {
+    [self fetchLinesWithArguments:@{@"ids" : lineCodes} withCompletionBlock:completionBlock];
+}
+
+-(void)fetchLinesWithArguments:(NSDictionary *)arguments withCompletionBlock:(ActionBlock)completionBlock {
+    [super doGraphQlQuery:[GraphQLQuery routeQueryStringWithArguments:arguments] responseDiscriptor:[DigiRoute responseDiscriptorForPath:@"data.routes"] andCompletionBlock:^(NSArray *routes, NSError *error){
+        if (!error) {
+            NSMutableArray *allLines = [@[] mutableCopy];
+            for (DigiRoute *digiRoute in routes) {
+                Line *line = [Line lineFromDigiLine:digiRoute];
+                if(line) [allLines addObject:line];
+            }
+            completionBlock(allLines, nil);
+        } else {
+            completionBlock(nil, @"Route(Line) fetch failed");//Proper error message here.
+        }
+    }];
 }
 
 @end

@@ -42,7 +42,7 @@
     [ReittiConfigManager sharedManager]; // Remote config
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
-    SettingsManager *settingManager = [[SettingsManager alloc] initWithDataManager:[[RettiDataManager alloc] init]];
+    SettingsManager *settingManager = [SettingsManager sharedManager];
     //Set region support before sending data to watch
     [[WatchCommunicationManager sharedManager] updateWatchLocalSearchSupported:[settingManager isHSLRegion]];
     

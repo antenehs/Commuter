@@ -9,16 +9,8 @@
 #import "DigiRoute.h"
 #import "DigiStoptime.h"
 
-
-NSString *const kStopsGtfsId = @"gtfsId";
 NSString *const kStopsRoutes = @"routes";
-NSString *const kStopsCode = @"code";
-NSString *const kStopsLon = @"lon";
-NSString *const kStopsLat = @"lat";
 NSString *const kStopsStoptimes = @"stoptimes";
-NSString *const kStopsName = @"name";
-NSString *const kStopsUrl = @"url";
-
 
 @interface DigiStop ()
 
@@ -28,14 +20,8 @@ NSString *const kStopsUrl = @"url";
 
 @implementation DigiStop
 
-@synthesize gtfsId = _gtfsId;
 @synthesize routes = _routes;
-@synthesize code = _code;
-@synthesize lon = _lon;
-@synthesize lat = _lat;
 @synthesize stoptimes = _stoptimes;
-@synthesize name = _name;
-@synthesize url = _url;
 
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
@@ -45,12 +31,11 @@ NSString *const kStopsUrl = @"url";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 {
-    self = [super init];
+    self = [super initWithDictionary:dict];
     
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-        self.gtfsId = [self objectOrNilForKey:kStopsGtfsId fromDictionary:dict];
         NSObject *receivedRoutes = [dict objectForKey:kStopsRoutes];
         NSMutableArray *parsedRoutes = [NSMutableArray array];
         if ([receivedRoutes isKindOfClass:[NSArray class]]) {
@@ -64,9 +49,7 @@ NSString *const kStopsUrl = @"url";
         }
         
         self.routes = [NSArray arrayWithArray:parsedRoutes];
-        self.code = [self objectOrNilForKey:kStopsCode fromDictionary:dict];
-        self.lon = [self objectOrNilForKey:kStopsLon fromDictionary:dict];
-        self.lat = [self objectOrNilForKey:kStopsLat fromDictionary:dict];
+        
         NSObject *receivedStoptimes = [dict objectForKey:kStopsStoptimes];
         NSMutableArray *parsedStoptimes = [NSMutableArray array];
         if ([receivedStoptimes isKindOfClass:[NSArray class]]) {
@@ -80,8 +63,6 @@ NSString *const kStopsUrl = @"url";
         }
         
         self.stoptimes = [NSArray arrayWithArray:parsedStoptimes];
-        self.name = [self objectOrNilForKey:kStopsName fromDictionary:dict];
-        self.url = [self objectOrNilForKey:kStopsUrl fromDictionary:dict];
         
     }
     
@@ -91,8 +72,8 @@ NSString *const kStopsUrl = @"url";
 
 - (NSDictionary *)dictionaryRepresentation
 {
-    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-    [mutableDict setValue:self.gtfsId forKey:kStopsGtfsId];
+    NSMutableDictionary *mutableDict = [[super dictionaryRepresentation] mutableCopy];
+    
     NSMutableArray *tempArrayForRoutes = [NSMutableArray array];
     for (NSObject *subArrayObject in self.routes) {
         if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
@@ -104,9 +85,7 @@ NSString *const kStopsUrl = @"url";
         }
     }
     [mutableDict setValue:[NSArray arrayWithArray:tempArrayForRoutes] forKey:kStopsRoutes];
-    [mutableDict setValue:self.code forKey:kStopsCode];
-    [mutableDict setValue:self.lon forKey:kStopsLon];
-    [mutableDict setValue:self.lat forKey:kStopsLat];
+
     NSMutableArray *tempArrayForStoptimes = [NSMutableArray array];
     for (NSObject *subArrayObject in self.stoptimes) {
         if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
@@ -118,8 +97,6 @@ NSString *const kStopsUrl = @"url";
         }
     }
     [mutableDict setValue:[NSArray arrayWithArray:tempArrayForStoptimes] forKey:kStopsStoptimes];
-    [mutableDict setValue:self.name forKey:kStopsName];
-    [mutableDict setValue:self.url forKey:kStopsUrl];
     
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -141,46 +118,28 @@ NSString *const kStopsUrl = @"url";
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     
-    self.gtfsId = [aDecoder decodeObjectForKey:kStopsGtfsId];
     self.routes = [aDecoder decodeObjectForKey:kStopsRoutes];
-    self.code = [aDecoder decodeObjectForKey:kStopsCode];
-    self.lon = [aDecoder decodeObjectForKey:kStopsLon];
-    self.lat = [aDecoder decodeObjectForKey:kStopsLat];
     self.stoptimes = [aDecoder decodeObjectForKey:kStopsStoptimes];
-    self.name = [aDecoder decodeObjectForKey:kStopsName];
-    self.url = [aDecoder decodeObjectForKey:kStopsUrl];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    
-    [aCoder encodeObject:_gtfsId forKey:kStopsGtfsId];
+    [super encodeWithCoder:aCoder];
+
     [aCoder encodeObject:_routes forKey:kStopsRoutes];
-    [aCoder encodeObject:_code forKey:kStopsCode];
-    [aCoder encodeObject:_lon forKey:kStopsLon];
-    [aCoder encodeObject:_lat forKey:kStopsLat];
     [aCoder encodeObject:_stoptimes forKey:kStopsStoptimes];
-    [aCoder encodeObject:_name forKey:kStopsName];
-    [aCoder encodeObject:_url forKey:kStopsUrl];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    DigiStop *copy = [[DigiStop alloc] init];
+    DigiStop *copy = [super copyWithZone:zone];
     
     if (copy) {
-        
-        copy.gtfsId = [self.gtfsId copyWithZone:zone];
         copy.routes = [self.routes copyWithZone:zone];
-        copy.code = [self.code copyWithZone:zone];
-        copy.lon = self.lon;
-        copy.lat = self.lat;
         copy.stoptimes = [self.stoptimes copyWithZone:zone];
-        copy.name = [self.name copyWithZone:zone];
-        copy.url = [self.url copyWithZone:zone];
     }
     
     return copy;
@@ -200,25 +159,6 @@ NSString *const kStopsUrl = @"url";
     return _stopType;
 }
 
--(NSString *)coordString {
-    return [NSString stringWithFormat:@"%@,%@", self.lon , self.lat];
-}
-
--(NSNumber *)numberId {
-    
-    NSArray *comps = [self.gtfsId componentsSeparatedByString:@":"];
-    
-    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-    f.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *myNumber = [f numberFromString:comps.lastObject];
-    
-    if (myNumber) {
-        return myNumber;
-    }
-    
-    return @0;
-}
-
 #pragma mark - Object mapping
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStop objectMapping]
@@ -230,17 +170,7 @@ NSString *const kStopsUrl = @"url";
 
 +(RKObjectMapping *)objectMapping {
     RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[DigiStop class] ];
-    [stopMapping addAttributeMappingsFromDictionary:@{
-                                                          @"gtfsId" : @"gtfsId",
-                                                          @"code" : @"code",
-                                                          @"lon" : @"lon",
-                                                          @"lat" : @"lat",
-                                                          @"name" : @"name",
-                                                          @"url" : @"url",
-                                                          @"desc" : @"desc",
-                                                          @"vehicleType" : @"vehicleType",
-                                                          @"zoneId" : @"zoneId"
-                                                          }];
+    [stopMapping addAttributeMappingsFromDictionary:[DigiStopShort mappingDictionary]];
     
     [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"stoptimesWithoutPatterns"
                                                                                     toKeyPath:@"stoptimes"

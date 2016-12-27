@@ -67,14 +67,12 @@
 
 #pragma mark - Init
 - (void)initDataManager {
+    if (self.settingsManager == nil) {
+        self.settingsManager = [SettingsManager sharedManager];
+    }
+    
     if (self.reittiDataManager == nil) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        
-        if (self.settingsManager == nil) {
-            self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        }
-        
-        [self.reittiDataManager setUserLocationToRegion:[self.settingsManager userLocation]];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
 }
 

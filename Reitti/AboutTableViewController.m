@@ -26,9 +26,7 @@
     if (self.reittiDataManager == nil) {
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
         
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[self.settingsManager userLocation]];
+        self.settingsManager = [SettingsManager sharedManager];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self

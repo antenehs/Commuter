@@ -34,17 +34,12 @@
     
     settingsChanged = NO;
     
-    if (self.reittiDataManager == nil) {
-        
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+    if (self.settingsManager == nil) {
+        self.settingsManager = [SettingsManager sharedManager];
     }
     
-    if (self.settingsManager == nil) {
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+    if (self.reittiDataManager == nil) {
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     ticketZoneSelectorViewIndex = 4000, changeMargineSelectorViewIndex = 4001, walkingSpeedSelectorViewIndex = 4002;

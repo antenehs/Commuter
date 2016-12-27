@@ -1,16 +1,19 @@
 //
 //  DigiRoute.m
 //
-//  Created by Anteneh Sahledengel on 19/5/16
+//  Created by Anteneh Sahledengel on 12/26/16
 //  Copyright (c) 2016 shaby ltd. All rights reserved.
 //
 
 #import "DigiRoute.h"
+#import "DigiStopShort.h"
+#import "DigiPattern.h"
+#import "DigiStopShort.h"
 
 
-NSString *const kDigiRouteType = @"type";
-NSString *const kDigiRouteShortName = @"shortName";
-NSString *const kDigiRouteLongName = @"longName";
+NSString *const kDigiRouteAlerts = @"alerts";
+NSString *const kDigiRouteStops = @"stops";
+NSString *const kDigiRoutePatterns = @"patterns";
 
 
 @interface DigiRoute ()
@@ -21,9 +24,10 @@ NSString *const kDigiRouteLongName = @"longName";
 
 @implementation DigiRoute
 
-@synthesize type = _type;
-@synthesize shortName = _shortName;
-@synthesize longName = _longName;
+@synthesize alerts = _alerts;
+@synthesize stops = _stops;
+@synthesize patterns = _patterns;
+
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
 {
@@ -32,14 +36,40 @@ NSString *const kDigiRouteLongName = @"longName";
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict
 {
-    self = [super init];
+    self = [super initWithDictionary:dict];
     
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.type = [self objectOrNilForKey:kDigiRouteType fromDictionary:dict];
-            self.shortName = [self objectOrNilForKey:kDigiRouteShortName fromDictionary:dict];
-            self.longName = [self objectOrNilForKey:kDigiRouteLongName fromDictionary:dict];
+        
+        self.alerts = [self objectOrNilForKey:kDigiRouteAlerts fromDictionary:dict];
+        
+        NSObject *receivedDigiStops = [dict objectForKey:kDigiRouteStops];
+        NSMutableArray *parsedDigiStops = [NSMutableArray array];
+        if ([receivedDigiStops isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *item in (NSArray *)receivedDigiStops) {
+                if ([item isKindOfClass:[NSDictionary class]]) {
+                    [parsedDigiStops addObject:[DigiStopShort modelObjectWithDictionary:item]];
+                }
+           }
+        } else if ([receivedDigiStops isKindOfClass:[NSDictionary class]]) {
+           [parsedDigiStops addObject:[DigiStopShort modelObjectWithDictionary:(NSDictionary *)receivedDigiStops]];
+        }
+
+        self.stops = [NSArray arrayWithArray:parsedDigiStops];
+        NSObject *receivedDigiPatterns = [dict objectForKey:kDigiRoutePatterns];
+        NSMutableArray *parsedDigiPatterns = [NSMutableArray array];
+        if ([receivedDigiPatterns isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *item in (NSArray *)receivedDigiPatterns) {
+                if ([item isKindOfClass:[NSDictionary class]]) {
+                    [parsedDigiPatterns addObject:[DigiPattern modelObjectWithDictionary:item]];
+                }
+           }
+        } else if ([receivedDigiPatterns isKindOfClass:[NSDictionary class]]) {
+           [parsedDigiPatterns addObject:[DigiPattern modelObjectWithDictionary:(NSDictionary *)receivedDigiPatterns]];
+        }
+
+        self.patterns = [NSArray arrayWithArray:parsedDigiPatterns];
 
     }
     
@@ -49,10 +79,41 @@ NSString *const kDigiRouteLongName = @"longName";
 
 - (NSDictionary *)dictionaryRepresentation
 {
-    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-    [mutableDict setValue:self.type forKey:kDigiRouteType];
-    [mutableDict setValue:self.shortName forKey:kDigiRouteShortName];
-    [mutableDict setValue:self.longName forKey:kDigiRouteLongName];
+    NSMutableDictionary *mutableDict = [[super dictionaryRepresentation] mutableCopy];
+    NSMutableArray *tempArrayForAlerts = [NSMutableArray array];
+    for (NSObject *subArrayObject in self.alerts) {
+        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForAlerts addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForAlerts addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForAlerts] forKey:kDigiRouteAlerts];
+    NSMutableArray *tempArrayForStops = [NSMutableArray array];
+    for (NSObject *subArrayObject in self.stops) {
+        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForStops addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForStops addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForStops] forKey:kDigiRouteStops];
+
+    NSMutableArray *tempArrayForPatterns = [NSMutableArray array];
+    for (NSObject *subArrayObject in self.patterns) {
+        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForPatterns addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForPatterns addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForPatterns] forKey:kDigiRoutePatterns];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -60,11 +121,6 @@ NSString *const kDigiRouteLongName = @"longName";
 - (NSString *)description 
 {
     return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
-}
-
-#pragma mark - Derived properties
--(LineType)lineType {
-    return [EnumManager lineTypeForDigiLineType:self.type];
 }
 
 #pragma mark - Helper Method
@@ -79,38 +135,66 @@ NSString *const kDigiRouteLongName = @"longName";
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
 
-    self.type = [aDecoder decodeObjectForKey:kDigiRouteType];
-    self.shortName = [aDecoder decodeObjectForKey:kDigiRouteShortName];
-    self.longName = [aDecoder decodeObjectForKey:kDigiRouteLongName];
+    self.alerts = [aDecoder decodeObjectForKey:kDigiRouteAlerts];
+    self.stops = [aDecoder decodeObjectForKey:kDigiRouteStops];
+    self.patterns = [aDecoder decodeObjectForKey:kDigiRoutePatterns];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-
-    [aCoder encodeObject:_type forKey:kDigiRouteType];
-    [aCoder encodeObject:_shortName forKey:kDigiRouteShortName];
-    [aCoder encodeObject:_longName forKey:kDigiRouteLongName];
+    [super encodeWithCoder:aCoder];
+    
+    [aCoder encodeObject:_alerts forKey:kDigiRouteAlerts];
+    [aCoder encodeObject:_stops forKey:kDigiRouteStops];
+    [aCoder encodeObject:_patterns forKey:kDigiRoutePatterns];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    DigiRoute *copy = [[DigiRoute alloc] init];
+    DigiRoute *copy = [super copyWithZone:zone];
     
     if (copy) {
-
-        copy.type = [self.type copyWithZone:zone];
-        copy.shortName = [self.shortName copyWithZone:zone];
-        copy.longName = [self.longName copyWithZone:zone];
+        copy.alerts = [self.alerts copyWithZone:zone];
+        copy.stops = [self.stops copyWithZone:zone];
+        copy.patterns = [self.patterns copyWithZone:zone];
     }
     
     return copy;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+#pragma mark - Overriden properties
+-(NSString *)lineEnd {
+    NSString *lineEnd = [super lineEnd];
     
+    if (!lineEnd && self.stops.count > 0) {
+        DigiStopShort *stop = [self.stops lastObject];
+        self.lineEnd = stop.name;
+    }
+    
+    return [super lineEnd];
+}
+
+#pragma mark - Computed properties
+-(NSArray *)shapeCoordinates {
+    if (!_shapeCoordinates) {
+        if (self.patterns && self.patterns.count > 0) {
+            NSMutableArray *tempArray = [@[] mutableCopy];
+            
+            for (DigiPattern *pattern in self.patterns) {
+                [tempArray addObjectsFromArray:pattern.shapeCoordinates];
+            }
+            _shapeCoordinates = tempArray;
+        }
+    }
+    
+    return _shapeCoordinates;
+}
+
+#pragma mark - Object mapping
++(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     
     return [RKResponseDescriptor responseDescriptorWithMapping:[DigiRoute objectMapping]
                                                         method:RKRequestMethodAny
@@ -121,13 +205,17 @@ NSString *const kDigiRouteLongName = @"longName";
 
 +(RKObjectMapping *)objectMapping {
     RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[DigiRoute class] ];
-    [routeMapping addAttributeMappingsFromDictionary:@{
-                                                       @"type"      : @"type",
-                                                       @"shortName" : @"shortName",
-                                                       @"longName"  : @"longName",
-                                                       @"gtfsId"    : @"gtfsId",
-                                                       @"desc"      : @"desc"
-                                                       }];
+    
+    [routeMapping addAttributeMappingsFromDictionary:[DigiRouteShort mappingDictionary]];
+    
+    [routeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"stops"
+                                                                                toKeyPath:@"stops"
+                                                                              withMapping:[DigiStopShort objectMapping]]];
+    
+    [routeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"patterns"
+                                                                                toKeyPath:@"patterns"
+                                                                              withMapping:[DigiPattern objectMapping]]];
+    
     return routeMapping;
 }
 

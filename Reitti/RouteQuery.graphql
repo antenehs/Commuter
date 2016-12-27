@@ -1,0 +1,6 @@
+#Arguments - name: \"%@\"
+{
+    routes([*ARGUMENTS*]) {
+        [*ROUTE_FRAGMENT*]
+    }
+}

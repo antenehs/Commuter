@@ -9,11 +9,7 @@ platformCode,
 lat,
 lon,
 routes {
-    shortName,
-    longName,
-    type,
-    gtfsId,
-    desc
+    [*SHORT_ROUTE_FRAGMENT*]
 },
 stoptimesWithoutPatterns (numberOfDepartures: 20){
     scheduledDeparture,
@@ -23,9 +19,7 @@ stoptimesWithoutPatterns (numberOfDepartures: 20){
     serviceDay,
     trip {
         route {
-            shortName,
-            longName,
-            type
+            [*SHORT_ROUTE_FRAGMENT*]
         },
         tripHeadsign
     }

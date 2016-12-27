@@ -80,12 +80,10 @@
 - (void)initDataManagerIfNull {
     // Do any additional setup after loading the view.
     
+    self.settingsManager = [SettingsManager sharedManager];
+    
     if (self.reittiDataManager == nil) {
-        
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
 }
 

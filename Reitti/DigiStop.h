@@ -7,26 +7,15 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+#import "DigiStopShort.h"
 #import "EnumManager.h"
 
-@interface DigiStop : NSObject <NSCoding, NSCopying>
+@interface DigiStop : DigiStopShort <NSCoding, NSCopying>
 
-@property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, strong) NSArray *routes;
-@property (nonatomic, strong) NSString *code;
-@property (nonatomic, strong) NSNumber *lon;
-@property (nonatomic, strong) NSNumber *lat;
 @property (nonatomic, strong) NSArray *stoptimes;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) NSString *desc;
-@property (nonatomic, strong) NSNumber *vehicleType;
-@property (nonatomic, strong) NSString *zoneId;
 
 @property (nonatomic) StopType stopType;
-
--(NSString *)coordString;
--(NSNumber *)numberId;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 +(RKObjectMapping *)objectMapping;

@@ -139,6 +139,8 @@ NSString *const kLineStopsName = @"name";
     return copy;
 }
 
+#pragma mark - Init from other models
+
 + (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop {
     LineStop *stop = [[LineStop alloc] init];
     
@@ -152,6 +154,24 @@ NSString *const kLineStopsName = @"name";
         stop.platformNumber = nil;
         stop.cityName = nil;
         stop.name = matkaStop.name;
+    }
+    
+    return stop;
+}
+
++ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort {
+    LineStop *stop = [[LineStop alloc] init];
+    
+    if (stop) {
+        
+        stop.coords = digiStopShort.coordString;
+        stop.address = digiStopShort.name;
+        stop.time = nil;
+        stop.code = digiStopShort.gtfsId;
+        stop.codeShort = digiStopShort.code;
+        stop.platformNumber = nil;
+        stop.cityName = nil;
+        stop.name = digiStopShort.name;
     }
     
     return stop;

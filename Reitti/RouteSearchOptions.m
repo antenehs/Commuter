@@ -8,7 +8,6 @@
 
 #import "RouteSearchOptions.h"
 #import "AppManager.h"
-#import "SettingsManager.h"
 #import "CoreDataManager.h"
 #import "RettiDataManager.h"
 
@@ -45,11 +44,7 @@
 
 -(RettiDataManager *)reittiDataManager{
     if (!_reittiDataManager) {
-        _reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        
-        SettingsManager *settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
+        _reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     return _reittiDataManager;

@@ -103,6 +103,40 @@
     return nil;
 }
 
++(id)lineFromDigiLine:(DigiRoute *)digiLine {
+    Line *line = [[Line alloc] init];
+    
+    if (digiLine != nil && [digiLine isKindOfClass:[DigiRoute class]]) {
+        line.code = digiLine.gtfsId;
+        line.codeShort = digiLine.shortName;
+        line.lineType = digiLine.lineType;
+        
+        line.lineStart = digiLine.lineStart;
+        line.lineEnd = digiLine.lineEnd;
+        
+        line.timetableUrl = digiLine.url;
+        line.dateFrom = nil;
+        line.dateTo = nil;
+        line.name = digiLine.longName;
+        
+        if (digiLine.stops) {
+            NSMutableArray *stops = [@[] mutableCopy];
+            for (DigiStopShort *digiStop in digiLine.stops) {
+                LineStop *stop = [LineStop lineStopFromDigiStopShort:digiStop];
+                if (stop) [stops addObject:stop];
+            }
+            
+            line.lineStops = stops;
+        }
+        
+        line.shapeCoordinates = digiLine.shapeCoordinates ? digiLine.shapeCoordinates : @[];
+        
+        return line;
+    }
+    
+    return nil;
+}
+
 -(BOOL)isValidNow{
     if (self.parsedDateFrom && self.parsedDateTo) {
         NSDate *currentDate = [NSDate date];

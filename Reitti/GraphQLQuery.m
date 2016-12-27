@@ -25,17 +25,34 @@
 
 +(NSString *)stopQueryStringWithArguments:(NSDictionary *)arguments {
     NSString *queryWithArgumentes = [GraphQLQuery queryStringForType:GraphQLQueryTypeStops andArguments:arguments];
-    NSString *stopFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeStops]];
+    NSString *stopFragment = [GraphQLQuery fullStopFragment];
     
     return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*STOP_FRAGMENT*]" withString:stopFragment];
 }
 
 +(NSString *)stopInAreaQueryStringWithArguments:(NSDictionary *)arguments {
     NSString *queryWithArgumentes = [GraphQLQuery queryStringForType:GraphQLQueryTypeStopsInArea andArguments:arguments];
-    NSString *stopFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeStops]];
+    NSString *stopFragment = [GraphQLQuery fullStopFragment];
     
     return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*STOP_FRAGMENT*]" withString:stopFragment];
 }
+
++(NSString *)shortStopFragment {
+    NSString *stopFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeStops]];
+    
+    return stopFragment;
+}
+
++(NSString *)fullStopFragment {
+    NSString *stopFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeStops]];
+    
+    NSString *shortRouteFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeRouteShort]];
+    
+    stopFragment = [stopFragment stringByReplacingOccurrencesOfString:@"[*SHORT_ROUTE_FRAGMENT*]" withString:shortRouteFragment];
+    
+    return stopFragment;
+}
+
 
 +(NSString *)planQueryStringWithArguments:(NSDictionary *)arguments {
     NSString *queryWithArgumentes = [GraphQLQuery queryStringForType:GraphQLQueryTypePlan andArguments:arguments];
@@ -43,6 +60,23 @@
     
     return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*PLAN_FRAGMENT*]" withString:planFragment];
 }
+
+
++(NSString *)routeQueryStringWithArguments:(NSDictionary *)arguments {
+    NSString *queryWithArgumentes = [GraphQLQuery queryStringForType:GraphQLQueryTypeRoute andArguments:arguments];
+    NSString *routeFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeRoute]];
+    
+    return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*ROUTE_FRAGMENT*]" withString:routeFragment];
+}
+
++(NSString *)shortRouteQueryStringWithArguments:(NSDictionary *)arguments {
+    NSString *queryWithArgumentes = [GraphQLQuery queryStringForType:GraphQLQueryTypeRoute andArguments:arguments];
+    NSString *routeFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeRouteShort]];
+    
+    return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*ROUTE_FRAGMENT*]" withString:routeFragment];
+}
+
+#pragma mark - Helpers
 
 +(NSString *)queryStringForType:(GraphQLQueryType)type andArguments:(NSDictionary *)arguments {
     NSString *templateQuery = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryTemplateFileNameForType:type]];
@@ -59,10 +93,16 @@
             return @"StopQuery";
         case GraphQLQueryTypeStops:
             return @"StopsQuery";
+        case GraphQLQueryTypeStopsShort:
+            return @"StopsQuery";
         case GraphQLQueryTypeStopsInArea:
             return @"StopsInAreaQuery";
         case GraphQLQueryTypePlan:
             return @"PlanQuery";
+        case GraphQLQueryTypeRoute:
+            return @"RouteQuery";
+        case GraphQLQueryTypeRouteShort:
+            return @"RouteQuery";
         default:
             return nil;
     }
@@ -74,10 +114,16 @@
             return @"StopQueryFragment";
         case GraphQLQueryTypeStops:
             return @"StopsQueryFragment";
+        case GraphQLQueryTypeStopsShort:
+            return @"StopsQueryShortFragment";
         case GraphQLQueryTypeStopsInArea:
             return @"StopsInAreaQueryFragment";
         case GraphQLQueryTypePlan:
             return @"PlanQueryFragment";
+        case GraphQLQueryTypeRoute:
+            return @"RouteQueryFullFragment";
+        case GraphQLQueryTypeRouteShort:
+            return @"RouteQueryShortFragment";
         default:
             return nil;
     }

@@ -7,7 +7,6 @@
 
 #import "DigiGeometry.h"
 
-
 NSString *const kDigiGeometryLat = @"lat";
 NSString *const kDigiGeometryLon = @"lon";
 
@@ -97,6 +96,21 @@ NSString *const kDigiGeometryLon = @"lon";
     return copy;
 }
 
+#pragma mark - computed propeties
+
+-(CLLocation *)location {
+    if (!_location) {
+        _location = [[CLLocation alloc] initWithLatitude:[_lat doubleValue] longitude:[_lon doubleValue]];
+    }
+    
+    return _location;
+}
+
+-(CLLocationCoordinate2D)coordinate {
+    return self.location.coordinate;
+}
+
+#pragma mark - mapping
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
     return [RKResponseDescriptor responseDescriptorWithMapping:[DigiGeometry objectMapping]
                                                         method:RKRequestMethodAny

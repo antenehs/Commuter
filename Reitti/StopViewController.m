@@ -79,18 +79,14 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     [departuresTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
     
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setToolbarHidden:YES animated:NO];
     if (modalMode != nil && ![modalMode boolValue]) {
         self.navigationItem.leftBarButtonItem = nil;
     }
     
     if (settingsManager == nil) {
-        settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        settingsManager = [SettingsManager sharedManager];
     }
-    
-//    self.reittiDataManager.delegate = self;
-    [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -141,7 +137,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     // Do any additional setup after loading the view.
     
     if (self.reittiDataManager == nil) {
-        
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
     }
 }
@@ -465,8 +460,13 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (IBAction)reloadButtonPressed:(id)sender{
     if (_busStop != nil) {
-        [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]
-                                andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.coords]];
+        if ([SettingsManager useDigiTransit]) {
+            [self requestStopInfoAsyncForCode:_busStop.gtfsId
+                                    andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.coords]];
+        } else {
+            [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]
+                                    andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.coords]];
+        }
     }
 }
 

@@ -128,6 +128,4 @@
 @property (nonatomic, weak) id <RouteSearchViewControllerDelegate> delegate;
 @property (nonatomic, weak) id <RouteSearchViewControllerViewCycleDelegate> viewCycledelegate;
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 @end

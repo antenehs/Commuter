@@ -27,19 +27,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.settingsManager = [SettingsManager sharedManager];
     
-//    mainScrollView.contentSize = CGSizeMake(320, 505);
     if (self.reittiDataManager == nil) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-        
-        self.settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[self.settingsManager userLocation]];
-    }
-    
-//    self.reittiDataManager.disruptionFetchDelegate = self;
-    if (settingsManager == nil) {
-        settingsManager =[[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self

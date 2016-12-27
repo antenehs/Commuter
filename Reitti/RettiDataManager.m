@@ -13,7 +13,6 @@
 #import "RouteEntity.h"
 #import "RouteHistoryEntity.h"
 #import "CookieEntity.h"
-#import "SettingsEntity.h"
 #import "ReittiManagedObjectBase.h"
 #import "CoreDataManager.h"
 #import "ReittiAppShortcutManager.h"
@@ -25,6 +24,8 @@
 #import "DigiTransitCommunicator.h"
 #import "MatkaTransportTypeManager.h"
 
+#import "SettingsManager.h"
+
 NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 
 CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
@@ -32,8 +33,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 @interface RettiDataManager ()
 
-@property(nonatomic, strong)DigiTransitCommunicator *hslDigitransitCommunicator;
-@property(nonatomic, strong)DigiTransitCommunicator *finlandDigitransitCommunicator;
+@property (nonatomic, strong)DigiTransitCommunicator *hslDigitransitCommunicator;
+@property (nonatomic, strong)DigiTransitCommunicator *finlandDigitransitCommunicator;
+
+@property (nonatomic, strong)SettingsManager *settingsManager;
 
 @end
 
@@ -49,7 +52,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 @synthesize routeEntity;
 @synthesize routeHistoryEntity;
 @synthesize cookieEntity;
-@synthesize settingsEntity;
 @synthesize allNamedBookmarkNames;
 @synthesize namedBookmark;
 @synthesize userLocationRegion;
@@ -109,6 +111,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     self.hslLiveTrafficManager = [[HSLLiveTrafficManager alloc] init];
     self.treLiveTrafficManager = [[TRELiveTrafficManager alloc] init];
     
+    self.settingsManager = [SettingsManager sharedManager];
+    [self setUserLocationRegion:[self.settingsManager userLocation]];
+    
     self.cacheManager = [CacheManager sharedManager];
     
     self.communicationManager = [WatchCommunicationManager sharedManager];
@@ -116,13 +121,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     HSLGeocodeResposeQueue = [@[] mutableCopy];
     TREGeocodeResponseQueue = [@[] mutableCopy];
     
-//    [self initRegionCoordinates];
-    
-    userLocationRegion = HSLandTRERegion;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
-                                                 name:@"SettingsManagerUserLocationChangedNotification" object:nil];
+                                                 name:userlocationChangedNotificationName object:nil];
 }
 
 - (void)initAndFetchCoreData {
@@ -145,13 +146,16 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSavedRoutesToICloud];
 }
 
--(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
-    userLocationRegion = [self identifyRegionOfCoordinate:coords];
-}
+//-(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
+//    userLocationRegion = [self identifyRegionOfCoordinate:coords];
+//}
 
 -(void)userLocationSettingsValueChanged:(NSNotificationCenter *)notification{
-    [self fetchSettings];
-    userLocationRegion = (Region)[self.settingsEntity.userLocation intValue];
+    [self setUserLocationRegion:[self.settingsManager userLocation]];
+}
+
+-(void)setUserLocationToRegion:(Region)region{
+    userLocationRegion = region;
 }
 
 -(Region)getRegionForCoords:(CLLocationCoordinate2D)coords{
@@ -162,10 +166,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 //    Region region = [self getRegionForCoords:coords];
 //    return region == userLocationRegion;
 //}
-
--(void)setUserLocationToRegion:(Region)region{
-    userLocationRegion = region;
-}
 
 -(NSString *)getNameOfRegion:(Region)region{
     if (region == HSLRegion) {
@@ -196,15 +196,22 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 #pragma mark - regional datasource
 -(ReittiApi)getApiForRegion:(Region)region {
-    //FIXME: TIME TO REFACTOR SETTINGS, to add support for use for digitransit api
-    if (region == HSLRegion) {
-        return ReittiHSLApi;
-    }else if(region == TRERegion){
-        return ReittiTREApi;
-    }else if(region == FINRegion){
-        return ReittiMatkaApi;
-    }else{
-        return ReittiCurrentRegionApi;
+    if ([SettingsManager useDigiTransit]) {
+        if (region == HSLRegion) {
+            return ReittiDigiTransitHslApi;
+        } else {
+            return ReittiDigiTransitApi;
+        }
+    } else {
+        if (region == HSLRegion) {
+            return ReittiHSLApi;
+        }else if(region == TRERegion){
+            return ReittiTREApi;
+        }else if(region == FINRegion){
+            return ReittiMatkaApi;
+        }else{
+            return ReittiCurrentRegionApi;
+        }
     }
 }
 
@@ -215,6 +222,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         return self.treCommunication;
     } else if (api == ReittiMatkaApi) {
         return self.matkaCommunicator;
+    } else if (api == ReittiDigiTransitHslApi) {
+        return self.hslDigitransitCommunicator;
+    } else if (api == ReittiDigiTransitApi) {
+        return self.finlandDigitransitCommunicator;
     } else {
         return self.matkaCommunicator;
     }
@@ -364,7 +375,9 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         else
             searchOptions.numberOfResults = kDefaultNumberOfResults;
         
-        [self.matkaCommunicator searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
+        id dataSourceManager = [self getDataSourceForRegion:FINRegion];
+        
+        [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {
                 completionBlock(response, nil, ReittiMatkaApi);
             }else{
@@ -376,7 +389,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock{
     
-    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
+    RouteSearchOptions *options = [self.settingsManager globalRouteOptions];
     options.date = [NSDate date];
     
     [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:nil andCompletionBlock:completionBlock];
@@ -385,7 +398,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 //Needed to avoid making default search that returns 3 results and hence slower
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock{
     
-    RouteSearchOptions *options = [settingsEntity globalRouteOptions];
+    RouteSearchOptions *options = [self.settingsManager globalRouteOptions];
     options.date = [NSDate date];
     
     [self searchRouteForFromCoords:fromCoords andToCoords:toCoords andSearchOption:options andNumberOfResult:@1 andCompletionBlock:completionBlock];
@@ -551,11 +564,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 #pragma mark - Reverse geocode methods
 
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
-    //FIXME: Temporary as hell
-//    Region region = [self identifyRegionOfCoordinate:coords];
-//    id dataSourceManager = [self getDataSourceForRegion:region];
-    
-    id dataSourceManager = self.hslDigitransitCommunicator;
+    Region region = [self identifyRegionOfCoordinate:coords];
+    id dataSourceManager = [self getDataSourceForRegion:region];
     
     if ([dataSourceManager conformsToProtocol:@protocol(ReverseGeocodeProtocol)]) {
         [(NSObject<ReverseGeocodeProtocol> *)dataSourceManager searchAddresseForCoordinate:coords withCompletionBlock:completionBlock];
@@ -569,9 +579,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
 //    geoCodeRequestedFor = userLocationRegion;
     
-//    id dataSourceManager = [self getDataSourceForCurrentRegion];
-    
-    id dataSourceManager = self.hslDigitransitCommunicator;
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
     
     if ([dataSourceManager conformsToProtocol:@protocol(GeocodeProtocol)]) {
         __block NSInteger requestCalls = 2;
@@ -929,105 +937,107 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 #pragma mark - Settings Methods
--(SettingsEntity *)fetchSettings{
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =[NSEntityDescription entityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    
-    NSError *error = nil;
-    
-    NSArray *tempSystemSettings = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if (tempSystemSettings.count > 0) {
-        settingsEntity = [tempSystemSettings objectAtIndex:0];
-        
-        //Migration to datamodel version 7
-        if (settingsEntity.showLiveVehicle == nil) {
-            [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
-        }
-        
-        //Migration to datamodel version 14
-        if (settingsEntity.toneName == nil) {
-            [settingsEntity setToneName:[AppManager defailtToneName]];
-        }
-    }
-    else {
-        [self initializeSettings];
-    }
-    
-    return settingsEntity;
-    
-}
+//-(SettingsEntity *)fetchSettings{
+//    
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =[NSEntityDescription entityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *tempSystemSettings = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if (tempSystemSettings.count > 0) {
+//        settingsEntity = [tempSystemSettings objectAtIndex:0];
+//        
+//        //Migration to datamodel version 7
+//        if (settingsEntity.showLiveVehicle == nil) {
+//            [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
+//        }
+//        
+//        //Migration to datamodel version 14
+//        if (settingsEntity.toneName == nil) {
+//            [settingsEntity setToneName:[AppManager defailtToneName]];
+//        }
+//    }
+//    else {
+//        [self initializeSettings];
+//    }
+//    
+//    
+//    return settingsEntity;
+//    
+//}
+//
+//-(void)initializeSettings{
+//    settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
+//    //set default values
+//    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
+//    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+//    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
+//    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
+//    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+//    [settingsEntity setToneName:[AppManager defailtToneName]];
+//    [settingsEntity setSettingsStartDate:[NSDate date]];
+//    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+//    
+//    NSError *error = nil;
+//    
+//    if (![settingsEntity.managedObjectContext save:&error]) {
+//        // Handle error
+//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
+//        exit(-1);  // Fail
+//    }
+//}
 
--(void)initializeSettings{
-    settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
-    //set default values
-    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
-    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
-    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
-    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
-    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
-    [settingsEntity setToneName:[AppManager defailtToneName]];
-    [settingsEntity setSettingsStartDate:[NSDate date]];
-    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-    
-    NSError *error = nil;
-    
-    if (![settingsEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-}
-
--(void)resetSettings{
-    if (settingsEntity == nil) {
-        settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
-    }
-    
-    //set default values
-    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
-    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
-    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
-    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
-    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
-    [settingsEntity setToneName:[AppManager defailtToneName]];
-    [settingsEntity setSettingsStartDate:[NSDate date]];
-    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-    
-    [self saveSettings];
-}
-
--(void)saveSettings{
-    NSError *error = nil;
-    
-    if (![settingsEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [self updateRouteSearchOptionsToUserDefaultValue];
-}
-
--(void)updateRouteSearchOptionsToUserDefaultValue{
-    
-    [self fetchSettings];
-    NSDictionary *routeOptions = [self.settingsEntity.globalRouteOptions dictionaryRepresentation];
-    
-    if (routeOptions) {
-        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
-        
-        [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
-        [sharedDefaults synchronize];
-    }
-    
-    [self.communicationManager transferRouteSearchOptions:routeOptions];
-}
+//-(void)resetSettings{
+//    if (settingsEntity == nil) {
+//        settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
+//    }
+//    
+//    //set default values
+//    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
+//    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
+//    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
+//    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
+//    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
+//    [settingsEntity setToneName:[AppManager defailtToneName]];
+//    [settingsEntity setSettingsStartDate:[NSDate date]];
+//    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+//    
+//    [self saveSettings];
+//}
+//
+//-(void)saveSettings{
+//    NSError *error = nil;
+//    
+//    if (![settingsEntity.managedObjectContext save:&error]) {
+//        // Handle error
+//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
+//        exit(-1);  // Fail
+//    }
+//    
+//    [self updateRouteSearchOptionsToUserDefaultValue];
+//}
+//
+////TODO: This should be called from the options changed notification
+//-(void)updateRouteSearchOptionsToUserDefaultValue{
+//    
+//    [self fetchSettings];
+//    NSDictionary *routeOptions = [self.settingsEntity.globalRouteOptions dictionaryRepresentation];
+//    
+//    if (routeOptions) {
+//        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
+//        
+//        [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
+//        [sharedDefaults synchronize];
+//    }
+//    
+//    [self.communicationManager transferRouteSearchOptions:routeOptions];
+//}
 
 #pragma mark - Core data methods
 -(CookieEntity *)fetchSystemCookie{
@@ -1368,7 +1378,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
                 [allHistoryStopCodes removeObject:stop.busStopCode];
             }
         }else{
-            if ([settingsEntity.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
+            if ([self.settingsManager.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
                 [self.managedObjectContext deleteObject:stop];
                 modified = YES;
                 [allHistoryStopCodes removeObject:stop.busStopCode];
@@ -1385,7 +1395,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
                 [allRouteHistoryCodes removeObject:route.routeUniqueName];
             }
         }else{
-            if ([settingsEntity.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
+            if ([self.settingsManager.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
                 [self.managedObjectContext deleteObject:route];
                 modified = YES;
                 [allRouteHistoryCodes removeObject:route.routeUniqueName];

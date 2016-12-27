@@ -12,6 +12,7 @@
 #import "CoreDataManager.h"
 #import <EventKit/EventKit.h>
 #import "SettingsManager.h"
+#import "RettiDataManager.h"
 
 @interface ReittiRemindersManager ()
 
@@ -50,8 +51,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     reminderMessageFormater = @"Your ride will leave in %d minutes.";
     
     self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
-    RettiDataManager *dataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-    self.settingsManager = [[SettingsManager alloc] initWithDataManager:dataManager];
+    self.settingsManager = [SettingsManager sharedManager];
     
     self.allRoutines = [[self fetchAllSavedRoutinesFromCoreData] mutableCopy];
     

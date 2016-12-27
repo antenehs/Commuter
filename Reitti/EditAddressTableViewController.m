@@ -9,7 +9,6 @@
 #import "EditAddressTableViewController.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "StopAnnotation.h"
-#import "SettingsManager.h"
 #import "CoreDataManager.h"
 
 @interface EditAddressTableViewController ()
@@ -84,12 +83,6 @@
         self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
         
         self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-        
-        SettingsManager * settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
-        
-//        self.reittiDataManager.reverseGeocodeSearchdelegate = self;
     }
 }
 

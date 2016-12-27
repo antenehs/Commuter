@@ -28,7 +28,7 @@
 @property (nonatomic, retain) NSString * busStopURL;
 @property (nonatomic, retain) NSString * busStopCoords;
 @property (nonatomic, retain) NSString * busStopWgsCoords;
-@property (nonatomic, retain) NSNumber *fetchedFrom;
+@property (nonatomic, retain) NSNumber * fetchedFrom;
 
 #ifndef APPLE_WATCH
 //Uses coredata cache to determine stop type. Not available in watchapp 

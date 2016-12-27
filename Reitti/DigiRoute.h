@@ -1,23 +1,22 @@
 //
 //  DigiRoute.h
 //
-//  Created by Anteneh Sahledengel on 19/5/16
+//  Created by Anteneh Sahledengel on 12/26/16
 //  Copyright (c) 2016 shaby ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
-#import "EnumManager.h"
+#import "DigiRouteShort.h"
 
-@interface DigiRoute : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *shortName;
-@property (nonatomic, strong) NSString *longName;
-@property (nonatomic, strong) NSString *gtfsId;
-@property (nonatomic, strong) NSString *desc;
+@interface DigiRoute : DigiRouteShort <NSCoding, NSCopying>
 
-@property (nonatomic) LineType lineType;
+@property (nonatomic, strong) NSArray *stops;
+@property (nonatomic, strong) NSArray *patterns;
+@property (nonatomic, strong) NSArray *alerts;
+
+@property (nonatomic, strong) NSArray *shapeCoordinates;
 
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 +(RKObjectMapping *)objectMapping;

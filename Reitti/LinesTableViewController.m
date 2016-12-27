@@ -103,9 +103,6 @@
 #pragma mark - init components methods
 -(void)initDataManagers{
     self.reittiDataManager = [[RettiDataManager alloc] init];
-    
-    SettingsManager *settingManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-    [self.reittiDataManager setUserLocationToRegion:[settingManager userLocation]];
 }
 
 #pragma mark - view methods

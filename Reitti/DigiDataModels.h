@@ -6,6 +6,7 @@
 //
 
 #import "DigiStop.h"
+#import "DigiStopShort.h"
 #import "DigiStopAtDistance.h"
 #import "DigiTrip.h"
 #import "DigiRoute.h"
