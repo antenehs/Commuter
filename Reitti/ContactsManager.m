@@ -35,7 +35,7 @@
     self = [super init];
     if (self) {
         //Fetch contacts with address
-        requestCount = [SettingsManager getSkippedcontactsRequestTrials];
+        requestCount = [SettingsManager skippedcontactsRequestTrials];
         [SettingsManager setSkippedcontactsRequestTrials:requestCount + 1];
         self.contactsWithAddress = @[];
         self.streetAddressBookMap = [@{} mutableCopy];
@@ -60,7 +60,7 @@
     
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"YES" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         [self requestAccessAndFilterContacts];
-        [SettingsManager setAskedContactPermission:YES];
+        [SettingsManager setAskedContactsPermission:YES];
     }];
     
     UIAlertAction* later = [UIAlertAction actionWithTitle:@"Later" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){

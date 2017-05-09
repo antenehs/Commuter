@@ -48,13 +48,10 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 
 +(id)sharedManager;
 -(id)initWithManagedObjectContext:(NSManagedObjectContext *)context;
-//-(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords;
--(Region)getRegionForCoords:(CLLocationCoordinate2D)coords;
-//-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords;
-//-(void)setUserLocationToRegion:(Region)region;
--(NSString *)getNameOfRegion:(Region)region;
+
 -(void)resetResponseQueues;
-+(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
+
+//+(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
 
 /* Annotation filtering */
 -(NSArray *)annotationFilterOptions;
@@ -75,11 +72,10 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock;
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock;
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock;
--(BOOL)areCoordStringsInTheSameRegion:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord;
--(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord;
 
 -(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
+
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
@@ -95,6 +91,9 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock;
 -(void)stopUpdatingBikeStations;
+
+
+
 
 -(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects;
 
@@ -138,11 +137,12 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
 
+
+
 -(void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
--(int)getAppOpenCountAndIncreament;
--(void)setAppOpenCountValue:(int)value;
+
 
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 

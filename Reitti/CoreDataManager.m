@@ -100,4 +100,8 @@
     return recentRoutes;
 }
 
+
+
+#pragma mark - NOT REFACTORED METHODS. Works for now. Don't fix it.
+
 @end

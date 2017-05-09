@@ -172,7 +172,7 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
 }
 
 -(void)setIsEnabled:(BOOL)enabled{
-    [SettingsManager enableAnalytics:enabled];
+    SettingsManager.isAnalyticsEnabled = enabled;
 }
 
 -(void)trackUserProperty:(NSString *)userProperty value:(NSString *)value {

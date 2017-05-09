@@ -11,7 +11,7 @@
 
 @interface CoreDataManager : NSObject
 
-+ (id)sharedManager;
++(id)sharedManager;
 -(id)init;
 
 - (NSManagedObject *)createNewObjectForEntityNamed:(NSString *)entityName;

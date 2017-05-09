@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import "EnumManager.h"
 
 #ifndef APPLE_WATCH
-//#import "RettiDataManager.h"
 #import "ReittiRegionManager.h"
 #import "SettingsEntity.h"
 
@@ -34,57 +32,55 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 +(id)sharedManager;
 
 -(NSDate *)settingsStartDate;
--(MapMode)getMapMode;
--(Region)userLocation;
--(BOOL)shouldShowLiveVehicles;
--(BOOL)isClearingHistoryEnabled;
--(int)numberOfDaysToKeepHistory;
--(NSString *)toneName;
--(RouteSearchOptions *)globalRouteOptions;
 
--(void)setMapMode:(MapMode)mapMode;
--(void)setUserLocation:(Region)userLocation;
--(void)showLiveVehicle:(BOOL)show;
--(void)enableClearingOldHistory:(BOOL)clear;
--(void)setNumberOfDaysToKeepHistory:(int)days;
--(void)setToneName:(NSString *)toneName;
--(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions;
+//Properties
+@property(nonatomic)MapMode mapMode;
+
+@property(nonatomic)Region userLocation;
+
+@property(nonatomic)BOOL showLiveVehicles;
+
+@property(nonatomic)BOOL isClearingHistoryEnabled;
+
+@property(nonatomic)int numberOfDaysToKeepHistory;
+
+@property(nonatomic, strong)NSString *toneName;
+
+@property(nonatomic, strong)RouteSearchOptions *globalRouteOptions;
+
 #endif
 
-//NSUserDefaults settings
-+(NSString *)uniqueDeviceIdentifier;
-+(BOOL)isAnalyticsEnabled;
-+(void)enableAnalytics:(BOOL)enable;
-+(NSInteger)getStartingIndexTab;
-+(void)setStartingIndexTab:(NSInteger)index;
+#pragma mark - NSUserDefaults settings
 
-+(BOOL)showBookmarkRoutes;
-+(void)setShowBookmarkRoutes:(BOOL)show;
-+(BOOL)showBookmarkDepartures;
-+(void)setShowBookmarkDepartures:(BOOL)show;
+//Methods
++(NSString *)uniqueDeviceIdentifier;
 +(BOOL)isAnnotationTypeEnabled:(AnnotationType)type;
 +(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(AnnotationType)type;
-+(BOOL)askedContactsPermission;
-+(void)setAskedContactPermission:(BOOL)asked;
-+(NSInteger)getSkippedcontactsRequestTrials;
-+(void)setSkippedcontactsRequestTrials:(NSInteger)index;
-+(NSInteger)showGoProInStopViewRequestCount;
 
-+(BOOL)useDigiTransit;
-+(void)setUseDigiTrnsit:(BOOL)use;
+@property(nonatomic, class)BOOL isAnalyticsEnabled;
+
+@property(nonatomic, class)NSInteger startingIndexTab;
+
+@property(nonatomic, class)BOOL showBookmarkRoutes;
+
+@property(nonatomic, class)BOOL showBookmarkDepartures;
+
+@property(nonatomic, class)BOOL askedContactsPermission;
+
+@property(nonatomic, class)NSInteger skippedcontactsRequestTrials;
+
+@property(nonatomic, readonly, class)NSInteger showGoProInStopViewRequestCount;
+
+@property(nonatomic, class)BOOL useDigiTransit;
+
+@property(nonatomic, readonly)BOOL isHSLRegion;
 
 #if APPLE_WATCH
-+(BOOL)watchRegionSupportsLocalSearching;
-+(void)setWatchRegionSupportsLocalSearching:(BOOL)supports;
+@property(nonatomic, class)BOOL watchRegionSupportsLocalSearching;
+
+//+(BOOL)watchRegionSupportsLocalSearching;
+//+(void)setWatchRegionSupportsLocalSearching:(BOOL)supports;
 #endif
 
-#ifndef APPLE_WATCH
-//@property(nonatomic, strong)RettiDataManager *reittiDataManager;
-
-//@property(nonatomic, strong)SettingsEntity *settingsEntity;
-#endif
-
-//Temoporarily make user location to apple watch
-@property(nonatomic, readonly)BOOL isHSLRegion;
 
 @end

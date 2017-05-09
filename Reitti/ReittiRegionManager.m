@@ -76,6 +76,48 @@ typedef struct {
     return [self.treRegionPolygon containsPoint:point1];
 }
 
+-(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
+    
+    if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
+        return HSLRegion;
+    }
+    
+    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
+        return TRERegion;
+    }
+    
+    return FINRegion;
+}
+
+-(NSString *)getNameOfRegion:(Region)region {
+    if (region == HSLRegion) {
+        return @"Helsinki region";
+    }else if (region == TRERegion) {
+        return @"Tampere region";
+    }else{
+        return @"Whole finland";
+    }
+}
+
++(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region{
+    if (region == TRERegion) {
+        //lat="61.4981508" lon="23.7610254"
+        CLLocationCoordinate2D coord = {.latitude = 61.4981508 , .longitude = 23.7610254 };
+        return coord;
+    }else{
+        //lat="60.168959" lon="24.924714"
+        CLLocationCoordinate2D coord = {.latitude = 60.168959 , .longitude = 24.924714 };
+        return coord;
+    }
+}
+
+-(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord{
+    Region firstRegion = [self identifyRegionOfCoordinate:firstcoord];
+    Region secondRegion = [self identifyRegionOfCoordinate:secondCoord];
+    
+    return firstRegion == secondRegion;
+}
+
 #pragma mark - Helpers
 -(AGSMutablePolygon *)polygoneFromRegionCities:(NSArray *)regionCities {
     if (!regionCities) return nil;

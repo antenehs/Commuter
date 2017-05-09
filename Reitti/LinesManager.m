@@ -45,10 +45,6 @@ NSString *kStopLinesKey = @"stopLines";
     if (self) {
         [self initLocationManager];
         self.reittiDataManager = [[RettiDataManager alloc] init];
-        
-//        SettingsManager *settingsManager = [[SettingsManager alloc] initWithDataManager:self.reittiDataManager];
-        
-//        [self.reittiDataManager setUserLocationToRegion:[settingsManager userLocation]];
     }
     
     return self;

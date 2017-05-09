@@ -10,7 +10,7 @@
 
 @implementation AppManager
 
-+(int)getAndIncrimentAppOpenCountForRating{
++(int)getAndIncrimentAppOpenCountForRating {
     int appOpenCount = [AppManager getAppOpenCountForRating];
     
     [AppManager setAppOpenCountForRating:appOpenCount + 1];
@@ -18,7 +18,7 @@
     return appOpenCount;
 }
 
-+(int)getAppOpenCountForRating{
++(int)getAppOpenCountForRating {
     NSNumber *appOpenCount = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppOpenCountForRating"];
     if (appOpenCount != nil) {
         return [appOpenCount intValue];
@@ -37,7 +37,7 @@
     }
 }
 
-+(int)getAndIncrimentAppOpenCountForGoingPro{
++(int)getAndIncrimentAppOpenCountForGoingPro {
     int appOpenCount = [AppManager getAppOpenCountForGoingPro];
     
     [AppManager setAppOpenCountForGoingPro:appOpenCount + 1];

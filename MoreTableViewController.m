@@ -267,7 +267,7 @@
 
 #pragma mark - Debug Actions
 - (IBAction)apiUseSettingChanged:(UISwitch *)sender {
-    [SettingsManager setUseDigiTrnsit:sender.on];
+    [SettingsManager setUseDigiTransit:sender.on];
 }
 
 

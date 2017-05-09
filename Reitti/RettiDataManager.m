@@ -37,6 +37,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 @property (nonatomic, strong)DigiTransitCommunicator *finlandDigitransitCommunicator;
 
 @property (nonatomic, strong)SettingsManager *settingsManager;
+@property (nonatomic, strong)ReittiRegionManager *reittiRegionManager;
 
 @end
 
@@ -55,10 +56,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 @synthesize allNamedBookmarkNames;
 @synthesize namedBookmark;
 @synthesize userLocationRegion;
-
-@synthesize hslLiveTrafficManager, treLiveTrafficManager, cacheManager;
-
-//@synthesize vehicleFetchDelegate;
+@synthesize hslLiveTrafficManager, treLiveTrafficManager, cacheManager, reittiRegionManager;
 
 +(id)sharedManager {
     static RettiDataManager *sharedManager = nil;
@@ -97,7 +95,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     return self;
 }
 
-- (void)initElements {
+-(void)initElements {
     
     self.hslCommunication = [[HSLCommunication alloc] init];
     self.treCommunication = [[TRECommunication alloc] init];;
@@ -114,6 +112,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     self.settingsManager = [SettingsManager sharedManager];
     [self setUserLocationRegion:[self.settingsManager userLocation]];
     
+    self.reittiRegionManager = reittiRegionManager;
+    
     self.cacheManager = [CacheManager sharedManager];
     
     self.communicationManager = [WatchCommunicationManager sharedManager];
@@ -126,7 +126,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
                                                  name:userlocationChangedNotificationName object:nil];
 }
 
-- (void)initAndFetchCoreData {
+-(void)initAndFetchCoreData {
     [self fetchSystemCookie];
     nextObjectLID = [cookieEntity.objectLID intValue];
     
@@ -140,58 +140,19 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateNamedBookmarksUserDefaultValue];
 }
 
-- (void)updateIcloudRecords {
+-(void)updateIcloudRecords {
     [self updateSavedNamedBookmarksToICloud];
     [self updateSavedStopsToICloud];
     [self updateSavedRoutesToICloud];
 }
 
-//-(void)setUserLocationToCoords:(CLLocationCoordinate2D)coords{
-//    userLocationRegion = [self identifyRegionOfCoordinate:coords];
-//}
-
 -(void)userLocationSettingsValueChanged:(NSNotificationCenter *)notification{
     [self setUserLocationRegion:[self.settingsManager userLocation]];
-}
-
--(void)setUserLocationToRegion:(Region)region{
-    userLocationRegion = region;
-}
-
--(Region)getRegionForCoords:(CLLocationCoordinate2D)coords{
-    return [self identifyRegionOfCoordinate:coords];
-}
-
-//-(BOOL)isCoordinateInCurrentRegion:(CLLocationCoordinate2D)coords{
-//    Region region = [self getRegionForCoords:coords];
-//    return region == userLocationRegion;
-//}
-
--(NSString *)getNameOfRegion:(Region)region{
-    if (region == HSLRegion) {
-        return @"Helsinki region";
-    }else if (region == TRERegion) {
-        return @"Tampere region";
-    }else{
-        return @"Whole finland";
-    }
 }
 
 -(void)resetResponseQueues{
     [HSLGeocodeResposeQueue removeAllObjects];
     [TREGeocodeResponseQueue removeAllObjects];
-}
-
-+(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region{
-    if (region == TRERegion) {
-        //lat="61.4981508" lon="23.7610254"
-        CLLocationCoordinate2D coord = {.latitude = 61.4981508 , .longitude = 23.7610254 };
-        return coord;
-    }else{
-        //lat="60.168959" lon="24.924714"
-        CLLocationCoordinate2D coord = {.latitude = 60.168959 , .longitude = 24.924714 };
-        return coord;
-    }
 }
 
 #pragma mark - regional datasource
@@ -331,23 +292,16 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
+
 #pragma mark - Route Search methods
-
--(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord{
-    Region firstRegion = [self identifyRegionOfCoordinate:firstcoord];
-    Region secondRegion = [self identifyRegionOfCoordinate:secondCoord];
-    
-    return firstRegion == secondRegion;
-}
-
--(BOOL)areCoordStringsInTheSameRegion:(NSString *)firstcoord andCoordinate:(NSString *)secondCoord{
-    return [self areCoordinatesInTheSameRegion:[ReittiStringFormatter convertStringTo2DCoord:firstcoord] andCoordinate:[ReittiStringFormatter convertStringTo2DCoord:secondCoord]];
-}
 
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andSearchOption:(RouteSearchOptions *)searchOptions andNumberOfResult:(NSNumber *)numberOfResult andCompletionBlock:(ActionBlock)completionBlock{
     
-    if ([self areCoordStringsInTheSameRegion:fromCoords andCoordinate:toCoords]) {
-        Region fromRegion = [self identifyRegionOfCoordinate:[ReittiStringFormatter convertStringTo2DCoord:fromCoords]];
+    CLLocationCoordinate2D fromCoordinates = [ReittiStringFormatter convertStringTo2DCoord:fromCoords];
+    CLLocationCoordinate2D toCoordinates = [ReittiStringFormatter convertStringTo2DCoord:toCoords];
+    
+    if ([reittiRegionManager areCoordinatesInTheSameRegion:fromCoordinates andCoordinate:toCoordinates]) {
+        Region fromRegion = [reittiRegionManager identifyRegionOfCoordinate:fromCoordinates];
         
         id dataSourceManager = [self getDataSourceForRegion:fromRegion];
         
@@ -357,7 +311,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             else
                 searchOptions.numberOfResults = kDefaultNumberOfResults;
             
-            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
+            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:fromCoordinates andToCoords:toCoordinates withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
                 if (!error) {
                     completionBlock(response, nil, [self getApiForRegion:fromRegion]);
                 }else{
@@ -377,7 +331,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         
         id dataSourceManager = [self getDataSourceForRegion:FINRegion];
         
-        [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:[ReittiStringFormatter convertStringTo2DCoord:fromCoords] andToCoords:[ReittiStringFormatter convertStringTo2DCoord:toCoords] withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
+        [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:fromCoordinates andToCoords:toCoordinates withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {
                 completionBlock(response, nil, ReittiMatkaApi);
             }else{
@@ -418,7 +372,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     id dataSourceManager = nil;
     ReittiApi usedApi = api;
     if (api == ReittiAutomaticApi) {
-        Region centerRegion = [self identifyRegionOfCoordinate:mapRegion.center];
+        Region centerRegion = [reittiRegionManager identifyRegionOfCoordinate:mapRegion.center];
         dataSourceManager = [self getDataSourceForRegion:centerRegion];
         usedApi = [self getApiForRegion:centerRegion];
     } else if (api == ReittiCurrentRegionApi) {
@@ -438,7 +392,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 -(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
-    Region region = [self identifyRegionOfCoordinate:coords];
+    Region region = [reittiRegionManager identifyRegionOfCoordinate:coords];
     ReittiApi api = [self getApiForRegion:region];
     [self fetchStopsForSearchParams:searchParams fetchFromApi:api withCompletionBlock:completionBlock];
 }
@@ -564,7 +518,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 #pragma mark - Reverse geocode methods
 
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock{
-    Region region = [self identifyRegionOfCoordinate:coords];
+    Region region = [reittiRegionManager identifyRegionOfCoordinate:coords];
     id dataSourceManager = [self getDataSourceForRegion:region];
     
     if ([dataSourceManager conformsToProtocol:@protocol(ReverseGeocodeProtocol)]) {
@@ -923,18 +877,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
 
--(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
-    
-    if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
-        return HSLRegion;
-    }
-    
-    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
-        return TRERegion;
-    }
-    
-    return FINRegion;
-}
+//-(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
+//    
+//    return [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:coords];
+//}
 
 #pragma mark - Settings Methods
 //-(SettingsEntity *)fetchSettings{
@@ -1079,44 +1025,11 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
--(int)getAppOpenCountAndIncreament{
-    
-    if ([cookieEntity.appOpenCount intValue] < 15) {
-        [self increamentAppOpenCounter];
-    }
-    
-    return [cookieEntity.appOpenCount intValue];
-    
-}
-
--(void)setAppOpenCountValue:(int)value{
-    [cookieEntity setAppOpenCount:[NSNumber numberWithInt:value]];
-    NSError *error = nil;
-    
-    if (![cookieEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-
-}
-
--(void)increamentObjectLID{
+-(void)increamentObjectLID {
     [self fetchSystemCookie];
     
     [cookieEntity setObjectLID:[NSNumber numberWithInt:(nextObjectLID + 1)]];
     nextObjectLID++;
-    NSError *error = nil;
-    
-    if (![cookieEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-}
-
--(void)increamentAppOpenCounter{
-    [cookieEntity setAppOpenCount:[NSNumber numberWithInt:([cookieEntity.appOpenCount intValue] + 1)]];
     NSError *error = nil;
     
     if (![cookieEntity.managedObjectContext save:&error]) {

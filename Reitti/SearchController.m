@@ -34,6 +34,8 @@
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
 
+#import <StoreKit/StoreKit.h>
+
 @import Firebase;
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
@@ -117,7 +119,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.navigationController setToolbarHidden:YES animated:NO];
     [self fetchDisruptions];
     
-    NSInteger startingIndex = [SettingsManager getStartingIndexTab];
+    NSInteger startingIndex = [SettingsManager startingIndexTab];
     if (startingIndex >= 0 && startingIndex <= 3) {
         self.tabBarController.selectedIndex = startingIndex;
     }
@@ -126,29 +128,36 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (void)showRateAppNotification{
-    appOpenCount = [self.reittiDataManager getAppOpenCountAndIncreament];
-    if (appOpenCount > 5 && ![AppManager isNewInstallOrNewVersion]) {
-     
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
-                                                                       message:@"The gift of 5 little starts is satisfying for both of us more than you think."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
-                                                                  [self.reittiDataManager setAppOpenCountValue:-50];
-                                                                  
-                                                              }];
-        
-        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
-                                                            handler:^(UIAlertAction * action) {
-                                                                [self.reittiDataManager setAppOpenCountValue:-8];
-                                                            }];
-        
-        [alert addAction:laterAction];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+    appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
+    
+    if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
+    
+    if ([SKStoreReviewController class]) {
+        [SKStoreReviewController requestReview];
+        [AppManager setAppOpenCountForRating:-8];
+        return;
     }
+     
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
+                                                                   message:@"The gift of 5 little starts is satisfying for both of us more than you think."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
+                                                              [AppManager setAppOpenCountForRating:-50];
+                                                              
+                                                          }];
+    
+    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
+                                                        handler:^(UIAlertAction * action) {
+                                                            [AppManager setAppOpenCountForRating:-8];
+                                                        }];
+    
+    [alert addAction:laterAction];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 - (void)showGoProNotification{
@@ -187,7 +196,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self initDisruptionFetching];
     
     //StartVehicleFetching
-    if ([settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager showLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }else{
         [self removeAllVehicleAnnotation];
@@ -225,7 +234,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [mainSearchBar setPlaceholder:@"address, stop or place"];
     
     //StartVehicleFetching
-    if ([settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager showLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }else{
         [self removeAllVehicleAnnotation];
@@ -344,7 +353,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     //StartVehicleFetching
-    if ([settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager showLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }
     
@@ -1175,15 +1184,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     if (!firstRecievedLocation && !userLocationUpdated) {
-        Region currentRegion = [self.reittiDataManager getRegionForCoords:self.currentUserLocation.coordinate];
+        Region currentRegion = [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:self.currentUserLocation.coordinate];
         
         if (currentRegion != [settingsManager userLocation]) {
             if (currentRegion == HSLRegion || currentRegion == TRERegion) {
                 //Notify and ask for confirmation
                 [settingsManager setUserLocation:currentRegion];
                 if (![AppManager isNewInstallOrNewVersion]) {
-                    NSString *title = [NSString stringWithFormat:@"Moved to the %@?",[reittiDataManager getNameOfRegion:currentRegion]];
-                    NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@. You can change it anytime from settings.",[reittiDataManager getNameOfRegion:currentRegion]];
+                    NSString *title = [NSString stringWithFormat:@"Moved to the %@?",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
+                    NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@. You can change it anytime from settings.",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
                     
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                                         message:body
@@ -2526,7 +2535,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)startFetchingLiveVehicles {
     [self.reittiDataManager startFetchingAllLiveVehiclesWithCompletionHandler:^(NSArray *vehicles, NSString *errorString){
         if (!errorString) {
-            if ([settingsManager shouldShowLiveVehicles]) {
+            if ([settingsManager showLiveVehicles]) {
                 [self plotVehicleAnnotations:vehicles isTrainVehicles:NO];
             }
         }
@@ -2620,7 +2629,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma mark - settings view delegate
 - (void)setMapModeForSettings {
-    switch ([settingsManager getMapMode]) {
+    switch ([settingsManager mapMode]) {
         case StandartMapMode:
             mapView.mapType = MKMapTypeStandard;
             break;
@@ -2643,12 +2652,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
-    if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
+    if ([[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:mapView.region.center] != [settingsManager userLocation]) {
         [self.reittiDataManager setUserLocationRegion:[settingsManager userLocation]];
-        [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
+        [self centerMapRegionToCoordinate:[[ReittiRegionManager sharedManager] getCoordinateForRegion:[settingsManager userLocation]]];
     }
     
-    if ([settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager showLiveVehicles]) {
         [self removeAllVehicleAnnotation];
         [self.reittiDataManager stopFetchingLiveVehicles];
         
@@ -2663,7 +2672,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 
 -(void)shouldShowVehiclesSettingsValueChanged:(NSNotification *)notification{
-    if ([settingsManager shouldShowLiveVehicles]) {
+    if ([settingsManager showLiveVehicles]) {
         [self startFetchingLiveVehicles];
     }else{
         [self removeAllVehicleAnnotation];

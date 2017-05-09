@@ -167,11 +167,11 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         if (indexPath.row == mapTypeRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"mapModeCell"];
             UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
-            segmentCtrl.selectedSegmentIndex = [self.settingsManager getMapMode];
+            segmentCtrl.selectedSegmentIndex = [self.settingsManager mapMode];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"liveVehicleCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
-            uiSwitch.on = [settingsManager shouldShowLiveVehicles];
+            uiSwitch.on = [settingsManager showLiveVehicles];
         }
     }else if (indexPath.section == otherSettingsSection) {
         if (indexPath.row == routeSearchOptionRow) {
@@ -216,7 +216,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         if (indexPath.row == startingTabRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"selectStartTab"];
             UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
-            segmentCtrl.selectedSegmentIndex = [SettingsManager getStartingIndexTab];
+            segmentCtrl.selectedSegmentIndex = [SettingsManager startingIndexTab];
         }
     }else if (indexPath.section == advancedSettingSection){
         if (indexPath.row == advancedSetttingsRow) {
@@ -337,7 +337,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 - (IBAction)showLiveVehicleSwitchValueChanged:(id)sender {
     UISwitch *uiSwith = (UISwitch *)sender;
-    [settingsManager showLiveVehicle:uiSwith.isOn];
+    settingsManager.showLiveVehicles = uiSwith.isOn;
     [mainTableView reloadData];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedLiveVehicleOption label:uiSwith.isOn ? @"On" : @"Off" value:nil];
@@ -345,7 +345,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 - (IBAction)historyClearingSwitchValueChanged:(id)sender {
     UISwitch *uiSwith = (UISwitch *)sender;
-    [settingsManager enableClearingOldHistory:uiSwith.isOn];
+    settingsManager.isClearingHistoryEnabled = uiSwith.isOn;
     [mainTableView reloadData];
 }
 
@@ -354,7 +354,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedAnalyticsOption label:uiSwith.isOn ? @"On" : @"Off" value:nil];
     
-    [SettingsManager enableAnalytics:uiSwith.isOn];
+    SettingsManager.isAnalyticsEnabled = uiSwith.isOn;
 }
 
 - (IBAction)rateAppCellPressed:(id)sender {

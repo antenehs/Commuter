@@ -49,16 +49,6 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
 
 @synthesize settingsEntity;
 
--(id)initWithDataManager:(id)dataManager{
-//    self.reittiDataManager = dataManager;
-    
-//    [self.reittiDataManager fetchSettings];
-    
-//    [self.reittiDataManager updateRouteSearchOptionsToUserDefaultValue];
-    
-    return [self init];
-}
-
 +(instancetype)sharedManager {
     static SettingsManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
@@ -67,21 +57,18 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
         sharedInstance = [SettingsManager new];
     });
     
+    //To keep the dispatching short so that there wont be deadlock
+    [sharedInstance initComponents];
     return sharedInstance;
 }
 
--(id)init {
-    self = [super init];
-    if (self) {
-        self.coreDataManager = [CoreDataManager sharedManager];
-        [self fetchCoreDataSettings];
-        
-        self.communicationManager = [WatchCommunicationManager sharedManager];
-        
-        [self updateRouteSearchOptionsToUserDefaultValue];
-    }
+-(void)initComponents {
+    self.coreDataManager = [CoreDataManager sharedManager];
+    [self fetchCoreDataSettings];
     
-    return self;
+    self.communicationManager = [WatchCommunicationManager sharedManager];
+    
+    [self updateRouteSearchOptionsToUserDefaultValue];
 }
 
 
@@ -155,52 +142,10 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return self.settingsEntity.settingsStartDate;
 }
 
--(MapMode)getMapMode{
-//    [self.reittiDataManager fetchSettings];
+-(MapMode)mapMode{
     [self fetchCoreDataSettings];
     
     return (MapMode)[self.settingsEntity.mapMode  intValue];
-}
-
--(Region)userLocation{
-//    [self.reittiDataManager fetchSettings];
-    [self fetchCoreDataSettings];
-    
-    return (Region)[self.settingsEntity.userLocation intValue];
-}
-
--(BOOL)shouldShowLiveVehicles{
-//    [self.reittiDataManager fetchSettings];
-    [self fetchCoreDataSettings];
-    
-    return [self.settingsEntity.showLiveVehicle boolValue];
-}
-
--(BOOL)isClearingHistoryEnabled{
-//    [self.reittiDataManager fetchSettings];
-    [self fetchCoreDataSettings];
-    
-    return [self.settingsEntity.clearOldHistory boolValue];
-}
--(int)numberOfDaysToKeepHistory{
-//    [self.reittiDataManager fetchSettings];
-    [self fetchCoreDataSettings];
-    
-    return [self.settingsEntity.numberOfDaysToKeepHistory intValue];
-}
-
--(NSString *)toneName{
-//    [self.reittiDataManager fetchSettings];
-    [self fetchCoreDataSettings];
-    
-    return self.settingsEntity.toneName;
-}
-
--(RouteSearchOptions *)globalRouteOptions{
-//    [self.reittiDataManager fetchSettings];
-    [self fetchCoreDataSettings];
-    
-    return self.settingsEntity.globalRouteOptions;
 }
 
 -(void)setMapMode:(MapMode)mapMode{
@@ -209,35 +154,76 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     
     [self postNotificationWithName:mapModeChangedNotificationName];
 }
+
+-(Region)userLocation{
+    [self fetchCoreDataSettings];
+    
+    return (Region)[self.settingsEntity.userLocation intValue];
+}
+
 -(void)setUserLocation:(Region)userLocation{
     [self.settingsEntity setUserLocation:[NSNumber numberWithInt:userLocation]];
     [self saveSettings];
     
     //TODO: DAta manager should subscribe to the notification or fetch it everytime.
-//    self.reittiDataManager.userLocationRegion = userLocation;
+    //    self.reittiDataManager.userLocationRegion = userLocation;
     
     [self postNotificationWithName:userlocationChangedNotificationName];
 }
 
--(void)showLiveVehicle:(BOOL)show{
+-(BOOL)showLiveVehicles{
+    [self fetchCoreDataSettings];
+    
+    return [self.settingsEntity.showLiveVehicle boolValue];
+}
+
+-(void)setShowLiveVehicle:(BOOL)show{
     [self.settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:show]];
     [self saveSettings];
     
     [self postNotificationWithName:shouldShowVehiclesNotificationName];
 }
 
--(void)enableClearingOldHistory:(BOOL)clear{
+-(BOOL)isClearingHistoryEnabled{
+    [self fetchCoreDataSettings];
+    
+    return [self.settingsEntity.clearOldHistory boolValue];
+}
+
+-(void)setIsClearingHistoryEnabled:(BOOL)clear{
     [self.settingsEntity setClearOldHistory:[NSNumber numberWithBool:clear]];
     [self saveSettings];
 }
+
+-(int)numberOfDaysToKeepHistory{
+    [self fetchCoreDataSettings];
+    
+    return [self.settingsEntity.numberOfDaysToKeepHistory intValue];
+}
+
 -(void)setNumberOfDaysToKeepHistory:(int)days{
     [self.settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:days]];
     [self saveSettings];
 }
 
+
+-(NSString *)toneName{
+    [self fetchCoreDataSettings];
+    
+    return self.settingsEntity.toneName;
+}
+
 -(void)setToneName:(NSString *)toneName{
     [self.settingsEntity setToneName:toneName];
     [self saveSettings];
+}
+
+
+-(RouteSearchOptions *)globalRouteOptions{
+//    [self.reittiDataManager fetchSettings];
+    [self fetchCoreDataSettings];
+    
+    return self.settingsEntity.globalRouteOptions;
 }
 
 -(void)setGlobalRouteOptions:(RouteSearchOptions *)globalRouteOptions{
@@ -262,6 +248,7 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     
     return uniqueId;
 }
+
 
 +(BOOL)showBookmarkRoutes {
     return [self readBoolForKey:kShowRoutesFromBookmarksKey withDefault:NO];
@@ -312,11 +299,11 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return [self readBoolForKey:kAskedContactsPermission withDefault:NO];
 }
 
-+(void)setAskedContactPermission:(BOOL)asked {
++(void)setAskedContactsPermission:(BOOL)asked {
     [self saveBoolForKey:kAskedContactsPermission boolVal:asked];
 }
 
-+(NSInteger)getSkippedcontactsRequestTrials {
++(NSInteger)skippedcontactsRequestTrials {
     return [self readIntegerForKey:kSkippedContactsPermissionTrial withDefault:0];
 }
 
@@ -335,11 +322,11 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return [self readBoolForKey:kAnalyticsSettingsNsDefaultsKey withDefault:YES];
 }
 
-+(void)enableAnalytics:(BOOL)enable{
++(void)setIsAnalyticsEnabled:(BOOL)enable{
     [self saveBoolForKey:kAnalyticsSettingsNsDefaultsKey boolVal:enable];
 }
 
-+(NSInteger)getStartingIndexTab{
++(NSInteger)startingIndexTab{
     return [self readIntegerForKey:kStartingTabNsDefaultsKey withDefault:0];
 }
 
@@ -351,7 +338,7 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return [self readBoolForKey:kUseDigiTransitApi withDefault:YES];
 }
 
-+(void)setUseDigiTrnsit:(BOOL)use {
++(void)setUseDigiTransit:(BOOL)use {
     [self saveBoolForKey:kUseDigiTransitApi boolVal:use];
 }
 

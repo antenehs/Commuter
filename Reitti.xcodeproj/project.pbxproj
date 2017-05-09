@@ -1520,8 +1520,6 @@
 		665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSearchParameters.m; sourceTree = "<group>"; };
 		665EFFF619E18F5600367839 /* search-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-green-50.png"; sourceTree = "<group>"; };
 		665EFFF819E190A600367839 /* bookmark-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-green-50.png"; sourceTree = "<group>"; };
-		6662CF7C18F719C7001CD5C1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Reitti/Default@2x.png"; sourceTree = "<group>"; };
-		6662CF7D18F719D6001CD5C1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Reitti/Default-568h@2x.png"; sourceTree = "<group>"; };
 		6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = changeToFullVersionJS.js; path = Reitti/changeToFullVersionJS.js; sourceTree = "<group>"; };
 		6663A08A1B5EEE2900DC20D0 /* createCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = createCardJS.js; path = Reitti/createCardJS.js; sourceTree = "<group>"; };
 		6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = deleteCardJS.js; path = Reitti/deleteCardJS.js; sourceTree = "<group>"; };
@@ -1811,11 +1809,6 @@
 		66CA03311C1778DD00A38858 /* KBPopupDrawableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBPopupDrawableView.h; path = KBPopupBubble/KBPopupDrawableView.h; sourceTree = "<group>"; };
 		66CA03321C1778DD00A38858 /* KBPopupDrawableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBPopupDrawableView.m; path = KBPopupBubble/KBPopupDrawableView.m; sourceTree = "<group>"; };
 		66CA03331C1778DD00A38858 /* KBPopupHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBPopupHeaders.h; path = KBPopupBubble/KBPopupHeaders.h; sourceTree = "<group>"; };
-		66CB95E818E4F56C00E95CE5 /* appicon1_retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon1_retina.png; path = Reitti/Pictures/appicon1_retina.png; sourceTree = "<group>"; };
-		66CB95E918E4F57E00E95CE5 /* appicon1_spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon1_spotlight.png; path = Reitti/Pictures/appicon1_spotlight.png; sourceTree = "<group>"; };
-		66CB95EA18E4F59000E95CE5 /* appicon1_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon1_settings.png; path = Reitti/Pictures/appicon1_settings.png; sourceTree = "<group>"; };
-		66CB95EB18E4F74900E95CE5 /* appicon2_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon2_app.png; path = Reitti/Pictures/appicon2_app.png; sourceTree = "<group>"; };
-		66CB95EC18E4F88A00E95CE5 /* appicon3_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon3_app.png; path = Reitti/Pictures/appicon3_app.png; sourceTree = "<group>"; };
 		66CB95EF18E5954400E95CE5 /* appicon4_app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon4_app.png; path = Reitti/Pictures/appicon4_app.png; sourceTree = "<group>"; };
 		66CB95FF18EEE2B500E95CE5 /* CustomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomeTableViewCell.h; sourceTree = "<group>"; };
 		66CB960018EEE2B500E95CE5 /* CustomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomeTableViewCell.m; sourceTree = "<group>"; };
@@ -3008,14 +3001,7 @@
 		66947CA918830ED500642EE1 = {
 			isa = PBXGroup;
 			children = (
-				6662CF7D18F719D6001CD5C1 /* Default-568h@2x.png */,
-				6662CF7C18F719C7001CD5C1 /* Default@2x.png */,
 				66CB95EF18E5954400E95CE5 /* appicon4_app.png */,
-				66CB95EC18E4F88A00E95CE5 /* appicon3_app.png */,
-				66CB95EB18E4F74900E95CE5 /* appicon2_app.png */,
-				66CB95EA18E4F59000E95CE5 /* appicon1_settings.png */,
-				66CB95E918E4F57E00E95CE5 /* appicon1_spotlight.png */,
-				66CB95E818E4F56C00E95CE5 /* appicon1_retina.png */,
 				66947CBB18830ED500642EE1 /* Reitti */,
 				66D0BA5118BF2DFA002DDC7B /* Resource */,
 				66947CDD18830ED500642EE1 /* ReittiTests */,
@@ -3077,7 +3063,6 @@
 		66947CBB18830ED500642EE1 /* Reitti */ = {
 			isa = PBXGroup;
 			children = (
-				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
 				66947CC418830ED500642EE1 /* AppDelegate.h */,
 				66947CC518830ED500642EE1 /* AppDelegate.m */,
 				661FAF22189BA59F00042074 /* View Controllers */,
@@ -3100,6 +3085,7 @@
 				66FDC9D11D83532F00F6288D /* Localization */,
 				66947CBC18830ED500642EE1 /* Supporting Files */,
 				669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */,
+				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
 			);
 			path = Reitti;
 			sourceTree = "<group>";

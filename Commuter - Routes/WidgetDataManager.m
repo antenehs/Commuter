@@ -127,16 +127,8 @@
     }
 }
 
--(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
-    if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
-        return HSLRegion;
-    }
-    
-    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
-        return TRERegion;
-    }
-    
-    return FINRegion;
+-(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords {
+    return [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate: coords];
 }
 #endif
 
