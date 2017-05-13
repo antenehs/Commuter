@@ -13,6 +13,7 @@
 #import "MatkaGeoCode.h"
 #import "DigiGeoCode.h"
 #import "DigiStop.h"
+#import "BusStopShort.h"
 
 @interface GeoCode : NSObject
 
@@ -47,5 +48,7 @@
 
 @property (nonatomic, retain) NSString * iconPictureName;
 @property (nonatomic, strong) UIImage *annotationImage;
+
+-(BusStopShort *)busStop;
 
 @end

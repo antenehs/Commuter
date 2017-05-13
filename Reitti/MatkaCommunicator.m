@@ -12,7 +12,7 @@
 #import "ReittiAnalyticsManager.h"
 #import "ReittiModels.h"
 #import "MatkaObjectMapping.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "AnnotationFilterOption.h"
 #import "DigiTransitCommunicator.h"
 
@@ -296,8 +296,8 @@
     if (searchDate == nil)
         searchDate = [NSDate date];
     
-    NSString *time = [[[ReittiDateFormatter sharedFormatter] apiHourFormatter] stringFromDate:searchDate];
-    NSString *date = [[[ReittiDateFormatter sharedFormatter] apiDateFormatter] stringFromDate:searchDate];
+    NSString *time = [[[ReittiDateHelper sharedFormatter] apiHourFormatter] stringFromDate:searchDate];
+    NSString *date = [[[ReittiDateHelper sharedFormatter] apiDateFormatter] stringFromDate:searchDate];
     
     NSString *timeType;
     if (searchOptions.selectedTimeType == RouteTimeNow || searchOptions.selectedTimeType == RouteTimeDeparture)

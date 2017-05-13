@@ -1,25 +1,25 @@
 //
-//  ReittiDateFormatter.m
+//  ReittiDateHelper.m
 //  Reitti
 //
 //  Created by Anteneh Sahledengel on 17/4/16.
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "ReittiStringFormatter.h"
 
-@interface ReittiDateFormatter ()
+@interface ReittiDateHelper ()
 
 @end
 
-@implementation ReittiDateFormatter
+@implementation ReittiDateHelper
 
 +(id)sharedFormatter {
-    static ReittiDateFormatter *dateFormatter = nil;
+    static ReittiDateHelper *dateFormatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        dateFormatter = [[ReittiDateFormatter alloc] init];
+        dateFormatter = [[ReittiDateHelper alloc] init];
     });
     
     return dateFormatter;
@@ -173,7 +173,7 @@ Expected format @"YYYYMMdd" and @"HHmm"
 }
 
 -(NSString *)formatHoursOrFullDateIfNotToday:(NSDate *)date {
-    NSDateFormatter *formatter = [ReittiDateFormatter isSameDateAsToday:date] ? self.hourAndMinFormatter : self.fullDateFormatter;
+    NSDateFormatter *formatter = [ReittiDateHelper isSameDateAsToday:date] ? self.hourAndMinFormatter : self.fullDateFormatter;
     [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
     return [formatter stringFromDate:date];
 }
@@ -266,6 +266,23 @@ Expected format @"YYYYMMdd" and @"HHmm"
             [today month] == [otherDay month] &&
             [today year] == [otherDay year] &&
             [today era] == [otherDay era]);
+}
+
++(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime {
+    NSDate *fromDate;
+    NSDate *toDate;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate
+                 interval:NULL forDate:fromDateTime];
+    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate
+                 interval:NULL forDate:toDateTime];
+    
+    NSDateComponents *difference = [calendar components:NSCalendarUnitDay
+                                               fromDate:fromDate toDate:toDate options:0];
+    
+    return [difference day];
 }
 
 -(NSString *)digitransitQueryDateStringFromDate:(NSDate *)date {

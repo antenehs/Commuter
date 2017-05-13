@@ -70,7 +70,7 @@
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", historyEntity.busStopShortCode];
     }
     
-    self.dateLabel.text = [[ReittiDateFormatter sharedFormatter] formatPrittyDate:historyEntity.dateModified];
+    self.dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:historyEntity.dateModified];
 }
 
 -(void)setupFromStopGeocode:(GeoCode *)stopGeocode{

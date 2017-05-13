@@ -64,7 +64,7 @@
     
     mainMapView.delegate = self;
     
-    CLLocationCoordinate2D coord = kHslRegionCenter;
+    CLLocationCoordinate2D coord = [ReittiRegionManager getCoordinateForRegion:HSLRegion];
     [self centerMapRegionToCoordinate:coord];
 }
 
@@ -78,12 +78,6 @@
     }
     
     skipUserLocation = NO;
-
-//    CLLocationDistance dist = [currentUserLocation distanceFromLocation:newLocation];
-//    if (dist > 10) {
-//        currentUserLocation = newLocation;
-//        [self centerMapRegionToCoordinate:currentUserLocation.coordinate];
-//    }
 }
 
 -(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify{

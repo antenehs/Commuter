@@ -1,5 +1,5 @@
 //
-//  ReittiDateFormatter.h
+//  ReittiDateHelper.h
 //  Reitti
 //
 //  Created by Anteneh Sahledengel on 17/4/16.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ReittiDateFormatter : NSObject
+@interface ReittiDateHelper : NSObject
 
 +(id)sharedFormatter;
 
@@ -25,6 +25,7 @@
 -(NSString *)digitransitQueryTimeStringFromDate:(NSDate *)date;
 
 +(BOOL)isSameDateAsToday:(NSDate *)date1;
++(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 
 @property (nonatomic, strong) NSDateFormatter *apiHourFormatter;
 @property (nonatomic, strong) NSDateFormatter *apiDateFormatter;

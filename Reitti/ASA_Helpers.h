@@ -11,7 +11,7 @@
 #import "NSString+Helper.h"
 #import "NSObject+Helper.h"
 #import "NSDate+Helper.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 
 #ifndef APPLE_WATCH
 #import "UITableViewCell+Helper.h"

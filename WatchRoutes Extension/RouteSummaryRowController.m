@@ -8,7 +8,7 @@
 
 #import "RouteSummaryRowController.h"
 #import "AppManager.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 
 @implementation RouteSummaryRowController
 
@@ -71,8 +71,8 @@
     }
     
     [self.detailLabel setText:[NSString stringWithFormat:@"%@ - %@",
-                               [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute],
-                               [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]]];
+                               [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute],
+                               [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]]];
 }
 
 -(UIImage *)imageForLeg:(LegTransportType)legType {

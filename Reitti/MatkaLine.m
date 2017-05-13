@@ -83,7 +83,7 @@
 
 -(NSDate *)parsedDepartureTime {
     NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:self.departureTime];
-    return [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
+    return [[ReittiDateHelper sharedFormatter] createDateFromString:timeString withMinOffset:0];
 }
 
 -(LineType)lineType {

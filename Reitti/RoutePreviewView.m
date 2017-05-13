@@ -43,7 +43,7 @@
 
 -(void)setUpViewForRoute:(Route *)route{
     UILabel *timeIntervalLabel = (UILabel *)[self viewWithTag:2001];
-    timeIntervalLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourRangeStringFrom:route.startingTimeOfRoute toDate:route.endingTimeOfRoute];
+    timeIntervalLabel.text = [[ReittiDateHelper sharedFormatter] formatHourRangeStringFrom:route.startingTimeOfRoute toDate:route.endingTimeOfRoute];
     
     //durations
     UILabel *durationLabel = (UILabel *)[self viewWithTag:2002];

@@ -147,7 +147,7 @@ NSString *const kDigiRouteMode = @"mode";
 
 #pragma mark - Derived properties
 -(LineType)lineType {
-    return [EnumManager lineTypeForDigiLineType:self.type];
+    return [EnumManager lineTypeForDigiLineType:self.mode];
 }
 
 -(NSString *)lineStart {

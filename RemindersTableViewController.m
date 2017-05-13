@@ -11,7 +11,7 @@
 #import "ReittiNotificationHelper.h"
 #import "AMBlurView.h"
 #import "EditReminderTableViewController.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "Notifications.h"
 #import "UITableView+Helper.h"
 
@@ -169,7 +169,7 @@
             
             toLabel.text = routine.toDisplayName;
             fromLabel.text = routine.fromDisplayName;
-            timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:routine.routeDate];
+            timeLabel.text = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:routine.routeDate];
             repeatsLabel.text = [NSString stringWithFormat:@"%@", routine.dayNames];
             enableSwitch.on = routine.isEnabled;
             if (enableSwitch.on) {
@@ -195,7 +195,7 @@
             
             codeLabel.text = notification.departureLine;
             stopLabel.text = notification.stopName;
-            timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:notification.fireDate];
+            timeLabel.text = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:notification.fireDate];
             
             if (notification.stopIconName) {
                 UIImage *image = [UIImage imageNamed:notification.stopIconName];
@@ -206,7 +206,7 @@
             
             codeLabel.text = notification.title;
             stopLabel.text = [NSString stringWithFormat:@"To %@", notification.routeToLocation];
-            timeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:notification.fireDate];
+            timeLabel.text = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:notification.fireDate];
             
             UIImage *image = [UIImage imageNamed:@"routeIcon2"];
             if (image) [imageView setImage:image];

@@ -460,7 +460,7 @@
                 //Do it the old school way. Might have a wrong date for after midnight times
                 NSString *notFormattedTime = departure.time ;
                 NSString *timeString = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];
-                departure.parsedScheduledDate = [[ReittiDateFormatter sharedFormatter] createDateFromString:timeString withMinOffset:0];
+                departure.parsedScheduledDate = [[ReittiDateHelper sharedFormatter] createDateFromString:timeString withMinOffset:0];
                 departure.isRealTime = NO;
             }
             [departuresArray addObject:departure];

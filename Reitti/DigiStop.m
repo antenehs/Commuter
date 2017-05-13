@@ -150,7 +150,7 @@ NSString *const kStopsStoptimes = @"stoptimes";
     if (_stopType == StopTypeUnknown) {
         if (self.routes && self.routes.count > 0) {
             DigiRoute *firstRoute = self.routes.firstObject;
-            _stopType = [EnumManager stopTypeFromLineType:[EnumManager lineTypeForDigiLineType:firstRoute.type]];
+            _stopType = [EnumManager stopTypeFromLineType:firstRoute.lineType];
         } else {
             _stopType = StopTypeBus;
         }

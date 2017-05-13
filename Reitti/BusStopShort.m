@@ -26,7 +26,6 @@
 @synthesize address;
 @synthesize distance;
 @synthesize lines;
-@synthesize stopType;
 
 -(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop{
     
@@ -48,15 +47,22 @@
 
 -(StopType)stopType{
     @try {
-        if (!_staticStop) {
-            _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+        if (_stopType == StopTypeUnknown) {
+            NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
+            assert(false);
+            
+            if (!_staticStop) {
+                _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+            }
+            
+            if (_staticStop != nil) {
+                _stopType = _staticStop.reittiStopType;
+            }else{
+                 _stopType = StopTypeBus;
+            }
         }
         
-        if (_staticStop != nil) {
-            return _staticStop.reittiStopType;
-        }else{
-            return StopTypeBus;
-        }
+        return _stopType;
     }
     @catch (NSException *exception) {
         

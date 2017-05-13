@@ -24,7 +24,7 @@
 #import "ASA_Helpers.h"
 #import "TableViewCells.h"
 #import "MainTabBarController.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 
 const NSInteger kTimerRefreshInterval = 60;
 
@@ -595,7 +595,7 @@ const NSInteger kTimerRefreshInterval = 60;
             
             if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
                 dateLabel.hidden = NO;
-                dateLabel.text = [[ReittiDateFormatter sharedFormatter] formatPrittyDate:stopEntity.dateModified];
+                dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:stopEntity.dateModified];
                 collectionView.hidden = YES;
                 collectionView.restorationIdentifier = nil; /* Just to be sure */
             }else{
@@ -666,8 +666,8 @@ const NSInteger kTimerRefreshInterval = 60;
                     transportsScrollView.userInteractionEnabled = NO;
                     [cell.contentView addGestureRecognizer:transportsScrollView.panGestureRecognizer];
                     
-                    leavesTime.text = [NSString stringWithFormat:NSLocalizedString(@"leave at %@ ", @"leave at %@ "), [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
-                    arrivesTime.text = [NSString stringWithFormat:NSLocalizedString(@"| arrive at %@", @"| arrive at %@"), [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
+                    leavesTime.text = [NSString stringWithFormat:NSLocalizedString(@"leave at %@ ", @"leave at %@ "), [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
+                    arrivesTime.text = [NSString stringWithFormat:NSLocalizedString(@"| arrive at %@", @"| arrive at %@"), [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
                 }
             }else{
                 transportsScrollView.hidden = YES;
@@ -1001,7 +1001,7 @@ const NSInteger kTimerRefreshInterval = 60;
 //        timeLabel.textColor = [UIColor darkGrayColor];
     }
     
-    NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departureTime];
+    NSString *formattedHour = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departureTime];
     if (!formattedHour || formattedHour.length < 1 ) {
         NSString *notFormattedTime = departure.time ;
         formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];

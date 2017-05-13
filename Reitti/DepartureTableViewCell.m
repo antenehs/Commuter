@@ -7,7 +7,7 @@
 //
 
 #import "DepartureTableViewCell.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
@@ -54,7 +54,7 @@
             self.strikeThroughView.hidden = NO;
             self.cancelledDepartureTimeLabel.hidden = NO;
             
-            NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate];
+            NSString *formattedHour = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate];
             self.cancelledDepartureTimeLabel.text = formattedHour;
         } else {
             self.strikeThroughView.hidden = YES;
@@ -68,7 +68,7 @@
         self.cancelledDepartureTimeLabel.hidden = YES;
     }
     
-    NSString *formattedHour = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:departureTime];
+    NSString *formattedHour = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departureTime];
     if (!formattedHour || formattedHour.length < 1 ) {
         NSString *notFormattedTime = departure.time ;
         formattedHour = [ReittiStringFormatter formatHSLAPITimeWithColon:notFormattedTime];

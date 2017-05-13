@@ -28,8 +28,8 @@
 
 NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 
-CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
-CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
+//CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
+//CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
 
 @interface RettiDataManager ()
 
@@ -112,7 +112,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     self.settingsManager = [SettingsManager sharedManager];
     [self setUserLocationRegion:[self.settingsManager userLocation]];
     
-    self.reittiRegionManager = reittiRegionManager;
+    self.reittiRegionManager = [ReittiRegionManager sharedManager];
     
     self.cacheManager = [CacheManager sharedManager];
     
@@ -330,12 +330,13 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
             searchOptions.numberOfResults = kDefaultNumberOfResults;
         
         id dataSourceManager = [self getDataSourceForRegion:FINRegion];
+        ReittiApi usedApi = [self getApiForRegion:FINRegion];
         
         [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:fromCoordinates andToCoords:toCoordinates withOptions:searchOptions andCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {
-                completionBlock(response, nil, ReittiMatkaApi);
+                completionBlock(response, nil, usedApi);
             }else{
-                completionBlock(nil, error, ReittiMatkaApi);
+                completionBlock(nil, error, usedApi);
             }
         }];
     }
@@ -359,11 +360,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
 }
 
 
-#pragma mark - stop search methods
-
-//TODO: Needs to support specifiying api
-//TODO: Needs to support responding used API
-
+#pragma mark - stop in area search methods
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock {
     [self fetchStopsInAreaForRegion:mapRegion fetchFromApi:ReittiAutomaticApi withCompletionBlock:completionBlock];
 }
@@ -390,6 +387,8 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         completionBlock(nil, @"Service not available in this area.", usedApi);
     }
 }
+
+#pragma mark - stop detail search methods
 
 -(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
     Region region = [reittiRegionManager identifyRegionOfCoordinate:coords];
@@ -467,6 +466,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
+#pragma mark - Line search methods
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
     [self fetchLinesForSearchTerm:searchTerm fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:completionBlock];
 }
@@ -611,6 +611,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
      }];
 }
 
+#pragma mark - Disruption fetch methods
 -(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock{
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
@@ -628,6 +629,7 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
+#pragma mark - Bike search methods
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock {
     if (![AppManager isProVersion]) return;
     
@@ -723,79 +725,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     }
 }
 
--(NSDictionary *)convertListInfoArrayToDictionary:(NSArray *)infoListArray{
-    
-    NSMutableArray *codesList;
-    
-    for (Line * line in infoListArray) {
-        [codesList addObject:[NSString stringWithFormat:@"%@", line.code]];
-    }
-    
-    NSDictionary *convertedSet = [NSDictionary dictionaryWithObjects:infoListArray forKeys:codesList];
-    
-    return convertedSet;
-}
-
--(NSDictionary *)convertBusStopToDictionary:(BusStop *)stop{
-    
-    NSMutableDictionary *stopDictionary = [[NSMutableDictionary alloc] init];
-    [stopDictionary setObject:stop forKey:stop.code];
-    
-    return stopDictionary;
-}
-
-+ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime
-{
-    NSDate *fromDate;
-    NSDate *toDate;
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate
-                 interval:NULL forDate:fromDateTime];
-    [calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate
-                 interval:NULL forDate:toDateTime];
-    
-    NSDateComponents *difference = [calendar components:NSCalendarUnitDay
-                                               fromDate:fromDate toDate:toDate options:0];
-    
-    return [difference day];
-}
-
--(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntityToCast{
-  
-    return (StopEntity *)historyEntityToCast;
-}
-
--(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode{
-    if (geoCode.locationType != LocationTypeStop)
-        return nil;
-    
-    BusStopShort *castedBSS = [[BusStopShort alloc] init];
-    castedBSS.code = geoCode.getStopCode;
-    castedBSS.codeShort = geoCode.getStopShortCode;
-    castedBSS.coords = geoCode.coords;
-    castedBSS.name = geoCode.name;
-    castedBSS.city = geoCode.city;
-    castedBSS.address = geoCode.getAddress;
-    castedBSS.distance = [NSNumber numberWithInt:0];
-    
-    return castedBSS;
-}
-
--(BusStopShort *)castStopEntityToBusStopShort:(StopEntity *)stopEntityToCast{
-    BusStopShort *castedBSS = [[BusStopShort alloc] init];
-    castedBSS.code = stopEntityToCast.busStopCode;
-    castedBSS.codeShort = stopEntityToCast.busStopShortCode;
-    castedBSS.coords = stopEntityToCast.busStopWgsCoords;
-    castedBSS.name = stopEntityToCast.busStopName;
-    castedBSS.city = stopEntityToCast.busStopCity;
-    castedBSS.address = nil;
-    castedBSS.distance = [NSNumber numberWithInt:0];
-    
-    return castedBSS;
-}
-
 -(BOOL)isBusStopSaved:(BusStop *)stop{
     return [self isBusStopSavedWithCode:stop.code];
 }
@@ -871,119 +800,10 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [self updateSavedStopsToWatch:savedStops];
 }
 
-
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     [self fetchAllSavedRouteCodesFromCoreData];
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
-
-//-(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
-//    
-//    return [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:coords];
-//}
-
-#pragma mark - Settings Methods
-//-(SettingsEntity *)fetchSettings{
-//    
-//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-//    
-//    NSEntityDescription *entity =[NSEntityDescription entityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
-//    
-//    [request setEntity:entity];
-//    
-//    
-//    NSError *error = nil;
-//    
-//    NSArray *tempSystemSettings = [self.managedObjectContext executeFetchRequest:request error:&error];
-//    
-//    if (tempSystemSettings.count > 0) {
-//        settingsEntity = [tempSystemSettings objectAtIndex:0];
-//        
-//        //Migration to datamodel version 7
-//        if (settingsEntity.showLiveVehicle == nil) {
-//            [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
-//        }
-//        
-//        //Migration to datamodel version 14
-//        if (settingsEntity.toneName == nil) {
-//            [settingsEntity setToneName:[AppManager defailtToneName]];
-//        }
-//    }
-//    else {
-//        [self initializeSettings];
-//    }
-//    
-//    
-//    return settingsEntity;
-//    
-//}
-//
-//-(void)initializeSettings{
-//    settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
-//    //set default values
-//    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
-//    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
-//    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
-//    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
-//    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
-//    [settingsEntity setToneName:[AppManager defailtToneName]];
-//    [settingsEntity setSettingsStartDate:[NSDate date]];
-//    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-//    
-//    NSError *error = nil;
-//    
-//    if (![settingsEntity.managedObjectContext save:&error]) {
-//        // Handle error
-//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
-//        exit(-1);  // Fail
-//    }
-//}
-
-//-(void)resetSettings{
-//    if (settingsEntity == nil) {
-//        settingsEntity = (SettingsEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"SettingsEntity" inManagedObjectContext:self.managedObjectContext];
-//    }
-//    
-//    //set default values
-//    [settingsEntity setMapMode:[NSNumber numberWithInt:0]];
-//    [settingsEntity setUserLocation:[NSNumber numberWithInt:0]];
-//    [settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:YES]];
-//    [settingsEntity setClearOldHistory:[NSNumber numberWithBool:YES]];
-//    [settingsEntity setNumberOfDaysToKeepHistory:[NSNumber numberWithInt:90]];
-//    [settingsEntity setToneName:[AppManager defailtToneName]];
-//    [settingsEntity setSettingsStartDate:[NSDate date]];
-//    [settingsEntity setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-//    
-//    [self saveSettings];
-//}
-//
-//-(void)saveSettings{
-//    NSError *error = nil;
-//    
-//    if (![settingsEntity.managedObjectContext save:&error]) {
-//        // Handle error
-//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed settings!!", error, [error userInfo]);
-//        exit(-1);  // Fail
-//    }
-//    
-//    [self updateRouteSearchOptionsToUserDefaultValue];
-//}
-//
-////TODO: This should be called from the options changed notification
-//-(void)updateRouteSearchOptionsToUserDefaultValue{
-//    
-//    [self fetchSettings];
-//    NSDictionary *routeOptions = [self.settingsEntity.globalRouteOptions dictionaryRepresentation];
-//    
-//    if (routeOptions) {
-//        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
-//        
-//        [sharedDefaults setObject:routeOptions forKey:kUserDefaultsRouteSearchOptionsKey];
-//        [sharedDefaults synchronize];
-//    }
-//    
-//    [self.communicationManager transferRouteSearchOptions:routeOptions];
-//}
 
 #pragma mark - Core data methods
 -(CookieEntity *)fetchSystemCookie{
@@ -1133,7 +953,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
     [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
 }
 
-//Return array of set dictionaries
 -(NSArray *)fetchAllSavedStopsFromCoreData{
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -1682,7 +1501,6 @@ CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =
         return nil;
     }
 }
-
 
 -(void)deleteNamedBookmarkForName:(NSString *)name{
     NamedBookmark *bookmarkToDelete = [self fetchSavedNamedBookmarkFromCoreDataForName:name];

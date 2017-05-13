@@ -7,7 +7,7 @@
 //
 
 #import "MatkaRouteLocation.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "ReittiStringFormatter.h"
 #import "MatkaName.h"
 
@@ -16,7 +16,7 @@
 -(NSDate *)parsedArrivalTime {
     if (!_parsedArrivalTime) {
         if (_arrivalTime) {
-            _parsedArrivalTime = [[ReittiDateFormatter sharedFormatter] dateFromApiDateString:_arrivalDate andHourString:_arrivalTime];
+            _parsedArrivalTime = [[ReittiDateHelper sharedFormatter] dateFromApiDateString:_arrivalDate andHourString:_arrivalTime];
         }
     }
     
@@ -26,7 +26,7 @@
 -(NSDate *)parsedDepartureTime {
     if (!_parsedDepartureTime) {
         if (_departureTime) {
-            _parsedDepartureTime = [[ReittiDateFormatter sharedFormatter] dateFromApiDateString:_departureDate andHourString:_departureTime];
+            _parsedDepartureTime = [[ReittiDateHelper sharedFormatter] dateFromApiDateString:_departureDate andHourString:_departureTime];
         }
     }
     

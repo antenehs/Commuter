@@ -51,7 +51,7 @@
     self.toLabel.text = historyEntity.toLocationName;
     self.fromLabel.text = historyEntity.fromLocationName;
     
-    self.dateLabel.text = [[ReittiDateFormatter sharedFormatter] formatPrittyDate:historyEntity.dateModified];
+    self.dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:historyEntity.dateModified];
 }
 
 -(void)setupFromRoute:(Route *)route{

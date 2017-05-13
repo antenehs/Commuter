@@ -17,7 +17,7 @@
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 #import "CacheManager.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "DepartureTableViewCell.h"
 #import "ReittiConfigManager.h"
 

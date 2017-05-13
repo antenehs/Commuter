@@ -13,6 +13,10 @@
 #import "ApiProtocols.h"
 #import "OrderedManagedObject.h"
 
+#ifndef APPLE_WATCH
+#import "BusStopShort.h"
+#endif
+
 @interface StopEntity : OrderedManagedObject
 
 -(NSDictionary *)dictionaryRepresentation;
@@ -33,6 +37,7 @@
 #ifndef APPLE_WATCH
 //Uses coredata cache to determine stop type. Not available in watchapp 
 @property (nonatomic) StopType stopType;
+-(BusStopShort *)toBusStopShort;
 #endif
 
 @property (nonatomic, retain, readonly) NSArray * lineCodes;

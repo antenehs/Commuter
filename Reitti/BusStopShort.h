@@ -22,7 +22,7 @@
 //-(void)setStopTypeForGDTypeString:(NSString *)type;
 
 @property (nonatomic, retain) NSNumber * code;
-@property (nonatomic, strong) NSString *gtfsId;
+@property (nonatomic, strong) NSString * gtfsId;
 @property (nonatomic, retain) NSString * codeShort;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * city;

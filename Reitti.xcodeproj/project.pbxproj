@@ -191,7 +191,7 @@
 		663207291D2925BE00D8A46D /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831211C0DE22000DA979E /* NSDate+Helper.m */; };
 		6632072A1D293C8600D8A46D /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
 		6632072B1D293D0B00D8A46D /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
-		6632072C1D293DBC00D8A46D /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
+		6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		6632072D1D293DCC00D8A46D /* ReittiStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */; };
 		663207301D29501E00D8A46D /* RouteLegRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6632072F1D29501E00D8A46D /* RouteLegRowController.m */; };
 		663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 663B7BDF1B4DB5B9008CF187 /* Reachability.m */; };
@@ -300,8 +300,8 @@
 		666E08C61CD3DD7E0058D5B0 /* MatkaLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F991CBA614300C6C731 /* MatkaLine.m */; };
 		666E08C71CD3DD810058D5B0 /* MatkaGeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */; };
 		666E08C81CD3DD820058D5B0 /* MatkaGeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */; };
-		666E08C91CD3DEEC0058D5B0 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
-		666E08CA1CD3DEEC0058D5B0 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
+		666E08C91CD3DEEC0058D5B0 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
+		666E08CA1CD3DEEC0058D5B0 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		666E08CB1CD3DF410058D5B0 /* MatkaRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA11CBC284300C6C731 /* MatkaRoute.m */; };
 		666E08CC1CD3DF420058D5B0 /* MatkaRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA11CBC284300C6C731 /* MatkaRoute.m */; };
 		666E08CD1CD3DF460058D5B0 /* MatkaRouteLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7FA91CBC294600C6C731 /* MatkaRouteLocation.m */; };
@@ -428,7 +428,7 @@
 		6683CF281CD929110044727B /* MatkaName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaName.m */; };
 		6683CF291CD929140044727B /* MatkaLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F991CBA614300C6C731 /* MatkaLine.m */; };
 		6683CF2A1CD929170044727B /* MatkaGeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */; };
-		6683CF2B1CD9294F0044727B /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
+		6683CF2B1CD9294F0044727B /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		6683CF2C1CD929610044727B /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		6683CF2D1CD94EA00044727B /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
 		6683CF2E1CD94EA10044727B /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
@@ -541,8 +541,8 @@
 		66BCA71B1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
 		66BCA71C1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
-		66C5676F1CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
-		66C567701CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */; };
+		66C5676F1CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
+		66C567701CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		66C567801CC3F07000ECA0F5 /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		66C567811CC3F07000ECA0F5 /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		66C59DA519993CC300E7AC7A /* Transport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA419993CC300E7AC7A /* Transport.xib */; };
@@ -1410,7 +1410,7 @@
 		661ABBF1199AABF900F93894 /* RouteLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLeg.h; sourceTree = "<group>"; };
 		661ABBF2199AABF900F93894 /* RouteLeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLeg.m; sourceTree = "<group>"; };
 		661ABBF4199AB04100F93894 /* RouteLegLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegLocation.h; sourceTree = "<group>"; };
-		661ABBF5199AB04100F93894 /* RouteLegLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLegLocation.m; sourceTree = "<group>"; };
+		661ABBF5199AB04100F93894 /* RouteLegLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteLegLocation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		661FAF23189BA5EB00042074 /* APIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
 		661FAF24189BA5EB00042074 /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
 		661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Reitti.xcdatamodel; sourceTree = "<group>"; };
@@ -1447,7 +1447,7 @@
 		663207201D282F3F00D8A46D /* RouteInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteInterfaceController.h; sourceTree = "<group>"; };
 		663207211D282F3F00D8A46D /* RouteInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteInterfaceController.m; sourceTree = "<group>"; };
 		6632072E1D29501E00D8A46D /* RouteLegRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegRowController.h; sourceTree = "<group>"; };
-		6632072F1D29501E00D8A46D /* RouteLegRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLegRowController.m; sourceTree = "<group>"; };
+		6632072F1D29501E00D8A46D /* RouteLegRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteLegRowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		663B7BDE1B4DB5B9008CF187 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		663B7BDF1B4DB5B9008CF187 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		663E1EB71C949C5400C5543A /* ICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudManager.h; sourceTree = "<group>"; };
@@ -1458,12 +1458,12 @@
 		663E1EC21C95D90A00C5543A /* ICloudBookmarks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudBookmarks.h; sourceTree = "<group>"; };
 		663E1EC31C95D90A00C5543A /* ICloudBookmarks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICloudBookmarks.m; sourceTree = "<group>"; };
 		663E1ECA1C9EB86700C5543A /* StopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopTableViewCell.h; sourceTree = "<group>"; };
-		663E1ECB1C9EB86700C5543A /* StopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopTableViewCell.m; sourceTree = "<group>"; };
+		663E1ECB1C9EB86700C5543A /* StopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StopTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		663E1ECC1C9EB86700C5543A /* StopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StopTableViewCell.xib; sourceTree = "<group>"; };
 		663E1ED81C9EBF1E00C5543A /* ReittiModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiModels.h; sourceTree = "<group>"; };
 		663E1ED91C9EC20600C5543A /* TableViewCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCells.h; sourceTree = "<group>"; };
 		663E1EDA1C9EE7D100C5543A /* RouteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteTableViewCell.h; sourceTree = "<group>"; };
-		663E1EDB1C9EE7D100C5543A /* RouteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteTableViewCell.m; sourceTree = "<group>"; };
+		663E1EDB1C9EE7D100C5543A /* RouteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		663E1EDC1C9EE7D100C5543A /* RouteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RouteTableViewCell.xib; sourceTree = "<group>"; };
 		663E1EE11C9EF2C500C5543A /* NamedBookmarkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedBookmarkTableViewCell.h; sourceTree = "<group>"; };
 		663E1EE21C9EF2C500C5543A /* NamedBookmarkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedBookmarkTableViewCell.m; sourceTree = "<group>"; };
@@ -1487,9 +1487,9 @@
 		664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiManagedObjectBase.h; sourceTree = "<group>"; };
 		664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiManagedObjectBase.m; sourceTree = "<group>"; };
 		664E28821ADAC1E400BE2457 /* TRECommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRECommunication.h; sourceTree = "<group>"; };
-		664E28831ADAC1E400BE2457 /* TRECommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRECommunication.m; sourceTree = "<group>"; };
+		664E28831ADAC1E400BE2457 /* TRECommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TRECommunication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		664E28851ADAC90100BE2457 /* HSLCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLCommunication.h; sourceTree = "<group>"; };
-		664E28861ADAC90100BE2457 /* HSLCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLCommunication.m; sourceTree = "<group>"; };
+		664E28861ADAC90100BE2457 /* HSLCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HSLCommunication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		664E28881ADAE6AD00BE2457 /* Tampere.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Tampere.gpx; sourceTree = "<group>"; };
 		664E288A1ADC79F800BE2457 /* FailedGeoCodeFetch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FailedGeoCodeFetch.h; sourceTree = "<group>"; };
 		664E288B1ADC79F800BE2457 /* FailedGeoCodeFetch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FailedGeoCodeFetch.m; sourceTree = "<group>"; };
@@ -1535,7 +1535,7 @@
 		6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiAppShortcutManager.m; sourceTree = "<group>"; };
 		6665D74A1C0B532500ACCC3A /* NSArray+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Helper.h"; path = "Helpers/NSArray+Helper.h"; sourceTree = "<group>"; };
 		6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Helper.m"; path = "Helpers/NSArray+Helper.m"; sourceTree = "<group>"; };
-		6665D74D1C0B538A00ACCC3A /* ASA_Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASA_Helpers.h; sourceTree = "<group>"; };
+		6665D74D1C0B538A00ACCC3A /* ASA_Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ASA_Helpers.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6665D74E1C0C9BF300ACCC3A /* Reitti 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 12.xcdatamodel"; sourceTree = "<group>"; };
 		6665D7771C0CDDA300ACCC3A /* UITableViewCell+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableViewCell+Helper.h"; path = "Helpers/UITableViewCell+Helper.h"; sourceTree = "<group>"; };
 		6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewCell+Helper.m"; path = "Helpers/UITableViewCell+Helper.m"; sourceTree = "<group>"; };
@@ -1581,7 +1581,7 @@
 		66780DBD1C553E8D00C838AA /* ReittiEmailAndShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiEmailAndShareManager.h; sourceTree = "<group>"; };
 		66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiEmailAndShareManager.m; sourceTree = "<group>"; };
 		6679ADC619C1CA3700DD38DD /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
-		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
+		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteDetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiRemindersManager.h; sourceTree = "<group>"; };
 		667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiRemindersManager.m; sourceTree = "<group>"; };
 		667B98101AD3261100C45ADF /* AddressTypeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AddressTypeList.plist; sourceTree = "<group>"; };
@@ -1618,9 +1618,9 @@
 		66833D0E1CEE45CE005D958C /* DigiTrip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiTrip.h; sourceTree = "<group>"; };
 		66833D0F1CEE45CE005D958C /* DigiTrip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiTrip.m; sourceTree = "<group>"; };
 		66833D251CEE4685005D958C /* DigiTransitCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiTransitCommunicator.h; sourceTree = "<group>"; };
-		66833D261CEE4685005D958C /* DigiTransitCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiTransitCommunicator.m; sourceTree = "<group>"; };
+		66833D261CEE4685005D958C /* DigiTransitCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DigiTransitCommunicator.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66833D2C1CF0BC4D005D958C /* DepartureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepartureTableViewCell.h; sourceTree = "<group>"; };
-		66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DepartureTableViewCell.m; sourceTree = "<group>"; };
+		66833D2D1CF0BC4D005D958C /* DepartureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DepartureTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66833D2E1CF0BC4D005D958C /* DepartureTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DepartureTableViewCell.xib; sourceTree = "<group>"; };
 		66833D391CF1B89A005D958C /* RTStopSearchParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTStopSearchParam.h; sourceTree = "<group>"; };
 		66833D3A1CF1B89A005D958C /* RTStopSearchParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTStopSearchParam.m; sourceTree = "<group>"; };
@@ -1672,11 +1672,11 @@
 		66947CE118830ED500642EE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		66947CE318830ED500642EE1 /* ReittiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReittiTests.m; sourceTree = "<group>"; };
 		66947CF01886F90200642EE1 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
-		66947CF11886F90200642EE1 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchController.m; sourceTree = "<group>"; };
+		66947CF11886F90200642EE1 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SearchController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66947CFA188C535300642EE1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		66947CFC188C56D400642EE1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		66947CFE188C58C400642EE1 /* StopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopViewController.h; sourceTree = "<group>"; };
-		66947CFF188C58C400642EE1 /* StopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopViewController.m; sourceTree = "<group>"; };
+		66947CFF188C58C400642EE1 /* StopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StopViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		669602B11B1224B3006919CB /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		669602B21B1224B3006919CB /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		669602C11B14D8E7006919CB /* SanFranciscoDisplay-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoDisplay-Black.otf"; sourceTree = "<group>"; };
@@ -1709,7 +1709,7 @@
 		669EA1F819C83794005A04B9 /* RouteHistoryEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteHistoryEntity.h; sourceTree = "<group>"; };
 		669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteHistoryEntity.m; sourceTree = "<group>"; };
 		66A2FB061D887612004A6C24 /* RouteSummaryRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSummaryRowController.h; sourceTree = "<group>"; };
-		66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSummaryRowController.m; sourceTree = "<group>"; };
+		66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteSummaryRowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A2FB091D887A01004A6C24 /* RouteSummaryInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSummaryInterfaceController.h; sourceTree = "<group>"; };
 		66A2FB0A1D887A01004A6C24 /* RouteSummaryInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSummaryInterfaceController.m; sourceTree = "<group>"; };
 		66A2FB0C1D889213004A6C24 /* RouteHeaderRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteHeaderRowController.h; sourceTree = "<group>"; };
@@ -1774,8 +1774,8 @@
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		66C1254419CF5BD400099AFF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
-		66C5676D1CC3B82C00ECA0F5 /* ReittiDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiDateFormatter.h; sourceTree = "<group>"; };
-		66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiDateFormatter.m; sourceTree = "<group>"; };
+		66C5676D1CC3B82C00ECA0F5 /* ReittiDateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ReittiDateHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ReittiDateHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66C5677E1CC3F07000ECA0F5 /* ReittiMapkitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReittiMapkitHelper.h; path = Helpers/ReittiMapkitHelper.h; sourceTree = "<group>"; };
 		66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReittiMapkitHelper.m; path = Helpers/ReittiMapkitHelper.m; sourceTree = "<group>"; };
 		66C59DA419993CC300E7AC7A /* Transport.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Transport.xib; sourceTree = "<group>"; };
@@ -1832,7 +1832,7 @@
 		66CC93DC18DDC65300644281 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
 		66CC93DD18DDC65300644281 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		66CC940318DF6DEC00644281 /* BookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarksViewController.h; sourceTree = "<group>"; };
-		66CC940418DF6DEC00644281 /* BookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarksViewController.m; sourceTree = "<group>"; };
+		66CC940418DF6DEC00644281 /* BookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BookmarksViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66CC940818E190D300644281 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		66CC940918E190D300644281 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		66CC941118E22ECB00644281 /* StopEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopEntity.h; sourceTree = "<group>"; };
@@ -1888,7 +1888,7 @@
 		66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiConfigManager.m; sourceTree = "<group>"; };
 		66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NativeActivityIndicator.xcassets; sourceTree = "<group>"; };
 		66E6E5511CB907A10086F611 /* MatkaCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaCommunicator.h; sourceTree = "<group>"; };
-		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaCommunicator.m; sourceTree = "<group>"; };
+		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MatkaCommunicator.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66E6E5561CB90DA90086F611 /* MatkaStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaStop.h; sourceTree = "<group>"; };
 		66E6E5571CB90DA90086F611 /* MatkaStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaStop.m; sourceTree = "<group>"; };
 		66E6E55A1CB9279F0086F611 /* MatkaName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaName.h; sourceTree = "<group>"; };
@@ -1934,9 +1934,9 @@
 		66F1383219939B3600B52B6B /* GeoCodeAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoCodeAnnotation.m; sourceTree = "<group>"; };
 		66F1383319939B3600B52B6B /* GeoCodeAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCodeAnnotation.h; sourceTree = "<group>"; };
 		66F13850199925A400B52B6B /* RouteSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSearchViewController.h; sourceTree = "<group>"; };
-		66F13851199925A400B52B6B /* RouteSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSearchViewController.m; sourceTree = "<group>"; };
+		66F13851199925A400B52B6B /* RouteSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteSearchViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66F13853199937F700B52B6B /* RoutePreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutePreviewView.h; sourceTree = "<group>"; };
-		66F13854199937F700B52B6B /* RoutePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutePreviewView.m; sourceTree = "<group>"; };
+		66F13854199937F700B52B6B /* RoutePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RoutePreviewView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66F16CE01E05EE7600D45613 /* StopsQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopsQuery.graphql; sourceTree = "<group>"; };
 		66F16CE81E05EEB800D45613 /* StopsInAreaQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopsInAreaQuery.graphql; sourceTree = "<group>"; };
 		66F16CF01E05EECA00D45613 /* StopsInAreaQueryFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopsInAreaQueryFragment.graphql; sourceTree = "<group>"; };
@@ -1994,14 +1994,14 @@
 		66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardManager.h; sourceTree = "<group>"; };
 		66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardManager.m; sourceTree = "<group>"; };
 		66F3FAEE1B44940700DAA5B4 /* TravelCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardViewController.h; sourceTree = "<group>"; };
-		66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardViewController.m; sourceTree = "<group>"; };
+		66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TravelCardViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66F3FAF11B44972600DAA5B4 /* logginJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logginJS.js; sourceTree = "<group>"; };
 		66F60DE11C7F8FEE00B33511 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Helper.h"; path = "Helpers/NSString+Helper.h"; sourceTree = "<group>"; };
 		66F60DE21C7F8FEE00B33511 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Helper.m"; path = "Helpers/NSString+Helper.m"; sourceTree = "<group>"; };
 		66F60DE81C834C0B00B33511 /* HSLRouteOptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLRouteOptionManager.h; sourceTree = "<group>"; };
 		66F60DE91C834C0B00B33511 /* HSLRouteOptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLRouteOptionManager.m; sourceTree = "<group>"; };
 		66F6CED91B511E6C00F934A2 /* RemindersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemindersTableViewController.h; path = ../RemindersTableViewController.h; sourceTree = "<group>"; };
-		66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemindersTableViewController.m; path = ../RemindersTableViewController.m; sourceTree = "<group>"; };
+		66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = RemindersTableViewController.m; path = ../RemindersTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66F6CEDC1B51335400F934A2 /* Reitti 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 8.xcdatamodel"; sourceTree = "<group>"; };
 		66F6CEDD1B513CED00F934A2 /* RoutineEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutineEntity.h; sourceTree = "<group>"; };
 		66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutineEntity.m; sourceTree = "<group>"; };
@@ -2031,17 +2031,17 @@
 		66FD7F911CB94B4700C6C731 /* Oulu.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Oulu.gpx; sourceTree = "<group>"; };
 		66FD7F921CB94B4700C6C731 /* Turku.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Turku.gpx; sourceTree = "<group>"; };
 		66FD7F981CBA614300C6C731 /* MatkaLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaLine.h; sourceTree = "<group>"; };
-		66FD7F991CBA614300C6C731 /* MatkaLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaLine.m; sourceTree = "<group>"; };
+		66FD7F991CBA614300C6C731 /* MatkaLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MatkaLine.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66FD7F9C1CBA843900C6C731 /* MatkaGeoCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaGeoCode.h; sourceTree = "<group>"; };
 		66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaGeoCode.m; sourceTree = "<group>"; };
 		66FD7FA01CBC284300C6C731 /* MatkaRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRoute.h; sourceTree = "<group>"; };
-		66FD7FA11CBC284300C6C731 /* MatkaRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRoute.m; sourceTree = "<group>"; };
+		66FD7FA11CBC284300C6C731 /* MatkaRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MatkaRoute.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66FD7FA81CBC294600C6C731 /* MatkaRouteLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteLocation.h; sourceTree = "<group>"; };
 		66FD7FA91CBC294600C6C731 /* MatkaRouteLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteLocation.m; sourceTree = "<group>"; };
 		66FD7FAC1CBC2E4B00C6C731 /* MatkaRouteLeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteLeg.h; sourceTree = "<group>"; };
 		66FD7FAD1CBC2E4B00C6C731 /* MatkaRouteLeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteLeg.m; sourceTree = "<group>"; };
 		66FD7FB11CBC30EC00C6C731 /* MatkaRouteStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaRouteStop.h; sourceTree = "<group>"; };
-		66FD7FB21CBC30EC00C6C731 /* MatkaRouteStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaRouteStop.m; sourceTree = "<group>"; };
+		66FD7FB21CBC30EC00C6C731 /* MatkaRouteStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MatkaRouteStop.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66FDC9DA1D83561200F6288D /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Main.strings; sourceTree = "<group>"; };
 		66FDC9DB1D83561300F6288D /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		66FDC9DC1D83561300F6288D /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/LaunchScreenPro.strings; sourceTree = "<group>"; };
@@ -2846,8 +2846,8 @@
 			children = (
 				66D0BA5E18BF41A6002DDC7B /* ReittiStringFormatter.h */,
 				66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */,
-				66C5676D1CC3B82C00ECA0F5 /* ReittiDateFormatter.h */,
-				66C5676E1CC3B82C00ECA0F5 /* ReittiDateFormatter.m */,
+				66C5676D1CC3B82C00ECA0F5 /* ReittiDateHelper.h */,
+				66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */,
 				66CC941718E3452D00644281 /* MyFixedLayoutGuide.h */,
 				66CC941818E3452D00644281 /* MyFixedLayoutGuide.m */,
 				66C59DAA1999432D00E7AC7A /* ReittiShapeMaker.h */,
@@ -4712,7 +4712,7 @@
 				66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */,
 				66B391B81D23078B00C500CC /* HSLRoute.m in Sources */,
 				66B391971D20129B00C500CC /* AppManagerBase.m in Sources */,
-				6632072C1D293DBC00D8A46D /* ReittiDateFormatter.m in Sources */,
+				6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */,
 				6601AC931D29894000EB8972 /* AppManager.m in Sources */,
 				66B391AF1D23078B00C500CC /* HSLCoord.m in Sources */,
 				663207251D29257A00D8A46D /* ReittiMapkitHelper.m in Sources */,
@@ -4887,7 +4887,7 @@
 				66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */,
 				66F099691AE6ECD700F20D34 /* TSBlurView.m in Sources */,
 				66F0996B1AE6ECD700F20D34 /* TSMessageView.m in Sources */,
-				66C5676F1CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */,
+				66C5676F1CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */,
 				660D31301C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				660FB2451B39F30E009C30BF /* AboutTableViewController.m in Sources */,
 				66056E6E1C42AAFE00C011FB /* LineRef.m in Sources */,
@@ -5163,7 +5163,7 @@
 				66C7331A1C556DA5002544BC /* RoutePreviewView.m in Sources */,
 				66C7331B1C556DA5002544BC /* TSBlurView.m in Sources */,
 				66C7331C1C556DA5002544BC /* TSMessageView.m in Sources */,
-				66C567701CC3B82C00ECA0F5 /* ReittiDateFormatter.m in Sources */,
+				66C567701CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */,
 				66C7331D1C556DA5002544BC /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				66C7331E1C556DA5002544BC /* AboutTableViewController.m in Sources */,
 				66C7331F1C556DA5002544BC /* LineRef.m in Sources */,
@@ -5323,7 +5323,7 @@
 				66833D131CEE45CE005D958C /* DigiRouteShort.m in Sources */,
 				666E08CC1CD3DF420058D5B0 /* MatkaRoute.m in Sources */,
 				66F60DED1C83610900B33511 /* HSLAPIClient.m in Sources */,
-				666E08CA1CD3DEEC0058D5B0 /* ReittiDateFormatter.m in Sources */,
+				666E08CA1CD3DEEC0058D5B0 /* ReittiDateHelper.m in Sources */,
 				66833D5E1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C735161C556FA4002544BC /* RouteLegE.m in Sources */,
 				66F60DEF1C83611700B33511 /* HSLRouteOptionManager.m in Sources */,
@@ -5441,7 +5441,7 @@
 				66C7357E1C556FB5002544BC /* StopDeparture.m in Sources */,
 				66F16D1B1E08B36200D45613 /* Geometry.m in Sources */,
 				66C7357F1C556FB5002544BC /* RouteLegLocationE.m in Sources */,
-				6683CF2B1CD9294F0044727B /* ReittiDateFormatter.m in Sources */,
+				6683CF2B1CD9294F0044727B /* ReittiDateHelper.m in Sources */,
 				6605796C1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5472,7 +5472,7 @@
 				66833D121CEE45CE005D958C /* DigiRouteShort.m in Sources */,
 				666E08CB1CD3DF410058D5B0 /* MatkaRoute.m in Sources */,
 				66F60DEE1C83610A00B33511 /* HSLAPIClient.m in Sources */,
-				666E08C91CD3DEEC0058D5B0 /* ReittiDateFormatter.m in Sources */,
+				666E08C91CD3DEEC0058D5B0 /* ReittiDateHelper.m in Sources */,
 				66833D5D1CF8F427005D958C /* DigiPlan.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66F60DF01C83611900B33511 /* HSLRouteOptionManager.m in Sources */,

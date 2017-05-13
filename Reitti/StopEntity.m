@@ -76,6 +76,20 @@
     return [AppManager stopIconNameForStopType:self.stopType];
 }
 
+-(BusStopShort *)toBusStopShort {
+    BusStopShort *castedBSS = [[BusStopShort alloc] init];
+    castedBSS.code = self.busStopCode;
+    castedBSS.codeShort = self.busStopShortCode;
+    castedBSS.coords = self.busStopWgsCoords;
+    castedBSS.name = self.busStopName;
+    castedBSS.city = self.busStopCity;
+    castedBSS.address = nil;
+    castedBSS.distance = [NSNumber numberWithInt:0];
+    castedBSS.stopType = self.stopType;
+    
+    return castedBSS;
+}
+
 #endif
 
 -(void)setStopType:(StopType)stopType{

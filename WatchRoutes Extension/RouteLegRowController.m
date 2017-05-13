@@ -7,7 +7,7 @@
 //
 
 #import "RouteLegRowController.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
 
@@ -74,7 +74,7 @@
     //Labels
     [self.transportationGroup setHidden:NO];
     [self.locationGroup setHidden:NO];
-    [self.timeLabel setText:[[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime]];
+    [self.timeLabel setText:[[ReittiDateHelper sharedFormatter] formatHourStringFromDate:loc.depTime]];
     
     if (routeLegIndex == 0) {
         [self setLocationLabelText:route.fromLocationName];

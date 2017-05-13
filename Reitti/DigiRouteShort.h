@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSString *bikesAllowed;
 @property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, strong) NSString *url;
-@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSNumber *type;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSString *mode;
 

@@ -34,8 +34,8 @@
 @class FailedGeoCodeFetch;
 @class HSLLiveTrafficManager;
 
-extern CLLocationCoordinate2D kHslRegionCenter;
-extern CLLocationCoordinate2D kTreRegionCenter;
+//extern CLLocationCoordinate2D kHslRegionCenter;
+//extern CLLocationCoordinate2D kTreRegionCenter;
 
 extern NSString * const kBookmarksWithAnnotationUpdated;
 
@@ -73,26 +73,35 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)searchRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock;
 -(void)getFirstRouteForFromCoords:(NSString *)fromCoords andToCoords:(NSString *)toCoords andCompletionBlock:(ActionBlock)completionBlock;
 
+
+
 -(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams andCoords:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsForSearchParams:(RTStopSearchParam *)searchParams fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
+
+
 
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchStopsInAreaForRegion:(MKCoordinateRegion)mapRegion fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
+
+
 -(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock;
 -(void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock;
+
+
 
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchLinesForLineCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;
 -(void)fetchLinesForLineCodes:(NSArray *)lineCodes fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock;
 
+
+
 -(void)fetchDisruptionsWithCompletionBlock:(ActionBlock)completionBlock;
+
 
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock;
 -(void)stopUpdatingBikeStations;
-
-
 
 
 -(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects;
@@ -142,19 +151,11 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
-
-
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 
 -(void)fetchAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler;
 -(void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)stopFetchingLiveVehicles;
-
--(StopEntity *)castHistoryEntityToStopEntity:(HistoryEntity *)historyEntity;
--(BusStopShort *)castStopGeoCodeToBusStopShort:(GeoCode *)geoCode;
--(BusStopShort *)castStopEntityToBusStopShort:(StopEntity *)stopEntity;
-
-+(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 
 -(BOOL)doVersion4_1CoreDataMigration;
 -(void)doVersion16CoreDataMigration;

@@ -20,7 +20,7 @@
 #import "DroppedPinManager.h"
 #import "ASA_Helpers.h"
 #import "TableViewCells.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "WatchCommunicationManager.h"
 
 typedef enum
@@ -967,7 +967,7 @@ typedef enum
             UILabel *arriveTimeLabel = (UILabel *)[cell viewWithTag:2005];
             
             NSString *leavesString = [NSString stringWithFormat:@"leave %@",
-                                      [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
+                                      [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.startingTimeOfRoute]];
             
             if ([route.startingTimeOfRoute timeIntervalSinceNow] < 300) {
                 leaveTimeLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:leavesString                                                                         substring:leavesString withNormalFont:leaveTimeLabel.font];
@@ -977,7 +977,7 @@ typedef enum
             }
             
             arriveTimeLabel.text = [NSString stringWithFormat:@"| arrive %@",
-                                    [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
+                                    [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.endingTimeOfRoute]];
             
             //durations
             UILabel *durationLabel = (UILabel *)[cell viewWithTag:2001];
@@ -991,7 +991,7 @@ typedef enum
             UILabel *moreInfoLebel = (UILabel *)[cell viewWithTag:2002];
             
             if(route.timeAtTheFirstStop != nil){
-                NSString *timeString = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:route.timeAtTheFirstStop];
+                NSString *timeString = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:route.timeAtTheFirstStop];
                 NSString *fullString = [NSString stringWithFormat:@"%@ from first stop · %@ km walking",
                                       timeString, numberString];
                 NSAttributedString *formattedString = [ReittiStringFormatter highlightSubstringInString:fullString substrings:@[timeString] withNormalFont:moreInfoLebel.font highlightedFont:[UIFont systemFontOfSize:moreInfoLebel.font.pointSize weight:UIFontWeightSemibold] andHighlightColor:[UIColor grayColor]];
@@ -1496,7 +1496,7 @@ typedef enum
 
 
 - (void)setSelectedTimeToTimeLabel:(NSDate *)time andTimeType:(RouteTimeType)timeType{
-    NSString *prettyVersion = [[ReittiDateFormatter sharedFormatter] formatHoursOrFullDateIfNotToday:time];
+    NSString *prettyVersion = [[ReittiDateHelper sharedFormatter] formatHoursOrFullDateIfNotToday:time];
     
     switch (timeType) {
         case RouteTimeNow:

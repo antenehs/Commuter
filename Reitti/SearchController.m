@@ -28,7 +28,7 @@
 #import "ReittiAnalyticsManager.h"
 #import "ICloudManager.h"
 #import "MainTabBarController.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "BikeStation.h"
 #import "DepartureTableViewCell.h"
 #import "AnnotationFilter.h"
@@ -1104,10 +1104,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (![self isLocationServiceAvailableWithNotification:NO]) {
         if ([settingsManager userLocation] == HSLRegion) {
             //Helsinki center location
-            coordinate = kHslRegionCenter;
+            coordinate = [ReittiRegionManager getCoordinateForRegion:HSLRegion];
         }else if ([settingsManager userLocation] == TRERegion){
             //tampere center location
-            coordinate = kTreRegionCenter;
+            coordinate = [ReittiRegionManager getCoordinateForRegion:TRERegion];;
         }
         
         toReturn = NO;
@@ -1243,7 +1243,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     NSArray *savedStops = [reittiDataManager fetchAllSavedStopsFromCoreData];
     if (savedStops && savedStops.count > 0) {
         for (StopEntity *stopEnt in savedStops) {
-            [self plotStopAnnotation:[reittiDataManager castStopEntityToBusStopShort:stopEnt] withSelect:NO isBookmark:YES];
+            [self plotStopAnnotation:stopEnt.toBusStopShort withSelect:NO isBookmark:YES];
         }
     }
 }
@@ -2584,7 +2584,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
-    [self plotStopAnnotation:[reittiDataManager castStopEntityToBusStopShort:stopEntity] withSelect:YES isBookmark:YES];
+    [self plotStopAnnotation:stopEntity.toBusStopShort withSelect:YES isBookmark:YES];
     
     mainSearchBar.text = [NSString stringWithFormat:@"%@, %@", stopEntity.busStopName, stopEntity.busStopCity];
     prevSearchedCoords = stopEntity.busStopCoords;
@@ -2595,7 +2595,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //Check if it is type busstop
     if (geoCode.locationType == LocationTypeStop) {
         //Convert GeoCode to busStopShort
-        [self plotStopAnnotation:[reittiDataManager castStopGeoCodeToBusStopShort:geoCode] withSelect:YES isBookmark:NO];
+        [self plotStopAnnotation:geoCode.busStop withSelect:YES isBookmark:NO];
         
     }else{
         [self plotGeoCodeAnnotation:geoCode];

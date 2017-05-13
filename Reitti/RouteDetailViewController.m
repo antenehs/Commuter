@@ -256,10 +256,10 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self setupRoutePreviewView];
     
     [timeIntervalLabel setText:[NSString stringWithFormat:@"leave at %@ ",
-                                               [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:self.route.startingTimeOfRoute]]];
+                                               [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:self.route.startingTimeOfRoute]]];
     
         [arrivalTimeLabel setText:[NSString stringWithFormat:@"| arrive at %@",
-                                   [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:self.route.endingTimeOfRoute]]];
+                                   [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:self.route.endingTimeOfRoute]]];
     
     UIImageView *topLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, routeListView.frame.size.width, 0.5)];
     topLine.backgroundColor = [UIColor lightGrayColor];
@@ -873,14 +873,14 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             [routeMapView removeAnnotations:annotToRemove];
             
             NSMutableArray *allAnots = [@[] mutableCopy];
-            for (BusStopShort *stop in newStops) {
+            for (BusStop *stop in newStops) {
                 //Do not plot if stop annotation is one of the onces in the route
                 if ([self isOtherStopOneOfTheLocationStops:stop])
                     continue;
                 
                 CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
-                NSString * name = stop.name;
-                NSString * codeShort = stop.codeShort;
+                NSString * name = stop.name_fi;
+                NSString * codeShort = stop.code_short;
                 
                 LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:codeShort andCoordinate:coordinate andLocationType:OtherStopLocation];
                 newAnnotation.code = [NSNumber numberWithInteger:[stop.code integerValue]];
@@ -914,16 +914,16 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 {
     
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
-    for (BusStopShort *stop in stopList) {
+    for (BusStop *stop in stopList) {
         [codeList addObject:stop.code];
     }
     return codeList;
 }
 
-- (BOOL)isOtherStopOneOfTheLocationStops:(BusStopShort *)stop{
+- (BOOL)isOtherStopOneOfTheLocationStops:(BusStop *)stop{
     for (RouteLeg *leg in self.route.routeLegs) {
         for (RouteLegLocation *loc in leg.legLocations) {
-            if (loc.shortCode == stop.codeShort) {
+            if (loc.shortCode == stop.code_short) {
                 return YES;
             }
         }
@@ -1605,7 +1605,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         UIImageView *nextLegLine = (UIImageView *)[cell viewWithTag:2008];
         
         UILabel *startTimeLabel = (UILabel *)[cell viewWithTag:1003];
-        startTimeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime];
+        startTimeLabel.text = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:loc.depTime];
         
         UIImage *image = [AppManager lightColorImageForLegTransportType:loc.locationLegType];
         if (selectedLeg.legType != LegTypeMetro)
@@ -1781,7 +1781,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             typeLine.image = nil;
             dotView.hidden = NO;
             startTimeLabel.hidden = NO;
-            startTimeLabel.text = [[ReittiDateFormatter sharedFormatter] formatHourStringFromDate:loc.depTime];
+            startTimeLabel.text = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:loc.depTime];
         }
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

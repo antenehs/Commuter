@@ -10,7 +10,7 @@
 #import "DigiDataModels.h"
 #import "ReittiStringFormatter.h"
 #import "ReittiMapkitHelper.h"
-#import "ReittiDateFormatter.h"
+#import "ReittiDateHelper.h"
 #import "GraphQLQuery.h"
 
 #if MAIN_APP
@@ -225,8 +225,8 @@ typedef enum : NSUInteger {
     if (![ReittiMapkitHelper isValidCoordinate:fromCoords] || ![ReittiMapkitHelper isValidCoordinate:toCoords])
         return nil;
     
-    NSString *date = [[ReittiDateFormatter sharedFormatter] digitransitQueryDateStringFromDate:options.date];
-    NSString *time = [[ReittiDateFormatter sharedFormatter] digitransitQueryTimeStringFromDate:options.date];
+    NSString *date = [[ReittiDateHelper sharedFormatter] digitransitQueryDateStringFromDate:options.date];
+    NSString *time = [[ReittiDateHelper sharedFormatter] digitransitQueryTimeStringFromDate:options.date];
     
     NSDictionary *arguments = @{@"from" : @{@"lat": [NSNumber numberWithDouble:fromCoords.latitude], @"lon": [NSNumber numberWithDouble:fromCoords.longitude]},
                                 @"to" : @{@"lat": [NSNumber numberWithDouble:toCoords.latitude], @"lon": [NSNumber numberWithDouble:toCoords.longitude]},

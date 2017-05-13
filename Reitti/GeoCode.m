@@ -296,4 +296,21 @@
     return _annotationImage;
 }
 
+-(BusStopShort *)busStop {
+    if (self.locationType != LocationTypeStop)
+        return nil;
+    
+    BusStopShort *castedBSS = [[BusStopShort alloc] init];
+    castedBSS.code = self.getStopCode;
+    castedBSS.codeShort = self.getStopShortCode;
+    castedBSS.coords = self.coords;
+    castedBSS.name = self.name;
+    castedBSS.city = self.city;
+    castedBSS.address = self.getAddress;
+    castedBSS.distance = [NSNumber numberWithInt:0];
+    castedBSS.stopType = self.stopType;
+    
+    return castedBSS;
+}
+
 @end

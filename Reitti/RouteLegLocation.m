@@ -32,8 +32,8 @@
         self.coordsDictionary = legDict[@"coord"];
         self.coordsString = [NSString stringWithFormat:@"%@,%@",self.coordsDictionary[@"x"],self.coordsDictionary[@"y"]];
         
-        self.arrTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:[self objectOrNilForKey:@"arrTime" fromDictionary:legDict]];
-        self.depTime = [[ReittiDateFormatter sharedFormatter] dateFromFullApiDateString:[self objectOrNilForKey:@"depTime" fromDictionary:legDict]];
+        self.arrTime = [[ReittiDateHelper sharedFormatter] dateFromFullApiDateString:[self objectOrNilForKey:@"arrTime" fromDictionary:legDict]];
+        self.depTime = [[ReittiDateHelper sharedFormatter] dateFromFullApiDateString:[self objectOrNilForKey:@"depTime" fromDictionary:legDict]];
         self.name = [self objectOrNilForKey:@"name" fromDictionary:legDict];
         self.stopCode = [self objectOrNilForKey:@"code" fromDictionary:legDict];
         self.shortCode = [self objectOrNilForKey:@"shortCode" fromDictionary:legDict];
