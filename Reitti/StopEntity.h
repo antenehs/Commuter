@@ -33,10 +33,14 @@
 @property (nonatomic, retain) NSString * busStopCoords;
 @property (nonatomic, retain) NSString * busStopWgsCoords;
 @property (nonatomic, retain) NSNumber * fetchedFrom;
+@property (nonatomic, retain) NSNumber * stopTypeNumber;
+@property (nonatomic, retain) NSNumber * isHistory;
+@property (nonatomic, retain) NSString * stopGtfsId;
 
 #ifndef APPLE_WATCH
 //Uses coredata cache to determine stop type. Not available in watchapp 
 @property (nonatomic) StopType stopType;
+
 -(BusStopShort *)toBusStopShort;
 #endif
 

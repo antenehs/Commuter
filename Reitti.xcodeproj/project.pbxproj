@@ -1750,6 +1750,7 @@
 		66B391BF1D23087300C500CC /* WatchApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchApiClient.h; sourceTree = "<group>"; };
 		66B391C01D23087300C500CC /* WatchApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchApiClient.m; sourceTree = "<group>"; };
 		66B6011F1D91C1360056B7FA /* finland-region.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "finland-region.geojson"; sourceTree = "<group>"; };
+		66B7AE851EC78D6600B233E7 /* Reitti 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 17.xcdatamodel"; sourceTree = "<group>"; };
 		66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
@@ -6821,6 +6822,7 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				66B7AE851EC78D6600B233E7 /* Reitti 17.xcdatamodel */,
 				66656D541D5F485C00BA291B /* Reitti 16.xcdatamodel */,
 				6603A8FF1CD29DCF00991FBF /* Reitti 15.xcdatamodel */,
 				66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */,
@@ -6838,7 +6840,7 @@
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 66656D541D5F485C00BA291B /* Reitti 16.xcdatamodel */;
+			currentVersion = 66B7AE851EC78D6600B233E7 /* Reitti 17.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

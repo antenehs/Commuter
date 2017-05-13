@@ -19,18 +19,28 @@
 @dynamic busStopCoords;
 @dynamic busStopWgsCoords;
 @dynamic fetchedFrom;
+@synthesize stopGtfsId;
+@synthesize stopTypeNumber;
+@synthesize isHistory;
 
 -(StopType)stopType{
-    @try {
-        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.busStopCode]];
-        if (staticStop != nil) {
-            return staticStop.reittiStopType;
-        }else{
+    if (!self.stopTypeNumber || [self.stopTypeNumber intValue] == 0) {
+        //THis shouldn't be a case for new version
+        @try {
+            StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.busStopCode]];
+            if (staticStop != nil) {
+                return staticStop.reittiStopType;
+            }else{
+                return StopTypeBus;
+            }
+        } @catch (NSException *exception) {}
+    } else {
+        int intVal = [self.stopTypeNumber intValue];
+        @try {
+            return (StopType)intVal;
+        } @catch (NSException *exception) {
             return StopTypeBus;
         }
-    }
-    @catch (NSException *exception) {
-        
     }
 }
 

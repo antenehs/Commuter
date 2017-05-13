@@ -65,7 +65,7 @@ typedef enum{
     BOOL isShowingStopView;
     BOOL isShowingBikeAnnotations;
     NSString *selectedAnnotionStopShortCode, *selectedAnnotionStopName;
-    NSNumber *selectedAnnotionStopCode;
+    NSString *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;
     
     BOOL mapResizedForMiddlePosition;

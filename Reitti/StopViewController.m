@@ -96,7 +96,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self initNotifications];
     
     [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
-    self.reloadTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(updateDepartures:) userInfo:nil repeats:YES];
     
     [self setUpMainView];
     
@@ -114,11 +113,18 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         [self.activityIndicator beginRefreshing];
     }
     
+    self.reloadTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(updateDepartures:) userInfo:nil repeats:YES];
+    
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.reloadTimer invalidate];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self setUpMapViewForBusStop];
     [departuresTable reloadData];
 }
@@ -255,6 +261,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (IBAction)BackButtonPressed:(id)sender {
 //    [SVProgressHUD dismiss];
+    [self.reloadTimer invalidate];
     [self dismissViewControllerAnimated:YES completion:nil ];
 }
 
@@ -464,7 +471,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             [self requestStopInfoAsyncForCode:_busStop.gtfsId
                                     andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.coords]];
         } else {
-            [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [_busStop.code intValue]]
+            [self requestStopInfoAsyncForCode:_busStop.gtfsId
                                     andCoords:[ReittiStringFormatter convertStringTo2DCoord:_busStop.coords]];
         }
     }
@@ -786,9 +793,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc
-{
-    if (_reloadTimer) [_reloadTimer invalidate];
+- (void)dealloc {
+    if (_reloadTimer)
+        [_reloadTimer invalidate];
     NSLog(@"StopViewController:This ARC deleted my UIView.");
 }
 

@@ -287,7 +287,7 @@ const NSInteger kTimerRefreshInterval = 60;
         numberOfStops ++;
         
         RTStopSearchParam *searchParam = [RTStopSearchParam new];
-        searchParam.longCode = [stopEntity.busStopCode stringValue];
+        searchParam.longCode = stopEntity.stopGtfsId;
         searchParam.shortCode = stopEntity.busStopShortCode;
         searchParam.stopName = stopEntity.busStopName;
         
@@ -1159,12 +1159,12 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 - (BusStop *)getDetailStopForBusStop:(StopEntity *)stopEntity{
-    return [self.stopDetailMap objectForKey:[stopEntity.busStopCode stringValue]];
+    return [self.stopDetailMap objectForKey:stopEntity.stopGtfsId];
 }
 
 - (void)setDetailStopForBusStop:(StopEntity *)stopEntity busStop:(BusStop *)stop{
     if (stop) {
-        [self.stopDetailMap setValue:stop forKey:[stopEntity.busStopCode stringValue]];
+        [self.stopDetailMap setValue:stop forKey:stopEntity.stopGtfsId];
     }
 }
 
@@ -1512,7 +1512,7 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (void)configureStopViewController:(StopViewController *)stopViewController withStopEntity:(StopEntity *)stopEntity{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
-        stopViewController.stopCode = [NSString stringWithFormat:@"%d", [stopEntity.busStopCode intValue]];
+        stopViewController.stopCode = stopEntity.stopGtfsId;
         stopViewController.stopShortCode = stopEntity.busStopShortCode;
         stopViewController.stopName = stopEntity.busStopName;
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords];

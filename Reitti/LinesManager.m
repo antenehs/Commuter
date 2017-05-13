@@ -222,7 +222,7 @@ NSString *kStopLinesKey = @"stopLines";
         numberOfStops ++;
         
         RTStopSearchParam *searchParam = [RTStopSearchParam new];
-        searchParam.longCode = [busStopShort.code stringValue];
+        searchParam.longCode = busStopShort.gtfsId;
         
         //Fetch from current region since lines will be fetching from current region
         [self.reittiDataManager fetchStopsForSearchParams:searchParam fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:^(BusStop *stop, NSString *errorString){

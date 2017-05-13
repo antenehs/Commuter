@@ -37,7 +37,7 @@ extern NSString *kNotificationStopCode;
 +(NSString *)notificationStopNameForStop:(BusStop *)stop;
 
 @property (nonatomic, strong)NSString *stopName;
-@property (nonatomic, strong)NSNumber *stopCode;
+@property (nonatomic, strong)NSString *stopCode;
 @property (nonatomic, strong)NSString *stopIconName;
 @property (nonatomic, strong)NSString *departureLine;
 @property (nonatomic, strong)NSDate *departureTime;

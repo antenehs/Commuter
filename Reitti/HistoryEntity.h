@@ -21,7 +21,11 @@
 @property (nonatomic, retain) NSString * busStopShortCode;
 @property (nonatomic, retain) NSString * busStopCoords;
 @property (nonatomic, retain) NSString * busStopWgsCoords;
-@property (nonatomic, retain) NSNumber *fetchedFrom;
+@property (nonatomic, retain) NSNumber * fetchedFrom;
+
+@property (nonatomic, retain) NSNumber * stopTypeNumber;
+@property (nonatomic, retain) NSNumber * isHistory;
+@property (nonatomic, retain) NSString * stopGtfsId;
 
 @property (nonatomic) StopType stopType;
 -(ReittiApi)fetchedFromApi;

@@ -728,7 +728,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:name andSubtitle:shortCode
                                                             andCoordinate:coordinate];
-    newAnnotation.code = [NSNumber numberWithInteger:[loc.stopCode integerValue]];
+    newAnnotation.code = loc.stopCode;
     
     if (loc.locationLegType == LegTypeWalk) {
         newAnnotation.imageNameForView = @"";
@@ -781,7 +781,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                 if (leg.legType != LegTypeWalk && locCount != 0 && locCount != leg.legLocations.count - 1) {
                     if (loc.shortCode != nil) {
                         LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
-                        newAnnotation.code = [NSNumber numberWithInteger:[loc.stopCode integerValue]];
+                        newAnnotation.code = loc.stopCode;
                         if (loc.locationLegType == LegTypeWalk) {
                             newAnnotation.imageNameForView = @"";
                         }else{
@@ -884,7 +884,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                 NSString * codeShort = stop.codeShort;
                 
                 LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:codeShort andCoordinate:coordinate andLocationType:OtherStopLocation];
-                newAnnotation.code = [NSNumber numberWithInteger:[stop.code integerValue]];
+                newAnnotation.code = stop.gtfsId;
                 newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:stop.stopType];
                 
                 [routeMapView addAnnotation:newAnnotation];
@@ -908,15 +908,14 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList
 {
-    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.code",codeList ]];
+    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.gtfsId",codeList ]];
 }
 
-- (NSMutableArray *)collectStopCodes:(NSArray *)stopList
-{
+- (NSMutableArray *)collectStopCodes:(NSArray *)stopList {
     
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
     for (BusStop *stop in stopList) {
-        [codeList addObject:stop.code];
+        [codeList addObject:stop.gtfsId];
     }
     return codeList;
 }
@@ -1199,7 +1198,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     id <MKAnnotation> annotation = [view annotation];
-    NSNumber *stopCode;
+    NSString *stopCode;
     NSString *stopShortCode, *stopName;
     CLLocationCoordinate2D stopCoords;
     if ([annotation isKindOfClass:[StopAnnotation class]])
@@ -1986,7 +1985,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     for (id<MKAnnotation> annotation in routeMapView.annotations) {
         if ([annotation isKindOfClass:[StopAnnotation class]]) {
             StopAnnotation *sAnnot = (StopAnnotation *)annotation;
-            if ([sAnnot.code integerValue] == [code integerValue]) {
+            if ([sAnnot.code isEqualToString:code]) {
                 [routeMapView selectAnnotation:annotation animated:YES];
             }
         }
@@ -1997,7 +1996,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     for (id<MKAnnotation> annotation in routeMapView.annotations) {
         if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
             LocationsAnnotation *lAnnot = (LocationsAnnotation *)annotation;
-            if ([lAnnot.code integerValue] == [code integerValue]) {
+            if ([lAnnot.code isEqualToString:code]) {
                 [routeMapView selectAnnotation:annotation animated:YES];
             }
         }
@@ -2117,7 +2116,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         NSString *stopCode, *stopShortCode, *stopName;
         CLLocationCoordinate2D stopCoords;
         if ([sender isKindOfClass:[self class]]) {
-            stopCode = [NSString stringWithFormat:@"%ld", (long)[selectedAnnotionStopCode integerValue]];
+            stopCode = selectedAnnotionStopCode;
             stopCoords = selectedAnnotationStopCoords;
             stopShortCode = selectedAnnotionStopShortCode;
             stopName = selectedAnnotionStopName;
@@ -2167,7 +2166,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         if ([annotationView.annotation isKindOfClass:[StopAnnotation class]])
         {
             StopAnnotation *stopAnnotation = (StopAnnotation *)annotationView.annotation;
-            stopCode = [stopAnnotation.code stringValue];
+            stopCode = stopAnnotation.code;
             stopCoords = stopAnnotation.coordinate;
             stopShortCode = stopAnnotation.subtitle;
             stopName = stopAnnotation.title;
@@ -2176,7 +2175,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         {
             LocationsAnnotation *annotation = (LocationsAnnotation *)annotationView.annotation;
             if (annotation.locationType == StopLocation || annotation.locationType == OtherStopLocation) {
-                stopCode = [annotation.code stringValue];
+                stopCode = annotation.code;
                 stopCoords = annotation.coordinate;
                 stopShortCode = annotation.subtitle;
                 stopName = annotation.title;

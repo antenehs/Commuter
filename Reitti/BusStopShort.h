@@ -20,7 +20,8 @@
 
 -(NSString *)destinationForLineFullCode:(NSString *)fullCode;
 
-@property (nonatomic, retain) NSNumber * code;
+
+@property (nonatomic, retain) NSNumber * code /*__IOS_PROHIBITED*/;
 @property (nonatomic, strong) NSString * gtfsId;
 @property (nonatomic, retain) NSString * codeShort;
 

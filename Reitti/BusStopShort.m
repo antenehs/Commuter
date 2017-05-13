@@ -30,7 +30,7 @@
     @try {
         if (_stopType == StopTypeUnknown) {
             NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
-            assert(false);
+//            assert(false);
             
             if (!_staticStop) {
                 _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];

@@ -414,14 +414,14 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
                 response.fetchedFromApi = usedApi;
                 completionBlock(response, error, usedApi);
                 
-                __block BusStop *fetchedStop = response;
-                if (searchParams.stopName && searchParams.shortCode) {
-                    [self fetchRealtimeDeparturesForStopName:searchParams.stopName andShortCode:searchParams.shortCode fetchFromApi:usedApi withCompletionHandler:^(NSArray *realDepartures, NSString *errorString){
-                        if (!realDepartures || realDepartures.count == 0 || errorString) return;
-                        [fetchedStop updateDeparturesFromRealtimeDepartures:realDepartures];
-                        completionBlock(fetchedStop, nil, usedApi);
-                    }];
-                }
+//                __block BusStop *fetchedStop = response;
+//                if (searchParams.stopName && searchParams.shortCode) {
+//                    [self fetchRealtimeDeparturesForStopName:searchParams.stopName andShortCode:searchParams.shortCode fetchFromApi:usedApi withCompletionHandler:^(NSArray *realDepartures, NSString *errorString){
+//                        if (!realDepartures || realDepartures.count == 0 || errorString) return;
+//                        [fetchedStop updateDeparturesFromRealtimeDepartures:realDepartures];
+//                        completionBlock(fetchedStop, nil, usedApi);
+//                    }];
+//                }
                 
             } else {
                 completionBlock(nil, error, usedApi);
@@ -429,43 +429,43 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
         }];
         
     }else{
-        [self.matkaCommunicator fetchStopDetailForCode:searchParams.longCode withCompletionBlock:^(BusStop * response, NSString *error){
+        [self.finlandDigitransitCommunicator fetchStopDetailForCode:searchParams.longCode withCompletionBlock:^(BusStop * response, NSString *error){
             if (!error) {
-                response.fetchedFromApi = ReittiMatkaApi;
-                completionBlock(response, nil, ReittiMatkaApi);
+                response.fetchedFromApi = ReittiDigiTransitApi;
+                completionBlock(response, nil, ReittiDigiTransitApi);
                 
-                __block BusStop *fetchedStop = response;
-                if (searchParams.stopName && searchParams.shortCode) {
-                    [self fetchRealtimeDeparturesForStopName:searchParams.stopName andShortCode:searchParams.shortCode fetchFromApi:usedApi withCompletionHandler:^(NSArray *realDepartures, NSString *errorString){
-                        if (!realDepartures || realDepartures.count == 0 || errorString) return;
-                        [fetchedStop updateDeparturesFromRealtimeDepartures:realDepartures];
-                        completionBlock(fetchedStop, nil, usedApi);
-                    }];
-                }
+//                __block BusStop *fetchedStop = response;
+//                if (searchParams.stopName && searchParams.shortCode) {
+//                    [self fetchRealtimeDeparturesForStopName:searchParams.stopName andShortCode:searchParams.shortCode fetchFromApi:usedApi withCompletionHandler:^(NSArray *realDepartures, NSString *errorString){
+//                        if (!realDepartures || realDepartures.count == 0 || errorString) return;
+//                        [fetchedStop updateDeparturesFromRealtimeDepartures:realDepartures];
+//                        completionBlock(fetchedStop, nil, usedApi);
+//                    }];
+//                }
             }else{
-                completionBlock(nil, @"Fetching stop detail failed. Please try again later.", ReittiMatkaApi);
+                completionBlock(nil, @"Fetching stop detail failed. Please try again later.", ReittiDigiTransitApi);
             }
         }];
     }
 
 }
 
--(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionHandler:(ActionBlock)completion {
-    id dataSourceManager = nil;
-    ReittiApi usedApi = api;
-    if (api == ReittiCurrentRegionApi) {
-        dataSourceManager = [self getDataSourceForCurrentRegion];
-        usedApi = [self getApiForRegion:userLocationRegion];
-    } else {
-        dataSourceManager = [self getDataSourceForApi:api];
-    }
-    
-    if ([dataSourceManager conformsToProtocol:@protocol(RealtimeDeparturesFetchProtocol)]) {
-        [(NSObject<RealtimeDeparturesFetchProtocol> *)dataSourceManager fetchRealtimeDeparturesForStopName:name andShortCode:code withCompletionHandler:completion];
-    }else{
-        completion(nil, @"Realtime departure fetching not supported in this region.");
-    }
-}
+//-(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionHandler:(ActionBlock)completion {
+//    id dataSourceManager = nil;
+//    ReittiApi usedApi = api;
+//    if (api == ReittiCurrentRegionApi) {
+//        dataSourceManager = [self getDataSourceForCurrentRegion];
+//        usedApi = [self getApiForRegion:userLocationRegion];
+//    } else {
+//        dataSourceManager = [self getDataSourceForApi:api];
+//    }
+//    
+//    if ([dataSourceManager conformsToProtocol:@protocol(RealtimeDeparturesFetchProtocol)]) {
+//        [(NSObject<RealtimeDeparturesFetchProtocol> *)dataSourceManager fetchRealtimeDeparturesForStopName:name andShortCode:code withCompletionHandler:completion];
+//    }else{
+//        completion(nil, @"Realtime departure fetching not supported in this region.");
+//    }
+//}
 
 #pragma mark - Line search methods
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
@@ -883,6 +883,9 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     [self.stopEntity setBusStopWgsCoords:stop.wgsCoords];
     [self.stopEntity setStopLines:stop.lines];
     [self.stopEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
+    [self.stopEntity setIsHistory:@NO];
+    [self.stopEntity setStopGtfsId:stop.gtfsId];
+    [self.stopEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
     
     [self saveManagedObject:stopEntity];
     
@@ -1008,7 +1011,7 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     }
 }
 
--(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSNumber *)code{
+-(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSString *)code{
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity =
@@ -1051,6 +1054,9 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
         [self.historyEntity setBusStopCoords:stop.coords];
         [self.historyEntity setBusStopWgsCoords:stop.wgsCoords];
         [self.historyEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
+        [self.historyEntity setStopGtfsId:stop.gtfsId];
+        [self.historyEntity setIsHistory:@YES];
+        [self.historyEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
         
         [self saveManagedObject:historyEntity];
         

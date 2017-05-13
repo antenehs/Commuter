@@ -160,8 +160,8 @@
                                   @"wgs_coords" : @"wgsCoords",
                                   @"departures" : @"departures",
                                   @"timetable_link" : @"timetableLink",
-                                  @"address_fi" : @"addressLi",
-                                  @"address_sv" : @"addressLv"
+                                  @"address_fi" : @"addressFi",
+                                  @"address_sv" : @"addressSv"
                                   };
     
     [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStop class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){

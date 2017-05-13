@@ -25,7 +25,7 @@ typedef enum
     
 }
 
-@property (nonatomic, copy) NSNumber *code;
+@property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *imageNameForView;
 @property (nonatomic, copy) NSString *annotIdentifier;
 @property (nonatomic, copy) NSString *title;

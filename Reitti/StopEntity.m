@@ -36,6 +36,11 @@
 @dynamic busStopCoords;
 @dynamic busStopWgsCoords;
 @dynamic fetchedFrom;
+@dynamic stopGtfsId;
+@dynamic stopTypeNumber;
+@dynamic isHistory;
+
+//@synthesize stopType;
 
 #else
 
@@ -49,6 +54,9 @@
 @synthesize busStopWgsCoords;
 @synthesize fetchedFrom;
 @synthesize iconName;
+@synthesize stopGtfsId;
+@synthesize stopTypeNumber;
+@synthesize isHistory;
 
 -(void)setIconName:(NSString *)name {
     iconName = name;
@@ -57,18 +65,25 @@
 #endif
 
 #ifndef APPLE_WATCH
--(StopType)stopType{
-    //TODO: Really think about this. Type can be saved when saved.
-    @try {
-        StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.busStopCode]];
-        if (staticStop != nil) {
-            return staticStop.reittiStopType;
-        }else{
+-(StopType)stopType {
+    
+    if (!self.stopTypeNumber || [self.stopTypeNumber intValue] == 0) {
+        //THis shouldn't be a case for new version
+        @try {
+            StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.busStopCode]];
+            if (staticStop != nil) {
+                return staticStop.reittiStopType;
+            }else{
+                return StopTypeBus;
+            }
+        } @catch (NSException *exception) {}
+    } else {
+        int intVal = [self.stopTypeNumber intValue];
+        @try {
+            return (StopType)intVal;
+        } @catch (NSException *exception) {
             return StopTypeBus;
         }
-    }
-    @catch (NSException *exception) {
-        
     }
 }
 
@@ -173,6 +188,9 @@
     entity.busStopWgsCoords = dict[@"busStopWgsCoords"];
     entity.fetchedFrom = dict[@"fetchedFrom"];
     entity.iconName = dict[@"iconName"];
+    entity.stopTypeNumber = dict[@"stopTypeNumber"];
+    entity.isHistory = dict[@"isHistory"];
+    entity.stopGtfsId = dict[@"stopGtfsId"];
     
     return entity;
 }
@@ -190,6 +208,9 @@
     [dict setValue:self.busStopWgsCoords forKey:@"busStopWgsCoords"];
     [dict setValue:self.fetchedFrom forKey:@"fetchedFrom"];
     [dict setValue:self.iconName forKey:@"iconName"];
+    [dict setValue:self.stopTypeNumber forKey:@"stopTypeNumber"];
+    [dict setValue:self.isHistory forKey:@"isHistory"];
+    [dict setValue:self.stopGtfsId forKey:@"stopGtfsId"];
     
     return dict;
 }

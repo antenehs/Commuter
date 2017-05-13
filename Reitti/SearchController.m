@@ -668,8 +668,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenGeoLocationFromDroppedPin label:nil value:nil];
 }
 
--(void)openStopViewForCode:(NSNumber *)code shortCode:(NSString *)shortCode name:(NSString *)name andCoords:(CLLocationCoordinate2D)coords{
-    selectedStopCode = [NSString stringWithFormat:@"%d", [code intValue]];
+-(void)openStopViewForCode:(NSString *)code shortCode:(NSString *)shortCode name:(NSString *)name andCoords:(CLLocationCoordinate2D)coords{
+    selectedStopCode = code;
     selectedStopAnnotationCoords = coords;
     selectedStopShortCode = shortCode;
     selectedStopName = name;
@@ -684,7 +684,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:codeNumber];
     if (!stop)
         return;
-    [self openStopViewForCode:codeNumber shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
+    [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
 }
 
 #pragma - mark StopView methods
@@ -703,7 +703,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (BusStop *)getDetailStopForBusStopShort:(BusStopShort *)shortStop{
-    return [self.stopDetailMap objectForKey:[shortStop.code stringValue]];
+    return [self.stopDetailMap objectForKey:shortStop.gtfsId];
 }
 
 - (BusStop *)getDetailStopForTableViewCell:(NSInteger)section{
@@ -717,7 +717,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)setDetailStopForBusStopShort:(BusStopShort *)shortStop busStop:(BusStop *)stop{
     if (stop) {
-        [self.stopDetailMap setObject:stop forKey:[shortStop.code stringValue]];
+        [self.stopDetailMap setObject:stop forKey:shortStop.gtfsId];
     }
 }
 
@@ -764,11 +764,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return NO;
 }
 
-- (NSInteger)busStopShortIndexForCode:(NSNumber *)code{
+- (NSInteger)busStopShortIndexForCode:(NSString *)code{
     NSInteger index = 0;
     @try {
         for (BusStopShort *stop in nearByStopList) {
-            if ([stop.code integerValue] == [code integerValue]) {
+            if ([stop.gtfsId isEqualToString:code]) {
                 return index;
             }
             
@@ -1205,19 +1205,18 @@ CGFloat  kDeparturesRefreshInterval = 60;
     firstRecievedLocation = false;
 }
 
-- (NSMutableArray *)collectStopCodes:(NSArray *)stopList
-{
+- (NSMutableArray *)collectStopCodes:(NSArray *)stopList {
     
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
     for (BusStopShort *stop in stopList) {
-        [codeList addObject:stop.code];
+        [codeList addObject:stop.gtfsId];
     }
     return codeList;
 }
 
-- (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList
-{
-    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.code",codeList ]];
+- (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList {
+    
+    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.gtfsId", codeList]];
 }
 
 -(void)plotBookmarks {
@@ -1282,7 +1281,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 
                 JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
                 stopAnT.image = stopImage;
-                stopAnT.code = stop.code;
+                stopAnT.code = stop.gtfsId;
                 stopAnT.shortCode = codeShort;
                 stopAnT.title = name;
                 if (stop.linesString) {
@@ -1297,9 +1296,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 stopAnT.reuseIdentifier = @"NearByStopAnnotation";
                 __weak SearchController *weakSelf = self;
                 stopAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
-                if (stop.code) {
-                    stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
-                    stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stop.code shortCode:codeShort name:name andCoords:coordinate];};
+                if (stop.gtfsId) {
+                    stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
+                    stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
                 }
                 
                 FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@ currentMapRegion: %@", name, codeShort, stop.coords, [ReittiStringFormatter convert2DCoordToString:self.mapView.region.center]);
@@ -1325,7 +1324,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
             JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
-            if ([sAnnotation.code intValue] == [stop.code intValue]) {
+            if ([sAnnotation.code isEqualToString: stop.gtfsId]) {
                 //If is bookmark, no need to draw again.
                 if (isBookmark && !select) {
                     return;
@@ -1344,11 +1343,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     NSString * name = stop.name;
     NSString * shortCode = stop.codeShort ? stop.codeShort : @"";
+    NSString * stopCode = stop.gtfsId;
     
     JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
     UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
     stopAnT.image = stopImage;
-    stopAnT.code = stop.code;
+    stopAnT.code = stopCode;
     stopAnT.shortCode = shortCode;
     stopAnT.title = name;
     stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", shortCode];
@@ -1356,10 +1356,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopAnT.annotationType = isBookmark ? FavouriteType : SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
     stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
-    if (stop.code) {
+    if (stopCode) {
         __weak SearchController *weakSelf = self;
-        stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
-        stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stop.code  shortCode:shortCode name:name  andCoords:coordinate];};
+        stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
+        stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
     }
     
     FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@", name, shortCode, stop.coords);
@@ -1746,12 +1746,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
         {
             //FIXME: code should be string and gtfs already in the annotation
             JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
-            NSString *code = @"";
-            if([stopAnnotation.thumbnail.code isKindOfClass:[NSNumber class]])
-                code = [stopAnnotation.thumbnail.code stringValue];
-            else{
-                code = (NSString *)stopAnnotation.thumbnail.code;
-            }
+            NSString *code = stopAnnotation.thumbnail.code;;
+//            if([stopAnnotation.thumbnail.code isKindOfClass:[NSNumber class]])
+//                code = stopAnnotation.thumbnail.code;
+//            else{
+//                code = (NSString *)stopAnnotation.thumbnail.code;
+//            }
             
             RTStopSearchParam *searchParam = [RTStopSearchParam new];
             searchParam.longCode = code;
@@ -2397,7 +2397,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         numberOfStops ++;
         
         RTStopSearchParam *searchParam = [RTStopSearchParam new];
-        searchParam.longCode = [busStopShort.code stringValue];
+        searchParam.longCode = busStopShort.gtfsId;
         searchParam.shortCode = busStopShort.codeShort;
         searchParam.stopName = busStopShort.name;
         
@@ -2438,16 +2438,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
             fetchedStops = tempArray;
             //TODO: Store in stops cache
         } else if ([stopList.firstObject isKindOfClass:[BusStop class]] ) {
-            //Cast BusStop to BusStopShort
-            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-            
             for (BusStop *stop in stopList) {
-                BusStopShort *sStop = (BusStopShort *)stop;
-                [tempArray addObject:sStop];
-                [self setDetailStopForBusStopShort:sStop busStop:stop];
+                [self setDetailStopForBusStopShort:stop busStop:stop];
             }
-            
-            fetchedStops = tempArray;
         }
         
         self.nearByStopList = fetchedStops;
@@ -2858,11 +2851,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)configureStopViewController:(StopViewController *)stopViewController withBusStopShort:(BusStopShort *)busStop{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
-        if ([SettingsManager useDigiTransit] && busStop.gtfsId) {
-            stopViewController.stopCode = busStop.gtfsId;
-        } else {
-            stopViewController.stopCode = [NSString stringWithFormat:@"%d", [busStop.code intValue]];
-        }
+        stopViewController.stopCode = busStop.gtfsId;
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:busStop.coords];
         stopViewController.stopShortCode = busStop.codeShort;
         stopViewController.stopName = busStop.name;

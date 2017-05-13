@@ -8,6 +8,7 @@
 
 #import "Notifications.h"
 #import "EnumManager.h"
+#import "SettingsManager.h"
 
 NSString *kNotificationStopCode = @"stopCode";
 
@@ -44,7 +45,7 @@ NSString *kNotificationStopCode = @"stopCode";
     notif.title = @"";
     notif.body = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minute];
     notif.stopName = [DepartureNotification notificationStopNameForStop:stop];
-    notif.stopCode = stop.code;
+    notif.stopCode = stop.gtfsId;
     notif.stopIconName = stop.stopIconName;
     
     LineType lineType = [EnumManager lineTypeForStopType:stop.stopType];

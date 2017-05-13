@@ -16,7 +16,7 @@ typedef void (^ActionBlock)();
 
 @interface JPSThumbnail : NSObject
 
-@property (nonatomic, strong) NSNumber *code;
+@property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *shortCode;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, copy) NSString *title;
