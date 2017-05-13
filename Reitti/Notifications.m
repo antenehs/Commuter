@@ -56,7 +56,7 @@ NSString *kNotificationStopCode = @"stopCode";
 }
 
 +(NSString *)notificationStopNameForStop:(BusStop *)stop {
-    return [NSString stringWithFormat:@"%@ (%@)", stop.name_fi, stop.code_short];
+    return [NSString stringWithFormat:@"%@ (%@)", stop.name, stop.codeShort];
 }
 
 -(NSDictionary *)dictionaryRepresentation {

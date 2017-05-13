@@ -203,8 +203,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     self._busStop = busStop;
     
     //Update title  and subttile
-    [stopViewTitle setText:self._busStop.code_short];
-    [stopViewSubTitle setText:self._busStop.name_fi];
+    [stopViewTitle setText:self._busStop.codeShort];
+    [stopViewSubTitle setText:self._busStop.name];
     
     bookmarkButton.enabled = YES;
     
@@ -221,7 +221,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     self.view.backgroundColor = [UIColor whiteColor];
     stopView.hidden = NO;
-    fullTimeTableButton.enabled = busStop.timetable_link != nil;
+    fullTimeTableButton.enabled = busStop.timetableLink != nil;
     
     //    [activityView stopAnimating];
 //    [SVProgressHUD dismissFromView:self.view];
@@ -417,7 +417,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 - (IBAction)seeFullTimeTablePressed:(id)sender {
-    NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
+    NSURL *url = [NSURL URLWithString:self._busStop.timetableLink];
     
     if (![[UIApplication sharedApplication] openURL:url])
         
@@ -598,7 +598,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     }
     [view addSubview:titleLabel];
     
-    if (self._busStop.timetable_link) {
+    if (self._busStop.timetableLink) {
         fullTimeTableButton = [UIButton buttonWithType:UIButtonTypeSystem];
         fullTimeTableButton.frame = CGRectMake(self.view.frame.size.width - 120, 0, 120, 30);
         [fullTimeTableButton setTitle:@"FULL TIMETABLE" forState:UIControlStateNormal];
@@ -752,9 +752,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 {
     if ([segue.identifier isEqualToString:@"seeFullTimeTable"]) {
         WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
-        NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
+        NSURL *url = [NSURL URLWithString:self._busStop.timetableLink];
         webViewController._url = url;
-        webViewController._pageTitle = _busStop.code_short;
+        webViewController._pageTitle = _busStop.codeShort;
         
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedFullTimeTable label:nil value:nil];
     }

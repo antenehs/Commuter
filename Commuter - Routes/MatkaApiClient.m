@@ -13,6 +13,7 @@
 #import "BusStopE.h"
 #import "ReittiStringFormatter.h"
 #import "RouteE.h"
+#import "RouteOptionManagerBase.h"
 
 @interface MatkaApiClient ()
 

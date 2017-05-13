@@ -8,29 +8,48 @@
 
 #import <Foundation/Foundation.h>
 #import "NearByStop.h"
-//#import "ReittiModels.h"
 #import "MatkaStop.h"
 #import "ReittiObject.h"
-#import "BusStop.h"
+#import "DigiStop.h"
 
 @interface BusStopShort : ReittiObject
 
--(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop;
-
-+(id)stopFromBusStop:(BusStop *)stop;
+-(id)initFromDigiStop:(DigiStop *)digiStop;
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop;
-//-(void)setStopTypeForGDTypeString:(NSString *)type;
+-(id)initWithNearByStop:(NearByStop *)nearByStop;
+
+-(NSString *)destinationForLineFullCode:(NSString *)fullCode;
 
 @property (nonatomic, retain) NSNumber * code;
 @property (nonatomic, strong) NSString * gtfsId;
 @property (nonatomic, retain) NSString * codeShort;
+
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * nameFi;
+@property (nonatomic, retain) NSString * nameSv;
+
 @property (nonatomic, retain) NSString * city;
+@property (nonatomic, retain) NSString * cityFi;
+@property (nonatomic, retain) NSString * citySv;
+
 @property (nonatomic, retain) NSString * coords;
+@property (nonatomic, retain) NSString * wgsCoords;
+
 @property (nonatomic, retain) NSString * address;
+@property (nonatomic, retain) NSString * addressFi;
+@property (nonatomic, retain) NSString * addressSv;
+
 @property (nonatomic, retain) NSNumber * distance;
-@property (nonatomic, retain) NSArray  * lines;
-@property (nonatomic, retain) NSString  * linesString;
+
+@property (nonatomic, retain) NSString * timetableLink;
+
+@property (nonatomic, retain) NSArray * lines;
+@property (nonatomic, retain) NSString * linesString;
+@property (nonatomic, retain) NSArray * lineCodes;
+@property (nonatomic, retain) NSArray * lineFullCodes;
+
 @property (nonatomic) StopType stopType;
+
+@property (nonatomic, retain)NSString *stopIconName;
 
 @end

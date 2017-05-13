@@ -22,6 +22,7 @@
 #import "ASA_Helpers.h"
 #import "LVThumbnailAnnotation.h"
 #import "BikeStation.h"
+#import "ReittiModels.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
@@ -879,8 +880,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                     continue;
                 
                 CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
-                NSString * name = stop.name_fi;
-                NSString * codeShort = stop.code_short;
+                NSString * name = stop.name;
+                NSString * codeShort = stop.codeShort;
                 
                 LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:codeShort andCoordinate:coordinate andLocationType:OtherStopLocation];
                 newAnnotation.code = [NSNumber numberWithInteger:[stop.code integerValue]];
@@ -923,7 +924,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 - (BOOL)isOtherStopOneOfTheLocationStops:(BusStop *)stop{
     for (RouteLeg *leg in self.route.routeLegs) {
         for (RouteLegLocation *loc in leg.legLocations) {
-            if (loc.shortCode == stop.code_short) {
+            if (loc.shortCode == stop.codeShort) {
                 return YES;
             }
         }

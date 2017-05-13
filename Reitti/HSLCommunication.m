@@ -20,6 +20,7 @@
 #import "DigiDataModels.h"
 #import "AnnotationFilterOption.h"
 #import "SettingsManager.h"
+#import "ReittiModels.h"
 
 @interface HSLCommunication ()
 

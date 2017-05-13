@@ -9,6 +9,8 @@
 #import "BusStopShort.h"
 #import "ReittiStringFormatter.h"
 #import "CacheManager.h"
+#import "AppManager.h"
+#import "StopLine.h"
 
 @interface BusStopShort ()
 
@@ -20,30 +22,9 @@
 
 @synthesize code;
 @synthesize codeShort;
-@synthesize name;
-@synthesize city;
 @synthesize coords;
-@synthesize address;
 @synthesize distance;
 @synthesize lines;
-
--(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop{
-    
-    self = [super init];
-    
-    self.code = [NSNumber numberWithInteger:[nearByStop.stopCode integerValue]];
-    self.codeShort = nearByStop.stopShortCode;
-    self.name = nearByStop.stopName;
-    self.city = @"";
-    self.coords = [NSString stringWithFormat:@"%f,%f", nearByStop.coords.longitude, nearByStop.coords.latitude];
-    self.address = nearByStop.stopAddress;
-    self.distance = [NSNumber numberWithDouble:nearByStop.distance];
-    self.lines = nearByStop.lines;
-    self.linesString = [nearByStop linesAsCommaSepString];
-    self.stopType = nearByStop.stopType;
-    
-    return self;
-}
 
 -(StopType)stopType{
     @try {
@@ -69,24 +50,66 @@
     }
 }
 
+-(NSString *)name {
+    if (!_name) {
+        _name = self.nameFi ? self.nameFi : self.nameSv;
+    }
+    
+    return _name;
+}
+
+-(NSString *)city {
+    if (!_city) {
+        _city = self.cityFi ? self.cityFi : self.citySv;
+    }
+    
+    return _city;
+}
+
+-(NSString *)address {
+    if (!_address) {
+        _address = self.addressFi ? self.addressFi : self.addressSv;
+    }
+    
+    return _address;
+}
+
 #pragma mark - Init from other stops
 
-+(id)stopFromBusStop:(BusStop *)busStop {
-    BusStopShort *stop = [[BusStopShort alloc] init];
+-(id)initFromDigiStop:(DigiStop *)digiStop {
+    self = [super init];
     
-    stop.gtfsId = busStop.gtfsId;
-    stop.code = busStop.code;
-    stop.codeShort = busStop.code_short;
-    stop.name = busStop.name_fi;
-    stop.city = busStop.city_fi;
-    stop.coords = busStop.coords;
-    stop.address = busStop.address_fi;
-    stop.distance = busStop.distance;
-    stop.lines = busStop.lines;
-    stop.linesString = busStop.linesString;
-    stop.stopType = busStop.stopType;
+    self.code = digiStop.numberId;
+    self.gtfsId = digiStop.gtfsId;
+    self.codeShort = digiStop.code;
     
-    return stop;
+    self.name = digiStop.name;
+    self.nameFi = digiStop.name;
+    self.nameSv = digiStop.name;
+    
+    self.city = @"";
+    self.cityFi = @"";
+    self.citySv = @"";
+    
+    self.address = digiStop.desc;
+    self.addressFi = digiStop.desc;
+    self.addressSv = digiStop.desc;
+    
+    self.stopType = digiStop.stopType;
+    self.fetchedFromApi = ReittiDigiTransitApi;
+    
+    self.coords = digiStop.coordString;
+    self.wgsCoords = digiStop.coordString;
+    
+    self.timetableLink = digiStop.url;
+    
+    NSMutableArray *newLines = [@[] mutableCopy];
+    for (DigiRoute *digiRoute in digiStop.routes) {
+        [newLines addObject:[StopLine stopLineFromDigiRoute:digiRoute]];
+    }
+    self.lines = newLines;
+    
+    return self;
 }
 
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop {
@@ -105,6 +128,90 @@
     
     return stop;
 }
+
+-(BusStopShort *)initWithNearByStop:(NearByStop *)nearByStop{
+    
+    self = [super init];
+    
+    self.code = [NSNumber numberWithInteger:[nearByStop.stopCode integerValue]];
+    self.codeShort = nearByStop.stopShortCode;
+    self.name = nearByStop.stopName;
+    self.city = @"";
+    self.coords = [NSString stringWithFormat:@"%f,%f", nearByStop.coords.longitude, nearByStop.coords.latitude];
+    self.address = nearByStop.stopAddress;
+    self.distance = [NSNumber numberWithDouble:nearByStop.distance];
+    self.lines = nearByStop.lines;
+    self.linesString = [nearByStop linesAsCommaSepString];
+    self.stopType = nearByStop.stopType;
+    
+    return self;
+}
+
+#pragma mark - Computed properties
+
+-(NSString *)stopIconName {
+    return [AppManager stopIconNameForStopType:self.stopType];
+}
+
+-(NSArray *)lineCodes{
+    if (!_lineCodes) {
+        if (self.lines && self.lines.count > 0) {
+            if ([self.lines[0] isKindOfClass:[StopLine class]]) {
+                NSMutableArray *lineCodeArray = [@[] mutableCopy];
+                for (StopLine *line in lines) {
+                    if (line.code) {
+                        [lineCodeArray addObject:line.code];
+                    }
+                }
+                
+                _lineCodes = lineCodeArray;
+            }
+        }
+    }
+    
+    return _lineCodes;
+}
+
+-(NSArray *)lineFullCodes{
+    if (!_lineFullCodes) {
+        if (self.lines && self.lines.count > 0) {
+            if ([lines[0] isKindOfClass:[StopLine class]]) {
+                NSMutableArray *lineCodeArray = [@[] mutableCopy];
+                for (StopLine *line in lines) {
+                    if (line.fullCode) {
+                        [lineCodeArray addObject:line.fullCode];
+                    }
+                }
+                
+                _lineFullCodes = lineCodeArray;
+            }
+        }
+    }
+    
+    return _lineFullCodes;
+}
+
+- (NSString *)destinationForLineFullCode:(NSString *)fullCode{
+    if (self.lines && self.lines.count > 0) {
+        if ([lines[0] isKindOfClass:[StopLine class]]) {
+            for (StopLine *line in lines) {
+                if ([line.fullCode isEqualToString:fullCode]) {
+                    return line.destination;
+                }
+            }
+        }
+    }
+    
+    return @"Unknown";
+}
+
+-(NSString *)linesString{
+    if (!self.lineCodes) {
+        return @"";
+    }
+    return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
+}
+
 
 
 @end

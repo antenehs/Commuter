@@ -12,6 +12,7 @@
 #import "HSLAPIClient.h"
 #import "TREAPIClient.h"
 #import "MatkaApiClient.h"
+#import "ApiProtocols.h"
 
 @interface WidgetDataManager : NSObject
 

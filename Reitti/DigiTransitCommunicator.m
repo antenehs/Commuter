@@ -12,6 +12,7 @@
 #import "ReittiMapkitHelper.h"
 #import "ReittiDateHelper.h"
 #import "GraphQLQuery.h"
+#import "ReittiModels.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
@@ -88,7 +89,7 @@ typedef enum : NSUInteger {
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStopAtDistance *stopAtDist in stops) {
-                [allStops addObject:[BusStop stopFromDigiStop:stopAtDist.stop]];
+                [allStops addObject:[[BusStop alloc] initFromDigiStop:stopAtDist.stop]];
             }
             completionBlock(allStops, nil);
         } else {
@@ -132,7 +133,7 @@ typedef enum : NSUInteger {
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStop *digiStop in stops) {
-                [allStops addObject:[BusStop stopFromDigiStop:digiStop]];
+                [allStops addObject:[[BusStop alloc] initFromDigiStop:digiStop]];
             }
             completionBlock(allStops, nil);
         } else {

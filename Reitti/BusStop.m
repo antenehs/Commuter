@@ -10,10 +10,10 @@
 #import "EnumManager.h"
 #import "CacheManager.h"
 #import "ReittiStringFormatter.h"
-#import "StopLine.h"
 #import "AppManager.h"
 #import "StopDeparture.h"
 #import "MatkaLine.h"
+#import "StopLine.h"
 
 @interface BusStop ()
 
@@ -24,102 +24,39 @@
 
 @implementation BusStop
 
-@synthesize code;
-@synthesize code_short;
-@synthesize name_fi;
-@synthesize name_sv;
-@synthesize city_fi;
-@synthesize city_sv;
-@synthesize lines;
-@synthesize coords;
-@synthesize wgs_coords;
-@synthesize accessibility;
+//@synthesize code;
+//@synthesize nameFi;
+//@synthesize nameSv;
+//@synthesize cityFi;
+//@synthesize citySv;
+//@synthesize coords;
+//@synthesize wgsCoords;
 @synthesize departures;
-@synthesize timetable_link;
-@synthesize omatlahdot_link;
-@synthesize address_fi;
-@synthesize address_sv;
+//@synthesize timetableLink;
+//@synthesize omatlahdotLink;
+//@synthesize addressFi;
+//@synthesize addressSv;
 
--(StopType)stopType{
-    @try {
-        if (_stopType == StopTypeUnknown) {
-            NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
-            if (!_staticStop) {
-                _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
-            }
-            
-            if (_staticStop) {
-                return _staticStop.reittiStopType;
-            }else{
-                return StopTypeBus;
-            }
-        } else {
-            return _stopType;
-        }
-    }
-    @catch (NSException *exception) {}
-}
+//-(StopType)stopType{
+//    @try {
+//        if (_stopType == StopTypeUnknown) {
+//            NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
+//            if (!_staticStop) {
+//                _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
+//            }
+//            
+//            if (_staticStop) {
+//                return _staticStop.reittiStopType;
+//            }else{
+//                return StopTypeBus;
+//            }
+//        } else {
+//            return _stopType;
+//        }
+//    }
+//    @catch (NSException *exception) {}
+//}
 
--(NSString *)stopIconName {
-    return [AppManager stopIconNameForStopType:self.stopType];
-}
-
--(NSArray *)lineCodes{
-    if (self.lines && self.lines.count > 0) {
-        if ([lines[0] isKindOfClass:[StopLine class]]) {
-            NSMutableArray *lineCodeArray = [@[] mutableCopy];
-            for (StopLine *line in lines) {
-                if (line.code) {
-                    [lineCodeArray addObject:line.code];
-                }
-            }
-            
-            return lineCodeArray;
-        }
-    }
-    
-    return nil;
-}
-
--(NSArray *)lineFullCodes{
-    if (!_lineFullCodes) {
-        if (self.lines && self.lines.count > 0) {
-            if ([lines[0] isKindOfClass:[StopLine class]]) {
-                NSMutableArray *lineCodeArray = [@[] mutableCopy];
-                for (StopLine *line in lines) {
-                    if (line.fullCode) {
-                       [lineCodeArray addObject:line.fullCode];
-                    }
-                }
-                
-                return lineCodeArray;
-            }
-        }
-    }
-    
-    return _lineFullCodes;
-}
-
-- (NSString *)destinationForLineFullCode:(NSString *)fullCode{
-    if (self.lines && self.lines.count > 0) {
-        if ([lines[0] isKindOfClass:[StopLine class]]) {
-            for (StopLine *line in lines) {
-                if ([line.fullCode isEqualToString:fullCode]) {
-                    return line.destination;
-                }
-            }
-        }
-    }
-    
-    return @"Unknown";
-}
-
--(NSString *)linesString{
-    if (!self.lineCodes) {
-        return @"";
-    }
-    return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
-}
 
 - (void)updateDeparturesFromRealtimeDepartures:(NSArray *)realtimeDepartures {
     if (realtimeDepartures && realtimeDepartures.count > 0 && self.departures) {
@@ -146,61 +83,34 @@
 }
 
 #pragma mark - Init from other class
-
-+ (id)stopFromDigiStopAtDistance:(DigiStopAtDistance *)digiStopAtDistance {
-    return nil;
-}
-
-+ (id)stopFromDigiStop:(DigiStop *)digiStop {
-    BusStop *stop = [[BusStop alloc] init];
+-(id)initFromDigiStop:(DigiStop *)digiStop {
+    self = [super initFromDigiStop:digiStop];
     
-    //FIXME: Think about this
-    stop.code = digiStop.numberId;
-    stop.gtfsId = digiStop.gtfsId;
-    stop.code_short = digiStop.code;
-    stop.name_fi = digiStop.name;
-    stop.name_sv = digiStop.name;
-    stop.stopType = digiStop.stopType;
-    stop.city_fi = @"";
-    stop.city_sv = @"";
-    stop.timetable_link = digiStop.url;
-    stop.address_fi = digiStop.desc;
-    stop.address_sv = digiStop.desc;
-    stop.fetchedFromApi = ReittiDigiTransitApi;
-    stop.coords = digiStop.coordString;
-    stop.wgs_coords = digiStop.coordString;
-    
-    NSMutableArray *lines = [@[] mutableCopy];
-    for (DigiRoute *digiRoute in digiStop.routes) {
-        [lines addObject:[StopLine stopLineFromDigiRoute:digiRoute]];
-    }
-    stop.lines = lines;
-    
-    NSMutableArray *departures = [@[] mutableCopy];
+    NSMutableArray *newDepartures = [@[] mutableCopy];
     for (DigiStoptime *digiTime in digiStop.stoptimes) {
-        [departures addObject:[StopDeparture departureForDigiStopTime:digiTime]];
+        [newDepartures addObject:[StopDeparture departureForDigiStopTime:digiTime]];
     }
-    stop.departures = departures;
+    self.departures = newDepartures;
     
-    return stop;
+    return self;
 }
 
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStop *stop = [[BusStop alloc] init];
     
     stop.code = [NSNumber numberWithInteger:[matkaStop.stopId integerValue]];;
-    stop.code_short = matkaStop.stopShortCode;
-    stop.name_fi = matkaStop.nameFi;
-    stop.name_sv = matkaStop.nameSe;
-    stop.city_fi = @"";
-    stop.city_sv = @"";
+    stop.codeShort = matkaStop.stopShortCode;
+    stop.nameFi = matkaStop.nameFi;
+    stop.nameSv = matkaStop.nameSe;
+    stop.cityFi = @"";
+    stop.citySv = @"";
     stop.lines = [BusStop linesFromMatkaLines:matkaStop.stopLines];
     stop.coords = matkaStop.coordString;
-    stop.wgs_coords = matkaStop.coordString;
+    stop.wgsCoords = matkaStop.coordString;
     stop.departures = [BusStop departuresFromMatkaLines:matkaStop.stopLines];
-    stop.timetable_link = nil;
-    stop.address_fi = @"";
-    stop.address_sv = @"";
+    stop.timetableLink = nil;
+    stop.addressFi = @"";
+    stop.addressSv = @"";
     
     stop.fetchedFromApi = ReittiMatkaApi;
     

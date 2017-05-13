@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "RettiDataManager.h"
 
+#import "Line.h"
+
 extern NSString *kStopLineCodesKey;
 extern NSString *kStopLinesKey;
 

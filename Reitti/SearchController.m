@@ -689,18 +689,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma - mark StopView methods
 
-- (void)requestStopInfoAsyncForCode:(NSString *)code{
-    
-//    [self.reittiDataManager fetchStopsForCode:code];
-}
-
 - (void)showProgressHUD{
     [activityIndicator beginRefreshing];
-    //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //hud.labelText = @"Loading...";
-//    [SVProgressHUD show];
-    //[SVProgressHUD setBackgroundColor:[UIColor grayColor]];
-    //[SVProgressHUD setBackgroundColor:[UIColor colorWithWhite:0.95 alpha:1]];
 }
 
 #pragma mark - stop detail handling
@@ -960,11 +950,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
             UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
             codeLabel.text = @"";
             
-            NSString *linesString = nil;
-            if ([self isThereValidDetailForTableViewSection:indexPath.section]) {
-                BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
-                linesString = detailStop.linesString;
-            }
+            NSString *linesString = stop.linesString;
+//            if ([self isThereValidDetailForTableViewSection:indexPath.section]) {
+//                BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
+//                linesString = detailStop.linesString;
+//            }
             
             NSString *shortCode = stop.codeShort != nil && ![stop.codeShort isEqualToString:@""] ? stop.codeShort : nil;
             if(linesString && shortCode){
@@ -2452,7 +2442,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             NSMutableArray *tempArray = [[NSMutableArray alloc] init];
             
             for (BusStop *stop in stopList) {
-                BusStopShort *sStop = [BusStopShort stopFromBusStop:stop];
+                BusStopShort *sStop = (BusStopShort *)stop;
                 [tempArray addObject:sStop];
                 [self setDetailStopForBusStopShort:sStop busStop:stop];
             }
@@ -2486,7 +2476,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //TODO: Set linesCodes to the bus stop short
     //TODO: Check the selected anotation is the right one
     if (selectedAnnotationView && stop.linesString && stop.linesString.length > 0) {
-        [selectedAnnotationView setSubtitleLabelText:[NSString stringWithFormat:@"Code: %@ · %@", stop.code_short, stop.linesString]];
+        [selectedAnnotationView setSubtitleLabelText:[NSString stringWithFormat:@"Code: %@ · %@", stop.codeShort, stop.linesString]];
     }
 }
 
@@ -2765,9 +2755,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
 {
     if ([segue.identifier isEqualToString:@"seeFullTimeTable"]) {
         WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
-        NSURL *url = [NSURL URLWithString:self._busStop.timetable_link];
+        NSURL *url = [NSURL URLWithString:self._busStop.timetableLink];
         webViewController._url = url;
-        webViewController._pageTitle = _busStop.code_short;
+        webViewController._pageTitle = _busStop.codeShort;
     }
     
     if ([segue.identifier isEqualToString:@"openStopView"] || [segue.identifier isEqualToString:@"openNearbyStop"] || [segue.identifier isEqualToString:@"openNearbyStop2"])

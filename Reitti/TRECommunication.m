@@ -13,6 +13,7 @@
 #import "ASA_Helpers.h"
 #import "AnnotationFilterOption.h"
 #import "DigiTransitCommunicator.h"
+#import "ReittiModels.h"
 
 @interface TRECommunication ()
 
@@ -281,7 +282,7 @@
                 //Assuming the stop code was unique and there is only one result
                 BusStop *stop = fetchResult[0];
                 //Handlind a TRE API bug that returns incorrect coordinate format even if epsg_out is specified as 4326
-                stop.coords = stop.wgs_coords;
+                stop.coords = stop.wgsCoords;
                 
                 //Parse lines and departures
                 [self parseStopLines:stop];

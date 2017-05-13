@@ -8,6 +8,7 @@
 
 #import "HSLAndTRECommon.h"
 #import "ReittiStringFormatter.h"
+#import "ReittiModels.h"
 
 @interface HSLAndTRECommon ()
 
@@ -149,20 +150,18 @@
     
     NSDictionary *mappingDict = @{
                                   @"code" : @"code",
-                                  @"code_short" : @"code_short",
-                                  @"name_fi" : @"name_fi",
-                                  @"name_sv" : @"name_sv",
-                                  @"city_fi" : @"city_fi",
-                                  @"city_sv" : @"city_sv",
+                                  @"code_short" : @"codeShort",
+                                  @"name_fi" : @"nameFi",
+                                  @"name_sv" : @"nameSv",
+                                  @"city_fi" : @"cityFi",
+                                  @"city_sv" : @"citySv",
                                   @"lines" : @"lines",
                                   @"coords" : @"coords",
-                                  @"wgs_coords" : @"wgs_coords",
-                                  @"accessibility" : @"accessibility",
+                                  @"wgs_coords" : @"wgsCoords",
                                   @"departures" : @"departures",
-                                  @"timetable_link" : @"timetable_link",
-                                  @"omatlahdot_link" : @"omatlahdot_link",
-                                  @"address_fi" : @"address_fi",
-                                  @"address_sv" : @"address_sv"
+                                  @"timetable_link" : @"timetableLink",
+                                  @"address_fi" : @"addressLi",
+                                  @"address_sv" : @"addressLv"
                                   };
     
     [super doJsonApiFetchWithParams:optionsDict mappingDictionary:mappingDict mapToClass:[BusStop class] mapKeyPath:@"" andCompletionBlock:^(NSArray *responseArray, NSError *error){

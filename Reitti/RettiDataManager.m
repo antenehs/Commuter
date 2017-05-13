@@ -23,6 +23,7 @@
 #import "ReittiRemindersManager.h"
 #import "DigiTransitCommunicator.h"
 #import "MatkaTransportTypeManager.h"
+#import "ReittiModels.h"
 
 #import "SettingsManager.h"
 
@@ -874,12 +875,12 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     
     //set default values
     [self.stopEntity setBusStopCode:stop.code];
-    [self.stopEntity setBusStopShortCode:stop.code_short];
-    [self.stopEntity setBusStopName:stop.name_fi];
-    [self.stopEntity setBusStopCity:stop.city_fi];
-    [self.stopEntity setBusStopURL:stop.timetable_link];
+    [self.stopEntity setBusStopShortCode:stop.codeShort];
+    [self.stopEntity setBusStopName:stop.nameFi];
+    [self.stopEntity setBusStopCity:stop.cityFi];
+    [self.stopEntity setBusStopURL:stop.timetableLink];
     [self.stopEntity setBusStopCoords:stop.coords];
-    [self.stopEntity setBusStopWgsCoords:stop.wgs_coords];
+    [self.stopEntity setBusStopWgsCoords:stop.wgsCoords];
     [self.stopEntity setStopLines:stop.lines];
     [self.stopEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
     
@@ -1043,12 +1044,12 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
         self.historyEntity= (HistoryEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
         //set default values
         [self.historyEntity setBusStopCode:stop.code];
-        [self.historyEntity setBusStopShortCode:stop.code_short];
-        [self.historyEntity setBusStopName:stop.name_fi];
-        [self.historyEntity setBusStopCity:stop.city_fi];
-        [self.historyEntity setBusStopURL:stop.timetable_link];
+        [self.historyEntity setBusStopShortCode:stop.codeShort];
+        [self.historyEntity setBusStopName:stop.nameFi];
+        [self.historyEntity setBusStopCity:stop.cityFi];
+        [self.historyEntity setBusStopURL:stop.timetableLink];
         [self.historyEntity setBusStopCoords:stop.coords];
-        [self.historyEntity setBusStopWgsCoords:stop.wgs_coords];
+        [self.historyEntity setBusStopWgsCoords:stop.wgsCoords];
         [self.historyEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
         
         [self saveManagedObject:historyEntity];
