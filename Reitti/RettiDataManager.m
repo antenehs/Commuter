@@ -27,8 +27,6 @@
 
 #import "SettingsManager.h"
 
-NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
-
 //CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
 //CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
 
@@ -46,14 +44,9 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 
 @synthesize managedObjectContext;
 @synthesize hslCommunication, treCommunication;
-@synthesize allHistoryStopCodes;
-@synthesize allSavedStopCodes;
 @synthesize allRouteHistoryCodes, allSavedRouteCodes;
-@synthesize stopEntity;
-@synthesize historyEntity;
 @synthesize routeEntity;
 @synthesize routeHistoryEntity;
-@synthesize cookieEntity;
 @synthesize allNamedBookmarkNames;
 @synthesize namedBookmark;
 @synthesize userLocationRegion;
@@ -128,11 +121,11 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 }
 
 -(void)initAndFetchCoreData {
-    [self fetchSystemCookie];
-    nextObjectLID = [cookieEntity.objectLID intValue];
+//    [self fetchSystemCookie];
+//    nextObjectLID = [cookieEntity.objectLID intValue];
     
-    [self fetchAllHistoryStopCodesFromCoreData];
-    [self fetchAllSavedStopCodesFromCoreData];
+//    [self fetchAllHistoryStopCodesFromCoreData];
+//    [self fetchAllSavedStopCodesFromCoreData];
     [self fetchAllSavedRouteCodesFromCoreData];
     [self fetchAllRouteHistoryCodesFromCoreData];
     [self fetchAllNamedBookmarkNamesFromCoreData];
@@ -143,7 +136,6 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 
 -(void)updateIcloudRecords {
     [self updateSavedNamedBookmarksToICloud];
-    [self updateSavedStopsToICloud];
     [self updateSavedRoutesToICloud];
 }
 
@@ -688,10 +680,11 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     [self.treLiveTrafficManager stopFetchingVehicles];
 }
 
+
 #pragma mark - helper methods
 - (void)saveManagedObject:(NSManagedObject *)object {
     ReittiManagedObjectBase *managedObject = (ReittiManagedObjectBase *)object;
-    managedObject.objectLID = [NSNumber numberWithInt:nextObjectLID];
+    managedObject.objectLID = [NSNumber numberWithInt:[[CoreDataManager sharedManager] getNextObjectLid]];
     managedObject.dateModified = [NSDate date];
     
     NSError *error = nil;
@@ -702,7 +695,7 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
         exit(-1);  // Fail
     }
     
-    [self increamentObjectLID];
+//    [self increamentObjectLID];
 }
 
 -(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects {
@@ -716,23 +709,10 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
         [self saveManagedObject:object];
     }
     
-    if (orderedObjects.count > 0 && [orderedObjects[0] isKindOfClass:[StopEntity class]]) {
-        [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
-    }
-    
     if (orderedObjects.count > 0 && [orderedObjects[0] isKindOfClass:[NamedBookmark class]]) {
         [self updateNamedBookmarksUserDefaultValue];
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
     }
-}
-
--(BOOL)isBusStopSaved:(BusStop *)stop{
-    return [self isBusStopSavedWithCode:stop.code];
-}
-
--(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode{
-    [self fetchAllSavedStopCodesFromCoreData];
-    return [allSavedStopCodes containsObject:stopCode];
 }
 
 -(void)updateNamedBookmarksUserDefaultValue{
@@ -807,431 +787,389 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 }
 
 #pragma mark - Core data methods
--(CookieEntity *)fetchSystemCookie{
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =[NSEntityDescription entityForName:@"CookieEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    
-    NSError *error = nil;
-    
-    NSArray *tempSystemCookie = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if (tempSystemCookie.count > 0) {
-        cookieEntity = [tempSystemCookie objectAtIndex:0];
-    }
-    else {
-        [self initializeSystemCookie];
-    }
-    
-    return cookieEntity;
-    
-}
-
--(void)initializeSystemCookie{
-    cookieEntity = (CookieEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"CookieEntity" inManagedObjectContext:self.managedObjectContext];
-    //set default values
-    [cookieEntity setObjectLID:[NSNumber numberWithInt:100]];
-    [cookieEntity setAppOpenCount:[NSNumber numberWithInt:0]];
-    
-    NSError *error = nil;
-    
-    if (![cookieEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed systemCookie!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-}
-
--(void)increamentObjectLID {
-    [self fetchSystemCookie];
-    
-    [cookieEntity setObjectLID:[NSNumber numberWithInt:(nextObjectLID + 1)]];
-    nextObjectLID++;
-    NSError *error = nil;
-    
-    if (![cookieEntity.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-}
+//-(CookieEntity *)fetchSystemCookie{
+//    
+////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+////    
+////    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CookieEntity" inManagedObjectContext:self.managedObjectContext];
+////    
+////    [request setEntity:entity];
+////    
+////    NSError *error = nil;
+//    
+//    NSArray *tempSystemCookie = [[CoreDataManager sharedManager] fetchAllObjectsForEntityNamed:@"CookieEntity"];
+//    
+//    if (tempSystemCookie.count > 0) {
+//        cookieEntity = [tempSystemCookie objectAtIndex:0];
+//    }
+//    else {
+//        [self initializeSystemCookie];
+//    }
+//    
+//    return cookieEntity;
+//    
+//}
+//
+//-(void)initializeSystemCookie{
+//    cookieEntity = (CookieEntity *)[[CoreDataManager sharedManager] createNewObjectForEntityNamed:@"CookieEntity"];
+//    //set default values
+//    [cookieEntity setObjectLID:[NSNumber numberWithInt:100]];
+//    [cookieEntity setAppOpenCount:[NSNumber numberWithInt:0]];
+//    
+//    [[CoreDataManager sharedManager] saveState];
+//}
+//
+//-(void)increamentObjectLID {
+//    [self fetchSystemCookie];
+//    
+//    [cookieEntity setObjectLID:[NSNumber numberWithInt:(nextObjectLID + 1)]];
+//    nextObjectLID++;
+//    
+//    [[CoreDataManager sharedManager] saveState];
+//}
 
 #pragma mark - stop core data methods
 //@ Updates a saved stop if it exists or insert a new one.
--(void)saveToCoreDataStop:(BusStop *)stop{
-    if (!stop)
-        return;
-    
-    self.stopEntity = [self fetchSavedStopFromCoreDataForCode:stop.code];
-    
-    if (!self.stopEntity) {
-        self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-        self.stopEntity.order = [NSNumber numberWithInteger:allSavedStopCodes.count + 1];
-    }
-    
-    //set default values
-    [self.stopEntity setBusStopCode:stop.code];
-    [self.stopEntity setBusStopShortCode:stop.codeShort];
-    [self.stopEntity setBusStopName:stop.nameFi];
-    [self.stopEntity setBusStopCity:stop.cityFi];
-    [self.stopEntity setBusStopURL:stop.timetableLink];
-    [self.stopEntity setBusStopCoords:stop.coords];
-    [self.stopEntity setBusStopWgsCoords:stop.wgsCoords];
-    [self.stopEntity setStopLines:stop.lines];
-    [self.stopEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
-    [self.stopEntity setIsHistory:@NO];
-    [self.stopEntity setStopGtfsId:stop.gtfsId];
-    [self.stopEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
-    
-    [self saveManagedObject:stopEntity];
-    
-    [allSavedStopCodes addObject:stop.code];
-    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
-    [self updateSavedStopsToICloud];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-}
-
--(void)updateSavedStopIfItExists:(BusStop *)stop{
-    if ([self isBusStopSavedWithCode:stop.code]) {
-        [self saveToCoreDataStop:stop];
-    }
-}
-
--(void)deleteSavedStopForCode:(NSNumber *)code{
-    if (!code) return;
-    
-    StopEntity *stopToDelete = [self fetchSavedStopFromCoreDataForCode:code];
-    
-    [self deleteSavedStop:stopToDelete];
-}
-
--(void)deleteSavedStop:(StopEntity *)savedStop{
-    if (!savedStop)
-        return;
-    
-    [self deleteStopsFromICloud:@[savedStop]];
-    
-    [self.managedObjectContext deleteObject:savedStop];
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [allSavedStopCodes removeObject:savedStop.busStopCode];
-    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
-    [self updateSavedStopsDefaultValueForStops:savedSt];
-//    [self updateSelectedStopListForDeletedStop:[savedStop.busStopCode intValue] andAllStops:savedSt];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-}
-
--(void)deleteAllSavedStop{
-    NSArray *stopsToDelete = [self fetchAllSavedStopsFromCoreData];
-    [self deleteStopsFromICloud:stopsToDelete];
-    
-    for (StopEntity *stop in stopsToDelete) {
-        [self.managedObjectContext deleteObject:stop];
-    }
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [allSavedStopCodes removeAllObjects];
-    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
-    [self updateSavedStopsDefaultValueForStops:savedSt];
-//    [self updateSelectedStopListForDeletedStop:0 andAllStops:savedSt];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-}
-
--(NSArray *)fetchAllSavedStopsFromCoreData{
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-    [request setSortDescriptors:@[sortDescriptor]];
-    
-    //[request setResultType:NSDictionaryResultType];
-    [request setReturnsDistinctResults:YES];
-    //[request setPropertiesToFetch :[NSArray arrayWithObjects: @"set_id",  @"title",  @"subject",  @"url",  @"score",  @"views",  @"created",  @"last_modified",  @"card_count",  @"access", nil]];
-    
-    NSError *error = nil;
-    
-    NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([savedStops count] != 0) {
-        return savedStops;
-    }
-    
-    return nil;
-}
-
--(void)fetchAllSavedStopCodesFromCoreData{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    [request setResultType:NSDictionaryResultType];
-    
-    [request setReturnsDistinctResults:YES];
-    [request setPropertiesToFetch :[NSArray arrayWithObject: @"busStopCode"]];
-    
-    NSError *error = nil;
-    
-    NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([recentStopsCodes count] != 0) {
-        allSavedStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
-    }
-    else {
-        allSavedStopCodes = [[NSMutableArray alloc] init];
-    }
-}
-
--(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSString *)code{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSString *predString = [NSString stringWithFormat:
-                            @"busStopCode == %@", code];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    
-    NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([savedStops count] != 0) {
-        return [savedStops objectAtIndex:0];
-    }
-    
-    return nil;
-}
+//-(void)saveToCoreDataStop:(BusStop *)stop{
+//    if (!stop)
+//        return;
+//    
+//    self.stopEntity = [self fetchSavedStopFromCoreDataForCode:stop.code];
+//    
+//    if (!self.stopEntity) {
+//        self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
+//        self.stopEntity.order = [NSNumber numberWithInteger:allSavedStopCodes.count + 1];
+//    }
+//    
+//    //set default values
+//    [self.stopEntity setBusStopCode:stop.code];
+//    [self.stopEntity setBusStopShortCode:stop.codeShort];
+//    [self.stopEntity setBusStopName:stop.nameFi];
+//    [self.stopEntity setBusStopCity:stop.cityFi];
+//    [self.stopEntity setBusStopURL:stop.timetableLink];
+//    [self.stopEntity setBusStopCoords:stop.coords];
+//    [self.stopEntity setBusStopWgsCoords:stop.wgsCoords];
+//    [self.stopEntity setStopLines:stop.lines];
+//    [self.stopEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
+//    [self.stopEntity setIsHistory:@NO];
+//    [self.stopEntity setStopGtfsId:stop.gtfsId];
+//    [self.stopEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
+//    
+//    [self saveManagedObject:stopEntity];
+//    
+//    [allSavedStopCodes addObject:stop.code];
+//    
+//    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
+//    [self updateSavedStopsToICloud];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//}
+//
+//-(void)updateSavedStopIfItExists:(BusStop *)stop{
+//    if ([self isBusStopSavedWithCode:stop.code]) {
+//        [self saveToCoreDataStop:stop];
+//    }
+//}
+//
+//-(void)deleteSavedStopForCode:(NSNumber *)code{
+//    if (!code) return;
+//    
+//    StopEntity *stopToDelete = [self fetchSavedStopFromCoreDataForCode:code];
+//    
+//    [self deleteSavedStop:stopToDelete];
+//}
+//
+//-(void)deleteSavedStop:(StopEntity *)savedStop{
+//    if (!savedStop)
+//        return;
+//    
+//    [self deleteStopsFromICloud:@[savedStop]];
+//    
+//    [[CoreDataManager sharedManager] deleteManagedObject:savedStop];
+//    
+////    [self.managedObjectContext deleteObject:savedStop];
+////    
+////    NSError *error = nil;
+////    if (![self.managedObjectContext save:&error]) {
+////        // Handle error
+////        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+////        exit(-1);  // Fail
+////    }
+//    
+//    [allSavedStopCodes removeObject:savedStop.busStopCode];
+//    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
+//    
+//    [self updateSavedStopsDefaultValueForStops:savedSt];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//}
+//
+//-(void)deleteAllSavedStop{
+//    NSArray *stopsToDelete = [self fetchAllSavedStopsFromCoreData];
+//    [self deleteStopsFromICloud:stopsToDelete];
+//    
+////    for (StopEntity *stop in stopsToDelete) {
+////        [self.managedObjectContext deleteObject:stop];
+////    }
+////    
+////    NSError *error = nil;
+////    if (![self.managedObjectContext save:&error]) {
+////        // Handle error
+////        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+////        exit(-1);  // Fail
+////    }
+//    
+//    [[CoreDataManager sharedManager] deleteManagedObjects:stopsToDelete];
+//    
+//    [allSavedStopCodes removeAllObjects];
+//    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
+//    
+//    [self updateSavedStopsDefaultValueForStops:savedSt];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//}
+//
+//-(NSArray *)fetchAllSavedStopsFromCoreData{
+//    
+////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+////    
+////    NSEntityDescription *entity = [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
+////    
+////    [request setEntity:entity];
+////    
+////    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+////    [request setSortDescriptors:@[sortDescriptor]];
+////    
+////    //[request setResultType:NSDictionaryResultType];
+//////    [request setReturnsDistinctResults:YES];
+////    //[request setPropertiesToFetch :[NSArray arrayWithObjects: @"set_id",  @"title",  @"subject",  @"url",  @"score",  @"views",  @"created",  @"last_modified",  @"card_count",  @"access", nil]];
+////    
+////    NSError *error = nil;
+////    
+////    NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
+////    
+////    if ([savedStops count] != 0) {
+////        return savedStops;
+////    }
+////    
+////    return nil;
+//    
+//    return [[CoreDataManager sharedManager] fetchAllOrderedObjectsForEntityNamed: @"StopEntity"];
+//}
+//
+//-(void)fetchAllSavedStopCodesFromCoreData {
+////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+////    
+////    NSEntityDescription *entity = [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
+////    
+////    [request setEntity:entity];
+////    
+////    [request setResultType:NSDictionaryResultType];
+////    
+////    [request setReturnsDistinctResults:YES];
+////    [request setPropertiesToFetch :[NSArray arrayWithObject: @"busStopCode"]];
+////    
+////    NSError *error = nil;
+////    
+////    NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    //TODO: Remeber to change to stopGtfsId after migration
+//    NSArray *codes = [[CoreDataManager sharedManager] fetchValuesOfProperties:@[@"busStopCode"] fromEntitiyNamed:@"StopEntity"];
+////    
+////    if ([recentStopsCodes count] != 0) {
+////        allSavedStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
+////    }
+////    else {
+////        allSavedStopCodes = [[NSMutableArray alloc] init];
+////    }
+//    
+//    allSavedStopCodes = codes ? [codes mutableCopy] : [@[] mutableCopy];
+//}
+//
+//-(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSString *)code{
+////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+////    
+////    NSEntityDescription *entity =
+////    
+////    [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
+////    
+////    [request setEntity:entity];
+////    
+//    NSString *predString = [NSString stringWithFormat:@"busStopCode == %@", code];
+//    
+////    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+////    [request setPredicate:predicate];
+////    
+////    NSError *error = nil;
+////    
+////    NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    NSArray *savedStops = [[CoreDataManager sharedManager] fetchObjectsForEntityNamed:@"StopEntity" predicateString:predString];
+//    
+//    if ([savedStops count] != 0) {
+//        return [savedStops objectAtIndex:0];
+//    }
+//    
+//    return nil;
+//}
+//
+//-(BOOL)isBusStopSaved:(BusStop *)stop{
+//    return [self isBusStopSavedWithCode:stop.code];
+//}
+//
+//-(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode{
+//    [self fetchAllSavedStopCodesFromCoreData];
+//    return [allSavedStopCodes containsObject:stopCode];
+//}
 
 #pragma mark - Stop history core data methods
--(BOOL)saveHistoryToCoreDataStop:(BusStop *)stop{
-    if (!stop)
-        return NO;
-    
-    //Check for existence here first
-    if(![allHistoryStopCodes containsObject:stop.code] && stop != nil){
-        self.historyEntity= (HistoryEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-        //set default values
-        [self.historyEntity setBusStopCode:stop.code];
-        [self.historyEntity setBusStopShortCode:stop.codeShort];
-        [self.historyEntity setBusStopName:stop.nameFi];
-        [self.historyEntity setBusStopCity:stop.cityFi];
-        [self.historyEntity setBusStopURL:stop.timetableLink];
-        [self.historyEntity setBusStopCoords:stop.coords];
-        [self.historyEntity setBusStopWgsCoords:stop.wgsCoords];
-        [self.historyEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
-        [self.historyEntity setStopGtfsId:stop.gtfsId];
-        [self.historyEntity setIsHistory:@YES];
-        [self.historyEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
-        
-        [self saveManagedObject:historyEntity];
-        
-        [allHistoryStopCodes addObject:stop.code];
-        return YES;
-    }else if (stop == nil){
-        return NO;
-    }else{
-        self.historyEntity = [self fetchStopHistoryFromCoreDataForCode:stop.code];
-        
-        [self saveManagedObject:historyEntity];
-        
-        return YES;
-    }
-}
-
--(void)deleteHistoryStopForCode:(NSNumber *)code{
-    HistoryEntity *historyToDelete = [self fetchStopHistoryFromCoreDataForCode:code];
-    
-    [self.managedObjectContext deleteObject:historyToDelete];
-    
-    NSError *error = nil;
-    if (![historyToDelete.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [allHistoryStopCodes removeObject:code];
-}
-
--(void)deleteAllHistoryStop{
-    NSArray *historyToDelete = [self fetchAllSavedStopHistoryFromCoreData];
-    
-    for (HistoryEntity *stop in historyToDelete) {
-        [self.managedObjectContext deleteObject:stop];
-    }
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [allHistoryStopCodes removeAllObjects];
-}
-
--(void)clearHistoryOlderThanDays:(int)numOfDays{
-//    numOfDays = 1;
-    BOOL modified = NO;
-    NSArray *allStopHistory = [self fetchAllSavedStopHistoryFromCoreData];
-    for (HistoryEntity *stop in allStopHistory) {
-        if (stop.dateModified != nil) {
-            if ([stop.dateModified timeIntervalSinceNow] < -(numOfDays * 24 * 60 * 60)) {
-                [self.managedObjectContext deleteObject:stop];
-                modified = YES;
-                [allHistoryStopCodes removeObject:stop.busStopCode];
-            }
-        }else{
-            if ([self.settingsManager.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
-                [self.managedObjectContext deleteObject:stop];
-                modified = YES;
-                [allHistoryStopCodes removeObject:stop.busStopCode];
-            }
-        }
-    }
-    
-    NSArray *allRouteHistory = [self fetchAllSavedRouteHistoryFromCoreData];
-    for (RouteHistoryEntity *route in allRouteHistory) {
-        if (route.dateModified != nil) {
-            if ([route.dateModified timeIntervalSinceNow] < -(numOfDays * 24 * 60 * 60)) {
-                [self.managedObjectContext deleteObject:route];
-                modified = YES;
-                [allRouteHistoryCodes removeObject:route.routeUniqueName];
-            }
-        }else{
-            if ([self.settingsManager.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
-                [self.managedObjectContext deleteObject:route];
-                modified = YES;
-                [allRouteHistoryCodes removeObject:route.routeUniqueName];
-            }
-        }
-    }
-    
-    if (modified) {
-        NSError *error = nil;
-        if (![self.managedObjectContext save:&error]) {
-            // Handle error
-            NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-            exit(-1);  // Fail
-        }
-    }
-}
-
--(NSArray *)fetchAllSavedStopHistoryFromCoreData{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"objectLID" ascending:NO];
-    [request setSortDescriptors:@[sortDescriptor]];
-    
-    [request setReturnsDistinctResults:YES];
-    
-    NSError *error = nil;
-    
-    NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([recentStops count] != 0) {
-        return recentStops;
-    }
-    
-    return nil;
-}
-
--(HistoryEntity *)fetchStopHistoryFromCoreDataForCode:(NSNumber *)code{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSString *predString = [NSString stringWithFormat:
-                            @"busStopCode == %@", code];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    
-    NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([recentStops count] != 0) {
-        return [recentStops objectAtIndex:0];
-    }
-    
-    return nil;
-}
-
--(void)fetchAllHistoryStopCodesFromCoreData{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"objectLID" ascending:NO];
-    [request setSortDescriptors:@[sortDescriptor]];
-    [request setResultType:NSDictionaryResultType];
-    
-    [request setReturnsDistinctResults:YES];
-    [request setPropertiesToFetch :[NSArray arrayWithObject: @"busStopCode"]];
-    
-    NSError *error = nil;
-    
-    NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([recentStopsCodes count] != 0) {
-        allHistoryStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
-    }
-    else {
-        allHistoryStopCodes = [[NSMutableArray alloc] init];
-    }
-}
+//-(BOOL)saveHistoryToCoreDataStop:(BusStop *)stop {
+//    if (!stop)
+//        return NO;
+//    
+//    //Check for existence here first
+//    if(![allHistoryStopCodes containsObject:stop.code]){
+//        self.historyEntity= (HistoryEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
+//        //set default values
+//        [self.historyEntity setBusStopCode:stop.code];
+//        [self.historyEntity setBusStopShortCode:stop.codeShort];
+//        [self.historyEntity setBusStopName:stop.nameFi];
+//        [self.historyEntity setBusStopCity:stop.cityFi];
+//        [self.historyEntity setBusStopURL:stop.timetableLink];
+//        [self.historyEntity setBusStopCoords:stop.coords];
+//        [self.historyEntity setBusStopWgsCoords:stop.wgsCoords];
+//        [self.historyEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
+//        [self.historyEntity setStopGtfsId:stop.gtfsId];
+//        [self.historyEntity setIsHistory:@YES];
+//        [self.historyEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
+//        
+//        [self saveManagedObject:historyEntity];
+//        
+//        [allHistoryStopCodes addObject:stop.code];
+//        return YES;
+//    }else{
+//        self.historyEntity = [self fetchStopHistoryFromCoreDataForCode:stop.code];
+//        
+//        [self saveManagedObject:historyEntity];
+//        
+//        return YES;
+//    }
+//}
+//
+//-(void)deleteHistoryStopForCode:(NSNumber *)code{
+//    HistoryEntity *historyToDelete = [self fetchStopHistoryFromCoreDataForCode:code];
+//    
+//    [self.managedObjectContext deleteObject:historyToDelete];
+//    
+//    NSError *error = nil;
+//    if (![historyToDelete.managedObjectContext save:&error]) {
+//        // Handle error
+//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+//        exit(-1);  // Fail
+//    }
+//    
+//    [allHistoryStopCodes removeObject:code];
+//}
+//
+//-(void)deleteAllHistoryStop{
+//    NSArray *historyToDelete = [self fetchAllSavedStopHistoryFromCoreData];
+//    
+//    for (HistoryEntity *stop in historyToDelete) {
+//        [self.managedObjectContext deleteObject:stop];
+//    }
+//    
+//    NSError *error = nil;
+//    if (![self.managedObjectContext save:&error]) {
+//        // Handle error
+//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+//        exit(-1);  // Fail
+//    }
+//    
+//    [allHistoryStopCodes removeAllObjects];
+//}
+//
+//-(NSArray *)fetchAllSavedStopHistoryFromCoreData{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"objectLID" ascending:NO];
+//    [request setSortDescriptors:@[sortDescriptor]];
+//    
+//    [request setReturnsDistinctResults:YES];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([recentStops count] != 0) {
+//        return recentStops;
+//    }
+//    
+//    return nil;
+//}
+//
+//-(HistoryEntity *)fetchStopHistoryFromCoreDataForCode:(NSNumber *)code{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSString *predString = [NSString stringWithFormat:
+//                            @"busStopCode == %@", code];
+//    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+//    [request setPredicate:predicate];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([recentStops count] != 0) {
+//        return [recentStops objectAtIndex:0];
+//    }
+//    
+//    return nil;
+//}
+//
+//-(void)fetchAllHistoryStopCodesFromCoreData{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"objectLID" ascending:NO];
+//    [request setSortDescriptors:@[sortDescriptor]];
+//    [request setResultType:NSDictionaryResultType];
+//    
+//    [request setReturnsDistinctResults:YES];
+//    [request setPropertiesToFetch :[NSArray arrayWithObject: @"busStopCode"]];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([recentStopsCodes count] != 0) {
+//        allHistoryStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
+//    }
+//    else {
+//        allHistoryStopCodes = [[NSMutableArray alloc] init];
+//    }
+//}
 
 #pragma mark - route core data methods
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc{
@@ -1316,10 +1254,6 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
-    //[request setResultType:NSDictionaryResultType];
-    [request setReturnsDistinctResults:YES];
-    //[request setPropertiesToFetch :[NSArray arrayWithObjects: @"set_id",  @"title",  @"subject",  @"url",  @"score",  @"views",  @"created",  @"last_modified",  @"card_count",  @"access", nil]];
-    
     NSError *error = nil;
     
     NSArray *savedRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
@@ -1393,6 +1327,37 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     NSArray *savedRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
     
     return savedRoutes;
+}
+
+-(void)clearHistoryOlderThanDays:(int)numOfDays {
+    //    numOfDays = 1;
+    BOOL modified = NO;
+    
+    NSArray *allRouteHistory = [self fetchAllSavedRouteHistoryFromCoreData];
+    for (RouteHistoryEntity *route in allRouteHistory) {
+        if (route.dateModified != nil) {
+            if ([route.dateModified timeIntervalSinceNow] < -(numOfDays * 24 * 60 * 60)) {
+                [self.managedObjectContext deleteObject:route];
+                modified = YES;
+                [allRouteHistoryCodes removeObject:route.routeUniqueName];
+            }
+        }else{
+            if ([self.settingsManager.settingsStartDate timeIntervalSinceNow] > (numOfDays * 24 * 60 * 60)) {
+                [self.managedObjectContext deleteObject:route];
+                modified = YES;
+                [allRouteHistoryCodes removeObject:route.routeUniqueName];
+            }
+        }
+    }
+    
+    if (modified) {
+        NSError *error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            // Handle error
+            NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+            exit(-1);  // Fail
+        }
+    }
 }
 
 #pragma mark - named bookmark methods
@@ -1624,7 +1589,7 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     
     [request setEntity:entity];
     
-    [request setReturnsDistinctResults:YES];
+//    [request setReturnsDistinctResults:YES];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
@@ -1734,6 +1699,7 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
                                         initWithKey:@"name" ascending:NO];
     [request setSortDescriptors:@[sortDescriptor]];
+    
     [request setResultType:NSDictionaryResultType];
     
     [request setReturnsDistinctResults:YES];
@@ -1930,16 +1896,6 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
         }
     }
     
-    //migration due to stopLines array format change
-    NSArray *savedStops = [self fetchAllSavedStopsFromCoreData];
-    for (StopEntity *stop in savedStops) {
-        if (stop.stopLines && stop.stopLines.count > 0 && [stop.stopLines isKindOfClass:[NSDictionary class]]) {
-            //Stops lines were just the dictionary and there were not used anywhere anyways. So just remove them
-            stop.stopLines = @[];
-            [self saveManagedObject:stop];
-        }
-    }
-    
     return YES;
 }
 
@@ -1947,11 +1903,9 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     
     //Migration due to addition orders
     NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
-    NSArray *savedStops = [self fetchAllSavedStopsFromCoreData];
     NSArray *savedRoutes = [self fetchAllSavedRoutesFromCoreData];
     
     [self updateOrderedManagedObjectOrderTo:namedBookmarks];
-    [self updateOrderedManagedObjectOrderTo:savedStops];
     [self updateOrderedManagedObjectOrderTo:savedRoutes];
 }
 
@@ -1981,19 +1935,19 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
 }
 
-- (void)updateSavedStopsToICloud {
-    if (![ICloudManager isICloudContainerAvailable]) return;
-    
-    NSArray *stops = [self fetchAllSavedStopsFromCoreData];
-    [[ICloudManager sharedManager] saveStopsToICloud:stops];
-}
-
-- (void)deleteStopsFromICloud:(NSArray *)stops {
-    if (![ICloudManager isICloudContainerAvailable]) return;
-    
-    [[ICloudManager sharedManager] deleteSavedStopsFromICloud:stops
-     ];
-}
+//- (void)updateSavedStopsToICloud {
+//    if (![ICloudManager isICloudContainerAvailable]) return;
+//    
+//    NSArray *stops = [self fetchAllSavedStopsFromCoreData];
+//    [[ICloudManager sharedManager] saveStopsToICloud:stops];
+//}
+//
+//- (void)deleteStopsFromICloud:(NSArray *)stops {
+//    if (![ICloudManager isICloudContainerAvailable]) return;
+//    
+//    [[ICloudManager sharedManager] deleteSavedStopsFromICloud:stops
+//     ];
+//}
 
 - (void)updateSavedRoutesToICloud {
     if (![ICloudManager isICloudContainerAvailable]) return;

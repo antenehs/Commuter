@@ -12,6 +12,7 @@
 #import "AppManager.h"
 #import "JTMaterialSpinner.h"
 #import "ApiProtocols.h"
+#import "StopCoreDataManager.h"
 
 #import "TableViewCells.h"
 
@@ -71,7 +72,7 @@
     [self.reittiDataManager fetchallBookmarksFromICloudWithCompletionHandler:^(ICloudBookmarks *result, NSString *errorString){
         if (!errorString) {
             self.dataToLoad = [result getBookmarksExcludingNamedBookmarks:[self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData]
-                                                               savedStops:[self.reittiDataManager fetchAllSavedStopsFromCoreData]
+                                                               savedStops:[[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData]
                                                               savedRoutes:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
             
             BOOL thereAreOtherDevices = [[[result allBookmarksGrouped] allKeys] count] > 1;
@@ -265,7 +266,7 @@
 - (void)stopFetchCompleted:(BusStop *)stop andError:(NSString *)error withCompletionHandler:(ActionBlock)completionHandler {
     BOOL success = NO;
     if (!error) {
-        [self.reittiDataManager saveToCoreDataStop:stop];
+        [[StopCoreDataManager sharedManager] saveToCoreDataStop:stop];
         success = YES;
     } else {
         success = NO;

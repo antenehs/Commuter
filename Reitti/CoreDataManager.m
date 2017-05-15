@@ -8,10 +8,21 @@
 
 #import "CoreDataManager.h"
 #import "AppDelegate.h"
+#import "CookieEntity.h"
+
+
+NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
+
+@interface CoreDataManager ()
+
+@property(nonatomic, strong) CookieEntity *cookieEntity;
+
+@end
 
 @implementation CoreDataManager
 
 @synthesize managedObjectContext;
+@synthesize cookieEntity;
 
 #pragma mark Singleton Methods
 
@@ -27,6 +38,10 @@
 -(id)init{
     AppDelegate *appDelegate = [[AppDelegate alloc] init];
     self.managedObjectContext = appDelegate.managedObjectContext;
+    [self.managedObjectContext setMergePolicy:[[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType]];
+    
+    [self fetchSystemCookie];
+    nextObjectLID = [self.cookieEntity.objectLID intValue];
     
     return self;
 }
@@ -48,24 +63,97 @@
 }
 
 - (void)saveReittiManagedObject:(ReittiManagedObjectBase *)object {
-    //Think about this later.. Might have to move the cookie object to be owned by this class.
+    if (!object) return;
     
+    [self saveReittiManagedObjects:@[object]];
+}
+
+- (void)saveReittiManagedObjects:(NSArray *)objects {
+    if (!objects || objects.count < 1) return;
     
-//    object.objectLID = [NSNumber numberWithInt:nextObjectLID];
-//    object.dateModified = [NSDate date];
-//    
-//    NSError *error = nil;
-//    
-//    if (![object.managedObjectContext save:&error]) {
-//        // Handle error
-//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object!!", error, [error userInfo]);
-//        exit(-1);  // Fail
-//    }
-//    
-//    [self increamentObjectLID];
+    for (ReittiManagedObjectBase *object in objects) {
+        object.objectLID = [NSNumber numberWithInt:[self getNextObjectLid]];
+        object.dateModified = [NSDate date];
+    }
+    
+    [self saveState];
+}
+
+#pragma mark - delete managed object
+-(void)deleteManagedObject:(NSManagedObject *)object {
+    [self.managedObjectContext deleteObject:object];
+    [self saveState];
+}
+
+-(void)deleteManagedObjects:(NSArray *)objects {
+    if (!objects || objects.count < 1) { return; }
+    
+    for (NSManagedObject *object in objects) {
+        [self.managedObjectContext deleteObject:object];
+    }
+    
+    [self saveState];
+}
+
+#pragma mark - update order
+-(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects {
+    
+    for (int i = 0; i < orderedObjects.count; i++) {
+        
+        OrderedManagedObject *object = orderedObjects[i];
+        if (![object isKindOfClass:[OrderedManagedObject class]]) return;
+        
+        object.order = [NSNumber numberWithInt:i + 1];
+    }
+    
+    [self saveReittiManagedObjects:orderedObjects];
+}
+
+#pragma mark - Object LId
+-(void)fetchSystemCookie{
+    NSArray *systemCookies = [self fetchAllObjectsForEntityNamed:@"CookieEntity"];
+    
+    if (systemCookies.count > 0) {
+        self.cookieEntity = [systemCookies objectAtIndex:0];
+    } else {
+        [self initializeSystemCookie];
+    }
+}
+
+-(void)initializeSystemCookie{
+    self.cookieEntity = (CookieEntity *)[self createNewObjectForEntityNamed:@"CookieEntity"];
+    
+    [self.cookieEntity setObjectLID:[NSNumber numberWithInt:100]];
+    [self.cookieEntity setAppOpenCount:[NSNumber numberWithInt:0]];
+    
+    [self saveState];
+}
+
+-(void)increamentObjectLID {
+//    [self fetchSystemCookie];
+    
+    [self.cookieEntity setObjectLID:[NSNumber numberWithInt:(nextObjectLID + 1)]];
+    //TODO: Go back to this later
+    [self saveState];
+    
+    nextObjectLID++;
+}
+
+-(int)getNextObjectLid {
+    [self increamentObjectLID];
+    
+    return nextObjectLID;
 }
 
 #pragma mark - Fetch Methods
+-(NSArray *)fetchValuesOfProperties:(NSArray *)properties fromEntitiyNamed:(NSString *)entityName {
+    return [self fetchObjectsForEntityNamed:entityName predicateString:nil sortWithPropertyNamed:nil assending:NO propertiesToFetch:properties];
+}
+
+-(NSArray *)fetchAllOrderedObjectsForEntityNamed:(NSString *)entityName {
+    return [self fetchAllObjectsForEntityNamed:entityName sortWithPropertyNamed:@"order" assending:YES];
+}
+
 -(NSArray *)fetchAllObjectsForEntityNamed:(NSString *)entityName {
     return [self fetchObjectsForEntityNamed:entityName predicateString:nil sortWithPropertyNamed:nil assending:false];
 }
@@ -74,12 +162,18 @@
     return [self fetchObjectsForEntityNamed:entityName predicateString:nil sortWithPropertyNamed:propertyNamed assending:assending];
 }
 
+-(NSArray *)fetchObjectsForEntityNamed:(NSString *)entityName predicateString:(NSString *)predString {
+    return [self fetchObjectsForEntityNamed:entityName predicateString:predString sortWithPropertyNamed:nil assending:NO];
+}
+
 -(NSArray *)fetchObjectsForEntityNamed:(NSString *)entityName predicateString:(NSString *)predString sortWithPropertyNamed:(NSString *)sortPropertyName assending:(BOOL)assending {
+    return [self fetchObjectsForEntityNamed:entityName predicateString:predString sortWithPropertyNamed:sortPropertyName assending:AVAssetDurationDidChangeNotification propertiesToFetch:nil];
+}
+
+-(NSArray *)fetchObjectsForEntityNamed:(NSString *)entityName predicateString:(NSString *)predString sortWithPropertyNamed:(NSString *)sortPropertyName assending:(BOOL)assending propertiesToFetch:(NSArray *)properties {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
     
     [request setEntity:entity];
     
@@ -93,15 +187,36 @@
         [request setSortDescriptors:@[sortDescriptor]];
     }
     
+    if (properties && properties.count > 0) {
+        [request setResultType:NSDictionaryResultType];
+        
+        [request setReturnsDistinctResults:YES];
+        [request setPropertiesToFetch :properties];
+    }
+    
     NSError *error = nil;
     
-    NSArray *recentRoutes = [self.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:request error:&error];
     
-    return recentRoutes;
+    if (properties && properties.count == 1) {
+        fetchedObjects = [self simplifyCoreDataDictionaryArray:fetchedObjects withKey:properties[0]];
+    }
+    
+    return fetchedObjects.count > 0 ? fetchedObjects : nil;
+}
+
+#pragma mark - Helper methods
+
+-(NSMutableArray *)simplifyCoreDataDictionaryArray:(NSArray *)array withKey:(NSString *)key{
+    NSMutableArray *retArray = [[NSMutableArray alloc] init];
+    for (NSDictionary * dict in array) {
+        [retArray addObject:[dict objectForKey:key]];
+    }
+    return retArray;
 }
 
 
 
-#pragma mark - NOT REFACTORED METHODS. Works for now. Don't fix it.
+#pragma mark - Migrations
 
 @end

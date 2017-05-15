@@ -17,6 +17,7 @@
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <QuartzCore/QuartzCore.h>
+#import "StopCoreDataManager.h"
 
 NSString *kUniqueIdentifierSeparator = @"|%|";
 
@@ -212,7 +213,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
         if (!error) {
             NSMutableArray *searchableItems = [@[] mutableCopy];
             
-            NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+            NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
             
             if (savedStops != nil && savedStops.count > 0) {
                 for (StopEntity *savedStop in savedStops) {

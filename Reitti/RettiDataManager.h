@@ -25,11 +25,8 @@
 #import "RTStopSearchParam.h"
 #import "WatchCommunicationManager.h"
 
-@class StopEntity;
-@class HistoryEntity;
 @class RouteEntity;
 @class RouteHistoryEntity;
-@class CookieEntity;
 @class NamedBookmark;
 @class FailedGeoCodeFetch;
 @class HSLLiveTrafficManager;
@@ -40,7 +37,7 @@
 extern NSString * const kBookmarksWithAnnotationUpdated;
 
 @interface RettiDataManager : NSObject {
-    int nextObjectLID;
+//    int nextObjectLID;
     
     NSMutableArray *HSLGeocodeResposeQueue;
     NSMutableArray *TREGeocodeResponseQueue;
@@ -106,23 +103,8 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 
 -(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects;
 
--(BOOL)isBusStopSaved:(BusStop *)stop;
--(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode;
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;
 -(BOOL)doesNamedBookmarkExistWithName:(NSString *)name;
-
--(void)saveToCoreDataStop:(BusStop *)stop;
--(void)deleteSavedStopForCode:(NSNumber *)code;
--(void)deleteSavedStop:(StopEntity *)savedStop;
--(void)deleteAllSavedStop;
--(NSArray *)fetchAllSavedStopsFromCoreData;
--(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSNumber *)code;
--(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops;
-
--(BOOL)saveHistoryToCoreDataStop:(BusStop *)stop;
--(void)deleteHistoryStopForCode:(NSNumber *)code;
--(void)deleteAllHistoryStop;
--(NSArray *)fetchAllSavedStopHistoryFromCoreData;
 
 -(void)clearHistoryOlderThanDays:(int)numOfDays;
 
@@ -146,8 +128,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
 -(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
 
-
-
 -(void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 
@@ -160,8 +140,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(BOOL)doVersion4_1CoreDataMigration;
 -(void)doVersion16CoreDataMigration;
 
-@property (strong, nonatomic) NSMutableArray *allHistoryStopCodes;
-@property (strong, nonatomic) NSMutableArray *allSavedStopCodes;
 @property (strong, nonatomic) NSMutableArray *allSavedRouteCodes;
 @property (strong, nonatomic) NSMutableArray *allRouteHistoryCodes;
 @property (strong, nonatomic) NSMutableArray *allNamedBookmarkNames;
@@ -170,11 +148,8 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 @property (strong, nonatomic) TRECommunication *treCommunication;
 @property (strong, nonatomic) MatkaCommunicator *matkaCommunicator;
 
-@property (strong, nonatomic) StopEntity *stopEntity;
-@property (strong, nonatomic) HistoryEntity *historyEntity;
 @property (strong, nonatomic) RouteEntity *routeEntity;
 @property (strong, nonatomic) RouteHistoryEntity *routeHistoryEntity;
-@property (strong, nonatomic) CookieEntity *cookieEntity;
 @property (strong, nonatomic) NamedBookmark *namedBookmark;
 
 @property (nonatomic) Region userLocationRegion;

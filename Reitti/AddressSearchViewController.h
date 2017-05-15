@@ -10,7 +10,6 @@
 #import "AMBlurView.h"
 #import "RettiDataManager.h"
 #import "StopEntity.h"
-#import "HistoryEntity.h"
 #include "RouteEntity.h"
 #include "RouteHistoryEntity.h"
 #import "GeoCode.h"

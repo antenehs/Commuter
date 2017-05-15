@@ -307,7 +307,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
+    if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]]) {
 
         StopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
         
@@ -316,8 +316,8 @@
             stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
         }
         
-        if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-            [cell setupFromHistoryEntity:(HistoryEntity *)stopEntity];
+        if (stopEntity.isHistoryStop) {
+            [cell setupFromHistoryEntity:stopEntity];
         }else{
             [cell setupFromStopEntity:stopEntity];
         }
@@ -414,7 +414,7 @@
         [self dismissViewControllerAnimated:YES completion:^{
             [delegate searchResultSelectedANamedBookmark:selectedBookmark];
         }];
-    }else if([selectedAddress isKindOfClass:[StopEntity class]] || [selectedAddress isKindOfClass:[HistoryEntity class]]){
+    }else if([selectedAddress isKindOfClass:[StopEntity class]]){
         StopEntity *selectedStopEntity = (StopEntity *)selectedAddress;
         [self dismissViewControllerAnimated:YES completion:^{
             [delegate searchResultSelectedAStop:selectedStopEntity];
@@ -534,7 +534,7 @@
         }
     }
     
-    for (HistoryEntity *historyEntity in recentStops) {
+    for (StopEntity *historyEntity in recentStops) {
         if ([[historyEntity.busStopName lowercaseString] containsString:key]) {
             [searched addObject:historyEntity];
         }else if ([[historyEntity.busStopShortCode lowercaseString] containsString:key]) {

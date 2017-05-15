@@ -13,7 +13,7 @@
 
 -(void)setupFromICloudRecord:(CKRecord *)record;
 -(void)setupFromStopEntity:(StopEntity *)stopEntity;
--(void)setupFromHistoryEntity:(HistoryEntity *)historyEntity;
+-(void)setupFromHistoryEntity:(StopEntity *)historyEntity;
 -(void)setupFromStopGeocode:(GeoCode *)stopGeocode;
 -(void)setupFromBusStop:(BusStop *)busTop;
 
@@ -31,7 +31,7 @@
 //Data sources
 @property (strong, nonatomic)CKRecord *iCloudRecord;
 @property (strong, nonatomic)StopEntity *stopEntity;
-@property (strong, nonatomic)HistoryEntity *historyEntity;
+@property (strong, nonatomic)StopEntity *historyEntity;
 @property (strong, nonatomic)BusStop *busStop;
 @property (strong, nonatomic)GeoCode *stopGeocode;
 

@@ -8,7 +8,6 @@
 
 #import "BookmarksViewController.h"
 #import "StopEntity.h"
-#import "HistoryEntity.h"
 #import "RouteEntity.h"
 #import "RouteHistoryEntity.h"
 #import "StopViewController.h"
@@ -25,6 +24,7 @@
 #import "TableViewCells.h"
 #import "MainTabBarController.h"
 #import "ReittiDateHelper.h"
+#import "StopCoreDataManager.h"
 
 const NSInteger kTimerRefreshInterval = 60;
 
@@ -459,7 +459,7 @@ const NSInteger kTimerRefreshInterval = 60;
     if (buttonIndex == 0) {
         if (mode == 0) {
 //            [delegate deletedAllSavedStops];
-            [self.reittiDataManager deleteAllSavedStop];
+            [[StopCoreDataManager sharedManager] deleteAllSavedStop];
             [self.reittiDataManager deleteAllSavedroutes];
             [self.reittiDataManager deleteAllNamedBookmarks];
             
@@ -467,7 +467,7 @@ const NSInteger kTimerRefreshInterval = 60;
 //            [self hideWidgetSettingsButton:YES];
         }else{
 //            [delegate deletedAllHistoryStops];
-            [self.reittiDataManager deleteAllHistoryStop];
+            [[StopCoreDataManager sharedManager] deleteAllHistoryStop];
             [self.reittiDataManager deleteAllHistoryRoutes];
         }
         
@@ -566,7 +566,7 @@ const NSInteger kTimerRefreshInterval = 60;
             
             title.text = NSLocalizedString(@"No stops bookmarked yet", @"No stops bookmarked yet");
             subTitle.text = NSLocalizedString(@"Press on the star icon on the stop view and you'll be amazed how much time you'll save.", @"Press on the star icon on the stop view and you'll be amazed how much time you'll save.");
-        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             
             StopEntity *stopEntity = [StopEntity alloc];
@@ -593,7 +593,7 @@ const NSInteger kTimerRefreshInterval = 60;
             
             UICollectionView *collectionView = (UICollectionView *)[cell viewWithTag:2007];
             
-            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+            if (stopEntity.isHistoryStop) {
                 dateLabel.hidden = NO;
                 dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:stopEntity.dateModified];
                 collectionView.hidden = YES;
@@ -803,7 +803,7 @@ const NSInteger kTimerRefreshInterval = 60;
         StopEntity *deletedStop;
         RouteEntity *deletedRoute;
         NamedBookmark *deletedNamedBookmark;
-        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]) {
             deletedStop = [dataToLoad objectAtIndex:dataIndex];
             if (listSegmentControl.selectedSegmentIndex == 1)
                 [dataToLoad removeObject:deletedStop];
@@ -826,7 +826,7 @@ const NSInteger kTimerRefreshInterval = 60;
                 [self.reittiDataManager deleteNamedBookmarkForName:deletedNamedBookmark.name];
                 [savedNamedBookmarks removeObject:deletedNamedBookmark];
             }else{
-                [self.reittiDataManager deleteSavedStop:deletedStop];
+                [[StopCoreDataManager sharedManager] deleteSavedStop:deletedStop];
                 [savedStops removeObject:deletedStop];
             }
         }else{
@@ -834,7 +834,7 @@ const NSInteger kTimerRefreshInterval = 60;
                 [self.reittiDataManager deleteHistoryRouteForCode:deletedRoute.routeUniqueName];
                 [recentRoutes removeObject:deletedRoute];
             }else{
-                [self.reittiDataManager deleteHistoryStopForCode:deletedStop.busStopCode];
+                [[StopCoreDataManager sharedManager] deleteHistoryStopForCode:deletedStop.stopGtfsId];
                 [recentStops removeObject:deletedStop];
             }
         }
@@ -896,7 +896,8 @@ const NSInteger kTimerRefreshInterval = 60;
         [self.savedStops removeObject: movedStop];
         [self.savedStops insertObject:movedStop atIndex:toIndexPath.row];
         
-        [self.reittiDataManager updateOrderedManagedObjectOrderTo:self.savedStops];
+//        [self.reittiDataManager updateOrderedManagedObjectOrderTo:self.savedStops];
+        [[StopCoreDataManager sharedManager] updateStopsOrderTo:self.savedStops];
     } else {
         id movedRoute = self.savedRoutes[fromIndexPath.row];
         [self.savedRoutes removeObject: movedRoute];
@@ -1227,9 +1228,9 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 - (void)loadSavedValues{
-    NSArray * sStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+    NSArray * sStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
     NSArray * sRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-    NSArray * rStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+    NSArray * rStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
     NSArray * rRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
     NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
     
@@ -1426,7 +1427,7 @@ const NSInteger kTimerRefreshInterval = 60;
     
     if ([segue.identifier isEqualToString:@"bookmarkSelected"]) {
         if (dataIndex < self.dataToLoad.count) {
-            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]) {
+            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]) {
                 
                 StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
                 
@@ -1564,7 +1565,7 @@ const NSInteger kTimerRefreshInterval = 60;
 //            return navigationController;
         }
         
-        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[HistoryEntity class]]){
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]){
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Viewed saved stop" value:nil];
             StopEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
             

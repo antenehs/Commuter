@@ -22,6 +22,7 @@
 #import "TableViewCells.h"
 #import "ReittiDateHelper.h"
 #import "WatchCommunicationManager.h"
+#import "StopCoreDataManager.h"
 
 typedef enum
 {
@@ -210,9 +211,9 @@ typedef enum
 }
 
 - (void)loadData {
-    NSArray * _savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+    NSArray * _savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
     NSArray * _savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-    NSArray * _recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+    NSArray * _recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
     NSArray * _recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
     NSArray * _namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
     
@@ -918,12 +919,12 @@ typedef enum
             }
             
             [(AddressTableViewCell *)cell setupFromGeocode:geoCode];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
+        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedStopCell"];
             StopEntity *stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             
-            if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]) {
-                [(StopTableViewCell *)cell setupFromHistoryEntity:(HistoryEntity *)stopEntity];
+            if (stopEntity.isHistoryStop) {
+                [(StopTableViewCell *)cell setupFromHistoryEntity:stopEntity];
             }else{
                 [(StopTableViewCell *)cell setupFromStopEntity:stopEntity];
             }
@@ -1140,7 +1141,7 @@ typedef enum
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.tableViewMode == TableViewModeSuggestions) {
-        if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[HistoryEntity class]]){
+        if([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[StopEntity class]]){
             StopEntity *stopEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             
             [self setTextToSearchBar:toSearchBar text:stopEntity.busStopName];

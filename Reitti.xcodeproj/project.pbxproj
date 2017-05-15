@@ -508,6 +508,8 @@
 		66B391C41D2312B600C500CC /* WidgetHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE221C19B09F004D73FC /* WidgetHelpers.m */; };
 		66B601201D91C1360056B7FA /* finland-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 66B6011F1D91C1360056B7FA /* finland-region.geojson */; };
 		66B601211D91C1370056B7FA /* finland-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 66B6011F1D91C1360056B7FA /* finland-region.geojson */; };
+		66B7AE891EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */; };
+		66B7AE8A1EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */; };
 		66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
 		66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		66BCA6EB1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
@@ -1751,6 +1753,8 @@
 		66B391C01D23087300C500CC /* WatchApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchApiClient.m; sourceTree = "<group>"; };
 		66B6011F1D91C1360056B7FA /* finland-region.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "finland-region.geojson"; sourceTree = "<group>"; };
 		66B7AE851EC78D6600B233E7 /* Reitti 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 17.xcdatamodel"; sourceTree = "<group>"; };
+		66B7AE871EC79EDB00B233E7 /* StopCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopCoreDataManager.h; sourceTree = "<group>"; };
+		66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopCoreDataManager.m; sourceTree = "<group>"; };
 		66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
@@ -3230,6 +3234,17 @@
 			name = "HSL Routes";
 			sourceTree = "<group>";
 		};
+		66B7AE861EC79E9500B233E7 /* Core Data Managers */ = {
+			isa = PBXGroup;
+			children = (
+				66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */,
+				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
+				66B7AE871EC79EDB00B233E7 /* StopCoreDataManager.h */,
+				66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */,
+			);
+			name = "Core Data Managers";
+			sourceTree = "<group>";
+		};
 		66CA02B01C16360800A38858 /* HSL */ = {
 			isa = PBXGroup;
 			children = (
@@ -3291,12 +3306,11 @@
 		66CA02B51C1636A700A38858 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				66B7AE861EC79E9500B233E7 /* Core Data Managers */,
 				66A73FDB18BA3CED00405043 /* RettiDataManager.h */,
 				66A73FDC18BA3CED00405043 /* RettiDataManager.m */,
 				66FC54821B236866005B890D /* CacheManager.h */,
 				66FC54831B236866005B890D /* CacheManager.m */,
-				66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */,
-				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
 				66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */,
 				66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */,
 				667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */,
@@ -4872,6 +4886,7 @@
 				66833D1A1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
+				66B7AE891EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */,
 				66FD7FB31CBC30EC00C6C731 /* MatkaRouteStop.m in Sources */,
 				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
 				663E1EFA1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
@@ -5148,6 +5163,7 @@
 				66833D1B1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				66C733101C556DA5002544BC /* GeoCodeDetail.m in Sources */,
 				66C733111C556DA5002544BC /* Properties.m in Sources */,
+				66B7AE8A1EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */,
 				66FD7FB41CBC30EC00C6C731 /* MatkaRouteStop.m in Sources */,
 				66C733121C556DA5002544BC /* UIImage+Helper.m in Sources */,
 				663E1EFB1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,

@@ -33,6 +33,7 @@
 #import "DepartureTableViewCell.h"
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
+#import "StopCoreDataManager.h"
 
 #import <StoreKit/StoreKit.h>
 
@@ -299,7 +300,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self initVariablesAndConstants];
     [self initDataManagers];
     [self initDisruptionFetching];
-    [self setBookmarkedStopsToDefaults];
+//    [self setBookmarkedStopsToDefaults];
     [self registerFor3DTouchIfAvailable];
 }
 
@@ -595,14 +596,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 #pragma mark - extension methods
-- (void)setBookmarkedStopsToDefaults{
-    
-    NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
-    [self.reittiDataManager updateSavedStopsDefaultValueForStops:savedStops];
-    //test
-//    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-//    NSUserDefaults *sharedDefaults2 = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-}
+//- (void)setBookmarkedStopsToDefaults{
+//    [[StopCoreDataManager sharedManager] updateSavedStopsDefaultValueForStops];
+//}
 
 #pragma mark - Annotation helpers
 -(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
@@ -681,7 +677,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     NSNumber *codeNumber = [NSNumber numberWithInteger:intCode];
     
-    StopEntity *stop = [reittiDataManager fetchSavedStopFromCoreDataForCode:codeNumber];
+    StopEntity *stop = [[StopCoreDataManager sharedManager] fetchSavedStopFromCoreDataForCode:codeNumber];
     if (!stop)
         return;
     [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
@@ -1229,7 +1225,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
     }
     
-    NSArray *savedStops = [reittiDataManager fetchAllSavedStopsFromCoreData];
+    NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
     if (savedStops && savedStops.count > 0) {
         for (StopEntity *stopEnt in savedStops) {
             [self plotStopAnnotation:stopEnt.toBusStopShort withSelect:NO isBookmark:YES];
@@ -2774,9 +2770,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         AddressSearchViewController *addressSearchViewController = [[navigationController viewControllers] lastObject];
         
-        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+        NSArray * savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
         NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+        NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
         NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
         NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
         

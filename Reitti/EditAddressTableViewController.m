@@ -10,6 +10,7 @@
 #import "UIScrollView+APParallaxHeader.h"
 #import "StopAnnotation.h"
 #import "CoreDataManager.h"
+#import "StopCoreDataManager.h"
 
 @interface EditAddressTableViewController ()
 
@@ -692,9 +693,9 @@
         
         RouteSearchViewController *routeSearchViewController = (RouteSearchViewController *)[navigationController.viewControllers lastObject];
         
-        NSArray * savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+        NSArray * savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
         NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-        NSArray * recentStops = [self.reittiDataManager fetchAllSavedStopHistoryFromCoreData];
+        NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
         NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
         
         NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];

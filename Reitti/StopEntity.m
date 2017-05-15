@@ -87,6 +87,10 @@
     }
 }
 
+-(BOOL)isHistoryStop {
+    return self.isHistory ? [self.isHistory boolValue] : YES;
+}
+
 -(NSString *)iconName {
     return [AppManager stopIconNameForStopType:self.stopType];
 }

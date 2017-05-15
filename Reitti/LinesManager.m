@@ -11,6 +11,7 @@
 #import "SettingsManager.h"
 #import "StopEntity.h"
 #import "SettingsManager.h"
+#import "StopCoreDataManager.h"
 
 NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
 NSString *kStopLineCodesKey = @"stopLineCodes";
@@ -121,7 +122,7 @@ NSString *kStopLinesKey = @"stopLines";
 }
 
 -(NSDictionary *)getLineCodesAndLinesFromSavedStops{
-    NSArray *savedStops = [self.reittiDataManager fetchAllSavedStopsFromCoreData];
+    NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
     
     NSMutableArray *lineCodes = [@[] mutableCopy];
     NSMutableArray *lines = [@[] mutableCopy];

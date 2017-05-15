@@ -13,7 +13,6 @@
 #import "RoutePreviewView.h"
 #import "RettiDataManager.h"
 #import "StopEntity.h"
-#import "HistoryEntity.h"
 #import "AddressSearchViewController.h"
 #import "RouteSearchOptions.h"
 #import "SettingsManager.h"

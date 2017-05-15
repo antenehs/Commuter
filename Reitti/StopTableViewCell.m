@@ -56,7 +56,7 @@
     }
 }
 
--(void)setupFromHistoryEntity:(HistoryEntity *)historyEntity{
+-(void)setupFromHistoryEntity:(StopEntity *)historyEntity{
     self.historyEntity = historyEntity;
     self.dateLabel.hidden = NO;
     self.iCloudDownloadButton.hidden = YES;

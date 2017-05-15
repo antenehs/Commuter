@@ -20,6 +20,7 @@
 #import "ReittiDateHelper.h"
 #import "DepartureTableViewCell.h"
 #import "ReittiConfigManager.h"
+#import "StopCoreDataManager.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
 typedef AlertControllerAction (^ActionGenerator)(int minutes);
@@ -183,8 +184,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [departuresTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
     
     @try { //Number conversions could be problematic
-        NSNumber *codeNumber = [NSNumber numberWithInteger:[self.stopCode integerValue]];
-        if ([self.reittiDataManager isBusStopSavedWithCode:codeNumber]) {
+//        NSNumber *codeNumber = [NSNumber numberWithInteger:[self.stopCode integerValue]];
+        if ([[StopCoreDataManager sharedManager] isBusStopSavedWithCode:self.stopCode]) {
             [self setStopBookmarkedState];
         }else{
             [self setStopNotBookmarkedState];
@@ -214,7 +215,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     bookmarkButton.enabled = YES;
     
-    if ([self.reittiDataManager isBusStopSaved:self._busStop]) {
+    if ([[StopCoreDataManager sharedManager] isBusStopSaved:self._busStop]) {
         [self setStopBookmarkedState];
     }else{
         [self setStopNotBookmarkedState];
@@ -272,7 +273,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         [actionSheet showInView:self.view];
         
     }else{
-        [self.reittiDataManager saveToCoreDataStop:self._busStop];
+        [[StopCoreDataManager sharedManager] saveToCoreDataStop:self._busStop];
         
         [bookmarkButton asa_bounceAnimateViewByScale:0.2];
         [self setStopBookmarkedState];
@@ -319,8 +320,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         if (buttonIndex == 0) {
             
             [self setStopNotBookmarkedState];
-            NSNumber *codeNumber = self._busStop ? self._busStop.code : [NSNumber numberWithInteger:[self.stopCode integerValue]];
-            [self.reittiDataManager deleteSavedStopForCode:codeNumber];
+            NSString *code = self._busStop ? self._busStop.gtfsId : self.stopCode;
+            [[StopCoreDataManager sharedManager] deleteSavedStopForCode:code];
             [delegate deletedSavedStop:self.stopEntity];
         }
     }
@@ -379,7 +380,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     NSString * shortCode = stopCode;
     
     StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords];
-    newAnnotation.code = @111111;
+    newAnnotation.code = stopCode;
     
     [mapView addAnnotation:newAnnotation];
     
@@ -729,7 +730,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         self._busStop = stop;
         [self setUpStopViewForBusStop:self._busStop];
         
-        [self.reittiDataManager saveHistoryToCoreDataStop:self._busStop];
+        [[StopCoreDataManager sharedManager] saveHistoryToCoreDataStop:self._busStop];
     } else {
         //Just reload and show no departures
         [departuresTable reloadData];
