@@ -655,7 +655,7 @@
             //            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
             
             StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
-            stopViewController.stopCode = stopCode;
+            stopViewController.stopGtfsId = stopCode;
             stopViewController.stopShortCode = stopShortCode;
             stopViewController.stopName = stopName;
             stopViewController.stopCoords = stopCoords;
@@ -675,7 +675,7 @@
         
         if (lineStop) {
             StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
-            stopViewController.stopCode = lineStop.code;
+            stopViewController.stopGtfsId = lineStop.code;
             stopViewController.stopShortCode = lineStop.codeShort;
             stopViewController.stopName = lineStop.name;
             stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:lineStop.coords];

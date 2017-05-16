@@ -34,6 +34,7 @@
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
 #import "StopCoreDataManager.h"
+#import "MigrationViewController.h"
 
 #import <StoreKit/StoreKit.h>
 
@@ -94,16 +95,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self reindexSavedDataForSpotlight];
     [self initViewComponents];
     
-    if (![AppManager isProVersion])
-        [self showGoProNotification];
-    
-    [self performSelector:@selector(showRateAppNotification) withObject:nil afterDelay:10];
+    [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
     
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
             //Only for this hot fix version. dont show for upgrade case since it is just shown
-            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
-            isShowingWelcomeView = YES;
+//            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
+//            isShowingWelcomeView = YES;
         } else {
             //Do this only once for this version.
             [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *error){}];
@@ -115,6 +113,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self.reittiDataManager doVersion16CoreDataMigration];
         
         [AppManager setCurrentAppVersion];
+    } else {
+        if (![AppManager isProVersion])
+            [self showGoProNotification];
+        
+        [self performSelector:@selector(showRateAppNotification) withObject:nil afterDelay:10];
     }
     
     [self.navigationController setToolbarHidden:YES animated:NO];
@@ -672,12 +675,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self performSegueWithIdentifier:@"openStopView" sender:nil];
 }
 
--(void)openStopViewForCode:(NSString *)code{
-    NSInteger intCode = [code integerValue];
+-(void)openStopViewForCode:(NSString *)code {
+    if (!code) return;
     
-    NSNumber *codeNumber = [NSNumber numberWithInteger:intCode];
-    
-    StopEntity *stop = [[StopCoreDataManager sharedManager] fetchSavedStopFromCoreDataForCode:codeNumber];
+    StopEntity *stop = [[StopCoreDataManager sharedManager] fetchSavedStopFromCoreDataForCode:code];
     if (!stop)
         return;
     [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
@@ -2633,7 +2634,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
     if ([[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:mapView.region.center] != [settingsManager userLocation]) {
         [self.reittiDataManager setUserLocationRegion:[settingsManager userLocation]];
-        [self centerMapRegionToCoordinate:[[ReittiRegionManager sharedManager] getCoordinateForRegion:[settingsManager userLocation]]];
+        [self centerMapRegionToCoordinate:[ReittiRegionManager getCoordinateForRegion:[settingsManager userLocation]]];
     }
     
     if ([settingsManager showLiveVehicles]) {
@@ -2847,7 +2848,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)configureStopViewController:(StopViewController *)stopViewController withBusStopShort:(BusStopShort *)busStop{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
-        stopViewController.stopCode = busStop.gtfsId;
+        stopViewController.stopGtfsId = busStop.gtfsId;
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:busStop.coords];
         stopViewController.stopShortCode = busStop.codeShort;
         stopViewController.stopName = busStop.name;
@@ -2859,7 +2860,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)configureStopViewControllerWithAnnotation:(StopViewController *)stopViewController{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
-        stopViewController.stopCode = selectedStopCode;
+        stopViewController.stopGtfsId = selectedStopCode;
         stopViewController.stopCoords = selectedStopAnnotationCoords;
         stopViewController.stopShortCode = selectedStopShortCode;
         stopViewController.stopName = selectedStopName;
@@ -2894,7 +2895,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 //            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
                 
                 StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
-                stopViewController.stopCode = stopCode;
+                stopViewController.stopGtfsId = stopCode;
                 stopViewController.stopShortCode = stopShortCode;
                 stopViewController.stopName = stopName;
                 stopViewController.stopCoords = stopCoords;

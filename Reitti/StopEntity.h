@@ -41,6 +41,7 @@
 //Uses coredata cache to determine stop type. Not available in watchapp 
 @property (nonatomic) StopType stopType;
 @property (nonatomic) BOOL isHistoryStop;
+@property (nonatomic) BOOL isDigiTransitStop;
 
 -(BusStopShort *)toBusStopShort;
 #endif

@@ -99,6 +99,12 @@ NSString *kActionChangedStartingTabOption = @"ChangedStartingTabOption";
 //9. Address Search View Controller
 NSString *kActionSelectedContactAddress = @"SelectedContactAddress";
 
+//10. Stop Migration
+NSString *kEventNoStopMigrationNeeded = @"EventNoStopMigrationNeeded";
+NSString *kEventSuccessfulStopMigration = @"EventSuccessfulStopMigration";
+NSString *kEventPartialFailStopMigration = @"EventPartialFailStopMigration";
+NSString *kEventTotalFailStopMigration = @"EventTotalFailStopMigration";
+
 //User properties
 NSString *kUserPropertyIsProUser = @"is_pro_user";
 NSString *kUserPropertyHasAppleWatchPaired = @"has_apple_watch_paired";
@@ -137,36 +143,6 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     return manager;
 }
 
--(id)init{
-    self = [super init];
-    
-    if (self) {
-        @try {
-            /*
-            // Configure tracker from GoogleService-Info.plist.
-            NSError *configureError;
-            [[GGLContext sharedInstance] configureWithError:&configureError];
-            if (configureError) {
-                NSLog(@"Error configuring Google services: %@", configureError);
-                self.isEnabled = NO;
-            }
-            
-            // Optional: configure GAI options.
-            GAI *gai = [GAI sharedInstance];
-            gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-            */
-//            //Configure firebase tracking
-//            if (![FIRApp defaultApp]) //Make sure the default app is not already initialized
-//                [FIRApp configure];
-        }
-        @catch (NSException *exception) {
-            self.isEnabled = NO;
-        }
-    }
-    
-    return self;
-}
-
 -(BOOL)isEnabled{
     return [SettingsManager isAnalyticsEnabled];
 }
@@ -182,22 +158,12 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
 -(void)trackScreenViewForScreenName:(NSString *)screenName{
     if (self.isEnabled) {
         @try {
-            
             [FIRAnalytics logEventWithName:@"screen_view"
                                 parameters:@{ kFIRParameterItemName: screenName }];
-            /*
-            id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-            [tracker set:kGAIScreenName value:screenName];
-            [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-             */
         }
         @catch (NSException *exception) {}
     }
 }
-
-//-(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value{
-//    [self trackEventForEventCategory:kEventCategoryAppInstallation action:device label:version value:value];
-//}
 
 -(void)trackFeatureUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
     [self trackEventForEventName:action category:label value:value];
@@ -212,38 +178,18 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     [self trackEventForEventName:action category:label value:value];
 }
 
--(void)trackEventForEventName:(NSString *)name category:(NSString *)category value:(NSNumber *)value{
+-(void)trackEventForEventName:(NSString *)name category:(NSString *)category value:(NSNumber *)value {
     if (self.isEnabled) {
         @try {
             [FIRAnalytics logEventWithName:name
                                 parameters:@{
                                              kFIRParameterItemCategory: category ? category : @"",
-                                             kFIRParameterValue: value ? value : @0
+                                             kFIRParameterValue: value ? value : @1
                                              }];
             
         }
         @catch (NSException *exception) {}
     }
 }
-
-//-(void)trackEventForEventCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
-//    if (self.isEnabled) {
-//        @try {
-//            /*
-//            // May return nil if a tracker has not already been initialized with a property
-//            id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-//            
-//            if (!tracker)
-//                return;
-//            
-//            [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category       // Event category (required)
-//                                                                  action:action         // Event action (required)
-//                                                                   label:label          // Event label
-//                                                                   value:value] build]];// Event value
-//             */
-//        }
-//        @catch (NSException *exception) {}
-//    }
-//}
 
 @end

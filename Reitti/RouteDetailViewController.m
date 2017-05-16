@@ -2133,7 +2133,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 //            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
             
             StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
-            stopViewController.stopCode = stopCode;
+            stopViewController.stopGtfsId = stopCode;
             stopViewController.stopShortCode = stopShortCode;
             stopViewController.stopName = stopName;
             stopViewController.stopCoords = stopCoords;
@@ -2216,7 +2216,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Route Stop Preview" value:nil];
         
         StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
-        stopViewController.stopCode = stopCode;
+        stopViewController.stopGtfsId = stopCode;
         stopViewController.stopShortCode = stopShortCode;
         stopViewController.stopName = stopName;
         stopViewController.stopCoords = stopCoords;

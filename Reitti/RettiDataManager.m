@@ -735,51 +735,51 @@
     [self.communicationManager transferNamedBookmarks:namedBookmarkDictionaries];
 }
 
--(void)updateSourceApiForStops:(NSArray *)savedStops {
-    if (!savedStops || savedStops.count == 0) { return; }
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    for (StopEntity *stop in savedStops) {
-        dict[[stop.busStopCode stringValue]] = stop.fetchedFrom;
-    }
-    
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-    
-    [sharedDefaults setObject:dict forKey:kUserDefaultsStopSourceApiKey];
-    [sharedDefaults synchronize];
-}
+//-(void)updateSourceApiForStops:(NSArray *)savedStops {
+//    if (!savedStops || savedStops.count == 0) { return; }
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    for (StopEntity *stop in savedStops) {
+//        dict[[stop.busStopCode stringValue]] = stop.fetchedFrom;
+//    }
+//    
+//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
+//    
+//    [sharedDefaults setObject:dict forKey:kUserDefaultsStopSourceApiKey];
+//    [sharedDefaults synchronize];
+//}
 
--(void)updateSavedStopsToWatch:(NSArray *)savedStops {
-    NSMutableArray *stopsDictionaries = [@[] mutableCopy];
-    
-    for (StopEntity *stop in savedStops) {
-        [stopsDictionaries addObject:[stop dictionaryRepresentation]];
-    }
-    
-    [[WatchCommunicationManager sharedManager] transferSavedStops:stopsDictionaries];
-}
+//-(void)updateSavedStopsToWatch:(NSArray *)savedStops {
+//    NSMutableArray *stopsDictionaries = [@[] mutableCopy];
+//    
+//    for (StopEntity *stop in savedStops) {
+//        [stopsDictionaries addObject:[stop dictionaryRepresentation]];
+//    }
+//    
+//    [[WatchCommunicationManager sharedManager] transferSavedStops:stopsDictionaries];
+//}
 
--(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
-
-    NSString *codes = [[NSString alloc] init];
-    
-    BOOL firstElement = YES;
-    for (StopEntity *stop in savedStops) {
-        if (firstElement) {
-            codes = [NSString stringWithFormat:@"%d",[stop.busStopCode intValue]];
-            firstElement = NO;
-        }else{
-            codes = [NSString stringWithFormat:@"%@,%d",codes, [stop.busStopCode intValue]];
-        }
-    }
-
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-    
-    [sharedDefaults setObject:codes forKey:kUserDefaultsSavedStopsKey];
-    [sharedDefaults synchronize];
-    
-    [self updateSourceApiForStops:savedStops];
-    [self updateSavedStopsToWatch:savedStops];
-}
+//-(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
+//
+//    NSString *codes = [[NSString alloc] init];
+//    
+//    BOOL firstElement = YES;
+//    for (StopEntity *stop in savedStops) {
+//        if (firstElement) {
+//            codes = [NSString stringWithFormat:@"%d",[stop.busStopCode intValue]];
+//            firstElement = NO;
+//        }else{
+//            codes = [NSString stringWithFormat:@"%@,%d",codes, [stop.busStopCode intValue]];
+//        }
+//    }
+//
+//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
+//    
+//    [sharedDefaults setObject:codes forKey:kUserDefaultsSavedStopsKey];
+//    [sharedDefaults synchronize];
+//    
+//    [self updateSourceApiForStops:savedStops];
+//    [self updateSavedStopsToWatch:savedStops];
+//}
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     [self fetchAllSavedRouteCodesFromCoreData];

@@ -36,13 +36,14 @@
     
     //Do this outside the dispatch
     if (!sharedInstance.doneInitialTasks) {
+        sharedInstance.doneInitialTasks = YES;
+        
         [sharedInstance doMigrations];
         
         [sharedInstance stopsUpdated: NO];
         [sharedInstance fetchAllSavedStopCodesFromCoreData];
         [sharedInstance updateSavedStopsToICloud];
         [sharedInstance clearOldHistory];
-        sharedInstance.doneInitialTasks = YES;
     }
     
     return sharedInstance;
@@ -183,22 +184,22 @@
 }
 
 -(void)deleteAllSavedStop {
-    [self deleteStops:[self fetchAllSavedStopsFromCoreData]];
+    [self deleteSavedStops:[self fetchAllSavedStopsFromCoreData]];
 }
 
 -(void)deleteSavedStop:(StopEntity *)stop {
     if (!stop) return;
-    [self deleteStops:@[stop]];
+    [self deleteSavedStops:@[stop]];
 }
 
--(void)deleteStops:(NSArray *)stops {
+-(void)deleteSavedStops:(NSArray *)stops {
     if (!stops || stops.count < 1) return;
     
     [self deleteStopsFromICloud:stops];
     [super deleteManagedObjects:stops];
     
     NSMutableArray *deletedCodes = [@[] mutableCopy];
-    for (StopEntity *stop in stops) { [deletedCodes addObject:stop.stopGtfsId]; }
+    for (StopEntity *stop in stops) { [deletedCodes addObject:stop.stopGtfsId ? stop.stopGtfsId : @"NONE"]; }
     
     [allSavedStopCodes removeObjectsInArray:deletedCodes];
     [self stopsUpdated];
@@ -346,12 +347,11 @@
 
 -(void)migratePreGtfsIdStops {
     NSArray *allStops = [self fetchAllSavedStopsFromCoreData];
-    NSMutableArray *updated = [@[] mutableCopy];
+//    NSMutableArray *updated = [@[] mutableCopy];
     
     for (StopEntity *stop in allStops) {
         if (!stop.stopGtfsId) {
             stop.stopGtfsId = @"NONE";
-            [updated addObject:stop];
         }
     }
     

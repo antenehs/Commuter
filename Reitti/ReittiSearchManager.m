@@ -79,13 +79,13 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
     NSString *secondLineDesc = self.lineCodes ? [NSString stringWithFormat:@"Lines: %@", self.linesString] : @"Tap to view timetable";
     attrSet.contentDescription = [NSString stringWithFormat:@"Stop Code: %@ - %@ \n%@", self.busStopShortCode, self.busStopCity, secondLineDesc];
     attrSet.thumbnailData = UIImagePNGRepresentation([self imageForSpotlight]);
-    attrSet.keywords = @[self.busStopCity, self.busStopCode];
+    attrSet.keywords = @[self.busStopCity];
     
     return attrSet;
 }
 
 -(NSString *)uniqueIdentifier{
-    return [NSString stringWithFormat:@"%@%@%@", [StopEntity domainIdentifier], kUniqueIdentifierSeparator, [self.busStopCode stringValue]];
+    return [NSString stringWithFormat:@"%@%@%@", [StopEntity domainIdentifier], kUniqueIdentifierSeparator, self.stopGtfsId];
 }
 
 +(NSString *)domainIdentifier{
@@ -171,10 +171,12 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 -(void)updateSearchableIndexes{
     //Do this in a background thread
     @try {
+        NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[CSSearchableIndex defaultSearchableIndex] deleteAllSearchableItemsWithCompletionHandler:nil];
             [self indexNamedBookmarks];
-            [self indexSavedStops];
+            [self indexSavedStops:savedStops];
             [self indexSavedRoutes];
         });
     }
@@ -208,12 +210,10 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
     }];
 }
 
--(void)indexSavedStops{
+-(void)indexSavedStops: (NSArray *)savedStops {
     [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[StopEntity domainIdentifier]] completionHandler:^(NSError *error){
         if (!error) {
             NSMutableArray *searchableItems = [@[] mutableCopy];
-            
-            NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
             
             if (savedStops != nil && savedStops.count > 0) {
                 for (StopEntity *savedStop in savedStops) {

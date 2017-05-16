@@ -1513,7 +1513,7 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (void)configureStopViewController:(StopViewController *)stopViewController withStopEntity:(StopEntity *)stopEntity{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
-        stopViewController.stopCode = stopEntity.stopGtfsId;
+        stopViewController.stopGtfsId = stopEntity.stopGtfsId;
         stopViewController.stopShortCode = stopEntity.busStopShortCode;
         stopViewController.stopName = stopEntity.busStopName;
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords];

@@ -21,6 +21,7 @@
 
 -(void)deleteSavedStopForCode:(NSString *)code;
 -(void)deleteSavedStop:(StopEntity *)savedStop;
+-(void)deleteSavedStops:(NSArray *)stops;
 -(void)deleteAllSavedStop;
 
 -(NSArray *)fetchAllSavedStopsFromCoreData;

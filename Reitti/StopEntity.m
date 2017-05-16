@@ -91,6 +91,10 @@
     return self.isHistory ? [self.isHistory boolValue] : YES;
 }
 
+-(BOOL)isDigiTransitStop {
+    return ![self.stopGtfsId isEqualToString:@"NONE"];
+}
+
 -(NSString *)iconName {
     return [AppManager stopIconNameForStopType:self.stopType];
 }

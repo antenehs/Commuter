@@ -96,6 +96,12 @@ extern NSString *kActionChangedStartingTabOption;
 //9. Address Search View Controller
 extern NSString *kActionSelectedContactAddress;
 
+//10. Stop Migration
+extern NSString *kEventNoStopMigrationNeeded;
+extern NSString *kEventSuccessfulStopMigration;
+extern NSString *kEventPartialFailStopMigration;
+extern NSString *kEventTotalFailStopMigration;
+
 //User properties
 extern NSString *kUserPropertyIsProUser;
 extern NSString *kUserPropertyHasAppleWatchPaired;
@@ -122,15 +128,14 @@ extern NSString *kActionApiSearchFailed;
 @interface ReittiAnalyticsManager : NSObject
 
 +(id)sharedManager;
--(id)init;
 
 //Tracking
 -(void)trackUserProperty:(NSString *)userProperty value:(NSString *)value;
 -(void)trackScreenViewForScreenName:(NSString *)screenName;
-//-(void)trackAppInstallationWithDevice:(NSString *)device osversion:(NSString *)version value:(NSNumber *)value;
 -(void)trackFeatureUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;
 -(void)trackApiUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;
 -(void)trackErrorEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value;
+-(void)trackEventForEventName:(NSString *)name category:(NSString *)category value:(NSNumber *)value;
 
 @property (nonatomic, readonly)BOOL isEnabled;
 

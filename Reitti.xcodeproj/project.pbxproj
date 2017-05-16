@@ -510,6 +510,12 @@
 		66B601211D91C1370056B7FA /* finland-region.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 66B6011F1D91C1360056B7FA /* finland-region.geojson */; };
 		66B7AE891EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */; };
 		66B7AE8A1EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */; };
+		66B7AE901ECA54BE00B233E7 /* Migration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B7AE8F1ECA54BE00B233E7 /* Migration.storyboard */; };
+		66B7AE911ECA54BE00B233E7 /* Migration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B7AE8F1ECA54BE00B233E7 /* Migration.storyboard */; };
+		66B7AE941ECA58C300B233E7 /* MigrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE931ECA58C300B233E7 /* MigrationViewController.m */; };
+		66B7AE951ECA58C300B233E7 /* MigrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE931ECA58C300B233E7 /* MigrationViewController.m */; };
+		66B7AE981ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE971ECA674C00B233E7 /* DynamicHeightTableView.m */; };
+		66B7AE991ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7AE971ECA674C00B233E7 /* DynamicHeightTableView.m */; };
 		66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
 		66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		66BCA6EB1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA6EA1D71C3B40092C5BB /* RouteOptionManagerBase.m */; };
@@ -1755,6 +1761,11 @@
 		66B7AE851EC78D6600B233E7 /* Reitti 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 17.xcdatamodel"; sourceTree = "<group>"; };
 		66B7AE871EC79EDB00B233E7 /* StopCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopCoreDataManager.h; sourceTree = "<group>"; };
 		66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopCoreDataManager.m; sourceTree = "<group>"; };
+		66B7AE8F1ECA54BE00B233E7 /* Migration.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Migration.storyboard; sourceTree = "<group>"; };
+		66B7AE921ECA58C300B233E7 /* MigrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MigrationViewController.h; sourceTree = "<group>"; };
+		66B7AE931ECA58C300B233E7 /* MigrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MigrationViewController.m; sourceTree = "<group>"; };
+		66B7AE961ECA674C00B233E7 /* DynamicHeightTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicHeightTableView.h; sourceTree = "<group>"; };
+		66B7AE971ECA674C00B233E7 /* DynamicHeightTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicHeightTableView.m; sourceTree = "<group>"; };
 		66BCA37E1B2F0A2B00166530 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		66BCA3801B2F0A2B00166530 /* EnumManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EnumManager.h; path = ../EnumManager.h; sourceTree = "<group>"; };
@@ -2548,6 +2559,8 @@
 				663E1EBF1C95B17A00C5543A /* ICloudBookmarksViewController.m */,
 				665BA1B01CAF05EB0091C180 /* MainTabBarController.h */,
 				665BA1B11CAF05EB0091C180 /* MainTabBarController.m */,
+				66B7AE921ECA58C300B233E7 /* MigrationViewController.h */,
+				66B7AE931ECA58C300B233E7 /* MigrationViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -2795,6 +2808,8 @@
 				66026D9D1D6B622B00219AC6 /* AnnotationFilterView.h */,
 				66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */,
 				66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */,
+				66B7AE961ECA674C00B233E7 /* DynamicHeightTableView.h */,
+				66B7AE971ECA674C00B233E7 /* DynamicHeightTableView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3074,23 +3089,15 @@
 				664FA7EA198EB11900C6A5B0 /* Views */,
 				66CA02B51C1636A700A38858 /* Managers */,
 				661FAF21189BA57B00042074 /* Supporting Classes */,
-				66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */,
-				66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */,
-				66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */,
 				661FAF26189E8ACB00042074 /* Models */,
-				66947CC718830ED500642EE1 /* Main.storyboard */,
-				66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */,
-				66C735CA1C557127002544BC /* LaunchScreenPro.xib */,
 				661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */,
 				664BAED11D8ED2320070F15F /* Free Google services */,
 				664BAECC1D8ED1700070F15F /* Pro Google services */,
-				66A73FD618B645CF00405043 /* XIB */,
+				66B7AE8B1ECA53AE00B233E7 /* StoryBoards */,
 				66947CD018830ED500642EE1 /* Images.xcassets */,
 				66947CED1885D71F00642EE1 /* Pictures */,
 				66FDC9D11D83532F00F6288D /* Localization */,
 				66947CBC18830ED500642EE1 /* Supporting Files */,
-				669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */,
-				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
 			);
 			path = Reitti;
 			sourceTree = "<group>";
@@ -3102,10 +3109,15 @@
 				66947CBD18830ED500642EE1 /* Reitti-Info.plist */,
 				66947CBE18830ED500642EE1 /* InfoPlist.strings */,
 				66947CC118830ED500642EE1 /* main.m */,
+				66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */,
+				66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */,
+				66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */,
+				669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */,
 				66947CC318830ED500642EE1 /* Reitti-Prefix.pch */,
 				66B6011F1D91C1360056B7FA /* finland-region.geojson */,
 				667B98101AD3261100C45ADF /* AddressTypeList.plist */,
 				664749DA1AE59B3E0050137E /* versionInfo.html */,
+				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3167,13 +3179,6 @@
 				669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */,
 			);
 			name = "San Fransisco Font";
-			sourceTree = "<group>";
-		};
-		66A73FD618B645CF00405043 /* XIB */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = XIB;
 			sourceTree = "<group>";
 		};
 		66AF3ABA1B5596B200D6B645 /* Sounds */ = {
@@ -3243,6 +3248,17 @@
 				66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */,
 			);
 			name = "Core Data Managers";
+			sourceTree = "<group>";
+		};
+		66B7AE8B1ECA53AE00B233E7 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				66947CC718830ED500642EE1 /* Main.storyboard */,
+				66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */,
+				66C735CA1C557127002544BC /* LaunchScreenPro.xib */,
+				66B7AE8F1ECA54BE00B233E7 /* Migration.storyboard */,
+			);
+			name = StoryBoards;
 			sourceTree = "<group>";
 		};
 		66CA02B01C16360800A38858 /* HSL */ = {
@@ -4144,6 +4160,7 @@
 				660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				663207051D27D25900D8A46D /* AddressTypes.xcassets in Resources */,
 				66160F061C580577005617CE /* Cool-96.png in Resources */,
+				66B7AE901ECA54BE00B233E7 /* Migration.storyboard in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
@@ -4302,6 +4319,7 @@
 				66C734C61C556DA5002544BC /* Vibration sound.mp3 in Resources */,
 				66C734D11C556DA5002544BC /* AddressTypeList.plist in Resources */,
 				66C734E91C556DA5002544BC /* renameCardJS.js in Resources */,
+				66B7AE911ECA54BE00B233E7 /* Migration.storyboard in Resources */,
 				66C734EB1C556DA5002544BC /* Main.storyboard in Resources */,
 				66C734F11C556DA5002544BC /* NotificationBackgroundSuccess.png in Resources */,
 				66C734F61C556DA5002544BC /* NotificationBackgroundSuccess@2x.png in Resources */,
@@ -4832,6 +4850,7 @@
 				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
 				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
+				66B7AE981ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
 				6618311F1C0DE1FF00DA979E /* NSDate+SAMAdditions.m in Sources */,
 				660716001B45CD2C00033049 /* TravelCard.m in Sources */,
@@ -4929,6 +4948,7 @@
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
 				66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */,
+				66B7AE941ECA58C300B233E7 /* MigrationViewController.m in Sources */,
 				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66026D8A1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
@@ -5109,6 +5129,7 @@
 				66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */,
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
 				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
+				66B7AE991ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				66C732EC1C556DA5002544BC /* DetailImageView.m in Sources */,
 				66C732ED1C556DA5002544BC /* NSDate+SAMAdditions.m in Sources */,
 				66C732EE1C556DA5002544BC /* TravelCard.m in Sources */,
@@ -5206,6 +5227,7 @@
 				66C733301C556DA5002544BC /* RouteHistoryEntity.m in Sources */,
 				66C733311C556DA5002544BC /* SettingsEntity.m in Sources */,
 				66C733321C556DA5002544BC /* HTMLEncoding.m in Sources */,
+				66B7AE951ECA58C300B233E7 /* MigrationViewController.m in Sources */,
 				66C733331C556DA5002544BC /* UIERealTimeBlurView.m in Sources */,
 				66026D8B1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */,

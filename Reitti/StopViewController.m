@@ -45,7 +45,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 @synthesize modalMode;
 @synthesize departures, _busStop, stopEntity;
 @synthesize reittiDataManager, settingsManager, reittiReminderManager;
-@synthesize stopCode, stopShortCode, stopName, stopCoords;
+@synthesize stopGtfsId, stopShortCode, stopName, stopCoords;
 @synthesize managedObjectContext;
 @synthesize backButtonText;
 @synthesize delegate;
@@ -96,7 +96,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     [self initNotifications];
     
-    [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
+    [self requestStopInfoAsyncForCode:stopGtfsId andCoords:stopCoords];
     
     [self setUpMainView];
     
@@ -185,7 +185,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     @try { //Number conversions could be problematic
 //        NSNumber *codeNumber = [NSNumber numberWithInteger:[self.stopCode integerValue]];
-        if ([[StopCoreDataManager sharedManager] isBusStopSavedWithCode:self.stopCode]) {
+        if ([[StopCoreDataManager sharedManager] isBusStopSavedWithCode:self.stopGtfsId]) {
             [self setStopBookmarkedState];
         }else{
             [self setStopNotBookmarkedState];
@@ -320,7 +320,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         if (buttonIndex == 0) {
             
             [self setStopNotBookmarkedState];
-            NSString *code = self._busStop ? self._busStop.gtfsId : self.stopCode;
+            NSString *code = self._busStop ? self._busStop.gtfsId : self.stopGtfsId;
             [[StopCoreDataManager sharedManager] deleteSavedStopForCode:code];
             [delegate deletedSavedStop:self.stopEntity];
         }
@@ -372,15 +372,14 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     return YES;
 }
 
--(void)plotStopAnnotation{
-  
-//    CLLocationCoordinate2D coordinate = stopCoords;
+-(void)plotStopAnnotation {
+    [mapView removeAnnotations:mapView.annotations];
     
-    NSString * name = stopCode;
-    NSString * shortCode = stopCode;
+    NSString * name = stopGtfsId;
+    NSString * shortCode = stopGtfsId;
     
     StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords];
-    newAnnotation.code = stopCode;
+    newAnnotation.code = stopGtfsId;
     
     [mapView addAnnotation:newAnnotation];
     
@@ -390,22 +389,17 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     static NSString *selectedIdentifier = @"selectedLocation";
     if ([annotation isKindOfClass:[StopAnnotation class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
-        if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
-            annotationView.enabled = YES;
-            StaticStop *sStop = [[CacheManager sharedManager] getStopForCode:stopCode];
-            if (sStop != nil) {
-                annotationView.image = [AppManager stopAnnotationImageForStopType:sStop.reittiStopType];
-            }else{
-                annotationView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
-            }
-            
-            [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
-            annotationView.centerOffset = CGPointMake(0,-21);
-            
-        } else {
-            annotationView.annotation = annotation;
+        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
+        annotationView.enabled = YES;
+        //            StaticStop *sStop = [[CacheManager sharedManager] getStopForCode:stopGtfsId];
+        if (_busStop) {
+            annotationView.image = [AppManager stopAnnotationImageForStopType:_busStop.stopType];
+        }else{
+            annotationView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
         }
+        
+        [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
+        annotationView.centerOffset = CGPointMake(0,-21);
         
         return annotationView;
     }
@@ -433,7 +427,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 - (void)updateDepartures:(id)userData {
-    [self requestStopInfoAsyncForCode:stopCode andCoords:stopCoords];
+    [self requestStopInfoAsyncForCode:stopGtfsId andCoords:stopCoords];
 }
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{

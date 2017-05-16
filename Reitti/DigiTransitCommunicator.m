@@ -159,8 +159,6 @@ typedef enum : NSUInteger {
 }
 
 -(NSString *)stopGraphQlQueryForArguments:(NSDictionary *)arguments {
-    //    return [NSString stringWithFormat:@"{ stops(name: \"%@\") { name,code,gtfsId,url,platformCode,lat,lon,routes {shortName,longName,type},stoptimesWithoutPatterns (numberOfDepartures: 20){scheduledDeparture,realtimeDeparture,realtimeState,realtime,serviceDay,trip {route {shortName,longName, type},tripHeadsign}}}}", name];
-    
     return [GraphQLQuery stopQueryStringWithArguments:arguments];
 }
 

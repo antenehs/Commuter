@@ -17,5 +17,5 @@
 +(id)finlandDigiTransitCommunicator;
 
 -(void)fetchDeparturesForStopName:(NSString *)name withCompletionHandler:(ActionBlock)completionBlock;
-
+-(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock;
 @end

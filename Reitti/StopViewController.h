@@ -87,7 +87,7 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
 @property (strong, nonatomic) BusStop * _busStop;
 @property (strong, nonatomic) StopEntity * stopEntity;
 
-@property (strong, nonatomic) NSString * stopCode;
+@property (strong, nonatomic) NSString * stopGtfsId;
 @property (strong, nonatomic) NSString * stopShortCode;
 @property (strong, nonatomic) NSString * stopName;
 @property (nonatomic) CLLocationCoordinate2D stopCoords;
