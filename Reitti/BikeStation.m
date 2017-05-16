@@ -23,26 +23,6 @@
     return station;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    RKObjectMapping* stationMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];
-    [stationMapping addAttributeMappingsFromDictionary:@{
-                                                      @"id" : @"stationId",
-                                                      @"name" : @"name",
-                                                      @"x"     : @"xCoord",
-                                                      @"y" : @"yCoord",
-                                                      @"bikesAvailable" : @"bikesAvailable",
-                                                      @"spacesAvailable" : @"spacesAvailable",
-                                                      @"allowDropoff" : @"allowDropoff",
-                                                      @"realTimeData" : @"realTimeData",
-                                                      }];
-    
-    return [RKResponseDescriptor responseDescriptorWithMapping:stationMapping
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
 -(CLLocationCoordinate2D)coordinates {
     if (self.xCoord && self.yCoord) {
         return [ReittiStringFormatter convertStringTo2DCoord:[NSString stringWithFormat:@"%@,%@", self.xCoord, self.yCoord]];
@@ -112,5 +92,57 @@
         return FullAvailability;
     }
 }
+
+#pragma mark - object mapping - XML API
+
++(RKResponseDescriptor *)xmlApiResponseDiscriptorForPath:(NSString *)path {
+    RKObjectMapping* stationMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];
+    [stationMapping addAttributeMappingsFromDictionary:@{
+                                                         @"id" : @"stationId",
+                                                         @"name" : @"name",
+                                                         @"x"     : @"xCoord",
+                                                         @"y" : @"yCoord",
+                                                         @"bikesAvailable" : @"bikesAvailable",
+                                                         @"spacesAvailable" : @"spacesAvailable",
+                                                         @"allowDropoff" : @"allowDropoff",
+                                                         @"realTimeData" : @"realTimeData",
+                                                         }];
+    
+    return [RKResponseDescriptor responseDescriptorWithMapping:stationMapping
+                                                        method:RKRequestMethodAny
+                                                   pathPattern:nil
+                                                       keyPath:path
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+#pragma mark - object mapping - GraphQl API
++(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[BikeStation objectMapping]
+                                                        method:RKRequestMethodAny
+                                                   pathPattern:nil
+                                                       keyPath:path
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++(RKObjectMapping *)objectMapping {
+    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];
+    [stopMapping addAttributeMappingsFromDictionary:[BikeStation mappingDictionary]];
+    
+    return stopMapping;
+}
+
++(NSDictionary *)mappingDictionary {
+    return @{
+             @"stationId"       : @"stationId",
+             @"name"            : @"name",
+             @"lon"             : @"xCoord",
+             @"lat"             : @"yCoord",
+             @"bikesAvailable"  : @"bikesAvailable",
+             @"spacesAvailable" : @"spacesAvailable",
+             @"allowDropoff"    : @"allowDropoff",
+             @"realtime"        : @"realTimeData",
+             };
+}
+
 
 @end

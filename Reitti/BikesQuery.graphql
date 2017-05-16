@@ -1,0 +1,7 @@
+{
+    bikeRentalStations {
+
+        [*BIKES_FRAGMENT*]
+
+    }
+}

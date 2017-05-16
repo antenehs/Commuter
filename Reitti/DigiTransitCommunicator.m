@@ -13,6 +13,7 @@
 #import "ReittiDateHelper.h"
 #import "GraphQLQuery.h"
 #import "ReittiModels.h"
+#import "BikeStation.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
@@ -37,6 +38,9 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) APIClient *addressReverseClient;
 
 @property (nonatomic, strong) NSDictionary *searchFilterBoundary;
+
+@property (nonatomic) ActionBlock bikeFetchingCompletionHandler;
+@property (nonatomic, strong)NSTimer *bikeFetchUpdateTimer;
 
 @end
 
@@ -362,5 +366,47 @@ typedef enum : NSUInteger {
         }
     }];
 }
+
+#pragma mark - Bike station fetch
+-(void)startFetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
+    if (self.source != HslApi) {
+        completion(nil, @"City bike not available in area.");
+        self.bikeFetchingCompletionHandler = nil;
+        return;
+    }
+    [self fetchBikeStationsWithCompletionHandler:completion];
+    self.bikeFetchingCompletionHandler = completion;
+    self.bikeFetchUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(updateBikeStations) userInfo:nil repeats:YES];
+}
+
+-(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
+    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] responseDiscriptor:[BikeStation responseDiscriptorForPath:@"data.bikeRentalStations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+        completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
+    }];
+}
+
+-(void)updateBikeStations {
+    if (self.bikeFetchingCompletionHandler && self.source != HslApi) {
+        [self fetchBikeStationsWithCompletionHandler:self.bikeFetchingCompletionHandler];
+    }
+}
+
+-(void)stopFetchingBikeStations {
+    self.bikeFetchingCompletionHandler = nil;
+    [self.bikeFetchUpdateTimer invalidate];
+}
+
+-(NSString *)formattedBikeStationFetchErrorMessageForError:(NSError *)error{
+    if(!error) return nil;
+    if (error.code == -1009) {
+        return @"Internet connection appears to be offline.";
+    }else if (error.code == -1001) {
+        return @"Connection to the data provider could not be established. Please try again later.";
+    }else{
+        return @"Unknown Error Occured.";
+    }
+}
+
+
 
 @end

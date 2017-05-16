@@ -10,7 +10,7 @@
 #import "ApiProtocols.h"
 #import "APIClient.h"
 
-@interface DigiTransitCommunicator : APIClient <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol>
+@interface DigiTransitCommunicator : APIClient <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol, BikeStationFetchProtocol>
 
 +(id)hslDigiTransitCommunicator;
 +(id)treDigiTransitCommunicator;

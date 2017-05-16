@@ -41,7 +41,6 @@ typedef enum
 
 +(id)bikeStationFromLegLocation:(RouteLegLocation *)location;
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
 -(BOOL)isValid;
 
 @property (nonatomic, strong)NSString *stationId;
@@ -59,5 +58,11 @@ typedef enum
 @property (nonatomic)CLLocationDistance distance;
 @property (nonatomic)Availability bikeAvailability;
 @property (nonatomic)Availability spaceAvailability;
+
++(RKResponseDescriptor *)xmlApiResponseDiscriptorForPath:(NSString *)path;
+
++(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
++(RKObjectMapping *)objectMapping;
++(NSDictionary *)mappingDictionary;
 
 @end

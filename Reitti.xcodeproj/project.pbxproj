@@ -238,6 +238,10 @@
 		664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28B21AE2FD4500BE2457 /* SettingsManager.m */; };
 		664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
 		664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664FA7EE198EBC5E00C6A5B0 /* CommandView.m */; };
+		664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
+		664FE8B31ECBB20D00C3C0B5 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
+		664FE8B41ECBB58E00C3C0B5 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
+		664FE8B51ECBB59100C3C0B5 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
 		665885B51B0B9EA30044F514 /* HslLiveCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */; };
 		665885BE1B11172E0044F514 /* StopLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885BB1B11172E0044F514 /* StopLines.m */; };
 		665885C51B1121000044F514 /* NearByStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885C41B1121000044F514 /* NearByStop.m */; };
@@ -1512,6 +1516,8 @@
 		664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoutePreviewView.xib; sourceTree = "<group>"; };
 		664FA7ED198EBC5E00C6A5B0 /* CommandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandView.h; sourceTree = "<group>"; };
 		664FA7EE198EBC5E00C6A5B0 /* CommandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandView.m; sourceTree = "<group>"; };
+		664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BikesQuery.graphql; sourceTree = "<group>"; };
+		664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BikesQueryFragment.graphql; sourceTree = "<group>"; };
 		665885B31B0B9EA30044F514 /* HslLiveCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HslLiveCommunicator.h; sourceTree = "<group>"; };
 		665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HslLiveCommunicator.m; sourceTree = "<group>"; };
 		665885BA1B11172E0044F514 /* StopLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopLines.h; sourceTree = "<group>"; };
@@ -3629,6 +3635,8 @@
 				6605796D1E11D49100F3559E /* RouteQuery.graphql */,
 				660579741E11D51700F3559E /* RouteQueryFullFragment.graphql */,
 				660579751E11D51700F3559E /* RouteQueryShortFragment.graphql */,
+				664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */,
+				664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */,
 			);
 			name = GraphQLQueries;
 			sourceTree = "<group>";
@@ -4155,6 +4163,7 @@
 				66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */,
 				6603A8F51CCFFF2100991FBF /* HSLRegion.kml in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
+				664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */,
 				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
 				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
 				660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
@@ -4195,6 +4204,7 @@
 				660716171B49CBFA00033049 /* logoutJS.js in Resources */,
 				66B391A01D206CE100C500CC /* OlderImages.xcassets in Resources */,
 				660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */,
+				664FE8B31ECBB20D00C3C0B5 /* BikesQueryFragment.graphql in Resources */,
 				66F099841AE8075D00F20D34 /* NotificationBackgroundErrorIcon.png in Resources */,
 				663E1EFC1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */,
 				666BC1D71B5C259700889DD2 /* Wheels on the bus.mp3 in Resources */,
@@ -4239,6 +4249,7 @@
 				66C733A11C556DA5002544BC /* Time to go 4.mp3 in Resources */,
 				66EB0D531DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				66C733AD1C556DA5002544BC /* changeToFullVersionJS.js in Resources */,
+				664FE8B51ECBB59100C3C0B5 /* BikesQueryFragment.graphql in Resources */,
 				66C733B51C556DA5002544BC /* NotificationButtonBackground@2x.png in Resources */,
 				66FDC9E21D83566900F6288D /* Localizable.strings in Resources */,
 				66C733B61C556DA5002544BC /* NotificationBackgroundErrorIcon@2x.png in Resources */,
@@ -4292,6 +4303,7 @@
 				66C734671C556DA5002544BC /* NotificationBackgroundWarning.png in Resources */,
 				663E1EE01C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
 				66C7346D1C556DA5002544BC /* NotificationBackgroundWarningIcon.png in Resources */,
+				664FE8B41ECBB58E00C3C0B5 /* BikesQuery.graphql in Resources */,
 				66B391A11D206CE100C500CC /* OlderImages.xcassets in Resources */,
 				66C734761C556DA5002544BC /* NotificationBackgroundError@2x.png in Resources */,
 				6603A8F41CCFFF2100991FBF /* TRERegion.kml in Resources */,

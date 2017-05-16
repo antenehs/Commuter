@@ -76,14 +76,32 @@
     return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*ROUTE_FRAGMENT*]" withString:routeFragment];
 }
 
+#pragma mark - Bikes graphql
++(NSString *)bikeStationsQueryString {
+    NSString *queryString = [GraphQLQuery queryStringForType:GraphQLQueryTypeBikeStation andArguments:nil];
+    NSString *stopFragment = [GraphQLQuery bikeStationFragment];
+    
+    return [queryString stringByReplacingOccurrencesOfString:@"[*BIKES_FRAGMENT*]" withString:stopFragment];
+}
+
++(NSString *)bikeStationFragment {
+    NSString *stopFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeBikeStation]];
+    
+    return stopFragment;
+}
+
 #pragma mark - Helpers
 
 +(NSString *)queryStringForType:(GraphQLQueryType)type andArguments:(NSDictionary *)arguments {
     NSString *templateQuery = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryTemplateFileNameForType:type]];
     
-    NSString *argumentsString = [GraphQLQuery formatArgumentsFromDictionary:arguments];
-    
-    return [templateQuery stringByReplacingOccurrencesOfString:@"[*ARGUMENTS*]" withString:argumentsString];
+    if (arguments) {
+        NSString *argumentsString = [GraphQLQuery formatArgumentsFromDictionary:arguments];
+        
+        return [templateQuery stringByReplacingOccurrencesOfString:@"[*ARGUMENTS*]" withString:argumentsString];
+    } else {
+        return templateQuery;
+    }
     
 }
 
@@ -103,6 +121,8 @@
             return @"RouteQuery";
         case GraphQLQueryTypeRouteShort:
             return @"RouteQuery";
+        case GraphQLQueryTypeBikeStation:
+            return @"BikesQuery";
         default:
             return nil;
     }
@@ -124,6 +144,8 @@
             return @"RouteQueryFullFragment";
         case GraphQLQueryTypeRouteShort:
             return @"RouteQueryShortFragment";
+        case GraphQLQueryTypeBikeStation:
+            return @"BikesQueryFragment";
         default:
             return nil;
     }

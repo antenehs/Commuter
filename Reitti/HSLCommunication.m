@@ -364,7 +364,7 @@
 }
 
 -(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
-    [self.bikeStationApi doXmlApiFetchWithParams:nil responseDescriptor:[BikeStation responseDiscriptorForPath:@"stations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+    [self.bikeStationApi doXmlApiFetchWithParams:nil responseDescriptor:[BikeStation xmlApiResponseDiscriptorForPath:@"stations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
         completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
     }];
 }
@@ -390,6 +390,7 @@
     }
 }
 
+#pragma mark - annotation filter
 -(NSArray *)annotationFilterOptions {
     return @[[AnnotationFilterOption optionForBusStop],
              [AnnotationFilterOption optionForTramStop],

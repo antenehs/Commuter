@@ -16,7 +16,8 @@ typedef enum {
     GraphQLQueryTypeStopsInArea = 3,
     GraphQLQueryTypePlan = 4,
     GraphQLQueryTypeRoute = 5,
-    GraphQLQueryTypeRouteShort = 6
+    GraphQLQueryTypeRouteShort = 6,
+    GraphQLQueryTypeBikeStation = 7
 } GraphQLQueryType;
 
 @interface GraphQLQuery : NSObject
@@ -30,6 +31,7 @@ typedef enum {
 +(NSString *)planQueryStringWithArguments:(NSDictionary *)arguments;
 +(NSString *)routeQueryStringWithArguments:(NSDictionary *)arguments;
 +(NSString *)shortRouteQueryStringWithArguments:(NSDictionary *)arguments;
++(NSString *)bikeStationsQueryString;
 
 //+(NSString *)queryStringForType:(GraphQLQueryType)type andArguments:(NSDictionary *)arguments;
 
