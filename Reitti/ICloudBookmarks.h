@@ -18,6 +18,7 @@ extern NSString *kNamedBookmarkFullAddress;
 extern NSString *kNamedBookmarkName;
 
 //Saved stopentity
+extern NSString *kStopGtfsId;
 extern NSString *kStopNumber;
 extern NSString *kStopShortCode;
 extern NSString *kStopName;

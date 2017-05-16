@@ -22,10 +22,6 @@
 
 @implementation StopTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
 #pragma mark - view Settup
 -(void)setupFromICloudRecord:(CKRecord *)record{
     self.iCloudRecord = record;
@@ -39,7 +35,7 @@
     } else {
         self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", record[kStopShortCode]];
     }
-    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
+//    self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", record[kStopShortCode], record[kStopCity]];
 }
 
 -(void)setupFromStopEntity:(StopEntity *)stopEntity{

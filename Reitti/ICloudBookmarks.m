@@ -20,6 +20,7 @@ NSString *kNamedBookmarkFullAddress = @"FullAddress";
 NSString *kNamedBookmarkName = @"name";
 
 //Stop
+NSString *kStopGtfsId = @"StopGtfsId";
 NSString *kStopNumber = @"StopNumber";
 NSString *kStopShortCode = @"StopShortCode";
 NSString *kStopName = @"StopName";
@@ -53,7 +54,7 @@ NSString *kRouteToCoords = @"kRouteToCoords";
     
     [filteredArray addObjectsFromArray:[self.allSavedStops filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
         CKRecord *record = (CKRecord *)object;
-        return record ? ![stopIds containsObject:record[kStopNumber]] : NO;
+        return record ? ![stopIds containsObject:record[kStopGtfsId]] : NO;
     }]]];
     
     NSArray *routeIds = [self routeIds:savedRoutes];
@@ -93,7 +94,7 @@ NSString *kRouteToCoords = @"kRouteToCoords";
     
     NSMutableArray *ids = [@[] mutableCopy];
     for (StopEntity *stop in stops) {
-        [ids addObject:stop.busStopCode];
+        [ids addObject:stop.stopGtfsId];
     }
     
     return ids;

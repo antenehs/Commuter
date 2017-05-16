@@ -241,14 +241,14 @@
 }
 
 - (void)saveStopFromRecord:(CKRecord *)record withCompletionHandler:(ActionBlock)completionHandler {
-    if (!record || !record[kStopNumber]) return;
+    if (!record || !record[kStopGtfsId]) return;
     
-    NSNumber *stopCode = record[kStopNumber];
+    NSString *stopCode = record[kStopGtfsId];
     CLLocation *locaiton = record[kStopCoordinate];
     NSNumber *fetchedFromNumber = record[kStopFetchedFrom];
     
     RTStopSearchParam *searchParam = [RTStopSearchParam new];
-    searchParam.longCode = [NSString stringWithFormat:@"%d", [stopCode intValue]];
+    searchParam.longCode = stopCode;
     
     if (fetchedFromNumber) {
         ReittiApi fetchedFrom = (ReittiApi)[fetchedFromNumber intValue];

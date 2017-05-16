@@ -63,7 +63,7 @@ NSString *SavedRouteType = @"SavedRoute";
     
     CKRecordID *recordId = [StopEntity recordIdForStopEntity:self];
     CKRecord *record = [[CKRecord alloc] initWithRecordType:SavedStopType recordID:recordId];
-    record[kStopNumber] = self.busStopCode;
+    record[kStopGtfsId] = self.stopGtfsId;
     record[kStopShortCode] = self.busStopShortCode;
     record[kStopName] = self.busStopName;
     record[kStopCity] = self.busStopCity;
@@ -78,7 +78,7 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 +(CKRecordID *)recordIdForStopEntity:(StopEntity *)stop {
-    NSString *uniqueName = [NSString stringWithFormat:@"%ld - %@", (long)stop.busStopCode.integerValue , [SettingsManager uniqueDeviceIdentifier]];
+    NSString *uniqueName = [NSString stringWithFormat:@"%@ - %@", stop.stopGtfsId , [SettingsManager uniqueDeviceIdentifier]];
     return [[CKRecordID alloc] initWithRecordName:uniqueName];
 }
 

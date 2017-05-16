@@ -1623,7 +1623,7 @@ typedef enum
 - (NSMutableArray *)arrayByRemovingDuplicatesInHistory:(NSMutableArray *)array{
     
     for (StopEntity *stop in self.savedStops) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"busStopCode == %@", stop.busStopCode];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"stopGtfsId == %@", stop.stopGtfsId];
         NSArray *filteredArray = [self.recentStops filteredArrayUsingPredicate:predicate];
         id firstFoundObject = nil;
         firstFoundObject =  filteredArray.count > 0 ? filteredArray.firstObject : nil;

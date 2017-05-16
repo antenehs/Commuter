@@ -274,16 +274,4 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
     return sameLat && sameName && sameShortCode;
 }
 
--(NSString *)possibleGtfsIdForStopEntity:(StopEntity *)stopEntity {
-    if (stopEntity.isDigiTransitStop || !stopEntity.busStopCode) return nil;
-    
-    if (stopEntity.fetchedFromApi == ReittiTREApi) {
-        return [NSString stringWithFormat:@"JOLI:%@", stopEntity.busStopShortCode];
-    } else if (stopEntity.fetchedFromApi == ReittiMatkaApi){
-        return [NSString stringWithFormat:@"MATKA:%@", stopEntity.busStopShortCode];
-    } else {
-        return [NSString stringWithFormat:@"HSL:%d", [stopEntity.busStopCode intValue]];
-    }
-}
-
 @end

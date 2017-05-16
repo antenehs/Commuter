@@ -541,8 +541,7 @@ const NSInteger kTimerRefreshInterval = 60;
     return self.dataToLoad.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"emptyCell"];
@@ -602,7 +601,7 @@ const NSInteger kTimerRefreshInterval = 60;
                 dateLabel.hidden = YES;
                 if ([self isthereValidDetailForStop:[self.dataToLoad objectAtIndex:dataIndex]] && self.showStopDepartures) {
                     collectionView.hidden = NO;
-                    collectionView.restorationIdentifier = [NSString stringWithFormat:@"%li", (long)indexPath.row, nil];
+                    collectionView.restorationIdentifier = stopEntity.stopGtfsId;
                     collectionView.backgroundColor = [UIColor clearColor];
                     
                     collectionView.userInteractionEnabled = NO;
@@ -964,9 +963,10 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView.restorationIdentifier) {
-        int row = [collectionView.restorationIdentifier intValue];
-        if ([self isthereValidDetailForStop:self.savedStops[row]]) {
-            BusStop *stop = [self getDetailStopForBusStop:self.savedStops[row]];
+        StopEntity *savedStop = [self savedStopForGtfsId:collectionView.restorationIdentifier];
+        
+        if ([self isthereValidDetailForStop:savedStop]) {
+            BusStop *stop = [self getDetailStopForBusStop:savedStop];
             return stop.departures ? stop.departures.count : 0;
         }
     }
@@ -977,9 +977,9 @@ const NSInteger kTimerRefreshInterval = 60;
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"departureCollectionCell" forIndexPath:indexPath];
-    int row = [collectionView.restorationIdentifier intValue];
     
-    BusStop *stop = [self getDetailStopForBusStop:self.savedStops[row]];
+    StopEntity *savedStop = [self savedStopForGtfsId:collectionView.restorationIdentifier];
+    BusStop *stop = [self getDetailStopForBusStop:savedStop];
     
     StopDeparture *departure = stop.departures[indexPath.row];
     
@@ -1147,6 +1147,14 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 #pragma mark - stop detail handling
+-(StopEntity *)savedStopForGtfsId:(NSString *)gtfsId {
+    if (!gtfsId) return nil;
+    for (StopEntity *stop in savedStops) {
+        if ([stop.stopGtfsId isEqualToString:gtfsId]) return stop;
+    }
+    
+    return nil;
+}
 -(BOOL)showStopDepartures {
     return [SettingsManager showBookmarkDepartures] && !self.tableView.isEditing;
 }
@@ -1174,7 +1182,7 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 - (BOOL)isthereValidDetailForStop:(StopEntity *)stopEntity{
-    
+    if (!stopEntity) return NO;
     @try {
         BusStop *detailStop = [self getDetailStopForBusStop:stopEntity];
         
