@@ -172,6 +172,12 @@ Expected format @"YYYYMMdd" and @"HHmm"
     return [self.dateFormatter stringFromDate:date];
 }
 
+-(NSString *)formatFullDateString:(NSDate *)date {
+    NSDateFormatter *formatter = self.fullDateFormatter;
+    [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];
+    return [formatter stringFromDate:date];
+}
+
 -(NSString *)formatHoursOrFullDateIfNotToday:(NSDate *)date {
     NSDateFormatter *formatter = [ReittiDateHelper isSameDateAsToday:date] ? self.hourAndMinFormatter : self.fullDateFormatter;
     [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"fi_FI"]];

@@ -1,0 +1,14 @@
+id,
+alertDescriptionText,
+alertDescriptionTextTranslations {
+    text
+    language
+},
+effectiveStartDate,
+effectiveEndDate,
+route {
+    [*SHORT_ROUTE_FRAGMENT*]
+},
+agency {
+    id
+}

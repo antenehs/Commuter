@@ -6,24 +6,14 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
-#import "DisruptionText.h"
+#import "DigiAlertText.h"
 
-@implementation DisruptionText
+@implementation DigiAlertText
 
 @synthesize text, language;
 
-+(instancetype)disruptionTextFromDigiAlertText:(DigiAlertText *)digiAlertText {
-    DisruptionText *text = [DisruptionText new];
-    
-    text.text = digiAlertText.text;
-    text.language = digiAlertText.language;
-    
-    return text;
-}
-
-#pragma mark - object mapping
 +(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DisruptionText objectMapping]
+    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiAlertText objectMapping]
                                                         method:RKRequestMethodAny
                                                    pathPattern:nil
                                                        keyPath:path
@@ -31,10 +21,10 @@
 }
 
 +(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[DisruptionText class] ];
-    [stopMapping addAttributeMappingsFromDictionary:[DisruptionText mappingDictionary]];
+    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:[DigiAlertText class] ];
+    [mapping addAttributeMappingsFromDictionary:[DigiAlertText mappingDictionary]];
     
-    return stopMapping;
+    return mapping;
 }
 
 +(NSDictionary *)mappingDictionary {

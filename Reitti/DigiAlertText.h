@@ -8,11 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
-#import "DigiAlertText.h"
 
-@interface DisruptionText : NSObject
-
-+(instancetype)disruptionTextFromDigiAlertText:(DigiAlertText *)digiAlertText;
+@interface DigiAlertText : NSObject
 
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *language;

@@ -16,6 +16,12 @@ NSString *kSwidishEstimatedTimeText = @"Beräknad tid:";
 NSString *kEnglishCauseText = @"Cause:";
 NSString *kEnglishEstimatedTimeText = @"Estimated time:";
 
+@interface Disruption ()
+
+@property (nonatomic, retain) NSArray * disruptionLineNames;
+
+@end
+
 @implementation Disruption
 
 @synthesize disruptionId;
@@ -88,7 +94,17 @@ NSString *kEnglishEstimatedTimeText = @"Estimated time:";
     
     NSString *formattedText = [text stringByReplacingOccurrencesOfString:causeString withString:[NSString stringWithFormat:@"\n\n%@", causeString]];
     BOOL containsCause = [text containsString:causeString];
-    formattedText = [formattedText stringByReplacingOccurrencesOfString:timeString withString:[NSString stringWithFormat:@"%@%@", containsCause ? @"\n" :  @"\n\n", timeString]];
+    BOOL containsTime = [text containsString:timeString];
+    
+    if (containsTime) {
+        formattedText = [formattedText stringByReplacingOccurrencesOfString:timeString withString:[NSString stringWithFormat:@"%@%@", containsCause ? @"\n" :  @"\n\n", timeString]];
+    } else if (self.parsedEndDate) {
+        NSString *dateString = [[ReittiDateHelper sharedFormatter] formatFullDateString:self.parsedEndDate];
+        if (dateString) {
+            NSString *estimatedTime = [NSString stringWithFormat:@"%@ %@", timeString, dateString];
+            formattedText = [NSString stringWithFormat:@"%@%@%@",formattedText, containsCause ? @"\n" :  @"\n\n", estimatedTime];
+        }
+    }
     
     UIFont *highlightedFont = [UIFont systemFontOfSize:font.pointSize weight:UIFontWeightMedium];
     
@@ -139,5 +155,43 @@ NSString *kEnglishEstimatedTimeText = @"Estimated time:";
     
     return _disruptionLineNames;
 }
+
+#pragma mark - Init from other classes
+
++(instancetype)disruptionFromDigiAlert:(DigiAlert *)digiAlert {
+    Disruption *disruption = [Disruption new];
+    
+    disruption.disruptionId = digiAlert.alertId;
+    disruption.disruptionType = @0;
+    disruption.disruptionSource = digiAlert.agency;
+    //TODO: Makes use of digi's time
+    disruption.disruptionStartTime = [digiAlert.effectiveStartDate stringValue];
+    disruption.disruptionEndTime = [digiAlert.effectiveEndDate stringValue];
+    disruption.parsedEndDate = digiAlert.parsedEndDate;
+    
+    NSMutableArray *lines = [@[] mutableCopy];
+    if (digiAlert.alertRoute) {
+        [lines addObject:[DisruptionLine disruptionLineFromDigiRoute:digiAlert.alertRoute]];
+    }
+    disruption.disruptionLines = lines;
+    
+    NSMutableArray *texts = [@[] mutableCopy];
+    if (digiAlert.alertTexts && digiAlert.alertTexts.count > 0) {
+        for (DigiAlertText *digiText in digiAlert.alertTexts) {
+            [texts addObject:[DisruptionText disruptionTextFromDigiAlertText:digiText]];
+        }
+    } else {
+        DisruptionText *text = [DisruptionText new];
+        text.text = digiAlert.alertDescription;
+        text.language = @"fi";
+        
+        [texts addObject:text];
+    }
+    
+    disruption.disruptionTexts = texts;
+    
+    return disruption;
+}
+
 
 @end

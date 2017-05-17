@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "DisruptionLine.h"
 #import "DisruptionText.h"
+#import "DigiAlert.h"
 
 @interface Disruption : NSObject
+
++(instancetype)disruptionFromDigiAlert:(DigiAlert *)digiAlert;
 
 -(NSString *)localizedText;
 -(NSAttributedString *)formattedLocalizedTextWithFont:(UIFont *)font;
@@ -25,6 +28,8 @@
 @property (nonatomic, retain) NSArray * disruptionTexts;
 @property (nonatomic, retain) NSArray * disruptionLines;
 
-@property (nonatomic, retain) NSArray * disruptionLineNames;
+@property (nonatomic, retain) NSDate *parsedEndDate;
+//Computed properties
+@property (nonatomic, retain, readonly) NSArray * disruptionLineNames;
 
 @end

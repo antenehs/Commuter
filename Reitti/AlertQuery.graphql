@@ -1,0 +1,7 @@
+{
+    alerts {
+
+        [*ALERTS_FRAGMENT*]
+
+    }
+}

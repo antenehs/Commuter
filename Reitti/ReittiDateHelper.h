@@ -17,6 +17,7 @@
 -(NSString *)formatHourStringFromDate:(NSDate *)date;
 -(NSString *)formatHourRangeStringFrom:(NSDate *)fromTime toDate:(NSDate *)toTime;
 -(NSString *)formatDate:(NSDate *)date;
+-(NSString *)formatFullDateString:(NSDate *)date;
 -(NSString *)formatHoursOrFullDateIfNotToday:(NSDate *)date;
 -(NSString *)formatPrittyDate:(NSDate *)date;
 -(NSDate *)createDateFromString:(NSString *)timeString withMinOffset:(int)offset;

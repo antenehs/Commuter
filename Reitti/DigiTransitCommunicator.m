@@ -14,6 +14,7 @@
 #import "GraphQLQuery.h"
 #import "ReittiModels.h"
 #import "BikeStation.h"
+#import "DigiAlert.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
@@ -407,6 +408,22 @@ typedef enum : NSUInteger {
     }
 }
 
-
+#pragma mark - disruption info fetch
+-(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock {
+    [super doGraphQlQuery:[GraphQLQuery alertsQueryString] responseDiscriptor:[DigiAlert responseDiscriptorForPath:@"data.alerts"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+        if (!error && responseArray) {
+            NSMutableArray *disruptions = [@[] mutableCopy];
+            for (DigiAlert *digiAlert in responseArray) {
+                [disruptions addObject:[Disruption disruptionFromDigiAlert:digiAlert]];
+            }
+            
+            completionBlock(disruptions, nil);
+        } else {
+            completionBlock(nil, error.localizedDescription);
+        }
+    }];
+} 
 
 @end
+
+

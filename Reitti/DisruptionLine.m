@@ -13,4 +13,16 @@
 @synthesize lineId, lineName, lineType, lineDirection;
 @synthesize parsedLineType;
 
++(instancetype)disruptionLineFromDigiRoute:(DigiRouteShort *)digiRouteShort {
+    DisruptionLine *line = [DisruptionLine new];
+    
+    line.lineId = digiRouteShort.gtfsId;
+    line.lineName = digiRouteShort.shortName;
+    line.parsedLineType = digiRouteShort.lineType;
+    line.lineFullCode = digiRouteShort.gtfsId;
+    line.lineDirection = @1;
+    
+    return line;
+}
+
 @end

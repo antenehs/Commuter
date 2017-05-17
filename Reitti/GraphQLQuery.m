@@ -79,15 +79,31 @@
 #pragma mark - Bikes graphql
 +(NSString *)bikeStationsQueryString {
     NSString *queryString = [GraphQLQuery queryStringForType:GraphQLQueryTypeBikeStation andArguments:nil];
-    NSString *stopFragment = [GraphQLQuery bikeStationFragment];
+    NSString *bikesFragment = [GraphQLQuery bikeStationFragment];
     
-    return [queryString stringByReplacingOccurrencesOfString:@"[*BIKES_FRAGMENT*]" withString:stopFragment];
+    return [queryString stringByReplacingOccurrencesOfString:@"[*BIKES_FRAGMENT*]" withString:bikesFragment];
 }
 
 +(NSString *)bikeStationFragment {
-    NSString *stopFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeBikeStation]];
+    return [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeBikeStation]];
+}
+
+#pragma mark - Alerts graphql
++(NSString *)alertsQueryString {
+    NSString *queryString = [GraphQLQuery queryStringForType:GraphQLQueryTypeAlert andArguments:nil];
+    NSString *alertFragment = [GraphQLQuery alertFragment];
     
-    return stopFragment;
+    return [queryString stringByReplacingOccurrencesOfString:@"[*ALERTS_FRAGMENT*]" withString:alertFragment];
+}
+
++(NSString *)alertFragment {
+    NSString *alertFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeAlert]];
+    
+    NSString *shortRouteFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeRouteShort]];
+    
+    alertFragment = [alertFragment stringByReplacingOccurrencesOfString:@"[*SHORT_ROUTE_FRAGMENT*]" withString:shortRouteFragment];
+    
+    return alertFragment;
 }
 
 #pragma mark - Helpers
@@ -123,6 +139,8 @@
             return @"RouteQuery";
         case GraphQLQueryTypeBikeStation:
             return @"BikesQuery";
+        case GraphQLQueryTypeAlert:
+            return @"AlertQuery";
         default:
             return nil;
     }
@@ -146,6 +164,8 @@
             return @"RouteQueryShortFragment";
         case GraphQLQueryTypeBikeStation:
             return @"BikesQueryFragment";
+        case GraphQLQueryTypeAlert:
+            return @"AlertQueryFragment";
         default:
             return nil;
     }

@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
+#import "DigiRouteShort.h"
 
 @interface DisruptionLine : NSObject
+
++(instancetype)disruptionLineFromDigiRoute:(DigiRouteShort *)digiRouteShort;
 
 @property (nonatomic, retain) NSString * lineId;
 @property (nonatomic, retain) NSNumber * lineDirection;
