@@ -6,19 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiStopShort.h"
 #import "EnumManager.h"
+#import "Mapping.h"
 
-@interface DigiStop : DigiStopShort <NSCoding, NSCopying>
+@interface DigiStop : DigiStopShort <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) NSArray *stoptimes;
 
 @property (nonatomic) StopType stopType;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

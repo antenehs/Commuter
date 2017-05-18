@@ -7,12 +7,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "Mapping.h"
 
-#ifndef APPLE_WATCH
-#import <RestKit/RestKit.h>
-#endif
-
-@interface DigiIntermediateStops : NSObject <NSCoding, NSCopying>
+@interface DigiIntermediateStops : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, strong) NSString *code;
@@ -26,10 +23,6 @@
 
 @property (nonatomic)CLLocationCoordinate2D coords;
 
-#ifndef APPLE_WATCH
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
-#endif
 
 
 

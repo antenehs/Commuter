@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ReittiObject.h"
+#import "Mapping.h"
 
 @interface Geometry : NSObject <NSCoding, NSCopying, Mappable>
 

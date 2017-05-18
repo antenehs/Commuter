@@ -144,33 +144,25 @@ NSString *const kStopsUrl = @"url";
 }
 
 #pragma mark - Object mapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStopShort objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[DigiStopShort class] ];
-    [stopMapping addAttributeMappingsFromDictionary:[DigiStopShort mappingDictionary]];
-    
-    return stopMapping;
-}
 
 +(NSDictionary *)mappingDictionary {
     return @{
-             @"gtfsId" : @"gtfsId",
-             @"code" : @"code",
-             @"lon" : @"lon",
-             @"lat" : @"lat",
-             @"name" : @"name",
-             @"url" : @"url",
-             @"desc" : @"desc",
+             @"gtfsId"      : @"gtfsId",
+             @"code"        : @"code",
+             @"lon"         : @"lon",
+             @"lat"         : @"lat",
+             @"name"        : @"name",
+             @"url"         : @"url",
+             @"desc"        : @"desc",
              @"vehicleType" : @"vehicleType",
-             @"zoneId" : @"zoneId"
+             @"zoneId"      : @"zoneId"
              };
+}
+
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]];
 }
 
 @end

@@ -119,26 +119,18 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
     return copy;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiBikeRentalStation objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stationMapping = [RKObjectMapping mappingForClass:[DigiBikeRentalStation class] ];
-    [stationMapping addAttributeMappingsFromDictionary:@{
-                                                      @"stationId" : @"stationId",
-                                                      @"realtime" : @"realtime",
-                                                      @"bikesAvailable" : @"bikesAvailable",
-                                                      @"name" : @"name",
-                                                      @"spacesAvailable" : @"spacesAvailable"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     
-    return stationMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:@{
+                                                   @"stationId"         : @"stationId",
+                                                   @"realtime"          : @"realtime",
+                                                   @"bikesAvailable"    : @"bikesAvailable",
+                                                   @"name"              : @"name",
+                                                   @"spacesAvailable"   : @"spacesAvailable"
+                                                   }
+                                andRelationShips:@[]];
 }
-
 
 @end

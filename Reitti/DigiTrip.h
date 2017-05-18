@@ -6,18 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiRoute.h"
 #import "DigiPattern.h"
+#import "Mapping.h"
 
-@interface DigiTrip : NSObject <NSCoding, NSCopying>
+@interface DigiTrip : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) DigiRoute *route;
 @property (nonatomic, strong) DigiPattern *pattern;
 @property (nonatomic, strong) NSString *tripHeadsign;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

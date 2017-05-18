@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Geometry.h"
 #import "DigiFeatureProperties.h"
-#import "ReittiObject.h"
 #import "EnumManager.h"
+#import "Mapping.h"
 
 @interface DigiGeoCode : NSObject <NSCoding, NSCopying, Mappable>
 

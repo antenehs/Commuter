@@ -7,16 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Mapping.h"
+
 #import <RestKit/RestKit.h>
-//#import "BusStop.h"
-//#import "BusStopShort.h"
-//#import "Line.h"
-//#import "GeoCode.h"
-//#import "Route.h"
-//#import "RouteLegs.h"
-//#import "RouteLeg.h"
-//#import "RouteLegLocation.h"
-//#import "Disruption.h"
 
 typedef void (^ActionBlock)();
 
@@ -24,18 +17,17 @@ typedef void (^ActionBlock)();
 
 -(id)init;
 
+-(void)doGraphQlQuery:(NSString *)query mappingDiscriptor:(MappingDescriptor *)mappingDiscriptor andCompletionBlock:(ActionBlock)completionBlock;
+
 -(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock;
--(void)doXmlApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock;
+
+-(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDescriptor:(MappingDescriptor *)mappingDescriptor andCompletionBlock:(ActionBlock)completionBlock;
 -(void)doJsonApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock;
+
+-(void)doXmlApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock;
 -(void)doXmlApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock;
+
 -(void)doApiFetchWithOutMappingWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock;
-
--(void)doGraphQlQuery:(NSString *)query responseDiscriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock;
-
-- (void)getAllLiveVehiclesFromPubTrans:(NSString *)lineCodes;
-
-- (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation;
-- (void)VehiclesFetchFromPubtransFailed:(NSError *)error;
 
 @property (nonatomic, strong) NSString *apiBaseUrl;
 

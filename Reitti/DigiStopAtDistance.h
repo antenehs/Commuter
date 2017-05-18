@@ -7,15 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiStop.h"
+#import "Mapping.h"
 
-@interface DigiStopAtDistance : NSObject
+@interface DigiStopAtDistance : NSObject<Mappable>
 
 @property (nonatomic, strong) NSNumber *distance;
 @property (nonatomic, strong) DigiStop *stop;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 @end

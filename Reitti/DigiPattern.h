@@ -6,20 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiGeometry.h"
+#import "Mapping.h"
 
-@interface DigiPattern : NSObject <NSCoding, NSCopying>
+@interface DigiPattern : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSArray *geometry;
-
 @property (nonatomic, strong) NSArray *shapeCoordinates;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 @end

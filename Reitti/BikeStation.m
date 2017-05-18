@@ -93,42 +93,10 @@
     }
 }
 
-#pragma mark - object mapping - XML API
+#pragma mark - Override these in subclasses
 
-+(RKResponseDescriptor *)xmlApiResponseDiscriptorForPath:(NSString *)path {
-    RKObjectMapping* stationMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];
-    [stationMapping addAttributeMappingsFromDictionary:@{
-                                                         @"id" : @"stationId",
-                                                         @"name" : @"name",
-                                                         @"x"     : @"xCoord",
-                                                         @"y" : @"yCoord",
-                                                         @"bikesAvailable" : @"bikesAvailable",
-                                                         @"spacesAvailable" : @"spacesAvailable",
-                                                         @"allowDropoff" : @"allowDropoff",
-                                                         @"realTimeData" : @"realTimeData",
-                                                         }];
-    
-    return [RKResponseDescriptor responseDescriptorWithMapping:stationMapping
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-#pragma mark - object mapping - GraphQl API
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[BikeStation objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];
-    [stopMapping addAttributeMappingsFromDictionary:[BikeStation mappingDictionary]];
-    
-    return stopMapping;
+-(Class)classType {
+    return [BikeStation class];
 }
 
 +(NSDictionary *)mappingDictionary {
@@ -142,7 +110,11 @@
              @"allowDropoff"    : @"allowDropoff",
              @"realtime"        : @"realTimeData",
              };
+    
 }
 
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    return [MappingDescriptor descriptorFromPath:path forClass:[self class] withMappingDictionary:[self mappingDictionary]];
+}
 
 @end

@@ -124,31 +124,47 @@ NSString *const kDigiFeaturesProperties = @"properties";
 }
 
 #pragma mark - Mappable protocol implemention
-#ifndef APPLE_WATCH
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiGeoCode objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
+//#ifndef APPLE_WATCH
+//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+//    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiGeoCode objectMapping]
+//                                                        method:RKRequestMethodAny
+//                                                   pathPattern:nil
+//                                                       keyPath:path
+//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//}
+//
+//+(RKObjectMapping *)objectMapping {
+//    RKObjectMapping* geocodeMapping = [RKObjectMapping mappingForClass:[DigiGeoCode class] ];
+//    [geocodeMapping addAttributeMappingsFromDictionary:@{
+//                                                      @"type" : @"type"
+//                                                      }];
+//    
+//    [geocodeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"properties"
+//                                                                                toKeyPath:@"properties"
+//                                                                              withMapping:[DigiFeatureProperties objectMapping]]];
+//    
+//    [geocodeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"geometry"
+//                                                                                toKeyPath:@"geometry"
+//                                                                              withMapping:[Geometry objectMapping]]];
+//    
+//    return geocodeMapping;
+//}
+//#endif
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* geocodeMapping = [RKObjectMapping mappingForClass:[DigiGeoCode class] ];
-    [geocodeMapping addAttributeMappingsFromDictionary:@{
-                                                      @"type" : @"type"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     
-    [geocodeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"properties"
-                                                                                toKeyPath:@"properties"
-                                                                              withMapping:[DigiFeatureProperties objectMapping]]];
+    MappingRelationShip *propertiesRelationShip = [MappingRelationShip relationShipFromKeyPath:@"properties"
+                                                                               toKeyPath:@"properties"
+                                                                        withMappingClass:[DigiFeatureProperties class]];
     
-    [geocodeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"geometry"
-                                                                                toKeyPath:@"geometry"
-                                                                              withMapping:[Geometry objectMapping]]];
+    MappingRelationShip *geometryRelationShip = [MappingRelationShip relationShipFromKeyPath:@"geometry"
+                                                                               toKeyPath:@"geometry"
+                                                                        withMappingClass:[Geometry class]];
     
-    return geocodeMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:@{ @"type" : @"type" }
+                                andRelationShips:@[propertiesRelationShip, geometryRelationShip]];
 }
-#endif
 
 @end

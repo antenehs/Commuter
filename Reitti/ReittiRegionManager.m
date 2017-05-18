@@ -7,7 +7,6 @@
 //
 
 #import "ReittiRegionManager.h"
-#import <RestKit/RestKit.h>
 #import "XMLReader.h"
 #import "StaticCity.h"
 #import <ArcGIS/ArcGIS.h>

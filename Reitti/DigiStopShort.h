@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
+#import "Mapping.h"
 
-@interface DigiStopShort : NSObject <NSCoding, NSCopying>
+@interface DigiStopShort : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, strong) NSString *code;
@@ -24,8 +24,6 @@
 -(NSString *)coordString;
 -(NSNumber *)numberId;
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 +(NSDictionary *)mappingDictionary;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;

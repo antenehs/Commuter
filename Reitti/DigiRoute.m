@@ -194,30 +194,20 @@ NSString *const kDigiRoutePatterns = @"patterns";
 }
 
 #pragma mark - Object mapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiRoute objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[DigiRoute class] ];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"stops"
+                                                                               toKeyPath:@"stops"
+                                                                        withMappingClass:[DigiStopShort class]];
     
-    [routeMapping addAttributeMappingsFromDictionary:[DigiRouteShort mappingDictionary]];
+    MappingRelationShip *paternRelationShip = [MappingRelationShip relationShipFromKeyPath:@"patterns"
+                                                                               toKeyPath:@"patterns"
+                                                                        withMappingClass:[DigiPattern class]];
     
-    [routeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"stops"
-                                                                                toKeyPath:@"stops"
-                                                                              withMapping:[DigiStopShort objectMapping]]];
-    
-    [routeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"patterns"
-                                                                                toKeyPath:@"patterns"
-                                                                              withMapping:[DigiPattern objectMapping]]];
-    
-    return routeMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[stopRelationShip, paternRelationShip]];
 }
-
 
 @end

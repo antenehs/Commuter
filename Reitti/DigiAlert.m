@@ -22,28 +22,28 @@
 
 #pragma mark - object mapping
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiAlert objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:[DigiAlert class] ];
-    [mapping addAttributeMappingsFromDictionary:[DigiAlert mappingDictionary]];
-    
-    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
-                                                                                toKeyPath:@"alertRoute"
-                                                                              withMapping:[DigiRouteShort objectMapping]]];
-    
-    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"alertDescriptionTextTranslations"
-                                                                                toKeyPath:@"alertTexts"
-                                                                          withMapping:[DigiAlertText objectMapping]]];
-    
-    return mapping;
-}
+//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+//    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiAlert objectMapping]
+//                                                        method:RKRequestMethodAny
+//                                                   pathPattern:nil
+//                                                       keyPath:path
+//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//}
+//
+//+(RKObjectMapping *)objectMapping {
+//    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:[DigiAlert class] ];
+//    [mapping addAttributeMappingsFromDictionary:[DigiAlert mappingDictionary]];
+//    
+//    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
+//                                                                                toKeyPath:@"alertRoute"
+//                                                                              withMapping:[DigiRouteShort objectMapping]]];
+//    
+//    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"alertDescriptionTextTranslations"
+//                                                                                toKeyPath:@"alertTexts"
+//                                                                          withMapping:[DigiAlertText objectMapping]]];
+//    
+//    return mapping;
+//}
 
 +(NSDictionary *)mappingDictionary {
     return @{ @"id"                     : @"alertId",
@@ -52,6 +52,20 @@
               @"effectiveStartDate"     : @"effectiveStartDate",
               @"effectiveEndDate"       : @"effectiveEndDate"
               };
+}
+
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    NSArray *relations = @[[MappingRelationShip relationShipFromKeyPath:@"route"
+                                                              toKeyPath:@"alertRoute"
+                                                       withMappingClass:[DigiRouteShort class]],
+                           [MappingRelationShip relationShipFromKeyPath:@"alertDescriptionTextTranslations"
+                                                              toKeyPath:@"alertTexts"
+                                                       withMappingClass:[DigiAlertText class]]];
+    
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:relations];
 }
 
 @end

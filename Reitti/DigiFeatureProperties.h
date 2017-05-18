@@ -22,8 +22,7 @@ coarse          alias for simultaneously using all administrative layers (everyt
 */
 
 #import <Foundation/Foundation.h>
-#import "ReittiObject.h"
-
+#import "Mapping.h"
 
 @interface DigiFeatureProperties : NSObject <NSCoding, NSCopying, Mappable>
 

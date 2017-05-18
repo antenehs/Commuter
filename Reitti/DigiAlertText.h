@@ -7,16 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
+#import "Mapping.h"
 
-@interface DigiAlertText : NSObject
+@interface DigiAlertText : NSObject<Mappable>
 
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *language;
-
-//objectMapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
-+(NSDictionary *)mappingDictionary;
 
 @end

@@ -194,6 +194,18 @@
 		6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		6632072D1D293DCC00D8A46D /* ReittiStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */; };
 		663207301D29501E00D8A46D /* RouteLegRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6632072F1D29501E00D8A46D /* RouteLegRowController.m */; };
+		663465AF1ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
+		663465B01ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
+		663465B11ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
+		663465B21ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
+		663465B31ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
+		663465B41ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
+		663465B71ECD1654004B8AAF /* MappingRelationShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465B61ECD1654004B8AAF /* MappingRelationShip.m */; };
+		663465B81ECD1654004B8AAF /* MappingRelationShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465B61ECD1654004B8AAF /* MappingRelationShip.m */; };
+		663465B91ECD1654004B8AAF /* MappingRelationShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465B61ECD1654004B8AAF /* MappingRelationShip.m */; };
+		663465BA1ECD1654004B8AAF /* MappingRelationShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465B61ECD1654004B8AAF /* MappingRelationShip.m */; };
+		663465BB1ECD1654004B8AAF /* MappingRelationShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465B61ECD1654004B8AAF /* MappingRelationShip.m */; };
+		663465BC1ECD1654004B8AAF /* MappingRelationShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465B61ECD1654004B8AAF /* MappingRelationShip.m */; };
 		663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 663B7BDF1B4DB5B9008CF187 /* Reachability.m */; };
 		663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
 		663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
@@ -1468,6 +1480,11 @@
 		663207211D282F3F00D8A46D /* RouteInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteInterfaceController.m; sourceTree = "<group>"; };
 		6632072E1D29501E00D8A46D /* RouteLegRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegRowController.h; sourceTree = "<group>"; };
 		6632072F1D29501E00D8A46D /* RouteLegRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteLegRowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		663465AD1ECD08E0004B8AAF /* ReittiMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiMapping.h; sourceTree = "<group>"; };
+		663465AE1ECD08E0004B8AAF /* ReittiMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiMapping.m; sourceTree = "<group>"; };
+		663465B51ECD1654004B8AAF /* MappingRelationShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MappingRelationShip.h; sourceTree = "<group>"; };
+		663465B61ECD1654004B8AAF /* MappingRelationShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MappingRelationShip.m; sourceTree = "<group>"; };
+		663465BE1ECD2C92004B8AAF /* Mapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mapping.h; sourceTree = "<group>"; };
 		663B7BDE1B4DB5B9008CF187 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		663B7BDF1B4DB5B9008CF187 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		663E1EB71C949C5400C5543A /* ICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudManager.h; sourceTree = "<group>"; };
@@ -2592,6 +2609,7 @@
 		661FAF26189E8ACB00042074 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				663465BD1ECD2C5E004B8AAF /* Mapping */,
 				663E1ED81C9EBF1E00C5543A /* ReittiModels.h */,
 				6603A8FB1CD29B6200991FBF /* ReittiObject.h */,
 				6603A8FC1CD29B6200991FBF /* ReittiObject.m */,
@@ -2726,6 +2744,18 @@
 				66BCA7021D723B990092C5BB /* DepartureRowController.m */,
 			);
 			name = Rows;
+			sourceTree = "<group>";
+		};
+		663465BD1ECD2C5E004B8AAF /* Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				663465AD1ECD08E0004B8AAF /* ReittiMapping.h */,
+				663465AE1ECD08E0004B8AAF /* ReittiMapping.m */,
+				663465B51ECD1654004B8AAF /* MappingRelationShip.h */,
+				663465B61ECD1654004B8AAF /* MappingRelationShip.m */,
+				663465BE1ECD2C92004B8AAF /* Mapping.h */,
+			);
+			name = Mapping;
 			sourceTree = "<group>";
 		};
 		664BAECC1D8ED1700070F15F /* Pro Google services */ = {
@@ -4791,6 +4821,7 @@
 				663207271D2925AE00D8A46D /* NSString+Helper.m in Sources */,
 				66BCA6FA1D722D9A0092C5BB /* BusStopE.m in Sources */,
 				66BCA6F31D72020C0092C5BB /* OrderedManagedObject.m in Sources */,
+				663465B41ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				663207221D282F3F00D8A46D /* RouteInterfaceController.m in Sources */,
 				6632072A1D293C8600D8A46D /* RouteLeg.m in Sources */,
 				66B391981D2013EF00C500CC /* NamedBookmarkE.m in Sources */,
@@ -4798,6 +4829,7 @@
 				66A2FB0E1D889213004A6C24 /* RouteHeaderRowController.m in Sources */,
 				66BCA6F41D7202160092C5BB /* ReittiManagedObjectBase.m in Sources */,
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
+				663465BC1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
 				66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */,
 				660711F91D8F18D1000BA8D1 /* SettingsManager.m in Sources */,
@@ -5036,6 +5068,7 @@
 				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
 				66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */,
+				663465B71ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				66EC18FB1ACB3D07008E045D /* ASPolylineView.m in Sources */,
 				66DAE1EE19C398430039081D /* RouteLocation.m in Sources */,
 				66056E701C42AAFE00C011FB /* MonitoredVehicleJourney.m in Sources */,
@@ -5081,6 +5114,7 @@
 				66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */,
 				66CA02B91C1637AB00A38858 /* HSLAndTRECommon.m in Sources */,
 				661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */,
+				663465AF1ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				66780D8E1C5408E300C838AA /* ServicePointAnnotation.m in Sources */,
 				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
 				667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */,
@@ -5317,6 +5351,7 @@
 				66C733541C556DA5002544BC /* JPSThumbnail.m in Sources */,
 				66C733551C556DA5002544BC /* AppDelegate.m in Sources */,
 				66C733561C556DA5002544BC /* EditReminderTableViewController.m in Sources */,
+				663465B81ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				66C733571C556DA5002544BC /* ASPolylineView.m in Sources */,
 				66C733581C556DA5002544BC /* RouteLocation.m in Sources */,
 				66C733591C556DA5002544BC /* MonitoredVehicleJourney.m in Sources */,
@@ -5362,6 +5397,7 @@
 				66C733781C556DA5002544BC /* GCThumbnailAnnotationView.m in Sources */,
 				66C733791C556DA5002544BC /* HSLAndTRECommon.m in Sources */,
 				66C7337A1C556DA5002544BC /* PubTransCommunicator.m in Sources */,
+				663465B01ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				66C7337B1C556DA5002544BC /* ServicePointAnnotation.m in Sources */,
 				66C7337C1C556DA5002544BC /* TRECommunication.m in Sources */,
 				66C7337D1C556DA5002544BC /* ReittiRemindersManager.m in Sources */,
@@ -5403,6 +5439,7 @@
 				666E08CC1CD3DF420058D5B0 /* MatkaRoute.m in Sources */,
 				66F60DED1C83610900B33511 /* HSLAPIClient.m in Sources */,
 				666E08CA1CD3DEEC0058D5B0 /* ReittiDateHelper.m in Sources */,
+				663465BA1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				66833D5E1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C735161C556FA4002544BC /* RouteLegE.m in Sources */,
 				66F60DEF1C83611700B33511 /* HSLRouteOptionManager.m in Sources */,
@@ -5435,6 +5472,7 @@
 				666E08D21CD3DF520058D5B0 /* MatkaRouteStop.m in Sources */,
 				66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */,
+				663465B21ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				666E08C21CD3DD670058D5B0 /* MatkaStop.m in Sources */,
 				66BCA70C1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66C735201C556FA4002544BC /* NamedBookmarkE.m in Sources */,
@@ -5466,6 +5504,7 @@
 				6683CF2A1CD929170044727B /* MatkaGeoCode.m in Sources */,
 				6683CF271CD9290E0044727B /* MatkaStop.m in Sources */,
 				66833D191CEE45CE005D958C /* DigiStop.m in Sources */,
+				663465BB1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				66833D1E1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				6683CF251CD929080044727B /* MatkaRouteLeg.m in Sources */,
 				66833D3F1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
@@ -5493,6 +5532,7 @@
 				66C735731C556FB5002544BC /* KBPopupDrawableView.m in Sources */,
 				66BCA70D1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66F60DE71C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
+				663465B31ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				66833D231CEE45CE005D958C /* DigiTrip.m in Sources */,
 				66C735741C556FB5002544BC /* ASABubbleView.m in Sources */,
 				66BCA6EF1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
@@ -5552,6 +5592,7 @@
 				666E08CB1CD3DF410058D5B0 /* MatkaRoute.m in Sources */,
 				66F60DEE1C83610A00B33511 /* HSLAPIClient.m in Sources */,
 				666E08C91CD3DEEC0058D5B0 /* ReittiDateHelper.m in Sources */,
+				663465B91ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				66833D5D1CF8F427005D958C /* DigiPlan.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66F60DF01C83611900B33511 /* HSLRouteOptionManager.m in Sources */,
@@ -5584,6 +5625,7 @@
 				666E08D11CD3DF510058D5B0 /* MatkaRouteStop.m in Sources */,
 				66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				666E08D31CD3DF790058D5B0 /* ReittiMapkitHelper.m in Sources */,
+				663465B11ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				666E08C11CD3DD660058D5B0 /* MatkaStop.m in Sources */,
 				66BCA70B1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66CA02D91C17126800A38858 /* NamedBookmarkE.m in Sources */,

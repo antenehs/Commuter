@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <RestKit/RestKit.h>
+#import "ReittiObject.h"
+#import "Mapping.h"
 
 @class RouteLegLocation;
 
@@ -37,7 +39,7 @@ typedef enum
     FullAvailability = 4
 } Availability;
 
-@interface BikeStation : NSObject
+@interface BikeStation : NSObject <Mappable>
 
 +(id)bikeStationFromLegLocation:(RouteLegLocation *)location;
 
@@ -58,11 +60,5 @@ typedef enum
 @property (nonatomic)CLLocationDistance distance;
 @property (nonatomic)Availability bikeAvailability;
 @property (nonatomic)Availability spaceAvailability;
-
-+(RKResponseDescriptor *)xmlApiResponseDiscriptorForPath:(NSString *)path;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
-+(NSDictionary *)mappingDictionary;
 
 @end

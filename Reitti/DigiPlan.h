@@ -6,11 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiLegs.h"
 #import <MapKit/MapKit.h>
+#import "Mapping.h"
 
-@interface DigiPlan : NSObject <NSCoding, NSCopying>
+@interface DigiPlan : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSNumber *walkDistance;
 @property (nonatomic, strong) NSNumber *walkTime;
@@ -32,8 +32,5 @@
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 @end

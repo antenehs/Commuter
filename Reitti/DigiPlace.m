@@ -125,30 +125,27 @@ NSString *const kDigiFromIntermediateStops = @"intermediateStops";
     return _coords;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiPlace objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
++(NSDictionary *)mappingDictionary {
+    return @{
+             @"lat" : @"lat",
+             @"lon" : @"lon",
+             @"name": @"name"
+             };
 }
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* placeMapping = [RKObjectMapping mappingForClass:[DigiPlace class] ];
-    [placeMapping addAttributeMappingsFromDictionary:@{
-                                                          @"lat" : @"lat",
-                                                          @"lon" : @"lon",
-                                                          @"name" : @"name"
-                                                          }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *bikeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"bikeRentalStation"
+                                                                               toKeyPath:@"bikeRentalStation"
+                                                                        withMappingClass:[DigiBikeRentalStation class]];
     
-    [placeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"bikeRentalStation"
-                                                                                toKeyPath:@"bikeRentalStation"
-                                                                              withMapping:[DigiBikeRentalStation objectMapping]]];
+    MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"stop"
+                                                                               toKeyPath:@"intermediateStop"
+                                                                        withMappingClass:[DigiIntermediateStops class]];
     
-    [placeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"stop"
-                                                                                toKeyPath:@"intermediateStop"
-                                                                              withMapping:[DigiIntermediateStops objectMapping]]];
-    return placeMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[bikeRelationShip, stopRelationShip]];
 }
 
 

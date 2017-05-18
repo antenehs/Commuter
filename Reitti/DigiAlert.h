@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiAlertText.h"
 #import "DigiRouteShort.h"
+#import "Mapping.h"
 
-@interface DigiAlert : NSObject
+@interface DigiAlert : NSObject <Mappable>
 
 @property (nonatomic, retain) NSNumber * alertId;
 @property (nonatomic, retain) NSNumber * agency;
@@ -24,9 +24,9 @@
 //Computed
 @property (nonatomic, strong) NSDate *parsedEndDate;
 
-//objectMapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
-+(NSDictionary *)mappingDictionary;
+////objectMapping
+//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
+//+(RKObjectMapping *)objectMapping;
+//+(NSDictionary *)mappingDictionary;
 
 @end

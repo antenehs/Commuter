@@ -243,32 +243,26 @@ NSString *const kDigiItinerariesStartTime = @"startTime";
 
 //Mapping
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiPlan objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
++(NSDictionary *)mappingDictionary {
+    return @{
+             @"walkDistance": @"walkDistance",
+             @"walkTime"    : @"walkTime",
+             @"endTime"     : @"endTime",
+             @"duration"    : @"duration",
+             @"waitingTime" : @"waitingTime",
+             @"startTime"   : @"startTime"
+             };
 }
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* itiMapping = [RKObjectMapping mappingForClass:[DigiPlan class] ];
-    [itiMapping addAttributeMappingsFromDictionary:@{
-                                                      @"walkDistance" : @"walkDistance",
-                                                      @"walkTime" : @"walkTime",
-                                                      @"endTime" : @"endTime",
-                                                      @"duration" : @"duration",
-                                                      @"waitingTime" : @"waitingTime",
-                                                      @"startTime" : @"startTime"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *legRelationShip = [MappingRelationShip relationShipFromKeyPath:@"legs"
+                                                                               toKeyPath:@"legs"
+                                                                        withMappingClass:[DigiLegs class]];
     
-    [itiMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"legs"
-                                                                                toKeyPath:@"legs"
-                                                                              withMapping:[DigiLegs objectMapping]]];
-    
-
-    
-    return itiMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[legRelationShip]];
 }
 
 @end

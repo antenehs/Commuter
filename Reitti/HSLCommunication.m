@@ -364,7 +364,7 @@
 }
 
 -(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
-    [self.bikeStationApi doXmlApiFetchWithParams:nil responseDescriptor:[BikeStation xmlApiResponseDiscriptorForPath:@"stations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+    [self.bikeStationApi doXmlApiFetchWithParams:nil responseDescriptor:[HSLCommunication bikeStationXmlApiResponseDiscriptorForPath:@"stations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
         completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
     }];
 }
@@ -377,6 +377,26 @@
 
 -(void)stopFetchingBikeStations {
     [self.bikeFetchUpdateTimer invalidate];
+}
+
++(RKResponseDescriptor *)bikeStationXmlApiResponseDiscriptorForPath:(NSString *)path {
+    RKObjectMapping* stationMapping = [RKObjectMapping mappingForClass:[BikeStation class] ];
+    [stationMapping addAttributeMappingsFromDictionary:@{
+                                                         @"id" : @"stationId",
+                                                         @"name" : @"name",
+                                                         @"x"     : @"xCoord",
+                                                         @"y" : @"yCoord",
+                                                         @"bikesAvailable" : @"bikesAvailable",
+                                                         @"spacesAvailable" : @"spacesAvailable",
+                                                         @"allowDropoff" : @"allowDropoff",
+                                                         @"realTimeData" : @"realTimeData",
+                                                         }];
+    
+    return [RKResponseDescriptor responseDescriptorWithMapping:stationMapping
+                                                        method:RKRequestMethodAny
+                                                   pathPattern:nil
+                                                       keyPath:path
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
 -(NSString *)formattedBikeStationFetchErrorMessageForError:(NSError *)error{

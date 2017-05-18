@@ -189,34 +189,25 @@ NSString *const kDigiRouteMode = @"mode";
 
 
 #pragma mark - Object mapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiRouteShort objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* routeMapping = [RKObjectMapping mappingForClass:[DigiRouteShort class] ];
-    [routeMapping addAttributeMappingsFromDictionary:[DigiRouteShort mappingDictionary]];
-    return routeMapping;
-}
 
 +(NSDictionary *)mappingDictionary {
     return @{
-             @"routeIdentifier"      : @"routeIdentifier",
-             @"shortName" : @"shortName",
-             @"longName"  : @"longName",
-             @"gtfsId"    : @"gtfsId",
+             @"routeIdentifier" : @"routeIdentifier",
+             @"shortName"       : @"shortName",
+             @"longName"        : @"longName",
+             @"gtfsId"          : @"gtfsId",
              @"bikesAllowed"    : @"bikesAllowed",
-             @"url"    : @"url",
-             @"type"    : @"type",
-             @"desc"    : @"desc",
-             @"mode"    : @"mode"
+             @"url"             : @"url",
+             @"type"            : @"type",
+             @"desc"            : @"desc",
+             @"mode"            : @"mode"
              };
 }
 
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]];
+}
 
 @end

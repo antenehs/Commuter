@@ -99,29 +99,43 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
     return copy;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiTrip objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
+//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+//    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiTrip objectMapping]
+//                                                        method:RKRequestMethodAny
+//                                                   pathPattern:nil
+//                                                       keyPath:path
+//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//}
+//
+//+(RKObjectMapping *)objectMapping {
+//    RKObjectMapping* tripMapping = [RKObjectMapping mappingForClass:[DigiTrip class] ];
+//    [tripMapping addAttributeMappingsFromDictionary:@{
+//                                                      @"tripHeadsign" : @"tripHeadsign"
+//                                                      }];
+//    
+//    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
+//                                                                                toKeyPath:@"route"
+//                                                                              withMapping:[DigiRoute objectMapping]]];
+//    
+//    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"pattern"
+//                                                                                toKeyPath:@"pattern"
+//                                                                              withMapping:[DigiPattern objectMapping]]];
+//    
+//    return tripMapping;
+//}
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* tripMapping = [RKObjectMapping mappingForClass:[DigiTrip class] ];
-    [tripMapping addAttributeMappingsFromDictionary:@{
-                                                      @"tripHeadsign" : @"tripHeadsign"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *routeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"route"
+                                                                               toKeyPath:@"route"
+                                                                        withMappingClass:[DigiRoute class]];
     
-    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
-                                                                                toKeyPath:@"route"
-                                                                              withMapping:[DigiRoute objectMapping]]];
-    
-    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"pattern"
+    MappingRelationShip *patternRelationShip = [MappingRelationShip relationShipFromKeyPath:@"pattern"
                                                                                 toKeyPath:@"pattern"
-                                                                              withMapping:[DigiPattern objectMapping]]];
+                                                                         withMappingClass:[DigiPattern class]];
     
-    return tripMapping;
+    return [MappingDescriptor descriptorFromPath:path forClass:[self class]
+                           withMappingDictionary:@{ @"tripHeadsign" : @"tripHeadsign" }
+                                andRelationShips:@[routeRelationShip, patternRelationShip]];
 }
 
 @end

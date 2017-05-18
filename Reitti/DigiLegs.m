@@ -216,44 +216,43 @@ NSString *const kDigiLegsTo = @"to";
     return self.to.coords;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiLegs objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+
+#pragma mark - mapping
+
++(NSDictionary *)mappingDictionary {
+    return @{
+             @"transitLeg" : @"transitLeg",
+             @"realTime" : @"realTime",
+             @"mode" : @"mode",
+             @"rentedBike" : @"rentedBike",
+             @"endTime" : @"endTime",
+             @"duration" : @"duration",
+             @"distance" : @"distance",
+             @"startTime" : @"startTime",
+             };
 }
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* legMapping = [RKObjectMapping mappingForClass:[DigiLegs class] ];
-    [legMapping addAttributeMappingsFromDictionary:@{
-                                                      @"transitLeg" : @"transitLeg",
-                                                      @"realTime" : @"realTime",
-                                                      @"mode" : @"mode",
-                                                      @"rentedBike" : @"rentedBike",
-                                                      @"endTime" : @"endTime",
-                                                      @"duration" : @"duration",
-                                                      @"distance" : @"distance",
-                                                      @"startTime" : @"startTime",
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *fromPlaceRelationShip = [MappingRelationShip relationShipFromKeyPath:@"from"
+                                                                               toKeyPath:@"from"
+                                                                        withMappingClass:[DigiPlace class]];
     
-    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"from"
-                                                                                toKeyPath:@"from"
-                                                                              withMapping:[DigiPlace objectMapping]]];
+    MappingRelationShip *toPlaceRelationShip = [MappingRelationShip relationShipFromKeyPath:@"to"
+                                                                                toKeyPath:@"to"
+                                                                         withMappingClass:[DigiPlace class]];
     
-    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"to"
-                                                                               toKeyPath:@"to"
-                                                                             withMapping:[DigiPlace objectMapping]]];
-    
-    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"intermediateStops"
+    MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"intermediateStops"
                                                                                 toKeyPath:@"intermediateStops"
-                                                                              withMapping:[DigiIntermediateStops objectMapping]]];
+                                                                         withMappingClass:[DigiIntermediateStops class]];
     
-    [legMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"trip"
-                                                                               toKeyPath:@"trip"
-                                                                             withMapping:[DigiTrip objectMapping]]];
+    MappingRelationShip *tripRelationShip = [MappingRelationShip relationShipFromKeyPath:@"trip"
+                                                                                toKeyPath:@"trip"
+                                                                         withMappingClass:[DigiTrip class]];
     
-    return legMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[fromPlaceRelationShip, toPlaceRelationShip, stopRelationShip, tripRelationShip]];
 }
 
 @end

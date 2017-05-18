@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "EnumManager.h"
+#import "Mapping.h"
 
-@interface DigiRouteShort : NSObject <NSCoding, NSCopying>
+@interface DigiRouteShort : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSString *routeIdentifier;
 @property (nonatomic, strong) NSString *longName;
@@ -25,8 +25,6 @@
 @property (nonatomic, strong)NSString *lineStart;
 @property (nonatomic, strong)NSString *lineEnd;
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 +(NSDictionary *)mappingDictionary;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;

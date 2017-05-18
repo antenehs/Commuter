@@ -7,8 +7,8 @@
 //
 
 #import "ReittiObject.h"
+#import "DigiRouteShort.h"
 
 @implementation ReittiObject
-
 
 @end

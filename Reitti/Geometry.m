@@ -25,6 +25,8 @@ NSString *const kGeometryCoordinates = @"coordinates";
 
 -(NSString *)coordString {
     
+    if (self.coordinates.count < 2) return nil;
+    
     NSNumber *longitude = [self.coordinates objectAtIndex:0];
     NSNumber *latitude = [self.coordinates objectAtIndex:1];
     
@@ -118,24 +120,13 @@ NSString *const kGeometryCoordinates = @"coordinates";
 
 #pragma mark - Mappable protocol implemention
 
-#ifndef APPLE_WATCH
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[Geometry objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:@{
+                                                   @"type"          : @"type",
+                                                   @"coordinates"   : @"coordinates"
+                                                   }];
 }
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* geocodeMapping = [RKObjectMapping mappingForClass:[Geometry class] ];
-    [geocodeMapping addAttributeMappingsFromDictionary:@{
-                                                         @"type" : @"type",
-                                                         @"coordinates" : @"coordinates"
-                                                         }];
-    
-    return geocodeMapping;
-}
-#endif
 
 @end

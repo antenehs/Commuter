@@ -11,26 +11,15 @@
 @implementation DigiStopAtDistance
 
 
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStopAtDistance objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stopAtDistanceMapping = [RKObjectMapping mappingForClass:[DigiStopAtDistance class] ];
-    [stopAtDistanceMapping addAttributeMappingsFromDictionary:@{
-                                                      @"node.distance" : @"distance"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"node.stop"
+                                                                               toKeyPath:@"stop"
+                                                                        withMappingClass:[DigiStop class]];
     
-    [stopAtDistanceMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"node.stop"
-                                                                                toKeyPath:@"stop"
-                                                                              withMapping:[DigiStop objectMapping]]];
-    
-    return stopAtDistanceMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:@{ @"node.distance" : @"distance" }
+                                andRelationShips:@[stopRelationShip]];
 }
 
 @end

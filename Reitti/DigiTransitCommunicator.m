@@ -90,7 +90,7 @@ typedef enum : NSUInteger {
 #pragma mark - Stop in area fetching methods
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock {
     
-    [super doGraphQlQuery:[self stopInAreadGraphQlQueryForRegionCenterCoords:regionCenter andDiameter:diameter] responseDiscriptor:[DigiStopAtDistance responseDiscriptorForPath:@"data.stopsByRadius.edges"] andCompletionBlock:^(NSArray *stops, NSError *error){
+    [super doGraphQlQuery:[self stopInAreadGraphQlQueryForRegionCenterCoords:regionCenter andDiameter:diameter] mappingDiscriptor:[DigiStopAtDistance mappingDescriptorForPath:@"data.stopsByRadius.edges"] andCompletionBlock:^(NSArray *stops, NSError *error){
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStopAtDistance *stopAtDist in stops) {
@@ -134,7 +134,7 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [super doGraphQlQuery:[self stopGraphQlQueryForArguments:@{@"ids" : stopIds }] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
+    [super doGraphQlQuery:[self stopGraphQlQueryForArguments:@{@"ids" : stopIds }] mappingDiscriptor:[DigiStop mappingDescriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStop *digiStop in stops) {
@@ -154,7 +154,7 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [super doGraphQlQuery:[self stopGraphQlQueryForArguments:@{@"name" : stopName}] responseDiscriptor:[DigiStop responseDiscriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
+    [super doGraphQlQuery:[self stopGraphQlQueryForArguments:@{@"name" : stopName}] mappingDiscriptor:[DigiStop mappingDescriptorForPath:@"data.stops"] andCompletionBlock:^(NSArray *stops, NSError *error){
         if (!error) {
             completionBlock(stops, nil);
         } else {
@@ -207,7 +207,7 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [super doGraphQlQuery:queryString responseDiscriptor:[DigiPlan responseDiscriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *digiRoutes, NSError *error){
+    [super doGraphQlQuery:queryString mappingDiscriptor:[DigiPlan mappingDescriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *digiRoutes, NSError *error){
         if (!error && digiRoutes && digiRoutes.count > 0) {
             NSMutableArray *allRoutes = [@[] mutableCopy];
             for (DigiPlan *plan in digiRoutes) {
@@ -280,7 +280,7 @@ typedef enum : NSUInteger {
 //    if (self.searchFilterBoundary)
 //        [optionsDict addEntriesFromDictionary:self.searchFilterBoundary];
     
-    [self.addressSearchClient doJsonApiFetchWithParams:optionsDict responseDescriptor:[DigiGeoCode responseDiscriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [self.addressSearchClient doJsonApiFetchWithParams:optionsDict mappingDescriptor:[DigiGeoCode mappingDescriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         requestCalls--;
         if (!error && responseArray) {
             
@@ -316,7 +316,7 @@ typedef enum : NSUInteger {
     [optionsDict setValue:@"address" forKey:@"layers"];
     [optionsDict setValue:@"1" forKey:@"size"];
     
-    [self.addressReverseClient doJsonApiFetchWithParams:optionsDict responseDescriptor:[DigiGeoCode responseDiscriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+    [self.addressReverseClient doJsonApiFetchWithParams:optionsDict mappingDescriptor:[DigiGeoCode mappingDescriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         if (!error && responseArray && responseArray.count > 0) {
             
             completionBlock([GeoCode geocodeForDigiGeocode:responseArray[0]], nil);
@@ -354,7 +354,7 @@ typedef enum : NSUInteger {
 }
 
 -(void)fetchLinesWithArguments:(NSDictionary *)arguments withCompletionBlock:(ActionBlock)completionBlock {
-    [super doGraphQlQuery:[GraphQLQuery routeQueryStringWithArguments:arguments] responseDiscriptor:[DigiRoute responseDiscriptorForPath:@"data.routes"] andCompletionBlock:^(NSArray *routes, NSError *error){
+    [super doGraphQlQuery:[GraphQLQuery routeQueryStringWithArguments:arguments] mappingDiscriptor:[DigiRoute mappingDescriptorForPath:@"data.routes"] andCompletionBlock:^(NSArray *routes, NSError *error){
         if (!error) {
             NSMutableArray *allLines = [@[] mutableCopy];
             for (DigiRoute *digiRoute in routes) {
@@ -381,7 +381,7 @@ typedef enum : NSUInteger {
 }
 
 -(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
-    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] responseDiscriptor:[BikeStation responseDiscriptorForPath:@"data.bikeRentalStations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] mappingDiscriptor:[BikeStation mappingDescriptorForPath:@"data.bikeRentalStations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
         completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
     }];
 }
@@ -410,7 +410,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - disruption info fetch
 -(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock {
-    [super doGraphQlQuery:[GraphQLQuery alertsQueryString] responseDiscriptor:[DigiAlert responseDiscriptorForPath:@"data.alerts"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+    [super doGraphQlQuery:[GraphQLQuery alertsQueryString] mappingDiscriptor:[DigiAlert mappingDescriptorForPath:@"data.alerts"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
         if (!error && responseArray) {
             NSMutableArray *disruptions = [@[] mutableCopy];
             for (DigiAlert *digiAlert in responseArray) {

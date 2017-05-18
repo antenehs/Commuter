@@ -133,23 +133,15 @@ NSString *const kDigiPatternGeometry = @"geometry";
 
 #pragma mark - Mapping
 
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiPattern objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* patternMapping = [RKObjectMapping mappingForClass:[DigiPattern class] ];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *geometryRelationShip = [MappingRelationShip relationShipFromKeyPath:@"geometry"
+                                                                               toKeyPath:@"geometry"
+                                                                        withMappingClass:[DigiGeometry class]];
     
-    [patternMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"geometry"
-                                                                                   toKeyPath:@"geometry"
-                                                                                 withMapping:[DigiGeometry objectMapping]]];
-    
-    return patternMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:nil
+                                andRelationShips:@[geometryRelationShip]];
 }
 
 

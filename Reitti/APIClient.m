@@ -47,7 +47,14 @@
 }
 
 #pragma mark - Generic fetch method
--(void)doGraphQlQuery:(NSString *)query responseDiscriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock{
+
+-(void)doGraphQlQuery:(NSString *)query mappingDiscriptor:(MappingDescriptor *)mappingDiscriptor andCompletionBlock:(ActionBlock)completionBlock {
+    RKResponseDescriptor *responseDesc = [APIClient rkResponseDiscriptorForMappingDescriptor:mappingDiscriptor];
+    
+    [self doGraphQlQuery:query responseDiscriptor:responseDesc andCompletionBlock:completionBlock];
+}
+
+-(void)doGraphQlQuery:(NSString *)query responseDiscriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock {
     
     GraphQLQuery *dataObject = [[GraphQLQuery alloc] init];
     dataObject.query = query;
@@ -107,6 +114,12 @@
     [objectManager enqueueObjectRequestOperation:objectRequestOperation];
 }
 
+-(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDescriptor:(MappingDescriptor *)mappingDescriptor andCompletionBlock:(ActionBlock)completionBlock {
+    RKResponseDescriptor *responseDesc = [APIClient rkResponseDiscriptorForMappingDescriptor:mappingDescriptor];
+    
+    [self doApiFetchWithParams:params responseDiscriptor:responseDesc isJsonResponse:YES andCompletionBlock:completionBlock];
+}
+
 -(void)doJsonApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock{
     
     [self doApiFetchWithParams:params responseDiscriptor:responseDescriptor isJsonResponse:YES andCompletionBlock:completionBlock];
@@ -156,38 +169,32 @@
     }];
 }
 
-#pragma mark - PubTrans Methods
-- (void)getAllLiveVehiclesFromPubTrans:(NSString *)lineCodes{
-    //Get all vehicles except trams and longdistancetrains
-    NSString *urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0"];
-    if (lineCodes != nil) {
-        //convert unsafe strings in search string
-        lineCodes = [lineCodes stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        lineCodes = [lineCodes stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
-        urlAsString = [NSString stringWithFormat:@"http://www.pubtrans.it/hsl/vehicles?trams=0&longdistancetrains=0&lines=%@", lineCodes];
-    }
-    NSURL *url = [[NSURL alloc] initWithString:urlAsString];
-//    NSLog(@"%@", urlAsString);
+
+#pragma mark - Mapping helpers
+#ifndef APPLE_WATCH
++(RKResponseDescriptor *)rkResponseDiscriptorForMappingDescriptor:(MappingDescriptor *)mappingDescriptor {
     
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self VehiclesFetchFromPubtransFailed:error];
-            });
-            
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self VehiclesFetchFromPubtransComplete:data];
-            });
-        }
-    }];
+    return [RKResponseDescriptor responseDescriptorWithMapping:[APIClient rKobjectMappingFromMappingDescriptor:mappingDescriptor]
+                                                        method:RKRequestMethodAny
+                                                   pathPattern:nil
+                                                       keyPath:mappingDescriptor.path
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
-#pragma mark - completion methods
-
-- (void)VehiclesFetchFromPubtransComplete:(NSData *)objectNotation{}
-- (void)VehiclesFetchFromPubtransFailed:(NSError *)error{}
-
++(RKObjectMapping *)rKobjectMappingFromMappingDescriptor:(MappingDescriptor *)mappingDescriptor {
+    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:mappingDescriptor.classType];
+    [mapping addAttributeMappingsFromDictionary:mappingDescriptor.mappingDictionary];
+    
+    for (MappingRelationShip *relation in mappingDescriptor.relationShips) {
+        MappingDescriptor *mappindDesc = [relation.mappableClass mappingDescriptorForPath:nil];
+        
+        [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:relation.fromKeyPath
+                                                                                toKeyPath:relation.toKeypath
+                                                                              withMapping:[APIClient rKobjectMappingFromMappingDescriptor:mappindDesc]]];
+    }
+    
+    return mapping;
+}
+#endif
 
 @end

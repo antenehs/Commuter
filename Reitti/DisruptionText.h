@@ -7,19 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiAlertText.h"
 
-@interface DisruptionText : NSObject
+@interface DisruptionText : ReittiObject
 
 +(instancetype)disruptionTextFromDigiAlertText:(DigiAlertText *)digiAlertText;
 
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *language;
 
-//objectMapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 +(NSDictionary *)mappingDictionary;
 
 @end

@@ -12,25 +12,16 @@
 
 @synthesize text, language;
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiAlertText objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:[DigiAlertText class] ];
-    [mapping addAttributeMappingsFromDictionary:[DigiAlertText mappingDictionary]];
-    
-    return mapping;
-}
-
 +(NSDictionary *)mappingDictionary {
-    return @{ @"text" : @"text",
-              @"language" : @"language"
+    return @{ @"text"       : @"text",
+              @"language"   : @"language"
               };
+}
+
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]];
 }
 
 @end

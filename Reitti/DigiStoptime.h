@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "DigiTrip.h"
+#import "Mapping.h"
 
-@interface DigiStoptime : NSObject <NSCoding, NSCopying>
+@interface DigiStoptime : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSNumber *serviceDay;
 @property (nonatomic, strong) NSNumber *scheduledDeparture;
@@ -21,9 +21,6 @@
 //Computed properties
 @property (nonatomic, strong) NSDate *parsedScheduledDepartureDate;
 @property (nonatomic, strong) NSDate *parsedRealtimeDepartureDate;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

@@ -111,22 +111,16 @@ NSString *const kDigiGeometryLon = @"lon";
 }
 
 #pragma mark - mapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiGeometry objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* geometryMapping = [RKObjectMapping mappingForClass:[DigiGeometry class] ];
-    [geometryMapping addAttributeMappingsFromDictionary:@{
-                                                      @"lat" : @"lat",
-                                                      @"lon" : @"lon"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     
-    return geometryMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:@{
+                                                   @"lat" : @"lat",
+                                                   @"lon" : @"lon"
+                                                   }
+                                andRelationShips:@[]];
 }
 
 

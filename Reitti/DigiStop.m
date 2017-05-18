@@ -160,27 +160,20 @@ NSString *const kStopsStoptimes = @"stoptimes";
 }
 
 #pragma mark - Object mapping
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStop objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stopMapping = [RKObjectMapping mappingForClass:[DigiStop class] ];
-    [stopMapping addAttributeMappingsFromDictionary:[DigiStopShort mappingDictionary]];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *stopTimeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"stoptimesWithoutPatterns"
+                                                                               toKeyPath:@"stoptimes"
+                                                                        withMappingClass:[DigiStoptime class]];
     
-    [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"stoptimesWithoutPatterns"
-                                                                                    toKeyPath:@"stoptimes"
-                                                                                  withMapping:[DigiStoptime objectMapping]]];
+    MappingRelationShip *routeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"routes"
+                                                                               toKeyPath:@"routes"
+                                                                        withMappingClass:[DigiRoute class]];
     
-    [stopMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"routes"
-                                                                                toKeyPath:@"routes"
-                                                                              withMapping:[DigiRoute objectMapping]]];
-    
-    return stopMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[stopTimeRelationShip, routeRelationShip]];
 }
 
 @end

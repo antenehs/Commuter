@@ -6,13 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import "EnumManager.h"
 #import <MapKit/MapKit.h>
+#import "Mapping.h"
 
 @class DigiPlace, DigiTrip;
 
-@interface DigiLegs : NSObject <NSCoding, NSCopying>
+@interface DigiLegs : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSNumber *transitLeg;
 @property (nonatomic, strong) DigiTrip *trip;
@@ -37,8 +37,5 @@
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 @end

@@ -125,25 +125,18 @@ NSString *const kDigiIntermediateStopsLon = @"lon";
     return _coords;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiIntermediateStops objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
-
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* interStopMapping = [RKObjectMapping mappingForClass:[DigiIntermediateStops class] ];
-    [interStopMapping addAttributeMappingsFromDictionary:@{
-                                                      @"gtfsId" : @"gtfsId",
-                                                      @"code" : @"code",
-                                                      @"lon" : @"lon",
-                                                      @"lat" : @"lat",
-                                                      @"name" : @"name"
-                                                      }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     
-    return interStopMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:@{
+                                                   @"gtfsId": @"gtfsId",
+                                                   @"code"  : @"code",
+                                                   @"lon"   : @"lon",
+                                                   @"lat"   : @"lat",
+                                                   @"name"  : @"name"
+                                                   }
+                                andRelationShips:@[]];
 }
 
 

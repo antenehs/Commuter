@@ -6,13 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 #import <MapKit/MapKit.h>
-
+#import "Mapping.h"
 #import "DigiIntermediateStops.h"
 #import "DigiBikeRentalStation.h"
 
-@interface DigiPlace : NSObject <NSCoding, NSCopying>
+@interface DigiPlace : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) DigiBikeRentalStation *bikeRentalStation;
 @property (nonatomic, strong) NSNumber *lat;
@@ -25,8 +24,5 @@
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 @end

@@ -115,7 +115,6 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     DigiStoptime *copy = [[DigiStoptime alloc] init];
     
     if (copy) {
-
         copy.serviceDay = self.serviceDay;
         copy.scheduledDeparture = self.scheduledDeparture;
         copy.trip = [self.trip copyWithZone:zone];
@@ -147,29 +146,25 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     return _parsedRealtimeDepartureDate;
 }
 
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiStoptime objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
++(NSDictionary *)mappingDictionary {
+    return @{
+              @"serviceDay"         : @"serviceDay",
+              @"scheduledDeparture" : @"scheduledDeparture",
+              @"realtimeDeparture"  : @"realtimeDeparture",
+              @"realtimeState"      : @"realtimeState",
+              @"realtime"           : @"realtime"
+              };
 }
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* stopTimeMapping = [RKObjectMapping mappingForClass:[DigiStoptime class] ];
-    [stopTimeMapping addAttributeMappingsFromDictionary:@{
-                                                          @"serviceDay" : @"serviceDay",
-                                                          @"scheduledDeparture" : @"scheduledDeparture",
-                                                          @"realtimeDeparture" : @"realtimeDeparture",
-                                                          @"realtimeState" : @"realtimeState",
-                                                          @"realtime" : @"realtime"
-                                                        }];
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *tripRelationShip = [MappingRelationShip relationShipFromKeyPath:@"trip"
+                                                                               toKeyPath:@"trip"
+                                                                        withMappingClass:[DigiTrip class]];
     
-    [stopTimeMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"trip"
-                                                                                toKeyPath:@"trip"
-                                                                              withMapping:[DigiTrip objectMapping]]];
-    return stopTimeMapping;
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[tripRelationShip]];
 }
-
 
 @end

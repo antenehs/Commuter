@@ -6,18 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
+#import "Mapping.h"
 
-@interface DigiBikeRentalStation : NSObject <NSCoding, NSCopying>
+@interface DigiBikeRentalStation : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) NSNumber *bikesAvailable;
 @property (nonatomic, strong) NSString *stationId;
 @property (nonatomic, strong) NSNumber *realtime;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSNumber *spacesAvailable;
-
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path;
-+(RKObjectMapping *)objectMapping;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

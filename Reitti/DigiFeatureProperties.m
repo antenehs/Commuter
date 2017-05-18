@@ -246,44 +246,77 @@ NSString *const kDigiFeaturePropertiesNeighbourhood = @"neighbourhood";
 }
 
 #pragma mark - Mappable protocol implemention
-#ifndef APPLE_WATCH
-+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiFeatureProperties objectMapping]
-                                                        method:RKRequestMethodAny
-                                                   pathPattern:nil
-                                                       keyPath:path
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//#ifndef APPLE_WATCH
+//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
+//    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiFeatureProperties objectMapping]
+//                                                        method:RKRequestMethodAny
+//                                                   pathPattern:nil
+//                                                       keyPath:path
+//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//}
+//
+//+(RKObjectMapping *)objectMapping {
+//    RKObjectMapping* geocodeMapping = [RKObjectMapping mappingForClass:[DigiFeatureProperties class]];
+//    [geocodeMapping addAttributeMappingsFromDictionary:@{
+//                                                         @"source" : @"source",
+//                                                         @"country" : @"country",
+//                                                         @"region" : @"region",
+//                                                         @"street" : @"street",
+//                                                         @"postalcode" : @"postalcode",
+//                                                         @"region_gid" : @"regionGid",
+//                                                         @"localadmin" : @"localadmin",
+//                                                         @"layer" : @"layer",
+//                                                         @"name" : @"name",
+//                                                         @"source_id" : @"sourceId",
+//                                                         @"locality_gid" : @"localityGid",
+//                                                         @"id" : @"internalBaseClassIdentifier",
+//                                                         @"confidence" : @"confidence",
+//                                                         @"accuracy" : @"accuracy",
+//                                                         @"label" : @"label",
+//                                                         @"country_gid" : @"countryGid",
+//                                                         @"gid" : @"gid",
+//                                                         @"localadmin_gid" : @"localadminGid",
+//                                                         @"country_a" : @"countryA",
+//                                                         @"locality" : @"locality",
+//                                                         @"housenumber" : @"housenumber",
+//                                                         @"neighbourhood" : @"neighbourhood"
+//                                                         }];
+//    
+//    return geocodeMapping;
+//}
+//#endif
+
++(NSDictionary *)mappingDictionary {
+    return @{
+             @"source"          : @"source",
+             @"country"         : @"country",
+             @"region"          : @"region",
+             @"street"          : @"street",
+             @"postalcode"      : @"postalcode",
+             @"region_gid"      : @"regionGid",
+             @"localadmin"      : @"localadmin",
+             @"layer"           : @"layer",
+             @"name"            : @"name",
+             @"source_id"       : @"sourceId",
+             @"locality_gid"    : @"localityGid",
+             @"id"              : @"internalBaseClassIdentifier",
+             @"confidence"      : @"confidence",
+             @"accuracy"        : @"accuracy",
+             @"label"           : @"label",
+             @"country_gid"     : @"countryGid",
+             @"gid"             : @"gid",
+             @"localadmin_gid"  : @"localadminGid",
+             @"country_a"       : @"countryA",
+             @"locality"        : @"locality",
+             @"housenumber"     : @"housenumber",
+             @"neighbourhood"   : @"neighbourhood"
+             };
 }
 
-+(RKObjectMapping *)objectMapping {
-    RKObjectMapping* geocodeMapping = [RKObjectMapping mappingForClass:[DigiFeatureProperties class]];
-    [geocodeMapping addAttributeMappingsFromDictionary:@{
-                                                         @"source" : @"source",
-                                                         @"country" : @"country",
-                                                         @"region" : @"region",
-                                                         @"street" : @"street",
-                                                         @"postalcode" : @"postalcode",
-                                                         @"region_gid" : @"regionGid",
-                                                         @"localadmin" : @"localadmin",
-                                                         @"layer" : @"layer",
-                                                         @"name" : @"name",
-                                                         @"source_id" : @"sourceId",
-                                                         @"locality_gid" : @"localityGid",
-                                                         @"id" : @"internalBaseClassIdentifier",
-                                                         @"confidence" : @"confidence",
-                                                         @"accuracy" : @"accuracy",
-                                                         @"label" : @"label",
-                                                         @"country_gid" : @"countryGid",
-                                                         @"gid" : @"gid",
-                                                         @"localadmin_gid" : @"localadminGid",
-                                                         @"country_a" : @"countryA",
-                                                         @"locality" : @"locality",
-                                                         @"housenumber" : @"housenumber",
-                                                         @"neighbourhood" : @"neighbourhood"
-                                                         }];
-    
-    return geocodeMapping;
++(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    return [MappingDescriptor descriptorFromPath:path
+                                        forClass:[self class]
+                           withMappingDictionary:[self mappingDictionary]];
 }
-#endif
 
 @end
