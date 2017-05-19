@@ -15,6 +15,7 @@
 #import "ReittiModels.h"
 #import "BikeStation.h"
 #import "DigiAlert.h"
+#import "AnnotationFilter.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
@@ -94,7 +95,7 @@ typedef enum : NSUInteger {
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStopAtDistance *stopAtDist in stops) {
-                [allStops addObject:[[BusStop alloc] initFromDigiStop:stopAtDist.stop]];
+                [allStops addObject:stopAtDist.stop.reittiBusStop];
             }
             completionBlock(allStops, nil);
         } else {
@@ -138,7 +139,7 @@ typedef enum : NSUInteger {
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStop *digiStop in stops) {
-                [allStops addObject:[[BusStop alloc] initFromDigiStop:digiStop]];
+                [allStops addObject:digiStop.reittiBusStop];
             }
             completionBlock(allStops, nil);
         } else {
@@ -180,9 +181,7 @@ typedef enum : NSUInteger {
             NSMutableArray *allDepartures = [@[] mutableCopy];
             for (DigiStop *digiStop in stops) {
                 for (DigiStoptime *stopTime in digiStop.stoptimes) {
-                    StopDeparture *dep = [StopDeparture departureForDigiStopTime:stopTime];
-                    if (dep)
-                        [allDepartures addObject:dep];
+                    [allDepartures addObject:stopTime.reittiStopDeparture];
                 }
             }
             
@@ -355,11 +354,17 @@ typedef enum : NSUInteger {
 
 -(void)fetchLinesWithArguments:(NSDictionary *)arguments withCompletionBlock:(ActionBlock)completionBlock {
     [super doGraphQlQuery:[GraphQLQuery routeQueryStringWithArguments:arguments] mappingDiscriptor:[DigiRoute mappingDescriptorForPath:@"data.routes"] andCompletionBlock:^(NSArray *routes, NSError *error){
+        //TODO: When lines not found returns empty. So filter them here. 
         if (!error) {
             NSMutableArray *allLines = [@[] mutableCopy];
             for (DigiRoute *digiRoute in routes) {
-                Line *line = [Line lineFromDigiLine:digiRoute];
-                if(line) [allLines addObject:line];
+                if (digiRoute.patterns) {
+                    for (DigiPattern *pattern in digiRoute.patterns) {
+                        [allLines addObject:[digiRoute reittiLineForPattern:pattern]];
+                    }
+                } else {
+                    [allLines addObject:digiRoute.reittiLine];
+                }
             }
             completionBlock(allLines, nil);
         } else {
@@ -381,8 +386,16 @@ typedef enum : NSUInteger {
 }
 
 -(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
-    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] mappingDiscriptor:[BikeStation mappingDescriptorForPath:@"data.bikeRentalStations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
-        completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
+    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] mappingDiscriptor:[DigiBikeRentalStation mappingDescriptorForPath:@"data.bikeRentalStations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+        if (!error && responseArray) {
+            NSMutableArray *bikeStations = [@[] mutableCopy];
+            for (DigiBikeRentalStation *station in responseArray) {
+                [bikeStations addObject:station.bikeStation];
+            }
+            completion(bikeStations, nil);
+        } else {
+            completion(responseArray, [self formattedBikeStationFetchErrorMessageForError:error]);
+        }
     }];
 }
 
@@ -422,7 +435,20 @@ typedef enum : NSUInteger {
             completionBlock(nil, error.localizedDescription);
         }
     }];
-} 
+}
+
+#pragma mark - Annotation filer protocol methods.
+-(NSArray *)annotationFilterOptions {
+    if (self.source == HslApi) {
+        return @[[AnnotationFilterOption optionForBusStop],
+                 [AnnotationFilterOption optionForTramStop],
+                 [AnnotationFilterOption optionForTrainStop],
+                 [AnnotationFilterOption optionForMetroStop],
+                 [AnnotationFilterOption optionForBikeStation]];
+    } else {
+        return @[[AnnotationFilterOption optionForBusStop]];
+    }
+}
 
 @end
 

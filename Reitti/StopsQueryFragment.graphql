@@ -1,16 +1,5 @@
-name,
-code,
-desc,
-vehicleType,
-zoneId,
-gtfsId,
-url,
-platformCode,
-lat,
-lon,
-routes {
-    [*SHORT_ROUTE_FRAGMENT*]
-},
+
+[*SHORT_STOP_FRAGMENT*]
 stoptimesWithoutPatterns (numberOfDepartures: 20){
     scheduledDeparture,
     realtimeDeparture,

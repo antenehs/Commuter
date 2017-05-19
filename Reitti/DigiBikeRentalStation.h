@@ -7,14 +7,20 @@
 
 #import <Foundation/Foundation.h>
 #import "Mapping.h"
+#import "BikeStation.h"
 
 @interface DigiBikeRentalStation : NSObject <NSCoding, NSCopying, Mappable>
 
-@property (nonatomic, strong) NSNumber *bikesAvailable;
+-(BikeStation *)bikeStation;
+
 @property (nonatomic, strong) NSString *stationId;
-@property (nonatomic, strong) NSNumber *realtime;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *lon;
+@property (nonatomic, strong) NSString *lat;
+@property (nonatomic, strong) NSNumber *bikesAvailable;
 @property (nonatomic, strong) NSNumber *spacesAvailable;
+@property (nonatomic) BOOL realtime;
+@property (nonatomic) BOOL allowDropoff;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

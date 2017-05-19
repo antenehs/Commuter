@@ -1,25 +1,8 @@
-id
-desc
-gtfsId
-mode
-shortName
-longName
-type
-url
-bikesAllowed
-stops {
-    name
-    code
-    lat
-    lon
-    gtfsId
-}
+
+[*SHORT_ROUTE_FRAGMENT*]
 patterns {
-    geometry {
-        lat
-        lon
-    }
-}
+    [*FULL_PATTERN_FRAGMENT*]
+},
 alerts {
     id
 }

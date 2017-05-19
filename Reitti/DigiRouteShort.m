@@ -187,6 +187,27 @@ NSString *const kDigiRouteMode = @"mode";
     return _lineEnd;
 }
 
+#pragma mark - conversion
+-(StopLine *)reittiStopLine {
+    return [self reittiStopLineWithPattern:self.patterns.firstObject];
+}
+
+-(StopLine *)reittiStopLineWithPattern:(DigiPatternShort *)patternShort {
+    StopLine *line = [[StopLine alloc] init];
+    
+    line.fullCode = self.gtfsId;
+    line.code = [self.shortName uppercaseString];
+    line.name = self.longName;
+    line.lineType = self.lineType;
+    line.pattern = patternShort.reittiLinePattern;
+    
+    //FIXME: Parse these
+    line.destination = patternShort.headsign;
+    line.lineStart = self.lineStart;
+    line.lineEnd = patternShort.headsign;
+    
+    return line;
+}
 
 #pragma mark - Object mapping
 
@@ -205,9 +226,14 @@ NSString *const kDigiRouteMode = @"mode";
 }
 
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *paternRelationShip = [MappingRelationShip relationShipFromKeyPath:@"patterns"
+                                                                                 toKeyPath:@"patterns"
+                                                                          withMappingClass:[DigiPatternShort class]];
+    
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:[self mappingDictionary]];
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:@[paternRelationShip]];
 }
 
 @end

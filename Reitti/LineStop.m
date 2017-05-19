@@ -11,6 +11,7 @@
 NSString *const kLineStopsCoords = @"coords";
 NSString *const kLineStopsAddress = @"address";
 NSString *const kLineStopsTime = @"time";
+NSString *const kLineStopsGtfsId = @"gtfsId";
 NSString *const kLineStopsCode = @"code";
 NSString *const kLineStopsCodeShort = @"codeShort";
 NSString *const kLineStopsPlatformNumber = @"platform_number";
@@ -29,6 +30,7 @@ NSString *const kLineStopsName = @"name";
 @synthesize coords = _coords;
 @synthesize address = _address;
 @synthesize time = _time;
+@synthesize gtfsId = _gtfsId;
 @synthesize code = _code;
 @synthesize codeShort = _codeShort;
 @synthesize platformNumber = _platformNumber;
@@ -50,6 +52,7 @@ NSString *const kLineStopsName = @"name";
             self.coords = [self objectOrNilForKey:kLineStopsCoords fromDictionary:dict];
             self.address = [self objectOrNilForKey:kLineStopsAddress fromDictionary:dict];
             self.time = [self objectOrNilForKey:kLineStopsTime fromDictionary:dict];
+            self.gtfsId = [self objectOrNilForKey:kLineStopsGtfsId fromDictionary:dict];
             self.code = [self objectOrNilForKey:kLineStopsCode fromDictionary:dict];
             self.codeShort = [self objectOrNilForKey:kLineStopsCodeShort fromDictionary:dict];
             self.platformNumber = [self objectOrNilForKey:kLineStopsPlatformNumber fromDictionary:dict];
@@ -68,6 +71,7 @@ NSString *const kLineStopsName = @"name";
     [mutableDict setValue:self.coords forKey:kLineStopsCoords];
     [mutableDict setValue:self.address forKey:kLineStopsAddress];
     [mutableDict setValue:self.time forKey:kLineStopsTime];
+    [mutableDict setValue:self.gtfsId forKey:kLineStopsGtfsId];
     [mutableDict setValue:self.code forKey:kLineStopsCode];
     [mutableDict setValue:self.codeShort forKey:kLineStopsCodeShort];
     [mutableDict setValue:self.platformNumber forKey:kLineStopsPlatformNumber];
@@ -99,6 +103,7 @@ NSString *const kLineStopsName = @"name";
     self.coords = [aDecoder decodeObjectForKey:kLineStopsCoords];
     self.address = [aDecoder decodeObjectForKey:kLineStopsAddress];
     self.time = [aDecoder decodeObjectForKey:kLineStopsTime];
+    self.gtfsId = [aDecoder decodeObjectForKey:kLineStopsGtfsId];
     self.code = [aDecoder decodeObjectForKey:kLineStopsCode];
     self.codeShort = [aDecoder decodeObjectForKey:kLineStopsCodeShort];
     self.platformNumber = [aDecoder decodeObjectForKey:kLineStopsPlatformNumber];
@@ -113,6 +118,7 @@ NSString *const kLineStopsName = @"name";
     [aCoder encodeObject:_coords forKey:kLineStopsCoords];
     [aCoder encodeObject:_address forKey:kLineStopsAddress];
     [aCoder encodeObject:_time forKey:kLineStopsTime];
+    [aCoder encodeObject:_gtfsId forKey:kLineStopsGtfsId];
     [aCoder encodeObject:_code forKey:kLineStopsCode];
     [aCoder encodeObject:_codeShort forKey:kLineStopsCodeShort];
     [aCoder encodeObject:_platformNumber forKey:kLineStopsPlatformNumber];
@@ -129,6 +135,7 @@ NSString *const kLineStopsName = @"name";
         copy.coords = [self.coords copyWithZone:zone];
         copy.address = [self.address copyWithZone:zone];
         copy.time = [self.time copyWithZone:zone];
+        copy.gtfsId = [self.gtfsId copyWithZone:zone];
         copy.code = [self.code copyWithZone:zone];
         copy.codeShort = [self.codeShort copyWithZone:zone];
         copy.platformNumber = [self.platformNumber copyWithZone:zone];
@@ -159,23 +166,24 @@ NSString *const kLineStopsName = @"name";
     return stop;
 }
 
-+ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort {
-    LineStop *stop = [[LineStop alloc] init];
-    
-    if (stop) {
-        
-        stop.coords = digiStopShort.coordString;
-        stop.address = digiStopShort.name;
-        stop.time = nil;
-        stop.code = digiStopShort.gtfsId;
-        stop.codeShort = digiStopShort.code;
-        stop.platformNumber = nil;
-        stop.cityName = nil;
-        stop.name = digiStopShort.name;
-    }
-    
-    return stop;
-}
+//+ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort {
+//    LineStop *stop = [[LineStop alloc] init];
+//    
+//    if (stop) {
+//        
+//        stop.coords = digiStopShort.coordString;
+//        stop.address = digiStopShort.name;
+//        stop.time = nil;
+//        stop.gtfsId = digiStopShort.gtfsId;
+//        stop.code = [digiStopShort.numberId stringValue];
+//        stop.codeShort = digiStopShort.code;
+//        stop.platformNumber = nil;
+//        stop.cityName = nil;
+//        stop.name = digiStopShort.name;
+//    }
+//    
+//    return stop;
+//}
 
 
 @end

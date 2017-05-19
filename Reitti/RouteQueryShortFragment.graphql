@@ -7,3 +7,6 @@ longName
 type
 url
 bikesAllowed
+patterns {
+    [*SHORT_PATTERN_FRAGMENT*]
+}

@@ -24,15 +24,15 @@
 }
 
 -(CLLocationCoordinate2D)coordinates {
-    if (self.xCoord && self.yCoord) {
-        return [ReittiStringFormatter convertStringTo2DCoord:[NSString stringWithFormat:@"%@,%@", self.xCoord, self.yCoord]];
+    if (self.lon && self.lat) {
+        return [ReittiStringFormatter convertStringTo2DCoord:[NSString stringWithFormat:@"%@,%@", self.lon, self.lat]];
     }
     
     return CLLocationCoordinate2DMake(0, 0);
 }
 
 -(BOOL)isValid {
-    return self.xCoord && self.yCoord;
+    return self.lon && self.lat;
 }
 
 -(NSString *)bikesAvailableString {
@@ -92,29 +92,4 @@
         return FullAvailability;
     }
 }
-
-#pragma mark - Override these in subclasses
-
--(Class)classType {
-    return [BikeStation class];
-}
-
-+(NSDictionary *)mappingDictionary {
-    return @{
-             @"stationId"       : @"stationId",
-             @"name"            : @"name",
-             @"lon"             : @"xCoord",
-             @"lat"             : @"yCoord",
-             @"bikesAvailable"  : @"bikesAvailable",
-             @"spacesAvailable" : @"spacesAvailable",
-             @"allowDropoff"    : @"allowDropoff",
-             @"realtime"        : @"realTimeData",
-             };
-    
-}
-
-+(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
-    return [MappingDescriptor descriptorFromPath:path forClass:[self class] withMappingDictionary:[self mappingDictionary]];
-}
-
 @end

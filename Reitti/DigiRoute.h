@@ -8,15 +8,16 @@
 #import <Foundation/Foundation.h>
 #import "DigiRouteShort.h"
 #import "Mapping.h"
-
+#import "DigiPattern.h"
+#import "Line.h"
 
 @interface DigiRoute : DigiRouteShort <NSCoding, NSCopying, Mappable>
 
-@property (nonatomic, strong) NSArray *stops;
+-(Line *)reittiLine;
+-(Line *)reittiLineForPattern:(DigiPattern *)pattern;
+
 @property (nonatomic, strong) NSArray *patterns;
 @property (nonatomic, strong) NSArray *alerts;
-
-@property (nonatomic, strong) NSArray *shapeCoordinates;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

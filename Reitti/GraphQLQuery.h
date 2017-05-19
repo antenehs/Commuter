@@ -18,7 +18,9 @@ typedef enum {
     GraphQLQueryTypeRoute = 5,
     GraphQLQueryTypeRouteShort = 6,
     GraphQLQueryTypeBikeStation = 7,
-    GraphQLQueryTypeAlert = 8
+    GraphQLQueryTypeAlert = 8,
+    GraphQLQueryTypePattern = 9,
+    GraphQLQueryTypePatternShort = 10,
 } GraphQLQueryType;
 
 @interface GraphQLQuery : NSObject

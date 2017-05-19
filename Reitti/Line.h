@@ -12,7 +12,6 @@
 #import "HSLLine.h"
 #import "StopLine.h"
 #import "MatkaLine.h"
-#import "DigiRoute.h"
 
 @interface Line : NSObject
 
@@ -24,6 +23,9 @@
 @property (nonatomic, strong) NSString *dateFrom;
 @property (nonatomic, strong) NSString *dateTo;
 @property (nonatomic, strong) NSString *name;
+
+@property (nonatomic, strong) NSString *patternCode;
+@property (nonatomic, strong) NSNumber *patternDirectionId;
 
 @property (nonatomic, strong) NSArray *lineStops;
 @property (nonatomic, strong) NSArray *shapeCoordinates;
@@ -37,6 +39,5 @@
 +(id)lineFromStopLine:(StopLine *)stopLine;
 +(id)lineFromHSLLine:(HSLLine *)hslLine;
 +(id)lineFromMatkaLine:(MatkaLine *)matkaLine;
-+(id)lineFromDigiLine:(DigiRoute *)digiLine;
 
 @end

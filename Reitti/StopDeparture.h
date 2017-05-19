@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DigiStoptime.h"
+//#import "DigiStoptime.h"
 
 
 @interface StopDeparture : NSObject <NSCoding, NSCopying>
@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) NSString *destination;
 
-+ (instancetype)departureForDigiStopTime:(DigiStoptime *)stoptime;
+//+ (instancetype)departureForDigiStopTime:(DigiStoptime *)stoptime;
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;

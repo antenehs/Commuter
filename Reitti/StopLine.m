@@ -10,28 +10,7 @@
 
 @implementation StopLine
 
-@synthesize fullCode, code, name, direction, destination, lineStart, lineEnd, lineType;
-
-#pragma mark - Init from other models
-#ifndef APPLE_WATCH
-+(id)stopLineFromDigiRoute:(DigiRoute *)digiRoute {
-    
-    StopLine *line = [[StopLine alloc] init];
-    
-    line.fullCode = digiRoute.gtfsId;
-    line.code = [digiRoute.shortName uppercaseString];
-    line.name = digiRoute.longName;
-    line.direction = @"1";
-    line.lineType = digiRoute.lineType;
-    
-    //FIXME: Parse these
-    line.destination = digiRoute.longName;
-    line.lineStart = digiRoute.longName;
-    line.lineEnd = digiRoute.longName;
-    
-    return line;
-}
-#endif
+@synthesize fullCode, code, name, destination, lineStart, lineEnd, lineType, pattern;
 
 #pragma mark - NSCoding Methods
 
@@ -42,11 +21,11 @@
     self.fullCode = [aDecoder decodeObjectForKey:@"fullCode"];
     self.code = [aDecoder decodeObjectForKey:@"code"];
     self.name = [aDecoder decodeObjectForKey:@"name"];
-    self.direction = [aDecoder decodeObjectForKey:@"direction"];
     self.destination = [aDecoder decodeObjectForKey:@"destination"];
     self.lineType = (LineType)[[aDecoder decodeObjectForKey:@"lineType"] intValue];
     self.lineStart = [aDecoder decodeObjectForKey:@"lineStart"];
     self.lineEnd = [aDecoder decodeObjectForKey:@"lineEnd"];
+    self.pattern = [aDecoder decodeObjectForKey:@"pattern"];
     
     return self;
 }
@@ -56,11 +35,11 @@
     [aCoder encodeObject:fullCode forKey:@"fullCode"];
     [aCoder encodeObject:code forKey:@"code"];
     [aCoder encodeObject:name forKey:@"name"];
-    [aCoder encodeObject:direction forKey:@"direction"];
     [aCoder encodeObject:destination forKey:@"destination"];
     [aCoder encodeObject:[NSNumber numberWithInt:(int)lineType] forKey:@"lineType"];
     [aCoder encodeObject:lineStart forKey:@"lineStart"];
     [aCoder encodeObject:lineEnd forKey:@"lineEnd"];
+    [aCoder encodeObject:pattern forKey:@"pattern"];
 }
 
 + (instancetype)initFromDictionary:(NSDictionary *)dictionary {
@@ -69,7 +48,6 @@
     line.fullCode = [line objectOrNilForKey:@"fullCode" fromDictionary:dictionary];
     line.code = [line objectOrNilForKey:@"code" fromDictionary:dictionary];
     line.name = [line objectOrNilForKey:@"name" fromDictionary:dictionary];
-    line.direction = [line objectOrNilForKey:@"direction" fromDictionary:dictionary];
     line.destination = [line objectOrNilForKey:@"destination" fromDictionary:dictionary];
     line.lineType = (LineType)[[line objectOrNilForKey:@"lineType" fromDictionary:dictionary] intValue];
     line.lineStart = [line objectOrNilForKey:@"lineStart" fromDictionary:dictionary];
@@ -84,7 +62,6 @@
     [dict setValue:fullCode forKey:@"fullCode"];
     [dict setValue:code forKey:@"code"];
     [dict setValue:name forKey:@"name"];
-    [dict setValue:direction forKey:@"direction"];
     [dict setValue:destination forKey:@"destination"];
     [dict setValue:[NSNumber numberWithInt:(int)lineType] forKey:@"lineType"];
     [dict setValue:lineStart forKey:@"lineStart"];

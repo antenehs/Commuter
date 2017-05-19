@@ -1,0 +1,9 @@
+
+[*SHORT_PATTERN_FRAGMENT*]
+stops {
+    [*SHORT_STOP_FRAGMENT*]
+},
+geometry {
+    lat,
+    lon
+}

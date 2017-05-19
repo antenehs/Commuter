@@ -404,7 +404,7 @@
                 NSArray *lineComps = [lineCode componentsSeparatedByString:@" "];
                 line.code = [TRECommunication parseBusNumFromLineCode:lineComps[0]];
                 if (lineComps.count > 1) {
-                    line.direction = [lineComps lastObject];
+//                    line.direction = [lineComps lastObject];
                 }
             }
             line.lineType = [EnumManager lineTypeForStopType:stop.stopType];

@@ -8,3 +8,9 @@ url,
 platformCode,
 lat,
 lon,
+patterns {
+    [*SHORT_PATTERN_FRAGMENT*]
+},
+routes {
+    [*SHORT_ROUTE_FRAGMENT*]
+},

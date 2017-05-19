@@ -6,10 +6,8 @@
 //
 
 #import "DigiStop.h"
-#import "DigiRoute.h"
 #import "DigiStoptime.h"
 
-NSString *const kStopsRoutes = @"routes";
 NSString *const kStopsStoptimes = @"stoptimes";
 
 @interface DigiStop ()
@@ -20,7 +18,6 @@ NSString *const kStopsStoptimes = @"stoptimes";
 
 @implementation DigiStop
 
-@synthesize routes = _routes;
 @synthesize stoptimes = _stoptimes;
 
 
@@ -36,19 +33,6 @@ NSString *const kStopsStoptimes = @"stoptimes";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-        NSObject *receivedRoutes = [dict objectForKey:kStopsRoutes];
-        NSMutableArray *parsedRoutes = [NSMutableArray array];
-        if ([receivedRoutes isKindOfClass:[NSArray class]]) {
-            for (NSDictionary *item in (NSArray *)receivedRoutes) {
-                if ([item isKindOfClass:[NSDictionary class]]) {
-                    [parsedRoutes addObject:[DigiRoute modelObjectWithDictionary:item]];
-                }
-            }
-        } else if ([receivedRoutes isKindOfClass:[NSDictionary class]]) {
-            [parsedRoutes addObject:[DigiRoute modelObjectWithDictionary:(NSDictionary *)receivedRoutes]];
-        }
-        
-        self.routes = [NSArray arrayWithArray:parsedRoutes];
         
         NSObject *receivedStoptimes = [dict objectForKey:kStopsStoptimes];
         NSMutableArray *parsedStoptimes = [NSMutableArray array];
@@ -74,18 +58,6 @@ NSString *const kStopsStoptimes = @"stoptimes";
 {
     NSMutableDictionary *mutableDict = [[super dictionaryRepresentation] mutableCopy];
     
-    NSMutableArray *tempArrayForRoutes = [NSMutableArray array];
-    for (NSObject *subArrayObject in self.routes) {
-        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
-            // This class is a model object
-            [tempArrayForRoutes addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
-        } else {
-            // Generic object
-            [tempArrayForRoutes addObject:subArrayObject];
-        }
-    }
-    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForRoutes] forKey:kStopsRoutes];
-
     NSMutableArray *tempArrayForStoptimes = [NSMutableArray array];
     for (NSObject *subArrayObject in self.stoptimes) {
         if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
@@ -120,7 +92,6 @@ NSString *const kStopsStoptimes = @"stoptimes";
 {
     self = [super initWithCoder:aDecoder];
     
-    self.routes = [aDecoder decodeObjectForKey:kStopsRoutes];
     self.stoptimes = [aDecoder decodeObjectForKey:kStopsStoptimes];
     return self;
 }
@@ -129,7 +100,6 @@ NSString *const kStopsStoptimes = @"stoptimes";
 {
     [super encodeWithCoder:aCoder];
 
-    [aCoder encodeObject:_routes forKey:kStopsRoutes];
     [aCoder encodeObject:_stoptimes forKey:kStopsStoptimes];
 }
 
@@ -145,18 +115,19 @@ NSString *const kStopsStoptimes = @"stoptimes";
     return copy;
 }
 
-#pragma mark - computed properties
--(StopType)stopType {
-    if (_stopType == StopTypeUnknown) {
-        if (self.routes && self.routes.count > 0) {
-            DigiRoute *firstRoute = self.routes.firstObject;
-            _stopType = [EnumManager stopTypeFromLineType:firstRoute.lineType];
-        } else {
-            _stopType = StopTypeBus;
-        }
-    }
+#pragma mark - Conversion to reitti object
+-(BusStop *)reittiBusStop {
+    BusStop *busStop = [BusStop new];
     
-    return _stopType;
+    [super fillBusStopShortPropertiesTo:busStop];
+    
+    NSMutableArray *departures = [@[] mutableCopy];
+    for (DigiStoptime *digiTime in self.stoptimes) {
+        [departures addObject:digiTime.reittiStopDeparture];
+    }
+    busStop.departures = departures;
+    
+    return busStop;
 }
 
 #pragma mark - Object mapping
@@ -166,14 +137,14 @@ NSString *const kStopsStoptimes = @"stoptimes";
                                                                                toKeyPath:@"stoptimes"
                                                                         withMappingClass:[DigiStoptime class]];
     
-    MappingRelationShip *routeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"routes"
-                                                                               toKeyPath:@"routes"
-                                                                        withMappingClass:[DigiRoute class]];
+    NSArray *superRelationsShips = [super relationShips];
+    NSMutableArray *allRelations = [superRelationsShips mutableCopy];
+    [allRelations addObject:stopTimeRelationShip];
     
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:[self mappingDictionary]
-                                andRelationShips:@[stopTimeRelationShip, routeRelationShip]];
+                           withMappingDictionary:[super mappingDictionary]
+                                andRelationShips:allRelations];
 }
 
 @end

@@ -44,7 +44,7 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.bikesAvailable = [self objectOrNilForKey:kDigiBikeRentalStationBikesAvailable fromDictionary:dict];
             self.stationId = [self objectOrNilForKey:kDigiBikeRentalStationStationId fromDictionary:dict];
-            self.realtime = [self objectOrNilForKey:kDigiBikeRentalStationRealtime fromDictionary:dict];
+            self.realtime = [[self objectOrNilForKey:kDigiBikeRentalStationRealtime fromDictionary:dict] boolValue];
             self.name = [self objectOrNilForKey:kDigiBikeRentalStationName fromDictionary:dict];
             self.spacesAvailable = [self objectOrNilForKey:kDigiBikeRentalStationSpacesAvailable fromDictionary:dict];
 
@@ -59,7 +59,7 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.bikesAvailable forKey:kDigiBikeRentalStationBikesAvailable];
     [mutableDict setValue:self.stationId forKey:kDigiBikeRentalStationStationId];
-    [mutableDict setValue:self.realtime forKey:kDigiBikeRentalStationRealtime];
+    [mutableDict setValue:[NSNumber numberWithBool:self.realtime] forKey:kDigiBikeRentalStationRealtime];
     [mutableDict setValue:self.name forKey:kDigiBikeRentalStationName];
     [mutableDict setValue:self.spacesAvailable forKey:kDigiBikeRentalStationSpacesAvailable];
 
@@ -87,7 +87,7 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
 
     self.bikesAvailable = [aDecoder decodeObjectForKey:kDigiBikeRentalStationBikesAvailable];
     self.stationId = [aDecoder decodeObjectForKey:kDigiBikeRentalStationStationId];
-    self.realtime = [aDecoder decodeObjectForKey:kDigiBikeRentalStationRealtime];
+    self.realtime = [[aDecoder decodeObjectForKey:kDigiBikeRentalStationRealtime] boolValue];
     self.name = [aDecoder decodeObjectForKey:kDigiBikeRentalStationName];
     self.spacesAvailable = [aDecoder decodeObjectForKey:kDigiBikeRentalStationSpacesAvailable];
     return self;
@@ -98,7 +98,7 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
 
     [aCoder encodeObject:_bikesAvailable forKey:kDigiBikeRentalStationBikesAvailable];
     [aCoder encodeObject:_stationId forKey:kDigiBikeRentalStationStationId];
-    [aCoder encodeObject:_realtime forKey:kDigiBikeRentalStationRealtime];
+    [aCoder encodeObject:[NSNumber numberWithBool:_realtime] forKey:kDigiBikeRentalStationRealtime];
     [aCoder encodeObject:_name forKey:kDigiBikeRentalStationName];
     [aCoder encodeObject:_spacesAvailable forKey:kDigiBikeRentalStationSpacesAvailable];
 }
@@ -119,18 +119,42 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
     return copy;
 }
 
+#pragma mark - mapping
+-(BikeStation *)bikeStation {
+    BikeStation *station = [BikeStation new];
+    
+    station.stationId = self.stationId;
+    station.name = self.name;
+    station.lon = self.lon;
+    station.lat = self.lat;
+    station.bikesAvailable = self.bikesAvailable;
+    station.spacesAvailable = self.spacesAvailable;
+    station.allowDropoff = self.allowDropoff;
+    station.realTimeData = self.realtime;
+    
+    return station;
+}
+
+
++(NSDictionary *)mappingDictionary {
+    return @{
+             @"stationId"       : @"stationId",
+             @"name"            : @"name",
+             @"lon"             : @"lon",
+             @"lat"             : @"lat",
+             @"bikesAvailable"  : @"bikesAvailable",
+             @"spacesAvailable" : @"spacesAvailable",
+             @"allowDropoff"    : @"allowDropoff",
+             @"realtime"        : @"realtime",
+             };
+    
+}
+
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:@{
-                                                   @"stationId"         : @"stationId",
-                                                   @"realtime"          : @"realtime",
-                                                   @"bikesAvailable"    : @"bikesAvailable",
-                                                   @"name"              : @"name",
-                                                   @"spacesAvailable"   : @"spacesAvailable"
-                                                   }
-                                andRelationShips:@[]];
+                           withMappingDictionary:[self mappingDictionary]];
 }
 
 @end

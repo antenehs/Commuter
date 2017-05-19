@@ -24,9 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import <RestKit/RestKit.h>
 #import "ReittiObject.h"
-#import "Mapping.h"
 
 @class RouteLegLocation;
 
@@ -39,7 +37,7 @@ typedef enum
     FullAvailability = 4
 } Availability;
 
-@interface BikeStation : NSObject <Mappable>
+@interface BikeStation : ReittiObject
 
 +(id)bikeStationFromLegLocation:(RouteLegLocation *)location;
 
@@ -47,8 +45,8 @@ typedef enum
 
 @property (nonatomic, strong)NSString *stationId;
 @property (nonatomic, strong)NSString *name;
-@property (nonatomic, strong)NSString *xCoord;
-@property (nonatomic, strong)NSString *yCoord;
+@property (nonatomic, strong)NSString *lon;
+@property (nonatomic, strong)NSString *lat;
 @property (nonatomic, strong)NSNumber *bikesAvailable;
 @property (nonatomic, strong)NSNumber *spacesAvailable;
 @property (nonatomic) BOOL allowDropoff;

@@ -10,16 +10,13 @@
 #import "NearByStop.h"
 #import "MatkaStop.h"
 #import "ReittiObject.h"
-#import "DigiStop.h"
 
 @interface BusStopShort : ReittiObject
 
--(id)initFromDigiStop:(DigiStop *)digiStop;
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 -(id)initWithNearByStop:(NearByStop *)nearByStop;
 
 -(NSString *)destinationForLineFullCode:(NSString *)fullCode;
-
 
 @property (nonatomic, retain) NSNumber * code /*__IOS_PROHIBITED*/;
 @property (nonatomic, strong) NSString * gtfsId;

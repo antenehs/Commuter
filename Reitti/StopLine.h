@@ -8,26 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
-
-#ifndef APPLE_WATCH
-#import "DigiDataModels.h"
-#endif
-
+#import "LinePattern.h"
 
 @interface StopLine : NSObject <NSCoding>
 
 + (instancetype)initFromDictionary:(NSDictionary *)dictionary;
 - (NSDictionary *)dictionaryRepresentation;
 
-#ifndef APPLE_WATCH
-+(id)stopLineFromDigiRoute:(DigiRoute *)digiRoute;
-#endif
-
 @property (nonatomic, strong) NSString *fullCode;
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *direction;
 @property (nonatomic, strong) NSString *destination;
+
+//@property (nonatomic, strong) NSString *direction;
+@property (nonatomic, strong) LinePattern *pattern;
 
 @property (nonatomic) LineType lineType;
 @property (nonatomic, strong)NSString *lineStart;

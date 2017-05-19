@@ -23,6 +23,13 @@ extern NSString *kStopLinesKey;
 -(void)saveRecentLine:(Line *)line;
 
 -(NSDictionary *)getLineCodesAndLinesFromSavedStops;
--(void)getLineCodesFromNearByStopsWithCompletionBlock:(ActionBlock)completionBlock;
+
+-(void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;
+
+-(void)getLinesForRecentLineCodesWithCompletionBlock:(ActionBlock)completionBlock;
+-(void)getLinesFromSavedStopsWithCompletionBlock:(ActionBlock)completionBlock;
+-(void)getLinesFromNearByStopsWithCompletionBlock:(ActionBlock)completionBlock;
+
+-(NSArray *)filterInvalidLines:(NSArray *)lines;
 
 @end

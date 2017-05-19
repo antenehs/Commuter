@@ -32,10 +32,6 @@
 
 @interface LinesTableViewController ()
 
-@property (nonatomic, strong) NSArray *recentLineCodes;
-@property (nonatomic, strong) NSDictionary *lineCodesAndLinesFromSavedStops;
-@property (nonatomic, strong) NSArray *lineCodesFromNearbyStops;
-
 @end
 
 @implementation LinesTableViewController
@@ -89,15 +85,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(NSArray *)recentLineCodes{
-    NSArray *lineCodes = [[LinesManager sharedManager] getRecentLineCodes];
-    return lineCodes ? lineCodes : [@[] mutableCopy];
-}
-
--(NSDictionary *)lineCodesAndLinesFromSavedStops{
-    return [[LinesManager sharedManager] getLineCodesAndLinesFromSavedStops];
 }
 
 #pragma mark - init components methods
@@ -200,8 +187,9 @@
     
     [searchActivityIndicator beginRefreshing];
     [self.reittiDataManager fetchLinesForSearchTerm:searchText withCompletionBlock:^(NSArray *lines, NSString* searchTerm, NSString *error, ReittiApi usedApi){
+        if (![searchTerm isEqualToString:addressSearchBar.text]) return;
         if (!error) {
-            self.searchedLines = [[self filterInvalidLines:lines] mutableCopy];
+            self.searchedLines = [[[LinesManager sharedManager] filterInvalidLines:lines] mutableCopy];
             [self.tableView reloadData];
         }else{
             self.searchedLines = [@[] mutableCopy];
@@ -214,89 +202,29 @@
 }
 
 -(void)fetchInitialData{
-    if (self.recentLineCodes && self.recentLineCodes.count > 0) {
-        linesForRecentLinesRequested = YES;
+    linesForRecentLinesRequested = YES;
+    [[LinesManager sharedManager] getLinesForRecentLineCodesWithCompletionBlock:^(NSArray *lines){
+        self.recentLines = [lines mutableCopy];
         
-        [self fetchLinesForCodes:self.recentLineCodes withCompletionBlock:^(NSArray *lines){
-            self.recentLines = [[self filterInvalidLines:lines] mutableCopy];
-            
-            [self sortRecentLines]; //Order is not garantied so needs to be sorted.
-            
-            linesForRecentLinesRequested = NO;
-            [self.tableView reloadData];
-        }];
-    }
+        linesForRecentLinesRequested = NO;
+        [self.tableView reloadData];
+    }];
     
-    if (self.lineCodesAndLinesFromSavedStops && [self.lineCodesAndLinesFromSavedStops[kStopLineCodesKey] count] > 0) {
-        linesFromStopsRequested = YES;
+    linesFromStopsRequested = YES;
+    [[LinesManager sharedManager] getLinesFromSavedStopsWithCompletionBlock:^(NSArray *lines){
+        self.linesFromSavedStops = [lines mutableCopy];
         
-        if (self.reittiDataManager.userLocationRegion == HSLRegion || self.reittiDataManager.userLocationRegion == TRERegion) {
-            NSArray *lineCodes = self.lineCodesAndLinesFromSavedStops[kStopLineCodesKey];
-            [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
-                self.linesFromSavedStops = [[self filterInvalidLines:lines] mutableCopy];
-                
-                linesFromStopsRequested = NO;
-                [self.tableView reloadData];
-            }];
-        } else {
-            NSArray *lines = self.lineCodesAndLinesFromSavedStops[kStopLinesKey];
-            //already display the stop lines.
-            NSMutableArray *stopLines = [@[] mutableCopy];
-            for (StopLine *stopLine in lines) {
-                Line *line = [Line lineFromStopLine:stopLine];
-                [stopLines addObject:line];
-            }
-            
-            self.linesFromSavedStops = [[self filterInvalidLines:stopLines] mutableCopy];
-            
-            linesFromStopsRequested = NO;
-            [self.tableView reloadData];
-        }
-        
-    }
+        linesFromStopsRequested = NO;
+        [self.tableView reloadData];
+    }];
     
     linesFromNearByStopsRequested = YES;
-    [[LinesManager sharedManager] getLineCodesFromNearByStopsWithCompletionBlock:^(NSArray *lineCodes, NSArray *stopLines){
-        if (lineCodes.count > 0) {
-            if (self.reittiDataManager.userLocationRegion == HSLRegion || self.reittiDataManager.userLocationRegion == TRERegion) {
-                [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
-                    self.linesFromNearStops = [[self filterInvalidLines:lines] mutableCopy];
-                    
-                    linesFromNearByStopsRequested = NO;
-                    [self.tableView reloadData];
-                }];
-            } else {
-                //already display the stop lines.
-                NSMutableArray *lines = [@[] mutableCopy];
-                for (StopLine *stopLine in stopLines) {
-                    Line *line = [Line lineFromStopLine:stopLine];
-                    [lines addObject:line];
-                }
-                
-                self.linesFromNearStops = [[self filterInvalidLines:lines] mutableCopy];;
-                
-                linesFromNearByStopsRequested = NO;
-                [self.tableView reloadData];
-            }
-        }
+    [[LinesManager sharedManager] getLinesFromNearByStopsWithCompletionBlock:^(NSArray *lines){
+        self.linesFromNearStops = [lines mutableCopy];
+        
+        linesFromNearByStopsRequested = NO;
+        [self.tableView reloadData];
     }];
-}
-
--(void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock{
-    [self.reittiDataManager fetchLinesForLineCodes:lineCodes withCompletionBlock:^(NSArray *lines, NSString *searchTerm, NSString *errorString){
-        if (!errorString) {
-            completionBlock([[self filterInvalidLines:lines] mutableCopy]);
-        }else{
-            completionBlock([@[] mutableCopy]);
-        }
-    }];
-}
-
--(NSArray *)filterInvalidLines:(NSArray *)lines {
-    return [lines filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
-        Line *line = (Line *)object;
-        return line.codeShort && line.code && line.isValidNow;
-    }]];
 }
 
 #pragma mark - Table view data source
@@ -398,13 +326,10 @@
         titleLabel.text = @"    RECENT LINES";
     }else if (section == linesFromSavedStopsSection) {
         titleLabel.text = @"    LINES FROM SAVED STOPS";
-//        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTrain];
     }else if (section == linesFromNearbyStopsSection){
         titleLabel.text = @"    LINES FROM STOPS NEAR YOU";
-//        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeTram];
     }else if (section == searchedLinesSection){
         titleLabel.text = @"    SEARCHED LINES";
-//        typeImageView.image = [AppManager vehicleImageForLineType:LineTypeMetro];
     }else{
         return nil;
     }
@@ -417,35 +342,10 @@
     return view;
 }
 
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-//    if (section == linesFromSavedStopsSection) {
-//        return @"LINES FROM SAVED STOPS";
-//    }else if (section == linesFromNearbyStopsSection) {
-//        return @"LINES FROM STOPS NEAR YOU";
-//    }else if (section == searchedLinesSection) {
-//        return @"SEARCHED LINES";
-//    }
-//    
-//    return nil;
-//}
-
-
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
 #pragma mark - scroll view delegates
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -471,69 +371,6 @@
             return self.searchedLines;
             break;
     }
-}
-
-//- (void)groupLinesByType:(NSArray *)lines{
-//    [self.busLines removeAllObjects];
-//    [self.ferryLines removeAllObjects];
-//    [self.metroLines removeAllObjects];
-//    [self.tramLines removeAllObjects];
-//    [self.trainLines removeAllObjects];
-//    
-//    for (StaticRoute *route in lines) {
-//        if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeBus) {
-//            [self.busLines addObject:route];
-//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeFerry) {
-//            [self.ferryLines addObject:route];
-//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeMetro) {
-//            [self.metroLines addObject:route];
-//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeTram) {
-//            [self.tramLines addObject:route];
-//        }else if ([EnumManager lineTypeForHSLLineTypeId:route.routeType] == LineTypeTrain) {
-//            [self.trainLines addObject:route];
-//        }
-//    }
-//    
-//    self.busLines = [self sortRouteArray:self.busLines];
-//    self.ferryLines = [self sortRouteArray:self.ferryLines];
-//    self.metroLines = [self sortRouteArray:self.metroLines];
-//    self.tramLines = [self sortRouteArray:self.tramLines];
-//    self.trainLines = [self sortRouteArray:self.trainLines];
-//}
-
-//- (NSArray *)filterInvalidLines:(NSArray *)lines{
-//    NSMutableArray *filteredLines = [@[] mutableCopy];
-//    for (Line *line in lines) {
-//        if (line.isValidNow) {
-//            [filteredLines addObject:line];
-//        }
-//    }
-//    
-//    return filteredLines;
-//}
-
-- (void)sortRecentLines{
-    NSArray *sortedArray;
-    
-    NSArray *linesCodes = [self recentLineCodes];
-    sortedArray = [self.recentLines sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        //We can cast all types to ReittiManagedObjectBase since we are only interested in the date modified property
-        NSInteger first = [linesCodes indexOfObject:[(Line *)a code]];
-        NSInteger second = [linesCodes indexOfObject:[(Line *)b code]];
-        
-        if (first == NSNotFound)
-            return NSOrderedDescending;
-        
-        //Decending by date - latest to earliest
-        if (second > first)
-            return NSOrderedAscending;
-        else if (first > second)
-            return NSOrderedDescending;
-        else
-            return NSOrderedSame;
-    }];
-    
-    self.recentLines = [NSMutableArray arrayWithArray:sortedArray];
 }
 
 - (Line *)lineForIndexPath:(NSIndexPath *)indexPath{

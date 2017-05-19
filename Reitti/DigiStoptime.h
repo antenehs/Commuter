@@ -8,8 +8,11 @@
 #import <Foundation/Foundation.h>
 #import "DigiTrip.h"
 #import "Mapping.h"
+#import "StopDeparture.h"
 
 @interface DigiStoptime : NSObject <NSCoding, NSCopying, Mappable>
+
+-(StopDeparture *)reittiStopDeparture;
 
 @property (nonatomic, strong) NSNumber *serviceDay;
 @property (nonatomic, strong) NSNumber *scheduledDeparture;

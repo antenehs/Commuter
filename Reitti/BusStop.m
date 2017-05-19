@@ -8,55 +8,14 @@
 
 #import "BusStop.h"
 #import "EnumManager.h"
-#import "CacheManager.h"
 #import "ReittiStringFormatter.h"
-#import "AppManager.h"
 #import "StopDeparture.h"
 #import "MatkaLine.h"
 #import "StopLine.h"
 
-@interface BusStop ()
-
-@property (strong, nonatomic)StaticStop *staticStop;
-
-@end
-
-
 @implementation BusStop
 
-//@synthesize code;
-//@synthesize nameFi;
-//@synthesize nameSv;
-//@synthesize cityFi;
-//@synthesize citySv;
-//@synthesize coords;
-//@synthesize wgsCoords;
 @synthesize departures;
-//@synthesize timetableLink;
-//@synthesize omatlahdotLink;
-//@synthesize addressFi;
-//@synthesize addressSv;
-
-//-(StopType)stopType{
-//    @try {
-//        if (_stopType == StopTypeUnknown) {
-//            NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
-//            if (!_staticStop) {
-//                _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
-//            }
-//            
-//            if (_staticStop) {
-//                return _staticStop.reittiStopType;
-//            }else{
-//                return StopTypeBus;
-//            }
-//        } else {
-//            return _stopType;
-//        }
-//    }
-//    @catch (NSException *exception) {}
-//}
-
 
 - (void)updateDeparturesFromRealtimeDepartures:(NSArray *)realtimeDepartures {
     if (realtimeDepartures && realtimeDepartures.count > 0 && self.departures) {
@@ -83,17 +42,6 @@
 }
 
 #pragma mark - Init from other class
--(id)initFromDigiStop:(DigiStop *)digiStop {
-    self = [super initFromDigiStop:digiStop];
-    
-    NSMutableArray *newDepartures = [@[] mutableCopy];
-    for (DigiStoptime *digiTime in digiStop.stoptimes) {
-        [newDepartures addObject:[StopDeparture departureForDigiStopTime:digiTime]];
-    }
-    self.departures = newDepartures;
-    
-    return self;
-}
 
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStop *stop = [[BusStop alloc] init];
@@ -124,7 +72,7 @@
         line.fullCode = matkaLine.lineId;
         line.code = [matkaLine.codeShort uppercaseString];
         line.name = matkaLine.name;
-        line.direction = @"1";
+//        line.direction = @"1";
         line.destination = matkaLine.name;
         line.lineType = matkaLine.lineType;
         line.lineStart = matkaLine.lineStart;

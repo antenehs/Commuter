@@ -207,7 +207,7 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
             if (!error && stops) {
                 DigiStop *digiStop = [self matchingStopFrom:stops forStop:stopEntity];
                 if (digiStop) {
-                    BusStop *busStop = [[BusStop alloc] initFromDigiStop:digiStop];
+                    BusStop *busStop = digiStop.reittiBusStop;
                     busStop.fetchedFromApi = fetchedFrom;
                     [[StopCoreDataManager sharedManager] deleteSavedStop:stopEntity];
                     [[StopCoreDataManager sharedManager] saveToCoreDataStop:busStop];

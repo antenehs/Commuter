@@ -6,13 +6,9 @@
 //
 
 #import "DigiRoute.h"
-#import "DigiStopShort.h"
-#import "DigiPattern.h"
-#import "DigiStopShort.h"
-
+//#import "Line.h"
 
 NSString *const kDigiRouteAlerts = @"alerts";
-NSString *const kDigiRouteStops = @"stops";
 NSString *const kDigiRoutePatterns = @"patterns";
 
 
@@ -25,7 +21,6 @@ NSString *const kDigiRoutePatterns = @"patterns";
 @implementation DigiRoute
 
 @synthesize alerts = _alerts;
-@synthesize stops = _stops;
 @synthesize patterns = _patterns;
 
 
@@ -44,19 +39,6 @@ NSString *const kDigiRoutePatterns = @"patterns";
         
         self.alerts = [self objectOrNilForKey:kDigiRouteAlerts fromDictionary:dict];
         
-        NSObject *receivedDigiStops = [dict objectForKey:kDigiRouteStops];
-        NSMutableArray *parsedDigiStops = [NSMutableArray array];
-        if ([receivedDigiStops isKindOfClass:[NSArray class]]) {
-            for (NSDictionary *item in (NSArray *)receivedDigiStops) {
-                if ([item isKindOfClass:[NSDictionary class]]) {
-                    [parsedDigiStops addObject:[DigiStopShort modelObjectWithDictionary:item]];
-                }
-           }
-        } else if ([receivedDigiStops isKindOfClass:[NSDictionary class]]) {
-           [parsedDigiStops addObject:[DigiStopShort modelObjectWithDictionary:(NSDictionary *)receivedDigiStops]];
-        }
-
-        self.stops = [NSArray arrayWithArray:parsedDigiStops];
         NSObject *receivedDigiPatterns = [dict objectForKey:kDigiRoutePatterns];
         NSMutableArray *parsedDigiPatterns = [NSMutableArray array];
         if ([receivedDigiPatterns isKindOfClass:[NSArray class]]) {
@@ -91,17 +73,6 @@ NSString *const kDigiRoutePatterns = @"patterns";
         }
     }
     [mutableDict setValue:[NSArray arrayWithArray:tempArrayForAlerts] forKey:kDigiRouteAlerts];
-    NSMutableArray *tempArrayForStops = [NSMutableArray array];
-    for (NSObject *subArrayObject in self.stops) {
-        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
-            // This class is a model object
-            [tempArrayForStops addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
-        } else {
-            // Generic object
-            [tempArrayForStops addObject:subArrayObject];
-        }
-    }
-    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForStops] forKey:kDigiRouteStops];
 
     NSMutableArray *tempArrayForPatterns = [NSMutableArray array];
     for (NSObject *subArrayObject in self.patterns) {
@@ -138,7 +109,6 @@ NSString *const kDigiRoutePatterns = @"patterns";
     self = [super initWithCoder:aDecoder];
 
     self.alerts = [aDecoder decodeObjectForKey:kDigiRouteAlerts];
-    self.stops = [aDecoder decodeObjectForKey:kDigiRouteStops];
     self.patterns = [aDecoder decodeObjectForKey:kDigiRoutePatterns];
     return self;
 }
@@ -148,7 +118,6 @@ NSString *const kDigiRoutePatterns = @"patterns";
     [super encodeWithCoder:aCoder];
     
     [aCoder encodeObject:_alerts forKey:kDigiRouteAlerts];
-    [aCoder encodeObject:_stops forKey:kDigiRouteStops];
     [aCoder encodeObject:_patterns forKey:kDigiRoutePatterns];
 }
 
@@ -158,7 +127,6 @@ NSString *const kDigiRoutePatterns = @"patterns";
     
     if (copy) {
         copy.alerts = [self.alerts copyWithZone:zone];
-        copy.stops = [self.stops copyWithZone:zone];
         copy.patterns = [self.patterns copyWithZone:zone];
     }
     
@@ -167,47 +135,78 @@ NSString *const kDigiRoutePatterns = @"patterns";
 
 #pragma mark - Overriden properties
 -(NSString *)lineEnd {
-    NSString *lineEnd = [super lineEnd];
+    NSString *newLineEnd = nil;
     
-    if (!lineEnd && self.stops.count > 0) {
-        DigiStopShort *stop = [self.stops lastObject];
-        self.lineEnd = stop.name;
+    if (self.patterns.firstObject) {
+        DigiPattern *firstPattern = self.patterns.firstObject;
+        newLineEnd = [firstPattern lineEnd];
     }
     
-    return [super lineEnd];
+    return newLineEnd ? newLineEnd : [super lineEnd];
 }
 
-#pragma mark - Computed properties
--(NSArray *)shapeCoordinates {
-    if (!_shapeCoordinates) {
-        if (self.patterns && self.patterns.count > 0) {
-            NSMutableArray *tempArray = [@[] mutableCopy];
-            
-            for (DigiPattern *pattern in self.patterns) {
-                [tempArray addObjectsFromArray:pattern.shapeCoordinates];
-            }
-            _shapeCoordinates = tempArray;
-        }
+-(NSString *)lineStart {
+    NSString *newLineStart = nil;
+    
+    if (self.patterns.firstObject) {
+        DigiPattern *firstPattern = self.patterns.firstObject;
+        newLineStart = [firstPattern lineStart];
     }
     
-    return _shapeCoordinates;
+    return newLineStart ? newLineStart : [super lineStart];
+}
+
+#pragma mark - Conversion
+-(Line *)reittiLine {
+    return [self reittiLineForPattern:self.patterns.firstObject];
+}
+
+-(Line *)reittiLineForPattern:(DigiPattern *)pattern {
+    Line *line = [Line new];
+    
+    line.code = self.gtfsId;
+    line.codeShort = self.shortName;
+    line.lineType = self.lineType;
+    
+    line.lineStart = pattern ? pattern.lineStart : self.lineStart;
+    line.lineEnd = pattern ? pattern.lineEnd : self.lineEnd;
+    
+    line.timetableUrl = self.url;
+    line.dateFrom = nil;
+    line.dateTo = nil;
+    
+    line.name = pattern ? pattern.name : self.longName;
+    
+    if (pattern) {
+        line.patternCode = pattern.code;
+        line.patternDirectionId = pattern.directionId;
+        
+        if (pattern.stops) {
+            NSMutableArray *stops = [@[] mutableCopy];
+            for (DigiStopShort *digiStop in pattern.stops) {
+                [stops addObject:digiStop.reittiLineStop];
+            }
+            
+            line.lineStops = stops;
+        }
+        
+        line.shapeCoordinates = pattern.shapeCoordinates ? pattern.shapeCoordinates : @[];
+    }
+    
+    return line;
 }
 
 #pragma mark - Object mapping
 
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
-    MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"stops"
-                                                                               toKeyPath:@"stops"
-                                                                        withMappingClass:[DigiStopShort class]];
-    
     MappingRelationShip *paternRelationShip = [MappingRelationShip relationShipFromKeyPath:@"patterns"
                                                                                toKeyPath:@"patterns"
                                                                         withMappingClass:[DigiPattern class]];
     
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:[self mappingDictionary]
-                                andRelationShips:@[stopRelationShip, paternRelationShip]];
+                           withMappingDictionary:[super mappingDictionary]
+                                andRelationShips:@[paternRelationShip]];
 }
 
 @end

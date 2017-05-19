@@ -6,9 +6,9 @@
 //
 
 #import "DigiPattern.h"
-#import "DigiGeometry.h"
 
 NSString *const kDigiPatternGeometry = @"geometry";
+NSString *const kDigiRouteStops = @"stops";
 
 
 @interface DigiPattern ()
@@ -19,6 +19,7 @@ NSString *const kDigiPatternGeometry = @"geometry";
 
 @implementation DigiPattern
 
+@synthesize stops = _stops;
 @synthesize geometry = _geometry;
 
 
@@ -34,19 +35,33 @@ NSString *const kDigiPatternGeometry = @"geometry";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-    NSObject *receivedDigiGeometry = [dict objectForKey:kDigiPatternGeometry];
-    NSMutableArray *parsedDigiGeometry = [NSMutableArray array];
-    if ([receivedDigiGeometry isKindOfClass:[NSArray class]]) {
-        for (NSDictionary *item in (NSArray *)receivedDigiGeometry) {
-            if ([item isKindOfClass:[NSDictionary class]]) {
-                [parsedDigiGeometry addObject:[DigiGeometry modelObjectWithDictionary:item]];
+        NSObject *receivedDigiStops = [dict objectForKey:kDigiRouteStops];
+        NSMutableArray *parsedDigiStops = [NSMutableArray array];
+        if ([receivedDigiStops isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *item in (NSArray *)receivedDigiStops) {
+                if ([item isKindOfClass:[NSDictionary class]]) {
+                    [parsedDigiStops addObject:[DigiStopShort modelObjectWithDictionary:item]];
+                }
             }
-       }
-    } else if ([receivedDigiGeometry isKindOfClass:[NSDictionary class]]) {
-       [parsedDigiGeometry addObject:[DigiGeometry modelObjectWithDictionary:(NSDictionary *)receivedDigiGeometry]];
-    }
+        } else if ([receivedDigiStops isKindOfClass:[NSDictionary class]]) {
+            [parsedDigiStops addObject:[DigiStopShort modelObjectWithDictionary:(NSDictionary *)receivedDigiStops]];
+        }
+        
+        self.stops = [NSArray arrayWithArray:parsedDigiStops];
+        
+        NSObject *receivedDigiGeometry = [dict objectForKey:kDigiPatternGeometry];
+        NSMutableArray *parsedDigiGeometry = [NSMutableArray array];
+        if ([receivedDigiGeometry isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *item in (NSArray *)receivedDigiGeometry) {
+                if ([item isKindOfClass:[NSDictionary class]]) {
+                    [parsedDigiGeometry addObject:[DigiGeometry modelObjectWithDictionary:item]];
+                }
+           }
+        } else if ([receivedDigiGeometry isKindOfClass:[NSDictionary class]]) {
+           [parsedDigiGeometry addObject:[DigiGeometry modelObjectWithDictionary:(NSDictionary *)receivedDigiGeometry]];
+        }
 
-    self.geometry = [NSArray arrayWithArray:parsedDigiGeometry];
+        self.geometry = [NSArray arrayWithArray:parsedDigiGeometry];
 
     }
     
@@ -57,6 +72,19 @@ NSString *const kDigiPatternGeometry = @"geometry";
 - (NSDictionary *)dictionaryRepresentation
 {
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    
+    NSMutableArray *tempArrayForStops = [NSMutableArray array];
+    for (NSObject *subArrayObject in self.stops) {
+        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForStops addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForStops addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForStops] forKey:kDigiRouteStops];
+    
     NSMutableArray *tempArrayForGeometry = [NSMutableArray array];
     for (NSObject *subArrayObject in self.geometry) {
         if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
@@ -91,13 +119,14 @@ NSString *const kDigiPatternGeometry = @"geometry";
 {
     self = [super init];
 
+    self.stops = [aDecoder decodeObjectForKey:kDigiRouteStops];
     self.geometry = [aDecoder decodeObjectForKey:kDigiPatternGeometry];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-
+    [aCoder encodeObject:_stops forKey:kDigiRouteStops];
     [aCoder encodeObject:_geometry forKey:kDigiPatternGeometry];
 }
 
@@ -106,7 +135,7 @@ NSString *const kDigiPatternGeometry = @"geometry";
     DigiPattern *copy = [[DigiPattern alloc] init];
     
     if (copy) {
-
+        copy.stops = [self.stops copyWithZone:zone];
         copy.geometry = [self.geometry copyWithZone:zone];
     }
     
@@ -114,6 +143,14 @@ NSString *const kDigiPatternGeometry = @"geometry";
 }
 
 #pragma mark - Derived properties
+-(NSString *)name {
+    if (self.lineStart && self.lineEnd) {
+        return [NSString stringWithFormat:@"%@ - %@", self.lineStart, self.lineEnd];
+    }
+    
+    return self.name;
+}
+
 -(NSArray *)shapeCoordinates {
     if (!_shapeCoordinates) {
         if (self.geometry && self.geometry.count > 0) {
@@ -131,17 +168,34 @@ NSString *const kDigiPatternGeometry = @"geometry";
     return _shapeCoordinates;
 }
 
+-(NSString *)lineEnd {
+    return self.headsign;
+}
+
+-(NSString *)lineStart {
+    if (!_lineStart && self.stops.count > 0) {
+        DigiStopShort *stop = [self.stops firstObject];
+        _lineStart = stop.name;
+    }
+    
+    return _lineStart;
+}
+
 #pragma mark - Mapping
 
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
+    MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"stops"
+                                                                               toKeyPath:@"stops"
+                                                                        withMappingClass:[DigiStopShort class]];
+    
     MappingRelationShip *geometryRelationShip = [MappingRelationShip relationShipFromKeyPath:@"geometry"
                                                                                toKeyPath:@"geometry"
                                                                         withMappingClass:[DigiGeometry class]];
     
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:nil
-                                andRelationShips:@[geometryRelationShip]];
+                           withMappingDictionary:[super mappingDictionary]
+                                andRelationShips:@[stopRelationShip, geometryRelationShip]];
 }
 
 

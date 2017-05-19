@@ -146,6 +146,25 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     return _parsedRealtimeDepartureDate;
 }
 
+#pragma mark - conversion
+-(StopDeparture *)reittiStopDeparture {
+    StopDeparture *departure = [StopDeparture new];
+    
+    //TODO: Full info when needed. Now we are only interested in the realtime times.
+    departure.code = self.trip.route.shortName;
+    departure.date = nil;
+    departure.name = self.trip.route.longName;
+    departure.time = nil;
+    departure.direction = nil;
+    departure.destination = self.trip.tripHeadsign;
+    departure.parsedScheduledDate = self.parsedScheduledDepartureDate;
+    departure.parsedRealtimeDate = self.parsedRealtimeDepartureDate;
+    departure.isRealTime = [self.realtime boolValue];
+    
+    return departure;
+}
+
+#pragma mark - mapping
 +(NSDictionary *)mappingDictionary {
     return @{
               @"serviceDay"         : @"serviceDay",

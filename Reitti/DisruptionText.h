@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DigiAlertText.h"
 
-@interface DisruptionText : ReittiObject
+@interface DisruptionText : NSObject
 
 +(instancetype)disruptionTextFromDigiAlertText:(DigiAlertText *)digiAlertText;
 

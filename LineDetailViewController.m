@@ -349,7 +349,7 @@
         }
         
         LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
-        newAnnotation.code = [NSNumber numberWithInteger:[stop.code integerValue]];
+        newAnnotation.code = stop.gtfsId;
         newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:[EnumManager legTrasportTypeForLineType:self.line.lineType]]];
         
         [routeMapView addAnnotation:newAnnotation];
@@ -505,7 +505,7 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     id <MKAnnotation> annotation = [view annotation];
-    NSNumber *stopCode;
+    NSString *stopCode;
     NSString *stopShortCode, *stopName;
     CLLocationCoordinate2D stopCoords;
     if ([annotation isKindOfClass:[LocationsAnnotation class]])
@@ -645,7 +645,7 @@
         NSString *stopCode, *stopShortCode, *stopName;
         CLLocationCoordinate2D stopCoords;
         if ([sender isKindOfClass:[self class]]) {
-            stopCode = [NSString stringWithFormat:@"%ld", (long)[selectedAnnotionStopCode integerValue]];
+            stopCode = selectedAnnotionStopCode;
             stopCoords = selectedAnnotationStopCoords;
             stopShortCode = selectedAnnotionStopShortCode;
             stopName = selectedAnnotionStopName;
@@ -675,7 +675,7 @@
         
         if (lineStop) {
             StopViewController *stopViewController =(StopViewController *)segue.destinationViewController;
-            stopViewController.stopGtfsId = lineStop.code;
+            stopViewController.stopGtfsId = lineStop.gtfsId;
             stopViewController.stopShortCode = lineStop.codeShort;
             stopViewController.stopName = lineStop.name;
             stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:lineStop.coords];

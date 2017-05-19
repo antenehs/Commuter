@@ -122,7 +122,7 @@
                 line.code = [ReittiStringFormatterE parseBusNumFromLineCode:lineCode];
                 
                 if (lineCode.length == 7) {
-                    line.direction = [lineCode substringWithRange:NSMakeRange(6, 1)];
+//                    line.direction = [lineCode substringWithRange:NSMakeRange(6, 1)];
                 }
             }
             line.lineEnd = line.destination;

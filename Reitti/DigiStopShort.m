@@ -7,6 +7,7 @@
 //
 
 #import "DigiStopShort.h"
+#import "DigiRouteShort.h"
 
 NSString *const kStopsGtfsId = @"gtfsId";
 NSString *const kStopsCode = @"code";
@@ -14,6 +15,7 @@ NSString *const kStopsLon = @"lon";
 NSString *const kStopsLat = @"lat";
 NSString *const kStopsName = @"name";
 NSString *const kStopsUrl = @"url";
+NSString *const kStopsRoutes = @"routes";
 
 @interface DigiStopShort ()
 
@@ -29,6 +31,7 @@ NSString *const kStopsUrl = @"url";
 @synthesize lat = _lat;
 @synthesize name = _name;
 @synthesize url = _url;
+@synthesize routes = _routes;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
 {
@@ -48,6 +51,20 @@ NSString *const kStopsUrl = @"url";
         self.lat = [self objectOrNilForKey:kStopsLat fromDictionary:dict];
         self.name = [self objectOrNilForKey:kStopsName fromDictionary:dict];
         self.url = [self objectOrNilForKey:kStopsUrl fromDictionary:dict];
+        
+        NSObject *receivedRoutes = [dict objectForKey:kStopsRoutes];
+        NSMutableArray *parsedRoutes = [NSMutableArray array];
+        if ([receivedRoutes isKindOfClass:[NSArray class]]) {
+            for (NSDictionary *item in (NSArray *)receivedRoutes) {
+                if ([item isKindOfClass:[NSDictionary class]]) {
+                    [parsedRoutes addObject:[DigiRouteShort modelObjectWithDictionary:item]];
+                }
+            }
+        } else if ([receivedRoutes isKindOfClass:[NSDictionary class]]) {
+            [parsedRoutes addObject:[DigiRouteShort modelObjectWithDictionary:(NSDictionary *)receivedRoutes]];
+        }
+        
+        self.routes = [NSArray arrayWithArray:parsedRoutes];
     }
     
     return self;
@@ -63,6 +80,18 @@ NSString *const kStopsUrl = @"url";
     [mutableDict setValue:self.lat forKey:kStopsLat];
     [mutableDict setValue:self.name forKey:kStopsName];
     [mutableDict setValue:self.url forKey:kStopsUrl];
+    
+    NSMutableArray *tempArrayForRoutes = [NSMutableArray array];
+    for (NSObject *subArrayObject in self.routes) {
+        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
+            // This class is a model object
+            [tempArrayForRoutes addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
+        } else {
+            // Generic object
+            [tempArrayForRoutes addObject:subArrayObject];
+        }
+    }
+    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForRoutes] forKey:kStopsRoutes];
     
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -91,6 +120,7 @@ NSString *const kStopsUrl = @"url";
     self.lat = [aDecoder decodeObjectForKey:kStopsLat];
     self.name = [aDecoder decodeObjectForKey:kStopsName];
     self.url = [aDecoder decodeObjectForKey:kStopsUrl];
+    self.routes = [aDecoder decodeObjectForKey:kStopsRoutes];
     return self;
 }
 
@@ -103,6 +133,7 @@ NSString *const kStopsUrl = @"url";
     [aCoder encodeObject:_lat forKey:kStopsLat];
     [aCoder encodeObject:_name forKey:kStopsName];
     [aCoder encodeObject:_url forKey:kStopsUrl];
+    [aCoder encodeObject:_routes forKey:kStopsRoutes];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -143,6 +174,101 @@ NSString *const kStopsUrl = @"url";
     return @0;
 }
 
+-(StopType)stopType {
+    if (_stopType == StopTypeUnknown) {
+        if (self.routes && self.routes.count > 0) {
+            DigiRouteShort *firstRoute = self.routes.firstObject;
+            _stopType = [EnumManager stopTypeFromLineType:firstRoute.lineType];
+        } else {
+            _stopType = StopTypeBus;
+        }
+    }
+    
+    return _stopType;
+}
+
+#pragma mark - conversion
+-(LineStop *)reittiLineStop {
+    LineStop *stop = [LineStop new];
+    
+    stop.coords = self.coordString;
+    stop.address = self.name;
+    stop.time = nil;
+    stop.gtfsId = self.gtfsId;
+    stop.code = [self.numberId stringValue];
+    stop.codeShort = self.code;
+    stop.platformNumber = nil;
+    stop.cityName = nil;
+    stop.name = self.name;
+    
+    return stop;
+}
+
+//#if MAIN_APP
+-(BusStopShort *)reittiBusStopShort {
+    BusStopShort *stopShort = [BusStopShort new];
+    
+    [self fillBusStopShortPropertiesTo:stopShort];
+    
+    return stopShort;
+}
+
+-(void)fillBusStopShortPropertiesTo:(BusStopShort *)stopShort {
+    stopShort.code = self.numberId;
+    stopShort.gtfsId = self.gtfsId;
+    stopShort.codeShort = self.code;
+    
+    stopShort.name = self.name;
+    stopShort.nameFi = self.name;
+    stopShort.nameSv = self.name;
+    
+    stopShort.city = @"";
+    stopShort.cityFi = @"";
+    stopShort.citySv = @"";
+    
+    stopShort.address = self.desc;
+    stopShort.addressFi = self.desc;
+    stopShort.addressSv = self.desc;
+    
+    stopShort.stopType = self.stopType;
+    stopShort.fetchedFromApi = ReittiDigiTransitApi;
+    
+    stopShort.coords = self.coordString;
+    stopShort.wgsCoords = self.coordString;
+    
+    stopShort.timetableLink = self.url;
+    
+    stopShort.lines = [self reittiStopLines];
+}
+
+-(NSArray *)reittiStopLines {
+    NSMutableArray *lines = [@[] mutableCopy];
+    
+    for (DigiPatternShort *pattern in self.patterns) {
+        //Find the route with this pattern
+        DigiRouteShort *routeShort = [self routeWithStopPattern:pattern];
+        if (routeShort) {
+//            routeShort.patterns = @[pattern];
+            [lines addObject:[routeShort reittiStopLineWithPattern:pattern]];
+        } else {}
+    }
+    
+    return lines;
+}
+
+-(DigiRouteShort *)routeWithStopPattern:(DigiPatternShort *)stopPattern {
+    for (DigiRouteShort *digiRouteShort in self.routes) {
+        for (DigiPatternShort *pattern in digiRouteShort.patterns) {
+            if ([pattern.code isEqualToString:stopPattern.code]) {
+                return digiRouteShort;
+            }
+        }
+    }
+    
+    NSLog(@"STOP PATTERN AND ROUTE PATTERN MISMATCH");
+    return nil;
+}
+
 #pragma mark - Object mapping
 
 +(NSDictionary *)mappingDictionary {
@@ -159,10 +285,22 @@ NSString *const kStopsUrl = @"url";
              };
 }
 
++(NSArray *)relationShips {
+    MappingRelationShip *routeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"routes"
+                                                                                toKeyPath:@"routes"
+                                                                         withMappingClass:[DigiRouteShort class]];
+    
+    MappingRelationShip *patternRelationShip = [MappingRelationShip relationShipFromKeyPath:@"patterns"
+                                                                                toKeyPath:@"patterns"
+                                                                         withMappingClass:[DigiPatternShort class]];
+    return @[routeRelationShip, patternRelationShip];
+}
+
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:[self mappingDictionary]];
+                           withMappingDictionary:[self mappingDictionary]
+                                andRelationShips:[self relationShips]];
 }
 
 @end

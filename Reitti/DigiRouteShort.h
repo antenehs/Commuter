@@ -7,9 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
+#import "DigiPatternShort.h"
 #import "Mapping.h"
+#import "StopLine.h"
 
 @interface DigiRouteShort : NSObject <NSCoding, NSCopying, Mappable>
+
+-(StopLine *)reittiStopLine;
+-(StopLine *)reittiStopLineWithPattern:(DigiPatternShort *)patternShort;
 
 @property (nonatomic, strong) NSString *routeIdentifier;
 @property (nonatomic, strong) NSString *longName;
@@ -20,6 +25,7 @@
 @property (nonatomic, strong) NSNumber *type;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, strong) NSString *mode;
+@property (nonatomic, strong) NSArray *patterns;
 
 @property (nonatomic) LineType lineType;
 @property (nonatomic, strong)NSString *lineStart;

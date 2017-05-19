@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MatkaStop.h"
-#import "DigiStopShort.h"
+//#import "DigiStopShort.h"
 
 
 @interface LineStop : NSObject <NSCoding, NSCopying>
@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSNumber *time;
 @property (nonatomic, strong) NSString *code;
+@property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, strong) NSString *codeShort;
 @property (nonatomic, strong) NSString *platformNumber;
 @property (nonatomic, strong) NSString *cityName;
@@ -26,6 +27,6 @@
 - (NSDictionary *)dictionaryRepresentation;
 
 + (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop;
-+ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort;
+//+ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort;
 
 @end

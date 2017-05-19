@@ -95,14 +95,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self reindexSavedDataForSpotlight];
     [self initViewComponents];
     
-    [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
-    
     if ([AppManager isNewInstallOrNewVersion]) {
         if ([AppManager isNewInstall]) {
             //Only for this hot fix version. dont show for upgrade case since it is just shown
 //            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
 //            isShowingWelcomeView = YES;
         } else {
+            [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
+            
             //Do this only once for this version.
             [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *error){}];
         }
@@ -1531,7 +1531,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 __weak SearchController *weakSelf = self;
                 bikeAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:station.coordinates];};
                 
-                FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.xCoord, station.yCoord );
+                FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
                 
                 [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
 //                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];

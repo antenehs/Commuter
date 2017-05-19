@@ -7,15 +7,15 @@
 
 #import <Foundation/Foundation.h>
 #import "DigiStopShort.h"
-#import "EnumManager.h"
 #import "Mapping.h"
+
+#import "BusStop.h"
 
 @interface DigiStop : DigiStopShort <NSCoding, NSCopying, Mappable>
 
-@property (nonatomic, strong) NSArray *routes;
-@property (nonatomic, strong) NSArray *stoptimes;
+-(BusStop *)reittiBusStop;
 
-@property (nonatomic) StopType stopType;
+@property (nonatomic, strong) NSArray *stoptimes;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

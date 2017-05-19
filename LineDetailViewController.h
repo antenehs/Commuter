@@ -24,7 +24,7 @@
     CLLocationCoordinate2D rightBound;
     
     NSString *selectedAnnotionStopShortCode, *selectedAnnotionStopName;
-    NSNumber *selectedAnnotionStopCode;
+    NSString *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;
     
     IBOutlet UILabel *nameLabel;
