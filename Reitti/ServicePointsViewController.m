@@ -8,7 +8,7 @@
 
 #import "ServicePointsViewController.h"
 #import "HSLServicePointManager.h"
-#import "ServicePointAnnotation.h"
+#import "LocationsAnnotation.h"
 #import "AppManager.h"
 #import "RouteSearchViewController.h"
 #import "ReittiStringFormatter.h"
@@ -129,7 +129,7 @@
 
 -(void)plotSalesPointAnnotations{
     for (id<MKAnnotation> annotation in mainMapView.annotations) {
-        if ([annotation isKindOfClass:[ServicePointAnnotation class]]) {
+        if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
             [mainMapView removeAnnotation:annotation];
         }
     }
@@ -139,7 +139,7 @@
         NSString * subTitle = servicePoint.address;
         CLLocationCoordinate2D coords = servicePoint.coordinates;
         
-        ServicePointAnnotation *newAnnotation = [[ServicePointAnnotation alloc] initWithTitle:title andSubtitle:subTitle andCoordinate:coords andAnnotationType:SalesPointAnnotationType];
+        LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:title andSubtitle:subTitle andCoordinate:coords andLocationType:SalesPointAnnotationType];
         newAnnotation.imageNameForView = @"salesPointAnnotation";
         newAnnotation.annotIdentifier = @"salesPointAnnotation";
         
@@ -151,7 +151,7 @@
         NSString * subTitle = servicePoint.address;
         CLLocationCoordinate2D coords = servicePoint.coordinates;
         
-        ServicePointAnnotation *newAnnotation = [[ServicePointAnnotation alloc] initWithTitle:title andSubtitle:subTitle andCoordinate:coords andAnnotationType:ServicePointAnnotationType];
+        LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:title andSubtitle:subTitle andCoordinate:coords andLocationType:ServicePointAnnotationType];
         newAnnotation.imageNameForView = @"servicePointAnnotation";
         newAnnotation.annotIdentifier = @"servicePointAnnotation";
         
@@ -161,8 +161,8 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 //    static NSString *selectedIdentifier = @"selectedLocation";
-    if ([annotation isKindOfClass:[ServicePointAnnotation class]]) {
-        ServicePointAnnotation *spAnnotation = (ServicePointAnnotation *)annotation;
+    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+        LocationsAnnotation *spAnnotation = (LocationsAnnotation *)annotation;
         
         MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:spAnnotation.annotIdentifier];
         if (annotationView == nil) {
@@ -196,25 +196,19 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     id <MKAnnotation> annotation = [view annotation];
-    if ([annotation isKindOfClass:[ServicePointAnnotation class]])
+    if ([annotation isKindOfClass:[LocationsAnnotation class]])
     {
-        ServicePointAnnotation *spAnnotation = (ServicePointAnnotation *)annotation;
+        LocationsAnnotation *spAnnotation = (LocationsAnnotation *)annotation;
         MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:spAnnotation.coordinate addressDictionary:nil];
         
         selectedToLocationName = spAnnotation.title;
         selectedToLocationcoords = [ReittiStringFormatter convert2DCoordToString:placemark.coordinate];
         
         [self performSegueWithIdentifier:@"showDirectionsToServicePoint" sender:self];
-        
-//        MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
-//        [mapItem setName:spAnnotation.title];
-//        
-//        [self launchMapsAppForDirectionTo:mapItem];
     }
 }
 
 - (void)launchMapsAppForDirectionTo:(MKMapItem *)from{
-//    [from openInMapsWithLaunchOptions:nil];
     [MKMapItem openMapsWithItems:[NSArray arrayWithObject:from]
                    launchOptions:[NSDictionary dictionaryWithObjectsAndKeys:
                                   MKLaunchOptionsDirectionsModeWalking, MKLaunchOptionsDirectionsModeKey, nil]];
@@ -240,9 +234,6 @@
         
         routeSearchViewController.prevToLocation = selectedToLocationName;
         routeSearchViewController.prevToCoords = selectedToLocationcoords;
-        
-//        routeSearchViewController.delegate = self;
-//        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
     }
 }
 

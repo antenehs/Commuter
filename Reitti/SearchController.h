@@ -14,8 +14,6 @@
 #import "StopViewController.h"
 #import "AddressSearchViewController.h"
 #import "RettiDataManager.h"
-#import "StopAnnotation.h"
-#import "GeoCodeAnnotation.h"
 #import "GeoCode.h"
 #import "BusStopShort.h"
 #import "MBProgressHUD.h"
@@ -150,7 +148,6 @@ typedef enum
     NamedBookmark *selectedNamedBookmark;
     GeoCode *selectedGeoCode;
     
-    StopAnnotation *lastSelectedAnnotation;
     bool annotationSelectionChanged;
     int annotationAnimCounter;
     bool lastSelectionDismissed;

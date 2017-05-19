@@ -1684,10 +1684,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-//    static NSString *identifier = @"otherLocations";
-//    static NSString *selectedIdentifier = @"selectedLocation";
-    static NSString *poiIdentifier = @"poiIdentifier";
-    
+
     if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
         return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
@@ -1699,20 +1696,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
         
         return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }else if ([annotation isKindOfClass:[GeoCodeAnnotation class]]) {
-        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:poiIdentifier];
-        if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:poiIdentifier];
-            annotationView.enabled = YES;
-            annotationView.image = [UIImage imageNamed:@"locationAnnotation.png"];
-            [annotationView setFrame:CGRectMake(0, 0, bigAnnotationWidth, bigAnnotationHeight)];
-            annotationView.centerOffset = CGPointMake(0,-48);
-            
-        }else{
-            annotationView.annotation = annotation;
-        }
-        
-        return annotationView;
     }
     
     return nil;
@@ -1739,16 +1722,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
             }
         }];
         
-        if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]])
-        {
-            //FIXME: code should be string and gtfs already in the annotation
+        if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
             JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
             NSString *code = stopAnnotation.thumbnail.code;;
-//            if([stopAnnotation.thumbnail.code isKindOfClass:[NSNumber class]])
-//                code = stopAnnotation.thumbnail.code;
-//            else{
-//                code = (NSString *)stopAnnotation.thumbnail.code;
-//            }
             
             RTStopSearchParam *searchParam = [RTStopSearchParam new];
             searchParam.longCode = code;
@@ -1767,26 +1743,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }else if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
     }else if ([view conformsToProtocol:@protocol(LVThumbnailAnnotationViewProtocol)]) {
-//        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
-//        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-//            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-//            if (annot.lineId != nil) {
-//                [self.reittiDataManager fetchLineInfoForCodeList:annot.lineId];
-//            }
-//        }
+
     }
 }
 
 - (void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
-//    MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:view.annotation reuseIdentifier:@"otherLocations"];
-//    @try{
-//        [affectedMapView removeAnnotation:view.annotation];
-//        [affectedMapView addAnnotation:annotationView.annotation];
-//    }@catch(id anException){
-//        //do nothing, obviously it wasn't attached because an exception was thrown
-//    }
-//    [self hideCommandView:NO animated:YES];
-    
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
         selectedAnnotationView = nil;
@@ -1798,72 +1759,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)mapView:(MKMapView *)mapViewToUse deselectStopAnnotation:(StopAnnotation *)annotation{
-    
-    annotation.isSelected = NO;
-    
-    MKAnnotationView *prevAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"otherLocations"];
-    @try{
-        [mapViewToUse removeAnnotation:annotation];
-        [mapViewToUse addAnnotation:prevAnnotationView.annotation];
-    }@catch(id anException){
-        //do nothing, obviously it wasn't attached because an exception was thrown
-    }
-
-}
-
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
     
     MKAnnotationView *aV;
     for (aV in views) {
-        //CGRectMake(0, 0, bigAnnotationWidth, bigAnnotationHeight)
-        //CGRectMake(0, 0, smallAnnotationWidth, smallAnnotationHeight)
-        if ([aV.annotation isKindOfClass:[StopAnnotation class]]) {
-            //StopAnnotation *sAnnotation = (StopAnnotation *)aV.annotation;
-            //[lastSelectedAnnotation.code intValue] != [sAnnotation.code intValue]
-            if (annotationSelectionChanged) {
-                CGRect endFrame = aV.frame;
-                
-                //large to small animation
-                if (endFrame.size.width == smallAnnotationWidth && lastSelectionDismissed) {
-                    aV.frame = CGRectMake(aV.frame.origin.x - ((aV.frame.size.width/2) + (smallAnnotationWidth/2)),
-                                          aV.frame.origin.y - (aV.frame.size.height + smallAnnotationHeight),
-                                          bigAnnotationWidth, bigAnnotationHeight);
-                    lastSelectionDismissed = NO;
-                }else if(endFrame.size.width == bigAnnotationWidth){
-                    aV.frame = CGRectMake(aV.frame.origin.x + ((aV.frame.size.width/2) - (smallAnnotationWidth/2)),
-                                          aV.frame.origin.y + (aV.frame.size.height - smallAnnotationHeight),
-                                          smallAnnotationWidth, smallAnnotationHeight);
-                }else{
-                    aV.frame = CGRectMake(aV.frame.origin.x + (aV.frame.size.width/4) ,
-                                          aV.frame.origin.y + aV.frame.size.height/2,
-                                          smallAnnotationWidth/2, smallAnnotationHeight/2);
-                }
-                
-                [UIView beginAnimations:nil context:NULL];
-                [UIView setAnimationDuration:0.25];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-                [aV setFrame:endFrame];
-                [UIView commitAnimations];
-                
-                //Used just to allow animation of the first selection
-                if (lastSelectedAnnotation != nil)
-                    annotationAnimCounter++;
-            }
-        }else if([aV.annotation isKindOfClass:[GeoCodeAnnotation class]]){
-//            [self setUpCommandViewForAnnotation:aV.annotation];
-//            [self hideCommandView:NO animated:YES];
-            
-            CGRect endFrame = aV.frame;
-            aV.frame = CGRectMake(aV.frame.origin.x + aV.frame.size.width/2,
-                                  aV.frame.origin.y + aV.frame.size.height,
-                                  0, 0);
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.25];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-            [aV setFrame:endFrame];
-            [UIView commitAnimations];
-        }else if ([aV.annotation isKindOfClass:[JPSThumbnailAnnotation class]]){
+
+        if ([aV.annotation isKindOfClass:[JPSThumbnailAnnotation class]]){
             JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)aV.annotation ;
             if (annot.annotationType == DroppedPinType || annot.annotationType == GeoCodeType) {
                 CGRect endFrame = aV.frame;
@@ -1873,12 +1774,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 [self.view asa_springAnimationWithDuration:0.2 animation:^{
                     [aV setFrame:endFrame];
                 } completion:nil];
-                
-//                [UIView beginAnimations:nil context:NULL];
-//                [UIView setAnimationDuration:0.25];
-//                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-//                [aV setFrame:endFrame];
-//                [UIView commitAnimations];
             }
         }
         

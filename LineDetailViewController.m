@@ -106,6 +106,7 @@
         
         [self drawLineOnMap];
         [self plotStopAnnotation];
+        
         if (viewApearForTheFirstTime){
             [self centerMapRegionToViewRoute];
             [self hideStopsListView:YES animated:NO];
@@ -119,9 +120,7 @@
         
         [stopsTableView reloadData];
         
-        if (self.reittiDataManager.userLocationRegion == HSLRegion) { //TRE lines does not have unique ids. Eg. 13 2
-            [[LinesManager sharedManager] saveRecentLine:self.line];
-        }
+        [[LinesManager sharedManager] saveRecentLine:self.line];
     }else{
         [self lineSearchDidFail:nil];
     }
@@ -248,23 +247,11 @@
 }
 
 #pragma mark - map view methods
-- (void)initializeMapView
-{
+- (void)initializeMapView {
     routeMapView.delegate = self;    
 }
 
--(void)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coord{
-    MKCoordinateSpan span = {.latitudeDelta =  0.01, .longitudeDelta =  0.01};
-    MKCoordinateRegion region = {coord, span};
-    
-    [UIView animateWithDuration:1.5 animations:^{
-        
-        [routeMapView setRegion:region animated:YES];
-        
-    } completion:^(BOOL finished) {}];
-}
-
--(void)centerMapRegionToViewRoute{
+-(void)centerMapRegionToViewRoute {
     
     CLLocationCoordinate2D lowerBoundTemp = lowerBound;
     
@@ -316,11 +303,12 @@
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
    
     if ([overlay isKindOfClass:[MKPolyline class]]) {
-        ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
-        polylineRenderer.strokeColor  = [UIColor yellowColor];
-        polylineRenderer.borderColor = [UIColor blackColor];
-        polylineRenderer.borderMultiplier = 1.1;
-        polylineRenderer.lineWidth	  = 7.0f;
+//        ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
+        MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithOverlay:(MKPolyline *)overlay];
+//        MKOverlayPathRenderer *polylineRenderer = [[MKOverlayPathRenderer alloc] initWithOverlay:(MKPolyline *)overlay];
+//        polylineRenderer.borderColor = [UIColor blackColor];
+//        polylineRenderer.borderMultiplier = 1.1;
+        polylineRenderer.lineWidth	  = 5.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         
@@ -356,8 +344,7 @@
     }
 }
 
-- (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
-{
+- (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList {
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
     for (Vehicle *vehicle in vehicleList) {
         [codeList addObject:vehicle.vehicleId];
@@ -365,13 +352,11 @@
     return codeList;
 }
 
-- (NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList
-{
+- (NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList {
     return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
 }
 
-- (double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
-{
+- (double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc {
     double fLat = degreesToRadians(fromLoc.latitude);
     double fLng = degreesToRadians(fromLoc.longitude);
     double tLat = degreesToRadians(toLoc.latitude);
@@ -502,8 +487,7 @@
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
-{
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     id <MKAnnotation> annotation = [view annotation];
     NSString *stopCode;
     NSString *stopShortCode, *stopName;
@@ -553,17 +537,6 @@
         [activityIndicator endRefreshing];
     }];
 }
-
-//-(void)lineSearchDidComplete:(NSArray *)lines{
-//    if (lines.count > 1) {
-//        NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line reterned");
-//    }
-//    
-//    self.line = [lines objectAtIndex:0];
-//    [self drawLineOnMap];
-//    [self plotStopAnnotation];
-//    [self centerMapRegionToViewRoute];
-//}
 
 -(void)lineSearchDidFail:(NSString *)error{
     [ReittiNotificationHelper showErrorBannerMessage:@"Fetching line detail failed" andContent:nil];

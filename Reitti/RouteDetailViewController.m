@@ -8,7 +8,6 @@
 
 #import "RouteDetailViewController.h"
 #import "ReittiStringFormatter.h"
-#import "StopAnnotation.h"
 #import "LocationsAnnotation.h"
 #import "MyFixedLayoutGuide.h"
 #import "ASPolylineRenderer.h"
@@ -366,6 +365,10 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         return detailLine.codeShort;
     
     return nil;
+}
+
+-(void)dealloc {
+    
 }
 
 - (void)startFetchingVehicles {
@@ -726,9 +729,10 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         shortCode = @"";
     }
     
-    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:name andSubtitle:shortCode
-                                                            andCoordinate:coordinate];
+    LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode
+                                                            andCoordinate:coordinate andLocationType:TransferStopLocation];
     newAnnotation.code = loc.stopCode;
+    newAnnotation.annotIdentifier = @"transferStopLocation";
     
     if (loc.locationLegType == LegTypeWalk) {
         newAnnotation.imageNameForView = @"";
@@ -767,6 +771,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                 //plot start annotation
                 LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StartLocation];
                 newAnnotation.imageNameForView = @"white-dot-16.png";
+                newAnnotation.annotIdentifier = @"startLocation";
                 [routeMapView addAnnotation:newAnnotation];
             }
             
@@ -774,6 +779,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                 //plot destination annotation
                 LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:DestinationLocation];
                 newAnnotation.imageNameForView = @"finish_flag-50.png";
+                newAnnotation.annotIdentifier = @"finnishLocation";
                 [routeMapView addAnnotation:newAnnotation];
             }
             
@@ -788,11 +794,12 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                             newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:loc.locationLegType]];
                         }
                         
+                        newAnnotation.annotIdentifier = @"stopLocation";
                         [routeMapView addAnnotation:newAnnotation];
                     }
                 }
             }else{
-                [self removeAllStopLocationAnnotations];
+                [self removeAllNonTransferStopLocationAnnotations];
             }
             
             locCount++;
@@ -886,7 +893,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                 LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:codeShort andCoordinate:coordinate andLocationType:OtherStopLocation];
                 newAnnotation.code = stop.gtfsId;
                 newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:stop.stopType];
-                
+                newAnnotation.annotIdentifier = @"otherStopLocation";
                 [routeMapView addAnnotation:newAnnotation];
             }
             
@@ -1053,39 +1060,39 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    static NSString *transferIdentifier = @"transferLocation";
-    if ([annotation isKindOfClass:[StopAnnotation class]]) {
-        StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
-        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:transferIdentifier];
-        if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:transferIdentifier];
-            annotationView.enabled = YES;
-            
-            annotationView.canShowCallout = YES;
-            if (stopAnnotation.code != nil && stopAnnotation.code != (id)[NSNull null]) {
-                annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            }
-        } else {
-            annotationView.annotation = annotation;
-        }
-        
-        annotationView.image = [UIImage imageNamed:stopAnnotation.imageNameForView];
-        [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
-        annotationView.centerOffset = CGPointMake(0,-15);
-        
-        return annotationView;
-    }
+//    static NSString *transferIdentifier = @"transferLocation";
+//    if ([annotation isKindOfClass:[StopAnnotation class]]) {
+//        StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
+//        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:transferIdentifier];
+//        if (annotationView == nil) {
+//            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:transferIdentifier];
+//            annotationView.enabled = YES;
+//            
+//            annotationView.canShowCallout = YES;
+//            if (stopAnnotation.code != nil && stopAnnotation.code != (id)[NSNull null]) {
+//                annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//            }
+//        } else {
+//            annotationView.annotation = annotation;
+//        }
+//        
+//        annotationView.image = [UIImage imageNamed:stopAnnotation.imageNameForView];
+//        [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
+//        annotationView.centerOffset = CGPointMake(0,-15);
+//        
+//        return annotationView;
+//    }
     
-    static NSString *destinationIdentifier = @"destinationLocation";
-    static NSString *startIdentifier = @"startLocation";
-    static NSString *locationIdentifier = @"location";
+//    static NSString *destinationIdentifier = @"destinationLocation";
+//    static NSString *startIdentifier = @"startLocation";
+//    static NSString *locationIdentifier = @"location";
     
     if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
         LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
         if (locAnnotation.locationType == DestinationLocation) {
-            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:destinationIdentifier];
+            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
             if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:destinationIdentifier];
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
                 annotationView.enabled = YES;
                 
                 annotationView.canShowCallout = YES;
@@ -1100,9 +1107,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             
             return annotationView;
         }else if (locAnnotation.locationType == StartLocation){
-            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:startIdentifier];
+            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
             if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:startIdentifier];
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
                 annotationView.enabled = YES;
                 
                 annotationView.canShowCallout = YES;
@@ -1115,51 +1122,58 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             [annotationView setFrame:CGRectMake(0, 0, 16, 16)];
             
             return annotationView;
-        }else if (locAnnotation.locationType == StopLocation){
-            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
-            if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
-                annotationView.enabled = YES;
-                
-                annotationView.canShowCallout = YES;
-                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
-                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                }
-                
-            } else {
-                annotationView.annotation = annotation;
-            }
-            
-            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-            [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
-            annotationView.centerOffset = CGPointMake(0,-15);
-            
-            return annotationView;
-        }else if (locAnnotation.locationType == OtherStopLocation){
-            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
-            if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
-                annotationView.enabled = YES;
-                
-                annotationView.canShowCallout = YES;
-                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
-                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                }
-                
-            } else {
-                annotationView.annotation = annotation;
-            }
-            
-            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-            [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
-            annotationView.centerOffset = CGPointMake(0,-8);
-//            annotationView.alpha = 0.95;
-            
-            return annotationView;
-        }else if (locAnnotation.locationType == BikeStationLocation){
+        }else if (locAnnotation.locationType == StopLocation || locAnnotation.locationType == TransferStopLocation || locAnnotation.locationType == OtherStopLocation){
             MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
             if (annotationView == nil) {
-                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
+                annotationView.enabled = YES;
+                
+                annotationView.canShowCallout = YES;
+                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
+                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                }
+                
+            } else {
+                annotationView.annotation = annotation;
+            }
+            
+            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
+            
+            if (locAnnotation.locationType == StopLocation || locAnnotation.locationType == TransferStopLocation) {
+                [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
+                annotationView.centerOffset = CGPointMake(0,-15);
+            } else {
+                [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
+                annotationView.centerOffset = CGPointMake(0,-8);
+            }
+
+            return annotationView;
+        }
+//        else if (locAnnotation.locationType == OtherStopLocation){
+//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
+//            if (annotationView == nil) {
+//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
+//                annotationView.enabled = YES;
+//                
+//                annotationView.canShowCallout = YES;
+//                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
+//                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//                }
+//                
+//            } else {
+//                annotationView.annotation = annotation;
+//            }
+//            
+//            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
+//            [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
+//            annotationView.centerOffset = CGPointMake(0,-8);
+//            
+//            return annotationView;
+//        }
+        else if (locAnnotation.locationType == BikeStationLocation){
+            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
+            if (annotationView == nil) {
+                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
                 annotationView.enabled = YES;
                 
                 annotationView.canShowCallout = YES;
@@ -1185,13 +1199,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
     }
     
-//    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
-//        MKAnnotationView *annotationView = [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
-//        annotationView.alpha = 0.5;
-//        annotationView.canShowCallout = YES;
-//        return annotationView;
-//    }
-    
     return nil;
 }
 
@@ -1201,16 +1208,16 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     NSString *stopCode;
     NSString *stopShortCode, *stopName;
     CLLocationCoordinate2D stopCoords;
-    if ([annotation isKindOfClass:[StopAnnotation class]])
-    {
-        StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
-        stopCode = stopAnnotation.code;
-        stopCoords = stopAnnotation.coordinate;
-        stopShortCode = stopAnnotation.subtitle;
-        stopName = stopAnnotation.title;
-        
-    }else if ([annotation isKindOfClass:[LocationsAnnotation class]])
-    {
+//    if ([annotation isKindOfClass:[StopAnnotation class]])
+//    {
+//        StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
+//        stopCode = stopAnnotation.code;
+//        stopCoords = stopAnnotation.coordinate;
+//        stopShortCode = stopAnnotation.subtitle;
+//        stopName = stopAnnotation.title;
+//        
+//    }else
+    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
         LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
         stopCode = locAnnotation.code;
         stopCoords = locAnnotation.coordinate;
@@ -1235,7 +1242,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 //Stop locations are the stops in legs. Not transfer locations
--(void)removeAllStopLocationAnnotations{
+-(void)removeAllNonTransferStopLocationAnnotations{
     for (id<MKAnnotation> annotation in routeMapView.annotations) {
         if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
             LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
@@ -1858,7 +1865,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             
             if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
                 [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:loc.coordsString]];
-                [self selectTransferAnnotationWithCode:loc.stopCode];
+                [self selectLocationAnnotationWithCode:loc.stopCode];
             }
         }
         @catch (NSException *exception) {
@@ -1903,94 +1910,16 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     }
 }
 
-//-(void)addTransportTypePictures{
-//    for (UIView *view in routeListView.subviews) {
-//        if (view.tag == 9999) {
-//            [view removeFromSuperview];
-//        }
-//    }
-//
-//    for (int i = 0;i < self.routeLocationList.count;i++) {
-//        RouteLegLocation *loc = [self.routeLocationList objectAtIndex:i];
-//        RouteLeg *selectedLeg = [self.route.routeLegs objectAtIndex:loc.locationLegOrder];
-//        if (loc.isHeaderLocation) {
-//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-//            CGRect rect = [routeListTableView rectForRowAtIndexPath:indexPath];
-//            
-//            CGFloat height = loc.locationLegType == LegTypeWalk ? 24 : 45;
-//            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, routeListTableView.frame.origin.y + rect.origin.y + rect.size.height - height/2 , 40, height)];
-//            
-//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 0, 24, 24)];
-//            
-//            switch (loc.locationLegType) {
-//                case LegTypeWalk:
-//                    [imageView setImage:[UIImage imageNamed:@"walking-black-75.png"]];
-//                    break;
-//                case LegTypeFerry:
-//                    [imageView setImage:[UIImage imageNamed:@"ferry-colored-75.png"]];
-//                    break;
-//                case LegTypeTrain:
-//                    [imageView setImage:[UIImage imageNamed:@"train-colored-75.png"]];
-//                    break;
-//                case LegTypeBus:
-//                    [imageView setImage:[UIImage imageNamed:@"bus-colored-75.png"]];
-//                    break;
-//                case LegTypeTram:
-//                    [imageView setImage:[UIImage imageNamed:@"tram-colored-75.png"]];
-//                    break;
-//                case LegTypeMetro:
-//                    [imageView setImage:[UIImage imageNamed:@"metro-colored-75.png"]];
-//                    break;
-//                    
-//                default:
-//                    break;
+//-(void)selectTransferAnnotationWithCode:(NSString *)code{
+//    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+//        if ([annotation isKindOfClass:[StopAnnotation class]]) {
+//            StopAnnotation *sAnnot = (StopAnnotation *)annotation;
+//            if ([sAnnot.code isEqualToString:code]) {
+//                [routeMapView selectAnnotation:annotation animated:YES];
 //            }
-//            
-//            [routeListView addSubview:imageView];
-//            
-//            UILabel *lineNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 40, 20)];
-//            
-//            if(selectedLeg.legType == LegTypeMetro){
-//                lineNumberLabel.text = @"Metro";
-//            }else if(selectedLeg.legType == LegTypeFerry){
-//                lineNumberLabel.text = @"Ferry";
-//            }else if(selectedLeg.legType == LegTypeTrain){
-////                NSString *unformattedTrainNumber = [ReittiStringFormatter parseBusNumFromLineCode:selectedLeg.lineCode];
-////                NSString *unformattedTrainNumber = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
-////                NSString *filteredOnce = [unformattedTrainNumber
-////                                          stringByReplacingOccurrencesOfString:@"01" withString:@""];
-//                lineNumberLabel.text = selectedLeg.lineName ? selectedLeg.lineName : selectedLeg.lineCode;
-//            }else if (selectedLeg.lineCode != nil) {
-//                lineNumberLabel.text = selectedLeg.lineName;
-//            }else {
-//                lineNumberLabel.text = @"";
-//            }
-//            
-//            [lineNumberLabel sizeToFit];
-//            lineNumberLabel.textAlignment = NSTextAlignmentCenter;
-//            lineNumberLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1];
-//            lineNumberLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
-//            
-//            [view addSubview:lineNumberLabel];
-//            
-//            view.tag = 9999;
-////            view.backgroundColor = [UIColor lightGrayColor];
-//            
-//            [routeListView addSubview:view];
 //        }
 //    }
 //}
-
--(void)selectTransferAnnotationWithCode:(NSString *)code{
-    for (id<MKAnnotation> annotation in routeMapView.annotations) {
-        if ([annotation isKindOfClass:[StopAnnotation class]]) {
-            StopAnnotation *sAnnot = (StopAnnotation *)annotation;
-            if ([sAnnot.code isEqualToString:code]) {
-                [routeMapView selectAnnotation:annotation animated:YES];
-            }
-        }
-    }
-}
 
 -(void)selectLocationAnnotationWithCode:(NSString *)code{
     for (id<MKAnnotation> annotation in routeMapView.annotations) {
@@ -2163,18 +2092,18 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
     UIView *view = [self.view hitTest:location withEvent:UIEventTypeTouches];
     if ([view isKindOfClass:[MKAnnotationView class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *)view;
-        if ([annotationView.annotation isKindOfClass:[StopAnnotation class]])
-        {
-            StopAnnotation *stopAnnotation = (StopAnnotation *)annotationView.annotation;
-            stopCode = stopAnnotation.code;
-            stopCoords = stopAnnotation.coordinate;
-            stopShortCode = stopAnnotation.subtitle;
-            stopName = stopAnnotation.title;
-            
-        }else if ([annotationView.annotation isKindOfClass:[LocationsAnnotation class]])
-        {
+//        if ([annotationView.annotation isKindOfClass:[StopAnnotation class]])
+//        {
+//            StopAnnotation *stopAnnotation = (StopAnnotation *)annotationView.annotation;
+//            stopCode = stopAnnotation.code;
+//            stopCoords = stopAnnotation.coordinate;
+//            stopShortCode = stopAnnotation.subtitle;
+//            stopName = stopAnnotation.title;
+//            
+//        }else
+        if ([annotationView.annotation isKindOfClass:[LocationsAnnotation class]]) {
             LocationsAnnotation *annotation = (LocationsAnnotation *)annotationView.annotation;
-            if (annotation.locationType == StopLocation || annotation.locationType == OtherStopLocation) {
+            if (annotation.locationType == StopLocation || annotation.locationType == TransferStopLocation || annotation.locationType == OtherStopLocation) {
                 stopCode = annotation.code;
                 stopCoords = annotation.coordinate;
                 stopShortCode = annotation.subtitle;

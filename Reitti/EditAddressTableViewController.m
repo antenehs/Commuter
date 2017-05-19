@@ -8,7 +8,7 @@
 
 #import "EditAddressTableViewController.h"
 #import "UIScrollView+APParallaxHeader.h"
-#import "StopAnnotation.h"
+#import "LocationsAnnotation.h"
 #import "CoreDataManager.h"
 #import "StopCoreDataManager.h"
 
@@ -174,8 +174,6 @@
     [self plotAnnotation];
     
     [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 160)];
-//    self.tableView.tableHeaderView = nil;
-//    [self.tableView reloadData];
     [self.tableView addParallaxWithView:mapView andHeight:160];
 }
 
@@ -194,7 +192,7 @@
 -(void)plotAnnotation{
     
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[StopAnnotation class]]) {
+        if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
             [mapView removeAnnotation:annotation];
         }
     }
@@ -202,31 +200,11 @@
     CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:self.coords];
     
     
-    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:self.name andSubtitle:self.streetAddress andCoordinate:coordinate];
+    
+    LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:self.name andSubtitle:self.streetAddress andCoordinate:coordinate andLocationType:DefaultAddressLocation];
     
     [mapView addAnnotation:newAnnotation];
     
-}
-
-- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    static NSString *selectedIdentifier = @"selectedLocation";
-    if ([annotation isKindOfClass:[StopAnnotation class]]) {
-        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
-        if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
-            annotationView.enabled = YES;
-            annotationView.image = [UIImage imageNamed:@"busStopAnnotation.png"];
-            [annotationView setFrame:CGRectMake(0, 0, 50, 54)];
-            annotationView.centerOffset = CGPointMake(0,-27);
-            
-        } else {
-            annotationView.annotation = annotation;
-        }
-        
-        return annotationView;
-    }
-    
-    return nil;
 }
 
 - (void)didReceiveMemoryWarning {

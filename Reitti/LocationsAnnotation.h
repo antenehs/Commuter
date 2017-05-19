@@ -11,11 +11,15 @@
 
 typedef enum
 {
+    DefaultAddressLocation = 0,
     StartLocation = 1,
     DestinationLocation = 2,
     StopLocation = 3,
-    OtherStopLocation = 4,
-    BikeStationLocation = 5
+    TransferStopLocation = 4,
+    OtherStopLocation = 5,
+    BikeStationLocation = 6,
+    ServicePointAnnotationType = 7,
+    SalesPointAnnotationType = 8
 } AnnotationLocationType;
 
 @interface LocationsAnnotation : NSObject<MKAnnotation>{

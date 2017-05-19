@@ -13,7 +13,6 @@
 #import "AMBlurView.h"
 #import "BusStop.h"
 #import "StopEntity.h"
-#import "StopAnnotation.h"
 #import "ReittiStringFormatter.h"
 #import "RettiDataManager.h"
 #import "SWTableViewCell.h"

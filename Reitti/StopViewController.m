@@ -21,6 +21,7 @@
 #import "DepartureTableViewCell.h"
 #import "ReittiConfigManager.h"
 #import "StopCoreDataManager.h"
+#import "LocationsAnnotation.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
 typedef AlertControllerAction (^ActionGenerator)(int minutes);
@@ -378,7 +379,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     NSString * name = stopGtfsId;
     NSString * shortCode = stopGtfsId;
     
-    StopAnnotation *newAnnotation = [[StopAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords];
+    LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords andLocationType:StopLocation];
     newAnnotation.code = stopGtfsId;
     
     [mapView addAnnotation:newAnnotation];
@@ -387,11 +388,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     static NSString *selectedIdentifier = @"selectedLocation";
-    if ([annotation isKindOfClass:[StopAnnotation class]]) {
+    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
         annotationView.enabled = YES;
-        //            StaticStop *sStop = [[CacheManager sharedManager] getStopForCode:stopGtfsId];
+
         if (_busStop) {
             annotationView.image = [AppManager stopAnnotationImageForStopType:_busStop.stopType];
         }else{

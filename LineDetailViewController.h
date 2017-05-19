@@ -15,7 +15,7 @@
 #import "AMBlurView.h"
 #import "JTMaterialSpinner.h"
 
-@interface LineDetailViewController : UIViewController<MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface LineDetailViewController : UIViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>{
     IBOutlet MKMapView *routeMapView;
     
     CLLocationCoordinate2D upperBound;
