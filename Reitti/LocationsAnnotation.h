@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
+
 typedef enum
 {
     DefaultAddressLocation = 0,
@@ -36,6 +38,10 @@ typedef enum
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly) AnnotationLocationType locationType;
+
+@property (nonatomic, copy) AnnotationActionBlock calloutAccessoryAction;
+
+
 
 - (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andLocationType:(AnnotationLocationType)type;
 

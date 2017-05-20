@@ -14,9 +14,9 @@
 #import "StaticRoute.h"
 #import "AMBlurView.h"
 #import "JTMaterialSpinner.h"
+#import "MapPlottingViewController.h"
 
-@interface LineDetailViewController : UIViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>{
-    IBOutlet MKMapView *routeMapView;
+@interface LineDetailViewController : MapPlottingViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>{
     
     CLLocationCoordinate2D upperBound;
     CLLocationCoordinate2D lowerBound;

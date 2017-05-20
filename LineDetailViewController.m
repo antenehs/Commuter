@@ -105,7 +105,11 @@
         [self setNavigationTitleView];
         
         [self drawLineOnMap];
-        [self plotStopAnnotation];
+//        [self plotStopAnnotation];
+        [super plotStopAnnotationsInLine:self.line withCalloutAction:^(
+         MKAnnotationView *annotationView){
+            [self calloutAccessoryControlTappedOnAnnotationView: annotationView];
+        }];
         
         if (viewApearForTheFirstTime){
             [self centerMapRegionToViewRoute];
@@ -247,10 +251,6 @@
 }
 
 #pragma mark - map view methods
-- (void)initializeMapView {
-    routeMapView.delegate = self;    
-}
-
 -(void)centerMapRegionToViewRoute {
     
     CLLocationCoordinate2D lowerBoundTemp = lowerBound;
@@ -265,7 +265,7 @@
         return;
     
     @try {
-        [routeMapView setRegion:region animated:NO];
+        [mapView setRegion:region animated:NO];
     } @catch (NSException *exception) {
         NSLog(@"failed to ccenter map");
         LineStop *firstStop = [self.line.lineStops firstObject];
@@ -273,7 +273,7 @@
         MKCoordinateSpan span = {.latitudeDelta =  0.1, .longitudeDelta = 0.1};
         MKCoordinateRegion region = {centerCoord, span};
         
-        [routeMapView setRegion:region animated:NO];
+        [mapView setRegion:region animated:NO];
     }
     
     lowerBound = lowerBoundTemp;
@@ -297,7 +297,7 @@
     
     // create a polyline with all cooridnates
     MKPolyline *polyline = [MKPolyline polylineWithCoordinates:coordinates count:shapeCount];
-    [routeMapView addOverlay:polyline];
+    [mapView addOverlay:polyline];
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
@@ -320,29 +320,29 @@
         return nil;
     }
 }
-
--(void)plotStopAnnotation{
-    for (LineStop *stop in self.line.lineStops) {
-        CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
-        
-        NSString * name = stop.name;
-        NSString * shortCode = stop.codeShort;
-        
-        if (name == nil || name == (id)[NSNull null]) {
-            name = @"";
-        }
-        
-        if (shortCode == nil || shortCode == (id)[NSNull null]) {
-            shortCode = @"";
-        }
-        
-        LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
-        newAnnotation.code = stop.gtfsId;
-        newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:[EnumManager legTrasportTypeForLineType:self.line.lineType]]];
-        
-        [routeMapView addAnnotation:newAnnotation];
-    }
-}
+//
+//-(void)plotStopAnnotation {
+//    for (LineStop *stop in self.line.lineStops) {
+//        CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+//        
+//        NSString * name = stop.name;
+//        NSString * shortCode = stop.codeShort;
+//        
+//        if (name == nil || name == (id)[NSNull null]) {
+//            name = @"";
+//        }
+//        
+//        if (shortCode == nil || shortCode == (id)[NSNull null]) {
+//            shortCode = @"";
+//        }
+//        
+//        LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:shortCode andCoordinate:coordinate andLocationType:StopLocation];
+//        newAnnotation.code = stop.gtfsId;
+//        newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:[EnumManager legTrasportTypeForLineType:self.line.lineType]]];
+//        
+//        [mapView addAnnotation:newAnnotation];
+//    }
+//}
 
 - (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList {
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
@@ -379,7 +379,7 @@
     
     NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
     
-    for (id<MKAnnotation> annotation in routeMapView.annotations) {
+    for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
             LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
             
@@ -425,7 +425,7 @@
         }
     }
     
-    [routeMapView removeAnnotations:annotToRemove];
+    [mapView removeAnnotations:annotToRemove];
     
     NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
     
@@ -447,47 +447,47 @@
         vehicleAnT.coordinate = vehicle.coords;
         vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
         
-        [routeMapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
+        [mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
     }
 }
 
 
-- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    
-    static NSString *locationIdentifier = @"location";
-    
-    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
-        LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
-        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
-        if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
-            annotationView.enabled = YES;
-            
-            annotationView.canShowCallout = YES;
-            if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
-                annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            }
-            
-        } else {
-            annotationView.annotation = annotation;
-        }
-        
-        annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-        [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
-        annotationView.centerOffset = CGPointMake(0,-15);
-        
-        return annotationView;
-    }
-    
-    if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
-        
-        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:_mapView];
-    }
-    
-    return nil;
-}
+//- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+//    
+//    static NSString *locationIdentifier = @"location";
+//    
+//    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+//        LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
+//        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locationIdentifier];
+//        if (annotationView == nil) {
+//            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locationIdentifier];
+//            annotationView.enabled = YES;
+//            
+//            annotationView.canShowCallout = YES;
+//            if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
+//                annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//            }
+//            
+//        } else {
+//            annotationView.annotation = annotation;
+//        }
+//        
+//        annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
+//        [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
+//        annotationView.centerOffset = CGPointMake(0,-15);
+//        
+//        return annotationView;
+//    }
+//    
+//    if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
+//        
+//        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:_mapView];
+//    }
+//    
+//    return nil;
+//}
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+- (void)calloutAccessoryControlTappedOnAnnotationView:(MKAnnotationView *)view {
     id <MKAnnotation> annotation = [view annotation];
     NSString *stopCode;
     NSString *stopShortCode, *stopName;
@@ -512,6 +512,16 @@
     }
     
 }
+
+//-(void)calloutAccessoryControlTappedOnStop:(LineStop *)stop {
+//    if (stop.code != nil && stop.code != (id)[NSNull null]) {
+//        selectedAnnotionStopCode = stop.code;
+//        selectedAnnotationStopCoords = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+//        selectedAnnotionStopShortCode = stop.codeShort;
+//        selectedAnnotionStopName = stop.name;
+//        [self performSegueWithIdentifier:@"showStopFromLineDetail" sender:self];
+//    }
+//}
 
 #pragma mark - ReittiDataManager delegates
 -(void)fetchDetailForLine {

@@ -125,6 +125,8 @@
 		660FB2451B39F30E009C30BF /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 660FB2441B39F30E009C30BF /* AboutTableViewController.m */; };
 		661090C71B36D037003F2688 /* LinesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661090C61B36D037003F2688 /* LinesTableViewController.m */; };
 		661090CA1B374B43003F2688 /* LineDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661090C91B374B43003F2688 /* LineDetailViewController.m */; };
+		66115D711ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */; };
+		66115D721ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */; };
 		661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202AF1AFFC12900D93C2E /* RouteViewManager.m */; };
 		661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202C11B04F01E00D93C2E /* PubTransCommunicator.m */; };
 		661202C51B04F5B200D93C2E /* HSLLiveTrafficManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202C41B04F5B200D93C2E /* HSLLiveTrafficManager.m */; };
@@ -1420,6 +1422,8 @@
 		661090C61B36D037003F2688 /* LinesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinesTableViewController.m; sourceTree = "<group>"; };
 		661090C81B374B43003F2688 /* LineDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineDetailViewController.h; path = ../LineDetailViewController.h; sourceTree = "<group>"; };
 		661090C91B374B43003F2688 /* LineDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDetailViewController.m; path = ../LineDetailViewController.m; sourceTree = "<group>"; };
+		66115D6F1ECFF57B00C8CD05 /* MapPlottingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPlottingViewController.h; sourceTree = "<group>"; };
+		66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPlottingViewController.m; sourceTree = "<group>"; };
 		661202AE1AFFC12900D93C2E /* RouteViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteViewManager.h; sourceTree = "<group>"; };
 		661202AF1AFFC12900D93C2E /* RouteViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteViewManager.m; sourceTree = "<group>"; };
 		661202C01B04F01E00D93C2E /* PubTransCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PubTransCommunicator.h; sourceTree = "<group>"; };
@@ -2639,6 +2643,8 @@
 				665BA1B11CAF05EB0091C180 /* MainTabBarController.m */,
 				66B7AE921ECA58C300B233E7 /* MigrationViewController.h */,
 				66B7AE931ECA58C300B233E7 /* MigrationViewController.m */,
+				66115D6F1ECFF57B00C8CD05 /* MapPlottingViewController.h */,
+				66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -3473,6 +3479,7 @@
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
 				661202D41B07DD0F00D93C2E /* LVThumbnailAnnotation */,
 				66134BF21B3EE7960008C6D7 /* GeoCodeAnnotation */,
+				664E28811ADAC12400BE2457 /* CustomAnnotations */,
 				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
 				664E28711AD86A6600BE2457 /* APParallaxHeader */,
 				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
@@ -3480,7 +3487,6 @@
 				66CC93DF18DDC66400644281 /* SVPProgressHUD */,
 				664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */,
 				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
-				664E28811ADAC12400BE2457 /* CustomAnnotations */,
 				6618312B1C10FFAF00DA979E /* JTMaterialSpinner */,
 				66F099621AE6ECB500F20D34 /* TSMessages */,
 			);
@@ -5019,6 +5025,7 @@
 				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				6603A8F91CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
+				66115D711ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */,
 				66656D521D5D0F5400BA291B /* OrderedManagedObject.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
 				663465F21ECEA5CB004B8AAF /* LinePattern.m in Sources */,
@@ -5301,6 +5308,7 @@
 				66C733141C556DA5002544BC /* HTMLDocumentType.m in Sources */,
 				6603A8FA1CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				66C733151C556DA5002544BC /* UITableViewCell+Helper.m in Sources */,
+				66115D721ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */,
 				66656D531D5D0F5400BA291B /* OrderedManagedObject.m in Sources */,
 				66C733161C556DA5002544BC /* RouteOptionsTableViewController.m in Sources */,
 				663465F31ECEA5CB004B8AAF /* LinePattern.m in Sources */,

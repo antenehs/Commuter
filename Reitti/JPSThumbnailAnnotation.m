@@ -42,12 +42,6 @@
     }
     [self updateThumbnail:self.thumbnail animated:NO];
     
-//    if (self.thumbnail.selected) {
-//        [self.view didSelectAnnotationViewInMap:mapView];
-//        [self.view setSelected:YES];
-//        [mapView selectAnnotation:self animated:YES];
-//    }
-    
     return self.view;
 }
 
