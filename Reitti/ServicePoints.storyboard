@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Mmk-nq-Ghe">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Service Points View Controller-->
+        <scene sceneID="gu0-eU-OPD">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="Mmk-nq-Ghe" customClass="ServicePointsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KF7-WJ-iUq"/>
+                        <viewControllerLayoutGuide type="bottom" id="rB1-Mb-T3K"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rZ7-tV-Zqh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0SX-fY-VD0">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                            </mapView>
+                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0DB-6q-zDf">
+                                <rect key="frame" x="329" y="617" width="35" height="35"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="MG8-0h-z2q"/>
+                                    <constraint firstAttribute="height" constant="35" id="t31-Fa-h2D"/>
+                                </constraints>
+                                <color key="tintColor" red="0.1203775257" green="0.62360554930000001" blue="0.42264068129999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
+                                <size key="titleShadowOffset" width="1" height="1"/>
+                                <state key="normal" image="current location filled green.png">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="currentLocationButtonTapped:" destination="Mmk-nq-Ghe" eventType="touchUpInside" id="9sl-au-AzK"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0SX-fY-VD0" firstAttribute="leading" secondItem="rZ7-tV-Zqh" secondAttribute="leading" id="0ac-jJ-vVE"/>
+                            <constraint firstAttribute="trailing" secondItem="0SX-fY-VD0" secondAttribute="trailing" id="IyQ-sI-K1N"/>
+                            <constraint firstItem="rB1-Mb-T3K" firstAttribute="top" secondItem="0DB-6q-zDf" secondAttribute="bottom" constant="15" id="Y3J-2r-scl"/>
+                            <constraint firstAttribute="bottom" secondItem="0SX-fY-VD0" secondAttribute="bottom" constant="-52" id="fYg-tF-l7w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0DB-6q-zDf" secondAttribute="trailing" constant="-5" id="q0Y-h2-3N5"/>
+                            <constraint firstItem="0SX-fY-VD0" firstAttribute="top" secondItem="KF7-WJ-iUq" secondAttribute="bottom" id="tcR-GL-btk"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <connections>
+                        <outlet property="currentLocationButton" destination="0DB-6q-zDf" id="68S-25-UvG"/>
+                        <outlet property="mainMapView" destination="0SX-fY-VD0" id="6NQ-oS-fLy"/>
+                        <segue destination="mEl-Z6-wrn" kind="presentation" identifier="showDirectionsToServicePoint" id="Lhr-XG-qja"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNq-Hk-5uQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4449" y="-4627"/>
+        </scene>
+        <!--ASARouteSearchNavigationController-->
+        <scene sceneID="XPf-pz-eRI">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ASARouteSearchNavigationController" id="mEl-Z6-wrn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0GI-nC-Onr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5186" y="-4628"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="current location filled green.png" width="16" height="16"/>
+    </resources>
+</document>

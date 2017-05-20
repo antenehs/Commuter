@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Web View Controller-->
+        <scene sceneID="Sq8-NE-B7j">
+            <objects>
+                <viewController storyboardIdentifier="WebViewController" hidesBottomBarWhenPushed="YES" id="qfl-qB-2cT" customClass="WebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tpz-pe-zWX"/>
+                        <viewControllerLayoutGuide type="bottom" id="8OY-kg-157"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3xl-7O-Nbe">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nSI-A8-RzN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MN8-6i-Qxf">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                                <subviews>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gdU-ei-AgJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="2"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="iEd-hh-3ji"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="iEd-hh-3ji"/>
+                                            </mask>
+                                        </variation>
+                                    </progressView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="gdU-ei-AgJ" secondAttribute="bottom" constant="-95" id="1ja-5v-KFN"/>
+                                    <constraint firstAttribute="height" constant="2" id="2uA-xQ-c2p"/>
+                                    <constraint firstItem="gdU-ei-AgJ" firstAttribute="top" secondItem="MN8-6i-Qxf" secondAttribute="top" id="JDK-dD-Jip"/>
+                                    <constraint firstItem="gdU-ei-AgJ" firstAttribute="leading" secondItem="MN8-6i-Qxf" secondAttribute="leading" constant="5" id="SDU-Ha-biX"/>
+                                    <constraint firstAttribute="bottom" secondItem="gdU-ei-AgJ" secondAttribute="bottom" id="f6D-zJ-t9K"/>
+                                    <constraint firstAttribute="trailing" secondItem="gdU-ei-AgJ" secondAttribute="trailing" id="oYZ-F7-g6S"/>
+                                    <constraint firstItem="gdU-ei-AgJ" firstAttribute="leading" secondItem="MN8-6i-Qxf" secondAttribute="leading" id="p0E-a1-iUR"/>
+                                    <constraint firstItem="gdU-ei-AgJ" firstAttribute="centerX" secondItem="MN8-6i-Qxf" secondAttribute="centerX" constant="-11" id="tcf-Nq-ajI"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="SDU-Ha-biX"/>
+                                        <exclude reference="1ja-5v-KFN"/>
+                                        <exclude reference="tcf-Nq-ajI"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHE-Nz-Vnj" customClass="AMBlurView">
+                                <rect key="frame" x="0.0" y="559" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqs-Lp-4l9">
+                                        <rect key="frame" x="8" y="8" width="359" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <state key="normal" title="View in AppStore">
+                                            <color key="titleColor" red="0.1203775257" green="0.62360554930000001" blue="0.42264068129999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionButtonPressed:" destination="qfl-qB-2cT" eventType="touchUpInside" id="tpH-Y3-Zsf"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="rqs-Lp-4l9" firstAttribute="top" secondItem="zHE-Nz-Vnj" secondAttribute="top" constant="8" id="Ble-Rg-RvO"/>
+                                    <constraint firstAttribute="bottom" secondItem="rqs-Lp-4l9" secondAttribute="bottom" constant="6" id="d8K-St-Pwv"/>
+                                    <constraint firstAttribute="trailing" secondItem="rqs-Lp-4l9" secondAttribute="trailing" constant="8" id="k4a-8S-iUK"/>
+                                    <constraint firstItem="rqs-Lp-4l9" firstAttribute="leading" secondItem="zHE-Nz-Vnj" secondAttribute="leading" constant="8" id="rXj-lp-atp"/>
+                                    <constraint firstAttribute="height" constant="44" id="zCj-At-rSe"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="nSI-A8-RzN" firstAttribute="top" secondItem="tpz-pe-zWX" secondAttribute="bottom" id="J31-1L-u3K"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="nSI-A8-RzN" secondAttribute="bottom" id="NTE-2L-ycG"/>
+                            <constraint firstAttribute="trailing" secondItem="nSI-A8-RzN" secondAttribute="trailing" id="Qex-B6-b1K"/>
+                            <constraint firstItem="8OY-kg-157" firstAttribute="top" secondItem="MN8-6i-Qxf" secondAttribute="bottom" constant="491" id="RBP-AR-cdI"/>
+                            <constraint firstItem="nSI-A8-RzN" firstAttribute="leading" secondItem="3xl-7O-Nbe" secondAttribute="leading" id="YMF-Mh-Oyk"/>
+                            <constraint firstItem="MN8-6i-Qxf" firstAttribute="top" secondItem="3xl-7O-Nbe" secondAttribute="topMargin" id="cfV-Xr-lzE"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MN8-6i-Qxf" secondAttribute="trailing" constant="-16" id="ghg-Ek-Hsd"/>
+                            <constraint firstItem="MN8-6i-Qxf" firstAttribute="leading" secondItem="3xl-7O-Nbe" secondAttribute="leadingMargin" id="h8Y-Uv-bxC"/>
+                            <constraint firstItem="8OY-kg-157" firstAttribute="top" secondItem="zHE-Nz-Vnj" secondAttribute="bottom" id="jeX-K1-GmW"/>
+                            <constraint firstItem="zHE-Nz-Vnj" firstAttribute="leading" secondItem="3xl-7O-Nbe" secondAttribute="leading" id="kaW-o1-BYv"/>
+                            <constraint firstAttribute="trailing" secondItem="zHE-Nz-Vnj" secondAttribute="trailing" id="pBt-19-arU"/>
+                            <constraint firstItem="MN8-6i-Qxf" firstAttribute="leading" secondItem="3xl-7O-Nbe" secondAttribute="leadingMargin" constant="-16" id="v0e-ZZ-Q9r"/>
+                            <constraint firstItem="nSI-A8-RzN" firstAttribute="centerX" secondItem="MN8-6i-Qxf" secondAttribute="centerX" id="wtN-IR-q97"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="wtN-IR-q97"/>
+                                <exclude reference="h8Y-Uv-bxC"/>
+                                <exclude reference="RBP-AR-cdI"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Bh1-16-rRE"/>
+                        <barButtonItem title="Open in Safari" style="done" id="jNc-03-ufh">
+                            <color key="tintColor" red="0.12053614109999999" green="0.62428236010000004" blue="0.39499244090000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="openInSafari:" destination="qfl-qB-2cT" id="9Xh-w1-VkK"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="Q6h-7Q-0iQ">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="0UF-fX-bgS">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="57t-xp-5Fc">
+                                <rect key="frame" x="16" y="9" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="close-button-white.png"/>
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="qfl-qB-2cT" eventType="touchUpInside" id="jF8-8y-YD6"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="_webView" destination="nSI-A8-RzN" id="VdR-aZ-Lgu"/>
+                        <outlet property="actionBottomView" destination="zHE-Nz-Vnj" id="qe6-pd-K4J"/>
+                        <outlet property="actionButton" destination="rqs-Lp-4l9" id="2yO-6B-eWx"/>
+                        <outlet property="loadProgressView" destination="gdU-ei-AgJ" id="xwD-1r-vcn"/>
+                        <outlet property="topBarView" destination="MN8-6i-Qxf" id="zD9-hl-Kw6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="seC-ge-1sW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8230" y="-1203"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gHs-9g-OMj">
+            <objects>
+                <navigationController storyboardIdentifier="WebViewNavController" automaticallyAdjustsScrollViewInsets="NO" id="oG1-uQ-T88" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="SAb-AP-MV1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.1203775257" green="0.62360554930000001" blue="0.42264068129999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qfl-qB-2cT" kind="relationship" relationship="rootViewController" id="lJS-9W-clE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Woq-jB-NUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7142" y="-1203"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="close-button-white.png" width="16" height="16"/>
+    </resources>
+</document>

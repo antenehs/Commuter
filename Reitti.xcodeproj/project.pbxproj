@@ -127,6 +127,12 @@
 		661090CA1B374B43003F2688 /* LineDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661090C91B374B43003F2688 /* LineDetailViewController.m */; };
 		66115D711ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */; };
 		66115D721ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */; };
+		66115D741ED0CBA600C8CD05 /* Disruptions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66115D731ED0CBA600C8CD05 /* Disruptions.storyboard */; };
+		66115D751ED0CBA600C8CD05 /* Disruptions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66115D731ED0CBA600C8CD05 /* Disruptions.storyboard */; };
+		66115D771ED0CFAB00C8CD05 /* AboutCommuter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66115D761ED0CFAB00C8CD05 /* AboutCommuter.storyboard */; };
+		66115D781ED0CFAB00C8CD05 /* AboutCommuter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66115D761ED0CFAB00C8CD05 /* AboutCommuter.storyboard */; };
+		66115D7A1ED0D11E00C8CD05 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66115D791ED0D11E00C8CD05 /* Onboarding.storyboard */; };
+		66115D7B1ED0D11E00C8CD05 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66115D791ED0D11E00C8CD05 /* Onboarding.storyboard */; };
 		661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202AF1AFFC12900D93C2E /* RouteViewManager.m */; };
 		661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202C11B04F01E00D93C2E /* PubTransCommunicator.m */; };
 		661202C51B04F5B200D93C2E /* HSLLiveTrafficManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202C41B04F5B200D93C2E /* HSLLiveTrafficManager.m */; };
@@ -256,6 +262,18 @@
 		663465F51ECEA5CB004B8AAF /* LinePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465F11ECEA5CB004B8AAF /* LinePattern.m */; };
 		663465F61ECEA5CB004B8AAF /* LinePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465F11ECEA5CB004B8AAF /* LinePattern.m */; };
 		663465F71ECEA5CB004B8AAF /* LinePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465F11ECEA5CB004B8AAF /* LinePattern.m */; };
+		663589B01ED0D49F006721EA /* ICloud.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589AF1ED0D49F006721EA /* ICloud.storyboard */; };
+		663589B11ED0D49F006721EA /* ICloud.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589AF1ED0D49F006721EA /* ICloud.storyboard */; };
+		663589B31ED0D67E006721EA /* AlertTone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589B21ED0D67E006721EA /* AlertTone.storyboard */; };
+		663589B41ED0D67E006721EA /* AlertTone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589B21ED0D67E006721EA /* AlertTone.storyboard */; };
+		663589B61ED0D847006721EA /* Reminders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589B51ED0D847006721EA /* Reminders.storyboard */; };
+		663589B71ED0D847006721EA /* Reminders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589B51ED0D847006721EA /* Reminders.storyboard */; };
+		663589B91ED0DB77006721EA /* Lines.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589B81ED0DB77006721EA /* Lines.storyboard */; };
+		663589BA1ED0DB77006721EA /* Lines.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589B81ED0DB77006721EA /* Lines.storyboard */; };
+		663589BC1ED0E227006721EA /* ServicePoints.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BB1ED0E227006721EA /* ServicePoints.storyboard */; };
+		663589BD1ED0E227006721EA /* ServicePoints.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BB1ED0E227006721EA /* ServicePoints.storyboard */; };
+		663589BF1ED0E60F006721EA /* WebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BE1ED0E60F006721EA /* WebView.storyboard */; };
+		663589C01ED0E60F006721EA /* WebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BE1ED0E60F006721EA /* WebView.storyboard */; };
 		663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 663B7BDF1B4DB5B9008CF187 /* Reachability.m */; };
 		663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
 		663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
@@ -1424,6 +1442,9 @@
 		661090C91B374B43003F2688 /* LineDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineDetailViewController.m; path = ../LineDetailViewController.m; sourceTree = "<group>"; };
 		66115D6F1ECFF57B00C8CD05 /* MapPlottingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPlottingViewController.h; sourceTree = "<group>"; };
 		66115D701ECFF57B00C8CD05 /* MapPlottingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPlottingViewController.m; sourceTree = "<group>"; };
+		66115D731ED0CBA600C8CD05 /* Disruptions.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Disruptions.storyboard; sourceTree = "<group>"; };
+		66115D761ED0CFAB00C8CD05 /* AboutCommuter.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AboutCommuter.storyboard; sourceTree = "<group>"; };
+		66115D791ED0D11E00C8CD05 /* Onboarding.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		661202AE1AFFC12900D93C2E /* RouteViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteViewManager.h; sourceTree = "<group>"; };
 		661202AF1AFFC12900D93C2E /* RouteViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteViewManager.m; sourceTree = "<group>"; };
 		661202C01B04F01E00D93C2E /* PubTransCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PubTransCommunicator.h; sourceTree = "<group>"; };
@@ -1527,6 +1548,12 @@
 		663465E31ECE5543004B8AAF /* DigiPatternShort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiPatternShort.m; sourceTree = "<group>"; };
 		663465F01ECEA5CB004B8AAF /* LinePattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinePattern.h; sourceTree = "<group>"; };
 		663465F11ECEA5CB004B8AAF /* LinePattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinePattern.m; sourceTree = "<group>"; };
+		663589AF1ED0D49F006721EA /* ICloud.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ICloud.storyboard; sourceTree = "<group>"; };
+		663589B21ED0D67E006721EA /* AlertTone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AlertTone.storyboard; sourceTree = "<group>"; };
+		663589B51ED0D847006721EA /* Reminders.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Reminders.storyboard; sourceTree = "<group>"; };
+		663589B81ED0DB77006721EA /* Lines.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Lines.storyboard; sourceTree = "<group>"; };
+		663589BB1ED0E227006721EA /* ServicePoints.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ServicePoints.storyboard; sourceTree = "<group>"; };
+		663589BE1ED0E60F006721EA /* WebView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WebView.storyboard; sourceTree = "<group>"; };
 		663B7BDE1B4DB5B9008CF187 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		663B7BDF1B4DB5B9008CF187 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		663E1EB71C949C5400C5543A /* ICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudManager.h; sourceTree = "<group>"; };
@@ -3346,6 +3373,15 @@
 				66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */,
 				66C735CA1C557127002544BC /* LaunchScreenPro.xib */,
 				66B7AE8F1ECA54BE00B233E7 /* Migration.storyboard */,
+				66115D731ED0CBA600C8CD05 /* Disruptions.storyboard */,
+				66115D761ED0CFAB00C8CD05 /* AboutCommuter.storyboard */,
+				66115D791ED0D11E00C8CD05 /* Onboarding.storyboard */,
+				663589AF1ED0D49F006721EA /* ICloud.storyboard */,
+				663589B21ED0D67E006721EA /* AlertTone.storyboard */,
+				663589B51ED0D847006721EA /* Reminders.storyboard */,
+				663589B81ED0DB77006721EA /* Lines.storyboard */,
+				663589BB1ED0E227006721EA /* ServicePoints.storyboard */,
+				663589BE1ED0E60F006721EA /* WebView.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -4215,19 +4251,24 @@
 			files = (
 				66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */,
 				6632070B1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */,
+				663589B91ED0DB77006721EA /* Lines.storyboard in Resources */,
 				663465D61ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
+				663589B31ED0D67E006721EA /* AlertTone.storyboard in Resources */,
 				663E1ECF1C9EB86700C5543A /* StopTableViewCell.xib in Resources */,
+				663589B01ED0D49F006721EA /* ICloud.storyboard in Resources */,
 				666BC1DB1B5C259700889DD2 /* Time to go 4.mp3 in Resources */,
 				6663A0891B5EB3B100DC20D0 /* changeToFullVersionJS.js in Resources */,
 				66F099911AE8075D00F20D34 /* NotificationButtonBackground@2x.png in Resources */,
 				66F099851AE8075D00F20D34 /* NotificationBackgroundErrorIcon@2x.png in Resources */,
 				66EB0D521DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
+				663589BF1ED0E60F006721EA /* WebView.storyboard in Resources */,
 				6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */,
 				66F0998A1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon.png in Resources */,
 				66F16CF91E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				6665D77C1C0CDFB600ACCC3A /* Subway-100.png in Resources */,
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
+				66115D7A1ED0D11E00C8CD05 /* Onboarding.storyboard in Resources */,
 				660D31221C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66C735CC1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
@@ -4248,6 +4289,7 @@
 				66EB0D491DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
 				66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */,
 				6603A8F51CCFFF2100991FBF /* HSLRegion.kml in Resources */,
+				663589B61ED0D847006721EA /* Reminders.storyboard in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
 				664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */,
 				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
@@ -4260,6 +4302,7 @@
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
+				66115D741ED0CBA600C8CD05 /* Disruptions.storyboard in Resources */,
 				66B601201D91C1360056B7FA /* finland-region.geojson in Resources */,
 				666BC1DC1B5C259700889DD2 /* Time to go 5.mp3 in Resources */,
 				6603A8F31CCFFF2100991FBF /* TRERegion.kml in Resources */,
@@ -4290,10 +4333,12 @@
 				66822F6B1C286E4700511BD2 /* reload-128.png in Resources */,
 				6605796E1E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605798A1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
+				663589BC1ED0E227006721EA /* ServicePoints.storyboard in Resources */,
 				660716171B49CBFA00033049 /* logoutJS.js in Resources */,
 				66B391A01D206CE100C500CC /* OlderImages.xcassets in Resources */,
 				660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */,
 				664FE8B31ECBB20D00C3C0B5 /* BikesQueryFragment.graphql in Resources */,
+				66115D771ED0CFAB00C8CD05 /* AboutCommuter.storyboard in Resources */,
 				66F099841AE8075D00F20D34 /* NotificationBackgroundErrorIcon.png in Resources */,
 				663E1EFC1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */,
 				666BC1D71B5C259700889DD2 /* Wheels on the bus.mp3 in Resources */,
@@ -4334,6 +4379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66EB0D4A1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
+				663589B41ED0D67E006721EA /* AlertTone.storyboard in Resources */,
 				66C733921C556DA5002544BC /* logginJS.js in Resources */,
 				66C733A11C556DA5002544BC /* Time to go 4.mp3 in Resources */,
 				66EB0D531DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
@@ -4358,6 +4404,8 @@
 				66C733DD1C556DA5002544BC /* SVProgressHUD.bundle in Resources */,
 				66C733E01C556DA5002544BC /* Aspergit.otf in Resources */,
 				660579771E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
+				663589C01ED0E60F006721EA /* WebView.storyboard in Resources */,
+				663589BA1ED0DB77006721EA /* Lines.storyboard in Resources */,
 				66978A751C7676F800C45B96 /* Icons.xcassets in Resources */,
 				66833D351CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66C733F71C556DA5002544BC /* NotificationButtonBackground.png in Resources */,
@@ -4387,11 +4435,13 @@
 				66C7345D1C556DA5002544BC /* bookmarks-colored-100.png in Resources */,
 				6605798B1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				664FE8C21ECBC82A00C3C0B5 /* AlertQueryFragment.graphql in Resources */,
+				663589B11ED0D49F006721EA /* ICloud.storyboard in Resources */,
 				66C7345F1C556DA5002544BC /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
 				66C734621C556DA5002544BC /* Back-light-100.png in Resources */,
 				66C734641C556DA5002544BC /* timeburner_regular.ttf in Resources */,
 				66C734671C556DA5002544BC /* NotificationBackgroundWarning.png in Resources */,
 				663E1EE01C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
+				66115D781ED0CFAB00C8CD05 /* AboutCommuter.storyboard in Resources */,
 				66C7346D1C556DA5002544BC /* NotificationBackgroundWarningIcon.png in Resources */,
 				664FE8B41ECBB58E00C3C0B5 /* BikesQuery.graphql in Resources */,
 				664FE8C31ECBC82A00C3C0B5 /* AlertQuery.graphql in Resources */,
@@ -4404,6 +4454,7 @@
 				66C734821C556DA5002544BC /* logoutJS.js in Resources */,
 				663207061D27D26D00D8A46D /* AddressTypes.xcassets in Resources */,
 				66C734931C556DA5002544BC /* Forward-light-100.png in Resources */,
+				66115D751ED0CBA600C8CD05 /* Disruptions.storyboard in Resources */,
 				66C734971C556DA5002544BC /* NotificationBackgroundErrorIcon.png in Resources */,
 				66C734A11C556DA5002544BC /* Wheels on the bus.mp3 in Resources */,
 				6603A8F61CCFFF2100991FBF /* HSLRegion.kml in Resources */,
@@ -4422,12 +4473,15 @@
 				66C734C41C556DA5002544BC /* DetailImageView.xib in Resources */,
 				66C734C61C556DA5002544BC /* Vibration sound.mp3 in Resources */,
 				66C734D11C556DA5002544BC /* AddressTypeList.plist in Resources */,
+				66115D7B1ED0D11E00C8CD05 /* Onboarding.storyboard in Resources */,
 				66C734E91C556DA5002544BC /* renameCardJS.js in Resources */,
 				66B7AE911ECA54BE00B233E7 /* Migration.storyboard in Resources */,
 				66C734EB1C556DA5002544BC /* Main.storyboard in Resources */,
+				663589BD1ED0E227006721EA /* ServicePoints.storyboard in Resources */,
 				66C734F11C556DA5002544BC /* NotificationBackgroundSuccess.png in Resources */,
 				66C734F61C556DA5002544BC /* NotificationBackgroundSuccess@2x.png in Resources */,
 				66C734F91C556DA5002544BC /* NotificationBackgroundMessage@2x.png in Resources */,
+				663589B71ED0D847006721EA /* Reminders.storyboard in Resources */,
 				66C734FE1C556DA5002544BC /* routes.json in Resources */,
 				663E1EE71C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
 			);
@@ -4714,7 +4768,7 @@
 		};
 		66EAF8F01D875E780077BC5C /* upload symbols to firebase */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -4722,7 +4776,7 @@
 			name = "upload symbols to firebase";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Replace this with the GOOGLE_APP_ID from your GoogleService-Info.plist file\nGOOGLE_APP_ID=1:69378195651:ios:8289ef345e41a878\n\n# Replace the /Path/To/ServiceAccount.json with the path to the key you just downloaded\n\"${PODS_ROOT}\"/FirebaseCrash/upload-sym \"/Users/antenehs/Documents/Apps/Reitti Commuter/Reitti/firebase_uploadkey.json\"";
 		};

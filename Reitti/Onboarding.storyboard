@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Cg3-G4-pEt">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Welcome View Controller-->
+        <scene sceneID="pcR-Sj-WwW">
+            <objects>
+                <viewController id="Cg3-G4-pEt" customClass="WelcomeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="n4H-S7-g0A"/>
+                        <viewControllerLayoutGuide type="bottom" id="awr-Gl-IaW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hvP-H7-u3y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Qj-vq-Hzl">
+                                <rect key="frame" x="38" y="67" width="300" height="534"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Cg3-G4-pEt" id="xQR-HW-zFX"/>
+                                </connections>
+                            </scrollView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="FtD-Ns-Ggx">
+                                <rect key="frame" x="146" y="612" width="84" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="84" id="1hY-Kr-G3z"/>
+                                    <constraint firstAttribute="height" constant="37" id="WOq-ns-mh1"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="pageControlValueChanged:" destination="Cg3-G4-pEt" eventType="valueChanged" id="jFT-hk-QJE"/>
+                                </connections>
+                            </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sA7-lz-GYQ">
+                                <rect key="frame" x="300" y="23" width="68" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="68" id="93I-HO-FiS"/>
+                                    <constraint firstAttribute="height" constant="26" id="p0y-tW-v4D"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                <state key="normal" title="GOT IT">
+                                    <color key="titleColor" red="0.10980392160000001" green="0.67450980390000004" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="Cg3-G4-pEt" eventType="touchUpInside" id="oft-bW-QnH"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app-pro-logo-rounded2-small.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ra9-3s-qKs">
+                                <rect key="frame" x="16" y="24" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="0On-eH-8Ie"/>
+                                    <constraint firstAttribute="width" constant="25" id="b8h-4g-AeQ"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New in Commuter 4.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="k6j-Xi-gI2">
+                                <rect key="frame" x="55" y="25" width="229" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="aYX-Ni-DvC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.14901960780000001" green="0.1960784314" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="FtD-Ns-Ggx" firstAttribute="top" secondItem="4Qj-vq-Hzl" secondAttribute="bottom" constant="-5" id="0vr-r0-p5V"/>
+                            <constraint firstItem="Ra9-3s-qKs" firstAttribute="top" secondItem="n4H-S7-g0A" secondAttribute="bottom" constant="4" id="Aci-Wl-z2f"/>
+                            <constraint firstItem="k6j-Xi-gI2" firstAttribute="leading" secondItem="Ra9-3s-qKs" secondAttribute="trailing" constant="14" id="Qgq-Vt-hc3"/>
+                            <constraint firstItem="sA7-lz-GYQ" firstAttribute="top" secondItem="n4H-S7-g0A" secondAttribute="bottom" constant="3" id="SXa-xj-2bq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sA7-lz-GYQ" secondAttribute="trailing" constant="-9" id="aGU-ZB-iyh"/>
+                            <constraint firstItem="4Qj-vq-Hzl" firstAttribute="height" secondItem="hvP-H7-u3y" secondAttribute="height" multiplier="0.8" id="cqb-f9-6rQ"/>
+                            <constraint firstAttribute="centerY" secondItem="4Qj-vq-Hzl" secondAttribute="centerY" id="dYo-G3-bMo"/>
+                            <constraint firstAttribute="centerX" secondItem="FtD-Ns-Ggx" secondAttribute="centerX" id="gar-OK-1Uu"/>
+                            <constraint firstItem="awr-Gl-IaW" firstAttribute="top" secondItem="FtD-Ns-Ggx" secondAttribute="bottom" constant="18" id="hCv-hr-Cbq"/>
+                            <constraint firstAttribute="centerX" secondItem="4Qj-vq-Hzl" secondAttribute="centerX" id="k5U-oA-gqS"/>
+                            <constraint firstItem="sA7-lz-GYQ" firstAttribute="leading" secondItem="k6j-Xi-gI2" secondAttribute="trailing" constant="16" id="pDp-07-Sd5"/>
+                            <constraint firstItem="Ra9-3s-qKs" firstAttribute="leading" secondItem="hvP-H7-u3y" secondAttribute="leadingMargin" id="pcr-YI-bVB"/>
+                            <constraint firstItem="k6j-Xi-gI2" firstAttribute="top" secondItem="n4H-S7-g0A" secondAttribute="bottom" constant="5" id="sh2-oJ-YWW"/>
+                            <constraint firstItem="4Qj-vq-Hzl" firstAttribute="width" secondItem="hvP-H7-u3y" secondAttribute="width" multiplier="0.8" id="uAy-65-3MH"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="0vr-r0-p5V"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="doneButton" destination="sA7-lz-GYQ" id="a2S-Ye-wxN"/>
+                        <outlet property="logoImageView" destination="Ra9-3s-qKs" id="VP2-ej-u58"/>
+                        <outlet property="mainScrollView" destination="4Qj-vq-Hzl" id="eO2-2f-m8K"/>
+                        <outlet property="pageControl" destination="FtD-Ns-Ggx" id="lIE-Rt-Zou"/>
+                        <outlet property="viewTitle" destination="k6j-Xi-gI2" id="Eqh-5R-w7a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fGS-KR-4nx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5972" y="-2919"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="app-pro-logo-rounded2-small.png" width="16" height="16"/>
+    </resources>
+</document>
