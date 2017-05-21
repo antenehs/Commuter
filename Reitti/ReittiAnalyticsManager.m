@@ -158,7 +158,7 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
 -(void)trackScreenViewForScreenName:(NSString *)screenName{
     if (self.isEnabled) {
         @try {
-            [FIRAnalytics logEventWithName:@"screen_view"
+            [FIRAnalytics logEventWithName:[NSString stringWithFormat:@"screen_view %@", screenName]
                                 parameters:@{ kFIRParameterItemName: screenName }];
         }
         @catch (NSException *exception) {}

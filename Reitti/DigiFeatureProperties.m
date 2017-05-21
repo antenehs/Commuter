@@ -69,6 +69,9 @@ NSString *const kDigiFeaturePropertiesNeighbourhood = @"neighbourhood";
     return number ? number : @1;
 }
 
+//-(NSString *)name {
+//    return _street ? _street : _name;
+//}
 
 #pragma mark - initialization
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict

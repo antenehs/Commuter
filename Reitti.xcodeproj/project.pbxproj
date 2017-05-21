@@ -274,6 +274,8 @@
 		663589BD1ED0E227006721EA /* ServicePoints.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BB1ED0E227006721EA /* ServicePoints.storyboard */; };
 		663589BF1ED0E60F006721EA /* WebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BE1ED0E60F006721EA /* WebView.storyboard */; };
 		663589C01ED0E60F006721EA /* WebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 663589BE1ED0E60F006721EA /* WebView.storyboard */; };
+		663589C31ED128BC006721EA /* NSString+Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 663589C21ED128BC006721EA /* NSString+Score.m */; };
+		663589C41ED128BC006721EA /* NSString+Score.m in Sources */ = {isa = PBXBuildFile; fileRef = 663589C21ED128BC006721EA /* NSString+Score.m */; };
 		663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 663B7BDF1B4DB5B9008CF187 /* Reachability.m */; };
 		663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
 		663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663E1EB81C949C5400C5543A /* ICloudManager.m */; };
@@ -1554,6 +1556,8 @@
 		663589B81ED0DB77006721EA /* Lines.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Lines.storyboard; sourceTree = "<group>"; };
 		663589BB1ED0E227006721EA /* ServicePoints.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ServicePoints.storyboard; sourceTree = "<group>"; };
 		663589BE1ED0E60F006721EA /* WebView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = WebView.storyboard; sourceTree = "<group>"; };
+		663589C11ED128BC006721EA /* NSString+Score.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Score.h"; sourceTree = "<group>"; };
+		663589C21ED128BC006721EA /* NSString+Score.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Score.m"; sourceTree = "<group>"; };
 		663B7BDE1B4DB5B9008CF187 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		663B7BDF1B4DB5B9008CF187 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		663E1EB71C949C5400C5543A /* ICloudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICloudManager.h; sourceTree = "<group>"; };
@@ -3027,6 +3031,8 @@
 				66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */,
 				66F60DE11C7F8FEE00B33511 /* NSString+Helper.h */,
 				66F60DE21C7F8FEE00B33511 /* NSString+Helper.m */,
+				663589C11ED128BC006721EA /* NSString+Score.h */,
+				663589C21ED128BC006721EA /* NSString+Score.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -5008,6 +5014,7 @@
 				660E2F5E1B33630C00CE670E /* LineStop.m in Sources */,
 				66833D511CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66DD9ACB1D8D5098009C59AB /* ReittiConfigManager.m in Sources */,
+				663589C31ED128BC006721EA /* NSString+Score.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
 				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
@@ -5291,6 +5298,7 @@
 				66833D521CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66DD9ACC1D8D5098009C59AB /* ReittiConfigManager.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
+				663589C41ED128BC006721EA /* NSString+Score.m in Sources */,
 				66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */,
 				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,
 				66C732E81C556DA5002544BC /* Reitti.xcdatamodeld in Sources */,

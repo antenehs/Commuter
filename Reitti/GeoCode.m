@@ -209,7 +209,7 @@
     
 }
 
--(NSString *)fullAddressString{
+-(NSString *)fullAddressString {
     if ([self.locTypeId integerValue] == 1018) {//Apples geocode has different format
         return [NSString stringWithFormat:@"%@, %@", [self getStreetAddressString], self.city ? self.city : @""];
     }else{
@@ -222,7 +222,7 @@
     }
 }
 
--(NSString *)getStreetAddressString{
+-(NSString *)getStreetAddressString {
     if ([self.locTypeId integerValue] == 1018 || [self.locTypeId integerValue] == 550) {//Apples geocode has different format
         return self.details.address;
     }else{ //Searches from HSL and TRE has the address as name

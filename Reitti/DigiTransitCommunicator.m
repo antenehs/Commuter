@@ -16,6 +16,7 @@
 #import "BikeStation.h"
 #import "DigiAlert.h"
 #import "AnnotationFilter.h"
+#import "ASA_Helpers.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
@@ -53,10 +54,10 @@ typedef enum : NSUInteger {
     communicator.apiBaseUrl = kHslDigiTransitGraphQlUrl;
     communicator.source = HslApi;
     
-    communicator.searchFilterBoundary = @{@"boundary.rect.min_lon" : @"25.332469",
-                                          @"boundary.rect.min_lat" : @"60.017154",
-                                          @"boundary.rect.max_lon" : @"24.507191",
-                                          @"boundary.rect.max_lat" : @"60.256700"};
+    communicator.searchFilterBoundary = @{@"boundary.rect.min_lon" : @"24.332469",
+                                          @"boundary.rect.min_lat" : @"59.917154",
+                                          @"boundary.rect.max_lon" : @"25.507191",
+                                          @"boundary.rect.max_lat" : @"60.456700"};
     
     return communicator;
 }
@@ -258,6 +259,7 @@ typedef enum : NSUInteger {
             
             NSMutableArray *results = [@[] mutableCopy];
             for (DigiStop *digiStop in responseArray) {
+                if (!digiStop.code && !digiStop.desc && digiStop.patterns.count == 0) continue;
                 [results addObject:[GeoCode geocodeForDigiStop:digiStop]];
             }
             
@@ -267,17 +269,17 @@ typedef enum : NSUInteger {
                 allResults = [@[] mutableCopy];
                 [allResults addObjectsFromArray:addressResults];
                 [allResults addObjectsFromArray:stopResults];
-                completionBlock(allResults, nil);
+                completionBlock([self sortGeoCodes:allResults forSearchTerm:searchTerm], nil);
             }
         }
     }];
     
     [optionsDict setValue:searchTerm forKey:@"text"];
-    [optionsDict setValue:@"venue,street,locality" forKey:@"layers"];
-    [optionsDict setValue:@"50" forKey:@"size"];
+//    [optionsDict setValue:@"venue,street,locality" forKey:@"layers"];
+//    [optionsDict setValue:@"20" forKey:@"size"];
     
-//    if (self.searchFilterBoundary)
-//        [optionsDict addEntriesFromDictionary:self.searchFilterBoundary];
+    if (self.searchFilterBoundary)
+        [optionsDict addEntriesFromDictionary:self.searchFilterBoundary];
     
     [self.addressSearchClient doJsonApiFetchWithParams:optionsDict mappingDescriptor:[DigiGeoCode mappingDescriptorForPath:@"features"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         requestCalls--;
@@ -285,6 +287,10 @@ typedef enum : NSUInteger {
             
             NSMutableArray *results = [@[] mutableCopy];
             for (DigiGeoCode *digiGeocode in responseArray) {
+                if (digiGeocode.properties.confidence < 0.5 ) continue;
+                //Ignore stops since there is no detail and separate search is done
+                if (digiGeocode.locationType == LocationTypeStop) continue;
+                
                 [results addObject:[GeoCode geocodeForDigiGeocode:digiGeocode]];
             }
             
@@ -294,13 +300,20 @@ typedef enum : NSUInteger {
                 allResults = [@[] mutableCopy];
                 [allResults addObjectsFromArray:addressResults];
                 [allResults addObjectsFromArray:stopResults];
-                completionBlock(allResults, nil);
+                completionBlock([self sortGeoCodes:allResults forSearchTerm:searchTerm], nil);
             }
         }
     }];
     
     
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedAddressFromApi label:@"HSL:DIGI" value:nil];
+}
+
+-(NSArray *)sortGeoCodes:(NSArray *)addressList forSearchTerm:(NSString *)searchTerm {
+    if (!addressList || !searchTerm) return addressList;
+    return [addressList sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [searchTerm scoreAgainst:[(GeoCode *)obj1 name]  fuzziness:@1] < [searchTerm scoreAgainst:[(GeoCode *)obj2 name]  fuzziness:@1];
+    }];
 }
 
 #pragma mark - Reverese geocode methods

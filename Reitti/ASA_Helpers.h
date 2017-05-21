@@ -9,6 +9,7 @@
 #import "ReittiMapkitHelper.h"
 #import "NSArray+Helper.h"
 #import "NSString+Helper.h"
+#import "NSString+Score.m"
 #import "NSObject+Helper.h"
 #import "NSDate+Helper.h"
 #import "ReittiDateHelper.h"

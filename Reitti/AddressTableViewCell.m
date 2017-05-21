@@ -20,10 +20,6 @@
 
 @implementation AddressTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
 -(void)setupFromGeocode:(GeoCode *)geoCode{
     self.geoCode = geoCode;
     

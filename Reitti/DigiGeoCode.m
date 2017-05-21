@@ -28,7 +28,7 @@ NSString *const kDigiFeaturesProperties = @"properties";
     if (_locationType == LocationTypeUnknown && self.properties.layer) {
         if ([self.properties.layer isEqualToString:@"address"] || [self.properties.layer isEqualToString:@"street"]) {
             _locationType = LocationTypeAddress;
-        } else if ([self.properties.layer isEqualToString:@"stop"]) {
+        } else if ([self.properties.layer isEqualToString:@"stop"] || [self.properties.layer isEqualToString:@"station"]) {
             _locationType = LocationTypeStop;
         } else if ([self.properties.layer isEqualToString:@"venue"]) {
             _locationType = LocationTypePOI;

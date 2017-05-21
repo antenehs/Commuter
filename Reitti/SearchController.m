@@ -1392,7 +1392,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         name = geoCode.name;
         city = geoCode.fullAddressString;
     }else if (geoCode.locationType  == LocationTypeAddress){
-        name = [NSString stringWithFormat:@"%@ %@", geoCode.name, geoCode.getHouseNumber];
+        name = geoCode.getStreetAddressString;
         city = geoCode.city;
     }else{
         //[self plotStopAnnotation:<#(StopEntity *)#> forCoordinate:<#(NSString *)#>]

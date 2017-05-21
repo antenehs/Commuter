@@ -384,7 +384,7 @@
 -(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
     
-    if (indexPath && ![AppManager isProVersion]) {
+    if (indexPath && indexPath.section == moreFeaturesSection && ![AppManager isProVersion]) {
         if (indexPath.row == routinesRow || indexPath.row == ticketsSalesPointsRow || indexPath.row == icloudBookmarksRow) {
             return NO;
         }
