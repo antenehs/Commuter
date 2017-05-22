@@ -13,6 +13,7 @@
 #import "HSLAndTRECommon.h"
 #import "VehicleRef.h"
 #import "TREVehiceDataModels.h"
+#import "ReittiMapkitHelper.h"
 
 @implementation Vehicle
 
@@ -166,23 +167,38 @@
 }
 
 - (NSString *)vehicleId{
-    return self.properties.propertiesIdentifier;
+    if (!_vehicleId) {
+        _vehicleId = self.properties.propertiesIdentifier;
+    }
+    
+    return _vehicleId;
 }
 
 - (NSString *)vehicleName{
-    return self.properties.name;
+    if (!_vehicleName) {
+       _vehicleName = self.properties.name;
+    }
+    
+    return _vehicleName;
 }
 
 - (NSString *)vehicleLineId{
-    return self.properties.lineid;
+    if (!_vehicleLineId) {
+        _vehicleLineId = self.properties.lineid;
+    }
+    
+    return _vehicleLineId;
 }
 
 - (CLLocationCoordinate2D)coords{
-    NSNumber *longitude = [self.geometry.coordinates objectAtIndex:0];
-    NSNumber *latitude = [self.geometry.coordinates objectAtIndex:1];
-    CLLocationCoordinate2D coordinate = {.latitude = [latitude doubleValue] , .longitude =  [longitude doubleValue]};
+    if (![ReittiMapkitHelper isValidCoordinate:_coords]) {
+        NSNumber *longitude = [self.geometry.coordinates objectAtIndex:0];
+        NSNumber *latitude = [self.geometry.coordinates objectAtIndex:1];
+        CLLocationCoordinate2D coordinate = {.latitude = [latitude doubleValue] , .longitude =  [longitude doubleValue]};
+        _coords = coordinate;
+    }
     
-    return coordinate;
+    return _coords;
 }
 
 -(double)bearing{
@@ -194,7 +210,11 @@
 }
 
 -(VehicleType)vehicleType{
-    return [EnumManager vehicleTypeForTypeName:self.properties.type];
+    if (_vehicleType == VehicleTypeUnknown) {
+        _vehicleType = [EnumManager vehicleTypeForTypeName:self.properties.type];
+    }
+    
+    return _vehicleType;
 }
 
 @end

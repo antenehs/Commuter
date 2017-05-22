@@ -131,19 +131,14 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 -(void)viewWillDisappear:(BOOL)animated {
     [self.reittiDataManager stopUpdatingBikeStations];
+    [self stopFetchingVehicles];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self hideNavigationBar:NO animated:NO];
     [self moveRouteViewToLocation:currentRouteListViewLocation animated:NO];
-//    [routeListTableView reloadData];
     [self setUpMainViewForRoute];
 }
-
-//- (id<UILayoutSupport>)topLayoutGuide {
-//    return [[MyFixedLayoutGuide alloc] initWithLength:0];
-//}
 
 - (id<UILayoutSupport>)bottomLayoutGuide {
     return [[MyFixedLayoutGuide alloc] initWithLength:70];
@@ -380,7 +375,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             [tempTrainArray addObject:leg.lineCode];
         }
         
-        if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram || leg.legType == LegTypeBus || leg.legType == LegTypeTrain ) {
+        if (leg.legType == LegTypeMetro || leg.legType == LegTypeTram || leg.legType == LegTypeBus || leg.legType == LegTypeFerry ) {
             if (leg.lineCode)
                 [tempOthersArray addObject:leg.lineCode];
         }

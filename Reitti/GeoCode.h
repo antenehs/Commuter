@@ -25,7 +25,7 @@
 -(NSString *)getHouseNumber;
 -(NSString *)getAddress;
 -(NSString *)getStopShortCode;
--(NSNumber *)getStopCode;
+-(NSString *)getStopCode;
 
 -(NSString *)fullAddressString;
 -(NSString *)getStreetAddressString;

@@ -128,7 +128,10 @@
         }
     }
     
-    [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
+    if (routeLeg.legType != LegTypeMetro) {
+        [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
+        imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
     
     if (imageView.hidden && !lineNumberLabel.hidden) {
         lineNumberLabel.frame = CGRectMake(0, lineNumberLabel.frame.origin.y, self.frame.size.width, lineNumberLabel.frame.size.height);
@@ -146,8 +149,13 @@
     //Set background color
     if (routeLeg.legType == LegTypeWalk) {
         self.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+        lineNumberLabel.textColor = [UIColor colorWithWhite:0.28 alpha:1];
+        [imageView setTintColor:[UIColor colorWithWhite:0.28 alpha:1]];
     }else{
         self.backgroundColor = [UIColor colorWithWhite:0.28 alpha:1];
+        self.backgroundColor = [AppManager colorForLegType:routeLeg.legType];
+        lineNumberLabel.textColor = [UIColor whiteColor];
+        [imageView setTintColor:[UIColor whiteColor]];
     }
     
     //Center views

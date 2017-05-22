@@ -12,11 +12,6 @@
 
 @interface Vehicle : Features
 
-//- (NSString *)getVehicleId;
-//- (NSString *)getVehicleName;
-//- (CLLocationCoordinate2D)getCoords;
-//-(double)getBearing;
-
 - (instancetype)initWithCSV:(NSString *)csvString;
 - (instancetype)initWithHslDevVehicle:(DevHslVehicle *)hslDevVehicle;
 - (instancetype)initWithTreVehicle:(TREVehicle *)treVehicle;
@@ -24,8 +19,11 @@
 @property (nonatomic, strong) NSString *vehicleId;
 @property (nonatomic, strong) NSString *vehicleName;
 @property (nonatomic, strong) NSString *vehicleLineId;
+
 @property (nonatomic) CLLocationCoordinate2D coords;
 @property (nonatomic) double bearing;
 @property (nonatomic) VehicleType vehicleType;
+
+@property (nonatomic, strong) NSString *vehicleLineGtfsId;
 
 @end

@@ -557,6 +557,21 @@
 		669602B31B1224B3006919CB /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 669602B21B1224B3006919CB /* TabBarViewController.m */; };
 		66978A741C7664B200C45B96 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
 		66978A751C7676F800C45B96 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
+		66997AA31ED1676E00B206D4 /* DigiVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AA21ED1676E00B206D4 /* DigiVehicle.m */; };
+		66997AA41ED1676E00B206D4 /* DigiVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AA21ED1676E00B206D4 /* DigiVehicle.m */; };
+		66997AA71ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AA61ED1702600B206D4 /* DigiVehicleActivityContainer.m */; };
+		66997AA81ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AA61ED1702600B206D4 /* DigiVehicleActivityContainer.m */; };
+		66997AAB1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */; };
+		66997AAC1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */; };
+		66997AAD1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */; };
+		66997AAE1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */; };
+		66997AAF1ED2A9EF00B206D4 /* DigiRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */; };
+		66997AB31ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */; };
+		66997AB41ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */; };
+		66997AB51ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */; };
+		66997AB61ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */; };
+		66997AB71ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */; };
+		66997AB81ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */; };
 		669E6D021D393E14006C8580 /* RoutableLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E6D011D393E14006C8580 /* RoutableLocation.m */; };
 		669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E6D011D393E14006C8580 /* RoutableLocation.m */; };
 		669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F619C83794005A04B9 /* RouteEntity.m */; };
@@ -1817,6 +1832,14 @@
 		669602D41B14D8E7006919CB /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
 		669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		66978A731C7664B200C45B96 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		66997AA11ED1676E00B206D4 /* DigiVehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiVehicle.h; sourceTree = "<group>"; };
+		66997AA21ED1676E00B206D4 /* DigiVehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiVehicle.m; sourceTree = "<group>"; };
+		66997AA51ED1702600B206D4 /* DigiVehicleActivityContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiVehicleActivityContainer.h; sourceTree = "<group>"; };
+		66997AA61ED1702600B206D4 /* DigiVehicleActivityContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiVehicleActivityContainer.m; sourceTree = "<group>"; };
+		66997AA91ED2958A00B206D4 /* DigiRouteOptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiRouteOptionManager.h; sourceTree = "<group>"; };
+		66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiRouteOptionManager.m; sourceTree = "<group>"; };
+		66997AB11ED2AB5B00B206D4 /* GraphQLQueryEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphQLQueryEnum.h; sourceTree = "<group>"; };
+		66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphQLQueryEnum.m; sourceTree = "<group>"; };
 		669E6D001D393E14006C8580 /* RoutableLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutableLocation.h; sourceTree = "<group>"; };
 		669E6D011D393E14006C8580 /* RoutableLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutableLocation.m; sourceTree = "<group>"; };
 		669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Reitti-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2325,6 +2348,10 @@
 				66F16D121E08AF5200D45613 /* DigiFeatureProperties.m */,
 				663465E21ECE5543004B8AAF /* DigiPatternShort.h */,
 				663465E31ECE5543004B8AAF /* DigiPatternShort.m */,
+				66997AA11ED1676E00B206D4 /* DigiVehicle.h */,
+				66997AA21ED1676E00B206D4 /* DigiVehicle.m */,
+				66997AA51ED1702600B206D4 /* DigiVehicleActivityContainer.h */,
+				66997AA61ED1702600B206D4 /* DigiVehicleActivityContainer.m */,
 			);
 			name = DigiModels;
 			sourceTree = "<group>";
@@ -3109,6 +3136,8 @@
 				66EB0D3F1DECBA3300ADEC2D /* GraphQLQueries */,
 				66833D251CEE4685005D958C /* DigiTransitCommunicator.h */,
 				66833D261CEE4685005D958C /* DigiTransitCommunicator.m */,
+				66997AA91ED2958A00B206D4 /* DigiRouteOptionManager.h */,
+				66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */,
 			);
 			name = DigiTransit;
 			sourceTree = "<group>";
@@ -3774,6 +3803,8 @@
 			children = (
 				66034CFD1CE8D91F00EC0769 /* GraphQLQuery.h */,
 				66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */,
+				66997AB11ED2AB5B00B206D4 /* GraphQLQueryEnum.h */,
+				66997AB21ED2AB5B00B206D4 /* GraphQLQueryEnum.m */,
 			);
 			name = GraphQL;
 			sourceTree = "<group>";
@@ -4951,6 +4982,7 @@
 				66B391BB1D2307CC00C500CC /* WatchDataManager.m in Sources */,
 				6624819F1D1FFBF700574319 /* NotificationController.m in Sources */,
 				66BCA7031D723B990092C5BB /* DepartureRowController.m in Sources */,
+				66997AB81ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66B3919E1D205DF900C500CC /* WatchCommunicationManager.m in Sources */,
 				6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */,
 				66A2FB081D887612004A6C24 /* RouteSummaryRowController.m in Sources */,
@@ -5006,6 +5038,7 @@
 				66833D271CEE4685005D958C /* DigiTransitCommunicator.m in Sources */,
 				66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */,
 				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
+				66997AA31ED1676E00B206D4 /* DigiVehicle.m in Sources */,
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
 				663E1EC01C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
@@ -5021,6 +5054,7 @@
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
 				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
+				66997AA71ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
 				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
 				66B7AE981ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
@@ -5106,6 +5140,7 @@
 				66056E6A1C42AAFE00C011FB /* DataFrameRef.m in Sources */,
 				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
+				66997AAB1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */,
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
@@ -5149,6 +5184,7 @@
 				664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */,
 				66F3FADF1B4473A200DAA5B4 /* HTMLEntities.m in Sources */,
 				660715FD1B45CD2C00033049 /* ProductNames.m in Sources */,
+				66997AB31ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66F0996E1AE6EDDD00F20D34 /* HexColor.m in Sources */,
 				66CB960118EEE2B500E95CE5 /* CustomeTableViewCell.m in Sources */,
 				66833D561CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
@@ -5290,6 +5326,7 @@
 				66C732E01C556DA5002544BC /* ReittiSearchManager.m in Sources */,
 				66C732E11C556DA5002544BC /* MultiSelectTableViewController.m in Sources */,
 				66C732E21C556DA5002544BC /* VersionInfoViewController.m in Sources */,
+				66997AA41ED1676E00B206D4 /* DigiVehicle.m in Sources */,
 				66C732E31C556DA5002544BC /* APIClient.m in Sources */,
 				663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
 				66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */,
@@ -5305,6 +5342,7 @@
 				66C732E91C556DA5002544BC /* HTMLSerialization.m in Sources */,
 				66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */,
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
+				66997AA81ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66B7AE991ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				664FE8BC1ECBC5A600C3C0B5 /* DigiAlert.m in Sources */,
@@ -5390,6 +5428,7 @@
 				66C733221C556DA5002544BC /* DataFrameRef.m in Sources */,
 				66C733231C556DA5002544BC /* TabBarViewController.m in Sources */,
 				66C733241C556DA5002544BC /* LVThumbnail.m in Sources */,
+				66997AAC1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				66C733251C556DA5002544BC /* HTMLTreeEnumerator.m in Sources */,
 				66C733261C556DA5002544BC /* KBPopupBubbleView.m in Sources */,
 				66C733271C556DA5002544BC /* TravelCardManager.m in Sources */,
@@ -5433,6 +5472,7 @@
 				66C733431C556DA5002544BC /* HTMLEntities.m in Sources */,
 				66C733441C556DA5002544BC /* ProductNames.m in Sources */,
 				66C733451C556DA5002544BC /* HexColor.m in Sources */,
+				66997AB41ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66C733461C556DA5002544BC /* CustomeTableViewCell.m in Sources */,
 				664FE8BD1ECBC5AB00C3C0B5 /* DigiAlertText.m in Sources */,
 				66833D571CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
@@ -5560,12 +5600,14 @@
 				66833D4F1CF8F427005D958C /* DigiPlace.m in Sources */,
 				666E08C41CD3DD6C0058D5B0 /* MatkaName.m in Sources */,
 				6683CF191CD922E70044727B /* MatkaApiClient.m in Sources */,
+				66997AB61ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66C735191C556FA4002544BC /* RouteE.m in Sources */,
 				66833D1D1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				66F16D1A1E08B36100D45613 /* Geometry.m in Sources */,
 				66C7351A1C556FA4002544BC /* ReittiStringFormatterE.m in Sources */,
 				6605796B1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
+				66997AAE1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				663465E71ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				66F60DE61C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				666E08A91CD3D9010058D5B0 /* StaticCity.m in Sources */,
@@ -5638,6 +5680,7 @@
 				66C7356E1C556FB5002544BC /* TREAPIClient.m in Sources */,
 				66833D5A1CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C7356F1C556FB5002544BC /* TransportE.m in Sources */,
+				66997AB71ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66C735711C556FB5002544BC /* TodayViewController.m in Sources */,
 				663465E81ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				666E08BA1CD3DC000058D5B0 /* ReittiStringFormatter.m in Sources */,
@@ -5673,6 +5716,7 @@
 				66C7357A1C556FB5002544BC /* RouteLegE.m in Sources */,
 				663465EC1ECE9ECC004B8AAF /* BusStopShort.m in Sources */,
 				66C7357B1C556FB5002544BC /* HSLAPIClient.m in Sources */,
+				66997AAF1ED2A9EF00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				6683CF141CD3FAB30044727B /* BusStopE.m in Sources */,
 				66C7357C1C556FB5002544BC /* RouteE.m in Sources */,
 				66F60DEC1C834C0C00B33511 /* HSLRouteOptionManager.m in Sources */,
@@ -5731,12 +5775,14 @@
 				66833D4E1CF8F426005D958C /* DigiPlace.m in Sources */,
 				666E08C31CD3DD6B0058D5B0 /* MatkaName.m in Sources */,
 				6683CF181CD922E70044727B /* MatkaApiClient.m in Sources */,
+				66997AB51ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				660CFE2C1C19B81A004D73FC /* RouteE.m in Sources */,
 				66833D1C1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				66F16D191E08B36000D45613 /* Geometry.m in Sources */,
 				66DAC7E61A0292470002BE16 /* ReittiStringFormatterE.m in Sources */,
 				6605796A1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
+				66997AAD1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				663465E61ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				66F60DE51C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				666E08A81CD3D9000058D5B0 /* StaticCity.m in Sources */,

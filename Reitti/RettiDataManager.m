@@ -198,12 +198,22 @@
 }
 
 -(id)getLiveTrafficManagerForRegion:(Region)region{
-    if (region == TRERegion) {
-        return self.treLiveTrafficManager;
-    }else if(region == HSLRegion){
-        return self.hslLiveTrafficManager;
-    }else{
-        return nil;
+    if ([SettingsManager useDigiTransit]) {
+        if (region == TRERegion) {
+            return self.treLiveTrafficManager;
+        }else if(region == HSLRegion){
+            return self.hslDigitransitCommunicator;
+        }else{
+            return nil;
+        }
+    } else {
+        if (region == TRERegion) {
+            return self.treLiveTrafficManager;
+        }else if(region == HSLRegion){
+            return self.hslLiveTrafficManager;
+        }else{
+            return nil;
+        }
     }
 }
 
@@ -678,6 +688,7 @@
     //Done like this because when region changes, we dont know which manager to stop
     [self.hslLiveTrafficManager stopFetchingVehicles];
     [self.treLiveTrafficManager stopFetchingVehicles];
+    [self.hslDigitransitCommunicator stopFetchingVehicles];
 }
 
 

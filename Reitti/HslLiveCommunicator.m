@@ -28,7 +28,8 @@
         self.hslLiveApiClient.apiBaseUrl = @"http://83.145.232.209:10001/";
         
         self.hslDevApiClient = [[APIClient alloc] init];
-        self.hslDevApiClient.apiBaseUrl = @"http://dev.hsl.fi/siriaccess/vm/json";
+//        self.hslDevApiClient.apiBaseUrl = @"http://dev.hsl.fi/siriaccess/vm/json";
+        self.hslDevApiClient.apiBaseUrl = @"https://api.digitransit.fi/realtime/vehicle-positions/v1/siriaccess/vm/json";
     }
     
     return self;
@@ -205,9 +206,10 @@
                     if (devVehicle) {
                         Vehicle *vehicle = [[Vehicle alloc] initWithHslDevVehicle:devVehicle];
                         
-                        if (vehicle && vehicle.vehicleType == VehicleTypeTrain) {
-                            [vehicles addObject:vehicle];
-                        }
+                        [vehicles addObject:vehicle];
+//                        if (vehicle && vehicle.vehicleType == VehicleTypeTrain) {
+//                            [vehicles addObject:vehicle];
+//                        }
                     }
                 }
                 @catch (NSException *exception) {}

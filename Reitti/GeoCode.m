@@ -150,17 +150,8 @@
     }
     
 }
--(NSNumber *)getStopCode{
-    @try {
-        if (!self.details.code) return nil;
-            
-        NSString *code = self.details.code;
-        
-        return [NSNumber numberWithInteger:[code integerValue]];
-    }
-    @catch (NSException *exception) {
-        return nil;
-    }
+-(NSString *)getStopCode{
+    return self.details.code;
 }
 
 -(LocationType)getLocationType {
@@ -241,7 +232,7 @@
     if ([self getLocationType] == LocationTypeStop) {
         @try {
             if (_stopType == StopTypeUnknown) {
-                StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", [self getStopCode]]];
+                StaticStop *staticStop = [[CacheManager sharedManager] getStopForCode:[self getStopCode]];
                 if (staticStop != nil) {
                     _stopType = staticStop.reittiStopType;
                 }else{
@@ -301,7 +292,7 @@
         return nil;
     
     BusStopShort *castedBSS = [[BusStopShort alloc] init];
-    castedBSS.code = self.getStopCode;
+    castedBSS.gtfsId = self.getStopCode;
     castedBSS.codeShort = self.getStopShortCode;
     castedBSS.coords = self.coords;
     castedBSS.name = self.name;

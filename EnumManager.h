@@ -23,14 +23,15 @@ typedef enum
 
 typedef enum
 {
-    VehicleTypeTram = 0,
-    VehicleTypeTrain = 1,
-    VehicleTypeMetro = 2,
-    VehicleTypeBus = 3,
-    VehicleTypeLongDistanceTrain = 4,
-    VehicleTypeFerry = 5,
-    VehicleTypeOther = 6,
-    VehicleTypeAirplane = 7
+    VehicleTypeUnknown = 0,
+    VehicleTypeTram = 1,
+    VehicleTypeTrain = 2,
+    VehicleTypeMetro = 3,
+    VehicleTypeBus = 4,
+    VehicleTypeLongDistanceTrain = 5,
+    VehicleTypeFerry = 6,
+    VehicleTypeOther = 7,
+    VehicleTypeAirplane = 8
 } VehicleType;
 
 typedef enum{

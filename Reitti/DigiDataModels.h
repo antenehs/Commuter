@@ -20,3 +20,5 @@
 #import "DigiBikeRentalStation.h"
 #import "DigiFeatureProperties.h"
 #import "DigiGeoCode.h"
+#import "DigiVehicle.h"
+#import "DigiVehicleActivityContainer.h"

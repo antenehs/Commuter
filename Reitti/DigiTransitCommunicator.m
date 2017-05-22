@@ -17,6 +17,7 @@
 #import "DigiAlert.h"
 #import "AnnotationFilter.h"
 #import "ASA_Helpers.h"
+#import "DigiRouteOptionManager.h"
 
 #if MAIN_APP
 #import "ReittiAnalyticsManager.h"
@@ -26,6 +27,8 @@
 
 NSString *kHslDigiTransitGraphQlUrl = @"https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql";
 NSString *kFinlandDigiTransitGraphQlUrl = @"https://api.digitransit.fi/routing/v1/routers/finland/index/graphql";
+
+NSString *kDigiLineCodesKey = @"lineCodes";
 
 typedef enum : NSUInteger {
     HslApi,
@@ -39,11 +42,15 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) APIClient *addressSearchClient;
 @property (nonatomic, strong) APIClient *addressReverseClient;
+@property (nonatomic, strong) APIClient *liveVehicleFetchClient;
 
 @property (nonatomic, strong) NSDictionary *searchFilterBoundary;
 
 @property (nonatomic) ActionBlock bikeFetchingCompletionHandler;
 @property (nonatomic, strong)NSTimer *bikeFetchUpdateTimer;
+
+@property (nonatomic) ActionBlock vehicleFetchingCompletionHandler;
+@property (nonatomic, strong)NSTimer *vehicleFetchUpdateTimer;
 
 @end
 
@@ -58,6 +65,9 @@ typedef enum : NSUInteger {
                                           @"boundary.rect.min_lat" : @"59.917154",
                                           @"boundary.rect.max_lon" : @"25.507191",
                                           @"boundary.rect.max_lat" : @"60.456700"};
+    
+    communicator.liveVehicleFetchClient = [[APIClient alloc] init];
+    communicator.liveVehicleFetchClient.apiBaseUrl = @"https://api.digitransit.fi/realtime/vehicle-positions/v1/siriaccess/vm/json";
     
     return communicator;
 }
@@ -229,18 +239,12 @@ typedef enum : NSUInteger {
     if (![ReittiMapkitHelper isValidCoordinate:fromCoords] || ![ReittiMapkitHelper isValidCoordinate:toCoords])
         return nil;
     
-    NSString *date = [[ReittiDateHelper sharedFormatter] digitransitQueryDateStringFromDate:options.date];
-    NSString *time = [[ReittiDateHelper sharedFormatter] digitransitQueryTimeStringFromDate:options.date];
+//    NSString *date = [[ReittiDateHelper sharedFormatter] digitransitQueryDateStringFromDate:options.date];
+//    NSString *time = [[ReittiDateHelper sharedFormatter] digitransitQueryTimeStringFromDate:options.date];
     
-    NSDictionary *arguments = @{@"from" : @{@"lat": [NSNumber numberWithDouble:fromCoords.latitude], @"lon": [NSNumber numberWithDouble:fromCoords.longitude]},
-                                @"to" : @{@"lat": [NSNumber numberWithDouble:toCoords.latitude], @"lon": [NSNumber numberWithDouble:toCoords.longitude]},
-                                @"numItineraries" : @5,
-                                @"modes" : @"BICYCLE_RENT,BUS,TRAM,SUBWAY,RAIL,FERRY,WALK",
-                                @"allowBikeRental" : [NSNumber numberWithBool:YES],
-                                @"date" : date,
-                                @"time" : time
-                                };
-    
+    NSMutableDictionary *arguments = [@{@"from" : @{@"lat": [NSNumber numberWithDouble:fromCoords.latitude], @"lon": [NSNumber numberWithDouble:fromCoords.longitude]},
+                                @"to" : @{@"lat": [NSNumber numberWithDouble:toCoords.latitude], @"lon": [NSNumber numberWithDouble:toCoords.longitude]}} mutableCopy];
+    [arguments addEntriesFromDictionary:[self apiRequestParametersDictionaryForRouteOptions:options]];
     return [GraphQLQuery planQueryStringWithArguments:arguments];
 }
 
@@ -413,7 +417,7 @@ typedef enum : NSUInteger {
 }
 
 -(void)updateBikeStations {
-    if (self.bikeFetchingCompletionHandler && self.source != HslApi) {
+    if (self.bikeFetchingCompletionHandler && self.source == HslApi) {
         [self fetchBikeStationsWithCompletionHandler:self.bikeFetchingCompletionHandler];
     }
 }
@@ -450,6 +454,117 @@ typedef enum : NSUInteger {
     }];
 }
 
+#pragma mark - LiveVehicle fetching
+- (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler {
+    [self startFetchingAllLiveVehiclesWithCodes:nil andTrainCodes:nil withCompletionHandler:completionHandler];
+}
+
+- (void)startFetchingAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler {
+    
+    NSMutableArray *allVehicleCodes = [@[] mutableCopy];
+    if (lineCodes) [allVehicleCodes addObjectsFromArray:lineCodes];
+    if (trainCodes) [allVehicleCodes addObjectsFromArray:trainCodes];
+    allVehicleCodes = allVehicleCodes ? allVehicleCodes : nil;
+    
+    @try {
+        self.vehicleFetchingCompletionHandler = completionHandler;
+        [self fetchAllLiveVehiclesWithCodes:allVehicleCodes withCompletionHandler:completionHandler];
+        
+        NSDictionary *userInfo = @{kDigiLineCodesKey : lineCodes ? lineCodes : @[]};
+        self.vehicleFetchUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(updateLiveVehicles:) userInfo:userInfo repeats:YES];
+    }
+    @catch (NSException *exception) {
+        completionHandler(nil, exception.reason);
+    }
+}
+
+- (void)fetchAllLiveVehiclesWithCodes:(NSArray *)lineCodes withCompletionHandler:(ActionBlock)completionHandler {
+    NSMutableDictionary *optionsDict = [@{} mutableCopy];
+    NSArray *shortLineCodes = [self formatLineStrings:lineCodes];
+    
+    //Other cases will be filtered after fetched because multiple codes is not supported.
+    if (lineCodes.count == 1) {
+        [optionsDict setValue:shortLineCodes[0] forKey:@"lineRef"];
+    }
+    
+    [self.liveVehicleFetchClient doJsonApiFetchWithParams:optionsDict mappingDescriptor:[DigiVehicleActivityContainer mappingDescriptorForPath:@"Siri.ServiceDelivery.VehicleMonitoringDelivery"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
+        
+        if (!error && responseArray.count > 0) {
+            NSArray *vehicles = [(DigiVehicleActivityContainer *)responseArray[0] vehicles];
+            vehicles = vehicles ? vehicles : @[];
+            vehicles = [self filterInvalidVehicles:vehicles allowBusses:lineCodes.count > 0];
+            if (lineCodes.count > 1)
+                vehicles = [self filterVehicles:vehicles forGtfsLineCodes:shortLineCodes];
+            
+            NSMutableArray *reittiVehicles = [@[] mutableCopy];
+            for (DigiVehicle *vehicle in vehicles) {
+                [reittiVehicles addObject:[vehicle reittiVehicle]];
+            }
+            
+            completionHandler(reittiVehicles, nil);
+        } else {
+            completionHandler(nil, @"Vehicle fetching failed");
+        }
+        
+    }];
+}
+
+-(NSArray *)filterVehicles:(NSArray *)digiVehicles forGtfsLineCodes:(NSArray *)codes {
+    if (!codes || codes.count == 0) return digiVehicles;
+    
+    return [digiVehicles filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [codes containsObject:[(DigiVehicle *)evaluatedObject lineId]];
+    }]];
+}
+
+-(NSArray *)filterInvalidVehicles:(NSArray *)digiVehicles allowBusses:(BOOL )allowBusses{
+    if (!digiVehicles) return digiVehicles;
+    
+    return [digiVehicles filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        BOOL isMonitored = [(DigiVehicle *)evaluatedObject monitored];
+        BOOL hasName = [(DigiVehicle *)evaluatedObject vehicleName];
+        BOOL hasCode = [(DigiVehicle *)evaluatedObject vehicleId] && [(DigiVehicle *)evaluatedObject lineId];
+        BOOL isBus = [(DigiVehicle *)evaluatedObject vehicleType] == VehicleTypeBus;
+        BOOL busTypeAllowed = !allowBusses && isBus ? NO : YES;
+        //Add more
+        return isMonitored && hasName && hasCode && busTypeAllowed;
+    }]];
+}
+
+-(void)updateLiveVehicles:(NSTimer *)timer {
+    if (!self.vehicleFetchingCompletionHandler) {
+        [timer invalidate];
+        return;
+    }
+    
+    NSDictionary *userInfo = [timer userInfo] ? [timer userInfo] : @{};
+    [self fetchAllLiveVehiclesWithCodes:userInfo[kDigiLineCodesKey] withCompletionHandler:self.vehicleFetchingCompletionHandler];
+}
+
+-(void)stopFetchingVehicles {
+    [self.vehicleFetchUpdateTimer invalidate];
+    
+    self.vehicleFetchingCompletionHandler = nil;
+}
+
+#pragma mark - Live vehicle fetch helpers
+-(NSArray *)formatLineStrings:(NSArray *)lineCodes {
+    if (!lineCodes) return lineCodes;
+    
+    NSMutableArray *codes = [@[] mutableCopy];
+    for (NSString *lineCode in lineCodes) {
+        //Expecting gtfsid
+        NSArray *parts = [lineCode componentsSeparatedByString:@":"];
+        if (parts.count < 2)
+            continue;
+        
+        NSString *code = parts[1];
+        [codes addObject:code];
+    }
+    
+    return codes;
+}
+
 #pragma mark - Annotation filer protocol methods.
 -(NSArray *)annotationFilterOptions {
     if (self.source == HslApi) {
@@ -461,6 +576,46 @@ typedef enum : NSUInteger {
     } else {
         return @[[AnnotationFilterOption optionForBusStop]];
     }
+}
+
+#pragma mark - RouteSearchOptions protocol methods
+
+-(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions{
+    NSMutableDictionary *parametersDict = [[DigiRouteOptionManager apiRequestParametersDictionaryForRouteOptions:[searchOptions dictionaryRepresentation]] mutableCopy];
+    
+    return parametersDict;
+}
+
+-(NSArray *)allTrasportTypeNames {
+    return [DigiRouteOptionManager allTrasportTypeNames];
+}
+
+-(NSArray *)getTransportTypeOptions {
+    return [DigiRouteOptionManager getTransportTypeOptionsForDisplay];
+}
+
+-(NSArray *)getTicketZoneOptions {
+    return nil;
+}
+
+-(NSInteger)getDefaultValueIndexForTicketZoneOptions {
+    return 0;
+}
+
+-(NSArray *)getChangeMargineOptions {
+    return [DigiRouteOptionManager getChangeMargineOptionsForDisplay];
+}
+
+-(NSInteger)getDefaultValueIndexForChangeMargineOptions {
+    return [DigiRouteOptionManager getDefaultValueIndexForChangeMargineOptions];
+}
+
+-(NSArray *)getWalkingSpeedOptions {
+    return [DigiRouteOptionManager getWalkingSpeedOptionsForDisplay];
+}
+
+-(NSInteger)getDefaultValueIndexForWalkingSpeedOptions {
+    return [DigiRouteOptionManager getDefaultValueIndexForWalkingSpeedOptions];
 }
 
 @end

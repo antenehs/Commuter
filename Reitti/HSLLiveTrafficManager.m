@@ -136,14 +136,15 @@ NSString *kTrainCodesKey = @"trainCodes";
         if (!errorString) {
             [allVehicles addObjectsFromArray:vehicles];
         }else{
+            
+            [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Live failed. Error: %@", errorString] value:nil];
+            
             if (reqestCount == 0) {
-//                [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
+                //                [self.delegate fetchingVehiclesFromHSLFailedWithError:nil];
                 if (completionHandler)
                     completionHandler(nil, errorString);
                 return;
             }
-            
-            [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:[NSString stringWithFormat:@"Live vehicle fetch from HSL Live failed. Error: %@", errorString] value:nil];
         }
         
         if (reqestCount == 0) {

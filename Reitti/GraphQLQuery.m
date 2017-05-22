@@ -8,6 +8,7 @@
 
 #import "GraphQLQuery.h"
 #import "ReittiStringFormatter.h"
+#import "GraphQLQueryEnum.h"
 
 @implementation GraphQLQuery
 @synthesize query;
@@ -263,7 +264,9 @@
         stringValue = [NSString stringWithFormat:@"[ %@ ]", [ReittiStringFormatter commaSepStringFromArray:stringValues withSeparator:nil]];
     } else if ([value isKindOfClass:[NSString class]]) {
         stringValue = [NSString stringWithFormat:@"\"%@\"", value];
-    } else if ([value isKindOfClass:[NSNumber class]]) {
+    } else if ([value isKindOfClass:[GraphQLQueryEnum class]]) {
+        stringValue = [(GraphQLQueryEnum *)value stringVal];
+    }else if ([value isKindOfClass:[NSNumber class]]) {
         if (strcmp([(NSNumber *)value objCType], [@(YES) objCType]) == 0 || strcmp([(NSNumber *)value objCType], [@(NO) objCType]) == 0) {
             stringValue = [value boolValue] ? @"true" : @"false";
         } else if (strcmp([value objCType], @encode(int)) == 0) {

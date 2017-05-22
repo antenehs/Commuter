@@ -177,7 +177,7 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return [self.settingsEntity.showLiveVehicle boolValue];
 }
 
--(void)setShowLiveVehicle:(BOOL)show{
+-(void)setShowLiveVehicles:(BOOL)show{
     [self.settingsEntity setShowLiveVehicle:[NSNumber numberWithBool:show]];
     [self saveSettings];
     
