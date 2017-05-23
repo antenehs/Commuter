@@ -180,6 +180,7 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - Realtime departure fetching methods
+#if MAIN_APP
 -(void)fetchRealtimeDeparturesForStopName:(NSString *)name andShortCode:(NSString *)code withCompletionHandler:(ActionBlock)completionBlock {
     //Use code as name in case of HSL region
     [self fetchDeparturesForStopName:code withCompletionHandler:completionBlock];
@@ -206,8 +207,10 @@ typedef enum : NSUInteger {
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedRealtimeDepartureFromApi label:@"DIGITRANSIT" value:nil];
 #endif
 }
+#endif 
 
 #pragma mark - Route search
+#if MAIN_APP
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock {
     
     NSString *queryString = [self routeGraphQlQueryForFromCoords:fromCoords andToCoords:toCoords withOptions:options];
@@ -247,8 +250,10 @@ typedef enum : NSUInteger {
     [arguments addEntriesFromDictionary:[self apiRequestParametersDictionaryForRouteOptions:options]];
     return [GraphQLQuery planQueryStringWithArguments:arguments];
 }
+#endif
 
 #pragma mark - Geocode methods
+#if MAIN_APP
 - (void)searchGeocodeForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
@@ -309,8 +314,9 @@ typedef enum : NSUInteger {
         }
     }];
     
-    
+#if MAIN_APP
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedAddressFromApi label:@"HSL:DIGI" value:nil];
+#endif
 }
 
 -(NSArray *)sortGeoCodes:(NSArray *)addressList forSearchTerm:(NSString *)searchTerm {
@@ -319,8 +325,10 @@ typedef enum : NSUInteger {
         return [searchTerm scoreAgainst:[(GeoCode *)obj1 name]  fuzziness:@1] < [searchTerm scoreAgainst:[(GeoCode *)obj2 name]  fuzziness:@1];
     }];
 }
+#endif
 
 #pragma mark - Reverese geocode methods
+#if MAIN_APP
 - (void)searchAddresseForCoordinate:(CLLocationCoordinate2D)coords withCompletionBlock:(ActionBlock)completionBlock {
     NSMutableDictionary *optionsDict = [@{} mutableCopy];
     
@@ -341,9 +349,9 @@ typedef enum : NSUInteger {
         }
     }];
     
-    
+#if MAIN_APP
     [[ReittiAnalyticsManager sharedManager] trackApiUseEventForAction:kActionSearchedReverseGeoCodeFromApi label:@"HSL:DIGI" value:nil];
-    
+#endif
 }
 
 -(NSString *)formattedReverseGeocodeFetchErrorMessageForError:(NSError *)error{
@@ -359,6 +367,7 @@ typedef enum : NSUInteger {
     
     return errorString;
 }
+#endif
 
 #pragma mark - Line fetch methods
 - (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
@@ -391,6 +400,7 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark - Bike station fetch
+#if MAIN_APP
 -(void)startFetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
     if (self.source != HslApi) {
         completion(nil, @"City bike not available in area.");
@@ -437,8 +447,10 @@ typedef enum : NSUInteger {
         return @"Unknown Error Occured.";
     }
 }
+#endif
 
 #pragma mark - disruption info fetch
+#if MAIN_APP
 -(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock {
     //Digi transit gives disruptions for whole country when there are disruptions only in HSL region
     if (self.source != HslApi) {
@@ -459,8 +471,10 @@ typedef enum : NSUInteger {
         }
     }];
 }
+#endif
 
 #pragma mark - LiveVehicle fetching
+#if MAIN_APP
 - (void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler {
     [self startFetchingAllLiveVehiclesWithCodes:nil andTrainCodes:nil withCompletionHandler:completionHandler];
 }
@@ -574,7 +588,11 @@ typedef enum : NSUInteger {
     return codes;
 }
 
+#endif
+
 #pragma mark - Annotation filer protocol methods.
+#if MAIN_APP
+
 -(NSArray *)annotationFilterOptions {
     if (self.source == HslApi) {
         return @[[AnnotationFilterOption optionForBusStop],
@@ -586,6 +604,8 @@ typedef enum : NSUInteger {
         return @[[AnnotationFilterOption optionForBusStop]];
     }
 }
+
+#endif
 
 #pragma mark - RouteSearchOptions protocol methods
 

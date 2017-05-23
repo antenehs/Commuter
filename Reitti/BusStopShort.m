@@ -9,10 +9,10 @@
 #import "BusStopShort.h"
 #import "ReittiStringFormatter.h"
 #import "StopLine.h"
+#import "AppManager.h"
 
 #if MAIN_APP
 #import "CacheManager.h"
-#import "AppManager.h"
 #endif
 
 @interface BusStopShort ()
@@ -82,42 +82,6 @@
 
 #pragma mark - Init from other stops
 
-//-(id)initFromDigiStop:(DigiStop *)digiStop {
-//    self = [super init];
-//    
-//    self.code = digiStop.numberId;
-//    self.gtfsId = digiStop.gtfsId;
-//    self.codeShort = digiStop.code;
-//    
-//    self.name = digiStop.name;
-//    self.nameFi = digiStop.name;
-//    self.nameSv = digiStop.name;
-//    
-//    self.city = @"";
-//    self.cityFi = @"";
-//    self.citySv = @"";
-//    
-//    self.address = digiStop.desc;
-//    self.addressFi = digiStop.desc;
-//    self.addressSv = digiStop.desc;
-//    
-//    self.stopType = digiStop.stopType;
-//    self.fetchedFromApi = ReittiDigiTransitApi;
-//    
-//    self.coords = digiStop.coordString;
-//    self.wgsCoords = digiStop.coordString;
-//    
-//    self.timetableLink = digiStop.url;
-//    
-//    NSMutableArray *newLines = [@[] mutableCopy];
-//    for (DigiRouteShort *digiRouteShort in digiStop.routes) {
-//        [newLines addObject:digiRouteShort.reittiStopLine];
-//    }
-//    self.lines = newLines;
-//    
-//    return self;
-//}
-
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStopShort *stop = [[BusStopShort alloc] init];
     
@@ -156,11 +120,7 @@
 #pragma mark - Computed properties
 
 -(NSString *)stopIconName {
-#if MAIN_APP
     return [AppManager stopIconNameForStopType:self.stopType];
-#else
-    return @"busStopIcon";
-#endif
 }
 
 -(NSArray *)lineCodes{

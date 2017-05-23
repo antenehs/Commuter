@@ -19,6 +19,7 @@
 
 -(id)initWithMapItem:(MKMapItem *)mapItem;
 +(id)geocodeForMatkaGeocode:(MatkaGeoCode *)matkaGeocode;
+
 +(id)geocodeForDigiGeocode:(DigiGeoCode *)digiGeocode;
 +(id)geocodeForDigiStop:(DigiStop *)digiStop;
 

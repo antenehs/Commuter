@@ -9,10 +9,11 @@
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
 #import "HslAndTreApi.h"
-#import "BusStopE.h"
+#import "BusStop.h"
 #import "ReittiStringFormatterE.h"
 #import "AppManagerBase.h"
 #import "WidgetDataManager.h"
+#import "ReittiDateHelper.h"
 
 int kMaxNumberOfStops = 3;
 
@@ -204,7 +205,7 @@ int kMaxNumberOfStops = 3;
     for (NSString *stopCode in codes) {
         ReittiApi fetchFrom = [self apiForStopCode:stopCode];
         
-        [self.widgetDataManager fetchStopForCode:stopCode fetchFromApi:fetchFrom withCompletionBlock:^(BusStopE *stop, NSError *error) {
+        [self.widgetDataManager fetchStopForCode:stopCode fetchFromApi:fetchFrom withCompletionBlock:^(BusStop *stop, NSError *error) {
             stopsToFetch--;
             if (!error && stop) {
                 [resultList addObject:stop];
@@ -240,8 +241,8 @@ int kMaxNumberOfStops = 3;
 
 -(void)sortArray:(NSMutableArray *)array withOrder:(NSArray *)codes {
     [array sortUsingComparator:^NSComparisonResult(id a, id b) {
-        NSString *firstCode = [[(BusStopE*)a code] stringValue];
-        NSString *secondCode = [[(BusStopE*)b code] stringValue];
+        NSString *firstCode = [(BusStop*)a gtfsId];
+        NSString *secondCode = [(BusStop*)b gtfsId];
         
         if (firstCode == nil) {
             return NSOrderedDescending;
@@ -295,7 +296,7 @@ int kMaxNumberOfStops = 3;
     if ([self.stopList count] != 0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"departuresCell"];
         
-        BusStopE *stop = [self.stopList objectAtIndex:indexPath.row];
+        BusStop *stop = [self.stopList objectAtIndex:indexPath.row];
         if (stop) {
             
             @try {
@@ -303,7 +304,7 @@ int kMaxNumberOfStops = 3;
                 lineView.backgroundColor = isIOS10 ? [UIColor grayColor] : [UIColor lightGrayColor];
                 
                 UILabel *nameLabel = (UILabel *)[cell viewWithTag:1001];
-                nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];
+                nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name,stop.codeShort];
                 nameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
                 
                 UILabel *departuresLabel = (UILabel *)[cell viewWithTag:1002];
@@ -391,12 +392,12 @@ int kMaxNumberOfStops = 3;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     // Open stop in main app
-    BusStopE *selected = [self.stopList objectAtIndex:indexPath.row];
+    BusStop *selected = [self.stopList objectAtIndex:indexPath.row];
     [self openBusStop:selected];
 }
 
--(void)openBusStop:(BusStopE *)stop{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?openStop-%d",[AppManagerBase mainAppUrl], [stop.code intValue]]];
+-(void)openBusStop:(BusStop *)stop{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?openStop-%@",[AppManagerBase mainAppUrl], stop.gtfsId]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
@@ -416,7 +417,7 @@ int kMaxNumberOfStops = 3;
     if ([self.stopList count] != 0) {
         
         for (int i=0; i<stops.count && i < 3; i++) {
-            BusStopE *stop = [self.stopList objectAtIndex:i];
+            BusStop *stop = [self.stopList objectAtIndex:i];
             UIView *stopView = [stopViews objectAtIndex:i];
             stopView.hidden = YES;
             if (stop) {
@@ -426,8 +427,11 @@ int kMaxNumberOfStops = 3;
                 lineView.hidden = isCompactMode || i == stops.count - 1;
                 
                 UILabel *nameLabel = (UILabel *)[stopView viewWithTag:1001];
-                nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.name_fi,stop.code_short];
+                nameLabel.text = [NSString stringWithFormat:@"%@ - %@",stop.nameFi,stop.codeShort];
                 nameLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
+                
+                UIImageView *stopIconImageView = (UIImageView *)[stopView viewWithTag:1010];
+                stopIconImageView.image = [UIImage imageNamed:stop.stopIconName];
                 
                 UIColor *timeColor = isIOS10 ? [UIColor darkGrayColor] : [UIColor lightGrayColor];
                 
@@ -435,7 +439,6 @@ int kMaxNumberOfStops = 3;
                 departuresLabel.text = @"No departures in the next 6 hours";
                 departuresLabel.textColor = timeColor;
                 
-                //TODO: color
                 UIColor *numberColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
                 NSMutableDictionary *busNumberDict = [NSMutableDictionary dictionaryWithObject:numberColor forKey:NSForegroundColorAttributeName];
                 [busNumberDict setObject:[UIFont systemFontOfSize:18.0] forKey:NSFontAttributeName];
@@ -448,15 +451,13 @@ int kMaxNumberOfStops = 3;
                 if (![stop.departures isEqual:[NSNull null]]) {
                     @try {
                         if (stop.departures.count != 0){
-                            for (NSDictionary *departure in stop.departures) {
-                                NSString *notParsedCode = [departure objectForKey:@"code"];
-                                tempStr = [[NSMutableAttributedString alloc] initWithString:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode] attributes:busNumberDict];
+                            for (StopDeparture *departure in stop.departures) {
+                                tempStr = [[NSMutableAttributedString alloc] initWithString:departure.code attributes:busNumberDict];
                                 [departuresString appendAttributedString:tempStr];
                                 
-                                NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[departure objectForKey:@"time"] intValue]];
+                                NSString *formattedHour = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate];
                                 
-                                tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   "
-                                                                                             ,[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]] attributes:timeDict];
+                                tempStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"/%@   " ,formattedHour] attributes:timeDict];
                                 
                                 [departuresString appendAttributedString:tempStr];
                             }
@@ -511,7 +512,7 @@ int kMaxNumberOfStops = 3;
 - (IBAction)stopViewSelected:(id)sender {
     UIButton *viewButton = (UIButton *)sender;
     if (viewButton) {
-        BusStopE *selected;
+        BusStop *selected;
         if (viewButton == firstViewButton) {
             if (self.stopList.count < 1)
                 return;
@@ -542,7 +543,7 @@ int kMaxNumberOfStops = 3;
 -(void)storeStopsToCache:(NSArray *)stops{
     @try {
         NSMutableArray *array = [@[] mutableCopy];
-        for (BusStopE *stop in stops) {
+        for (BusStop *stop in stops) {
             [array addObject:[stop toDictionary]];
         }
         NSDictionary *myDictionary = [NSDictionary dictionaryWithObject:array forKey:@"stops"];
@@ -567,22 +568,17 @@ int kMaxNumberOfStops = 3;
         
         NSMutableArray *cachedstops = [@[] mutableCopy];
         
-        NSInteger sinceDate = [[ReittiStringFormatterE formatHSLDateFromDate:date] integerValue];
-        NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:date] integerValue];
-        
         for (NSDictionary *dict in dictArray) {
-            BusStopE *newStop = [[BusStopE alloc] initWithDictionary:dict parseLines:NO];
+            BusStop *newStop = [[BusStop alloc] initWithDictionary:dict parseLines:NO];
             
-            if (![stops containsObject:[NSString stringWithFormat:@"%@",newStop.code]])
+            if (![stops containsObject:[NSString stringWithFormat:@"%@",newStop.gtfsId]])
                 continue;
             
             NSMutableArray *fDepartures = [@[] mutableCopy];
-            for (NSDictionary *dept in newStop.departures) {
+            for (StopDeparture *dept in newStop.departures) {
 //                NSLog(@"%@",dept);
-                if ([dept[@"date"] integerValue] >= sinceDate || ([dept[@"date"] integerValue] == sinceDate - 1 && sinceTime < 400)) {
-                    if ([dept[@"time"] integerValue] >= sinceTime) {
-                        [fDepartures addObject:dept];
-                    }
+                if ([date timeIntervalSinceDate:dept.parsedScheduledDate] < 0) {
+                    [fDepartures addObject:dept];
                 }
             }
             if (fDepartures.count > 0) {
@@ -672,7 +668,7 @@ int kMaxNumberOfStops = 3;
 //        [hslAPI searchStopForCodes:stopCodeList completionBlock:^(NSMutableArray *resultList, NSError *error) {
 //            if (!error && resultList != nil) {
 ////                NSUInteger idx = [self.stopList indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
-////                    return [[(BusStopE *)obj code] intValue] == [resultStop.code intValue];
+////                    return [[(BusStop *)obj code] intValue] == [resultStop.code intValue];
 ////                }];
 ////                if (idx != NSNotFound)
 ////                    [self.stopList replaceObjectAtIndex:idx withObject:resultStop];

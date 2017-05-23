@@ -8,7 +8,8 @@
 
 #import "WidgetDataManager.h"
 #import "WidgetHelpers.h"
-#import "BusStopE.h"
+#import "BusStop.h"
+#import "DigiTransitCommunicator.h"
 
 #ifndef DEPARTURES_WIDGET
 #import "ReittiRegionManager.h"
@@ -21,6 +22,8 @@
 @property (strong, nonatomic)HSLAPIClient *hslApiClient;
 @property (strong, nonatomic)TREAPIClient *treApiClient;
 @property (strong, nonatomic)MatkaApiClient *matkaApiClient;
+@property (strong, nonatomic)DigiTransitCommunicator *digiHslApiClient;
+@property (strong, nonatomic)DigiTransitCommunicator *digiFinlandApiClient;
 
 @end
 
@@ -33,6 +36,8 @@
         self.hslApiClient = [[HSLAPIClient alloc] init];
         self.treApiClient = [[TREAPIClient alloc] init];
         self.matkaApiClient = [[MatkaApiClient alloc] init];
+        self.digiHslApiClient = [DigiTransitCommunicator hslDigiTransitCommunicator];
+        self.digiFinlandApiClient = [DigiTransitCommunicator finlandDigiTransitCommunicator];
     }
     
     return self;
@@ -83,8 +88,8 @@
 -(void)fetchStopForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock {
     
     id dataSourceManager = [self getDataSourceForApi:api];
-    if ([dataSourceManager conformsToProtocol:@protocol(WidgetStopSearchProtocol)]) {
-        [(NSObject<WidgetStopSearchProtocol> *)dataSourceManager fetchStopForCode:code completionBlock:^(BusStopE * response, NSString *error){
+    if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
+        [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
             if (!error && response) {
                 completionBlock(response, error);
             }else{
@@ -92,7 +97,7 @@
             }
         }];
     }else{
-        [self.matkaApiClient fetchStopForCode:code completionBlock:^(BusStopE * response, NSString *error){
+        [self.digiFinlandApiClient fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
             if (!error) {
                 completionBlock(response, nil);
             }else{
@@ -105,12 +110,18 @@
 #pragma mark - DataSorce management
 
 -(id)getDataSourceForApi:(ReittiApi)api {
+//    if (api == ReittiHSLApi) {
+//        return self.hslApiClient;
+//    } else if (api == ReittiTREApi) {
+//        return self.treApiClient;
+//    } else {
+//        return self.matkaApiClient;
+//    }
+    
     if (api == ReittiHSLApi) {
-        return self.hslApiClient;
-    } else if (api == ReittiTREApi) {
-        return self.treApiClient;
+        return self.digiHslApiClient;
     } else {
-        return self.matkaApiClient;
+        return self.digiFinlandApiClient;
     }
 }
 

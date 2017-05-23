@@ -62,24 +62,21 @@ NSString *const kIsRealTime = @"isRealTime";
     return self;
 }
 
-//+ (instancetype)departureForDigiStopTime:(DigiStoptime *)stoptime {
-//    StopDeparture *departure = [[self alloc] init];
-//    
-//    if (!departure) return nil;
-//    
-//    //TODO: Full info when needed. Now we are only interested in the realtime times.
-//    departure.code = stoptime.trip.route.shortName;
-//    departure.date = nil;
-//    departure.name = stoptime.trip.route.longName;
-//    departure.time = nil;
-//    departure.direction = nil;
-//    departure.destination = stoptime.trip.tripHeadsign;
-//    departure.parsedScheduledDate = stoptime.parsedScheduledDepartureDate;
-//    departure.parsedRealtimeDate = stoptime.parsedRealtimeDepartureDate;
-//    departure.isRealTime = [stoptime.realtime boolValue];
-//    
-//    return departure;
-//}
+- (NSDictionary *)dictionaryRepresentation
+{
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+    [mutableDict setValue:self.code forKey:kDeparturesCode];
+    [mutableDict setValue:self.date forKey:kDeparturesDate];
+    [mutableDict setValue:self.name forKey:kDeparturesName];
+    [mutableDict setValue:self.time forKey:kDeparturesTime];
+    [mutableDict setValue:self.direction forKey:kDeparturesDirection];
+    [mutableDict setValue:self.destination forKey:kDestination];
+    [mutableDict setValue:self.parsedScheduledDate forKey:kParsedScheduledDate];
+    [mutableDict setValue:self.parsedRealtimeDate forKey:kParsedRealtimeDate];
+    [mutableDict setValue:[NSNumber numberWithBool:self.isRealTime] forKey:kIsRealTime];
+    
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
 
 -(instancetype)init {
     self = [super init];
@@ -116,22 +113,6 @@ NSString *const kIsRealTime = @"isRealTime";
     }
     
     return _date;
-}
-
-- (NSDictionary *)dictionaryRepresentation
-{
-    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-    [mutableDict setValue:self.code forKey:kDeparturesCode];
-    [mutableDict setValue:self.date forKey:kDeparturesDate];
-    [mutableDict setValue:self.name forKey:kDeparturesName];
-    [mutableDict setValue:self.time forKey:kDeparturesTime];
-    [mutableDict setValue:self.direction forKey:kDeparturesDirection];
-    [mutableDict setValue:self.destination forKey:kDestination];
-    [mutableDict setValue:self.parsedScheduledDate forKey:kParsedScheduledDate];
-    [mutableDict setValue:self.parsedRealtimeDate forKey:kParsedRealtimeDate];
-    [mutableDict setValue:[NSNumber numberWithBool:self.isRealTime] forKey:kIsRealTime];
-
-    return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
 - (NSString *)description 
