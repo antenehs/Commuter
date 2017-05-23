@@ -33,6 +33,46 @@
     return finalImage;
 }
 
+-(UIImage *)asa_imageWithColor:(UIColor *)tintColor {
+    UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, 0, self.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+
+    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGContextClipToMask(context, rect, self.CGImage);
+    [tintColor setFill];
+    CGContextFillRect(context, rect);
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+//public func asa_imageWithColor(tintColor: UIColor) -> UIImage {
+//    UIGraphicsBeginImageContextWithOptions(size, false, scale)
+//    
+//    let context = UIGraphicsGetCurrentContext()!
+//    context.translateBy(x: 0, y: size.height)
+//    context.scaleBy(x: 1.0, y: -1.0)
+//    context.setBlendMode(CGBlendMode.normal)
+//    
+//    let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+//    context.clip(to: rect, mask: self.cgImage!)
+//    tintColor.setFill()
+//    context.fill(rect)
+//    
+//    let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+//    UIGraphicsEndImageContext()
+//    
+//    return newImage
+//}
+
+
+
 +(UIImage *)asa_imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];

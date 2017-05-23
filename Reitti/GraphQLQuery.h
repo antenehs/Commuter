@@ -21,6 +21,7 @@ typedef enum {
     GraphQLQueryTypeAlert = 8,
     GraphQLQueryTypePattern = 9,
     GraphQLQueryTypePatternShort = 10,
+    GraphQLQueryTypeStopTime = 11,
 } GraphQLQueryType;
 
 @interface GraphQLQuery : NSObject

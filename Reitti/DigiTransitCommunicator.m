@@ -218,7 +218,7 @@ typedef enum : NSUInteger {
     }
     
     [super doGraphQlQuery:queryString mappingDiscriptor:[DigiPlan mappingDescriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *digiRoutes, NSError *error){
-        if (!error && digiRoutes && digiRoutes.count > 0) {
+        if (!error && digiRoutes) {
             NSMutableArray *allRoutes = [@[] mutableCopy];
             for (DigiPlan *plan in digiRoutes) {
                 Route *route = [Route routeFromDigiPlan:plan];
@@ -440,6 +440,12 @@ typedef enum : NSUInteger {
 
 #pragma mark - disruption info fetch
 -(void)fetchTrafficDisruptionsWithCompletionBlock:(ActionBlock)completionBlock {
+    //Digi transit gives disruptions for whole country when there are disruptions only in HSL region
+    if (self.source != HslApi) {
+        completionBlock(nil, @"Service not available in the current region.");
+        return;
+    }
+    
     [super doGraphQlQuery:[GraphQLQuery alertsQueryString] mappingDiscriptor:[DigiAlert mappingDescriptorForPath:@"data.alerts"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
         if (!error && responseArray) {
             NSMutableArray *disruptions = [@[] mutableCopy];
@@ -470,7 +476,7 @@ typedef enum : NSUInteger {
         self.vehicleFetchingCompletionHandler = completionHandler;
         [self fetchAllLiveVehiclesWithCodes:allVehicleCodes withCompletionHandler:completionHandler];
         
-        NSDictionary *userInfo = @{kDigiLineCodesKey : lineCodes ? lineCodes : @[]};
+        NSDictionary *userInfo = @{kDigiLineCodesKey : allVehicleCodes ? allVehicleCodes : @[]};
         self.vehicleFetchUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(updateLiveVehicles:) userInfo:userInfo repeats:YES];
     }
     @catch (NSException *exception) {
@@ -489,7 +495,7 @@ typedef enum : NSUInteger {
     
     [self.liveVehicleFetchClient doJsonApiFetchWithParams:optionsDict mappingDescriptor:[DigiVehicleActivityContainer mappingDescriptorForPath:@"Siri.ServiceDelivery.VehicleMonitoringDelivery"] andCompletionBlock:^(NSArray *responseArray, NSError *error){
         
-        if (!error && responseArray.count > 0) {
+        if (!error && responseArray.count > 0 && [[(DigiVehicleActivityContainer *)responseArray[0] vehicles] count] > 0) {
             NSArray *vehicles = [(DigiVehicleActivityContainer *)responseArray[0] vehicles];
             vehicles = vehicles ? vehicles : @[];
             vehicles = [self filterInvalidVehicles:vehicles allowBusses:lineCodes.count > 0];
@@ -503,6 +509,9 @@ typedef enum : NSUInteger {
             
             completionHandler(reittiVehicles, nil);
         } else {
+            if (lineCodes.count > 1)
+                [self stopFetchingVehicles];
+            
             completionHandler(nil, @"Vehicle fetching failed");
         }
         
@@ -592,6 +601,10 @@ typedef enum : NSUInteger {
 
 -(NSArray *)getTransportTypeOptions {
     return [DigiRouteOptionManager getTransportTypeOptionsForDisplay];
+}
+
+-(NSArray *)getDefaultTransportTypeNames {
+    return [DigiRouteOptionManager getDefaultTransportTypeNames];
 }
 
 -(NSArray *)getTicketZoneOptions {

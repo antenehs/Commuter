@@ -8,7 +8,6 @@
 #import "DigiTrip.h"
 #import "DigiRoute.h"
 
-
 NSString *const kDigiTripRoute = @"route";
 NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
 
@@ -60,6 +59,17 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
     return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
 }
 
+#pragma mark - Computed values
+-(NSDate *)arrivalTimeAtStop:(NSString *)stopCode {
+    NSArray *stoptimes = [self.stopTimes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.stopGtfsId == %@", stopCode]];
+    
+    if (stoptimes.count == 1) {
+        return [(DigiStoptime *)stoptimes[0] parsedScheduledArrivalDate];
+    }
+    
+    return nil;
+}
+
 #pragma mark - Helper Method
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
 {
@@ -99,31 +109,6 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
     return copy;
 }
 
-//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-//    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiTrip objectMapping]
-//                                                        method:RKRequestMethodAny
-//                                                   pathPattern:nil
-//                                                       keyPath:path
-//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-//}
-//
-//+(RKObjectMapping *)objectMapping {
-//    RKObjectMapping* tripMapping = [RKObjectMapping mappingForClass:[DigiTrip class] ];
-//    [tripMapping addAttributeMappingsFromDictionary:@{
-//                                                      @"tripHeadsign" : @"tripHeadsign"
-//                                                      }];
-//    
-//    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
-//                                                                                toKeyPath:@"route"
-//                                                                              withMapping:[DigiRoute objectMapping]]];
-//    
-//    [tripMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"pattern"
-//                                                                                toKeyPath:@"pattern"
-//                                                                              withMapping:[DigiPattern objectMapping]]];
-//    
-//    return tripMapping;
-//}
-
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     MappingRelationShip *routeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"route"
                                                                                toKeyPath:@"route"
@@ -133,9 +118,13 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
                                                                                 toKeyPath:@"pattern"
                                                                          withMappingClass:[DigiPattern class]];
     
+    MappingRelationShip *stopTimesRelationShip = [MappingRelationShip relationShipFromKeyPath:@"stoptimes"
+                                                                                  toKeyPath:@"stopTimes"
+                                                                           withMappingClass:[DigiStoptime class]];
+    
     return [MappingDescriptor descriptorFromPath:path forClass:[self class]
                            withMappingDictionary:@{ @"tripHeadsign" : @"tripHeadsign" }
-                                andRelationShips:@[routeRelationShip, patternRelationShip]];
+                                andRelationShips:@[routeRelationShip, patternRelationShip, stopTimesRelationShip]];
 }
 
 @end

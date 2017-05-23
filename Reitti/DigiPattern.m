@@ -168,6 +168,23 @@ NSString *const kDigiRouteStops = @"stops";
     return _shapeCoordinates;
 }
 
+-(NSArray *)shapeStringCoordinates {
+    if (!_shapeStringCoordinates) {
+        if (self.geometry && self.geometry.count > 0) {
+            NSMutableArray *tempArray = [@[] mutableCopy];
+            for (DigiGeometry *geometry in self.geometry) {
+                if (geometry.stringCoordinate) [tempArray addObject:geometry.stringCoordinate];
+            }
+            
+            _shapeStringCoordinates = tempArray;
+        } else {
+            _shapeStringCoordinates = @[];
+        }
+    }
+    
+    return _shapeStringCoordinates;
+}
+
 -(NSString *)lineEnd {
     return self.headsign;
 }

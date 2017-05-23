@@ -128,8 +128,9 @@
         }
     }
     
+    [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
+    
     if (routeLeg.legType != LegTypeMetro) {
-        [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
         imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     

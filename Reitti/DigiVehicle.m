@@ -20,7 +20,7 @@
         if (self.vehicleType == VehicleTypeMetro) {
             _vehicleName = [NSString stringWithFormat:@"M%@", self.direction];
         } else {
-            _vehicleName = [DigiVehicle parseBusNumFromLineCode:self.lineId];
+            _vehicleName = [DigiVehicle parseBusNumFromLineCode:self.lineId andDirection:self.direction];
         }
     }
     
@@ -45,7 +45,11 @@
 
 -(VehicleType)vehicleType {
     if (_vehicleType == VehicleTypeUnknown) {
-        if ([self.vehicleId hasPrefix:@"RHKL"]) {
+
+        VehicleType typeFromCache = [DigiVehicle identifyTypeFromCacheForCode:[self lineJORECode]];
+        if (typeFromCache != VehicleTypeUnknown) {
+            _vehicleType = typeFromCache;
+        } else if ([self.vehicleId hasPrefix:@"RHKL"]) {
             _vehicleType = VehicleTypeTram;
         }else if ([self.vehicleId hasPrefix:@"metro"] || [self.vehicleId hasPrefix:@"METRO"]) {
             _vehicleType = VehicleTypeMetro;
@@ -61,9 +65,13 @@
     return _vehicleType;
 }
 
+-(NSString *)lineJORECode {
+    return [DigiVehicle lineJoreCodeForCode:self.lineId andDirection:self.direction];
+}
+
 #pragma mark - Helper
 
-+(NSString *)parseBusNumFromLineCode:(NSString *)lineCode{
++(NSString *)parseBusNumFromLineCode:(NSString *)lineCode andDirection:(NSString *)direction {
     //TODO: Test with 1230 for weird numbers of the same 24 bus.
     //    NSArray *codes = [lineCode componentsSeparatedByString:@" "];
     //    NSString *code = [codes objectAtIndex:0];
@@ -80,7 +88,7 @@
     //Try getting from line cache
     CacheManager *cacheManager = [CacheManager sharedManager];
     
-    NSString * lineName = [cacheManager getRouteNameForCode:lineCode];
+    NSString * lineName = [cacheManager getRouteNameForCode:[self lineJoreCodeForCode:lineCode andDirection:direction]];
     
     if (lineName != nil && ![lineName isEqualToString:@""]) {
         return lineName;
@@ -125,6 +133,40 @@
         return [NSString stringWithFormat:@"%@%@", codePart, firstLetterVariant];
     
     return [NSString stringWithFormat:@"%@%@%@", codePart, firstLetterVariant, secondLetterVariant];
+}
+
++ (VehicleType)identifyTypeFromCacheForCode:(NSString *)lineJoreCode {
+#if MAIN_APP
+    //Try getting from line cache
+    CacheManager *cacheManager = [CacheManager sharedManager];
+    
+    StaticRoute * cachedLine = [cacheManager getRouteForCode:lineJoreCode];
+    
+    if (cachedLine != nil && cachedLine.routeType) {
+        return [EnumManager vehicleTypeForLineType:cachedLine.reittiLineType];
+    }
+    
+    return VehicleTypeUnknown;
+#else
+    return VehicleTypeUnknown;
+#endif
+    
+}
+
++ (NSString *)lineJoreCodeForCode:(NSString *)code andDirection:(NSString *)direction{
+    
+    if (!code)
+        return nil;
+    
+    if (!direction || direction.length == 0)
+        return code;
+    
+    return [NSString stringWithFormat:@"%@%@%@%@",
+            code,
+            code.length < 5 ? @" " : @"",
+            code.length < 6 ? @" " : @"",
+            direction];
+    
 }
 
 #pragma mark - conversion

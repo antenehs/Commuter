@@ -157,8 +157,10 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
 
 //#1CAC7F
 +(UIColor *)systemGreenColor{
-    //    return [UIColor colorWithRed:31.0/255.0 green:154.0/255.0 blue:57.0/255.0 alpha:1.0];
     return [UIColor colorWithRed:28.0/255.0 green:172.0/255.0 blue:127.0/255.0 alpha:1.0];
+//    return [UIColor colorWithRed:0.318 green:0.718 blue:0.259 alpha:1.00];
+//    return [UIColor colorWithRed:0.306 green:0.698 blue:0.467 alpha:1.00];
+//    return [UIColor colorWithRed:0.275 green:0.635 blue:0.400 alpha:1.00];
 }
 
 //#F46B00
@@ -170,12 +172,17 @@ NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore
 
 //#F44336
 +(UIColor *)systemRedColor{
-    return [UIColor colorWithRed:244.0f/255 green:67.0f/255 blue:54.0f/255 alpha:1];
+//    return [UIColor colorWithRed:244.0f/255 green:67.0f/255 blue:54.0f/255 alpha:1];
+//    return [UIColor colorWithRed:0.580 green:0.110 blue:0.075 alpha:1.00];
+//    return [UIColor colorWithRed:0.682 green:0.165 blue:0.129 alpha:1.00];
+    return [UIColor colorWithRed:0.741 green:0.180 blue:0.145 alpha:1.00];
 }
 
 //#2196F3
 +(UIColor *)systemBlueColor{
-    return [UIColor colorWithRed:33.0/255 green:150.0/255.0 blue:243.0f/255 alpha:1.0];
+//    return [UIColor colorWithRed:33.0/255 green:150.0/255.0 blue:243.0f/255 alpha:1.0];
+//    return [UIColor colorWithRed:0.129 green:0.353 blue:0.667 alpha:1.00];
+    return [UIColor colorWithRed:0.157 green:0.435 blue:0.812 alpha:1.00];
 }
 
 //#00BCD4

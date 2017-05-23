@@ -245,6 +245,16 @@
         return nil;
     }
 }
+
+-(NSArray *)getDefaultTransportTypeNames {
+    id dataSourceManager = [self getDataSourceForCurrentRegion];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {
+        return [(NSObject<RouteSearchOptionProtocol> *)dataSourceManager getDefaultTransportTypeNames];
+    }else{
+        return nil;
+    }
+}
+
 -(NSArray *)getTicketZoneOptions{
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchOptionProtocol)]) {

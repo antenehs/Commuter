@@ -216,7 +216,7 @@ NSString *const kStopsRoutes = @"routes";
 -(void)fillBusStopShortPropertiesTo:(BusStopShort *)stopShort {
     stopShort.code = self.numberId;
     stopShort.gtfsId = self.gtfsId;
-    stopShort.codeShort = self.code;
+    stopShort.codeShort = self.code ? self.code : self.gtfsId;
     
     stopShort.name = self.name;
     stopShort.nameFi = self.name;

@@ -153,6 +153,10 @@
     return [HSLRouteOptionManager getTransportTypeOptionsForDisplay];
 }
 
+-(NSArray *)getDefaultTransportTypeNames {
+    return [HSLRouteOptionManager getDefaultTransportTypeNames];
+}
+
 -(NSArray *)getTicketZoneOptions{
     return [HSLRouteOptionManager getTicketZoneOptionsForDisplay];
 }

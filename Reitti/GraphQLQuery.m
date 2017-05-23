@@ -61,9 +61,9 @@
     
     stopFragment = [stopFragment stringByReplacingOccurrencesOfString:@"[*SHORT_STOP_FRAGMENT*]" withString:shortStopFragment];
     
-    NSString *shortRouteFragment = [self shortRouteFragment];
+    NSString *stopTimeFragment = [self stopTimeFragment];
     
-    stopFragment = [stopFragment stringByReplacingOccurrencesOfString:@"[*SHORT_ROUTE_FRAGMENT*]" withString:shortRouteFragment];
+    stopFragment = [stopFragment stringByReplacingOccurrencesOfString:@"[*STOP_TIME_FRAGMENT*]" withString:stopTimeFragment];
     
     return stopFragment;
 }
@@ -72,9 +72,27 @@
 
 +(NSString *)planQueryStringWithArguments:(NSDictionary *)arguments {
     NSString *queryWithArgumentes = [GraphQLQuery queryStringForType:GraphQLQueryTypePlan andArguments:arguments];
-    NSString *planFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypePlan]];
+    NSString *planFragment = [self planQueryFragment];
     
     return [queryWithArgumentes stringByReplacingOccurrencesOfString:@"[*PLAN_FRAGMENT*]" withString:planFragment];
+}
+
++(NSString *)planQueryFragment {
+    NSString *planFragment = [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypePlan]];
+    
+    planFragment = [planFragment stringByReplacingOccurrencesOfString:@"[*BIKES_FRAGMENT*]"
+                                                           withString:[self bikeStationFragment]];
+    
+    planFragment = [planFragment stringByReplacingOccurrencesOfString:@"[*SHORT_STOP_FRAGMENT*]"
+                                                           withString:[self shortStopFragment]];
+    
+    planFragment = [planFragment stringByReplacingOccurrencesOfString:@"[*SHORT_ROUTE_FRAGMENT*]"
+                                                           withString:[self shortRouteFragment]];
+    
+    planFragment = [planFragment stringByReplacingOccurrencesOfString:@"[*STOP_TIME_FRAGMENT*]"
+                                                           withString:[self stopTimeFragment]];
+    
+    return planFragment;
 }
 
 #pragma mark - route query
@@ -162,6 +180,11 @@
     return [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypePatternShort]];
 }
 
+#pragma mark - Stop time fragment
++(NSString *)stopTimeFragment {
+    return [GraphQLQuery contentsOfGraphQlFileNamed:[GraphQLQuery queryFragmentTemplateFileNameForType:GraphQLQueryTypeStopTime]];
+}
+
 #pragma mark - Helpers
 
 +(NSString *)queryStringForType:(GraphQLQueryType)type andArguments:(NSDictionary *)arguments {
@@ -227,6 +250,8 @@
             return @"PatternFullFragment";
         case GraphQLQueryTypePatternShort:
             return @"PatternShortFragment";
+        case GraphQLQueryTypeStopTime:
+            return @"StopTimeFragment";
         default:
             assert(false);
             return nil;

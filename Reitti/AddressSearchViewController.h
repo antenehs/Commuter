@@ -50,6 +50,8 @@ typedef enum
     BOOL isInitialMergedView;
     AddressSearchViewControllerKeyBoardType keyboardType;
     
+//    NSString *pendingSearchTerm;
+    
     float topBoundary;
 }
 

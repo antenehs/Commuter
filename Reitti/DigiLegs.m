@@ -27,6 +27,7 @@ NSString *const kDigiLegsTo = @"to";
 @interface DigiLegs ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+@property(nonatomic, strong) NSString *lineName;
 
 @end
 
@@ -198,6 +199,29 @@ NSString *const kDigiLegsTo = @"to";
     }
     
     return _parsedEndTime;
+}
+
+-(NSString *)lineName {
+    if (!_lineName) {
+        if (self.trip.route.shortName) {
+            _lineName = self.trip.route.shortName;
+        } else if (self.trip.tripHeadsign){
+            //First three letters of destination
+            NSString *dest = self.trip.tripHeadsign;
+            if (dest.length > 2) {
+                _lineName = [[dest substringToIndex:3] uppercaseString];
+            } else {
+                _lineName = [dest uppercaseString];
+            }
+            
+        }
+    }
+    
+    return _lineName;
+}
+
+-(NSString *)lineGtfsId {
+    return self.trip.route.gtfsId;
 }
 
 -(LegTransportType)legType {

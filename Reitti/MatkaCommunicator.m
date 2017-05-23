@@ -332,6 +332,10 @@
     return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Airplane", @"Uline"];
 }
 
+-(NSArray *)getDefaultTransportTypeNames {
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Airplane", @"Uline"];
+}
+
 -(NSArray *)getTransportTypeOptions {
     return nil;
 }

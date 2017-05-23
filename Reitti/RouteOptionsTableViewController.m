@@ -166,7 +166,7 @@
         CGSize itemSize = CGSizeMake(25, 25);
         [cell adjustImageViewSize:itemSize];
         
-        if (routeSearchOptions.selectedRouteTrasportTypes == nil || [routeSearchOptions.selectedRouteTrasportTypes containsObject:transName]) {
+        if ([self isTransportTypeSelected:transName]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             cell.textLabel.textColor = [UIColor blackColor];
         }else{
@@ -381,20 +381,43 @@
 }
 
 - (IBAction)resetOptionsButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Reset" otherButtonTitles:nil];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Reset" otherButtonTitles:nil];
+//    
+//    [actionSheet showInView:self.view];
     
-    [actionSheet showInView:self.view];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?"
+                                                                        message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:cancelAction];
+    
+    UIAlertAction *firstAction = [UIAlertAction actionWithTitle:@"Reset"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+                                                            routeSearchOptions = [RouteSearchOptions defaultOptions];
+                                                            resetOptionsButton.enabled = NO;
+                                                            [self.tableView reloadData];
+                                                        }];
+    
+    [controller addAction:firstAction];
+    
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-        routeSearchOptions = [RouteSearchOptions defaultOptions];
-        resetOptionsButton.enabled = NO;
-        [self.tableView reloadData];
-    }
-}
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == 0) {
+//        [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
+//        routeSearchOptions = [RouteSearchOptions defaultOptions];
+//        resetOptionsButton.enabled = NO;
+//        [self.tableView reloadData];
+//    }
+//}
 
 #pragma mark - Settings change notifications
 -(void)userLocationValueChanged:(NSNotification *)notification{
@@ -418,6 +441,13 @@
 
 - (void)returnRouteOptionsToDelegate {
     [self.routeOptionSelectionDelegate optionSelectionDidComplete:[routeSearchOptions copy]];
+}
+
+- (BOOL)isTransportTypeSelected:(NSString *)typeName {
+    NSArray *selectedTypes = routeSearchOptions.selectedRouteTrasportTypes != nil
+                                                            ? routeSearchOptions.selectedRouteTrasportTypes
+                                                            : routeSearchOptions.getDefaultTransportTypeNames;
+    return [selectedTypes containsObject:typeName];
 }
 
 - (void)setDetailForAdvancedOptionAtRow:(NSInteger)row detailText:(NSString *)detail selectedIndex:(NSInteger)selectedIndex defaultOptionIndex:(NSInteger)defaultIndex{

@@ -15,7 +15,7 @@
 - (void)optionSelectionDidComplete:(RouteSearchOptions *)routeOptions;
 @end
 
-@interface RouteOptionsTableViewController : UITableViewController <SingleSelectTableViewControllerDelegate, UIActionSheetDelegate>{
+@interface RouteOptionsTableViewController : UITableViewController <SingleSelectTableViewControllerDelegate>{
     NSInteger dateAndTimeSection, transportTypeSection, searchOptionSection, advancedOptionsSection, saveSettingsSections, resetSettingsSections;
     NSInteger ticketZoneRow, changeMargineRow, walkingSpeedRow;
     NSInteger ticketZoneSelectorViewIndex, changeMargineSelectorViewIndex, walkingSpeedSelectorViewIndex;

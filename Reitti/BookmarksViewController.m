@@ -1526,7 +1526,7 @@ const NSInteger kTimerRefreshInterval = 60;
         stopViewController.stopName = stopEntity.busStopName;
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords];
         stopViewController.stopEntity = stopEntity;
-        stopViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
+        stopViewController.useApi = stopEntity.fetchedFromApi;
         stopViewController.backButtonText = self.title;
         stopViewController.delegate = self;
         

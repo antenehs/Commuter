@@ -28,6 +28,8 @@
 @property (nonatomic, strong) DigiPlace *to;
 
 @property(nonatomic)int legOrder;
+@property(nonatomic, strong, readonly) NSString *lineName;
+@property(nonatomic, strong, readonly) NSString *lineGtfsId;
 @property(nonatomic)LegTransportType legType;
 @property (nonatomic, strong) NSDate *parsedStartTime;
 @property (nonatomic, strong) NSDate *parsedEndTime;

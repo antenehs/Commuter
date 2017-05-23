@@ -40,8 +40,8 @@
 #ifndef APPLE_WATCH
 //Uses coredata cache to determine stop type. Not available in watchapp 
 @property (nonatomic) StopType stopType;
-@property (nonatomic) BOOL isHistoryStop;
-@property (nonatomic) BOOL isDigiTransitStop;
+@property (nonatomic, readonly) BOOL isHistoryStop;
+@property (nonatomic, readonly) BOOL isDigiTransitStop;
 
 -(BusStopShort *)toBusStopShort;
 #endif

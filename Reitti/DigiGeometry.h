@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) CLLocation *location;
 @property (nonatomic) CLLocationCoordinate2D coordinate;
+@property (nonatomic, strong) NSString *stringCoordinate;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

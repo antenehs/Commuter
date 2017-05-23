@@ -17,6 +17,8 @@
 #import "ContactsManager.h"
 #import "ReittiMapkitHelper.h"
 
+typedef void(^PendingSearchBlock)(NSString *searchTerm);
+
 @interface AddressSearchViewController ()
 
 @end
@@ -57,8 +59,7 @@
     [addressSearchBar becomeFirstResponder];
     if (![self.prevSearchTerm isEqualToString:@""] && self.prevSearchTerm != nil) {
         addressSearchBar.text = self.prevSearchTerm;
-        [self searchAddressForSearchTerm:addressSearchBar.text];
-        unRespondedRequestsCount++;
+        [self searchAddressForSearchTerm:addressSearchBar.text withDelay:NO];
     }
     
     if (!routeSearchMode) {
@@ -184,8 +185,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     isFinalSearch = NO;
     if (searchText.length > 2){
-        [self searchAddressForSearchTerm:searchText];
-        unRespondedRequestsCount++;
+        [self searchAddressForSearchTerm:searchText withDelay:YES];
         isInitialMergedView = NO;
     }else if(searchText.length > 0) {
         dataToLoad = [ self searchFromBookmarkHistoryContactForKey:searchText];
@@ -206,8 +206,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     isFinalSearch = YES;
     if (searchBar.text.length > 2){
-        [self searchAddressForSearchTerm:searchBar.text];
-        unRespondedRequestsCount++;
+        [self searchAddressForSearchTerm:searchBar.text withDelay:NO];
         searchActivityIndicator.hidden = NO;
         [searchActivityIndicator startAnimating];
     }
@@ -227,7 +226,25 @@
 }
 
 #pragma mark - reitti data manager delegates
+//This is used to prevent multiple unnessary searchs while the user is still typing
+- (void)searchAddressForSearchTerm:(NSString *)searchTerm withDelay:(BOOL)delay {
+    //save serach term to pending
+//    pendingSearchTerm = searchTerm;
+    
+//    PendingSearchBlock pendingSearch = ^(NSString *searchTerm) {
+//        [self searchAddressForSearchTerm:searchTerm];
+//    };
+    
+    [self performSelector:@selector(searchAddressForSearchTerm:) withObject:searchTerm afterDelay:delay ? 1 : 0];
+}
+
 - (void)searchAddressForSearchTerm:(NSString *)searchTerm{
+    
+    if (![searchTerm isEqualToString:addressSearchBar.text]) return;
+    
+    NSLog(@"Serching for term: %@", searchTerm);
+    
+    unRespondedRequestsCount++;
     [self.reittiDataManager searchAddressesForKey:searchTerm withCompletionBlock:^(NSArray *response, NSString *searchTerm, NSString *errorString){
         if (!errorString) {
             if (response.count > 0) {
@@ -455,12 +472,6 @@
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSelectedContactAddress label:@"" value:nil];
 }
-
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row >= self.dataToLoad.count)
-//        return 60;
-//    
-//}
 
 #pragma mark - scroll view delegates
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{

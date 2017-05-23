@@ -62,7 +62,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     darkMode = YES;
     isShowingStopView = NO;
     
-    mapResizedForMiddlePosition = NO;
+    mapViewCenterLocation = MapViewCenterLocationCenter;
     
     CLLocationCoordinate2D _upper = {.latitude =  -90.0, .longitude =  0.0};
     upperBound = _upper;
@@ -76,14 +76,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     UISwipeGestureRecognizer *recogRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToRightDetected:)];
     recogRight.direction = UISwipeGestureRecognizerDirectionRight;
-//    [routeListView addGestureRecognizer:recogRight];
     
     UISwipeGestureRecognizer *recogLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToLeftDetected:)];
     recogLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-//    [routeListView addGestureRecognizer:recogLeft];
-    
-//    _route = [routeList objectAtIndex:selectedRouteIndex];
-//    NSLog(@"Number of legs = %lu", (unsigned long)_route.routeLegs.count);
     
     routeLocationList = [self convertRouteToLocationList:self.route];
     
@@ -99,7 +94,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self setUpMainViewForRoute];
     [self initializeMapView];
     [self initMapViewForRoute:_route];
-    [self moveRouteViewToLocation:RouteListViewLoactionBottom animated:NO];
+    [self moveRouteViewToLocation:RouteListViewLoactionBottom andFitRouteToMap:YES animated:NO];
     
     /* Register 3D touch for Peek and Pop if available */
     [self registerFor3DTouchIfAvailable];
@@ -109,7 +104,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [super viewDidAppear:animated];
     if (!isShowingStopView){
         isShowingStopView = NO;
-        [self moveRouteViewToLocation:RouteListViewLoactionMiddle animated:YES];
+        [self moveRouteViewToLocation:RouteListViewLoactionMiddle andFitRouteToMap:YES animated:YES];
         [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
     }
 }
@@ -402,46 +397,45 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 -(void)moveRouteViewToLocation:(RouteListViewLoaction)location animated:(BOOL)animated{
+    [self moveRouteViewToLocation:location andFitRouteToMap:NO animated:animated];
+}
+
+-(void)moveRouteViewToLocation:(RouteListViewLoaction)location andFitRouteToMap:(BOOL)fitMap animated:(BOOL)animated {
     [UIView transitionWithView:routeListView duration:animated ? 0.2 : 0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         
-        [self moveRouteViewToLocation:location];
+        [self moveRouteViewToLocation:location andFitRouteToMap:fitMap];
         
     } completion:^(BOOL finished) {}];
 }
 
--(void)moveRouteViewToLocation:(RouteListViewLoaction)location{
+-(void)moveRouteViewToLocation:(RouteListViewLoaction)location andFitRouteToMap:(BOOL)fitMap{
     currentRouteListViewLocation = location;
-    
-//    CGFloat tabBarHeight = self.tabBarController != nil ? self.tabBarController.tabBar.frame.size.height : 0;
-    
+
     if (location == RouteListViewLoactionBottom) {
         [self hideNavigationBar:NO animated:YES];
         routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y + 15;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
-        [self.view layoutIfNeeded];
-        [self centerMapRegionToViewRoute];
-        mapResizedForMiddlePosition = NO;
     }else if (location == RouteListViewLoactionMiddle) {
         [self hideNavigationBar:NO animated:YES];
         routeLIstViewVerticalSpacing.constant = self.view.frame.size.height/2;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"horizontal-line-100.png"] forState:UIControlStateNormal];
         routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width,self.view.bounds.size.height/2 - routeListTableView.frame.origin.y);
-        [self.view layoutIfNeeded];
-        if (!mapResizedForMiddlePosition) {
-            [self centerMapRegionToViewRoute];
-            mapResizedForMiddlePosition = YES;
-        }
     }else{
         routeLIstViewVerticalSpacing.constant = 0;
         routeListTableView.frame = CGRectMake(routeListTableView.frame.origin.x, routeListTableView.frame.origin.y, routeListTableView.frame.size.width, self.view.bounds.size.height - routeListTableView.frame.origin.y);
         [toggleListButton setTitle:@"Map" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"collapse-arrow-100.png"] forState:UIControlStateNormal];
-        [self.view layoutIfNeeded];
         [self hideNavigationBar:![self isLandScapeOrientation] animated:YES];
     }
     
+    [self.view layoutIfNeeded];
+    if (fitMap) {
+        [self centerMapRegionToViewRoute];
+    } else {
+        [self adjustMapViewCenterForCurrentListViewPosition];
+    }
     [routeListTableView reloadData];
 }
 
@@ -600,18 +594,36 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     [UIView animateWithDuration:0.7 animations:^{
         [routeMapView setRegion:region animated:YES];
-    } completion:^(BOOL finished) {
-//        if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
-//            CGPoint fakecenter = CGPointMake(self.view.bounds.size.width/2, (self.view.bounds.size.height/1.33) - 70);
-//            CLLocationCoordinate2D coordinate = [routeMapView convertPoint:fakecenter toCoordinateFromView:routeMapView];
-////            [routeMapView setCenterCoordinate:coordinate animated:YES];
-//        }
-    }];
+    } completion:^(BOOL finished) {}];
     
     return toReturn;
 }
 
--(BOOL)centerMapRegionToViewRoute{
+//Call this only when location is changed
+-(void)adjustMapViewCenterForCurrentListViewPosition {
+    CLLocationCoordinate2D currentCenter = routeMapView.centerCoordinate;
+    
+    MKCoordinateSpan span = routeMapView.region.span;
+    double centerDelta = span.latitudeDelta/4;
+    
+    if (currentRouteListViewLocation == RouteListViewLoactionMiddle && mapViewCenterLocation != MapViewCenterLocationShiftedUp) {
+        currentCenter.latitude =  currentCenter.latitude - centerDelta;
+        mapViewCenterLocation = MapViewCenterLocationShiftedUp;
+    } else if(currentRouteListViewLocation == RouteListViewLoactionBottom && mapViewCenterLocation != MapViewCenterLocationCenter) {
+        currentCenter.latitude =  currentCenter.latitude + centerDelta;
+        mapViewCenterLocation = MapViewCenterLocationCenter;
+    } else {
+        return;
+    }
+    
+    MKCoordinateRegion region = {currentCenter, span};
+    
+    [UIView animateWithDuration:0.7 animations:^{
+        [routeMapView setRegion:region animated:YES];
+    } completion:^(BOOL finished) {}];
+}
+
+-(BOOL)centerMapRegionToViewRoute {
     
     BOOL toReturn = YES;
     
@@ -620,6 +632,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     if (currentRouteListViewLocation == RouteListViewLoactionMiddle) {
         float latBoundSpan = upperBound.latitude - lowerBound.latitude;
         lowerBound.latitude =  lowerBound.latitude - (latBoundSpan);
+        mapViewCenterLocation = MapViewCenterLocationShiftedUp;
     }
     
     CLLocationCoordinate2D centerCoord = {.latitude =  (upperBound.latitude + lowerBound.latitude)/2, .longitude =  (leftBound.longitude + rightBound.longitude)/2};
@@ -681,11 +694,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
     // create an MKPolylineView and add it to the map view
     if ([overlay isKindOfClass:[MKPolyline class]]) {
-        ASPolylineRenderer *polylineRenderer = [[ASPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
-        polylineRenderer.strokeColor  = [UIColor yellowColor];
-        polylineRenderer.borderColor = [UIColor blackColor];
-        polylineRenderer.borderMultiplier = 1.1;
-        polylineRenderer.lineWidth	  = 8.0f;
+        MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:(MKPolyline *)overlay];
+//        polylineRenderer.strokeColor  = [UIColor yellowColor];
+//        polylineRenderer.borderColor = [UIColor blackColor];
+//        polylineRenderer.borderMultiplier = 1.1;
+        polylineRenderer.lineWidth	  = 6.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         
@@ -1624,7 +1637,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         dotView.layer.borderWidth = 3.0;
         dotView.layer.cornerRadius = 6.f;
         
-        transportCircleBackView.layer.cornerRadius = 17.5f;
+        transportCircleBackView.layer.cornerRadius = 15.5f;
         transportCircleBackView.layer.borderColor = [UIColor colorWithWhite:0.85 alpha:1].CGColor;
         
         prevLegLine.backgroundColor = darkerGrayColor;
@@ -1634,7 +1647,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         
         if (indexPath.row == 0) {
             locNameLabel.text = self.fromLocation;
-            detailDesclosureButton.hidden = NO;
+            detailDesclosureButton.hidden = selectedLeg.legLocations.count <= 2; //if there are intermid locs
             nextLegLine.hidden = NO;
             prevLegLine.hidden = YES;
             transportCircleBackView.hidden = NO;
@@ -1655,7 +1668,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
             dotView.layer.borderColor = [[AppManager systemGreenColor] CGColor];
         }else{
             locNameLabel.text = loc.name == nil || loc.name == (id)[NSNull null] ? @"" : loc.name;
-            detailDesclosureButton.hidden = NO;
+            detailDesclosureButton.hidden = selectedLeg.legLocations.count <= 2; //if there are intermid locs
             nextLegLine.hidden = NO;
             prevLegLine.hidden = NO;
             transportCircleBackView.hidden = NO;
@@ -1694,15 +1707,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                     legTypeImage.tintColor = [UIColor whiteColor];
                 else
                     legTypeImage.tintColor = [UIColor darkGrayColor];
-                
-//                [legTypeImage setImage:[UIImage asa_imageWithImage:[AppManager lightColorImageForLegTransportType:loc.locationLegType] scaledToSize:CGSizeMake(legTypeImage.frame.size.width - 4, legTypeImage.frame.size.height - 4)]];
-//                legTypeImage.contentMode = UIViewContentModeCenter;
             }
             
             nextLegLine.backgroundColor = darkerGrayColor;
             nextLegLine.image = nil;
             
-            //Get head sign for routes fetched from digi transit
+            //TODO:Get head sign for routes fetched from digi transit
             NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
             NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
             if (destination != nil) {
@@ -1725,27 +1735,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                     prevLegLine.image = nil;
                     break;
             }
-        }
-        
-        if (indexPath.row == self.routeLocationList.count - 1) {
-//            moreInfoLabel.text = @"";
-//            lineNumberLabel.hidden = YES;
-        }else if (selectedLeg.legType == LegTypeWalk) {
-//            moreInfoLabel.text = [NSString stringWithFormat:@"Walk for %ld meters \nAbout %@", (long)[selectedLeg.legLength integerValue],[ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-//            lineNumberLabel.hidden = NO;
-//            lineNumberLabel.text = @"Walk";
-        }else{
-//            lineNumberLabel.hidden = NO;
-//            lineNumberLabel.text = [selectedLeg.lineDisplayName capitalizedString];
-//            NSString *destination = [self getDestinationForLineCode:selectedLeg.lineCode];
-//            NSString *stopsText = ([selectedLeg getNumberOfStopsInLeg] - 1) > 1 ? @"stops" : @"stop";
-//            if (destination != nil) {
-//                moreInfoLabel.text = [NSString stringWithFormat:@"Towards %@ \n%@", destination, [ReittiStringFormatter formatDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-//                moreInfoLabel.textColor = [UIColor darkGrayColor];
-//            }else{
-//                moreInfoLabel.text = [NSString stringWithFormat:@"%d %@ \n%@", [selectedLeg getNumberOfStopsInLeg] - 1, stopsText, [ReittiStringFormatter formatFullDurationString:[selectedLeg.legDurationInSeconds integerValue]] ];
-//                moreInfoLabel.textColor = [UIColor lightGrayColor];
-//            }
         }
         
         [detailDesclosureButton setTitle:[self disclosureButtontextForLeg:selectedLeg] forState:UIControlStateNormal];
@@ -1990,7 +1979,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                     [locationList addObject:loc];
                 }
                 
-                if (loc.isHeaderLocation && leg.showDetailed){
+                //Only for the first row if it header and show detail for leg. Add if there are other intermidiate locations too.
+                if (loc.isHeaderLocation && leg.showDetailed && leg.legLocations.count > 2 && orderCount == 0){
                     //Also add a copy of the header location
                     if (loc.name == nil || loc.name == (id)[NSNull null]) {
                         orderCount++;
@@ -2000,19 +1990,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                     copyLoc.isHeaderLocation = NO;
                     [locationList addObject:copyLoc];
                 }
-                
-//                if (leg.showDetailed) {
-//                    [locationList addObject:loc];
-//                    
-//                    //Also add a copy of the header location
-//                    if (loc.isHeaderLocation) {
-//                        RouteLegLocation *copyLoc = [loc copy];
-//                        copyLoc.isHeaderLocation = NO;
-//                        [locationList addObject:copyLoc];
-//                    }
-//                }else if (loc.isHeaderLocation ){
-//                    [locationList addObject:loc];
-//                }
                 
                 orderCount++;
             }

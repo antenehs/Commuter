@@ -7,11 +7,14 @@
 
 #import "DigiStoptime.h"
 #import "DigiDataModels.h"
+#import "ASA_Helpers.h"
 
 
 NSString *const kDigiStoptimesServiceDay = @"serviceDay";
 NSString *const kDigiStoptimesScheduledDeparture = @"scheduledDeparture";
-NSString *const kDigiStoptimesTrip = @"trip";
+NSString *const kDigiStoptimesRouteLongName = @"routeLongName";
+NSString *const kDigiStoptimesRouteShortName = @"routeShortName";
+NSString *const kDigiStoptimesRouteDestination = @"destination";
 NSString *const kDigiStoptimesRealtime = @"realtime";
 NSString *const kDigiStoptimesRealtimeDeparture = @"realtimeDeparture";
 NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
@@ -27,7 +30,7 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 
 @synthesize serviceDay = _serviceDay;
 @synthesize scheduledDeparture = _scheduledDeparture;
-@synthesize trip = _trip;
+//@synthesize trip = _trip;
 @synthesize realtime = _realtime;
 @synthesize realtimeDeparture = _realtimeDeparture;
 @synthesize realtimeState = _realtimeState;
@@ -47,7 +50,9 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.serviceDay = [self objectOrNilForKey:kDigiStoptimesServiceDay fromDictionary:dict];
             self.scheduledDeparture = [self objectOrNilForKey:kDigiStoptimesScheduledDeparture fromDictionary:dict];
-            self.trip = [DigiTrip modelObjectWithDictionary:[dict objectForKey:kDigiStoptimesTrip]];
+            self.routeLongName = [self objectOrNilForKey:kDigiStoptimesRouteLongName fromDictionary:dict];
+        self.routeShortName = [self objectOrNilForKey:kDigiStoptimesRouteShortName fromDictionary:dict];
+        self.destination = [self objectOrNilForKey:kDigiStoptimesRouteDestination fromDictionary:dict];
             self.realtime = [self objectOrNilForKey:kDigiStoptimesRealtime fromDictionary:dict];
             self.realtimeDeparture = [self objectOrNilForKey:kDigiStoptimesRealtimeDeparture fromDictionary:dict];
             self.realtimeState = [self objectOrNilForKey:kDigiStoptimesRealtimeState fromDictionary:dict];
@@ -63,7 +68,9 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.serviceDay forKey:kDigiStoptimesServiceDay];
     [mutableDict setValue:self.scheduledDeparture forKey:kDigiStoptimesScheduledDeparture];
-    [mutableDict setValue:[self.trip dictionaryRepresentation] forKey:kDigiStoptimesTrip];
+    [mutableDict setValue:self.routeLongName forKey:kDigiStoptimesRouteLongName];
+    [mutableDict setValue:self.routeShortName forKey:kDigiStoptimesRouteShortName];
+    [mutableDict setValue:self.destination forKey:kDigiStoptimesRouteDestination];
     [mutableDict setValue:self.realtime forKey:kDigiStoptimesRealtime];
     [mutableDict setValue:self.realtimeDeparture forKey:kDigiStoptimesRealtimeDeparture];
     [mutableDict setValue:self.realtimeState forKey:kDigiStoptimesRealtimeState];
@@ -92,7 +99,9 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 
     self.serviceDay = [aDecoder decodeObjectForKey:kDigiStoptimesServiceDay];
     self.scheduledDeparture = [aDecoder decodeObjectForKey:kDigiStoptimesScheduledDeparture];
-    self.trip = [aDecoder decodeObjectForKey:kDigiStoptimesTrip];
+    self.routeLongName = [aDecoder decodeObjectForKey:kDigiStoptimesRouteLongName];
+    self.routeShortName = [aDecoder decodeObjectForKey:kDigiStoptimesRouteShortName];
+    self.destination = [aDecoder decodeObjectForKey:kDigiStoptimesRouteDestination];
     self.realtime = [aDecoder decodeObjectForKey:kDigiStoptimesRealtime];
     self.realtimeDeparture = [aDecoder decodeObjectForKey:kDigiStoptimesRealtimeDeparture];
     self.realtimeState = [aDecoder decodeObjectForKey:kDigiStoptimesRealtimeState];
@@ -104,7 +113,9 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 
     [aCoder encodeObject:_serviceDay forKey:kDigiStoptimesServiceDay];
     [aCoder encodeObject:_scheduledDeparture forKey:kDigiStoptimesScheduledDeparture];
-    [aCoder encodeObject:_trip forKey:kDigiStoptimesTrip];
+    [aCoder encodeObject:_routeLongName forKey:kDigiStoptimesRouteLongName];
+    [aCoder encodeObject:_routeShortName forKey:kDigiStoptimesRouteShortName];
+    [aCoder encodeObject:_destination forKey:kDigiStoptimesRouteDestination];
     [aCoder encodeObject:_realtime forKey:kDigiStoptimesRealtime];
     [aCoder encodeObject:_realtimeDeparture forKey:kDigiStoptimesRealtimeDeparture];
     [aCoder encodeObject:_realtimeState forKey:kDigiStoptimesRealtimeState];
@@ -117,7 +128,9 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     if (copy) {
         copy.serviceDay = self.serviceDay;
         copy.scheduledDeparture = self.scheduledDeparture;
-        copy.trip = [self.trip copyWithZone:zone];
+        copy.routeLongName = [self.routeLongName copyWithZone:zone];
+        copy.routeShortName = [self.routeShortName copyWithZone:zone];
+        copy.destination = [self.destination copyWithZone:zone];
         copy.realtime = self.realtime;
         copy.realtimeDeparture = self.realtimeDeparture;
         copy.realtimeState = [self.realtimeState copyWithZone:zone];
@@ -128,8 +141,7 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 
 -(NSDate *)parsedScheduledDepartureDate {
     if (!_parsedScheduledDepartureDate) {
-        double departureTime = [self.serviceDay doubleValue] + [self.scheduledDeparture doubleValue];
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:departureTime];
+        NSDate *date = [self parseTime:self.scheduledDeparture];
         if (date) _parsedScheduledDepartureDate = date;
     }
     
@@ -138,12 +150,36 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 
 -(NSDate *)parsedRealtimeDepartureDate {
     if (!_parsedRealtimeDepartureDate) {
-        double departureTime = [self.serviceDay doubleValue] + [self.realtimeDeparture doubleValue];
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:departureTime];
+        NSDate *date = [self parseTime:self.realtimeDeparture];
         if (date) _parsedRealtimeDepartureDate = date;
     }
     
     return _parsedRealtimeDepartureDate;
+}
+
+-(NSDate *)parsedScheduledArrivalDate {
+    if (!_parsedScheduledArrivalDate) {
+        NSDate *date = [self parseTime:self.scheduledArrival];
+        if (date) _parsedScheduledArrivalDate = date;
+    }
+    
+    return _parsedScheduledArrivalDate;
+}
+
+-(NSDate *)parsedRealtimeArrivalDate {
+    if (!_parsedRealtimeArrivalDate) {
+        NSDate *date = [self parseTime:self.realtimeArrival];
+        if (date) _parsedRealtimeArrivalDate = date;
+    }
+    
+    return _parsedRealtimeArrivalDate;
+}
+
+-(NSDate *)parseTime:(NSNumber *)unixTime {
+    double dateSeconds = self.serviceDay && ![self.serviceDay  isEqual: @0] ? [self.serviceDay doubleValue]
+    : [[[NSDate date] asa_dateIgnoringTime] timeIntervalSince1970];
+    double time = dateSeconds + [unixTime doubleValue];
+    return [NSDate dateWithTimeIntervalSince1970:time];
 }
 
 #pragma mark - conversion
@@ -151,12 +187,12 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     StopDeparture *departure = [StopDeparture new];
     
     //TODO: Full info when needed. Now we are only interested in the realtime times.
-    departure.code = self.trip.route.shortName;
+    departure.code = self.routeShortName;
     departure.date = nil;
-    departure.name = self.trip.route.longName;
+    departure.name = self.routeLongName;
     departure.time = nil;
     departure.direction = nil;
-    departure.destination = self.trip.tripHeadsign;
+    departure.destination = self.destination;
     departure.parsedScheduledDate = self.parsedScheduledDepartureDate;
     departure.parsedRealtimeDate = self.parsedRealtimeDepartureDate;
     departure.isRealTime = [self.realtime boolValue];
@@ -167,23 +203,29 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 #pragma mark - mapping
 +(NSDictionary *)mappingDictionary {
     return @{
-              @"serviceDay"         : @"serviceDay",
-              @"scheduledDeparture" : @"scheduledDeparture",
-              @"realtimeDeparture"  : @"realtimeDeparture",
-              @"realtimeState"      : @"realtimeState",
-              @"realtime"           : @"realtime"
+              @"trip.route.longName"    : @"routeLongName",
+              @"trip.route.shortName"   : @"routeShortName",
+              @"stop.name"              : @"stopName",
+              @"stop.gtfsId"            : @"stopGtfsId",
+              @"trip.tripHeadsign"      : @"destination",
+              @"serviceDay"             : @"serviceDay",
+              @"scheduledDeparture"     : @"scheduledDeparture",
+              @"realtimeDeparture"      : @"realtimeDeparture",
+              @"realtimeArrival"        : @"realtimeArrival",
+              @"scheduledArrival"       : @"scheduledArrival",
+              @"realtimeState"          : @"realtimeState",
+              @"realtime"               : @"realtime"
               };
 }
 
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
-    MappingRelationShip *tripRelationShip = [MappingRelationShip relationShipFromKeyPath:@"trip"
-                                                                               toKeyPath:@"trip"
-                                                                        withMappingClass:[DigiTrip class]];
+//    MappingRelationShip *tripRelationShip = [MappingRelationShip relationShipFromKeyPath:@"trip"
+//                                                                               toKeyPath:@"trip"
+//                                                                        withMappingClass:[DigiTrip class]];
     
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
-                           withMappingDictionary:[self mappingDictionary]
-                                andRelationShips:@[tripRelationShip]];
+                           withMappingDictionary:[self mappingDictionary]];
 }
 
 @end

@@ -8,13 +8,17 @@
 #import <Foundation/Foundation.h>
 #import "DigiRoute.h"
 #import "DigiPattern.h"
+#import "DigiStoptime.h"
 #import "Mapping.h"
 
 @interface DigiTrip : NSObject <NSCoding, NSCopying, Mappable>
 
 @property (nonatomic, strong) DigiRoute *route;
 @property (nonatomic, strong) DigiPattern *pattern;
+@property (nonatomic, strong) NSArray *stopTimes;
 @property (nonatomic, strong) NSString *tripHeadsign;
+
+-(NSDate *)arrivalTimeAtStop:(NSString *)stopCode;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

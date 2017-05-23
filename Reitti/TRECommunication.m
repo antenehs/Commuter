@@ -213,6 +213,10 @@
     return @[@"Bus"];
 }
 
+-(NSArray *)getDefaultTransportTypeNames {
+    return @[@"Bus"];
+}
+
 -(NSArray *)getTransportTypeOptions{
     return nil;
 }

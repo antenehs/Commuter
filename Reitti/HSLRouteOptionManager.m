@@ -132,7 +132,11 @@
 }
 
 +(NSArray *)allTrasportTypeNames{
-    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline", @"City Bike"];//TODO: add city bikes
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline", @"City Bike"];
+}
+
++(NSArray *)getDefaultTransportTypeNames {
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Uline"];
 }
 
 +(NSArray *)getTransportTypeOptionsForDisplay {

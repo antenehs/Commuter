@@ -652,6 +652,12 @@
 		66BCA7181D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */; };
 		66BCA71B1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
 		66BCA71C1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
+		66C05AA71ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
+		66C05AA81ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
+		66C05AA91ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
+		66C05AAA1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
+		66C05AAB1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
+		66C05AAC1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C5676F1CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		66C567701CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
@@ -1916,6 +1922,7 @@
 		66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilterOption.m; sourceTree = "<group>"; };
 		66BCA7191D7AF2D80092C5BB /* AnnotationFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationFilter.h; sourceTree = "<group>"; };
 		66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilter.m; sourceTree = "<group>"; };
+		66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopTimeFragment.graphql; sourceTree = "<group>"; };
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		66C1254419CF5BD400099AFF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
@@ -3794,6 +3801,7 @@
 				664FE8BE1ECBC81F00C3C0B5 /* AlertQueryFragment.graphql */,
 				663465D51ECE515F004B8AAF /* PatternFullFragment.graphql */,
 				663465D41ECE515F004B8AAF /* PatternShortFragment.graphql */,
+				66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */,
 			);
 			name = GraphQLQueries;
 			sourceTree = "<group>";
@@ -4278,6 +4286,7 @@
 				66EB0D581DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				66BCA7061D7771870092C5BB /* WatchIcons.xcassets in Resources */,
 				660579811E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
+				66C05AAC1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				6601AC951D298E0900EB8972 /* TransportTypes.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4333,6 +4342,7 @@
 				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
 				660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				664FE8C01ECBC81F00C3C0B5 /* AlertQueryFragment.graphql in Resources */,
+				66C05AA71ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				663207051D27D25900D8A46D /* AddressTypes.xcassets in Resources */,
 				66160F061C580577005617CE /* Cool-96.png in Resources */,
 				66B7AE901ECA54BE00B233E7 /* Migration.storyboard in Resources */,
@@ -4506,6 +4516,7 @@
 				66C734B51C556DA5002544BC /* Time to go 1.mp3 in Resources */,
 				66C734B61C556DA5002544BC /* NotificationBackgroundError.png in Resources */,
 				66C734BB1C556DA5002544BC /* Horse whinny.mp3 in Resources */,
+				66C05AA81ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				66026DA31D6B624100219AC6 /* AnnotationFilterView.xib in Resources */,
 				66C734C41C556DA5002544BC /* DetailImageView.xib in Resources */,
 				66C734C61C556DA5002544BC /* Vibration sound.mp3 in Resources */,
@@ -4530,6 +4541,7 @@
 			files = (
 				66FDC9E41D83566900F6288D /* Localizable.strings in Resources */,
 				66C7352D1C556FA4002544BC /* Forward-light-100.png in Resources */,
+				66C05AAA1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				66C735321C556FA4002544BC /* notification-tone-100.png in Resources */,
 				66C735341C556FA4002544BC /* Subway-100.png in Resources */,
 				660579711E11D49100F3559E /* RouteQuery.graphql in Resources */,
@@ -4585,6 +4597,7 @@
 				66C735B01C556FB5002544BC /* Bar Chart-100.png in Resources */,
 				66FDC9E51D83566900F6288D /* Localizable.strings in Resources */,
 				6605798E1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
+				66C05AAB1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				663465DA1ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
 				66C735B21C556FB5002544BC /* notification-tone-100.png in Resources */,
 				66C735B31C556FB5002544BC /* MainInterface.storyboard in Resources */,
@@ -4599,6 +4612,7 @@
 			files = (
 				66FDC9E31D83566900F6288D /* Localizable.strings in Resources */,
 				660CFE0A1C188FEC004D73FC /* Forward-light-100.png in Resources */,
+				66C05AA91ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */,
 				6665D77D1C0CDFB600ACCC3A /* Subway-100.png in Resources */,
 				660579701E11D49100F3559E /* RouteQuery.graphql in Resources */,

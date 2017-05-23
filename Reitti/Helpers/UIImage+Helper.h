@@ -13,6 +13,7 @@
 
 -(UIImage *)asa_addCircleBackgroundWithColor:(UIColor *)color andImageSize:(CGSize)size andInset:(CGPoint)inset andOffset:(CGPoint)offset;
 
+-(UIImage *)asa_imageWithColor:(UIColor *)tintColor;
 +(UIImage *)asa_imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 
 +(UIImage *)asa_dottedLineImageWithFrame:(CGRect)rect andColor:(UIColor *)fillColor;

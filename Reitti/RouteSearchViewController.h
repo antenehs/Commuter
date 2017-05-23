@@ -83,6 +83,7 @@
     BOOL pendingRequestCanceled;
     
     BOOL isShowingOptionsView;
+    BOOL isSelectingAddress;
     
     BOOL toolBarIsShowing;
     

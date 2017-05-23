@@ -47,6 +47,7 @@
 +(NSString *)lineIconNameForLineType:(LineType)type;
 +(UIImage *)vehicleImageForLegTrasnportType:(LegTransportType)type;
 +(UIImage *)lightColorImageForLegTransportType:(LegTransportType)type;
+//+(UIImage *)coloredImageForLegTransportType:(LegTransportType)type withColor:(UIColor *)color;
 +(NSString *)complicationImageNameForLegTransportType:(LegTransportType)type;
 
 #ifndef APPLE_WATCH

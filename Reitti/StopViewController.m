@@ -47,7 +47,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 @synthesize departures, _busStop, stopEntity;
 @synthesize reittiDataManager, settingsManager, reittiReminderManager;
 @synthesize stopGtfsId, stopShortCode, stopName, stopCoords;
-@synthesize managedObjectContext;
 @synthesize backButtonText;
 @synthesize delegate;
 @synthesize refreshControl;
@@ -145,7 +144,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     // Do any additional setup after loading the view.
     
     if (self.reittiDataManager == nil) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
 }
 

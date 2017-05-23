@@ -138,5 +138,14 @@ NSString *const kBaseClassOperator = @"Operator";
     return copy;
 }
 
+//Computed properties
+- (LineType)reittiLineType{
+    if (self.routeType != nil) {
+        StopType stopType = [EnumManager stopTypeForGDTypeString:self.routeType];
+        return [EnumManager lineTypeForStopType:stopType];
+    }else{
+        return LineTypeBus;
+    }
+}
 
 @end

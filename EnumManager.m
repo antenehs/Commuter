@@ -156,7 +156,7 @@
     }else if (lineType == LineTypeAirplane) {
         return VehicleTypeAirplane;
     }else{
-        return VehicleTypeOther;
+        return VehicleTypeUnknown;
     }
 }
 

@@ -77,6 +77,7 @@ typedef enum
     nextRoutesRequested = NO;
     prevRoutesRequested = NO;
     isShowingOptionsView = NO;
+    isSelectingAddress = YES;
     pendingRequestCanceled = NO;
     
     showTopLoadingView = NO;
@@ -128,10 +129,11 @@ typedef enum
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationItem setTitle:@"PLANNER"];
     
-    if (!isShowingOptionsView)
+    if (!isShowingOptionsView && !isSelectingAddress)
         [self refreshData];
     
     isShowingOptionsView = NO;
+    isSelectingAddress = NO;
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
@@ -239,11 +241,17 @@ typedef enum
 -(void)setUpMainView{
     
     fromFieldBackView.layer.borderWidth = 0.5;
-    fromFieldBackView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    fromFieldBackView.layer.borderColor = [[UIColor whiteColor] CGColor];
+    fromFieldBackView.backgroundColor = [UIColor whiteColor];
+//    [fromFieldBackView asa_SetBlurredBackgroundWithImageNamed:nil];
     fromFieldBackView.layer.cornerRadius = 5;
+    fromFieldBackView.alpha = 1.0;
     
     toFieldBackView.layer.borderWidth = 0.5;
-    toFieldBackView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    toFieldBackView.layer.borderColor = [[UIColor whiteColor] CGColor];
+    toFieldBackView.backgroundColor = [UIColor whiteColor];
+//    [toFieldBackView asa_SetBlurredBackgroundWithImageNamed:nil];
+    toFieldBackView.alpha = 1.0;
     toFieldBackView.layer.cornerRadius = 5;
     
     localRouteSearchOptions.selectedTimeType = RouteTimeDeparture;
@@ -265,10 +273,14 @@ typedef enum
     
     //Set searchbar look
     [fromSearchBar asa_removeBackgroundAndBorder];
-    [fromSearchBar setImage:[UIImage imageNamed:@"location-light-25.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    UIImage *locationImage = [UIImage imageNamed:@"location-light-25.png"];
+    locationImage = [locationImage asa_imageWithColor:[UIColor blackColor]];
+    [fromSearchBar setImage:locationImage forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     
     [toSearchBar asa_removeBackgroundAndBorder];
-    [toSearchBar setImage:[UIImage imageNamed:@"finish_flag-light-50.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    UIImage *flagImage = [UIImage imageNamed:@"finish_flag-light-50.png"];
+    flagImage = [flagImage asa_imageWithColor:[UIColor darkGrayColor]];
+    [toSearchBar setImage:flagImage forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     
     [self setBookmarkButtonStatus];
     
@@ -410,7 +422,8 @@ typedef enum
                     UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
                     
                     //set font color here
-                    searchBarTextField.textColor = [UIColor colorWithWhite:0.8 alpha:1];
+//                    searchBarTextField.textColor = [UIColor colorWithWhite:0.8 alpha:1];
+                    searchBarTextField.textColor = [UIColor colorWithWhite:0 alpha:1];
                     
                     break;
                 }
@@ -833,11 +846,13 @@ typedef enum
     [self.refreshControl endRefreshing];
     
     if (error != nil) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:error message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) { }];
+        
+        [controller addAction:okAction];
+        
+        [self presentViewController:controller animated:YES completion:nil];
     }
     
     if (self.tableViewMode == TableViewModeRouteResults) {
@@ -1381,7 +1396,7 @@ typedef enum
     pendingRequestCanceled = NO;
     [reittiDataManager searchRouteForFromCoords:fromCoord andToCoords:toCoord andSearchOption:searchOptions andNumberOfResult:numberOfResult andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
         //Request might have been canceled while route was fetching.
-        if (!error) {
+        if (!error && result && result.count > 0) {
             if (!pendingRequestCanceled) {
                 [self routeSearchDidComplete:result];
                 self.useApi = usedApi;
@@ -1392,6 +1407,8 @@ typedef enum
                 [routeResultsTableView reloadData];
                 [self.refreshControl endRefreshing];
             }
+        }else if(result && result.count == 0){
+            [self routeSearchDidFail:@"No routes found for the selected addresses. Please modify the selected addresses or route options and try again."];
         }else{
             [self routeSearchDidFail:error];
         }
@@ -1694,7 +1711,9 @@ typedef enum
             activeSearchBar = toSearchBar;
         }
         addressSearchViewController.delegate = self;
-        addressSearchViewController.reittiDataManager = self.reittiDataManager;;
+        addressSearchViewController.reittiDataManager = self.reittiDataManager;
+        
+        isSelectingAddress = YES;
     }
     
     if ([segue.identifier isEqualToString:@"showDetailedRoute"]) {

@@ -18,6 +18,7 @@
 
 //Computed
 @property (nonatomic, strong) NSArray *shapeCoordinates;
+@property (nonatomic, strong) NSArray *shapeStringCoordinates;
 @property (nonatomic, strong) NSString *lineStart;
 @property (nonatomic, strong) NSString *lineEnd;
 

@@ -1,0 +1,19 @@
+stop {
+    name
+    gtfsId
+},
+trip {
+    route {
+        gtfsId,
+        mode,
+        shortName,
+        longName,
+    },
+    tripHeadsign
+},
+realtimeArrival,
+scheduledArrival,
+realtimeDeparture,
+scheduledDeparture,
+realtime,
+stopHeadsign

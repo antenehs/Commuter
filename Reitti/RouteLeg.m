@@ -324,8 +324,8 @@
     leg.legDurationInSeconds = digiLeg.duration;
     leg.waitingTimeInSeconds = 0; //TODO: think about this
     leg.legType = digiLeg.legType;
-    leg.lineCode = digiLeg.trip.route.gtfsId;
-    leg.lineName = digiLeg.trip.route.shortName;
+    leg.lineCode = digiLeg.lineGtfsId;
+    leg.lineName = digiLeg.lineName;
     leg.legOrder = digiLeg.legOrder;
     
     leg.legShapeCoorStrings = @[]; //TODO: Decode polyline
@@ -337,6 +337,8 @@
         if (fromLocation) {
             fromLocation.locationLegOrder = digiLeg.legOrder;
             fromLocation.locationLegType = digiLeg.legType;
+            fromLocation.arrTime = digiLeg.parsedStartTime;
+            fromLocation.depTime = digiLeg.parsedStartTime;
             [locations addObject:fromLocation];
             [shapeStrings addObject:fromLocation.coordsString];
         }
@@ -345,6 +347,8 @@
         if (toLocation) {
             toLocation.locationLegOrder = digiLeg.legOrder;
             toLocation.locationLegType = digiLeg.legType;
+            toLocation.arrTime = digiLeg.parsedEndTime;
+            toLocation.depTime = digiLeg.parsedEndTime;
             [locations addObject:toLocation];
             [shapeStrings addObject:toLocation.coordsString];
         }
@@ -354,6 +358,8 @@
         if (fromLocation) {
             fromLocation.locationLegOrder = digiLeg.legOrder;
             fromLocation.locationLegType = digiLeg.legType;
+            fromLocation.arrTime = digiLeg.parsedStartTime;
+            fromLocation.depTime = digiLeg.parsedStartTime;
             [locations addObject:fromLocation];
             [shapeStrings addObject:fromLocation.coordsString];
         }
@@ -363,6 +369,8 @@
             if (stopLocation) {
                 stopLocation.locationLegOrder = digiLeg.legOrder;
                 stopLocation.locationLegType = digiLeg.legType;
+                stopLocation.arrTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
+                stopLocation.depTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
                 [locations addObject:stopLocation];
                 [shapeStrings addObject:stopLocation.coordsString];
             }
@@ -372,6 +380,8 @@
         if (toLocation) {
             toLocation.locationLegOrder = digiLeg.legOrder;
             toLocation.locationLegType = digiLeg.legType;
+            toLocation.arrTime = digiLeg.parsedEndTime;
+            toLocation.depTime = digiLeg.parsedEndTime;
             [locations addObject:toLocation];
             [shapeStrings addObject:toLocation.coordsString];
         }
@@ -379,6 +389,7 @@
     
     leg.legLocations = locations;
     leg.legShapeCoorStrings = shapeStrings;
+//    leg.legShapeCoorStrings = digiLeg.trip.pattern.shapeStringCoordinates;
     
     return leg;
 }

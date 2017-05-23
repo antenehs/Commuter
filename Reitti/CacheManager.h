@@ -21,7 +21,7 @@
 
 -(NSString *)getRouteNameForCode:(NSString *)code;
 -(NSString *)getRouteDestinationForCode:(NSString *)code;
-//-(StaticRoute *)getRouteForCode:(NSString *)code;
+-(StaticRoute *)getRouteForCode:(NSString *)code;
 -(StaticStop *)getStopForCode:(NSString *)code;
 
 @property (strong, nonatomic) NSMutableDictionary *allSavedRouteCache;

@@ -24,6 +24,7 @@
 -(NSArray *)getChangeMargineOptions;
 -(NSArray *)getWalkingSpeedOptions;
 
+-(NSArray *)getDefaultTransportTypeNames;
 -(NSInteger)getDefaultValueIndexForTicketZoneOptions;
 -(NSInteger)getDefaultValueIndexForChangeMargineOptions;
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;

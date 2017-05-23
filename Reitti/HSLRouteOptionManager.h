@@ -18,6 +18,7 @@
 +(NSDictionary *)transportTypeOptions;
 +(NSArray *)allTrasportTypeNames;
 +(NSArray *)getTransportTypeOptionsForDisplay;
++(NSArray *)getDefaultTransportTypeNames;
 
 +(NSDictionary *)ticketZoneOptions;
 +(NSArray *)getTicketZoneOptionsForDisplay;

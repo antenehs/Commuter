@@ -48,6 +48,10 @@
 }
 
 #pragma mark - accessor methods
+-(StaticRoute *)getRouteForCode:(NSString *)code {
+    return [allInMemoryRouteCache objectForKey:code];
+}
+
 -(NSString *)getRouteNameForCode:(NSString *)code{
     
     if (allSavedRouteCache.count != 0) {

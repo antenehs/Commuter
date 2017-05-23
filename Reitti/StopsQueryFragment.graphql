@@ -1,15 +1,5 @@
 
 [*SHORT_STOP_FRAGMENT*]
 stoptimesWithoutPatterns (numberOfDepartures: 20){
-    scheduledDeparture,
-    realtimeDeparture,
-    realtimeState,
-    realtime,
-    serviceDay,
-    trip {
-        route {
-            [*SHORT_ROUTE_FRAGMENT*]
-        },
-        tripHeadsign
-    }
+    [*STOP_TIME_FRAGMENT*]
 }

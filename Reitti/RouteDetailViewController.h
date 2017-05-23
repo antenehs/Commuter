@@ -22,6 +22,11 @@ typedef enum{
     RouteListViewLoactionTop = 3
 } RouteListViewLoaction;
 
+typedef enum{
+    MapViewCenterLocationShiftedUp = 1,
+    MapViewCenterLocationCenter = 2,
+} MapViewCenterLocation;
+
 @interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
     
     IBOutlet MKMapView *routeMapView;
@@ -68,13 +73,12 @@ typedef enum{
     NSString *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;
     
-    BOOL mapResizedForMiddlePosition;
-    
     BOOL ignoreMapRegionChangeForCurrentLocationButtonStatus;
     
     BOOL tableViewIsDecelerating;
     BOOL routeListViewIsGoingUp;
     RouteListViewLoaction currentRouteListViewLocation;
+    MapViewCenterLocation mapViewCenterLocation;
 }
 
 @property (strong, nonatomic) Route *route;

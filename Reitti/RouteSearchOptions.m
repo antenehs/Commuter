@@ -27,7 +27,7 @@
         defaultOptions.selectedRouteSearchOptimization = RouteSearchOptionFastest;
         defaultOptions.date = [NSDate date];
         
-        defaultOptions.selectedRouteTrasportTypes = [defaultOptions allTrasportTypeNames];
+        defaultOptions.selectedRouteTrasportTypes = [defaultOptions getDefaultTransportTypeNames];
     }
     
     return defaultOptions;
@@ -56,6 +56,10 @@
 
 -(NSArray *)getTransportTypeOptions{
     return [self.reittiDataManager getTransportTypeOptions];
+}
+
+-(NSArray *)getDefaultTransportTypeNames {
+    return [self.reittiDataManager getDefaultTransportTypeNames];
 }
 
 -(NSArray *)getTicketZoneOptions{

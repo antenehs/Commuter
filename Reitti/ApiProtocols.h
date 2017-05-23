@@ -71,14 +71,16 @@ typedef enum
 
 @protocol RouteSearchOptionProtocol <NSObject>
 -(NSArray *)allTrasportTypeNames;
-
 -(NSArray *)getTransportTypeOptions;
--(NSArray *)getTicketZoneOptions;
--(NSArray *)getChangeMargineOptions;
--(NSArray *)getWalkingSpeedOptions;
+-(NSArray *)getDefaultTransportTypeNames;
 
+-(NSArray *)getTicketZoneOptions;
 -(NSInteger)getDefaultValueIndexForTicketZoneOptions;
+
+-(NSArray *)getChangeMargineOptions;
 -(NSInteger)getDefaultValueIndexForChangeMargineOptions;
+
+-(NSArray *)getWalkingSpeedOptions;
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions;
 @end
 

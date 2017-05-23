@@ -105,6 +105,4 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
 
 @property (nonatomic, weak) id <StopViewControllerDelegate> delegate;
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 @end

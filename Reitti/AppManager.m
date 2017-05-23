@@ -7,6 +7,7 @@
 //
 
 #import "AppManager.h"
+#import "ASA_Helpers.h"
 
 @implementation AppManager
 
@@ -278,6 +279,12 @@
             break;
     }
 }
+
+//+(UIImage *)coloredImageForLegTransportType:(LegTransportType)type withColor:(UIColor *)color {
+//    UIImage *image = [self lightColorImageForLegTransportType:type];
+//    
+//    return image.ima
+//}
 
 +(NSString *)complicationImageNameForLegTransportType:(LegTransportType)type{
     switch (type) {

@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "EnumManager.h"
 
 
 @interface StaticRoute : NSObject <NSCoding, NSCopying>
@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSString *lineStart;
 @property (nonatomic, strong) NSString *longName;
 @property (nonatomic, strong) NSString *operator;
+
+@property (nonatomic, readonly) LineType reittiLineType;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

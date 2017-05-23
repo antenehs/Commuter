@@ -20,16 +20,10 @@ itineraries {
             lon,
             name,
             bikeRentalStation {
-                stationId,
-                name,
-                bikesAvailable,
-                spacesAvailable,
-                realtime,
+                [*BIKES_FRAGMENT*]
             },
             stop {
-                name,
-                gtfsId,
-                code
+                [*SHORT_STOP_FRAGMENT*]
             }
         },
         to {
@@ -37,38 +31,28 @@ itineraries {
             lon,
             name,
             bikeRentalStation {
-                stationId,
-                name,
-                bikesAvailable,
-                spacesAvailable,
-                realtime,
+                [*BIKES_FRAGMENT*]
             },
             stop {
-                name,
-                gtfsId,
-                code,
+                [*SHORT_STOP_FRAGMENT*]
             }
         },
         intermediateStops {
-            gtfsId,
-            code,
-            name,
-            lat,
-            lon,
+            [*SHORT_STOP_FRAGMENT*]
         },
         trip {
             tripHeadsign,
             route {
-                longName,
-                shortName,
-                type,
-                gtfsId
+                [*SHORT_ROUTE_FRAGMENT*]
             },
             pattern {
                 geometry {
                     lat,
                     lon
                 }
+            },
+            stoptimes {
+                [*STOP_TIME_FRAGMENT*]
             }
         }
     }

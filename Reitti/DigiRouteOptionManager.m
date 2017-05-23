@@ -130,6 +130,10 @@
     return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Airplane", @"City Bike"];
 }
 
++(NSArray *)getDefaultTransportTypeNames {
+    return @[@"Bus", @"Metro", @"Train", @"Tram", @"Ferry", @"Airplane"];
+}
+
 +(NSArray *)getTransportTypeOptionsForDisplay {
     return @[@{displayTextOptionKey : @"Bus", valueOptionKey : @"BUS", pictureOptionKey :@"bus-filled-light-100"},
              @{displayTextOptionKey : @"Metro", valueOptionKey : @"SUBWAY", pictureOptionKey : @"Subway-100.png"},

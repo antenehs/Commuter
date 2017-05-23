@@ -110,6 +110,10 @@ NSString *const kDigiGeometryLon = @"lon";
     return self.location.coordinate;
 }
 
+-(NSString *)stringCoordinate {
+    return [NSString stringWithFormat:@"%f,%f",self.coordinate.longitude,self.coordinate.latitude];
+}
+
 #pragma mark - mapping
 
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
