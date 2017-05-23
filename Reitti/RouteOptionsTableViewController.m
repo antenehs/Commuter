@@ -381,9 +381,6 @@
 }
 
 - (IBAction)resetOptionsButtonPressed:(id)sender {
-//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Reset" otherButtonTitles:nil];
-//    
-//    [actionSheet showInView:self.view];
     
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?"
                                                                         message:nil
@@ -408,16 +405,6 @@
     
     [self presentViewController:controller animated:YES completion:nil];
 }
-
-//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if (buttonIndex == 0) {
-//        [settingsManager setGlobalRouteOptions:[RouteSearchOptions defaultOptions]];
-//        routeSearchOptions = [RouteSearchOptions defaultOptions];
-//        resetOptionsButton.enabled = NO;
-//        [self.tableView reloadData];
-//    }
-//}
 
 #pragma mark - Settings change notifications
 -(void)userLocationValueChanged:(NSNotification *)notification{

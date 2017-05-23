@@ -197,7 +197,7 @@ NSString *const kStopsRoutes = @"routes";
     stop.gtfsId = self.gtfsId;
     stop.code = [self.numberId stringValue];
     stop.codeShort = self.code;
-    stop.platformNumber = nil;
+    stop.platformNumber = self;
     stop.cityName = nil;
     stop.name = self.name;
     

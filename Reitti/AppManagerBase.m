@@ -31,8 +31,8 @@ NSString *kFeatureTrackingUrl = @"http://commuterapp.weebly.com/commuter-usage-t
 NSString *kProAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id1023398868";
 NSString *kAppAppstoreLink = @"itms-apps://itunes.apple.com/app/id861274235";
 
-NSString *kAppRateAppstoreLink = @"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=861274235&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8";
-NSString *kProAppRateAppStoreLink = @"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1023398868&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8";
+NSString *kAppRateAppstoreLink = @"itms-apps://itunes.apple.com/app/id861274235?action=write-review";
+NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398868?action=write-review";
 
 @implementation AppManagerBase
 

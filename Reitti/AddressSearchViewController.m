@@ -228,13 +228,6 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
 #pragma mark - reitti data manager delegates
 //This is used to prevent multiple unnessary searchs while the user is still typing
 - (void)searchAddressForSearchTerm:(NSString *)searchTerm withDelay:(BOOL)delay {
-    //save serach term to pending
-//    pendingSearchTerm = searchTerm;
-    
-//    PendingSearchBlock pendingSearch = ^(NSString *searchTerm) {
-//        [self searchAddressForSearchTerm:searchTerm];
-//    };
-    
     [self performSelector:@selector(searchAddressForSearchTerm:) withObject:searchTerm afterDelay:delay ? 1 : 0];
 }
 

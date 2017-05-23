@@ -159,7 +159,7 @@
 //    NSMutableArray *searched = [self searchForLinesForString:searchText];
 //    [self groupLinesByType:searched];
     if(searchText.length > 0){
-       [self searchLinesForSearchtext:searchText];
+        [self searchLinesForSearchtext:searchText withDelay:YES];
         isSearching = YES;
         [searchBar setShowsCancelButton:YES animated:YES];
     }else{
@@ -183,7 +183,12 @@
 
 #pragma mark - search methods
 
+- (void)searchLinesForSearchtext:(NSString *)searchText withDelay:(BOOL)delay {
+    [self performSelector:@selector(searchLinesForSearchtext:) withObject:searchText afterDelay:delay ? 1 : 0];
+}
+
 - (void)searchLinesForSearchtext:(NSString *)searchText{
+    if (![searchText isEqualToString:addressSearchBar.text]) return;
     
     [searchActivityIndicator beginRefreshing];
     [self.reittiDataManager fetchLinesForSearchTerm:searchText withCompletionBlock:^(NSArray *lines, NSString* searchTerm, NSString *error, ReittiApi usedApi){

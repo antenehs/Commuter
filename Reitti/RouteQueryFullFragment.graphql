@@ -1,7 +1,22 @@
 
 [*SHORT_ROUTE_FRAGMENT*]
 patterns {
-    [*FULL_PATTERN_FRAGMENT*]
+    directionId
+    name
+    code
+    headsign
+    stops {
+        name
+        code
+        desc
+        gtfsId
+        lat
+        lon
+    }
+    geometry {
+        lat
+        lon
+    }
 },
 alerts {
     id
