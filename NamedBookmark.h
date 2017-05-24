@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+//#import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 #import "OrderedManagedObject.h"
 
@@ -15,15 +15,19 @@
     UIImage *_annotationImage;
 }
 
+#if MAIN_APP
+-(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context;
+#endif
+
++(id)modelWithDictionary:(NSDictionary *)dict;
+-(NSDictionary *)dictionaryRepresentation;
+-(void)updateValuesFromDictionary:(NSDictionary *)dict;
+
 + (NSArray *)getAddressTypeList;
 + (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
 
 -(NSString *)getFullAddress;
 -(NSString *)getUniqueIdentifier;
-
--(void)updateValuesFromDictionary:(NSDictionary *)dict;
--(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context;
--(NSDictionary *)dictionaryRepresentation;
 
 @property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSString * name;
@@ -37,9 +41,9 @@
 
 @property (nonatomic, readonly) CLLocationCoordinate2D cl2dCoords;
 
-@property (nonatomic)BOOL isHomeAddress;
-@property (nonatomic)BOOL isWorkAddress;
-@property (nonatomic, strong) UIImage *annotationImage;
+@property (nonatomic, readonly)BOOL isHomeAddress;
+@property (nonatomic, readonly)BOOL isWorkAddress;
+@property (nonatomic, strong, readonly) UIImage *annotationImage;
 
 
 @end

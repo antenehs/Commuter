@@ -210,7 +210,6 @@ typedef enum : NSUInteger {
 #endif 
 
 #pragma mark - Route search
-#if MAIN_APP
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock {
     
     NSString *queryString = [self routeGraphQlQueryForFromCoords:fromCoords andToCoords:toCoords withOptions:options];
@@ -231,7 +230,7 @@ typedef enum : NSUInteger {
             }
             completionBlock(allRoutes, nil);
         } else {
-            completionBlock(nil, @"Route fetch failed");//Proper error message here.
+            completionBlock(nil, [self routeSearchErrorMessageForError:error]);
         }
     }];
     
@@ -250,7 +249,17 @@ typedef enum : NSUInteger {
     [arguments addEntriesFromDictionary:[self apiRequestParametersDictionaryForRouteOptions:options]];
     return [GraphQLQuery planQueryStringWithArguments:arguments];
 }
-#endif
+
+-(NSString *)routeSearchErrorMessageForError:(NSError *)error{
+    if (!error) return nil;
+    if (error.code == -1009) {
+        return @"Internet connection appears to be offline.";
+    }else if (error.code == -1016) {
+        return @"No route information available for the selected addresses.";
+    }else{
+        return @"Unknown Error Occured.";
+    }
+}
 
 #pragma mark - Geocode methods
 #if MAIN_APP

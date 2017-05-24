@@ -5,23 +5,6 @@
 //  Created by Anteneh Sahledengel on 11/8/14.
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 //
-//1 = Helsinki internal bus lines
-//2 = trams
-//3 = Espoo internal bus lines
-//4 = Vantaa internal bus lines
-//5 = regional bus lines
-//6 = metro
-//7 = ferry
-//8 = U-lines
-//12 = commuter trains
-//21 = Helsinki service lines
-//22 = Helsinki night buses
-//23 = Espoo service lines
-//24 = Vantaa service lines
-//25 = region night buses
-//36 = Kirkkonummi internal bus lines
-//39 = Kerava internal bus lines
-
 
 #import "Transport.h"
 #import "RouteLegLocation.h"

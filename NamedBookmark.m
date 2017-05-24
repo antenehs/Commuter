@@ -8,9 +8,16 @@
 
 #import "NamedBookmark.h"
 #import "ReittiStringFormatter.h"
-#import "CoreDataManager.h"
+
+@interface NamedBookmark ()
+
+@property (nonatomic, strong) UIImage *annotationImage;
+
+@end
 
 @implementation NamedBookmark
+
+#if MAIN_APP
 
 @dynamic objectLID;
 @dynamic name;
@@ -21,6 +28,21 @@
 @dynamic notes;
 @dynamic iconPictureName;
 @dynamic monochromeIconName;
+
+#else
+
+@synthesize objectLID;
+@synthesize name;
+@synthesize streetAddress;
+@synthesize city;
+@synthesize coords;
+@synthesize searchedName;
+@synthesize notes;
+@synthesize iconPictureName;
+@synthesize monochromeIconName;
+@synthesize annotationImage;
+
+#endif
 
 + (NSArray *)getAddressTypeList {
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AddressTypeList" ofType:@"plist"];
@@ -70,13 +92,24 @@
     self.dateModified = [self objectOrNilForKey:@"dateModified" fromDictionary:dict];
 }
 
+#if MAIN_APP
 -(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context{
+
     self = (NamedBookmark *)[NSEntityDescription insertNewObjectForEntityForName:@"NamedBookmark" inManagedObjectContext:context];
+
     if (self && [dict isKindOfClass:[NSDictionary class]]) {
         [self updateValuesFromDictionary:dict];
     }
     
     return self;
+}
+#endif
+
++(id)modelWithDictionary:(NSDictionary *)dict {
+    NamedBookmark *bookmark = [NamedBookmark new];
+    [bookmark updateValuesFromDictionary:dict];
+    
+    return bookmark;
 }
 
 -(NSDictionary *)dictionaryRepresentation{

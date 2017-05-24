@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
+
 #import "HslAndTreApi.h"
 #import "BusStopE.h"
 
@@ -130,7 +132,7 @@
             if (error != nil) {
                 completionBlock(nil,index, error);
             } else {
-                if (/* DISABLES CODE */ (NO)) {
+                if ((NO)) {
                     completionBlock(nil,index, error);
                 } else {
                     BusStopE *busStop = [BusStopE new];
@@ -155,3 +157,4 @@
 }
 
 @end
+*/

@@ -13,7 +13,7 @@
 #if MAIN_APP
 @interface DigiTransitCommunicator : APIClient <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol, BikeStationFetchProtocol, DisruptionFetchProtocol, AnnotationFilterOptionProtocol, LiveTrafficFetchProtocol, RouteSearchOptionProtocol>
 #else 
-@interface DigiTransitCommunicator : APIClient <StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, RouteSearchOptionProtocol>
+@interface DigiTransitCommunicator : APIClient <RouteSearchProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, LineDetailFetchProtocol, RouteSearchOptionProtocol>
 #endif
 
 

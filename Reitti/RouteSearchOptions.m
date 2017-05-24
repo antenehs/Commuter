@@ -8,12 +8,16 @@
 
 #import "RouteSearchOptions.h"
 #import "AppManager.h"
+
+#if MAIN_APP
 #import "CoreDataManager.h"
 #import "RettiDataManager.h"
 
 @interface RouteSearchOptions ()
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 @end
+
+#endif
 
 @implementation RouteSearchOptions
 
@@ -27,7 +31,11 @@
         defaultOptions.selectedRouteSearchOptimization = RouteSearchOptionFastest;
         defaultOptions.date = [NSDate date];
         
+#if MAIN_APP
         defaultOptions.selectedRouteTrasportTypes = [defaultOptions getDefaultTransportTypeNames];
+#else
+        defaultOptions.selectedRouteTrasportTypes = nil;
+#endif
     }
     
     return defaultOptions;
@@ -42,6 +50,7 @@
     return self;
 }
 
+#if MAIN_APP
 -(RettiDataManager *)reittiDataManager{
     if (!_reittiDataManager) {
         _reittiDataManager = [[RettiDataManager alloc] init];
@@ -141,7 +150,7 @@
     
     return excluded;
 }
-
+#endif
 
 -(id)copy{
     RouteSearchOptions *copy = [RouteSearchOptions new];
@@ -160,8 +169,7 @@
 
 #pragma mark - NSCoding Methods
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     
     self.date = [aDecoder decodeObjectForKey:kRouteSearchDateKey];
@@ -176,8 +184,7 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:date forKey:kRouteSearchDateKey];
     [aCoder encodeObject:[NSNumber numberWithInt:selectedTimeType] forKey:kSelectedRouteTimeTypeKey];
     [aCoder encodeObject:[NSNumber numberWithInt:selectedRouteSearchOptimization] forKey:
@@ -189,8 +196,25 @@
     [aCoder encodeObject:[NSNumber numberWithInteger:numberOfResults] forKey:kNumberOfRouteResultsKey];
 }
 
-- (NSDictionary *)dictionaryRepresentation
-{
++(instancetype)modelObjectFromDictionary:(NSDictionary *)dict {
+    
+    if (!dict || ![dict isKindOfClass:[NSDictionary class]]) { return nil; }
+    
+    RouteSearchOptions *options = [RouteSearchOptions new];
+    
+    options.date = dict[kRouteSearchDateKey];
+    options.selectedTimeType = (RouteTimeType)[dict[kSelectedRouteTimeTypeKey] intValue];
+    options.selectedRouteSearchOptimization = (RouteSearchOptimization)[dict[kSelectedRouteSearchOptimizationKey] intValue];
+    options.selectedRouteTrasportTypes = dict[kSelectedRouteTrasportTypesKey];
+    options.selectedTicketZone = dict[kSelectedTicketZoneKey];
+    options.selectedChangeMargine = dict[kSelectedChangeMargineKey];
+    options.selectedWalkingSpeed = dict[kSelectedWalkingSpeedKey];
+    options.numberOfResults = [dict[kNumberOfRouteResultsKey] integerValue];
+    
+    return options;
+}
+
+- (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [@{} mutableCopy];
     
     [dict setValue:date forKey:kRouteSearchDateKey];

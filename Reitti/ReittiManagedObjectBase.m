@@ -10,7 +10,15 @@
 
 @implementation ReittiManagedObjectBase
 
+#if MAIN_APP
+
 @dynamic objectLID;
 @dynamic dateModified;
 
+#else
+
+@synthesize objectLID;
+@synthesize dateModified;
+
+#endif
 @end

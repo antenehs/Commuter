@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Anteneh Sahledengel. All rights reserved.
 //
 
-#ifndef APPLE_WATCH
+#if MAIN_APP
 
 #import <CoreData/CoreData.h>
 @interface ReittiManagedObjectBase : NSManagedObject

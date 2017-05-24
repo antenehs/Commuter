@@ -676,6 +676,47 @@
 		66C05AC61ED4F1CC00F26AD2 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
 		66C05AC71ED4FEC000F26AD2 /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		66C05AC81ED4FEC200F26AD2 /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
+		66C05ACA1ED53CAA00F26AD2 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
+		66C05ACB1ED53CB900F26AD2 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
+		66C05ACC1ED53CBA00F26AD2 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
+		66C05ACD1ED53CC600F26AD2 /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
+		66C05ACE1ED53CC700F26AD2 /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
+		66C05ACF1ED53CC700F26AD2 /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
+		66C05AD01ED53CD800F26AD2 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
+		66C05AD11ED53CD900F26AD2 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
+		66C05AD21ED53CDA00F26AD2 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
+		66C05AD31ED5439D00F26AD2 /* ReittiRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */; };
+		66C05AD41ED5439E00F26AD2 /* ReittiRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */; };
+		66C05AD51ED543BB00F26AD2 /* RouteSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */; };
+		66C05AD61ED543BC00F26AD2 /* RouteSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */; };
+		66C05AD71ED543BC00F26AD2 /* RouteSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */; };
+		66C05AD81ED546FE00F26AD2 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
+		66C05AD91ED546FE00F26AD2 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
+		66C05ADA1ED546FE00F26AD2 /* AlertQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BF1ECBC81F00C3C0B5 /* AlertQuery.graphql */; };
+		66C05ADB1ED546FE00F26AD2 /* AlertQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BE1ECBC81F00C3C0B5 /* AlertQueryFragment.graphql */; };
+		66C05ADC1ED546FF00F26AD2 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
+		66C05ADD1ED546FF00F26AD2 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
+		66C05ADE1ED546FF00F26AD2 /* AlertQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BF1ECBC81F00C3C0B5 /* AlertQuery.graphql */; };
+		66C05ADF1ED546FF00F26AD2 /* AlertQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BE1ECBC81F00C3C0B5 /* AlertQueryFragment.graphql */; };
+		66C05AE01ED5470000F26AD2 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
+		66C05AE11ED5470000F26AD2 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
+		66C05AE21ED5470000F26AD2 /* AlertQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BF1ECBC81F00C3C0B5 /* AlertQuery.graphql */; };
+		66C05AE31ED5470000F26AD2 /* AlertQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BE1ECBC81F00C3C0B5 /* AlertQueryFragment.graphql */; };
+		66C05AE41ED5470100F26AD2 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
+		66C05AE51ED5470100F26AD2 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
+		66C05AE61ED5470100F26AD2 /* AlertQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BF1ECBC81F00C3C0B5 /* AlertQuery.graphql */; };
+		66C05AE71ED5470100F26AD2 /* AlertQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8BE1ECBC81F00C3C0B5 /* AlertQueryFragment.graphql */; };
+		66C05AE81ED54CFA00F26AD2 /* NamedBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98301AD5590D00C45ADF /* NamedBookmark.m */; };
+		66C05AE91ED54CFB00F26AD2 /* NamedBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98301AD5590D00C45ADF /* NamedBookmark.m */; };
+		66C05AEA1ED54CFC00F26AD2 /* NamedBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98301AD5590D00C45ADF /* NamedBookmark.m */; };
+		66C05AEB1ED54D0400F26AD2 /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
+		66C05AEC1ED54D0400F26AD2 /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
+		66C05AED1ED54D0500F26AD2 /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
+		66C05AEE1ED54D3800F26AD2 /* ReittiManagedObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */; };
+		66C05AEF1ED54D3900F26AD2 /* ReittiManagedObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */; };
+		66C05AF01ED54D3A00F26AD2 /* ReittiManagedObjectBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */; };
+		66C05AF11ED5556D00F26AD2 /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
+		66C05AF21ED5558500F26AD2 /* Transport.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C59DA419993CC300E7AC7A /* Transport.xib */; };
 		66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C5676F1CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		66C567701CC3B82C00ECA0F5 /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
@@ -4295,13 +4336,17 @@
 				663465DB1ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
 				66F16CEF1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
 				66EB0D4F1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
+				66C05AE51ED5470100F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				663465E11ECE5160004B8AAF /* PatternFullFragment.graphql in Resources */,
+				66C05AE41ED5470100F26AD2 /* BikesQuery.graphql in Resources */,
 				662481A41D1FFBF700574319 /* Assets.xcassets in Resources */,
 				660579731E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				66F16CE71E05EE7600D45613 /* StopsQuery.graphql in Resources */,
 				66FDC9E71D83566900F6288D /* Localizable.strings in Resources */,
 				6605797B1E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
+				66C05AE71ED5470100F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				66EB0D581DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
+				66C05AE61ED5470100F26AD2 /* AlertQuery.graphql in Resources */,
 				66BCA7061D7771870092C5BB /* WatchIcons.xcassets in Resources */,
 				660579811E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C05AAC1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
@@ -4558,6 +4603,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66FDC9E41D83566900F6288D /* Localizable.strings in Resources */,
+				66C05ADC1ED546FF00F26AD2 /* BikesQuery.graphql in Resources */,
 				66C7352D1C556FA4002544BC /* Forward-light-100.png in Resources */,
 				66C05AAA1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				66C735321C556FA4002544BC /* notification-tone-100.png in Resources */,
@@ -4570,6 +4616,7 @@
 				6683CF2E1CD94EA10044727B /* TRERegion.kml in Resources */,
 				66C7353B1C556FA4002544BC /* search-green-50.png in Resources */,
 				66C7353D1C556FA4002544BC /* reload-128.png in Resources */,
+				66C05ADF1ED546FF00F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				66C735421C556FA4002544BC /* advanced-setting-100.png in Resources */,
 				66F16CFC1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				66F16CEC1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
@@ -4583,7 +4630,9 @@
 				66EB0D551DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				660579791E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
 				663207081D27D27000D8A46D /* AddressTypes.xcassets in Resources */,
+				66C05ADD1ED546FF00F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				66F16CE41E05EE7600D45613 /* StopsQuery.graphql in Resources */,
+				66C05ADE1ED546FF00F26AD2 /* AlertQuery.graphql in Resources */,
 				6605798D1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				66C735541C556FA4002544BC /* MainInterface.storyboard in Resources */,
 			);
@@ -4594,6 +4643,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66F16CED1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
+				66C05AE01ED5470000F26AD2 /* BikesQuery.graphql in Resources */,
 				6683CF2F1CD94EA20044727B /* TRERegion.kml in Resources */,
 				663207091D27D27100D8A46D /* AddressTypes.xcassets in Resources */,
 				66F16CE51E05EE7600D45613 /* StopsQuery.graphql in Resources */,
@@ -4606,8 +4656,10 @@
 				66F16CFD1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				660579801E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				663465E01ECE5160004B8AAF /* PatternFullFragment.graphql in Resources */,
+				66C05AE31ED5470000F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				660579721E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6683CF321CD94EA70044727B /* HSLRegion.kml in Resources */,
+				66C05AF21ED5558500F26AD2 /* Transport.xib in Resources */,
 				66C7359C1C556FB5002544BC /* TransportE.xib in Resources */,
 				6683CF331CD954060044727B /* Icons.xcassets in Resources */,
 				66EB0D561DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
@@ -4619,7 +4671,9 @@
 				66C05AAB1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				663465DA1ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
 				66C735B21C556FB5002544BC /* notification-tone-100.png in Resources */,
+				66C05AE11ED5470000F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				66C735B31C556FB5002544BC /* MainInterface.storyboard in Resources */,
+				66C05AE21ED5470000F26AD2 /* AlertQuery.graphql in Resources */,
 				66C735B41C556FB5002544BC /* Back-light-100.png in Resources */,
 				66C735BC1C556FB5002544BC /* bookmarks-colored-100.png in Resources */,
 			);
@@ -4630,6 +4684,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66FDC9E31D83566900F6288D /* Localizable.strings in Resources */,
+				66C05AD81ED546FE00F26AD2 /* BikesQuery.graphql in Resources */,
 				660CFE0A1C188FEC004D73FC /* Forward-light-100.png in Resources */,
 				66C05AA91ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */,
@@ -4642,6 +4697,7 @@
 				6683CF2D1CD94EA00044727B /* TRERegion.kml in Resources */,
 				66DAC7EA1A03F4FB0002BE16 /* search-green-50.png in Resources */,
 				66822F6C1C286E4700511BD2 /* reload-128.png in Resources */,
+				66C05ADB1ED546FE00F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				660D31231C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66F16CFB1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				66F16CEB1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
@@ -4655,7 +4711,9 @@
 				66EB0D541DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				660579781E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
 				663207071D27D26F00D8A46D /* AddressTypes.xcassets in Resources */,
+				66C05AD91ED546FE00F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				66F16CE31E05EE7600D45613 /* StopsQuery.graphql in Resources */,
+				66C05ADA1ED546FE00F26AD2 /* AlertQuery.graphql in Resources */,
 				6605798C1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */,
 			);
@@ -5607,6 +5665,8 @@
 				66C735101C556FA4002544BC /* UISearchBar+Helper.m in Sources */,
 				66C735111C556FA4002544BC /* TREAPIClient.m in Sources */,
 				666E08C81CD3DD820058D5B0 /* MatkaGeoCode.m in Sources */,
+				66C05ACB1ED53CB900F26AD2 /* Route.m in Sources */,
+				66C05AD61ED543BC00F26AD2 /* RouteSearchOptions.m in Sources */,
 				66BCA6EE1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				666E08CE1CD3DF470058D5B0 /* MatkaRouteLocation.m in Sources */,
 				663465C61ECD4EAB004B8AAF /* ReittiObject.m in Sources */,
@@ -5628,6 +5688,7 @@
 				66833D5E1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C735161C556FA4002544BC /* RouteLegE.m in Sources */,
 				66C05AAE1ED4DE5900F26AD2 /* DigiTransitCommunicator.m in Sources */,
+				66C05AEC1ED54D0400F26AD2 /* OrderedManagedObject.m in Sources */,
 				663465CC1ECE29DC004B8AAF /* LineStop.m in Sources */,
 				66F60DEF1C83611700B33511 /* HSLRouteOptionManager.m in Sources */,
 				66C735171C556FA4002544BC /* AppManagerBase.m in Sources */,
@@ -5646,6 +5707,8 @@
 				6605796B1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66997AAE1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
+				66C05AD11ED53CD900F26AD2 /* RouteLegLocation.m in Sources */,
+				66C05ACE1ED53CC700F26AD2 /* RouteLeg.m in Sources */,
 				663465E71ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				66F60DE61C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				666E08A91CD3D9010058D5B0 /* StaticCity.m in Sources */,
@@ -5660,6 +5723,7 @@
 				66C7351E1C556FA4002544BC /* WidgetHelpers.m in Sources */,
 				66833D181CEE45CE005D958C /* DigiStop.m in Sources */,
 				66C05ABC1ED4E4BC00F26AD2 /* UIView+Helper.m in Sources */,
+				66C05AD31ED5439D00F26AD2 /* ReittiRegionManager.m in Sources */,
 				666E08D01CD3DF4D0058D5B0 /* MatkaRouteLeg.m in Sources */,
 				663465EE1ECEA08D004B8AAF /* BusStop.m in Sources */,
 				66C7351F1C556FA4002544BC /* BusStopE.m in Sources */,
@@ -5667,6 +5731,8 @@
 				660579871E11DF0200F3559E /* DigiRoute.m in Sources */,
 				666E08D21CD3DF520058D5B0 /* MatkaRouteStop.m in Sources */,
 				66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
+				66C05AEF1ED54D3900F26AD2 /* ReittiManagedObjectBase.m in Sources */,
+				66C05AE91ED54CFB00F26AD2 /* NamedBookmark.m in Sources */,
 				666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */,
 				663465B21ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				666E08C21CD3DD670058D5B0 /* MatkaStop.m in Sources */,
@@ -5693,6 +5759,7 @@
 				666E08E41CD3F1C80058D5B0 /* APIClient.m in Sources */,
 				6683CF231CD929020044727B /* MatkaRoute.m in Sources */,
 				666E08981CD3D6BC0058D5B0 /* EnumManager.m in Sources */,
+				66C05AD21ED53CDA00F26AD2 /* RouteLegLocation.m in Sources */,
 				66C735691C556FB5002544BC /* NamedBookmarkE.m in Sources */,
 				6683CF281CD929110044727B /* MatkaName.m in Sources */,
 				66C7356A1C556FB5002544BC /* KBPopupBubbleView+Animations.m in Sources */,
@@ -5731,13 +5798,18 @@
 				66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66833D641CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C735721C556FB5002544BC /* WidgetDataManager.m in Sources */,
+				66C05AEE1ED54D3800F26AD2 /* ReittiManagedObjectBase.m in Sources */,
+				66C05ACA1ED53CAA00F26AD2 /* Route.m in Sources */,
 				663465CA1ECE29CF004B8AAF /* Line.m in Sources */,
 				66C735731C556FB5002544BC /* KBPopupDrawableView.m in Sources */,
+				66C05AF11ED5556D00F26AD2 /* Transport.m in Sources */,
 				66BCA70D1D78BA660092C5BB /* MatkaTransportType.m in Sources */,
 				66F60DE71C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				663465B31ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				66833D231CEE45CE005D958C /* DigiTrip.m in Sources */,
 				66C05AC61ED4F1CC00F26AD2 /* AppManager.m in Sources */,
+				66C05ACF1ED53CC700F26AD2 /* RouteLeg.m in Sources */,
+				66C05AEA1ED54CFC00F26AD2 /* NamedBookmark.m in Sources */,
 				66C735741C556FB5002544BC /* ASABubbleView.m in Sources */,
 				66BCA6EF1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				66C05AC01ED4E4CB00F26AD2 /* UIImage+Helper.m in Sources */,
@@ -5756,7 +5828,9 @@
 				66C735791C556FB5002544BC /* UIButton+Helper.m in Sources */,
 				6683CF2C1CD929610044727B /* ReittiMapkitHelper.m in Sources */,
 				66833D141CEE45CE005D958C /* DigiRouteShort.m in Sources */,
+				66C05AD71ED543BC00F26AD2 /* RouteSearchOptions.m in Sources */,
 				669E6D021D393E14006C8580 /* RoutableLocation.m in Sources */,
+				66C05AED1ED54D0500F26AD2 /* OrderedManagedObject.m in Sources */,
 				66C7357A1C556FB5002544BC /* RouteLegE.m in Sources */,
 				663465EC1ECE9ECC004B8AAF /* BusStopShort.m in Sources */,
 				66C7357B1C556FB5002544BC /* HSLAPIClient.m in Sources */,
@@ -5792,6 +5866,8 @@
 				661831331C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,
 				660CFE1A1C19A168004D73FC /* TREAPIClient.m in Sources */,
 				666E08C71CD3DD810058D5B0 /* MatkaGeoCode.m in Sources */,
+				66C05ACC1ED53CBA00F26AD2 /* Route.m in Sources */,
+				66C05AD51ED543BB00F26AD2 /* RouteSearchOptions.m in Sources */,
 				66BCA6ED1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				666E08CD1CD3DF460058D5B0 /* MatkaRouteLocation.m in Sources */,
 				663465C51ECD4EAA004B8AAF /* ReittiObject.m in Sources */,
@@ -5813,6 +5889,7 @@
 				66833D5D1CF8F427005D958C /* DigiPlan.m in Sources */,
 				660CFE301C19B81A004D73FC /* RouteLegE.m in Sources */,
 				66C05AAD1ED4DE5900F26AD2 /* DigiTransitCommunicator.m in Sources */,
+				66C05AEB1ED54D0400F26AD2 /* OrderedManagedObject.m in Sources */,
 				663465CB1ECE29DB004B8AAF /* LineStop.m in Sources */,
 				66F60DF01C83611900B33511 /* HSLRouteOptionManager.m in Sources */,
 				66CA02D31C16FEB000A38858 /* AppManagerBase.m in Sources */,
@@ -5831,6 +5908,8 @@
 				6605796A1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66997AAD1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
+				66C05AD01ED53CD800F26AD2 /* RouteLegLocation.m in Sources */,
+				66C05ACD1ED53CC600F26AD2 /* RouteLeg.m in Sources */,
 				663465E61ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				66F60DE51C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				666E08A81CD3D9000058D5B0 /* StaticCity.m in Sources */,
@@ -5845,6 +5924,7 @@
 				660CFE231C19B09F004D73FC /* WidgetHelpers.m in Sources */,
 				66833D171CEE45CE005D958C /* DigiStop.m in Sources */,
 				66C05ABD1ED4E4BD00F26AD2 /* UIView+Helper.m in Sources */,
+				66C05AD41ED5439E00F26AD2 /* ReittiRegionManager.m in Sources */,
 				666E08CF1CD3DF4C0058D5B0 /* MatkaRouteLeg.m in Sources */,
 				663465ED1ECEA08C004B8AAF /* BusStop.m in Sources */,
 				66DAC7E31A0277780002BE16 /* BusStopE.m in Sources */,
@@ -5852,6 +5932,8 @@
 				660579861E11DF0200F3559E /* DigiRoute.m in Sources */,
 				666E08D11CD3DF510058D5B0 /* MatkaRouteStop.m in Sources */,
 				66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
+				66C05AF01ED54D3A00F26AD2 /* ReittiManagedObjectBase.m in Sources */,
+				66C05AE81ED54CFA00F26AD2 /* NamedBookmark.m in Sources */,
 				666E08D31CD3DF790058D5B0 /* ReittiMapkitHelper.m in Sources */,
 				663465B11ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				666E08C11CD3DD660058D5B0 /* MatkaStop.m in Sources */,

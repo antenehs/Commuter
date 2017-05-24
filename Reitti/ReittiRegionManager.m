@@ -9,7 +9,7 @@
 #import "ReittiRegionManager.h"
 #import "XMLReader.h"
 #import "StaticCity.h"
-#import <ArcGIS/ArcGIS.h>
+//#import <ArcGIS/ArcGIS.h>
 
 typedef struct {
     CLLocationCoordinate2D topLeftCorner;
@@ -18,8 +18,8 @@ typedef struct {
 
 @interface ReittiRegionManager ()
 
-@property (nonatomic, strong)AGSMutablePolygon *hslRegionPolygon;
-@property (nonatomic, strong)AGSMutablePolygon *treRegionPolygon;
+//@property (nonatomic, strong)AGSMutablePolygon *hslRegionPolygon;
+//@property (nonatomic, strong)AGSMutablePolygon *treRegionPolygon;
 
 @property (nonatomic) RTCoordinateRegion additionalHelsinkiRegion;
 
@@ -50,30 +50,32 @@ typedef struct {
 }
 
 -(void)initRegions {
-    NSArray *hslRegionCities = [self regionsFromKmlFileNamed:@"HSLRegion"];
-    self.hslRegionPolygon = [self polygoneFromRegionCities:hslRegionCities];
+//    NSArray *hslRegionCities = [self regionsFromKmlFileNamed:@"HSLRegion"];
+//    self.hslRegionPolygon = [self polygoneFromRegionCities:hslRegionCities];
     
     CLLocationCoordinate2D coord1 = {.latitude = 60.256700 , .longitude = 24.507191 };
     CLLocationCoordinate2D coord2 = {.latitude = 60.017154 , .longitude = 25.332469};
     RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
     self.additionalHelsinkiRegion = helsinkiRegionCoords;
     
-    NSArray *treRegionCities = [self regionsFromKmlFileNamed:@"TRERegion"];
-    self.treRegionPolygon = [self polygoneFromRegionCities:treRegionCities];
+//    NSArray *treRegionCities = [self regionsFromKmlFileNamed:@"TRERegion"];
+//    self.treRegionPolygon = [self polygoneFromRegionCities:treRegionCities];
 }
 
 -(BOOL)isCoordinateInHSLRegion:(CLLocationCoordinate2D)coord {
-    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
+//    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
+//    
+//    //Additional area check since the kml file might miss some border cases eg. near zalando office.
+//    return [self.hslRegionPolygon containsPoint:point1] ||
     
-    //Additional area check since the kml file might miss some border cases eg. near zalando office.
-    return [self.hslRegionPolygon containsPoint:point1] || [self isCoordinateInReittiRegion:self.additionalHelsinkiRegion coordinate:coord];
+    return [self isCoordinateInReittiRegion:self.additionalHelsinkiRegion coordinate:coord];
 }
 
--(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord {
-    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
-    
-    return [self.treRegionPolygon containsPoint:point1];
-}
+//-(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord {
+//    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
+//    
+//    return [self.treRegionPolygon containsPoint:point1];
+//}
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
     
@@ -81,9 +83,9 @@ typedef struct {
         return HSLRegion;
     }
     
-    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
-        return TRERegion;
-    }
+//    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
+//        return TRERegion;
+//    }
     
     return FINRegion;
 }
@@ -118,6 +120,7 @@ typedef struct {
 }
 
 #pragma mark - Helpers
+/*
 -(AGSMutablePolygon *)polygoneFromRegionCities:(NSArray *)regionCities {
     if (!regionCities) return nil;
     
@@ -149,7 +152,9 @@ typedef struct {
     
     return poly;
 }
+ */
 
+/*
 -(NSArray *)regionsFromKmlFileNamed:(NSString *)kmlFileName {
     NSString *pathToDataFile = [[NSBundle mainBundle] pathForResource:kmlFileName ofType:@"kml"];
     NSError *error;
@@ -184,6 +189,7 @@ typedef struct {
         return  nil;
     }
 }
+ */
 
 -(BOOL)isCoordinateInReittiRegion:(RTCoordinateRegion)region coordinate:(CLLocationCoordinate2D)coords{
     if (coords.latitude < region.topLeftCorner.latitude &&

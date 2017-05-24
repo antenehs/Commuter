@@ -13,19 +13,19 @@
 #import "ASABubbleView.h"
 #import "WidgetDataManager.h"
 #import "ReittiStringFormatterE.h"
-#import "RouteE.h"
-#import "TransportE.h"
+#import "Route.h"
+#import "Transport.h"
 #import "UIView+Helper.h"
 #import "MatkaTransportTypeManager.h"
 #import "NSArray+Helper.h"
 
-#import "NamedBookmarkE.h"
+#import "NamedBookmark.h"
 
 @interface TodayViewController () <NCWidgetProviding, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) NSUserDefaults *sharedDefaults;
 @property (strong, nonatomic) NSArray *namedBookmarks;
-@property (strong, nonatomic) NSDictionary *routeSearchOptionsDictionary;
+@property (strong, nonatomic) RouteSearchOptions *routeSearchOptions;
 
 @property (strong, nonatomic) NSMutableArray *bookmarkButtons;
 
@@ -106,15 +106,15 @@
     self.locationManager.delegate = nil;
 }
 
+
 - (void)readNamedBookmarksFromUserDefaults {
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesExtensionSuitName]];
     NSArray *namedBookmarkDictionaries = [self.sharedDefaults objectForKey:kUserDefaultsNamedBookmarksKey];
-//    NSLog(@"%@", namedBookmarkDictionaries);
     
     NSMutableArray *readNamedBookmarks = [@[] mutableCopy];
     if (namedBookmarkDictionaries) {
         for (NSDictionary *bookmarkDict in namedBookmarkDictionaries) {
-            [readNamedBookmarks addObject:[[NamedBookmarkE alloc] initWithDictionary:bookmarkDict]];
+            [readNamedBookmarks addObject:[NamedBookmark modelWithDictionary:bookmarkDict]];
         }
         
         self.namedBookmarks = [NSArray arrayWithArray:readNamedBookmarks];
@@ -123,8 +123,9 @@
 
 - (void)readRouteSearchOptionsFromUserDefaults {
     self.sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManagerBase nsUserDefaultsRoutesExtensionSuitName]];
-    self.routeSearchOptionsDictionary = [self.sharedDefaults objectForKey:kUserDefaultsRouteSearchOptionsKey];
-//    NSLog(@"%@", self.routeSearchOptionsDictionary);
+    NSDictionary *routeSearchOptionsDictionary = [self.sharedDefaults objectForKey:kUserDefaultsRouteSearchOptionsKey];
+    RouteSearchOptions *options = [RouteSearchOptions modelObjectFromDictionary:routeSearchOptionsDictionary];
+    self.routeSearchOptions = options ? options : [RouteSearchOptions defaultOptions];
 }
 
 - (void)initBookmarkRouteMap{
@@ -132,6 +133,7 @@
         self.bookmarkRouteMap = [@{} mutableCopy];
     }
 }
+
 
 -(UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)defaultMarginInsets{
     return UIEdgeInsetsZero;
@@ -180,13 +182,14 @@
     //This should be setup in both mode to know the active bookmark button
     [self setupBookmarksScrollView];
     
-    NamedBookmarkE *namedBookmark = [self namedBookmarkForTheCurrentButton];
+    NamedBookmark *namedBookmark = [self namedBookmarkForTheCurrentButton];
     if (!namedBookmark) {
         [self showNoBookmarks];
     }
     
     compactModeBookmarkButtonView.hidden = !isCompactMode || !namedBookmark;
     compactModeBookmarkButtonView.backgroundColor = [UIColor clearColor];
+    compactModeBookmarkButtonView.clipsToBounds = YES;
     bookmarksScrollView.hidden = isCompactMode;
     if (isCompactMode && self.activeBookmarkButton) {
         detailContainerLeadingConstraint.constant = !namedBookmark ? 15 : 55;
@@ -236,7 +239,7 @@
     }
     
     if (self.namedBookmarks.count > 0) {
-        for (NamedBookmarkE *namedBookmark in self.namedBookmarks) {
+        for (NamedBookmark *namedBookmark in self.namedBookmarks) {
             UIButton *bookmarkButton = [self bookmarkButtonWithFrame:CGRectMake(x, y, buttonSize, buttonSize) image:namedBookmark.iconPictureName];
             
             [self.bookmarkButtons addObject:bookmarkButton];
@@ -284,7 +287,7 @@
     [self.openRouteButton removeFromSuperview];
     self.openRouteButton.enabled = NO;
     
-    NamedBookmarkE *namedBookmark = [self namedBookmarkForTheCurrentButton];
+    NamedBookmark *namedBookmark = [self namedBookmarkForTheCurrentButton];
     if (!namedBookmark) {
         [self showNoBookmarks];
         return;
@@ -299,7 +302,7 @@
     routeMoreDetailLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
     routeLeaveAtLabel.textColor = isIOS10 ? [UIColor darkTextColor] : [UIColor whiteColor];
     
-    RouteE *route = [self validRouteForTheActiveBookmarkButton];
+    Route *route = [self validRouteForTheActiveBookmarkButton];
     if (route) {
         [activityIndicator endRefreshing];
         UIView *routeView = [self viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:routeViewScrollView.frame.size.width - 40];
@@ -374,8 +377,8 @@
     [self setBubbleArrowPositionForView:self.bookmarksButton animated:YES];
 }
 
--(RouteE *)validRouteForTheActiveBookmarkButton{
-    NamedBookmarkE *activeButtonsBookmark = [self namedBookmarkForTheCurrentButton];
+-(Route *)validRouteForTheActiveBookmarkButton{
+    NamedBookmark *activeButtonsBookmark = [self namedBookmarkForTheCurrentButton];
     if (!activeButtonsBookmark)
         return nil;
     //TODO: Do more checks before returning
@@ -384,7 +387,7 @@
         NSMutableArray *routes = [routeArray mutableCopy];
         
         for (int i = 0; i < routes.count;i++) {
-            RouteE *route = [routes objectAtIndex:i];
+            Route *route = [routes objectAtIndex:i];
             
             //Check start location is too far.
             BOOL userHasMoved = NO;
@@ -394,7 +397,8 @@
                 userHasMoved = dist > 200;
             }
             
-            if ([route.startingTimeOfRoute timeIntervalSinceNow] < 0 || userHasMoved){
+            //TODO: remember thisssssssssssss
+            if ([route.startingTimeOfRoute timeIntervalSinceNow] > 0 || userHasMoved){
                 //If walking return even if a bit old.
                 if (route.isOnlyWalkingRoute && [route.startingTimeOfRoute timeIntervalSinceNow] > -600 && !userHasMoved) {
                     return route;
@@ -516,7 +520,7 @@
     [self.bubleView setPosition:arrowPosition animated:animated];
 }
 
-- (UIView *)viewForRoute:(RouteE *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth
+- (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth
 {
     float tWidth  = 70;
     float x = 0;
@@ -525,7 +529,7 @@
     transportsContainer.tag = 1987;
     transportsContainer.layer.cornerRadius = 4;
     
-    for (RouteLegE *leg in route.routeLegs) {
+    for (RouteLeg *leg in route.routeLegs) {
         if (route.isOnlyWalkingRoute) {
             //Leg duration of a walking leg get freaky sometimes
             tWidth = totalWidth * (([route.routeDurationInSeconds floatValue])/longestDuration);
@@ -533,12 +537,12 @@
             tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
         }
         
-        TransportE *transportView = [[TransportE alloc] initWithRouteLeg:leg andWidth:tWidth*1];
+        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth - 1 alwaysShowVehicle:NO];
         CGRect frame = transportView.frame;
         transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
         transportView.clipsToBounds = YES;
         [transportsContainer addSubview:transportView];
-        x += frame.size.width;
+        x += frame.size.width + 1;
         
         //Append waiting view if exists
         if (leg.waitingTimeInSeconds > 0 && !route.isOnlyWalkingRoute) {
@@ -560,10 +564,10 @@
     return transportsContainer;
 }
 
-- (NamedBookmarkE *)namedBookmarkForTheCurrentButton {
+- (NamedBookmark *)namedBookmarkForTheCurrentButton {
     if (self.activeBookmarkButton && self.namedBookmarks && self.namedBookmarks.count > 0 && self.bookmarkButtons.count == self.namedBookmarks.count ) {
         NSInteger bookmarkIndex = [self.bookmarkButtons indexOfObject:self.activeBookmarkButton];
-        NamedBookmarkE * bookmark = self.namedBookmarks[bookmarkIndex];
+        NamedBookmark * bookmark = self.namedBookmarks[bookmarkIndex];
         return bookmark;
     }
     
@@ -572,9 +576,9 @@
 
 - (void)fetchRouteForTheActiveBookmarksButton{
     
-    NamedBookmarkE *bookmark;
+    NamedBookmark *bookmark;
     bookmark = [self namedBookmarkForTheCurrentButton];
-    [self.widgetDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation routeOptions:self.routeSearchOptionsDictionary andCompletionBlock:^(NSArray * response, NSString *errorString){
+    [self.widgetDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation routeOptions:self.routeSearchOptions andCompletionBlock:^(NSArray * response, NSString *errorString){
         infoLabel.hidden = NO;
         if (errorString && !response) {
             infoLabel.text = errorString;
@@ -587,7 +591,7 @@
     }];
 }
 
-- (void)saveLastSelectedBookmarkToCache:(NamedBookmarkE *)bookmark{
+- (void)saveLastSelectedBookmarkToCache:(NamedBookmark *)bookmark{
     if (!bookmark)
         return;
     
@@ -617,7 +621,7 @@
     
     NSString *bookmarkUniqueName = history[0];
     if (history.count > 1 && self.currentUserLocation) {
-        NamedBookmarkE *bookmark = [self bookmarkWithUniqueIdentifier:bookmarkUniqueName];
+        NamedBookmark *bookmark = [self bookmarkWithUniqueIdentifier:bookmarkUniqueName];
         CLLocationCoordinate2D bookmarkCoords = [WidgetHelpers convertStringTo2DCoord:bookmark.coords];
         CLLocation *bookmarkLocation = [[CLLocation alloc] initWithLatitude:bookmarkCoords.latitude longitude:bookmarkCoords.longitude];
         CLLocationDistance dist = [bookmarkLocation distanceFromLocation:self.currentUserLocation];
@@ -631,7 +635,7 @@
     return index != NSNotFound ? index : 0;
 }
 
--(NamedBookmarkE *)bookmarkWithUniqueIdentifier:(NSString *)uniqueIdentifier {
+-(NamedBookmark *)bookmarkWithUniqueIdentifier:(NSString *)uniqueIdentifier {
     for (int i = 0; i < self.namedBookmarks.count; i++) {
         if ([[self.namedBookmarks[i] getUniqueIdentifier] isEqualToString:uniqueIdentifier]) {
             return self.namedBookmarks[i];
@@ -641,7 +645,7 @@
     return nil;
 }
 
--(NSInteger )indexOfBookmark:(NamedBookmarkE *)bookmark {
+-(NSInteger )indexOfBookmark:(NamedBookmark *)bookmark {
     if (!bookmark) return NSNotFound;
     
     return [self.namedBookmarks indexOfObject:bookmark];
@@ -656,7 +660,7 @@
     [self setBubbleArrowPositionForView:bookmarkButton animated:YES];
     [self updateDetailViewForTheActiveBookmarkButton];
     
-    NamedBookmarkE *bookmark = [self namedBookmarkForTheCurrentButton];
+    NamedBookmark *bookmark = [self namedBookmarkForTheCurrentButton];
     [self saveLastSelectedBookmarkToCache:bookmark];
     
 }
@@ -693,7 +697,7 @@
 }
 
 - (IBAction)openRouteInMainAppButtonPressed:(id)sender{
-    NamedBookmarkE *bookmark = [self namedBookmarkForTheCurrentButton];
+    NamedBookmark *bookmark = [self namedBookmarkForTheCurrentButton];
     if (bookmark) {
         //Escape space in name
         NSString *urlString = [NSString stringWithFormat:@"%@?routeSearch&%@&%@",[AppManagerBase mainAppUrl], bookmark.name, bookmark.coords];

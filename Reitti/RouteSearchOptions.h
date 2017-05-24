@@ -15,8 +15,11 @@
 -(id)init;
 
 -(id)copy;
+
++(instancetype)modelObjectFromDictionary:(NSDictionary *)dict;
 -(NSDictionary *)dictionaryRepresentation;
 
+#if MAIN_APP
 -(NSArray *)allTrasportTypeNames;
 
 -(NSArray *)getTransportTypeOptions;
@@ -36,6 +39,7 @@
 -(BOOL)isAllTrasportTypesSelected;
 -(BOOL)isAllTrasportTypesExcluded;
 -(NSArray *)listOfExcludedtransportTypes;
+#endif
 
 @property(nonatomic,strong) NSDate *date;
 @property(nonatomic)RouteTimeType selectedTimeType;
@@ -46,9 +50,5 @@
 @property NSString *selectedWalkingSpeed;
 
 @property(nonatomic)NSInteger numberOfResults;
-
-//@property NSString *selectedChangeCost;
-//@property NSString *selectedWaitingCost;
-//@property NSString *selectedWalkingCost;
 
 @end

@@ -11,9 +11,9 @@
 #import "BusStop.h"
 #import "DigiTransitCommunicator.h"
 
-#ifndef DEPARTURES_WIDGET
+//#ifndef DEPARTURES_WIDGET
 #import "ReittiRegionManager.h"
-#endif
+//#endif
 @interface WidgetDataManager ()
 
 //@property (nonatomic) RTCoordinateRegion helsinkiRegion;
@@ -43,46 +43,39 @@
     return self;
 }
 
-#ifndef DEPARTURES_WIDGET
--(void)getRouteForNamedBookmark:(NamedBookmarkE *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock{
+//#ifndef DEPARTURES_WIDGET
+-(void)getRouteForNamedBookmark:(NamedBookmark *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(RouteSearchOptions *)searchOptions andCompletionBlock:(ActionBlock)completionBlock{
+    
+    searchOptions.numberOfResults = 2;
     
     id dataSourceManager = [self getDataSourceForCurrentUserLocation:location.coordinate];
-    if ([dataSourceManager conformsToProtocol:@protocol(WidgetRouteSearchProtocol)]) {
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchProtocol)]) {
         Region fromRegion = [self identifyRegionOfCoordinate:location.coordinate];
         CLLocationCoordinate2D toCoords = [WidgetHelpers convertStringTo2DCoord:namedBookmark.coords];
         Region toRegion = [self identifyRegionOfCoordinate:toCoords];
         
         if (fromRegion == toRegion) {
-            [(NSObject<WidgetRouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:location.coordinate andToCoords:toCoords withOptions:options andCompletionBlock:^(id response, NSError *error){
-                completionBlock(response, [self routeSearchErrorMessageForError:error]);
+            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:location.coordinate andToCoords:toCoords withOptions:searchOptions andCompletionBlock:^(id response, NSString *errorString){
+                completionBlock(response, errorString);
             }];
         }else{
-            [self.matkaApiClient searchRouteForFromCoords:location.coordinate andToCoords:toCoords withOptions:options andCompletionBlock:^(id response, NSError *error){
+            [self.digiFinlandApiClient searchRouteForFromCoords:location.coordinate andToCoords:toCoords withOptions:searchOptions andCompletionBlock:^(id response, NSString *errorString){
                 NSLog(@"Route search completed.");
-                if (!error) {
+                if (!errorString) {
                     completionBlock(response, nil);
                 }else{
-                    //TODO: format error message
-                    completionBlock(nil, [self routeSearchErrorMessageForError:error]);
+                    completionBlock(nil, errorString);
                 }
             }];
-//            completionBlock(nil, @"No Route available to this location.");
         }
 
+    } else {
+        completionBlock(nil, @"Route search not supported in this region.");
     }
+    
+    
 }
-#endif
-
--(NSString *)routeSearchErrorMessageForError:(NSError *)error{
-    if (!error) return nil;
-    if (error.code == -1009) {
-        return @"Internet connection appears to be offline.";
-    }else if (error.code == -1016) {
-        return @"No route information available for the selected addresses.";
-    }else{
-        return @"Unknown Error Occured.";
-    }
-}
+//#endif
 
 #pragma mark - Stop search methods
 -(void)fetchStopForCode:(NSString *)code fetchFromApi:(ReittiApi)api withCompletionBlock:(ActionBlock)completionBlock {
@@ -125,23 +118,29 @@
     }
 }
 
-#ifndef DEPARTURES_WIDGET
+//#ifndef DEPARTURES_WIDGET
 
 -(id)getDataSourceForCurrentUserLocation:(CLLocationCoordinate2D)coordinate{
     Region currentUserLocation = [self identifyRegionOfCoordinate:coordinate];
-    if (currentUserLocation == TRERegion) {
-        return self.treApiClient;
-    } else if (currentUserLocation == HSLRegion)  {
-        return self.hslApiClient;
+//    if (currentUserLocation == TRERegion) {
+//        return self.treApiClient;
+//    } else if (currentUserLocation == HSLRegion)  {
+//        return self.hslApiClient;
+//    } else {
+//        return self.matkaApiClient;
+//    }
+    
+    if (currentUserLocation == HSLRegion) {
+        return self.digiHslApiClient;
     } else {
-        return self.matkaApiClient;
+        return self.digiFinlandApiClient;
     }
 }
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords {
     return [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate: coords];
 }
-#endif
+//#endif
 
 #pragma mark - Helpers
 
