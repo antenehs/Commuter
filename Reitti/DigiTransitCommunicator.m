@@ -110,7 +110,7 @@ typedef enum : NSUInteger {
             }
             completionBlock(allStops, nil);
         } else {
-            completionBlock(nil, @"Stop fetch failed");//Proper error message here.
+            completionBlock(nil, [self formattedNearbyStopSearchErrorMessageForError:error]);//Proper error message here.
         }
     }];
     
@@ -123,6 +123,25 @@ typedef enum : NSUInteger {
                                                               @"radius": [NSNumber numberWithInteger:diameter/2]}];
 }
 
+-(NSString *)formattedNearbyStopSearchErrorMessageForError:(NSError *)error{
+    if(!error) return nil;
+    
+    NSString *errorString = [self formatCommonCaseErrorMessageForError:error];
+    
+    switch (error.code) {
+        case -1011:
+            errorString = @"Nearby stops service not available in this area.";
+            break;
+        case -1016:
+            errorString = @"No stops information available for the selected region.";
+            break;
+        default:
+            break;
+    }
+    
+    return errorString ? errorString : @"Unknown Error Occured.";
+}
+
 #pragma mark - Stop detail fetching
 - (void)fetchStopDetailForCode:(NSString *)stopCode withCompletionBlock:(ActionBlock)completionBlock {
     if (!stopCode)  {
@@ -130,15 +149,14 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [self fetchStopsForIds:@[stopCode] withCompletionBlock:^(NSArray *stops, NSError *error){
+    [self fetchStopsForIds:@[stopCode] withCompletionBlock:^(NSArray *stops, NSString *error){
         if (!error && stops.count > 0) {
             completionBlock(stops.firstObject, nil);
         } else {
-            completionBlock(nil, @"Stop fetch failed");//Proper error message here.
+            completionBlock(nil, error);
         }
     }];
 }
-
 
 -(void)fetchStopsForIds:(NSArray *)stopIds withCompletionBlock:(ActionBlock)completionBlock {
     if (!stopIds || stopIds.count < 1){
@@ -154,11 +172,10 @@ typedef enum : NSUInteger {
             }
             completionBlock(allStops, nil);
         } else {
-            completionBlock(nil, @"Stop fetch failed");//Proper error message here.
+            completionBlock(nil, [self formattedStopDetailFetchErrorMessageForError:error]);
         }
     }];
 }
-
 
 -(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock {
     if (!stopName){
@@ -170,13 +187,22 @@ typedef enum : NSUInteger {
         if (!error) {
             completionBlock(stops, nil);
         } else {
-            completionBlock(nil, @"Stop fetch failed");//Proper error message here. 
+            completionBlock(nil, [self formattedStopDetailFetchErrorMessageForError:error]);
         }
     }];
 }
 
 -(NSString *)stopGraphQlQueryForArguments:(NSDictionary *)arguments {
     return [GraphQLQuery stopQueryStringWithArguments:arguments];
+}
+
+-(NSString *)formattedStopDetailFetchErrorMessageForError:(NSError *)error{
+    if(!error) return nil;
+    
+    NSString *errorString = [self formatCommonCaseErrorMessageForError:error];
+    if(errorString) return errorString;
+    
+    return @"Unknown Error Occured. Please try again.";
 }
 
 #pragma mark - Realtime departure fetching methods
@@ -241,9 +267,6 @@ typedef enum : NSUInteger {
     if (![ReittiMapkitHelper isValidCoordinate:fromCoords] || ![ReittiMapkitHelper isValidCoordinate:toCoords])
         return nil;
     
-//    NSString *date = [[ReittiDateHelper sharedFormatter] digitransitQueryDateStringFromDate:options.date];
-//    NSString *time = [[ReittiDateHelper sharedFormatter] digitransitQueryTimeStringFromDate:options.date];
-    
     NSMutableDictionary *arguments = [@{@"from" : @{@"lat": [NSNumber numberWithDouble:fromCoords.latitude], @"lon": [NSNumber numberWithDouble:fromCoords.longitude]},
                                 @"to" : @{@"lat": [NSNumber numberWithDouble:toCoords.latitude], @"lon": [NSNumber numberWithDouble:toCoords.longitude]}} mutableCopy];
     [arguments addEntriesFromDictionary:[self apiRequestParametersDictionaryForRouteOptions:options]];
@@ -252,13 +275,14 @@ typedef enum : NSUInteger {
 
 -(NSString *)routeSearchErrorMessageForError:(NSError *)error{
     if (!error) return nil;
-    if (error.code == -1009) {
-        return @"Internet connection appears to be offline.";
-    }else if (error.code == -1016) {
-        return @"No route information available for the selected addresses.";
-    }else{
-        return @"Unknown Error Occured.";
+    
+    NSString *errorString = [self formatCommonCaseErrorMessageForError:error];
+    
+    if (error.code == -1016) {
+        errorString = @"No route information available for the selected addresses.";
     }
+    
+    return errorString ? errorString : @"Unknown Error Occured.";
 }
 
 #pragma mark - Geocode methods
@@ -364,17 +388,15 @@ typedef enum : NSUInteger {
 }
 
 -(NSString *)formattedReverseGeocodeFetchErrorMessageForError:(NSError *)error{
-    NSString *errorString = @"";
-    switch (error.code) {
-        case -1009:
-            errorString = @"Internet connection appears to be offline.";
-            break;
-        default:
-            errorString = @"No address was found for the coordinates";
-            break;
+    if(!error) return nil;
+    
+    NSString *errorString = [self formatCommonCaseErrorMessageForError:error];
+    
+    if (error.code == -1016) {
+        errorString = @"No address was found for the coordinates";
     }
     
-    return errorString;
+    return errorString ? errorString :  @"No address was found for the coordinates";
 }
 #endif
 
@@ -403,9 +425,18 @@ typedef enum : NSUInteger {
             }
             completionBlock(allLines, nil);
         } else {
-            completionBlock(nil, @"Route(Line) fetch failed");//Proper error message here.
+            completionBlock(nil, [self formattedLineDetailFetchErrorMessageForError:error]);//Proper error message here.
         }
     }];
+}
+
+-(NSString *)formattedLineDetailFetchErrorMessageForError:(NSError *)error{
+    if(!error) return nil;
+    
+    NSString *errorString = [self formatCommonCaseErrorMessageForError:error];
+    if (errorString) return errorString;
+    
+    return @"Unknown Error Occured. Please try again.";
 }
 
 #pragma mark - Bike station fetch
@@ -448,13 +479,11 @@ typedef enum : NSUInteger {
 
 -(NSString *)formattedBikeStationFetchErrorMessageForError:(NSError *)error{
     if(!error) return nil;
-    if (error.code == -1009) {
-        return @"Internet connection appears to be offline.";
-    }else if (error.code == -1001) {
-        return @"Connection to the data provider could not be established. Please try again later.";
-    }else{
-        return @"Unknown Error Occured.";
-    }
+    
+    NSString *errorString = [self formatCommonCaseErrorMessageForError:error];
+    if (errorString) return errorString;
+    
+    return @"Unknown Error Occured.";
 }
 #endif
 
@@ -658,6 +687,27 @@ typedef enum : NSUInteger {
 
 -(NSInteger)getDefaultValueIndexForWalkingSpeedOptions {
     return [DigiRouteOptionManager getDefaultValueIndexForWalkingSpeedOptions];
+}
+
+#pragma mark - Helpers
+
+-(NSString *)formatCommonCaseErrorMessageForError:(NSError *)error{
+    NSString *errorString = nil;
+    switch (error.code) {
+        case -1009:
+            errorString = @"Internet connection appears to be offline.";
+            break;
+        case -1001:
+            errorString = @"Connection to the data provider could not be established. Please try again later.";
+            break;
+        case -1016:
+            errorString = @"The remote server returned nothing. Try again.";
+            break;
+        default:
+            errorString = nil;
+    }
+    
+    return errorString;
 }
 
 @end

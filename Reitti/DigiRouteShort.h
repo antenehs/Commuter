@@ -31,6 +31,9 @@
 @property (nonatomic, strong)NSString *lineStart;
 @property (nonatomic, strong)NSString *lineEnd;
 
++(NSString *)routeStartFromLongName:(NSString *)routeLongName;
++(NSString *)routeDestinationFromLongName:(NSString *)routeLongName;
+
 +(NSDictionary *)mappingDictionary;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;

@@ -139,6 +139,15 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     return copy;
 }
 
+#pragma mark - Computed properties
+-(NSString *)destination {
+    if (!_destination) {
+        _destination = [DigiRouteShort routeDestinationFromLongName:self.routeLongName];
+    }
+    
+    return _destination;
+}
+
 -(NSDate *)parsedScheduledDepartureDate {
     if (!_parsedScheduledDepartureDate) {
         NSDate *date = [self parseTime:self.scheduledDeparture];

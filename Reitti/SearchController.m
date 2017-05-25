@@ -1722,19 +1722,20 @@ CGFloat  kDeparturesRefreshInterval = 60;
             }
         }];
         
-        if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
-            NSString *code = stopAnnotation.thumbnail.code;;
-            
-            RTStopSearchParam *searchParam = [RTStopSearchParam new];
-            searchParam.longCode = code;
-            
-            [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
-                if (!errorString) {
-                    [self detailStopFetchCompleted:stop];
-                }
-            }];
-        }
+        //Not needed with digi transit
+//        if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+//            JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
+//            NSString *code = stopAnnotation.thumbnail.code;;
+//            
+//            RTStopSearchParam *searchParam = [RTStopSearchParam new];
+//            searchParam.longCode = code;
+//            
+//            [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
+//                if (!errorString) {
+//                    [self detailStopFetchCompleted:stop];
+//                }
+//            }];
+//        }
         
         [centerLocatorView removeFromSuperview];
         if (droppedPinAnnotationView)
@@ -2296,12 +2297,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:[ReittiStringFormatter convertStringTo2DCoord:busStopShort.coords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString) {
                 [self setDetailStopForBusStopShort:busStopShort busStop:stop];
-                //TODO: better was to find the index
-//                NSInteger index = [self busStopShortIndexForCode:busStopShort.code];
-//                if (index != NSNotFound && index < 30 && stop.departures && stop.departures.count > 0) /* Update with animation */
-//                    [nearbyStopsListsTable reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:UITableViewRowAnimationBottom];
-//                else
-//                    [nearbyStopsListsTable reloadData];
                 [nearbyStopsListsTable reloadData];
             }
             

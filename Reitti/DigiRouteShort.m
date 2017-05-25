@@ -153,38 +153,50 @@ NSString *const kDigiRouteMode = @"mode";
 -(NSString *)lineStart {
     if (!_lineStart) {
         if (self.longName) {
-            NSArray *comps = [self.longName componentsSeparatedByString:@"-"];
-            if (comps.count > 1) {
-                _lineStart = [comps firstObject];
-            }
+            _lineStart = [DigiRouteShort routeStartFromLongName:self.longName];
         }
     }
     
     return _lineStart;
 }
 
++(NSString *)routeStartFromLongName:(NSString *)routeLongName {
+    NSArray *comps = [routeLongName componentsSeparatedByString:@"-"];
+    if (comps.count > 1) {
+        return [comps firstObject];
+    }
+    
+    return nil;
+}
+
 -(NSString *)lineEnd {
     if (!_lineEnd) {
         if (self.longName) {
-            NSArray *comps = [self.longName componentsSeparatedByString:@"-"];
-            if (comps.count > 1) {
-                NSString *lineEnd = [comps lastObject];
-                //There could be optional destinations at the end
-                if ([lineEnd containsString:@"("] && [lineEnd containsString:@")"]) {
-                    if (comps.count > 2) {
-                        lineEnd = [NSString stringWithFormat:@"%@ - %@", comps[comps.count - 2], lineEnd];
-                    }
-                }
-                _lineEnd = lineEnd;
-            } else {
-                _lineEnd = self.longName;
-            }
+            _lineEnd = [DigiRouteShort routeDestinationFromLongName:self.longName];
         } else {
             _lineEnd = nil;
         }
     }
     
     return _lineEnd;
+}
+
++(NSString *)routeDestinationFromLongName:(NSString *)routeLongName {
+    NSArray *comps = [routeLongName componentsSeparatedByString:@"-"];
+    if (comps.count > 1) {
+        NSString *lineEnd = [comps lastObject];
+        //There could be optional destinations at the end
+        if ([lineEnd containsString:@"("] && [lineEnd containsString:@")"]) {
+            if (comps.count > 2) {
+                lineEnd = [NSString stringWithFormat:@"%@ - %@", comps[comps.count - 2], lineEnd];
+            }
+        }
+        return lineEnd;
+    } else {
+        return routeLongName;
+    }
+    
+    return nil;
 }
 
 #pragma mark - conversion

@@ -23,7 +23,9 @@ itineraries {
                 [*BIKES_FRAGMENT*]
             },
             stop {
-                [*SHORT_STOP_FRAGMENT*]
+                name,
+                code,
+                gtfsId
             }
         },
         to {
@@ -34,22 +36,22 @@ itineraries {
                 [*BIKES_FRAGMENT*]
             },
             stop {
-                [*SHORT_STOP_FRAGMENT*]
+                name,
+                code,
+                gtfsId
             }
         },
         intermediateStops {
-            [*SHORT_STOP_FRAGMENT*]
+            name,
+            code,
+            gtfsId,
+            lat,
+            lon,
         },
         trip {
             tripHeadsign,
             route {
                 [*SHORT_ROUTE_FRAGMENT*]
-            },
-            pattern {
-                geometry {
-                    lat,
-                    lon
-                }
             },
             stoptimes {
                 [*STOP_TIME_FRAGMENT*]

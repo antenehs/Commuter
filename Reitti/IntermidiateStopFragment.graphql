@@ -1,0 +1,16 @@
+name,
+code,
+desc,
+vehicleType,
+zoneId,
+gtfsId,
+url,
+platformCode,
+lat,
+lon,
+patterns {
+    [*SHORT_PATTERN_FRAGMENT*]
+},
+routes {
+    [*SHORT_ROUTE_FRAGMENT*]
+},
