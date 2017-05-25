@@ -322,7 +322,7 @@
     
     leg.legLength = digiLeg.distance;
     leg.legDurationInSeconds = digiLeg.duration;
-    leg.waitingTimeInSeconds = 0; //TODO: think about this
+    leg.waitingTimeInSeconds = 0; 
     leg.legType = digiLeg.legType;
     leg.lineCode = digiLeg.lineGtfsId;
     leg.lineName = digiLeg.lineName;

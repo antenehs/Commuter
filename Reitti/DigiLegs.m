@@ -240,6 +240,21 @@ NSString *const kDigiLegsTo = @"to";
     return self.to.coords;
 }
 
+//-(NSInteger)waitingTimeInSeconds {
+//    if (!_waitingTimeInSeconds) {
+//        if (self.intermediateStops && self.intermediateStops.count > 0) {
+//            DigiStopShort *lastStop = [self.intermediateStops lastObject];
+//            NSDate *arrTimeAtLastStop = [self.trip arrivalTimeAtStop:lastStop.gtfsId];
+//            if (arrTimeAtLastStop && self.parsedEndTime)
+//                _waitingTimeInSeconds = [self.parsedEndTime timeIntervalSinceDate:arrTimeAtLastStop];
+//        } else {
+//            _waitingTimeInSeconds = 0;
+//        }
+//    }
+//    
+//    return _waitingTimeInSeconds;
+//}
+
 
 #pragma mark - mapping
 

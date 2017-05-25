@@ -10,6 +10,7 @@
 #import "WidgetHelpers.h"
 #import "BusStop.h"
 #import "DigiTransitCommunicator.h"
+#import "AppManager.h"
 
 //#ifndef DEPARTURES_WIDGET
 #import "ReittiRegionManager.h"
@@ -47,6 +48,10 @@
 -(void)getRouteForNamedBookmark:(NamedBookmark *)namedBookmark fromLocation:(CLLocation *)location routeOptions:(RouteSearchOptions *)searchOptions andCompletionBlock:(ActionBlock)completionBlock{
     
     searchOptions.numberOfResults = 2;
+    searchOptions.date = [NSDate date];
+    if ([AppManager isDebugMode]) {
+        searchOptions.date = [[NSDate date] dateByAddingTimeInterval:28000];
+    }
     
     id dataSourceManager = [self getDataSourceForCurrentUserLocation:location.coordinate];
     if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchProtocol)]) {

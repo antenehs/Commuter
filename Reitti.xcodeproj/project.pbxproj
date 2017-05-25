@@ -335,6 +335,7 @@
 		665885B51B0B9EA30044F514 /* HslLiveCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885B41B0B9EA30044F514 /* HslLiveCommunicator.m */; };
 		665885BE1B11172E0044F514 /* StopLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885BB1B11172E0044F514 /* StopLines.m */; };
 		665885C51B1121000044F514 /* NearByStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885C41B1121000044F514 /* NearByStop.m */; };
+		6658BAA51ED68D8A001F3C9C /* RouteViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202AF1AFFC12900D93C2E /* RouteViewManager.m */; };
 		665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
 		665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
 		665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */; };
@@ -348,7 +349,6 @@
 		6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08A1B5EEE2900DC20D0 /* createCardJS.js */; };
 		6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
 		6663A08F1B62AB5300DC20D0 /* renameCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08E1B62AB5300DC20D0 /* renameCardJS.js */; };
-		666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		66656D521D5D0F5400BA291B /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
 		66656D531D5D0F5400BA291B /* OrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 66656D511D5D0F5400BA291B /* OrderedManagedObject.m */; };
 		6665D7471C088FFB00ACCC3A /* ReittiAppShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */; };
@@ -944,7 +944,6 @@
 		66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5818BF3785002DDC7B /* Aspergit Bold.otf */; };
 		66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5C18BF3A22002DDC7B /* Aspergit Light.otf */; };
 		66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CD1B5C259700889DD2 /* Time to go 2.mp3 */; };
-		66C734221C556DA5002544BC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 666437BB19E1478400B82BE5 /* MainInterface.storyboard */; };
 		66C734231C556DA5002544BC /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
 		66C7342A1C556DA5002544BC /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
 		66C7342E1C556DA5002544BC /* Mellow mood.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CB1B5C259700889DD2 /* Mellow mood.mp3 */; };
@@ -1029,7 +1028,6 @@
 		66C7356C1C556FB5002544BC /* WidgetHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE221C19B09F004D73FC /* WidgetHelpers.m */; };
 		66C7356D1C556FB5002544BC /* AppManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA02D11C16FEB000A38858 /* AppManagerBase.m */; };
 		66C7356E1C556FB5002544BC /* TREAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE191C19A168004D73FC /* TREAPIClient.m */; };
-		66C7356F1C556FB5002544BC /* TransportE.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674088D1C19D54100C1E34A /* TransportE.m */; };
 		66C735711C556FB5002544BC /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA02C41C16FC4C00A38858 /* TodayViewController.m */; };
 		66C735721C556FB5002544BC /* WidgetDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE1E1C19A209004D73FC /* WidgetDataManager.m */; };
 		66C735731C556FB5002544BC /* KBPopupDrawableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03321C1778DD00A38858 /* KBPopupDrawableView.m */; };
@@ -1048,7 +1046,6 @@
 		66C735811C556FB5002544BC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
 		66C735971C556FB5002544BC /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
 		66C735981C556FB5002544BC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
-		66C7359C1C556FB5002544BC /* TransportE.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6674088E1C19D54100C1E34A /* TransportE.xib */; };
 		66C735A81C556FB5002544BC /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
 		66C735B01C556FB5002544BC /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
 		66C735B21C556FB5002544BC /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
@@ -1562,10 +1559,6 @@
 		661721ED19CDA78000E3CD6E /* DisruptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisruptionViewController.h; sourceTree = "<group>"; };
 		661721EE19CDA78000E3CD6E /* DisruptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisruptionViewController.m; sourceTree = "<group>"; };
 		661721F719CE0F5000E3CD6E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		661721FB19CE0F5000E3CD6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		661721FC19CE0F5000E3CD6E /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
-		661721FD19CE0F5000E3CD6E /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
-		661721FF19CE0F5000E3CD6E /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		6618311D1C0DE1FF00DA979E /* NSDate+SAMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+SAMAdditions.h"; path = "Helpers/SAMCategories/NSDate+SAMAdditions.h"; sourceTree = "<group>"; };
 		6618311E1C0DE1FF00DA979E /* NSDate+SAMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+SAMAdditions.m"; path = "Helpers/SAMCategories/NSDate+SAMAdditions.m"; sourceTree = "<group>"; };
 		661831201C0DE22000DA979E /* NSDate+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Helper.h"; path = "Helpers/NSDate+Helper.h"; sourceTree = "<group>"; };
@@ -1588,9 +1581,6 @@
 		661FAF2D18A4F2B400042074 /* BusStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStop.h; sourceTree = "<group>"; };
 		661FAF2E18A4F2B400042074 /* BusStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStop.m; sourceTree = "<group>"; };
 		66237EFF19CE14C500DEEC5F /* Reitti.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Reitti.entitlements; sourceTree = "<group>"; };
-		66237F0019CE156100DEEC5F /* AikatauluWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = AikatauluWidget.entitlements; sourceTree = "<group>"; };
-		66237F0119CE1B9A00DEEC5F /* HSLCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLCommunicator.h; sourceTree = "<group>"; };
-		66237F0219CE1B9A00DEEC5F /* HSLCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLCommunicator.m; sourceTree = "<group>"; };
 		662481841D1FFBF700574319 /* WatchRoutes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchRoutes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		662481871D1FFBF700574319 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		662481891D1FFBF700574319 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1716,16 +1706,10 @@
 		665BA1B11CAF05EB0091C180 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		665BA1B41CAF0C550091C180 /* RouteSearchParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSearchParameters.h; sourceTree = "<group>"; };
 		665BA1B51CAF0C550091C180 /* RouteSearchParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSearchParameters.m; sourceTree = "<group>"; };
-		665EFFF619E18F5600367839 /* search-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search-green-50.png"; sourceTree = "<group>"; };
-		665EFFF819E190A600367839 /* bookmark-green-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-green-50.png"; sourceTree = "<group>"; };
 		6663A0881B5EB3B100DC20D0 /* changeToFullVersionJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = changeToFullVersionJS.js; path = Reitti/changeToFullVersionJS.js; sourceTree = "<group>"; };
 		6663A08A1B5EEE2900DC20D0 /* createCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = createCardJS.js; path = Reitti/createCardJS.js; sourceTree = "<group>"; };
 		6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = deleteCardJS.js; path = Reitti/deleteCardJS.js; sourceTree = "<group>"; };
 		6663A08E1B62AB5300DC20D0 /* renameCardJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = renameCardJS.js; path = Reitti/renameCardJS.js; sourceTree = "<group>"; };
-		666437B719E1478400B82BE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		666437B819E1478400B82BE5 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
-		666437B919E1478400B82BE5 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
-		666437BB19E1478400B82BE5 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		66656D501D5D0F5400BA291B /* OrderedManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedManagedObject.h; sourceTree = "<group>"; };
 		66656D511D5D0F5400BA291B /* OrderedManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedManagedObject.m; sourceTree = "<group>"; };
 		66656D541D5F485C00BA291B /* Reitti 16.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 16.xcdatamodel"; sourceTree = "<group>"; };
@@ -1759,9 +1743,6 @@
 		666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 4.mp3"; path = "Sounds/Time to go 4.mp3"; sourceTree = "<group>"; };
 		666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 5.mp3"; path = "Sounds/Time to go 5.mp3"; sourceTree = "<group>"; };
 		667085321C5CF745008AA606 /* app-logo-new-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-new-rounded.png"; path = "Pictures/Version 2.3/app-logo-new-rounded.png"; sourceTree = "<group>"; };
-		6674088C1C19D54100C1E34A /* TransportE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportE.h; sourceTree = "<group>"; };
-		6674088D1C19D54100C1E34A /* TransportE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransportE.m; sourceTree = "<group>"; };
-		6674088E1C19D54100C1E34A /* TransportE.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransportE.xib; sourceTree = "<group>"; };
 		667408991C1C59AE00C1E34A /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Helper.h"; path = "Helpers/UIView+Helper.h"; sourceTree = "<group>"; };
 		6674089A1C1C59AE00C1E34A /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "Helpers/UIView+Helper.m"; sourceTree = "<group>"; };
 		6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bookmarks-colored-100.png"; path = "Pictures/version 4.1/bookmarks-colored-100.png"; sourceTree = "<group>"; };
@@ -2662,28 +2643,6 @@
 			name = GeoCodeAnnotation;
 			sourceTree = "<group>";
 		};
-		661721F919CE0F5000E3CD6E /* AikatauluWidget */ = {
-			isa = PBXGroup;
-			children = (
-				66237F0019CE156100DEEC5F /* AikatauluWidget.entitlements */,
-				661721FC19CE0F5000E3CD6E /* TodayViewController.h */,
-				661721FD19CE0F5000E3CD6E /* TodayViewController.m */,
-				661721FF19CE0F5000E3CD6E /* MainInterface.storyboard */,
-				661721FA19CE0F5000E3CD6E /* Supporting Files */,
-				66237F0119CE1B9A00DEEC5F /* HSLCommunicator.h */,
-				66237F0219CE1B9A00DEEC5F /* HSLCommunicator.m */,
-			);
-			path = AikatauluWidget;
-			sourceTree = "<group>";
-		};
-		661721FA19CE0F5000E3CD6E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				661721FB19CE0F5000E3CD6E /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		6618312B1C10FFAF00DA979E /* JTMaterialSpinner */ = {
 			isa = PBXGroup;
 			children = (
@@ -3047,35 +3006,6 @@
 			name = "Custom views";
 			sourceTree = "<group>";
 		};
-		666437B519E1478400B82BE5 /* Commuter - Reittiopas */ = {
-			isa = PBXGroup;
-			children = (
-				666437CF19E18AEA00B82BE5 /* Pictures */,
-				666437B819E1478400B82BE5 /* TodayViewController.h */,
-				666437B919E1478400B82BE5 /* TodayViewController.m */,
-				666437BB19E1478400B82BE5 /* MainInterface.storyboard */,
-				666437B619E1478400B82BE5 /* Supporting Files */,
-			);
-			path = "Commuter - Reittiopas";
-			sourceTree = "<group>";
-		};
-		666437B619E1478400B82BE5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				666437B719E1478400B82BE5 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		666437CF19E18AEA00B82BE5 /* Pictures */ = {
-			isa = PBXGroup;
-			children = (
-				665EFFF819E190A600367839 /* bookmark-green-50.png */,
-				665EFFF619E18F5600367839 /* search-green-50.png */,
-			);
-			name = Pictures;
-			sourceTree = "<group>";
-		};
 		6665D7481C0B52CA00ACCC3A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -3160,16 +3090,6 @@
 			name = HSLandTRE;
 			sourceTree = "<group>";
 		};
-		6674088B1C19D52F00C1E34A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				6674088C1C19D54100C1E34A /* TransportE.h */,
-				6674088D1C19D54100C1E34A /* TransportE.m */,
-				6674088E1C19D54100C1E34A /* TransportE.xib */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
 		66780D911C5409B900C838AA /* Service Points */ = {
 			isa = PBXGroup;
 			children = (
@@ -3242,8 +3162,6 @@
 				66947CBB18830ED500642EE1 /* Reitti */,
 				66D0BA5118BF2DFA002DDC7B /* Resource */,
 				66947CDD18830ED500642EE1 /* ReittiTests */,
-				661721F919CE0F5000E3CD6E /* AikatauluWidget */,
-				666437B519E1478400B82BE5 /* Commuter - Reittiopas */,
 				66DAC7CF1A025ED90002BE16 /* Commuter - Departures */,
 				66CA02C21C16FC4C00A38858 /* Commuter - Routes */,
 				662481851D1FFBF700574319 /* WatchRoutes */,
@@ -3638,7 +3556,6 @@
 				66CA02C41C16FC4C00A38858 /* TodayViewController.m */,
 				66CA02C61C16FC4C00A38858 /* MainInterface.storyboard */,
 				66CA02C91C16FC4C00A38858 /* Info.plist */,
-				6674088B1C19D52F00C1E34A /* View */,
 				660CFE0F1C19A105004D73FC /* API */,
 				66CA02DB1C17126C00A38858 /* Models */,
 			);
@@ -4402,7 +4319,6 @@
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
 				664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */,
 				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
-				666437C519E14B4B00B82BE5 /* MainInterface.storyboard in Resources */,
 				660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				664FE8C01ECBC81F00C3C0B5 /* AlertQueryFragment.graphql in Resources */,
 				66C05AA71ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
@@ -4528,7 +4444,6 @@
 				66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */,
 				66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */,
 				66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */,
-				66C734221C556DA5002544BC /* MainInterface.storyboard in Resources */,
 				66C734231C556DA5002544BC /* Bar Chart-100.png in Resources */,
 				66C7342A1C556DA5002544BC /* RoutePreviewView.xib in Resources */,
 				66C7342E1C556DA5002544BC /* Mellow mood.mp3 in Resources */,
@@ -4660,7 +4575,6 @@
 				660579721E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6683CF321CD94EA70044727B /* HSLRegion.kml in Resources */,
 				66C05AF21ED5558500F26AD2 /* Transport.xib in Resources */,
-				66C7359C1C556FB5002544BC /* TransportE.xib in Resources */,
 				6683CF331CD954060044727B /* Icons.xcassets in Resources */,
 				66EB0D561DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				66833D381CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
@@ -5768,6 +5682,7 @@
 				6683CF2A1CD929170044727B /* MatkaGeoCode.m in Sources */,
 				6683CF271CD9290E0044727B /* MatkaStop.m in Sources */,
 				66833D191CEE45CE005D958C /* DigiStop.m in Sources */,
+				6658BAA51ED68D8A001F3C9C /* RouteViewManager.m in Sources */,
 				663465C41ECD4E8F004B8AAF /* BikeStation.m in Sources */,
 				663465BB1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				66833D1E1CEE45CE005D958C /* DigiStoptime.m in Sources */,
@@ -5788,7 +5703,6 @@
 				66C7356D1C556FB5002544BC /* AppManagerBase.m in Sources */,
 				66C7356E1C556FB5002544BC /* TREAPIClient.m in Sources */,
 				66833D5A1CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
-				66C7356F1C556FB5002544BC /* TransportE.m in Sources */,
 				66997AB71ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66C735711C556FB5002544BC /* TodayViewController.m in Sources */,
 				663465E81ECE5543004B8AAF /* DigiPatternShort.m in Sources */,

@@ -9,7 +9,7 @@
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
 #import <MapKit/MapKit.h>
-#import "AppManagerBase.h"
+#import "AppManager.h"
 #import "ASABubbleView.h"
 #import "WidgetDataManager.h"
 #import "ReittiStringFormatterE.h"
@@ -18,6 +18,8 @@
 #import "UIView+Helper.h"
 #import "MatkaTransportTypeManager.h"
 #import "NSArray+Helper.h"
+#import "ReittiRegionManager.h"
+#import "RouteViewManager.h"
 
 #import "NamedBookmark.h"
 
@@ -71,12 +73,16 @@
     [self readRouteSearchOptionsFromUserDefaults];
     [self initBookmarkRouteMap];
     
-    activityIndicator.circleLayer.lineWidth = 1;
-    activityIndicator.circleLayer.strokeColor = [UIColor lightGrayColor].CGColor;
+    activityIndicator.circleLayer.lineWidth = 3;
+//    activityIndicator.circleLayer.strokeColor = [AppManager systemGreenColor].CGColor;
     activityIndicator.hidden = YES;
     
     userLocationIsAvailable = fetchRouteWhenLocationIsKnow = NO;
-    
+    if ([AppManager isDebugMode]) {
+        userLocationIsAvailable = YES;
+        CLLocationCoordinate2D coords = [ReittiRegionManager getCoordinateForRegion:HSLRegion];
+        self.currentUserLocation = [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude];
+    }
     [self initLocationManager];
     self.widgetDataManager = [[WidgetDataManager alloc] init];
 }
@@ -305,7 +311,7 @@
     Route *route = [self validRouteForTheActiveBookmarkButton];
     if (route) {
         [activityIndicator endRefreshing];
-        UIView *routeView = [self viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:routeViewScrollView.frame.size.width - 40];
+        UIView *routeView = [RouteViewManager viewForRoute:route longestDuration:[route.routeDurationInSeconds floatValue] width:routeViewScrollView.frame.size.width - 40 alwaysShowVehicle:NO];
         CGRect frame = routeView.frame;
         frame.origin.y = 0;
         frame.origin.x = 0;
@@ -397,8 +403,7 @@
                 userHasMoved = dist > 200;
             }
             
-            //TODO: remember thisssssssssssss
-            if ([route.startingTimeOfRoute timeIntervalSinceNow] > 0 || userHasMoved){
+            if ([route.startingTimeOfRoute timeIntervalSinceNow] < 0 || userHasMoved){
                 //If walking return even if a bit old.
                 if (route.isOnlyWalkingRoute && [route.startingTimeOfRoute timeIntervalSinceNow] > -600 && !userHasMoved) {
                     return route;
@@ -518,50 +523,6 @@
     }
     
     [self.bubleView setPosition:arrowPosition animated:animated];
-}
-
-- (UIView *)viewForRoute:(Route *)route longestDuration:(CGFloat)longestDuration width:(CGFloat)totalWidth
-{
-    float tWidth  = 70;
-    float x = 0;
-    UIView *transportsContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, totalWidth , 36)];
-    transportsContainer.clipsToBounds = YES;
-    transportsContainer.tag = 1987;
-    transportsContainer.layer.cornerRadius = 4;
-    
-    for (RouteLeg *leg in route.routeLegs) {
-        if (route.isOnlyWalkingRoute) {
-            //Leg duration of a walking leg get freaky sometimes
-            tWidth = totalWidth * (([route.routeDurationInSeconds floatValue])/longestDuration);
-        }else{
-            tWidth = totalWidth * (([leg.legDurationInSeconds floatValue])/longestDuration);
-        }
-        
-        Transport *transportView = [[Transport alloc] initWithRouteLeg:leg andWidth:tWidth - 1 alwaysShowVehicle:NO];
-        CGRect frame = transportView.frame;
-        transportView.frame = CGRectMake(x, 0, frame.size.width, frame.size.height);
-        transportView.clipsToBounds = YES;
-        [transportsContainer addSubview:transportView];
-        x += frame.size.width + 1;
-        
-        //Append waiting view if exists
-        if (leg.waitingTimeInSeconds > 0 && !route.isOnlyWalkingRoute) {
-            float waitingWidth = totalWidth * (leg.waitingTimeInSeconds/longestDuration);
-            UIView *waitingView = [[UIView alloc] initWithFrame:CGRectMake(x, 0, waitingWidth, transportView.frame.size.height)];
-            waitingView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-            waitingView.clipsToBounds = YES;
-            if (waitingWidth > 22) {
-                UIImageView *waitingImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sitting-filled-grey-64.png"]];
-                waitingImageView.frame = CGRectMake((waitingView.frame.size.width - 20)/2, (transportsContainer.frame.size.height - 20)/2, 20, 20);
-                [waitingView addSubview:waitingImageView];
-            }
-            [transportsContainer addSubview:waitingView];
-            x += waitingWidth;
-        }
-    }
-    transportsContainer.frame = CGRectMake(0, 0, x, 36);
-    
-    return transportsContainer;
 }
 
 - (NamedBookmark *)namedBookmarkForTheCurrentButton {

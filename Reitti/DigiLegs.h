@@ -31,6 +31,7 @@
 @property(nonatomic, strong, readonly) NSString *lineName;
 @property(nonatomic, strong, readonly) NSString *lineGtfsId;
 @property(nonatomic)LegTransportType legType;
+//@property(nonatomic)NSInteger waitingTimeInSeconds;
 @property (nonatomic, strong) NSDate *parsedStartTime;
 @property (nonatomic, strong) NSDate *parsedEndTime;
 @property (nonatomic) CLLocationCoordinate2D startCoords;

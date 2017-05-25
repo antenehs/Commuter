@@ -242,11 +242,22 @@
     route.destinationCoords = digiPlan.destinationCoords;
     
     NSMutableArray *allLegs = [@[] mutableCopy];
-    for (DigiLegs *digiLeg in digiPlan.legs) {
+    for (NSInteger i = 0; i < digiPlan.legs.count; i++) {
+        DigiLegs *digiLeg = digiPlan.legs[i];
+        
         RouteLeg *leg = [RouteLeg routeLegFromDigiRouteLeg:digiLeg];
-        if (leg)
+        if (leg) {
             [allLegs addObject:leg];
+            //Calculate waiting time
+            DigiLegs *nextLeg = i < digiPlan.legs.count - 1 ? digiPlan.legs[i+1] : nil;
+            if (nextLeg && digiLeg.parsedEndTime && nextLeg.parsedStartTime) {
+                leg.waitingTimeInSeconds = [nextLeg.parsedStartTime timeIntervalSinceDate:digiLeg.parsedEndTime];
+            }
+            
+        }
     }
+    
+    
     
     route.routeLegs = allLegs;
     

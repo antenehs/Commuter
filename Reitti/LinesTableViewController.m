@@ -106,8 +106,8 @@
 
     addressSearchBar.keyboardAppearance = UIKeyboardAppearanceDark;
     
-    searchActivityIndicator.circleLayer.lineWidth = 1.5;
-    searchActivityIndicator.circleLayer.strokeColor = [UIColor lightTextColor].CGColor;
+    searchActivityIndicator.circleLayer.lineWidth = 3;
+//    searchActivityIndicator.circleLayer.strokeColor = [UIColor lightTextColor].CGColor;
     searchActivityIndicator.alternatingColors = nil;
     
     [self.tableView reloadData];
@@ -290,7 +290,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
         
         JTMaterialSpinner *spinner = (JTMaterialSpinner *)[cell viewWithTag:1001];
-        spinner.circleLayer.lineWidth = 1.5;
+        spinner.circleLayer.lineWidth = 2;
         [spinner beginRefreshing];
         
         cell.backgroundColor = [UIColor clearColor];
