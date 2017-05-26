@@ -34,7 +34,10 @@ NSString *const kStopsStoptimes = @"stoptimes";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
         
-        NSObject *receivedStoptimes = [dict objectForKey:kStopsStoptimes];
+        NSObject *receivedStoptimes = nil;
+        receivedStoptimes = [dict objectForKey:@"stoptimesWithoutPatterns"];
+        if (!receivedStoptimes)
+            receivedStoptimes = [dict objectForKey:kStopsStoptimes];
         NSMutableArray *parsedStoptimes = [NSMutableArray array];
         if ([receivedStoptimes isKindOfClass:[NSArray class]]) {
             for (NSDictionary *item in (NSArray *)receivedStoptimes) {

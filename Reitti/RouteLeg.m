@@ -236,6 +236,84 @@
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
+#pragma mark - Init from Digi object
++(id)routeLegFromDigiRouteLeg:(DigiLegs *)digiLeg {
+    RouteLeg *leg = [[RouteLeg alloc] init];
+    
+    leg.legLength = digiLeg.distance;
+    leg.legDurationInSeconds = digiLeg.duration;
+    leg.waitingTimeInSeconds = 0;
+    leg.legType = digiLeg.legType;
+    leg.lineCode = digiLeg.lineGtfsId;
+    leg.lineName = digiLeg.lineName;
+    leg.legOrder = digiLeg.legOrder;
+    
+    leg.legShapeCoorStrings = @[]; //TODO: Decode polyline
+    
+    NSMutableArray *locations = [@[] mutableCopy];
+    NSMutableArray *shapeStrings = [@[] mutableCopy];
+    if (digiLeg.legType == LegTypeWalk || digiLeg.legType == LegTypeBicycle) { //We only have start and end locations
+        RouteLegLocation *fromLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.from];
+        if (fromLocation) {
+            fromLocation.locationLegOrder = digiLeg.legOrder;
+            fromLocation.locationLegType = digiLeg.legType;
+            fromLocation.arrTime = digiLeg.parsedStartTime;
+            fromLocation.depTime = digiLeg.parsedStartTime;
+            [locations addObject:fromLocation];
+            [shapeStrings addObject:fromLocation.coordsString];
+        }
+        
+        RouteLegLocation *toLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.to];
+        if (toLocation) {
+            toLocation.locationLegOrder = digiLeg.legOrder;
+            toLocation.locationLegType = digiLeg.legType;
+            toLocation.arrTime = digiLeg.parsedEndTime;
+            toLocation.depTime = digiLeg.parsedEndTime;
+            [locations addObject:toLocation];
+            [shapeStrings addObject:toLocation.coordsString];
+        }
+    } else {
+        
+        RouteLegLocation *fromLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.from];
+        if (fromLocation) {
+            fromLocation.locationLegOrder = digiLeg.legOrder;
+            fromLocation.locationLegType = digiLeg.legType;
+            fromLocation.arrTime = digiLeg.parsedStartTime;
+            fromLocation.depTime = digiLeg.parsedStartTime;
+            [locations addObject:fromLocation];
+            [shapeStrings addObject:fromLocation.coordsString];
+        }
+        
+        for (DigiIntermediateStops *stop in digiLeg.intermediateStops) {
+            RouteLegLocation *stopLocation = [RouteLegLocation routeLocationFromDigiIntermidiateStop:stop];
+            if (stopLocation) {
+                stopLocation.locationLegOrder = digiLeg.legOrder;
+                stopLocation.locationLegType = digiLeg.legType;
+                stopLocation.arrTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
+                stopLocation.depTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
+                [locations addObject:stopLocation];
+                [shapeStrings addObject:stopLocation.coordsString];
+            }
+        }
+        
+        RouteLegLocation *toLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.to];
+        if (toLocation) {
+            toLocation.locationLegOrder = digiLeg.legOrder;
+            toLocation.locationLegType = digiLeg.legType;
+            toLocation.arrTime = digiLeg.parsedEndTime;
+            toLocation.depTime = digiLeg.parsedEndTime;
+            [locations addObject:toLocation];
+            [shapeStrings addObject:toLocation.coordsString];
+        }
+    }
+    
+    leg.legLocations = locations;
+    leg.legShapeCoorStrings = shapeStrings;
+    //    leg.legShapeCoorStrings = digiLeg.trip.pattern.shapeStringCoordinates;
+    
+    return leg;
+}
+
 #ifndef APPLE_WATCH
 #pragma mark - init from Matka leg
 +(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg{
@@ -313,83 +391,6 @@
         leg.legLocations = locations;
         leg.legShapeCoorStrings = shapeStrings;
     }
-    
-    return leg;
-}
-
-+(id)routeLegFromDigiRouteLeg:(DigiLegs *)digiLeg {
-    RouteLeg *leg = [[RouteLeg alloc] init];
-    
-    leg.legLength = digiLeg.distance;
-    leg.legDurationInSeconds = digiLeg.duration;
-    leg.waitingTimeInSeconds = 0; 
-    leg.legType = digiLeg.legType;
-    leg.lineCode = digiLeg.lineGtfsId;
-    leg.lineName = digiLeg.lineName;
-    leg.legOrder = digiLeg.legOrder;
-    
-    leg.legShapeCoorStrings = @[]; //TODO: Decode polyline
-    
-    NSMutableArray *locations = [@[] mutableCopy];
-    NSMutableArray *shapeStrings = [@[] mutableCopy];
-    if (digiLeg.legType == LegTypeWalk || digiLeg.legType == LegTypeBicycle) { //We only have start and end locations
-        RouteLegLocation *fromLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.from];
-        if (fromLocation) {
-            fromLocation.locationLegOrder = digiLeg.legOrder;
-            fromLocation.locationLegType = digiLeg.legType;
-            fromLocation.arrTime = digiLeg.parsedStartTime;
-            fromLocation.depTime = digiLeg.parsedStartTime;
-            [locations addObject:fromLocation];
-            [shapeStrings addObject:fromLocation.coordsString];
-        }
-        
-        RouteLegLocation *toLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.to];
-        if (toLocation) {
-            toLocation.locationLegOrder = digiLeg.legOrder;
-            toLocation.locationLegType = digiLeg.legType;
-            toLocation.arrTime = digiLeg.parsedEndTime;
-            toLocation.depTime = digiLeg.parsedEndTime;
-            [locations addObject:toLocation];
-            [shapeStrings addObject:toLocation.coordsString];
-        }
-    } else {
-        
-        RouteLegLocation *fromLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.from];
-        if (fromLocation) {
-            fromLocation.locationLegOrder = digiLeg.legOrder;
-            fromLocation.locationLegType = digiLeg.legType;
-            fromLocation.arrTime = digiLeg.parsedStartTime;
-            fromLocation.depTime = digiLeg.parsedStartTime;
-            [locations addObject:fromLocation];
-            [shapeStrings addObject:fromLocation.coordsString];
-        }
-        
-        for (DigiIntermediateStops *stop in digiLeg.intermediateStops) {
-            RouteLegLocation *stopLocation = [RouteLegLocation routeLocationFromDigiIntermidiateStop:stop];
-            if (stopLocation) {
-                stopLocation.locationLegOrder = digiLeg.legOrder;
-                stopLocation.locationLegType = digiLeg.legType;
-                stopLocation.arrTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
-                stopLocation.depTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
-                [locations addObject:stopLocation];
-                [shapeStrings addObject:stopLocation.coordsString];
-            }
-        }
-        
-        RouteLegLocation *toLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.to];
-        if (toLocation) {
-            toLocation.locationLegOrder = digiLeg.legOrder;
-            toLocation.locationLegType = digiLeg.legType;
-            toLocation.arrTime = digiLeg.parsedEndTime;
-            toLocation.depTime = digiLeg.parsedEndTime;
-            [locations addObject:toLocation];
-            [shapeStrings addObject:toLocation.coordsString];
-        }
-    }
-    
-    leg.legLocations = locations;
-    leg.legShapeCoorStrings = shapeStrings;
-//    leg.legShapeCoorStrings = digiLeg.trip.pattern.shapeStringCoordinates;
     
     return leg;
 }

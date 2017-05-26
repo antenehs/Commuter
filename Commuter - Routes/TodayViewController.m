@@ -120,7 +120,7 @@
     NSMutableArray *readNamedBookmarks = [@[] mutableCopy];
     if (namedBookmarkDictionaries) {
         for (NSDictionary *bookmarkDict in namedBookmarkDictionaries) {
-            [readNamedBookmarks addObject:[NamedBookmark modelWithDictionary:bookmarkDict]];
+            [readNamedBookmarks addObject:[NamedBookmark modelObjectWithDictionary:bookmarkDict]];
         }
         
         self.namedBookmarks = [NSArray arrayWithArray:readNamedBookmarks];

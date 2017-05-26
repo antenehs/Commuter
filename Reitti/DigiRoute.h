@@ -11,7 +11,7 @@
 #import "DigiPattern.h"
 #import "Line.h"
 
-@interface DigiRoute : DigiRouteShort <NSCoding, NSCopying, Mappable>
+@interface DigiRoute : DigiRouteShort <NSCoding, NSCopying, Mappable, DictionaryMappable>
 
 -(Line *)reittiLine;
 -(Line *)reittiLineForPattern:(DigiPattern *)pattern;
@@ -19,8 +19,8 @@
 @property (nonatomic, strong) NSArray *patterns;
 @property (nonatomic, strong) NSArray *alerts;
 
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+//+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+//- (instancetype)initWithDictionary:(NSDictionary *)dict;
+//- (NSDictionary *)dictionaryRepresentation;
 
 @end

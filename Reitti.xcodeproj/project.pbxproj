@@ -336,6 +336,34 @@
 		665885BE1B11172E0044F514 /* StopLines.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885BB1B11172E0044F514 /* StopLines.m */; };
 		665885C51B1121000044F514 /* NearByStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 665885C41B1121000044F514 /* NearByStop.m */; };
 		6658BAA51ED68D8A001F3C9C /* RouteViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202AF1AFFC12900D93C2E /* RouteViewManager.m */; };
+		6658BAA61ED7432C001F3C9C /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
+		6658BAA71ED74580001F3C9C /* DigiTransitCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D261CEE4685005D958C /* DigiTransitCommunicator.m */; };
+		6658BAA81ED74FDF001F3C9C /* DigiTrip.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D0F1CEE45CE005D958C /* DigiTrip.m */; };
+		6658BAA91ED750A1001F3C9C /* DigiIntermediateStops.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D451CF8F425005D958C /* DigiIntermediateStops.m */; };
+		6658BAAA1ED750F6001F3C9C /* DigiLegs.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D491CF8F425005D958C /* DigiLegs.m */; };
+		6658BAAB1ED751D6001F3C9C /* DigiPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D411CF8F425005D958C /* DigiPlace.m */; };
+		6658BAAC1ED751D6001F3C9C /* DigiGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D431CF8F425005D958C /* DigiGeometry.m */; };
+		6658BAAD1ED751D6001F3C9C /* DigiPlan.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D471CF8F425005D958C /* DigiPlan.m */; };
+		6658BAAE1ED751D6001F3C9C /* DigiPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D4B1CF8F425005D958C /* DigiPattern.m */; };
+		6658BAAF1ED751D6001F3C9C /* DigiRouteShort.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D091CEE45CE005D958C /* DigiRouteShort.m */; };
+		6658BAB01ED751D6001F3C9C /* DigiRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 660579831E11DF0200F3559E /* DigiRoute.m */; };
+		6658BAB11ED751D6001F3C9C /* DigiStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D0B1CEE45CE005D958C /* DigiStop.m */; };
+		6658BAB21ED751D6001F3C9C /* DigiStopShort.m in Sources */ = {isa = PBXBuildFile; fileRef = 660579671E11CBF800F3559E /* DigiStopShort.m */; };
+		6658BAB31ED751D6001F3C9C /* DigiStoptime.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D0D1CEE45CE005D958C /* DigiStoptime.m */; };
+		6658BAB41ED752AE001F3C9C /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2E18A4F2B400042074 /* BusStop.m */; };
+		6658BAB51ED752E9001F3C9C /* DigiRouteOptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66997AAA1ED2958A00B206D4 /* DigiRouteOptionManager.m */; };
+		6658BAB61ED752F8001F3C9C /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
+		6658BAB71ED7539A001F3C9C /* BusStopShort.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9B718C5DB9400AC9E94 /* BusStopShort.m */; };
+		6658BAB81ED753C3001F3C9C /* DigiBikeRentalStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */; };
+		6658BAB91ED753CC001F3C9C /* DigiStopAtDistance.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F16D011E05F7C500D45613 /* DigiStopAtDistance.m */; };
+		6658BABA1ED753E6001F3C9C /* StopDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F601C2468A300511BD2 /* StopDeparture.m */; };
+		6658BABB1ED754B3001F3C9C /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9E118CF300300AC9E94 /* Line.m */; };
+		6658BABC1ED754CF001F3C9C /* LineStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5C1B33630C00CE670E /* LineStop.m */; };
+		6658BABD1ED7552B001F3C9C /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
+		6658BABE1ED7553F001F3C9C /* ReittiObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8FC1CD29B6200991FBF /* ReittiObject.m */; };
+		6658BABF1ED756CF001F3C9C /* ReittiRegionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603A8EB1CCFE9EB00991FBF /* ReittiRegionManager.m */; };
+		6658BAC01ED75865001F3C9C /* RouteSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */; };
+		6658BAC11ED7A4BF001F3C9C /* NamedBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98301AD5590D00C45ADF /* NamedBookmark.m */; };
 		665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
 		665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B6B711CDF8A9500E1C6CB /* BikeStation.m */; };
 		665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 665BA1AD1CAAE93A0091C180 /* SwitchToRouteViewSegue.m */; };
@@ -4941,23 +4969,35 @@
 				6605C2841D30FBD100C228B1 /* ComplicationDataManager.m in Sources */,
 				66B391C11D23087300C500CC /* WatchApiClient.m in Sources */,
 				662481A21D1FFBF700574319 /* ComplicationController.m in Sources */,
+				6658BAB71ED7539A001F3C9C /* BusStopShort.m in Sources */,
+				6658BAAD1ED751D6001F3C9C /* DigiPlan.m in Sources */,
 				663465F71ECEA5CB004B8AAF /* LinePattern.m in Sources */,
 				66B391B51D23078B00C500CC /* HSLLocs.m in Sources */,
+				6658BAB21ED751D6001F3C9C /* DigiStopShort.m in Sources */,
 				66F9383D1D342B68009C7227 /* MapInterfaceController.m in Sources */,
 				66F16D181E08AF5200D45613 /* DigiFeatureProperties.m in Sources */,
 				66F16D1C1E08B36300D45613 /* Geometry.m in Sources */,
 				66A2FB0B1D887A01004A6C24 /* RouteSummaryInterfaceController.m in Sources */,
+				6658BAB51ED752E9001F3C9C /* DigiRouteOptionManager.m in Sources */,
 				66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */,
 				66B391B81D23078B00C500CC /* HSLRoute.m in Sources */,
 				66B391971D20129B00C500CC /* AppManagerBase.m in Sources */,
+				6658BABC1ED754CF001F3C9C /* LineStop.m in Sources */,
+				6658BAC01ED75865001F3C9C /* RouteSearchOptions.m in Sources */,
 				6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */,
 				6601AC931D29894000EB8972 /* AppManager.m in Sources */,
 				66B391AF1D23078B00C500CC /* HSLCoord.m in Sources */,
 				663207251D29257A00D8A46D /* ReittiMapkitHelper.m in Sources */,
+				6658BAAF1ED751D6001F3C9C /* DigiRouteShort.m in Sources */,
 				6632072D1D293DCC00D8A46D /* ReittiStringFormatter.m in Sources */,
+				6658BAB01ED751D6001F3C9C /* DigiRoute.m in Sources */,
+				6658BABB1ED754B3001F3C9C /* Line.m in Sources */,
 				66BCA6F21D72019A0092C5BB /* StopLine.m in Sources */,
+				6658BAB61ED752F8001F3C9C /* GraphQLQuery.m in Sources */,
 				66B391C41D2312B600C500CC /* WidgetHelpers.m in Sources */,
 				663207271D2925AE00D8A46D /* NSString+Helper.m in Sources */,
+				6658BAB81ED753C3001F3C9C /* DigiBikeRentalStation.m in Sources */,
+				6658BAB31ED751D6001F3C9C /* DigiStoptime.m in Sources */,
 				66BCA6FA1D722D9A0092C5BB /* BusStopE.m in Sources */,
 				66BCA6F31D72020C0092C5BB /* OrderedManagedObject.m in Sources */,
 				663465E91ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -4965,31 +5005,47 @@
 				663207221D282F3F00D8A46D /* RouteInterfaceController.m in Sources */,
 				6632072A1D293C8600D8A46D /* RouteLeg.m in Sources */,
 				66B391981D2013EF00C500CC /* NamedBookmarkE.m in Sources */,
+				6658BAAB1ED751D6001F3C9C /* DigiPlace.m in Sources */,
+				6658BAB41ED752AE001F3C9C /* BusStop.m in Sources */,
 				66BCA6F71D72106C0092C5BB /* StopRowController.m in Sources */,
 				66A2FB0E1D889213004A6C24 /* RouteHeaderRowController.m in Sources */,
 				66BCA6F41D7202160092C5BB /* ReittiManagedObjectBase.m in Sources */,
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
 				663465BC1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
+				6658BAA71ED74580001F3C9C /* DigiTransitCommunicator.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
+				6658BAB11ED751D6001F3C9C /* DigiStop.m in Sources */,
 				66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */,
 				660711F91D8F18D1000BA8D1 /* SettingsManager.m in Sources */,
+				6658BAA91ED750A1001F3C9C /* DigiIntermediateStops.m in Sources */,
 				662481991D1FFBF700574319 /* HomeInterfaceController.m in Sources */,
 				663207281D2925B500D8A46D /* NSObject+Helper.m in Sources */,
+				6658BAA81ED74FDF001F3C9C /* DigiTrip.m in Sources */,
+				6658BAC11ED7A4BF001F3C9C /* NamedBookmark.m in Sources */,
 				6632072B1D293D0B00D8A46D /* RouteLegLocation.m in Sources */,
 				66BCA7001D72370F0092C5BB /* StopInterfaceController.m in Sources */,
 				663207261D29258800D8A46D /* NSArray+Helper.m in Sources */,
 				663207301D29501E00D8A46D /* RouteLegRowController.m in Sources */,
+				6658BAAE1ED751D6001F3C9C /* DigiPattern.m in Sources */,
 				66B391B21D23078B00C500CC /* HSLLegs.m in Sources */,
+				6658BABF1ED756CF001F3C9C /* ReittiRegionManager.m in Sources */,
 				6601AC941D29898700EB8972 /* EnumManager.m in Sources */,
+				6658BAAC1ED751D6001F3C9C /* DigiGeometry.m in Sources */,
 				66B391C21D230B5800C500CC /* HSLRouteOptionManager.m in Sources */,
 				663207241D291C4100D8A46D /* Route.m in Sources */,
 				66B391BE1D23086200C500CC /* WatchHslApi.m in Sources */,
 				663207291D2925BE00D8A46D /* NSDate+Helper.m in Sources */,
 				66B391BB1D2307CC00C500CC /* WatchDataManager.m in Sources */,
 				6624819F1D1FFBF700574319 /* NotificationController.m in Sources */,
+				6658BAAA1ED750F6001F3C9C /* DigiLegs.m in Sources */,
 				66BCA7031D723B990092C5BB /* DepartureRowController.m in Sources */,
+				6658BAB91ED753CC001F3C9C /* DigiStopAtDistance.m in Sources */,
 				66997AB81ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
+				6658BABE1ED7553F001F3C9C /* ReittiObject.m in Sources */,
 				66B3919E1D205DF900C500CC /* WatchCommunicationManager.m in Sources */,
+				6658BABA1ED753E6001F3C9C /* StopDeparture.m in Sources */,
+				6658BAA61ED7432C001F3C9C /* APIClient.m in Sources */,
+				6658BABD1ED7552B001F3C9C /* BikeStation.m in Sources */,
 				6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */,
 				66A2FB081D887612004A6C24 /* RouteSummaryRowController.m in Sources */,
 			);

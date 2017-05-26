@@ -9,8 +9,11 @@
 #import "BusStop.h"
 #import "EnumManager.h"
 #import "ReittiStringFormatter.h"
-#import "MatkaLine.h"
 #import "StopLine.h"
+
+#ifndef APPLE_WATCH
+#import "MatkaLine.h"
+#endif
 
 @implementation BusStop
 
@@ -42,6 +45,7 @@
 
 #pragma mark - Init from other class
 
+#ifndef APPLE_WATCH
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStop *stop = [[BusStop alloc] init];
     
@@ -103,6 +107,8 @@
     
     return departures;
 }
+
+#endif
 
 #pragma mark - conversion to and from dictionary
 -(id)initWithDictionary:(NSDictionary *)dict parseLines:(BOOL)parseLines {

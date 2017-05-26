@@ -1438,7 +1438,7 @@
         //Delete the existing one from iCloud
         [self deleteNamedBookmarksFromICloud:@[bookmark]];
         
-        [bookmark updateValuesFromDictionary:dict];
+        [bookmark initWithDictionary:dict];
     }
     
     [self saveManagedObject:bookmark];

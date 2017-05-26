@@ -16,12 +16,12 @@
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
 #import <MapKit/MapKit.h>
+#import "DigiIntermediateStops.h"
+#import "DigiPlace.h"
 
 #ifndef APPLE_WATCH
 #import "MatkaRouteLocation.h"
 #import "MatkaRouteStop.h"
-#import "DigiIntermediateStops.h"
-#import "DigiPlace.h"
 #endif
 
 @interface RouteLegLocation : NSObject
@@ -32,12 +32,12 @@
 +(instancetype)initFromDictionary: (NSDictionary *)dictionary;
 -(NSDictionary *)dictionaryRepresentation;
 
++(RouteLegLocation *)routeLocationFromDigiPlace:(DigiPlace *)digiPlace;
++(RouteLegLocation *)routeLocationFromDigiIntermidiateStop:(DigiIntermediateStops *)digiStop;
+
 #ifndef APPLE_WATCH
 +(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation;
 +(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop;
-
-+(RouteLegLocation *)routeLocationFromDigiPlace:(DigiPlace *)digiPlace;
-+(RouteLegLocation *)routeLocationFromDigiIntermidiateStop:(DigiIntermediateStops *)digiStop;
 #endif
 
 @property(nonatomic) bool isHeaderLocation;

@@ -8,16 +8,17 @@
 
 #import "HomeInterfaceController.h"
 #import "AppManagerBase.h"
-#import "NamedBookmarkE.h"
+#import "NamedBookmark.h"
 #import "WatchDataManager.h"
 #import "Route.h"
 #import "ComplicationDataManager.h"
 #import "RoutableLocation.h"
 #import "WidgetHelpers.h"
 #import "StopEntity.h"
-#import "BusStopE.h"
+#import "BusStop.h"
 #import "ReittiStringFormatterE.h"
 #import "RouteSummaryInterfaceController.h"
+#import "RouteSearchOptions.h"
 
 @interface HomeInterfaceController() <CLLocationManagerDelegate>
 
@@ -26,7 +27,7 @@
 @property (strong, nonatomic) NSArray *savedStops;
 @property (strong, nonatomic) NSMutableArray *fetchedStops;
 @property (strong, nonatomic) NSArray *transferredRoutes;
-@property (strong, nonatomic) NSDictionary *routeSearchOptions;
+@property (strong, nonatomic) RouteSearchOptions *routeSearchOptions;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *titleLabel;
 @property (strong, nonatomic) IBOutlet WKInterfaceTable *bookmarksTable;
@@ -51,7 +52,6 @@
 -(instancetype)init {
     self = [super init];
     if (self) {
-//        [WKInterfaceController reloadRootControllersWithNames:@[@"Third", @"Third"] contexts:@[@"Home", @"Second"]];
         self.watchDataManager = [WatchDataManager new];
     }
     
@@ -109,8 +109,8 @@
     
     NSMutableArray *rowTypes = [@[] mutableCopy];
     
-    NamedBookmarkE *home = [self getHomeBookmark];
-    NamedBookmarkE *work = [self getWorkBookmark];
+    NamedBookmark *home = [self getHomeBookmark];
+    NamedBookmark *work = [self getWorkBookmark];
     
     NSMutableArray *bookmarksIndexes = [@[] mutableCopy];
     NSMutableArray *recentLocationIndexes = [@[] mutableCopy];
@@ -205,17 +205,6 @@
 }
 
 #pragma mark - Route methods
--(void)saveSearchOptionsToUserDefaults {
-    [self.watchDataManager saveBookmarks:self.namedBookmarks];
-}
-
--(void)loadSavedSearchOptions {
-    NSArray * savedBookmarks = [self.watchDataManager getSavedNamedBookmarkDictionaries];
-    if (savedBookmarks) {
-        [self initBookmarksFromBookmarksDictionaries:savedBookmarks];
-        [self setUpTableView];
-    }
-}
 -(void)checkCurrentLocationAndGetRouteToLocation:(NSObject<RoutableLocationProtocol> *)location {
     RouteSearchBlock searchRouteBlock = ^(CLLocation *fromLocation){
         [self searchRouteToLocation:location fromLocation:fromLocation];
@@ -296,22 +285,11 @@
 -(void)loadSavedBookmarks {
     NSArray * savedBookmarks = [self.watchDataManager getSavedNamedBookmarkDictionaries];
     if (savedBookmarks) {
-        [self initBookmarksFromBookmarksDictionaries:savedBookmarks];
+        self.namedBookmarks = savedBookmarks;
     }
 }
 
--(void)initBookmarksFromBookmarksDictionaries:(NSArray *)bookmarkdictionaries {
-    NSMutableArray *readNamedBookmarks = [@[] mutableCopy];
-    if (bookmarkdictionaries) {
-        for (NSDictionary *bookmarkDict in bookmarkdictionaries) {
-            [readNamedBookmarks addObject:[[NamedBookmarkE alloc] initWithDictionary:bookmarkDict]];
-        }
-        
-        self.namedBookmarks = [NSArray arrayWithArray:readNamedBookmarks];
-    }
-}
-
--(NamedBookmarkE *)getHomeBookmark {
+-(NamedBookmark *)getHomeBookmark {
     if (self.namedBookmarks.count > 0) {
         NSArray *array = [self.namedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.isHomeAddress == true" ]];
         if (array != nil && array.count > 0) {
@@ -322,7 +300,7 @@
     return nil;
 }
 
--(NamedBookmarkE *)getWorkBookmark {
+-(NamedBookmark *)getWorkBookmark {
     if (self.namedBookmarks.count > 0) {
         NSArray *array = [self.namedBookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.isWorkAddress == true" ]];
         if (array != nil && array.count > 0) {
@@ -337,7 +315,7 @@
     if ([location.name.lowercaseString isEqualToString:@"current location"]) return;
 
     if (self.namedBookmarks.count > 0) {
-        for (NamedBookmarkE *bookmark in self.namedBookmarks) {
+        for (NamedBookmark *bookmark in self.namedBookmarks) {
             if ([bookmark.name isEqualToString:location.name]) return;
         }
     }
@@ -352,10 +330,8 @@
     NSMutableArray *readStops = [@[] mutableCopy];
     if (stopDictionaries) {
         for (NSDictionary *stopDict in stopDictionaries) {
-            StopEntity *stop = [StopEntity initWithDictionary:stopDict];
-            if (stop.fetchedFromApi == ReittiHSLApi) {
-                [readStops addObject:stop];
-            }
+            StopEntity *stop = [StopEntity modelObjectWithDictionary:stopDict];
+            [readStops addObject:stop];
         }
         
         self.savedStops = [NSArray arrayWithArray:readStops];
@@ -373,11 +349,11 @@
     }
 }
 
--(void)saveStopWithDeparturesToDefaults:(BusStopE *)busStop {
+-(void)saveStopWithDeparturesToDefaults:(BusStop*)busStop {
     if (!busStop) return;
     
     NSInteger existingIndex = [self.fetchedStops indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
-        BusStopE *object = (BusStopE *)obj;
+        BusStop *object = (BusStop *)obj;
         return [object.code integerValue] == [busStop.code integerValue];
     }];
     
@@ -396,15 +372,15 @@
     self.fetchedStops = [[self.watchDataManager getSavedStopsWithDeparturesDictionaries] mutableCopy];
 }
 
--(BusStopE *)fetchStopsWithValidDeparturesForCode:(NSNumber *)stopCode {
+-(BusStop *)fetchStopsWithValidDeparturesForCode:(NSNumber *)stopCode {
     NSInteger existingIndex = [self.fetchedStops indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
-        BusStopE *object = (BusStopE *)obj;
+        BusStop *object = (BusStop *)obj;
         return [object.code integerValue] == [stopCode integerValue];
     }];
     
     if (existingIndex == NSNotFound) return nil;
     
-    BusStopE *existingStop = self.fetchedStops[existingIndex];
+    BusStop *existingStop = self.fetchedStops[existingIndex];
     
     NSInteger sinceDate = [[ReittiStringFormatterE formatHSLDateFromDate:[NSDate date]] integerValue];
     NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:[NSDate date]] integerValue];
@@ -429,7 +405,7 @@
 }
 
 -(void)searchStopForStop:(StopEntity *)stopEntity {
-    BusStopE *exitingStop = [self fetchStopsWithValidDeparturesForCode:stopEntity.busStopCode];
+    BusStop *exitingStop = [self fetchStopsWithValidDeparturesForCode:stopEntity.busStopCode];
     if (exitingStop) {
         NSDictionary *stops = @{@"busStop" : exitingStop, @"stopEntity" : stopEntity};
         [self showStopDepartures:stops];
@@ -438,7 +414,7 @@
     
     [self showActivityWithText:@"Getting departures..."];
     
-    [self.watchDataManager fetchStopForCode:[stopEntity.busStopCode stringValue] andCompletionBlock:^(BusStopE *stop, NSString *errorString){
+    [self.watchDataManager fetchStopForCode:stopEntity.stopGtfsId andCompletionBlock:^(BusStop *stop, NSString *errorString){
         if (!errorString && stop) {
             NSDictionary *stops = @{@"busStop" : stop, @"stopEntity" : stopEntity};
             [self showStopDepartures:stops];
@@ -459,7 +435,7 @@
 }
 
 #pragma mark - HomeAndWork table controller Delegate methods
--(void)selectedBookmark:(NamedBookmarkE * _Nonnull)bookmark {
+-(void)selectedBookmark:(NamedBookmark * _Nonnull)bookmark {
     [self checkCurrentLocationAndGetRouteToLocation:bookmark];
 }
 
@@ -470,10 +446,9 @@
 #pragma mark - Communication Manager Delegate methods
 -(void)receivedNamedBookmarksArray:(NSArray *)bookmarksArray {
     
-    NSLog(@"%@", bookmarksArray);
+//    NSLog(@"%@", bookmarksArray);
     
-    //TODO: Check if anything is modified.
-    [self initBookmarksFromBookmarksDictionaries:bookmarksArray];
+    self.namedBookmarks = [self.watchDataManager namedBookmarksFromBookmarksDictionaries:bookmarksArray];
     [self setUpTableView];
     [self saveBookmarksToUserDefaults];
     
@@ -513,9 +488,10 @@
     }
 }
 
--(void)receivedRoutesSearchOptions:(NSDictionary *)routeSearchOptions {
-    self.routeSearchOptions = routeSearchOptions;
-    [self.watchDataManager saveRouteSearchOptions:routeSearchOptions];
+//TODO: Maybe this should go to the data manager
+-(void)receivedRoutesSearchOptions:(NSDictionary *)routeSearchOptionsDictionary {
+    self.routeSearchOptions = [RouteSearchOptions modelObjectFromDictionary:routeSearchOptionsDictionary];
+    [self.watchDataManager saveRouteSearchOptions:self.routeSearchOptions];
 }
 
 #pragma mark - CLLocation Manager

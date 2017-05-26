@@ -201,34 +201,7 @@
     return [NSString stringWithFormat:@"%@ - %@",self.fromLocationName, self.toLocationName];
 }
 
-
-#ifndef APPLE_WATCH
-
-#pragma mark - Conversion from matka object
-+(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute {
-    Route *route = [[Route alloc] init];
-    
-    route.routeLength = matkaRoute.distance;
-    route.routeDurationInSeconds = matkaRoute.timeInSeconds;
-    route.numberOfNoneWalkLegs = [NSNumber numberWithInteger: matkaRoute.routeLineLegs ? matkaRoute.routeLineLegs.count : 0];
-    route.startingTimeOfRoute = matkaRoute.startingTime;
-    route.endingTimeOfRoute = matkaRoute.endingTime;
-    route.timeAtTheFirstStop = matkaRoute.timeAtFirstStop;
-    route.startCoords = matkaRoute.startCoords;
-    route.destinationCoords = matkaRoute.destinationCoords;
-    
-    NSMutableArray *allLegs = [@[] mutableCopy];
-    for (MatkaRouteLeg *matkaLeg in matkaRoute.allLegs) {
-        RouteLeg *leg = [RouteLeg routeLegFromMatkaRouteLeg:matkaLeg];
-        if (leg)
-            [allLegs addObject:leg];
-    }
-    
-    route.routeLegs = allLegs;
-    
-    return route;
-}
-
+#pragma mark - conversion from digi objects
 +(id)routeFromDigiPlan:(DigiPlan *)digiPlan {
     Route *route = [[Route alloc] init];
     
@@ -258,6 +231,33 @@
     }
     
     
+    
+    route.routeLegs = allLegs;
+    
+    return route;
+}
+
+#ifndef APPLE_WATCH
+
+#pragma mark - Conversion from matka object
++(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute {
+    Route *route = [[Route alloc] init];
+    
+    route.routeLength = matkaRoute.distance;
+    route.routeDurationInSeconds = matkaRoute.timeInSeconds;
+    route.numberOfNoneWalkLegs = [NSNumber numberWithInteger: matkaRoute.routeLineLegs ? matkaRoute.routeLineLegs.count : 0];
+    route.startingTimeOfRoute = matkaRoute.startingTime;
+    route.endingTimeOfRoute = matkaRoute.endingTime;
+    route.timeAtTheFirstStop = matkaRoute.timeAtFirstStop;
+    route.startCoords = matkaRoute.startCoords;
+    route.destinationCoords = matkaRoute.destinationCoords;
+    
+    NSMutableArray *allLegs = [@[] mutableCopy];
+    for (MatkaRouteLeg *matkaLeg in matkaRoute.allLegs) {
+        RouteLeg *leg = [RouteLeg routeLegFromMatkaRouteLeg:matkaLeg];
+        if (leg)
+            [allLegs addObject:leg];
+    }
     
     route.routeLegs = allLegs;
     

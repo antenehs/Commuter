@@ -204,8 +204,6 @@
     handler([self templateForLeg:nil andFamily:complication.family]);
 }
 
-
-
 #pragma mark - Helpers
 -(CLKComplicationTimelineEntry *)timeLineEntryForLeg:(RouteLeg *)leg andComplicationFamily:(CLKComplicationFamily)family {
     CLKComplicationTemplate* template = [self templateForLeg:leg andFamily:family];

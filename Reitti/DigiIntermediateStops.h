@@ -9,7 +9,7 @@
 #import <MapKit/MapKit.h>
 #import "Mapping.h"
 
-@interface DigiIntermediateStops : NSObject <NSCoding, NSCopying, Mappable>
+@interface DigiIntermediateStops : NSObject <NSCoding, NSCopying, Mappable, DictionaryMappable>
 
 @property (nonatomic, strong) NSString *gtfsId;
 @property (nonatomic, strong) NSString *code;
@@ -17,9 +17,9 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSNumber *lon;
 
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+//+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+//- (instancetype)initWithDictionary:(NSDictionary *)dict;
+//- (NSDictionary *)dictionaryRepresentation;
 
 @property (nonatomic)CLLocationCoordinate2D coords;
 

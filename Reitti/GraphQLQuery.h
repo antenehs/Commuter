@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#ifndef APPLE_WATCH
 #import "RKObjectMapping.h"
+#endif
 
 typedef enum {
     GraphQLQueryTypeStop = 0,
@@ -28,7 +31,11 @@ typedef enum {
 
 @property (nonatomic, strong) NSString* query;
 
+#ifndef APPLE_WATCH
 +(RKObjectMapping*)requestMapping;
+#endif
+
++(NSDictionary *)requestMappingDictionary;
 
 +(NSString *)stopQueryStringWithArguments:(NSDictionary *)arguments;
 +(NSString *)stopInAreaQueryStringWithArguments:(NSDictionary *)arguments;

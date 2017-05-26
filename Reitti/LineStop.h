@@ -6,9 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MatkaStop.h"
-//#import "DigiStopShort.h"
 
+#ifndef APPLE_WATCH
+#import "MatkaStop.h"
+#endif
 
 @interface LineStop : NSObject <NSCoding, NSCopying>
 
@@ -26,7 +27,9 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSDictionary *)dictionaryRepresentation;
 
+#ifndef APPLE_WATCH
 + (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop;
-//+ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort;
+#endif
+
 
 @end

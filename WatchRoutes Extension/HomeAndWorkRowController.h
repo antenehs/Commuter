@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <WatchKit/WatchKit.h>
-#import "NamedBookmarkE.h"
+#import "NamedBookmark.h"
 
 @protocol HomeAndWorkRowControllerDelegate <NSObject>
--(void)selectedBookmark:(NamedBookmarkE * _Nonnull)bookmark;
+-(void)selectedBookmark:(NamedBookmark * _Nonnull)bookmark;
 -(void)selectedNoneExistingBookmark:(NSString * _Nonnull)bookmarkName;
 @end
 
 @interface HomeAndWorkRowController : NSObject
 
--(void)setUpWithHomeBookmark:(NamedBookmarkE * _Nullable)home andWorkBookmark:(NamedBookmarkE * _Nullable)work;
+-(void)setUpWithHomeBookmark:(NamedBookmark * _Nullable)home andWorkBookmark:(NamedBookmark * _Nullable)work;
 
 @property (weak, nonatomic) IBOutlet WKInterfaceGroup * _Nullable homeGroup;
 @property (weak, nonatomic) IBOutlet WKInterfaceButton * _Nullable homeButton;
@@ -27,8 +27,8 @@
 @property (weak, nonatomic) IBOutlet WKInterfaceButton *_Nullable workButton;
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel * _Nullable workLabel;
 
-@property (nonatomic, strong)NamedBookmarkE * _Nullable homeBookmark;
-@property (nonatomic, strong)NamedBookmarkE * _Nullable workBookmark;
+@property (nonatomic, strong)NamedBookmark * _Nullable homeBookmark;
+@property (nonatomic, strong)NamedBookmark * _Nullable workBookmark;
 
 @property (nonatomic, weak)NSObject<HomeAndWorkRowControllerDelegate> * _Nullable delegate;
 

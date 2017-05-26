@@ -59,18 +59,19 @@ NSString *const kDigiLegsTo = @"to";
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.transitLeg = [self objectOrNilForKey:kDigiLegsTransitLeg fromDictionary:dict];
-            self.trip = [DigiTrip modelObjectWithDictionary:[dict objectForKey:kDigiLegsTrip]];
-            self.realTime = [self objectOrNilForKey:kDigiLegsRealTime fromDictionary:dict];
-            self.from = [DigiPlace modelObjectWithDictionary:[dict objectForKey:kDigiLegsFrom]];
-            self.intermediateStops = [self objectOrNilForKey:kDigiLegsIntermediateStops fromDictionary:dict];
-            self.mode = [self objectOrNilForKey:kDigiLegsMode fromDictionary:dict];
-            self.rentedBike = [self objectOrNilForKey:kDigiLegsRentedBike fromDictionary:dict];
-            self.endTime = [self objectOrNilForKey:kDigiLegsEndTime fromDictionary:dict];
-            self.duration = [self objectOrNilForKey:kDigiLegsDuration fromDictionary:dict];
-            self.distance = [self objectOrNilForKey:kDigiLegsDistance fromDictionary:dict];
-            self.startTime = [self objectOrNilForKey:kDigiLegsStartTime fromDictionary:dict];
-            self.to = [DigiPlace modelObjectWithDictionary:[dict objectForKey:kDigiLegsTo]];
+        self.transitLeg = [self objectOrNilForKey:kDigiLegsTransitLeg fromDictionary:dict];
+        self.trip = [DigiTrip modelObjectWithDictionary:[dict objectForKey:kDigiLegsTrip]];
+        self.realTime = [self objectOrNilForKey:kDigiLegsRealTime fromDictionary:dict];
+        self.from = [DigiPlace modelObjectWithDictionary:[dict objectForKey:kDigiLegsFrom]];
+        NSArray *stopsDictArray = [self objectOrNilForKey:kDigiLegsIntermediateStops fromDictionary:dict];
+        self.intermediateStops = [MappingHelper mapDictionaryArray:stopsDictArray toArrayOfClassType:[DigiIntermediateStops class]];
+        self.mode = [self objectOrNilForKey:kDigiLegsMode fromDictionary:dict];
+        self.rentedBike = [self objectOrNilForKey:kDigiLegsRentedBike fromDictionary:dict];
+        self.endTime = [self objectOrNilForKey:kDigiLegsEndTime fromDictionary:dict];
+        self.duration = [self objectOrNilForKey:kDigiLegsDuration fromDictionary:dict];
+        self.distance = [self objectOrNilForKey:kDigiLegsDistance fromDictionary:dict];
+        self.startTime = [self objectOrNilForKey:kDigiLegsStartTime fromDictionary:dict];
+        self.to = [DigiPlace modelObjectWithDictionary:[dict objectForKey:kDigiLegsTo]];
 
     }
     
@@ -85,17 +86,7 @@ NSString *const kDigiLegsTo = @"to";
     [mutableDict setValue:self.trip forKey:kDigiLegsTrip];
     [mutableDict setValue:[NSNumber numberWithBool:self.realTime] forKey:kDigiLegsRealTime];
     [mutableDict setValue:[self.from dictionaryRepresentation] forKey:kDigiLegsFrom];
-    NSMutableArray *tempArrayForIntermediateStops = [NSMutableArray array];
-    for (NSObject *subArrayObject in self.intermediateStops) {
-        if([subArrayObject respondsToSelector:@selector(dictionaryRepresentation)]) {
-            // This class is a model object
-            [tempArrayForIntermediateStops addObject:[subArrayObject performSelector:@selector(dictionaryRepresentation)]];
-        } else {
-            // Generic object
-            [tempArrayForIntermediateStops addObject:subArrayObject];
-        }
-    }
-    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForIntermediateStops] forKey:kDigiLegsIntermediateStops];
+    [mutableDict setValue:[MappingHelper mapObjectArrayToDictionary:self.intermediateStops] forKey:kDigiLegsIntermediateStops];
     [mutableDict setValue:self.mode forKey:kDigiLegsMode];
     [mutableDict setValue:self.rentedBike forKey:kDigiLegsRentedBike];
     [mutableDict setValue:self.endTime forKey:kDigiLegsEndTime];

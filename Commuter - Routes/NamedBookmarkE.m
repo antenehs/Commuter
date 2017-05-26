@@ -6,6 +6,7 @@
 //  Copyright © 2015 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "NamedBookmarkE.h"
 
 @implementation NamedBookmarkE
@@ -76,3 +77,4 @@
 }
 
 @end
+*/

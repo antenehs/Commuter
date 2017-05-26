@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import <RestKit/RestKit.h>
+//#import <RestKit/RestKit.h>
 
 typedef enum
 {

@@ -37,16 +37,17 @@
 #import "RouteLeg.h"
 #import "RouteLegLocation.h"
 #import <MapKit/MapKit.h>
+#import "DigiPlan.h"
 
 #ifndef APPLE_WATCH
-#import "DigiPlan.h"
 #import "MatkaRoute.h"
 #endif
 
 @interface Route : NSObject
 
-#ifndef APPLE_WATCH
 +(id)routeFromDigiPlan:(DigiPlan *)digiPlan;
+
+#ifndef APPLE_WATCH
 +(id)routeFromMatkaRoute:(MatkaRoute *)matkaRoute;
 
 @property (nonatomic, strong)UIImage *routeIcon;

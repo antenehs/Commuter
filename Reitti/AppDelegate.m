@@ -46,7 +46,7 @@
     [ReittiRegionManager sharedManager];
     SettingsManager *settingManager = [SettingsManager sharedManager];
     //Set region support before sending data to watch
-    [[WatchCommunicationManager sharedManager] updateWatchLocalSearchSupported:[settingManager isHSLRegion]];
+    [[WatchCommunicationManager sharedManager] updateWatchLocalSearchSupported:YES];
     
     if (launchOptions != nil) {
         // Launched from push notification

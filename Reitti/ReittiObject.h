@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ApiProtocols.h"
 
-/////////////////////////////
-//     REITTI OBJECT       //
-/////////////////////////////
 @interface ReittiObject : NSObject
 
 @property (nonatomic)ReittiApi fetchedFromApi;

@@ -10,7 +10,7 @@
 
 @implementation HomeAndWorkRowController
 
--(void)setUpWithHomeBookmark:(NamedBookmarkE *)home andWorkBookmark:(NamedBookmarkE *)work {
+-(void)setUpWithHomeBookmark:(NamedBookmark *)home andWorkBookmark:(NamedBookmark *)work {
     
 //    [self.homeGroup setHidden:!home];
 //    [self.workGroup setHidden:!work];

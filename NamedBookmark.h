@@ -10,18 +10,29 @@
 //#import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 #import "OrderedManagedObject.h"
+#import "WidgetAPIProtocols.h"
+#import "Mapping.h"
 
-@interface NamedBookmark : OrderedManagedObject {
+#if MAIN_APP
+@interface NamedBookmark : OrderedManagedObject<DictionaryMappable> {
+#else
+@interface NamedBookmark : OrderedManagedObject<RoutableLocationProtocol, DictionaryMappable> {
+#endif
+    
+#ifndef APPLE_WATCH
     UIImage *_annotationImage;
+#endif
 }
 
 #if MAIN_APP
 -(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context;
 #endif
 
-+(id)modelWithDictionary:(NSDictionary *)dict;
++(instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+-(instancetype)initWithDictionary:(NSDictionary *)dict;
 -(NSDictionary *)dictionaryRepresentation;
--(void)updateValuesFromDictionary:(NSDictionary *)dict;
+    
+//-(void)updateValuesFromDictionary:(NSDictionary *)dict;
 
 + (NSArray *)getAddressTypeList;
 + (NSString *)getMonochromePictureNameForColorPicture:(NSString *)colorPicture;
@@ -43,7 +54,9 @@
 
 @property (nonatomic, readonly)BOOL isHomeAddress;
 @property (nonatomic, readonly)BOOL isWorkAddress;
-@property (nonatomic, strong, readonly) UIImage *annotationImage;
 
+#ifndef APPLE_WATCH
+@property (nonatomic, strong, readonly) UIImage *annotationImage;
+#endif
 
 @end

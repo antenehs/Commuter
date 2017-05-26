@@ -148,6 +148,7 @@ NSString *const kLineStopsName = @"name";
 
 #pragma mark - Init from other models
 
+#ifndef APPLE_WATCH
 + (id)lineStopFromMatkaLineStop:(MatkaStop *)matkaStop {
     LineStop *stop = [[LineStop alloc] init];
     
@@ -165,25 +166,8 @@ NSString *const kLineStopsName = @"name";
     
     return stop;
 }
+#endif
 
-//+ (id)lineStopFromDigiStopShort:(DigiStopShort *)digiStopShort {
-//    LineStop *stop = [[LineStop alloc] init];
-//    
-//    if (stop) {
-//        
-//        stop.coords = digiStopShort.coordString;
-//        stop.address = digiStopShort.name;
-//        stop.time = nil;
-//        stop.gtfsId = digiStopShort.gtfsId;
-//        stop.code = [digiStopShort.numberId stringValue];
-//        stop.codeShort = digiStopShort.code;
-//        stop.platformNumber = nil;
-//        stop.cityName = nil;
-//        stop.name = digiStopShort.name;
-//    }
-//    
-//    return stop;
-//}
 
 
 @end

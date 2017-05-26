@@ -12,7 +12,7 @@
 
 @class DigiPlace, DigiTrip;
 
-@interface DigiLegs : NSObject <NSCoding, NSCopying, Mappable>
+@interface DigiLegs : NSObject <NSCoding, NSCopying, Mappable, DictionaryMappable>
 
 @property (nonatomic, strong) NSNumber *transitLeg;
 @property (nonatomic, strong) DigiTrip *trip;
@@ -27,7 +27,7 @@
 @property (nonatomic, strong) NSNumber *startTime;
 @property (nonatomic, strong) DigiPlace *to;
 
-@property(nonatomic)int legOrder;
+@property(nonatomic) int legOrder;
 @property(nonatomic, strong, readonly) NSString *lineName;
 @property(nonatomic, strong, readonly) NSString *lineGtfsId;
 @property(nonatomic)LegTransportType legType;
@@ -37,8 +37,8 @@
 @property (nonatomic) CLLocationCoordinate2D startCoords;
 @property (nonatomic) CLLocationCoordinate2D destinationCoords;
 
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+//+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+//- (instancetype)initWithDictionary:(NSDictionary *)dict;
+//- (NSDictionary *)dictionaryRepresentation;
 
 @end

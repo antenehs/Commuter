@@ -126,8 +126,8 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 
 -(void)userLocationSet:(NSNotification *)notification {
     if (notification.object && [notification.object isKindOfClass:[SettingsManager class]]) {
-        BOOL isHSLRegion = [((SettingsManager *)notification.object) isHSLRegion];
-        [self updateWatchLocalSearchSupported:isHSLRegion];
+//        BOOL isHSLRegion = [((SettingsManager *)notification.object) isHSLRegion];
+        [self updateWatchLocalSearchSupported:YES];
     }
 }
 -(void)transferNamedBookmarks:(NSArray *)bookmarksDictionary {

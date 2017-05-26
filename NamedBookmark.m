@@ -10,9 +10,9 @@
 #import "ReittiStringFormatter.h"
 
 @interface NamedBookmark ()
-
+#ifndef APPLE_WATCH
 @property (nonatomic, strong) UIImage *annotationImage;
-
+#endif
 @end
 
 @implementation NamedBookmark
@@ -40,8 +40,11 @@
 @synthesize notes;
 @synthesize iconPictureName;
 @synthesize monochromeIconName;
-@synthesize annotationImage;
 
+#endif
+
+#ifndef APPLE_WATCH
+@synthesize annotationImage;
 #endif
 
 + (NSArray *)getAddressTypeList {
@@ -77,6 +80,12 @@
 
 #pragma mark - to and from dictionary methods
 
+-(instancetype)initWithDictionary:(NSDictionary *)dict {
+    [self updateValuesFromDictionary:dict];
+    
+    return self;
+}
+
 -(void)updateValuesFromDictionary:(NSDictionary *)dict {
     self.name = [self objectOrNilForKey:@"name" fromDictionary:dict];
     self.streetAddress = [self objectOrNilForKey:@"streetAddress" fromDictionary:dict];
@@ -105,7 +114,7 @@
 }
 #endif
 
-+(id)modelWithDictionary:(NSDictionary *)dict {
++(id)modelObjectWithDictionary:(NSDictionary *)dict {
     NamedBookmark *bookmark = [NamedBookmark new];
     [bookmark updateValuesFromDictionary:dict];
     
@@ -137,6 +146,7 @@
     return [self.name isEqualToString:@"Work"] || [self.iconPictureName isEqualToString:@"work-filled-100.png"];
 }
 
+#ifndef APPLE_WATCH
 -(UIImage *)annotationImage {
     if (!_annotationImage) {
         CGRect outerFrame = CGRectMake(0, 0, 83, 124);
@@ -161,6 +171,7 @@
     
     return _annotationImage;
 }
+#endif
 
 #pragma mark - Helper Method
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict

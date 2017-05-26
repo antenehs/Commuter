@@ -11,14 +11,14 @@
 
 #import "BusStop.h"
 
-@interface DigiStop : DigiStopShort <NSCoding, NSCopying, Mappable>
+@interface DigiStop : DigiStopShort <NSCoding, NSCopying, Mappable, DictionaryMappable>
 
 -(BusStop *)reittiBusStop;
 
 @property (nonatomic, strong) NSArray *stoptimes;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+//- (instancetype)initWithDictionary:(NSDictionary *)dict;
+//- (NSDictionary *)dictionaryRepresentation;
 
 @end

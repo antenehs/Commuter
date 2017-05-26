@@ -182,11 +182,12 @@
     }
 }
 
-#if APPLE_WATCH
-+(instancetype)initWithDictionary:(NSDictionary *)dict {
++(instancetype)modelObjectWithDictionary:(NSDictionary *)dict {
     if (!dict) return nil;
     
+#ifndef MAIN_APP
     StopEntity *entity = [StopEntity new];
+    
     entity.busStopCode = dict[@"busStopCode"];
     entity.busStopShortCode = dict[@"busStopShortCode"];
     entity.busStopName = dict[@"busStopName"];
@@ -201,8 +202,11 @@
     entity.stopGtfsId = dict[@"stopGtfsId"];
     
     return entity;
-}
+#else
+    return nil; //For now
 #endif
+}
+
 
 -(NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [@{} mutableCopy];

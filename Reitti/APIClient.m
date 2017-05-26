@@ -7,7 +7,6 @@
 //
 
 #import "APIClient.h"
-#import "RKXMLReaderSerialization.h"
 #import "ReittiStringFormatter.h"
 #import "GraphQLQuery.h"
 
@@ -19,10 +18,11 @@
     self = [super init];
     
     if (self) {
+#ifndef APPLE_WATCH
         RKLogConfigureByName("RestKit", RKLogLevelCritical);
         RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelCritical);
         RKLogConfigureByName("RestKit/Network", RKLogLevelCritical);
-         
+#endif
         /* Debug
         RKLogConfigureByName("RestKit", RKLogLevelCritical);
         RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelCritical);
@@ -48,12 +48,91 @@
 
 #pragma mark - Generic fetch method
 
+-(void)doApiFetchWithOutMappingWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock{
+    
+    //Construct params query string
+    NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
+    if ([parameters respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
+        parameters = [parameters stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    }
+    
+    NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];
+    
+    NSURL *url = [NSURL URLWithString:apiURL];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithURL:url
+            completionHandler:^(NSData *data,
+                                NSURLResponse *response,
+                                NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(data, error);
+                });
+                
+            }] resume];
+}
+
+-(void)doGraphQlQueryWithoutMapping:(NSString *)query andCompletionBlock:(ActionBlock)completionBlock {
+    GraphQLQuery *dataObject = [[GraphQLQuery alloc] init];
+    dataObject.query = query;
+    
+    NSError *error;
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:apiBaseUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    [request setHTTPMethod:@"POST"];
+//    NSDictionary *requestData = [GraphQLQuery requestMappingDictionary];
+    NSDictionary *requestData = @{ @"query" : query };
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:requestData options:0 error:&error];
+    [request setHTTPBody:postData];
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionBlock(data, error);
+        });
+    }];
+    
+    [postDataTask resume];
+}
+
 -(void)doGraphQlQuery:(NSString *)query mappingDiscriptor:(MappingDescriptor *)mappingDiscriptor andCompletionBlock:(ActionBlock)completionBlock {
+#ifndef APPLE_WATCH
     RKResponseDescriptor *responseDesc = [APIClient rkResponseDiscriptorForMappingDescriptor:mappingDiscriptor];
     
     [self doGraphQlQuery:query responseDiscriptor:responseDesc andCompletionBlock:completionBlock];
+#else
+    [self doGraphQlQueryWithoutMapping:query andCompletionBlock:^(NSData *responseData, NSError *error){
+        NSArray *responseArray = [APIClient objectsFromJSONData:responseData withMappingDescriptor:mappingDiscriptor];
+        completionBlock(responseArray, error);
+    }];
+#endif
+//    [self doApiFetchWithOutMappingWithParams:searchParameters andCompletionBlock:^(NSData *responseData, NSError *error){
+//        if (!error) {
+//            //DO Mapping
+//            completionBlock(responseData, nil);
+//        }else{
+//            completionBlock(nil, error);
+//        }
+//    }];
 }
 
+-(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDescriptor:(MappingDescriptor *)mappingDescriptor andCompletionBlock:(ActionBlock)completionBlock {
+#ifndef APPLE_WATCH
+    RKResponseDescriptor *responseDesc = [APIClient rkResponseDiscriptorForMappingDescriptor:mappingDescriptor];
+    
+    [self doApiFetchWithParams:params responseDiscriptor:responseDesc isJsonResponse:YES andCompletionBlock:completionBlock];
+#endif
+}
+
+#ifndef APPLE_WATCH
 -(void)doGraphQlQuery:(NSString *)query responseDiscriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock {
     
     GraphQLQuery *dataObject = [[GraphQLQuery alloc] init];
@@ -114,12 +193,6 @@
     [objectManager enqueueObjectRequestOperation:objectRequestOperation];
 }
 
--(void)doJsonApiFetchWithParams:(NSDictionary *)params mappingDescriptor:(MappingDescriptor *)mappingDescriptor andCompletionBlock:(ActionBlock)completionBlock {
-    RKResponseDescriptor *responseDesc = [APIClient rkResponseDiscriptorForMappingDescriptor:mappingDescriptor];
-    
-    [self doApiFetchWithParams:params responseDiscriptor:responseDesc isJsonResponse:YES andCompletionBlock:completionBlock];
-}
-
 -(void)doJsonApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock{
     
     [self doApiFetchWithParams:params responseDiscriptor:responseDescriptor isJsonResponse:YES andCompletionBlock:completionBlock];
@@ -147,28 +220,59 @@
 -(void)doXmlApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock{
     [self doApiFetchWithParams:params mappingDictionary:mapping mapToClass:mapToClass mapKeyPath:keyPath isJsonResponse:NO andCompletionBlock:completionBlock];
 }
+#endif
 
--(void)doApiFetchWithOutMappingWithParams:(NSDictionary *)params andCompletionBlock:(ActionBlock)completionBlock{
+#pragma mark - Dictioany Mapping
++(NSArray *)objectsFromJSONData:(NSData *)jsonData withMappingDescriptor:(MappingDescriptor *)mappingDescriptor {
+    NSError *localError = nil;
+    id parsedObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&localError];
     
-    //Construct params query string
-    NSString *parameters = [APIClient formatRestQueryFilterForDictionary:params];
-    if ([parameters respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
-        parameters = [parameters stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    if (localError != nil) { return nil; }
+    
+    NSMutableArray *objects = [[NSMutableArray alloc] init];
+    
+    NSArray *objectArray = nil;
+    if ([parsedObject isKindOfClass:[NSArray class]]) {
+        if (mappingDescriptor.path && ![mappingDescriptor.path isEqualToString:@""]) {
+            NSLog(@"Path is set for mapping but recieved an array");
+            return nil;
+        } else {
+            objectArray = parsedObject;
+        }
+    } else if ([parsedObject isKindOfClass:[NSDictionary class]]) {
+        if (mappingDescriptor.path && ![mappingDescriptor.path isEqualToString:@""]) {
+            id dictionaryArray = [(NSDictionary *)parsedObject valueForKeyPath:mappingDescriptor.path];
+            if (!dictionaryArray || ![dictionaryArray isKindOfClass:[NSArray class]]) return nil;
+            
+            objectArray = dictionaryArray;
+        } else {
+            objectArray = @[parsedObject];
+        }
+    } else {
+        NSLog(@"Unknown object type");
+        return nil;
     }
     
-    NSString *apiURL = [NSString stringWithFormat:@"%@?%@",apiBaseUrl,parameters];
+    if(!objectArray) return nil;
     
-    NSURL *url = [NSURL URLWithString:apiURL];
-    //    NSLog(@"%@", urlAsString);
-    
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:url] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    for (NSDictionary *dict in objectArray) {
+        if ([mappingDescriptor.classType conformsToProtocol:@protocol(DictionaryMappable)]) {
+            id mappedObject = [(Class<DictionaryMappable>)mappingDescriptor.classType modelObjectWithDictionary:dict];
+            
+            if (mappedObject) { [objects addObject:mappedObject]; }
+            else {
+                NSLog(@"Class is not mappable");
+                return nil;
+            }
+        } else {
+            NSLog(@"Class is not mappable");
+            return nil;
+        }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionBlock(data, error);
-        });
-    }];
+    }
+    
+    return objects;
 }
-
 
 #pragma mark - Mapping helpers
 #ifndef APPLE_WATCH
@@ -196,5 +300,6 @@
     return mapping;
 }
 #endif
+
 
 @end

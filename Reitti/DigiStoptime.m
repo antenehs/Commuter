@@ -47,15 +47,16 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
     
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
+    //TODO: Think of this later. Such a hackkkkkk!!!!!
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
-            self.serviceDay = [self objectOrNilForKey:kDigiStoptimesServiceDay fromDictionary:dict];
-            self.scheduledDeparture = [self objectOrNilForKey:kDigiStoptimesScheduledDeparture fromDictionary:dict];
-            self.routeLongName = [self objectOrNilForKey:kDigiStoptimesRouteLongName fromDictionary:dict];
-        self.routeShortName = [self objectOrNilForKey:kDigiStoptimesRouteShortName fromDictionary:dict];
-        self.destination = [self objectOrNilForKey:kDigiStoptimesRouteDestination fromDictionary:dict];
-            self.realtime = [self objectOrNilForKey:kDigiStoptimesRealtime fromDictionary:dict];
-            self.realtimeDeparture = [self objectOrNilForKey:kDigiStoptimesRealtimeDeparture fromDictionary:dict];
-            self.realtimeState = [self objectOrNilForKey:kDigiStoptimesRealtimeState fromDictionary:dict];
+        self.serviceDay = [self objectOrNilForKey:kDigiStoptimesServiceDay fromDictionary:dict];
+        self.scheduledDeparture = [self objectOrNilForKey:@"scheduledDeparture" fromDictionary:dict];
+        self.routeLongName = [dict valueForKeyPath:@"trip.route.longName"];
+        self.routeShortName = [dict valueForKeyPath:@"trip.route.shortName"];
+        self.destination = [dict valueForKeyPath:@"trip.route.tripHeadsign"];
+        self.realtime = [self objectOrNilForKey:kDigiStoptimesRealtime fromDictionary:dict];
+        self.realtimeDeparture = [self objectOrNilForKey:kDigiStoptimesRealtimeDeparture fromDictionary:dict];
+        self.realtimeState = [self objectOrNilForKey:kDigiStoptimesRealtimeState fromDictionary:dict];
 
     }
     

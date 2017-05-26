@@ -120,34 +120,7 @@
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
 
-#ifndef APPLE_WATCH
-+(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation {
-    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
-    
-    loc.arrTime = matkaLocation.parsedArrivalTime;
-    loc.depTime = matkaLocation.parsedDepartureTime;
-    loc.name = matkaLocation.name;
-    loc.coords = matkaLocation.coords;
-    loc.coordsString = matkaLocation.coordString;
-    
-    return loc;
-}
-
-+(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop {
-    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
-    
-    loc.arrTime = matkaStop.parsedArrivalTime;
-    loc.depTime = matkaStop.parsedDepartureTime;
-    loc.name = matkaStop.name;
-    loc.coords = matkaStop.coords;
-    loc.coordsString = matkaStop.coordString;
-    loc.stopCode = matkaStop.stopId;
-    loc.shortCode = matkaStop.stopCode;
-    loc.stopAddress = matkaStop.name;
-    
-    return loc;
-}
-
+#pragma mark - Init from other objects
 +(RouteLegLocation *)routeLocationFromDigiPlace:(DigiPlace *)digiPlace {
     RouteLegLocation *loc = [[RouteLegLocation alloc] init];
     
@@ -184,6 +157,34 @@
     loc.stopCode = digiStop.gtfsId;
     loc.shortCode = digiStop.code;
     loc.stopAddress = digiStop.name;
+    
+    return loc;
+}
+
+#ifndef APPLE_WATCH
++(RouteLegLocation *)routeLocationFromMatkaRouteLocation:(MatkaRouteLocation *)matkaLocation {
+    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
+    
+    loc.arrTime = matkaLocation.parsedArrivalTime;
+    loc.depTime = matkaLocation.parsedDepartureTime;
+    loc.name = matkaLocation.name;
+    loc.coords = matkaLocation.coords;
+    loc.coordsString = matkaLocation.coordString;
+    
+    return loc;
+}
+
++(RouteLegLocation *)routeLocationFromMatkaRouteStop:(MatkaRouteStop *)matkaStop {
+    RouteLegLocation *loc = [[RouteLegLocation alloc] init];
+    
+    loc.arrTime = matkaStop.parsedArrivalTime;
+    loc.depTime = matkaStop.parsedDepartureTime;
+    loc.name = matkaStop.name;
+    loc.coords = matkaStop.coords;
+    loc.coordsString = matkaStop.coordString;
+    loc.stopCode = matkaStop.stopId;
+    loc.shortCode = matkaStop.stopCode;
+    loc.stopAddress = matkaStop.name;
     
     return loc;
 }

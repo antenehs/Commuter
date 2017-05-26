@@ -82,6 +82,7 @@
 
 #pragma mark - Init from other stops
 
+#ifndef APPLE_WATCH
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop {
     BusStopShort *stop = [[BusStopShort alloc] init];
     
@@ -116,6 +117,7 @@
     
     return self;
 }
+#endif
 
 #pragma mark - Computed properties
 

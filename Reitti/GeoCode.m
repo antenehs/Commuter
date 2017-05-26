@@ -262,6 +262,7 @@
     }
 }
 
+#ifndef APPLE_WATCH
 -(UIImage *)annotationImage {
     if (!_annotationImage) {
         CGRect outerFrame = CGRectMake(0, 0, 83, 124);
@@ -286,6 +287,7 @@
     
     return _annotationImage;
 }
+#endif
 
 -(BusStopShort *)busStop {
     if (self.locationType != LocationTypeStop)

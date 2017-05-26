@@ -92,4 +92,5 @@
         return FullAvailability;
     }
 }
+
 @end

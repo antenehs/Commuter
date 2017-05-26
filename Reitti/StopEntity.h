@@ -12,17 +12,16 @@
 #import "EnumManager.h"
 #import "ApiProtocols.h"
 #import "OrderedManagedObject.h"
+#import "Mapping.h"
 
 #ifndef APPLE_WATCH
 #import "BusStopShort.h"
 #endif
 
-@interface StopEntity : OrderedManagedObject
+@interface StopEntity : OrderedManagedObject <DictionaryMappable>
 
++(instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 -(NSDictionary *)dictionaryRepresentation;
-#if APPLE_WATCH
-+(instancetype)initWithDictionary:(NSDictionary *)dict;
-#endif
 
 @property (nonatomic, retain) NSNumber * busStopCode;
 @property (nonatomic, retain) NSArray  * stopLines;

@@ -30,19 +30,21 @@
 
 #import <Foundation/Foundation.h>
 #import "RouteLegLocation.h"
+#import "DigiLegs.h"
+#import "DigiTrip.h"
 
 #ifndef APPLE_WATCH
 #import "MatkaRouteLeg.h"
 #import "MatkaRouteStop.h"
 #import "MatkaRouteLocation.h"
-#import "DigiLegs.h"
 #endif
 
 @interface RouteLeg : NSObject
 
++(id)routeLegFromDigiRouteLeg:(DigiLegs *)digiLeg;
+
 #ifndef APPLE_WATCH
 +(id)routeLegFromMatkaRouteLeg:(MatkaRouteLeg *)matkaLeg;
-+(id)routeLegFromDigiRouteLeg:(DigiLegs *)digiLeg;
 #endif
 
 -(id)initFromHSLandTREDictionary:(NSDictionary *)legDict;

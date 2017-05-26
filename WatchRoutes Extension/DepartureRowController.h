@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <WatchKit/WatchKit.h>
 #import "BusStopE.h"
+#import "StopDeparture.h"
+#import "BusStop.h"
 
 @interface DepartureRowController : NSObject
 
--(void)setupWithDepartureDictionary:(NSDictionary *)dict stop:(BusStopE *)stop isFirstDeparture:(BOOL)isFirst;
+-(void)setupWithDeparture:(StopDeparture *)departure stop:(BusStop *)stop isFirstDeparture:(BOOL)isFirst;
 
-@property (strong, nonatomic) NSDictionary *departureDictionary;
+@property (strong, nonatomic) StopDeparture *departure;
 
 @property (strong, nonatomic) IBOutlet WKInterfaceSeparator *rowSeparator;
 @property (strong, nonatomic) IBOutlet WKInterfaceLabel *lineCodeLabel;

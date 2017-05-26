@@ -8,22 +8,21 @@
 
 #import "DepartureRowController.h"
 #import "ReittiStringFormatterE.h"
+#import "ReittiDateHelper.h"
 
 @implementation DepartureRowController
 
--(void)setupWithDepartureDictionary:(NSDictionary *)dict stop:(BusStopE *)stop isFirstDeparture:(BOOL)isFirst {
-    if (!dict) return;
+-(void)setupWithDeparture:(StopDeparture *)departure stop:(BusStop *)stop isFirstDeparture:(BOOL)isFirst {
+    if (!departure) return;
     
-    self.departureDictionary = dict;
+    self.departure = departure;
     [self.rowSeparator setHidden:isFirst];
     
-    NSString *notParsedCode = [dict objectForKey:@"code"];
-    [self.lineCodeLabel setText:[ReittiStringFormatterE parseBusNumFromLineCode:notParsedCode]];
+    [self.lineCodeLabel setText:departure.code];
     
-    NSString *notFormattedTime = [NSString stringWithFormat:@"%d" ,[(NSNumber *)[dict objectForKey:@"time"] intValue]];
-    [self.departureTimeLabel setText:[ReittiStringFormatterE formatHSLAPITimeToHumanTime:notFormattedTime]];
+    [self.departureTimeLabel setText:[[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate]];
     
-    [self.destinationLabel setText:[stop destinationForLineFullCode:notParsedCode]];
+    [self.destinationLabel setText:departure.destination];
 }
 
 

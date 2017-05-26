@@ -11,10 +11,16 @@
 #import "RoutableLocation.h"
 #import "StopEntity.h"
 #import "BusStopE.h"
+#import "ReittiRegionManager.h"
+#import "DigiTransitCommunicator.h"
+#import "NamedBookmark.h"
+#import "BusStop.h"
 
 @interface WatchDataManager ()
 
 @property (strong, nonatomic)WatchHslApi *hslApiClient;
+@property (strong, nonatomic)DigiTransitCommunicator *digiHslApiClient;
+@property (strong, nonatomic)DigiTransitCommunicator *digiFinlandApiClient;
 
 @end
 
@@ -25,17 +31,23 @@
     self = [super init];
     if (self) {
         self.hslApiClient = [[WatchHslApi alloc] init];
+        self.digiHslApiClient = [DigiTransitCommunicator hslDigiTransitCommunicator];
+        self.digiFinlandApiClient = [DigiTransitCommunicator finlandDigiTransitCommunicator];
     }
     return self;
 }
 
 #pragma mark - Saved to defaults
--(void)saveRouteSearchOptions:(NSDictionary *)searchOptions {
-    [self saveObjectToDefaults:searchOptions withKey:@"RouteSearchOptions"];
+-(void)saveRouteSearchOptions:(RouteSearchOptions *)searchOptions {
+    if (!searchOptions && ![searchOptions isKindOfClass:[RouteSearchOptions class]]) return;
+    
+    [self saveObjectToDefaults:[searchOptions dictionaryRepresentation] withKey:@"RouteSearchOptions"];
 }
 
--(NSDictionary *)getRouteSearchOptions {
-    return [self getObjectFromDefaultsForKey:@"RouteSearchOptions"];
+-(RouteSearchOptions *)getRouteSearchOptions {
+    NSDictionary *optionsDict = [self getObjectFromDefaultsForKey:@"RouteSearchOptions"];
+    if (optionsDict) return [RouteSearchOptions modelObjectFromDictionary:optionsDict];
+    else return [RouteSearchOptions defaultOptions];
 }
 
 -(void)saveStops:(NSArray *)stops {
@@ -79,7 +91,7 @@
 -(void)saveBookmarks:(NSArray *)bookmarks {
     NSMutableArray *bookmarksArray = [@[] mutableCopy];
     if (bookmarks) {
-        for (NamedBookmarkE *bookmark in bookmarks)
+        for (NamedBookmark *bookmark in bookmarks)
             [bookmarksArray addObject:[bookmark dictionaryRepresentation]];
     }
     
@@ -87,7 +99,8 @@
 }
 
 -(NSArray *)getSavedNamedBookmarkDictionaries {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"previousReceivedBookmark"];
+    NSArray *bookmarksDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"previousReceivedBookmark"];
+    return [MappingHelper mapDictionaryArray:bookmarksDict toArrayOfClassType:[NamedBookmark class]];
 }
 
 -(void)saveOtherRecentLocation:(RoutableLocation *)location {
@@ -133,19 +146,44 @@
     return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
 
-
-#pragma mark - Network methods
--(void)getRouteToLocation:(RoutableLocation *)toLocation fromCoordLocation:(CLLocation *)fromLocation routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock {
-    
-    CLLocationCoordinate2D toCoords = [WidgetHelpers convertStringTo2DCoord:toLocation.coords];
-    
-    
-    [self.hslApiClient searchRouteForFromCoords:fromLocation.coordinate andToCoords:toCoords withOptions:options andCompletionBlock:^(id response, NSError *error){
-        completionBlock(response, [self routeSearchErrorMessageForError:error]);
-    }];
+#pragma mark - Mapping
+-(NSArray *)namedBookmarksFromBookmarksDictionaries:(NSArray *)bookmarkdictionaries {
+    return [MappingHelper mapDictionaryArray:bookmarkdictionaries toArrayOfClassType:[NamedBookmark class]];
 }
 
--(NSString *)routeSearchErrorMessageForError:(NSError *)error{
+#pragma mark - Network methods
+-(void)getRouteToLocation:(RoutableLocation *)toLocation fromCoordLocation:(CLLocation *)fromLocation routeOptions:(RouteSearchOptions *)searchOptions andCompletionBlock:(ActionBlock)completionBlock {
+    
+    searchOptions.numberOfResults = 3;
+    searchOptions.date = [NSDate date];
+    
+    id dataSourceManager = [self getDataSourceForCurrentUserLocation:fromLocation.coordinate];
+    if ([dataSourceManager conformsToProtocol:@protocol(RouteSearchProtocol)]) {
+        Region fromRegion = [self identifyRegionOfCoordinate:fromLocation.coordinate];
+        CLLocationCoordinate2D toCoords = [WidgetHelpers convertStringTo2DCoord:toLocation.coords];
+        Region toRegion = [self identifyRegionOfCoordinate:toCoords];
+        
+        if (fromRegion == toRegion) {
+            [(NSObject<RouteSearchProtocol> *)dataSourceManager searchRouteForFromCoords:fromLocation.coordinate andToCoords:toCoords withOptions:searchOptions andCompletionBlock:^(id response, NSString *errorString){
+                completionBlock(response, errorString);
+            }];
+        }else{
+            [self.digiFinlandApiClient searchRouteForFromCoords:fromLocation.coordinate andToCoords:toCoords withOptions:searchOptions andCompletionBlock:^(id response, NSString *errorString){
+                if (!errorString) {
+                    completionBlock(response, nil);
+                }else{
+                    completionBlock(nil, errorString);
+                }
+            }];
+        }
+        
+    } else {
+        completionBlock(nil,  @"Route search not supported in this region.");
+    }
+
+}
+
+-(NSString *)routeSearchErrorMessageForError:(NSError *)error {
     if (!error) return nil;
     if (error.code == -1009) {
         return @"No internet connection.";
@@ -157,7 +195,54 @@
 }
 
 - (void)fetchStopForCode:(NSString *)code andCompletionBlock:(ActionBlock)completionBlock {
-    [self.hslApiClient fetchStopForCode:code andCompletionBlock:completionBlock];
+    
+    ReittiApi api = ReittiDigiTransitApi;
+    if ([code hasPrefix:@"HSL"]) api = ReittiDigiTransitHslApi;
+    
+    id dataSourceManager = [self getDataSourceForApi:api];
+    if ([dataSourceManager conformsToProtocol:@protocol(StopDetailFetchProtocol)]) {
+        [(NSObject<StopDetailFetchProtocol> *)dataSourceManager fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+            if (!error && response) {
+                completionBlock(response, error);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
+    }else{
+        [self.digiFinlandApiClient fetchStopDetailForCode:code withCompletionBlock:^(BusStop * response, NSString *error){
+            if (!error) {
+                completionBlock(response, nil);
+            }else{
+                completionBlock(nil, error);
+            }
+        }];
+    }
+}
+
+#pragma mark - DataSorce management
+
+-(id)getDataSourceForApi:(ReittiApi)api {
+    if (api == ReittiHSLApi) {
+        return self.digiHslApiClient;
+    } else {
+        return self.digiFinlandApiClient;
+    }
+}
+
+//#ifndef DEPARTURES_WIDGET
+
+-(id)getDataSourceForCurrentUserLocation:(CLLocationCoordinate2D)coordinate{
+    Region currentUserLocation = [self identifyRegionOfCoordinate:coordinate];
+    
+    if (currentUserLocation == HSLRegion) {
+        return self.digiHslApiClient;
+    } else {
+        return self.digiFinlandApiClient;
+    }
+}
+
+-(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords {
+    return [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate: coords];
 }
 
 @end

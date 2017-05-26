@@ -26,5 +26,42 @@
 @end
 
 
+@implementation MappingHelper
+
++(NSArray *)mapDictionaryArray:(NSArray *)dictArray toArrayOfClassType:(Class<DictionaryMappable>)classType {
+    if (!dictArray) return nil;
+    
+    NSMutableArray *mappedObjects = [NSMutableArray array];
+    if ([dictArray isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *item in (NSArray *)dictArray) {
+            if ([item isKindOfClass:[NSDictionary class]]) {
+                [mappedObjects addObject:[classType modelObjectWithDictionary:item]];
+            }
+        }
+    } else if ([dictArray isKindOfClass:[NSDictionary class]]) {
+        [mappedObjects addObject:[classType modelObjectWithDictionary:(NSDictionary *)dictArray]];
+    }
+    
+    return mappedObjects;
+}
+
++(NSArray *)mapObjectArrayToDictionary:(NSArray *)dictArray {
+    if (!dictArray) return nil;
+    
+    NSMutableArray *dictionaryArray = [NSMutableArray array];
+    for (NSObject *subArrayObject in dictArray) {
+        if([subArrayObject conformsToProtocol:@protocol(DictionaryMappable)]) {
+            [dictionaryArray addObject:[(NSObject<DictionaryMappable> *)subArrayObject dictionaryRepresentation]];
+        } else {
+            // Generic object
+            [dictionaryArray addObject:subArrayObject];
+        }
+    }
+    
+    return [NSArray arrayWithArray:dictionaryArray];
+}
+
+@end
+
 
 

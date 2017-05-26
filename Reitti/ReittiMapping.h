@@ -27,3 +27,18 @@
 @protocol Mappable <NSObject>
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path;
 @end
+
+@protocol DictionaryMappable <NSObject>
++ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
+
+@optional
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+@end
+
+@interface MappingHelper : NSObject
+
++(NSArray *)mapDictionaryArray:(NSArray *)dictArray toArrayOfClassType:(Class<DictionaryMappable>)classType;
++(NSArray *)mapObjectArrayToDictionary:(NSArray *)dictArray;
+
+@end

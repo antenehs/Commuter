@@ -7,14 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ReittiObject.h"
+#import "EnumManager.h"
+
+#ifndef APPLE_WATCH
 #import "NearByStop.h"
 #import "MatkaStop.h"
-#import "ReittiObject.h"
+#endif
 
 @interface BusStopShort : ReittiObject
 
+#ifndef APPLE_WATCH
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 -(id)initWithNearByStop:(NearByStop *)nearByStop;
+#endif
 
 -(NSString *)destinationForLineFullCode:(NSString *)fullCode;
 

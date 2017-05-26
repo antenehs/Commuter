@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Mapping.h"
 
-@interface DigiPlan : NSObject <NSCoding, NSCopying, Mappable>
+@interface DigiPlan : NSObject <NSCoding, NSCopying, Mappable, DictionaryMappable>
 
 @property (nonatomic, strong) NSNumber *walkDistance;
 @property (nonatomic, strong) NSNumber *walkTime;
@@ -29,8 +29,8 @@
 @property (nonatomic) CLLocationCoordinate2D startCoords;
 @property (nonatomic) CLLocationCoordinate2D destinationCoords;
 
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+//+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+//- (instancetype)initWithDictionary:(NSDictionary *)dict;
+//- (NSDictionary *)dictionaryRepresentation;
 
 @end

@@ -13,15 +13,19 @@
 @implementation GraphQLQuery
 @synthesize query;
 
+#ifndef APPLE_WATCH
 +(RKObjectMapping*)requestMapping   {
     
     RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[GraphQLQuery class]];
     
-    [mapping addAttributeMappingsFromDictionary:@{
-                                                  @"query":   @"query",
-                                                  }];
+    [mapping addAttributeMappingsFromDictionary:[self requestMappingDictionary]];
     return mapping;
     
+}
+#endif
+
++(NSDictionary *)requestMappingDictionary {
+    return @{ @"query":   @"query"};
 }
 
 #pragma mark - Stop Query

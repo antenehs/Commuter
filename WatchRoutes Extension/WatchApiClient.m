@@ -34,12 +34,6 @@
                 });
                 
             }] resume];
-    
-//    //TODO: Set a timeout
-//    NSError *error = nil;
-//    NSData *responseData = [self sendSynchronousRequest:[[NSURLRequest alloc] initWithURL:url] returningResponse:nil error:&error];
-//    
-//    completionBlock(responseData, error);
 }
 
 -(NSData *)sendSynchronousRequest:(NSURLRequest *)request

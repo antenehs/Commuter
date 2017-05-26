@@ -9,9 +9,12 @@
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
-#import "HSLLine.h"
 #import "StopLine.h"
+
+#ifndef APPLE_WATCH
+#import "HSLLine.h"
 #import "MatkaLine.h"
+#endif
 
 @interface Line : NSObject
 
@@ -37,7 +40,10 @@
 @property (nonatomic, readonly) BOOL isValidNow;
 
 +(id)lineFromStopLine:(StopLine *)stopLine;
+
+#ifndef APPLE_WATCH
 +(id)lineFromHSLLine:(HSLLine *)hslLine;
 +(id)lineFromMatkaLine:(MatkaLine *)matkaLine;
+#endif
 
 @end

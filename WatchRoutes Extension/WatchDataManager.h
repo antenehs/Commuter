@@ -11,11 +11,12 @@
 #import <MapKit/MapKit.h>
 #import "WatchHslApi.h"
 #import "RoutableLocation.h"
+#import "RouteSearchOptions.h"
 
 @interface WatchDataManager : NSObject
 
--(void)saveRouteSearchOptions:(NSDictionary *)searchOptions;
--(NSDictionary *)getRouteSearchOptions;
+-(void)saveRouteSearchOptions:(RouteSearchOptions *)searchOptions;
+-(RouteSearchOptions *)getRouteSearchOptions;
 
 -(void)saveStops:(NSArray *)stops;
 -(NSArray *)getSavedStopsDictionaries;
@@ -31,7 +32,9 @@
 -(void)saveOtherRecentLocations:(NSArray *)locations;
 -(NSArray *)getOtherRecentLocations;
 
--(void)getRouteToLocation:(RoutableLocation *)toLocation fromCoordLocation:(CLLocation *)fromLocation routeOptions:(NSDictionary *)options andCompletionBlock:(ActionBlock)completionBlock;
+-(NSArray *)namedBookmarksFromBookmarksDictionaries:(NSArray *)bookmarkdictionaries;
+
+-(void)getRouteToLocation:(RoutableLocation *)toLocation fromCoordLocation:(CLLocation *)fromLocation routeOptions:(RouteSearchOptions *)searchOptions andCompletionBlock:(ActionBlock)completionBlock;
 - (void)fetchStopForCode:(NSString *)code andCompletionBlock:(ActionBlock)completionBlock;
 
 @end

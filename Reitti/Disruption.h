@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "DisruptionLine.h"
 #import "DisruptionText.h"
 #import "DigiAlert.h"

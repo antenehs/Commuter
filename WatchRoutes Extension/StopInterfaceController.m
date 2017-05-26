@@ -7,7 +7,7 @@
 //
 
 #import "StopInterfaceController.h"
-#import "BusStopE.h"
+#import "BusStop.h"
 #import "StopEntity.h"
 #import "StopRowController.h"
 #import "DepartureRowController.h"
@@ -17,7 +17,7 @@
 @interface StopInterfaceController ()
 
 @property (strong, nonatomic) IBOutlet WKInterfaceTable *tableView;
-@property (strong, nonatomic) BusStopE *busStop;
+@property (strong, nonatomic) BusStop *busStop;
 @property (strong, nonatomic) StopEntity *stopEntity;
 
 @end
@@ -71,7 +71,7 @@
             [controller setUpWithStop:self.stopEntity];
         } else if(self.busStop.departures.count > 0) {
             DepartureRowController *controller = (DepartureRowController *)[self.tableView rowControllerAtIndex:i];
-            [controller setupWithDepartureDictionary:self.busStop.departures[i - 1] stop:self.busStop isFirstDeparture: i == 1];
+            [controller setupWithDeparture:self.busStop.departures[i - 1] stop:self.busStop isFirstDeparture: i == 1];
         }
     }
 }

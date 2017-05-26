@@ -24,5 +24,5 @@ typedef void (^ActionBlock)();
 
 @protocol RoutableLocationProtocol <NSObject>
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString * coords;
+@property (nonatomic, retain) NSString *coords;
 @end

@@ -9,8 +9,11 @@
 #import "Line.h"
 #import "ReittiStringFormatter.h"
 #import <MapKit/MapKit.h>
-#import "MatkaStop.h"
 #import "LineStop.h"
+
+#ifndef APPLE_WATCH
+#import "MatkaStop.h"
+#endif
 
 @implementation Line
 
@@ -25,29 +28,6 @@
 @synthesize dateTo;
 @synthesize name;
 @synthesize shapeCoordinates;
-
-+(id)lineFromHSLLine:(HSLLine *)hslLine{
-    Line *line = [[Line alloc] init];
-    
-    if (hslLine != nil && [hslLine isKindOfClass:[HSLLine class]]) {
-        line.code = hslLine.code;
-        line.codeShort = hslLine.codeShort;
-        line.lineType = [EnumManager lineTypeForHSLLineTypeId:[NSString stringWithFormat:@"%d", (int)hslLine.transportTypeId]];
-        line.lineStart = hslLine.lineStart;
-        line.lineEnd = hslLine.lineEnd;
-        //TODO: convert stops to Reitti stop
-        line.lineStops = hslLine.lineStops;
-        line.timetableUrl = hslLine.timetableUrl;
-        line.dateFrom = hslLine.dateFrom;
-        line.dateTo = hslLine.dateTo;
-        line.name = hslLine.name;
-        line.shapeCoordinates = [Line parseCoordinatesFromHSLShapeString:hslLine.lineShape];
-        
-        return line;
-    }
-    
-    return nil;
-}
 
 +(id)lineFromStopLine:(StopLine *)stopLine {
     Line *line = [[Line alloc] init];
@@ -64,6 +44,30 @@
         line.dateTo = nil;
         line.name = stopLine.name;
         line.shapeCoordinates = @[];
+        
+        return line;
+    }
+    
+    return nil;
+}
+
+#ifndef APPLE_WATCH
++(id)lineFromHSLLine:(HSLLine *)hslLine{
+    Line *line = [[Line alloc] init];
+    
+    if (hslLine != nil && [hslLine isKindOfClass:[HSLLine class]]) {
+        line.code = hslLine.code;
+        line.codeShort = hslLine.codeShort;
+        line.lineType = [EnumManager lineTypeForHSLLineTypeId:[NSString stringWithFormat:@"%d", (int)hslLine.transportTypeId]];
+        line.lineStart = hslLine.lineStart;
+        line.lineEnd = hslLine.lineEnd;
+        //TODO: convert stops to Reitti stop
+        line.lineStops = hslLine.lineStops;
+        line.timetableUrl = hslLine.timetableUrl;
+        line.dateFrom = hslLine.dateFrom;
+        line.dateTo = hslLine.dateTo;
+        line.name = hslLine.name;
+        line.shapeCoordinates = [Line parseCoordinatesFromHSLShapeString:hslLine.lineShape];
         
         return line;
     }
@@ -102,41 +106,7 @@
     
     return nil;
 }
-
-//+(id)lineFromDigiLine:(DigiRoute *)digiLine {
-//    Line *line = [[Line alloc] init];
-//    
-//    if (digiLine != nil && [digiLine isKindOfClass:[DigiRoute class]]) {
-//        line.code = digiLine.gtfsId;
-//        line.codeShort = digiLine.shortName;
-//        line.lineType = digiLine.lineType;
-//        
-//        line.lineStart = digiLine.lineStart;
-//        line.lineEnd = digiLine.lineEnd;
-//        
-//        line.timetableUrl = digiLine.url;
-//        line.dateFrom = nil;
-//        line.dateTo = nil;
-//        line.name = digiLine.longName;
-//        
-////        if (digiLine.stops) {
-////            NSMutableArray *stops = [@[] mutableCopy];
-////            for (DigiStopShort *digiStop in digiLine.stops) {
-////                LineStop *stop = [LineStop lineStopFromDigiStopShort:digiStop];
-////                if (stop) [stops addObject:stop];
-////            }
-////            
-////            line.lineStops = stops;
-////        }
-//        
-//        line.shapeCoordinates = digiLine.shapeCoordinates ? digiLine.shapeCoordinates : @[];
-//        
-//        return line;
-//    }
-//    
-//    return nil;
-//}
-
+#endif
 -(BOOL)isValidNow{
     if (self.parsedDateFrom && self.parsedDateTo) {
         NSDate *currentDate = [NSDate date];

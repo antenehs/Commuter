@@ -48,8 +48,9 @@
 //-(void)setLocationType:(LocationType)type;
 
 @property (nonatomic, retain) NSString * iconPictureName;
+#ifndef APPLE_WATCH
 @property (nonatomic, strong) UIImage *annotationImage;
-
+#endif
 -(BusStopShort *)busStop;
 
 @end
