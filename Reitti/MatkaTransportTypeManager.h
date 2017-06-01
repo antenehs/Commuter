@@ -6,6 +6,7 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
 
@@ -18,3 +19,4 @@
 -(LineType)lineTypeForMatkaTrasportType:(NSString *)typeId;
 
 @end
+*/

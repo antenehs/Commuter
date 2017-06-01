@@ -6,6 +6,7 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "MatkaApiClient.h"
 #import "APIClient.h"
 #import "MatkaObjectMapping.h"
@@ -126,7 +127,7 @@
     if (!searchOptions)
         return parametersDict;
     
-    /* Optimization string */
+    //Optimization string
     NSString *optimizeString;
     if ((RouteSearchOptimization)searchOptions[kSelectedRouteSearchOptimizationKey] == RouteSearchOptionFastest) {
         optimizeString = @"2";
@@ -140,12 +141,12 @@
     
     [parametersDict setObject:optimizeString forKey:@"optimize"];
     
-    /* Change Margine */
+    // Change Margine
     if (searchOptions[kSelectedChangeMargineKey] != nil && ![searchOptions[kSelectedChangeMargineKey] isEqualToString:@"3 minutes (Default)"]) {
         [parametersDict setObject:[self.changeMargineOptions objectForKey:searchOptions[kSelectedChangeMargineKey]] forKey:@"margin"];
     }
     
-    /* Walking Speed */
+    // Walking Speed
     if (searchOptions[kSelectedWalkingSpeedKey] != nil && ![searchOptions[kSelectedWalkingSpeedKey] isEqualToString:@"Normal Walking (Default)"]) {
         [parametersDict setObject:[self.walkingSpeedOptions objectForKey:searchOptions[kSelectedWalkingSpeedKey]] forKey:@"walkspeed"];
     }
@@ -174,3 +175,4 @@
 }
 
 @end
+*/

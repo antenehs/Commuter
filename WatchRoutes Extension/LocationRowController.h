@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <WatchKit/WatchKit.h>
-#import "WidgetAPIProtocols.h"
+#import "ApiProtocols.h"
 
 @interface LocationRowController : NSObject
 

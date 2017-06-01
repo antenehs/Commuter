@@ -5,6 +5,7 @@
 //  Created by Anteneh Sahledengel on 7/2/14.
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 
+/*
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
@@ -33,3 +34,4 @@
 + (id)stopFromMatkaStop:(MatkaStop *)matkaStop;
 
 @end
+*/

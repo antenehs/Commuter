@@ -18,7 +18,7 @@
 
 @interface WatchDataManager ()
 
-@property (strong, nonatomic)WatchHslApi *hslApiClient;
+//@property (strong, nonatomic)WatchHslApi *hslApiClient;
 @property (strong, nonatomic)DigiTransitCommunicator *digiHslApiClient;
 @property (strong, nonatomic)DigiTransitCommunicator *digiFinlandApiClient;
 
@@ -30,7 +30,7 @@
 {
     self = [super init];
     if (self) {
-        self.hslApiClient = [[WatchHslApi alloc] init];
+//        self.hslApiClient = [[WatchHslApi alloc] init];
         self.digiHslApiClient = [DigiTransitCommunicator hslDigiTransitCommunicator];
         self.digiFinlandApiClient = [DigiTransitCommunicator finlandDigiTransitCommunicator];
     }

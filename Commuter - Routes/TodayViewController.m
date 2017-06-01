@@ -20,7 +20,7 @@
 #import "NSArray+Helper.h"
 #import "ReittiRegionManager.h"
 #import "RouteViewManager.h"
-
+#import "WidgetHelpers.h"
 #import "NamedBookmark.h"
 
 @interface TodayViewController () <NCWidgetProviding, CLLocationManagerDelegate>
@@ -575,7 +575,7 @@
     else return @[];
 }
 
-- (NSInteger)getLastSelectedBookmarkIndexFromCahce{
+- (NSInteger)getLastSelectedBookmarkIndexFromCahce {
     NSArray * history = [[self readLastSelectedBookmarksFromCache] reversedArray];
     if (history.count < 1) return 0;
     //If last one is too close, return second to last.

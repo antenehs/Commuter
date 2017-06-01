@@ -11,18 +11,10 @@
 #import "BusStop.h"
 #import "DigiTransitCommunicator.h"
 #import "AppManager.h"
-
-//#ifndef DEPARTURES_WIDGET
 #import "ReittiRegionManager.h"
-//#endif
+
 @interface WidgetDataManager ()
 
-//@property (nonatomic) RTCoordinateRegion helsinkiRegion;
-//@property (nonatomic) RTCoordinateRegion tampereRegion;
-
-@property (strong, nonatomic)HSLAPIClient *hslApiClient;
-@property (strong, nonatomic)TREAPIClient *treApiClient;
-@property (strong, nonatomic)MatkaApiClient *matkaApiClient;
 @property (strong, nonatomic)DigiTransitCommunicator *digiHslApiClient;
 @property (strong, nonatomic)DigiTransitCommunicator *digiFinlandApiClient;
 
@@ -33,10 +25,6 @@
 -(id)init{
     self = [super init];
     if (self) {
-//        [self initRegionCoordinates];
-        self.hslApiClient = [[HSLAPIClient alloc] init];
-        self.treApiClient = [[TREAPIClient alloc] init];
-        self.matkaApiClient = [[MatkaApiClient alloc] init];
         self.digiHslApiClient = [DigiTransitCommunicator hslDigiTransitCommunicator];
         self.digiFinlandApiClient = [DigiTransitCommunicator finlandDigiTransitCommunicator];
     }
@@ -123,8 +111,6 @@
     }
 }
 
-//#ifndef DEPARTURES_WIDGET
-
 -(id)getDataSourceForCurrentUserLocation:(CLLocationCoordinate2D)coordinate{
     Region currentUserLocation = [self identifyRegionOfCoordinate:coordinate];
 //    if (currentUserLocation == TRERegion) {
@@ -145,7 +131,6 @@
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords {
     return [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate: coords];
 }
-//#endif
 
 #pragma mark - Helpers
 

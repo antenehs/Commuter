@@ -6,6 +6,7 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "MatkaTransportTypeManager.h"
 #import "MatkaTransportType.h"
 #import "AppManagerBase.h"
@@ -20,7 +21,7 @@
 #ifndef WIDGET_APP
 @property(nonatomic, strong)MatkaCommunicator *communicator;
 #else
-@property(nonatomic, strong)MatkaApiClient *communicator;
+//@property(nonatomic, strong)MatkaApiClient *communicator;
 #endif
 
 @property(nonatomic, strong)NSArray *transportTypes;
@@ -125,3 +126,4 @@
 }
 
 @end
+*/

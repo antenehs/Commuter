@@ -10,8 +10,8 @@
 //#import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 #import "OrderedManagedObject.h"
-#import "WidgetAPIProtocols.h"
 #import "Mapping.h"
+#import "ApiProtocols.h"
 
 #if MAIN_APP
 @interface NamedBookmark : OrderedManagedObject<DictionaryMappable> {

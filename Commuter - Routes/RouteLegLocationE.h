@@ -4,14 +4,8 @@
 //
 //  Created by Anteneh Sahledengel on 12/8/14.
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
-//
-//3.5.1	coord	Coordinate	Coordinate of the location.
-//3.5.2	arrTime	Number	Arrival time to the location, format YYYYMMDDHHMM.
-//3.5.3	depTime	Number	Departure time from the location, format YYYYMMDDHHMM.
-//3.5.4	name	String	Name of the location.
-//3.5.5	code	Number(7)	Long code of the stop.
-//3.5.6	shortCode	String(4-6)	Short code of the stop.
-//3.5.7	stopAddress	String	Address of the stop.
+
+/*
 
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
@@ -37,3 +31,5 @@
 @property (nonatomic, retain) NSString * stopAddress;
 
 @end
+*/
+

@@ -58,8 +58,8 @@
 
 -(LegTransportType)legType {
     if (self.transportType || self.lineId || self.codeShort) {
-        NSString *typeString = [self.transportType stringValue];
-        if (typeString) return [[MatkaTransportTypeManager sharedManager] legTypeForMatkaTrasportType:typeString];
+//        NSString *typeString = [self.transportType stringValue];
+//        if (typeString) return [[MatkaTransportTypeManager sharedManager] legTypeForMatkaTrasportType:typeString];
         
         return LegTypeOther;
     }else{

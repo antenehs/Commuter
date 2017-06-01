@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "RouteLegLocationE.h"
 
 @implementation RouteLegLocationE
@@ -63,3 +64,5 @@
 }
 
 @end
+ 
+ */

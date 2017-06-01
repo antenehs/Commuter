@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NamedBookmarkE.h"
 #import <MapKit/MapKit.h>
 #import "WatchHslApi.h"
 #import "RoutableLocation.h"

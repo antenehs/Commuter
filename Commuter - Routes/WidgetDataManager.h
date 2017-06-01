@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "NamedBookmark.h"
 #import <MapKit/MapKit.h>
-#import "HSLAPIClient.h"
-#import "TREAPIClient.h"
-#import "MatkaApiClient.h"
 #import "ApiProtocols.h"
 
 @interface WidgetDataManager : NSObject

@@ -89,7 +89,7 @@
 -(LineType)lineType {
     if (self.transportType) {
         NSString *typeString = [self.transportType stringValue];
-        if (typeString) return [[MatkaTransportTypeManager sharedManager] lineTypeForMatkaTrasportType:typeString];
+//        if (typeString) return [[MatkaTransportTypeManager sharedManager] lineTypeForMatkaTrasportType:typeString];
         
         return LineTypeBus;
     }else{

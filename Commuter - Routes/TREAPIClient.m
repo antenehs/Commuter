@@ -6,6 +6,7 @@
 //  Copyright © 2015 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "TREAPIClient.h"
 
 @implementation TREAPIClient
@@ -41,3 +42,4 @@
 }
 
 @end
+*/

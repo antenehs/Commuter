@@ -5,6 +5,7 @@
 //  Created by Anteneh Sahledengel on 12/8/14.
 //  Copyright (c) 2014 Anteneh Sahledengel. All rights reserved.
 
+/*
 #import "RouteE.h"
 //#import "ReittiStringFormatterE.h"
 #import "ReittiStringFormatter.h"
@@ -205,3 +206,4 @@
 }
 
 @end
+*/

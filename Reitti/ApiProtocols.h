@@ -90,3 +90,8 @@ typedef enum
 - (void)stopFetchingVehicles;
 @end
 
+@protocol RoutableLocationProtocol <NSObject>
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *coords;
+@end
+

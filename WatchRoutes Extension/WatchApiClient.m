@@ -6,6 +6,7 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "WatchApiClient.h"
 
 @implementation WatchApiClient
@@ -80,3 +81,4 @@
 }
 
 @end
+*/

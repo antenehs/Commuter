@@ -6,6 +6,7 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import <Foundation/Foundation.h>
 
 typedef void (^ActionBlock)();
@@ -17,3 +18,4 @@ typedef void (^ActionBlock)();
 @property (nonatomic, strong) NSString *apiBaseUrl;
 
 @end
+*/

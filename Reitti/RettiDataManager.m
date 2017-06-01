@@ -98,7 +98,7 @@
     self.hslDigitransitCommunicator = [DigiTransitCommunicator hslDigiTransitCommunicator];
     self.finlandDigitransitCommunicator = [DigiTransitCommunicator finlandDigiTransitCommunicator];
     
-    [MatkaTransportTypeManager sharedManager]; //Init singleton
+//    [MatkaTransportTypeManager sharedManager]; //Init singleton
 
     self.hslLiveTrafficManager = [[HSLLiveTrafficManager alloc] init];
     self.treLiveTrafficManager = [[TRELiveTrafficManager alloc] init];

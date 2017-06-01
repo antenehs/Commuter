@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WidgetAPIProtocols.h"
+#import "ApiProtocols.h"
 
 @interface RoutableLocation : NSObject <RoutableLocationProtocol>
 

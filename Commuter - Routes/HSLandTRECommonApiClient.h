@@ -6,6 +6,7 @@
 //  Copyright © 2015 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import <Foundation/Foundation.h>
 #import "APIClient.h"
 #import "WidgetHelpers.h"
@@ -19,3 +20,4 @@
 @property (strong, nonatomic)APIClient *apiClient;
 
 @end
+*/
