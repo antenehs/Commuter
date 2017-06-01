@@ -1089,13 +1089,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     BOOL toReturn = YES;
     
     if (![self isLocationServiceAvailableWithNotification:NO]) {
-        if ([settingsManager userLocation] == HSLRegion) {
-            //Helsinki center location
-            coordinate = [ReittiRegionManager getCoordinateForRegion:HSLRegion];
-        }else if ([settingsManager userLocation] == TRERegion){
-            //tampere center location
-            coordinate = [ReittiRegionManager getCoordinateForRegion:TRERegion];;
-        }
+        coordinate = [ReittiRegionManager getCoordinateForRegion:[settingsManager userLocation]];
         
         toReturn = NO;
     }
@@ -1178,8 +1172,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 //Notify and ask for confirmation
                 [settingsManager setUserLocation:currentRegion];
                 if (![AppManager isNewInstallOrNewVersion]) {
-                    NSString *title = [NSString stringWithFormat:@"Moved to the %@?",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
-                    NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@. You can change it anytime from settings.",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
+                    NSString *title = [NSString stringWithFormat:@"Moved to the %@ region?",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
+                    NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@ region. You can change it anytime from settings.",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
                     
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                                         message:body

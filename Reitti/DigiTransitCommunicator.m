@@ -246,7 +246,7 @@ typedef enum : NSUInteger {
     }
     
     [super doGraphQlQuery:queryString mappingDiscriptor:[DigiPlan mappingDescriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *digiRoutes, NSError *error){
-        if (!error && digiRoutes) {
+        if (!error && digiRoutes && digiRoutes.count > 0) {
             NSMutableArray *allRoutes = [@[] mutableCopy];
             for (DigiPlan *plan in digiRoutes) {
                 Route *route = [Route routeFromDigiPlan:plan];
@@ -255,6 +255,8 @@ typedef enum : NSUInteger {
                 }
             }
             completionBlock(allRoutes, nil);
+        }else if(digiRoutes && digiRoutes.count == 0){
+            completionBlock(nil, @"No routes found for the selected addresses. Please modify the selected addresses or route options and try again.");
         } else {
             completionBlock(nil, [self routeSearchErrorMessageForError:error]);
         }

@@ -10,7 +10,7 @@
 #import "Mapping.h"
 #import "LinePattern.h"
 
-@interface DigiPatternShort : NSObject <Mappable>
+@interface DigiPatternShort : NSObject <Mappable, DictionaryMappable>
 
 -(LinePattern *)reittiLinePattern;
 

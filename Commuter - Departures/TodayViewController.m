@@ -8,7 +8,7 @@
 
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
-#import "HslAndTreApi.h"
+
 #import "BusStop.h"
 #import "ReittiStringFormatterE.h"
 #import "AppManagerBase.h"
@@ -571,7 +571,7 @@ int kMaxNumberOfStops = 3;
         for (NSDictionary *dict in dictArray) {
             BusStop *newStop = [[BusStop alloc] initWithDictionary:dict parseLines:NO];
             
-            if (![stops containsObject:[NSString stringWithFormat:@"%@",newStop.gtfsId]])
+            if (![stops containsObject:newStop.gtfsId])
                 continue;
             
             NSMutableArray *fDepartures = [@[] mutableCopy];
@@ -612,92 +612,5 @@ int kMaxNumberOfStops = 3;
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.ewketApps.commuterDepartures"];
-//
-//    NSString *stopCodes = [sharedDefaults objectForKey:@"SelectedStopCodes"];
-//    if (stopCodes == nil || [stopCodes isEqualToString:@""]) {
-//        stopCodes = [sharedDefaults objectForKey:@"StopCodes"];
-//    }
-//    
-//    [sharedDefaults synchronize];
-//    
-//    NSLog(@"%@",[sharedDefaults dictionaryRepresentation]);
-//    
-//    if ([stopCodes isEqualToString:@""] || stopCodes == nil) {
-//        infoLabel.text = @"No stops bookmarked";
-//        [self storeStopsToCache:nil];
-//        self.stopList = nil;
-//        cachedMode = NO;
-//        [self setUpStopViewsForStops:self.stopList];
-//        infoLabel.hidden = NO;
-//        completionHandler(NCUpdateResultNoData);
-//        
-//        return;
-//    }else{
-//        if (!cachedMode) {
-//            infoLabel.text = @"loading saved stops...";
-//            infoLabel.hidden = NO;
-//        }else{
-//            infoLabel.hidden = YES;
-//        }
-//        
-//    }
-//    
-//    HSLAPI *hslAPI = [[HSLAPI alloc] init];
-//    
-//    totalNumberOfStops = [[self arrayFromCommaSeparatedString:[sharedDefaults objectForKey:@"StopCodes"]] count];
-//    
-//    NSArray *stopCodeList = [self arrayFromCommaSeparatedString:stopCodes];
-//    
-//    self.thereIsMore = totalNumberOfStops > stopCodeList.count;
-//    
-//    if (stopCodeList.count != 0 ) {
-//        if ([[stopCodeList firstObject] isEqualToString:@""]) {
-//            completionHandler(NCUpdateResultNoData);
-//            return;
-//        }
-//        
-//        if (self.stopList.count != stopCodeList.count) {
-//            self.stopList = [@[] mutableCopy];
-//        }
-//        
-//        completionHandler(NCUpdateResultNoData);
-//        
-//        [hslAPI searchStopForCodes:stopCodeList completionBlock:^(NSMutableArray *resultList, NSError *error) {
-//            if (!error && resultList != nil) {
-////                NSUInteger idx = [self.stopList indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
-////                    return [[(BusStop *)obj code] intValue] == [resultStop.code intValue];
-////                }];
-////                if (idx != NSNotFound)
-////                    [self.stopList replaceObjectAtIndex:idx withObject:resultStop];
-//                
-//                self.stopList = resultList;
-//                cachedMode = NO;
-////                [departuresTable reloadData];
-//                [self setUpStopViewsForStops:self.stopList];
-//                infoLabel.hidden = YES;
-//                //                [self updateContentSize];
-//                //            [self widgetPerformUpdateWithCompletionHandler:nil];
-//                [self storeStopsToCache:self.stopList];
-//                completionHandler(NCUpdateResultNewData);
-//                
-//            }else{
-//                infoLabel.text = @"Fetching stops failed.";
-//                completionHandler(NCUpdateResultNoData);
-//            }
-//        }];
-//        
-//    }else{
-//        completionHandler(NCUpdateResultNoData);
-//    }
-    
-//    completionHandler(NCUpdateResultNewData);
-
-    // If an error is encountered, use NCUpdateResultFailed
-    // If there's no update required, use NCUpdateResultNoData
-    // If there's an update, use NCUpdateResultNewData
-//}
 
 @end

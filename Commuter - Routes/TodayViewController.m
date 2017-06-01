@@ -541,7 +541,7 @@
     bookmark = [self namedBookmarkForTheCurrentButton];
     [self.widgetDataManager getRouteForNamedBookmark:bookmark fromLocation:self.currentUserLocation routeOptions:self.routeSearchOptions andCompletionBlock:^(NSArray * response, NSString *errorString){
         infoLabel.hidden = NO;
-        if (errorString && !response) {
+        if (errorString || !response) {
             infoLabel.text = errorString;
         }else{
             [self.bookmarkRouteMap setValue:response forKey:[bookmark getUniqueIdentifier]];

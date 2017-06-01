@@ -78,7 +78,7 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
             [self.changeListTableView reloadData];
             
             [self configureShowingListView];
-//            [[StopCoreDataManager sharedManager] deleteSavedStops:invalidStops];
+            [[StopCoreDataManager sharedManager] deleteSavedStops:invalidStops];
             
             if (validStops.count == 0) {
                 [[ReittiAnalyticsManager sharedManager] trackEventForEventName:kEventTotalFailStopMigration category:nil value:@1];

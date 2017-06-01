@@ -11,7 +11,7 @@
 #import "Mapping.h"
 #import "StopLine.h"
 
-@interface DigiRouteShort : NSObject <NSCoding, NSCopying, Mappable>
+@interface DigiRouteShort : NSObject <NSCoding, NSCopying, Mappable, DictionaryMappable>
 
 -(StopLine *)reittiStopLine;
 -(StopLine *)reittiStopLineWithPattern:(DigiPatternShort *)patternShort;
@@ -35,9 +35,9 @@
 +(NSString *)routeDestinationFromLongName:(NSString *)routeLongName;
 
 +(NSDictionary *)mappingDictionary;
-
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
+//
+//+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
+//- (instancetype)initWithDictionary:(NSDictionary *)dict;
+//- (NSDictionary *)dictionaryRepresentation;
 
 @end

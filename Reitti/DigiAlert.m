@@ -22,29 +22,6 @@
 
 #pragma mark - object mapping
 
-//+(RKResponseDescriptor *)responseDiscriptorForPath:(NSString *)path {
-//    return [RKResponseDescriptor responseDescriptorWithMapping:[DigiAlert objectMapping]
-//                                                        method:RKRequestMethodAny
-//                                                   pathPattern:nil
-//                                                       keyPath:path
-//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-//}
-//
-//+(RKObjectMapping *)objectMapping {
-//    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:[DigiAlert class] ];
-//    [mapping addAttributeMappingsFromDictionary:[DigiAlert mappingDictionary]];
-//    
-//    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"route"
-//                                                                                toKeyPath:@"alertRoute"
-//                                                                              withMapping:[DigiRouteShort objectMapping]]];
-//    
-//    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"alertDescriptionTextTranslations"
-//                                                                                toKeyPath:@"alertTexts"
-//                                                                          withMapping:[DigiAlertText objectMapping]]];
-//    
-//    return mapping;
-//}
-
 +(NSDictionary *)mappingDictionary {
     return @{ @"id"                     : @"alertId",
               @"alertDescriptionText"   : @"alertDescription",

@@ -10,6 +10,36 @@
 
 @implementation DigiPatternShort
 
++(instancetype)modelObjectWithDictionary:(NSDictionary *)dict {
+    if (dict && [dict isKindOfClass:[NSDictionary class]]) {
+        return [[self alloc] initWithDictionary:dict];
+    }
+    
+    return nil;
+}
+
+-(instancetype)initWithDictionary:(NSDictionary *)dict {
+    self = [super init];
+    
+    self.name = [dict objectOrNilForKey:@"name"];
+    self.code = [dict objectOrNilForKey:@"code"];
+    self.headsign = [dict objectOrNilForKey:@"headsign"];
+    self.directionId = [dict objectOrNilForKey:@"directionId"];
+    
+    return self;
+}
+
+-(NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *dict = [@{} mutableCopy];
+    
+    [dict setValue:self.name forKey:@"name"];
+    [dict setValue:self.code forKey:@"code"];
+    [dict setValue:self.headsign forKey:@"headsign"];
+    [dict setValue:self.directionId forKey:@"directionId"];
+    
+    return dict;
+}
+
 #pragma mark - Conversion
 -(LinePattern *)reittiLinePattern {
     LinePattern *linePattern = [LinePattern new];

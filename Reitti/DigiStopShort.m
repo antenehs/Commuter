@@ -16,6 +16,7 @@ NSString *const kStopsLat = @"lat";
 NSString *const kStopsName = @"name";
 NSString *const kStopsUrl = @"url";
 NSString *const kStopsRoutes = @"routes";
+NSString *const kStopsPatterns = @"patterns";
 
 @interface DigiStopShort ()
 
@@ -52,19 +53,21 @@ NSString *const kStopsRoutes = @"routes";
         self.name = [self objectOrNilForKey:kStopsName fromDictionary:dict];
         self.url = [self objectOrNilForKey:kStopsUrl fromDictionary:dict];
         
-        NSObject *receivedRoutes = [dict objectForKey:kStopsRoutes];
-        NSMutableArray *parsedRoutes = [NSMutableArray array];
-        if ([receivedRoutes isKindOfClass:[NSArray class]]) {
-            for (NSDictionary *item in (NSArray *)receivedRoutes) {
-                if ([item isKindOfClass:[NSDictionary class]]) {
-                    [parsedRoutes addObject:[DigiRouteShort modelObjectWithDictionary:item]];
-                }
-            }
-        } else if ([receivedRoutes isKindOfClass:[NSDictionary class]]) {
-            [parsedRoutes addObject:[DigiRouteShort modelObjectWithDictionary:(NSDictionary *)receivedRoutes]];
-        }
+//        NSObject *receivedRoutes = [dict objectForKey:kStopsRoutes];
+//        NSMutableArray *parsedRoutes = [NSMutableArray array];
+//        if ([receivedRoutes isKindOfClass:[NSArray class]]) {
+//            for (NSDictionary *item in (NSArray *)receivedRoutes) {
+//                if ([item isKindOfClass:[NSDictionary class]]) {
+//                    [parsedRoutes addObject:[DigiRouteShort modelObjectWithDictionary:item]];
+//                }
+//            }
+//        } else if ([receivedRoutes isKindOfClass:[NSDictionary class]]) {
+//            [parsedRoutes addObject:[DigiRouteShort modelObjectWithDictionary:(NSDictionary *)receivedRoutes]];
+//        }
         
-        self.routes = [NSArray arrayWithArray:parsedRoutes];
+        self.routes = [MappingHelper mapDictionaryArray:[dict objectOrNilForKey:kStopsRoutes] toArrayOfClassType:[DigiRouteShort class]];
+        
+        self.patterns = [MappingHelper mapDictionaryArray:[dict objectOrNilForKey:kStopsPatterns] toArrayOfClassType:[DigiPatternShort class]];
     }
     
     return self;
@@ -91,7 +94,10 @@ NSString *const kStopsRoutes = @"routes";
             [tempArrayForRoutes addObject:subArrayObject];
         }
     }
-    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForRoutes] forKey:kStopsRoutes];
+    
+//    [mutableDict setValue:[NSArray arrayWithArray:tempArrayForRoutes] forKey:kStopsRoutes];
+    [mutableDict setValue:[MappingHelper mapObjectArrayToDictionary:self.routes] forKey:kStopsRoutes];
+    [mutableDict setValue:[MappingHelper mapObjectArrayToDictionary:self.patterns] forKey:kStopsPatterns];
     
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -197,7 +203,7 @@ NSString *const kStopsRoutes = @"routes";
     stop.gtfsId = self.gtfsId;
     stop.code = [self.numberId stringValue];
     stop.codeShort = self.code;
-    stop.platformNumber = self;
+    stop.platformNumber = @"0";
     stop.cityName = nil;
     stop.name = self.name;
     

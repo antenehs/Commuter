@@ -8,6 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSDictionary+Helper.h"
 
 @class MappingRelationShip;
 

@@ -22,6 +22,7 @@ typedef struct {
 //@property (nonatomic, strong)AGSMutablePolygon *treRegionPolygon;
 
 @property (nonatomic) RTCoordinateRegion additionalHelsinkiRegion;
+@property (nonatomic) RTCoordinateRegion additionalTampereRegion;
 
 @end
 
@@ -58,6 +59,11 @@ typedef struct {
     RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
     self.additionalHelsinkiRegion = helsinkiRegionCoords;
     
+    CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
+    CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
+    RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
+    self.additionalTampereRegion = tampereRegionCoords;
+    
 //    NSArray *treRegionCities = [self regionsFromKmlFileNamed:@"TRERegion"];
 //    self.treRegionPolygon = [self polygoneFromRegionCities:treRegionCities];
 }
@@ -71,30 +77,32 @@ typedef struct {
     return [self isCoordinateInReittiRegion:self.additionalHelsinkiRegion coordinate:coord];
 }
 
-//-(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord {
+-(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord {
 //    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
 //    
 //    return [self.treRegionPolygon containsPoint:point1];
-//}
+    
+    return [self isCoordinateInReittiRegion:self.additionalTampereRegion coordinate:coord];
+}
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
     
-    if ([[ReittiRegionManager sharedManager] isCoordinateInHSLRegion:coords]) {
+    if ([self isCoordinateInHSLRegion:coords]) {
         return HSLRegion;
     }
     
-//    if ([[ReittiRegionManager sharedManager] isCoordinateInTRERegion:coords]) {
-//        return TRERegion;
-//    }
+    if ([self isCoordinateInTRERegion:coords]) {
+        return TRERegion;
+    }
     
     return FINRegion;
 }
 
 -(NSString *)getNameOfRegion:(Region)region {
     if (region == HSLRegion) {
-        return @"Helsinki region";
+        return @"Helsinki";
     }else if (region == TRERegion) {
-        return @"Tampere region";
+        return @"Tampere";
     }else{
         return @"Whole finland";
     }
@@ -102,11 +110,9 @@ typedef struct {
 
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region{
     if (region == TRERegion) {
-        //lat="61.4981508" lon="23.7610254"
         CLLocationCoordinate2D coord = {.latitude = 61.4981508 , .longitude = 23.7610254 };
         return coord;
-    }else{
-        //lat="60.168959" lon="24.924714"
+    }else {
         CLLocationCoordinate2D coord = {.latitude = 60.168959 , .longitude = 24.924714 };
         return coord;
     }

@@ -16,6 +16,7 @@ NSString *const kDigiRouteUrl = @"url";
 NSString *const kDigiRouteType = @"type";
 NSString *const kDigiRouteDesc = @"desc";
 NSString *const kDigiRouteMode = @"mode";
+NSString *const kDigiRoutePattern = @"patterns";
 
 
 @interface DigiRouteShort ()
@@ -57,6 +58,8 @@ NSString *const kDigiRouteMode = @"mode";
         self.type = [self objectOrNilForKey:kDigiRouteType fromDictionary:dict];
         self.desc = [self objectOrNilForKey:kDigiRouteDesc fromDictionary:dict];
         self.mode = [self objectOrNilForKey:kDigiRouteMode fromDictionary:dict];
+        
+        self.patterns = [MappingHelper mapDictionaryArray:[dict objectOrNilForKey:kDigiRoutePattern] toArrayOfClassType:[DigiPatternShort class]];
     }
     
     return self;
@@ -75,6 +78,7 @@ NSString *const kDigiRouteMode = @"mode";
     [mutableDict setValue:self.type forKey:kDigiRouteType];
     [mutableDict setValue:self.desc forKey:kDigiRouteDesc];
     [mutableDict setValue:self.mode forKey:kDigiRouteMode];
+    [mutableDict setValue:[MappingHelper mapObjectArrayToDictionary:self.patterns] forKey:kDigiRoutePattern];
     
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }

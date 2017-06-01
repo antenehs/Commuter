@@ -13,6 +13,7 @@
 #import "NSObject+Helper.h"
 #import "NSDate+Helper.h"
 #import "ReittiDateHelper.h"
+#import "NSDictionary+Helper.h"
 
 #ifndef APPLE_WATCH
 #import "UITableViewCell+Helper.h"

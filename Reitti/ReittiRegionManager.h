@@ -23,9 +23,6 @@ typedef enum
 
 +(id)sharedManager;
 
-//-(BOOL)isCoordinateInHSLRegion:(CLLocationCoordinate2D)coord;
-//-(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord;
-
 -(NSString *)getNameOfRegion:(Region)region;
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords;
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;

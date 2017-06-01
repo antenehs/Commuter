@@ -10,7 +10,7 @@
 #import "WidgetHelpers.h"
 #import "RoutableLocation.h"
 #import "StopEntity.h"
-#import "BusStopE.h"
+#import "BusStop.h"
 #import "ReittiRegionManager.h"
 #import "DigiTransitCommunicator.h"
 #import "NamedBookmark.h"
@@ -67,7 +67,7 @@
 -(void)saveStopsWithDepartures:(NSArray *)stops {
     NSMutableArray *stopsArray = [@[] mutableCopy];
     if (stops) {
-        for (BusStopE *stop in stops)
+        for (BusStop *stop in stops)
             [stopsArray addObject:[stop toDictionary]];
     }
     
@@ -80,7 +80,7 @@
     
     NSMutableArray *busStops = [@[] mutableCopy];
     for (NSDictionary *dict in stopsDict) {
-        BusStopE *stop = [[BusStopE alloc] initWithDictionary:dict parseLines:YES];
+        BusStop *stop = [[BusStop alloc] initWithDictionary:dict parseLines:YES];
         if (stop)
             [busStops addObject:stop];
     }

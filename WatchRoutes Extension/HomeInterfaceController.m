@@ -354,7 +354,7 @@
     
     NSInteger existingIndex = [self.fetchedStops indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
         BusStop *object = (BusStop *)obj;
-        return [object.code integerValue] == [busStop.code integerValue];
+        return [object.gtfsId isEqualToString:busStop.gtfsId];
     }];
     
     if (existingIndex != NSNotFound) {
@@ -372,26 +372,23 @@
     self.fetchedStops = [[self.watchDataManager getSavedStopsWithDeparturesDictionaries] mutableCopy];
 }
 
--(BusStop *)fetchStopsWithValidDeparturesForCode:(NSNumber *)stopCode {
+-(BusStop *)fetchStopsWithValidDeparturesForCode:(NSString *)stopGtfsId {
     NSInteger existingIndex = [self.fetchedStops indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop){
         BusStop *object = (BusStop *)obj;
-        return [object.code integerValue] == [stopCode integerValue];
+        return [object.gtfsId isEqualToString:stopGtfsId];
     }];
     
     if (existingIndex == NSNotFound) return nil;
     
     BusStop *existingStop = self.fetchedStops[existingIndex];
     
-    NSInteger sinceDate = [[ReittiStringFormatterE formatHSLDateFromDate:[NSDate date]] integerValue];
-    NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:[NSDate date]] integerValue];
+//    NSInteger sinceDate = [[ReittiStringFormatterE formatHSLDateFromDate:[NSDate date]] integerValue];
+//    NSInteger sinceTime = [[ReittiStringFormatterE formatHSLHourFromDate:[NSDate date]] integerValue];
     
     NSMutableArray *fDepartures = [@[] mutableCopy];
-    for (NSDictionary *dept in existingStop.departures) {
-        //                NSLog(@"%@",dept);
-        if ([dept[@"date"] integerValue] >= sinceDate || ([dept[@"date"] integerValue] == sinceDate - 1 && sinceTime < 400)) {
-            if ([dept[@"time"] integerValue] >= sinceTime) {
-                [fDepartures addObject:dept];
-            }
+    for (StopDeparture *dept in existingStop.departures) {
+        if ([[NSDate date] timeIntervalSinceDate:dept.parsedScheduledDate] < 0) {
+            [fDepartures addObject:dept];
         }
     }
     
@@ -405,7 +402,7 @@
 }
 
 -(void)searchStopForStop:(StopEntity *)stopEntity {
-    BusStop *exitingStop = [self fetchStopsWithValidDeparturesForCode:stopEntity.busStopCode];
+    BusStop *exitingStop = [self fetchStopsWithValidDeparturesForCode:stopEntity.stopGtfsId];
     if (exitingStop) {
         NSDictionary *stops = @{@"busStop" : exitingStop, @"stopEntity" : stopEntity};
         [self showStopDepartures:stops];
