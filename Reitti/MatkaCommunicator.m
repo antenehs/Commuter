@@ -6,6 +6,7 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import "MatkaCommunicator.h"
 #import "MatkaStop.h"
 #import "ReittiStringFormatter.h"
@@ -277,7 +278,7 @@
 -(NSDictionary *)apiRequestParametersDictionaryForRouteOptions:(RouteSearchOptions *)searchOptions{
     NSMutableDictionary *parametersDict = [@{} mutableCopy];
     
-    /* Optimization string */
+    //Optimization string
     NSString *optimizeString;
     if (searchOptions.selectedRouteSearchOptimization == RouteSearchOptionFastest) {
         optimizeString = @"2";
@@ -291,7 +292,7 @@
     
     [parametersDict setObject:optimizeString forKey:@"optimize"];
     
-    /* Search date and time */
+    // Search date and time
     NSDate * searchDate = searchOptions.date;
     if (searchDate == nil)
         searchDate = [NSDate date];
@@ -309,12 +310,12 @@
     [parametersDict setObject:date forKey:@"date"];
     [parametersDict setObject:timeType forKey:@"timemode"];
     
-    /* Change Margine */
+    // Change Margine
     if (searchOptions.selectedChangeMargine != nil && ![searchOptions.selectedChangeMargine isEqualToString:@"3 minutes (Default)"]) {
         [parametersDict setObject:[self.changeMargineOptions objectForKey:searchOptions.selectedChangeMargine] forKey:@"margin"];
     }
     
-    /* Walking Speed */
+    // Walking Speed 
     if (searchOptions.selectedWalkingSpeed != nil && ![searchOptions.selectedWalkingSpeed isEqualToString:@"Normal Walking (Default)"]) {
         [parametersDict setObject:[self.walkingSpeedOptions objectForKey:searchOptions.selectedWalkingSpeed] forKey:@"walkspeed"];
     }
@@ -404,3 +405,5 @@
 }
 
 @end
+
+*/

@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-#if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
-#import <ArcGIS/ArcGIS.h>
-#endif
+//#if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
+//#import <ArcGIS/ArcGIS.h>
+//#endif
 
 @interface ReittiStringFormatter : NSObject
 
@@ -39,9 +39,9 @@
 
 #endif
 
-#if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
-+(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
-+(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
-#endif
+//#if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
+//+(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord;
+//+(AGSPoint *)convertCoordsToKkj3Point:(CLLocationCoordinate2D)coords;
+//#endif
 
 @end

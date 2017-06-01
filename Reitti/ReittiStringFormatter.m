@@ -166,6 +166,8 @@
     return numberString;
 }
 
+/*
+ 
 #if !(APPLE_WATCH) && !(DEPARTURES_WIDGET)
 +(NSString *)coordStringFromKkj3CoorsWithX:(NSNumber *)xCoord andY:(NSNumber *)yCoord {
     if (!xCoord || !yCoord)
@@ -194,6 +196,7 @@
     return kkj3Point;
 }
 #endif
+*/
 
 #ifndef APPLE_WATCH
 +(NSAttributedString *)formatAttributedDurationString:(NSInteger)seconds withFont:(UIFont *)font{

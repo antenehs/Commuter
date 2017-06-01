@@ -31,10 +31,6 @@ def push_notification
   pod 'Firebase/Messaging'
 end
 
-def arcGIS_pod
-    pod ‘ArcGIS-Runtime-SDK-iOS’
-end
-
 abstract_target 'Networking' do
   networking_pods
 
@@ -42,7 +38,6 @@ abstract_target 'Networking' do
 	target 'Commuter - Departures Pro'
 
 	target 'Commuter - Routes Pro' do
-		arcGIS_pod
   end
 
 	target 'Reitti' do
@@ -50,7 +45,6 @@ abstract_target 'Networking' do
     crash_reporting
     remote_config
     push_notification
-		arcGIS_pod
   end
 
   target 'Reitti Pro' do
@@ -58,7 +52,6 @@ abstract_target 'Networking' do
     crash_reporting
     remote_config
     push_notification
-  	arcGIS_pod
   end
 
 end

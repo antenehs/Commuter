@@ -6,12 +6,13 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+/*
 #import <Foundation/Foundation.h>
 #import "ApiProtocols.h"
 #import "APIClient.h"
 #import "EnumManager.h"
 
-@interface MatkaCommunicator: NSObject <RouteSearchProtocol, RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol, TransportTypeFetchProtocol, AnnotationFilterOptionProtocol> {
+@interface MatkaCommunicator: NSObject <RouteSearchOptionProtocol, StopsInAreaSearchProtocol, StopDetailFetchProtocol, RealtimeDeparturesFetchProtocol, GeocodeProtocol, ReverseGeocodeProtocol, LineDetailFetchProtocol, TransportTypeFetchProtocol, AnnotationFilterOptionProtocol> {
     NSArray *apiUserNames;
     
     APIClient *timeTableClient;
@@ -21,3 +22,4 @@
 +(instancetype)sharedManager;
 
 @end
+*/

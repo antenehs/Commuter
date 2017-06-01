@@ -24,7 +24,6 @@
 #import "DigiTransitCommunicator.h"
 #import "MatkaTransportTypeManager.h"
 #import "ReittiModels.h"
-
 #import "SettingsManager.h"
 
 //CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
@@ -93,7 +92,6 @@
     
     self.hslCommunication = [[HSLCommunication alloc] init];
     self.treCommunication = [[TRECommunication alloc] init];;
-    self.matkaCommunicator = [[MatkaCommunicator alloc] init];
     
     self.hslDigitransitCommunicator = [DigiTransitCommunicator hslDigiTransitCommunicator];
     self.finlandDigitransitCommunicator = [DigiTransitCommunicator finlandDigiTransitCommunicator];
@@ -174,14 +172,10 @@
         return self.hslCommunication;
     } else if (api == ReittiTREApi) {
         return self.treCommunication;
-    } else if (api == ReittiMatkaApi) {
-        return self.matkaCommunicator;
     } else if (api == ReittiDigiTransitHslApi) {
         return self.hslDigitransitCommunicator;
-    } else if (api == ReittiDigiTransitApi) {
-        return self.finlandDigitransitCommunicator;
     } else {
-        return self.matkaCommunicator;
+        return self.finlandDigitransitCommunicator;
     }
 }
 
@@ -584,7 +578,7 @@
             }
         }];
     }else{
-        [self.matkaCommunicator searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
+        [self.finlandDigitransitCommunicator searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {
                 completionBlock(response, key, nil);
             } else {

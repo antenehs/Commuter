@@ -167,7 +167,7 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 }
 
 -(NSArray *)fetchObjectsForEntityNamed:(NSString *)entityName predicateString:(NSString *)predString sortWithPropertyNamed:(NSString *)sortPropertyName assending:(BOOL)assending {
-    return [self fetchObjectsForEntityNamed:entityName predicateString:predString sortWithPropertyNamed:sortPropertyName assending:AVAssetDurationDidChangeNotification propertiesToFetch:nil];
+    return [self fetchObjectsForEntityNamed:entityName predicateString:predString sortWithPropertyNamed:sortPropertyName assending:assending propertiesToFetch:nil];
 }
 
 -(NSArray *)fetchObjectsForEntityNamed:(NSString *)entityName predicateString:(NSString *)predString sortWithPropertyNamed:(NSString *)sortPropertyName assending:(BOOL)assending propertiesToFetch:(NSArray *)properties {

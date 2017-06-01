@@ -148,7 +148,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 
 @property (strong, nonatomic) HSLCommunication *hslCommunication;
 @property (strong, nonatomic) TRECommunication *treCommunication;
-@property (strong, nonatomic) MatkaCommunicator *matkaCommunicator;
 
 @property (strong, nonatomic) RouteEntity *routeEntity;
 @property (strong, nonatomic) RouteHistoryEntity *routeHistoryEntity;

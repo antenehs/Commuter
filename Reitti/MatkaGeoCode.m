@@ -19,13 +19,13 @@
     return _address;
 }
 
--(NSString *)coordString {
-#if !(DEPARTURES_WIDGET)
-    return [ReittiStringFormatter coordStringFromKkj3CoorsWithX:_xCoord andY:_yCoord];
-#else
-    return [NSString stringWithFormat:@"%@,%@", _xCoord, _yCoord];
-#endif
-}
+//-(NSString *)coordString {
+//#if !(DEPARTURES_WIDGET)
+//    return [ReittiStringFormatter coordStringFromKkj3CoorsWithX:_xCoord andY:_yCoord];
+//#else
+//    return [NSString stringWithFormat:@"%@,%@", _xCoord, _yCoord];
+//#endif
+//}
 
 -(CLLocationCoordinate2D)coord{
     return [ReittiStringFormatter convertStringTo2DCoord:_coordString];
