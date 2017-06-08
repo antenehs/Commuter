@@ -251,7 +251,10 @@ const NSInteger kTimerRefreshInterval = 60;
                 [self setRoutesForNamedBookmark:namedBookmark routes:nil];
             }
             
-            [self.tableView asa_reloadDataAnimated];
+            //Dont update if editing because it will mess with deleting
+            if (!self.tableView.isEditing)
+                [self.tableView asa_reloadDataAnimated];
+            
             numberOfBookmarks--;
             if (numberOfBookmarks == 0) {
                 [boomarkActivityIndicator stopAnimating];
@@ -294,7 +297,8 @@ const NSInteger kTimerRefreshInterval = 60;
         [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopCoords] withCompletionBlock:^(BusStop *stop, NSString *errorString){
             if (!errorString) {
                 [self setDetailStopForBusStop:stopEntity busStop:stop];
-                [self.tableView asa_reloadDataAnimated];
+                if (!self.tableView.isEditing)
+                    [self.tableView asa_reloadDataAnimated];
             }
             
             numberOfStops--;
@@ -494,7 +498,8 @@ const NSInteger kTimerRefreshInterval = 60;
     [self updateDetailToggleButtonTitles];
     
     if (self.showRouteSuggestions) {
-        [self.tableView asa_reloadDataAnimated];
+        if (!self.tableView.isEditing)
+            [self.tableView asa_reloadDataAnimated];
         [self requestRoutesIfNeeded];
     }  else {
         [self.tableView reloadData];
@@ -507,7 +512,8 @@ const NSInteger kTimerRefreshInterval = 60;
     [self updateDetailToggleButtonTitles];
     
     if (self.showStopDepartures) {
-        [self.tableView asa_reloadDataAnimated];
+        if (!self.tableView.isEditing)
+            [self.tableView asa_reloadDataAnimated];
         [self requestStopDetailsIfNeeded];
     } else {
         [self.tableView reloadData];
@@ -775,6 +781,15 @@ const NSInteger kTimerRefreshInterval = 60;
     }else{
         return nil;
     }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Detemine if it's in editing mode
+    if (self.tableView.editing) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    
+    return UITableViewCellEditingStyleNone;
 }
 
 // Override to support conditional editing of the table view.
