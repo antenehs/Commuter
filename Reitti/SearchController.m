@@ -1342,7 +1342,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopAnT.code = stopCode;
     stopAnT.shortCode = shortCode;
     stopAnT.title = name;
-    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", shortCode];
+    if (stop.linesString) {
+        stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@ · %@", shortCode, stop.linesString];
+    } else {
+        stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", shortCode];
+    }
     stopAnT.coordinate = coordinate;
     stopAnT.annotationType = isBookmark ? FavouriteType : SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
@@ -1993,19 +1997,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 - (void)showDisruptionCustomBadge:(bool)show{
-    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:4];
-
-    if (show) {
-        moreTabBarItem.badgeValue = @"!";
-    }else{
-        moreTabBarItem.badgeValue = nil;
-    }
+    MainTabBarController *tabBarController = (MainTabBarController *)self.tabBarController;
+    [tabBarController showBadgeOnMoreTab:show];
 }
-
-//- (void)tapOnBadgeDetected{
-//    [self performSegueWithIdentifier:@"infoViewSegue" sender:nil ];
-//}
-
 
 #pragma mark - text field mehthods
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{

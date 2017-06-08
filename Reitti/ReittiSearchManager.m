@@ -79,7 +79,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
     NSString *secondLineDesc = self.lineCodes ? [NSString stringWithFormat:@"Lines: %@", self.linesString] : @"Tap to view timetable";
     attrSet.contentDescription = [NSString stringWithFormat:@"Stop Code: %@ - %@ \n%@", self.busStopShortCode, self.busStopCity, secondLineDesc];
     attrSet.thumbnailData = UIImagePNGRepresentation([self imageForSpotlight]);
-    attrSet.keywords = @[self.busStopCity];
+    attrSet.keywords = @[self.busStopCity ? self.busStopCity : @""];
     
     return attrSet;
 }
@@ -174,10 +174,14 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
         NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[CSSearchableIndex defaultSearchableIndex] deleteAllSearchableItemsWithCompletionHandler:nil];
-            [self indexNamedBookmarks];
-            [self indexSavedStops:savedStops];
-            [self indexSavedRoutes];
+            @try {
+                [[CSSearchableIndex defaultSearchableIndex] deleteAllSearchableItemsWithCompletionHandler:nil];
+                [self indexNamedBookmarks];
+                [self indexSavedStops:savedStops];
+                [self indexSavedRoutes];
+            } @catch (NSException *exception) {
+                NSLog(@"Some exception occured while indexing. %@", exception);
+            }
         });
     }
     @catch (NSException *exception) {
@@ -188,72 +192,84 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 #pragma mark - Indexing methods
 -(void)indexNamedBookmarks{
     [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[NamedBookmark domainIdentifier]] completionHandler:^(NSError *error){
-        if (!error) {
-            NSMutableArray *searchableItems = [@[] mutableCopy];
-            
-            NSArray *namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-            
-            if (namedBookmarks != nil && namedBookmarks.count > 0) {
-                for (NamedBookmark *namedBookmark in namedBookmarks) {
-                    CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[namedBookmark uniqueIdentifier] domainIdentifier:[NamedBookmark domainIdentifier] attributeSet:namedBookmark.attributeSet];
-                    [searchableItems addObject:item];
+        @try {
+            if (!error) {
+                NSMutableArray *searchableItems = [@[] mutableCopy];
+                
+                NSArray *namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+                
+                if (namedBookmarks != nil && namedBookmarks.count > 0) {
+                    for (NamedBookmark *namedBookmark in namedBookmarks) {
+                        CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[namedBookmark uniqueIdentifier] domainIdentifier:[NamedBookmark domainIdentifier] attributeSet:namedBookmark.attributeSet];
+                        [searchableItems addObject:item];
+                    }
                 }
+                
+                if (searchableItems == nil)
+                    return;
+                
+                [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError *error){
+                    if (error) NSLog(@"Error occured when indexing named bookmarks: %@", error);
+                }];
             }
-            
-            if (searchableItems == nil)
-                return;
-            
-            [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError *error){
-                if (error) NSLog(@"Error occured when indexing named bookmarks: %@", error);
-            }];
+        } @catch (NSException *exception) {
+            NSLog(@"Some exception occured while indexing. %@", exception);
         }
     }];
 }
 
 -(void)indexSavedStops: (NSArray *)savedStops {
     [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[StopEntity domainIdentifier]] completionHandler:^(NSError *error){
-        if (!error) {
-            NSMutableArray *searchableItems = [@[] mutableCopy];
-            
-            if (savedStops != nil && savedStops.count > 0) {
-                for (StopEntity *savedStop in savedStops) {
-                    if (!savedStop.busStopName)
-                        continue;
-                    CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[savedStop uniqueIdentifier] domainIdentifier:[StopEntity domainIdentifier] attributeSet:savedStop.attributeSet];
-                    [searchableItems addObject:item];
+        @try {
+            if (!error) {
+                NSMutableArray *searchableItems = [@[] mutableCopy];
+                
+                if (savedStops != nil && savedStops.count > 0) {
+                    for (StopEntity *savedStop in savedStops) {
+                        if (!savedStop.busStopName)
+                            continue;
+                        CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[savedStop uniqueIdentifier] domainIdentifier:[StopEntity domainIdentifier] attributeSet:savedStop.attributeSet];
+                        [searchableItems addObject:item];
+                    }
                 }
+                
+                if (searchableItems == nil)
+                    return;
+                
+                [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError *error){
+                    if (error) NSLog(@"Error occured when indexing saved stops: %@", error);
+                }];
             }
-            
-            if (searchableItems == nil)
-                return;
-            
-            [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError *error){
-                if (error) NSLog(@"Error occured when indexing saved stops: %@", error);
-            }];
+        } @catch (NSException *exception) {
+            NSLog(@"Some exception occured while indexing. %@", exception);
         }
     }];
 }
 
 -(void)indexSavedRoutes{
     [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[RouteEntity domainIdentifier]] completionHandler:^(NSError *error){
-        if (!error) {
-            NSMutableArray *searchableItems = [@[] mutableCopy];
-            
-            NSArray *savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
-            
-            if (savedRoutes != nil && savedRoutes.count > 0) {
-                for (RouteEntity *savedRoute in savedRoutes) {
-                    CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[savedRoute uniqueIdentifier] domainIdentifier:[RouteEntity domainIdentifier] attributeSet:savedRoute.attributeSet];
-                    [searchableItems addObject:item];
+        @try {
+            if (!error) {
+                NSMutableArray *searchableItems = [@[] mutableCopy];
+                
+                NSArray *savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+                
+                if (savedRoutes != nil && savedRoutes.count > 0) {
+                    for (RouteEntity *savedRoute in savedRoutes) {
+                        CSSearchableItem *item = [[CSSearchableItem alloc] initWithUniqueIdentifier:[savedRoute uniqueIdentifier] domainIdentifier:[RouteEntity domainIdentifier] attributeSet:savedRoute.attributeSet];
+                        [searchableItems addObject:item];
+                    }
                 }
+                
+                if (searchableItems == nil)
+                    return;
+                
+                [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError *error){
+                    if (error) NSLog(@"Error occured when indexing saved routes: %@", error);
+                }];
             }
-            
-            if (searchableItems == nil)
-                return;
-            
-            [[CSSearchableIndex defaultSearchableIndex] indexSearchableItems:searchableItems completionHandler:^(NSError *error){
-                if (error) NSLog(@"Error occured when indexing saved routes: %@", error);
-            }];
+        } @catch (NSException *exception) {
+            NSLog(@"Some exception occured while indexing. %@", exception);
         }
     }];
 }

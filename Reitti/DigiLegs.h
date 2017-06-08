@@ -9,6 +9,7 @@
 #import "EnumManager.h"
 #import <MapKit/MapKit.h>
 #import "Mapping.h"
+#import "DigiPolylineGeometry.h"
 
 @class DigiPlace, DigiTrip;
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) NSNumber *duration;
 @property (nonatomic, strong) NSNumber *distance;
 @property (nonatomic, strong) NSNumber *startTime;
+@property (nonatomic, strong) DigiPolylineGeometry *legGeometry;
 @property (nonatomic, strong) DigiPlace *to;
 
 @property(nonatomic) int legOrder;

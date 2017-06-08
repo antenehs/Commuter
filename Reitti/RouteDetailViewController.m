@@ -654,29 +654,34 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 - (void)drawLineForLeg:(RouteLeg *)leg {
+    if (leg.legShapeCoordLocations.count < 2) return;
     
     self.currentLeg = leg;
-    int shapeCount = (int)leg.legShapeCoorStrings.count;
+    int shapeCount = (int)leg.legShapeCoordLocations.count;
     // create an array of coordinates from allPins
-    CLLocationCoordinate2D coordinates[shapeCount + 2];
-    int i = 0;
-    CLLocationCoordinate2D lastCoord;
-    CLLocationCoordinate2D firstCoord;
-    for (NSString *coordString in leg.legShapeCoorStrings) {
-        CLLocationCoordinate2D coord = [ReittiStringFormatter convertStringTo2DCoord:coordString];
+    CLLocationCoordinate2D coordinates[shapeCount];
+//    int i = 0;
+//    CLLocationCoordinate2D lastCoord = []
+//    CLLocationCoordinate2D firstCoord;
+    
+    
+    
+    for (int i = 0; i < shapeCount ; i++) {
+//        CLLocationCoordinate2D coord = [ReittiStringFormatter convertStringTo2DCoord:coordString];
         
-        coordinates[i] = coord;
-        if (i==0) {
-            firstCoord = coord;
-        }
-        lastCoord = coord;
-        i++;
+        //Expecting a CLLocation object in the array
+        coordinates[i] = [leg.legShapeCoordLocations[i] coordinate];
+//        if (i==0) {
+//            firstCoord = coord;
+//        }
+//        lastCoord = coord;
+//        i++;
     }
     
-    RouteLegLocation *loc2 = [leg.legLocations lastObject];
-    CLLocationCoordinate2D legEndLoc = loc2.coords;
+//    RouteLegLocation *lastLoc = [leg.legLocations lastObject];
+//    CLLocationCoordinate2D legEndLoc = lastLoc.coords;
     
-    coordinates[i] = legEndLoc;
+//    coordinates[i] = legEndLoc;
     [self evaluateBoundsForCoordsArray:coordinates andCount:shapeCount];
     
     // create a polyline with all cooridnates
@@ -698,7 +703,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 //        polylineRenderer.strokeColor  = [UIColor yellowColor];
 //        polylineRenderer.borderColor = [UIColor blackColor];
 //        polylineRenderer.borderMultiplier = 1.1;
-        polylineRenderer.lineWidth	  = 6.0f;
+        polylineRenderer.lineWidth	  = 4.0f;
         polylineRenderer.lineJoin	  = kCGLineJoinRound;
         polylineRenderer.lineCap	  = kCGLineCapRound;
         

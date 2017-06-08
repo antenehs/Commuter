@@ -150,10 +150,10 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="JXr-hx-aoY"/>
                                             <exclude reference="1fw-3l-xb6"/>
                                             <exclude reference="25j-CC-yDT"/>
                                             <exclude reference="ExW-fH-gjc"/>
+                                            <exclude reference="JXr-hx-aoY"/>
                                             <exclude reference="eld-rs-3a1"/>
                                         </mask>
                                     </variation>
@@ -167,13 +167,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered By" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dK-qH-iLo">
-                                            <rect key="frame" x="20" y="13" width="122" height="29"/>
+                                            <rect key="frame" x="30" y="13" width="112" height="29"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="29" id="7H4-Gf-f3I"/>
-                                                <constraint firstAttribute="width" constant="122" id="KzJ-4m-tVo"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="122" id="jJ4-ku-erQ"/>
+                                                <constraint firstAttribute="width" constant="112" id="KzJ-4m-tVo"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="112" id="jJ4-ku-erQ"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -270,7 +270,7 @@
                                         <constraint firstItem="24b-AF-dgC" firstAttribute="top" secondItem="8dK-qH-iLo" secondAttribute="bottom" constant="20" id="PQa-fG-7ut"/>
                                         <constraint firstItem="YDz-WA-Vhf" firstAttribute="top" secondItem="cNw-jz-axg" secondAttribute="bottom" constant="28" id="R8V-8V-FBS"/>
                                         <constraint firstItem="8dK-qH-iLo" firstAttribute="top" secondItem="9dy-jz-EjD" secondAttribute="topMargin" constant="5" id="Rlp-cW-Vfk"/>
-                                        <constraint firstItem="8dK-qH-iLo" firstAttribute="leading" secondItem="9dy-jz-EjD" secondAttribute="leadingMargin" constant="12" id="dSw-VF-RQF"/>
+                                        <constraint firstItem="8dK-qH-iLo" firstAttribute="leading" secondItem="9dy-jz-EjD" secondAttribute="leadingMargin" constant="22" id="dSw-VF-RQF"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="cNw-jz-axg" secondAttribute="trailing" constant="30" id="eYq-JB-DtI"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="lum-A5-SaT" secondAttribute="trailing" constant="22" id="fSQ-NG-T9z"/>
                                         <constraint firstItem="8Dy-8o-LLD" firstAttribute="leading" secondItem="9dy-jz-EjD" secondAttribute="leadingMargin" constant="22" id="flf-qU-PEg"/>
@@ -303,7 +303,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J5p-Vv-dxh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5151" y="-2881"/>
+            <point key="canvasLocation" x="5149.6000000000004" y="-2881.7091454272868"/>
         </scene>
     </scenes>
 </document>

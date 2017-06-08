@@ -129,6 +129,12 @@ NSString *kTRELineCodesKey = @"lineCodes";
 }
 
 - (void)startFetchingAllLiveVehiclesWithCodes:(NSArray *)lineCodes andTrainCodes:(NSArray *)trainCodes withCompletionHandler:(ActionBlock)completionHandler {
+    //We don't care about trains in tampere
+    if (lineCodes.count < 1) {
+        completionHandler(nil, @"No line codes.");
+        return;
+    }
+    
     @try {
         self.fetchLinesFromTREHandler = completionHandler;
         [self fetchLiveVehiclesFromTREForLineCodes:lineCodes withCompletionHandler:completionHandler];

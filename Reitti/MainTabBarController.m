@@ -17,6 +17,12 @@
 @property (nonatomic, strong)SearchController *searchController;
 @property (nonatomic, strong)RouteSearchViewController *pendingRouteSearchController;
 
+@property (nonatomic, strong, readonly)UITabBarItem *mapTabBarItem;
+@property (nonatomic, strong, readonly)UITabBarItem *routeTabBarItem;
+@property (nonatomic, strong, readonly)UITabBarItem *bookmarksTabBarItem;
+@property (nonatomic, strong, readonly)UITabBarItem *linesTabBarItem;
+@property (nonatomic, strong, readonly)UITabBarItem *moreTabBarItem;
+
 @end
 
 @implementation MainTabBarController
@@ -26,31 +32,51 @@
     
     [[UITabBar appearance] setTintColor:[AppManager systemGreenColor]];
     
-    UITabBar *tabBar = self.tabBar;
-    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
-    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
-    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+//    UITabBar *tabBar = self.tabBar;
+//    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
+//    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
+//    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
+//    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     
-    tabBarItem1.title = @"Map";
-    tabBarItem2.title = @"Route";
-    tabBarItem3.title = @"Bookmarks";
-    tabBarItem4.title = @"Lines";
+    self.mapTabBarItem.title = @"Map";
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];
-    tabBarItem1.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(20, 20)];
+    self.mapTabBarItem.image = [UIImage asa_imageWithImage:image1 scaledToSize:CGSizeMake(20, 20)];
     
+    self.routeTabBarItem.title = @"Route";
     UIImage *image2 = [UIImage imageNamed:@"Bus Filled-green-100.png"];
-    tabBarItem2.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(19, 19)];
-    
+    self.routeTabBarItem.image = [UIImage asa_imageWithImage:image2 scaledToSize:CGSizeMake(19, 19)];
+
+    self.bookmarksTabBarItem.title = @"Bookmarks";
     UIImage *image3 = [UIImage imageNamed:@"bookmark-green-filled-100.png"];
-    tabBarItem3.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(20, 22)];
+    self.bookmarksTabBarItem.image = [UIImage asa_imageWithImage:image3 scaledToSize:CGSizeMake(20, 22)];
     
+    self.linesTabBarItem.title = @"Lines";
     UIImage *image4 = [UIImage imageNamed:@"transit-line.png"];
-    tabBarItem4.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(20, 17)];
+    self.linesTabBarItem.image = [UIImage asa_imageWithImage:image4 scaledToSize:CGSizeMake(20, 17)];
     
     UINavigationController * homeViewNavController = (UINavigationController *)[[self viewControllers] objectAtIndex:0];
     
     self.searchController = (SearchController *)[[homeViewNavController viewControllers] firstObject];
+}
+
+-(UITabBarItem *)mapTabBarItem {
+    return [self.tabBar.items objectAtIndex:0];
+}
+
+-(UITabBarItem *)routeTabBarItem {
+    return [self.tabBar.items objectAtIndex:1];
+}
+
+-(UITabBarItem *)bookmarksTabBarItem {
+    return [self.tabBar.items objectAtIndex:2];
+}
+
+-(UITabBarItem *)linesTabBarItem {
+    return [self.tabBar.items objectAtIndex:3];
+}
+
+-(UITabBarItem *)moreTabBarItem {
+    return [self.tabBar.items objectAtIndex:4];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -248,6 +274,19 @@
     
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocation toCoords:toCoords fromLocation:fromLocation fromCoords:fromCoords];
     [self setupAndSwithToRouteSearchViewWithSearchParameters:searchParms];
+}
+
+
+-(void)showBadgeOnMoreTab:(BOOL)show {
+    if (show) {
+        self.moreTabBarItem.badgeValue = @"!";
+    }else{
+        self.moreTabBarItem.badgeValue = nil;
+    }
+}
+
+-(BOOL)isShowingBadgeOnMoreTab {
+    return self.moreTabBarItem.badgeValue != nil;
 }
 
 

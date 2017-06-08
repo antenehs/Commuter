@@ -26,4 +26,7 @@
 
 -(BOOL)handleDeepLink:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 
+-(void)showBadgeOnMoreTab:(BOOL)show;
+-(BOOL)isShowingBadgeOnMoreTab;
+
 @end

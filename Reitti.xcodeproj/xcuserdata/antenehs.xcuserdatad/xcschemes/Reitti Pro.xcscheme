@@ -80,7 +80,7 @@
          </AdditionalOption>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../Reitti/Tampere.gpx"
+         identifier = "../Reitti/Helsinki.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>

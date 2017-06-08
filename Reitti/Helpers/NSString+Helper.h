@@ -12,6 +12,7 @@
 @interface NSString (Helper)
 
 - (NSArray *)asa_stringsBySplittingOnString:(NSString *)splitString;
++ (BOOL)isNilOrEmpty:(NSString *)string;
 
 - (CLLocationCoordinate2D)convertTo2DCoord;
 + (NSString *)stringRepresentationOf2DCoord:(CLLocationCoordinate2D)coord;

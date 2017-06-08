@@ -1955,7 +1955,7 @@
             <objects>
                 <navigationController storyboardIdentifier="AddressSearchNavController" navigationBarHidden="YES" id="aME-sU-Pw3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="gMi-Nh-yXe"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="U8j-5q-rgb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="U8j-5q-rgb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2397,7 +2397,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Oiv-6M-ej1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Bookmarks" id="wj5-S2-c7f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="gwk-VO-EKk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="gwk-VO-EKk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2779,7 +2779,7 @@
             <objects>
                 <navigationController storyboardIdentifier="ASARouteSearchNavigationController" toolbarHidden="NO" id="5jX-TA-pDV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Route" id="BFf-cp-BQ8"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="S98-li-irr">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="S98-li-irr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4959,7 +4959,7 @@ Helsinki, Finland</string>
                 <navigationController title="Home" automaticallyAdjustsScrollViewInsets="NO" id="dE0-re-BB2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" id="RF3-9H-puq"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Bao-eL-rsf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="Bao-eL-rsf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4986,7 +4986,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a6b-PA-9mt" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="t7r-m9-mGG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="t7r-m9-mGG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5009,7 +5009,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5LJ-Iz-iZd" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="dGn-oD-lCH">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="dGn-oD-lCH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5032,7 +5032,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wBQ-bi-mzN" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="RH4-kH-5oW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="RH4-kH-5oW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5067,8 +5067,47 @@ Helsinki, Finland</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="110" id="9fe-SQ-fXs">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="110"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9fe-SQ-fXs" id="SY0-h9-3DT">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="109.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3LR-8F-So7">
+                                            <rect key="frame" x="8" y="3" width="359" height="74"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="74" id="2AK-tI-XhS"/>
+                                                <constraint firstAttribute="height" constant="74" id="IcT-Mh-ENl"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKA-xQ-K3b">
+                                            <rect key="frame" x="18" y="79" width="339" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="Y6G-9X-V5e"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                            <connections>
+                                                <action selector="messageActionTapped:" destination="Rnq-ES-eJ5" eventType="touchUpInside" id="eIe-hW-OAl"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rKA-xQ-K3b" firstAttribute="top" secondItem="3LR-8F-So7" secondAttribute="bottom" constant="2" id="5Pk-bu-8wi"/>
+                                        <constraint firstItem="rKA-xQ-K3b" firstAttribute="leading" secondItem="SY0-h9-3DT" secondAttribute="leading" constant="18" id="DOU-r2-e1U"/>
+                                        <constraint firstAttribute="trailing" secondItem="3LR-8F-So7" secondAttribute="trailing" constant="8" id="Efk-PK-FBu"/>
+                                        <constraint firstAttribute="trailing" secondItem="rKA-xQ-K3b" secondAttribute="trailing" constant="18" id="cUI-GT-dwz"/>
+                                        <constraint firstItem="3LR-8F-So7" firstAttribute="leading" secondItem="SY0-h9-3DT" secondAttribute="leading" constant="8" id="esO-hQ-KgG"/>
+                                        <constraint firstItem="3LR-8F-So7" firstAttribute="centerX" secondItem="SY0-h9-3DT" secondAttribute="centerX" id="oQB-tp-yRT"/>
+                                        <constraint firstItem="3LR-8F-So7" firstAttribute="top" secondItem="SY0-h9-3DT" secondAttribute="top" constant="3" id="sxt-QT-sIw"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="remindersCell" id="fYQ-kz-7js">
-                                <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="165.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fYQ-kz-7js" id="Zro-xR-Ue3">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5130,7 +5169,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ticketSellPointCell" id="sB6-vj-4t6">
-                                <rect key="frame" x="0.0" y="105.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="215.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sB6-vj-4t6" id="aZf-bA-MK9">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5192,7 +5231,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="matkakorttiCell" id="8D1-U1-tiT">
-                                <rect key="frame" x="0.0" y="155.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="265.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8D1-U1-tiT" id="Koz-dO-SQw">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -5264,7 +5303,7 @@ Helsinki, Finland</string>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="iCloudBookmarksCell" id="GHF-bD-zcs">
-                                <rect key="frame" x="0.0" y="205.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="315.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GHF-bD-zcs" id="sqA-41-thc">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5326,7 +5365,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="disruptionsCell" id="BPm-lS-BGW">
-                                <rect key="frame" x="0.0" y="255.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="365.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BPm-lS-BGW" id="M0E-MS-YSK">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5409,7 +5448,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="settingsCell" id="CM8-jw-bli">
-                                <rect key="frame" x="0.0" y="305.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="415.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CM8-jw-bli" id="rao-jq-teo">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5470,7 +5509,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="aboutCommuterCell" id="99l-8d-RnV">
-                                <rect key="frame" x="0.0" y="355.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="465.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="99l-8d-RnV" id="896-ab-RwQ">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5531,7 +5570,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="goProCell" id="lam-3V-i0f">
-                                <rect key="frame" x="0.0" y="405.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="515.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lam-3V-i0f" id="Y3C-9D-2Rj">
                                     <rect key="frame" x="0.0" y="0.0" width="342" height="49.5"/>
@@ -5618,7 +5657,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="newInVersionCell" id="akM-cW-Pjs">
-                                <rect key="frame" x="0.0" y="455.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="565.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="akM-cW-Pjs" id="6Xm-mM-lGq">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -5679,7 +5718,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="helpTranslateCell" id="OcH-LW-ee6">
-                                <rect key="frame" x="0.0" y="505.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="615.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OcH-LW-ee6" id="cEV-K0-ic5">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -5737,7 +5776,7 @@ Helsinki, Finland</string>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactMeCell" id="0pR-ab-kU1">
-                                <rect key="frame" x="0.0" y="555.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="665.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0pR-ab-kU1" id="ZuG-tp-CCQ">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -5808,7 +5847,7 @@ Helsinki, Finland</string>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="shareCell" id="FQ2-Eh-R0o">
-                                <rect key="frame" x="0.0" y="605.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="715.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FQ2-Eh-R0o" id="gjx-bI-2gf">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -5877,7 +5916,7 @@ Helsinki, Finland</string>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="useDigiTransit" id="mFg-a4-XEN">
-                                <rect key="frame" x="0.0" y="655.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="765.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mFg-a4-XEN" id="4lb-am-wAd">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -5944,7 +5983,7 @@ Helsinki, Finland</string>
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="rateCell" id="FcN-tF-dfQ">
-                                <rect key="frame" x="0.0" y="705.5" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="815.5" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FcN-tF-dfQ" id="r1l-4o-QIr">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
@@ -6024,7 +6063,7 @@ Helsinki, Finland</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cDl-le-I06" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2967" y="-2097"/>
+            <point key="canvasLocation" x="2965.5999999999999" y="-2097.3013493253375"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v8k-Ai-HA2">
@@ -6032,7 +6071,7 @@ Helsinki, Finland</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aTA-lg-F9E" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="B76-rw-PdA"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="1F7-Cq-TtY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="1F7-Cq-TtY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6177,7 +6216,7 @@ Helsinki, Finland</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="09Y-9V-j1w" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Lines" id="FQ5-qi-s6H"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="PWx-Ll-c15">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="PWx-Ll-c15">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6201,7 +6240,7 @@ Helsinki, Finland</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="U8r-B5-g8m" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="Glz-bb-DaU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6Ca-SF-VbB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="6Ca-SF-VbB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6327,7 +6366,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cmx-42-hGE" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="UZA-c0-qPB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="UZA-c0-qPB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6417,18 +6456,18 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Ltu-K0-x4G"/>
         <segue reference="GbG-gG-Gmw"/>
         <segue reference="BRl-aW-Fwe"/>
-        <segue reference="aeh-2K-3Gz"/>
-        <segue reference="lwh-ia-2sg"/>
-        <segue reference="Omw-FE-tUx"/>
-        <segue reference="Ltu-K0-x4G"/>
-        <segue reference="W05-cy-Jxe"/>
-        <segue reference="X8p-rp-E0z"/>
         <segue reference="UZD-3N-ubs"/>
+        <segue reference="NMg-f3-rlS"/>
         <segue reference="U9A-P0-Va2"/>
+        <segue reference="lf2-qG-jdZ"/>
         <segue reference="XlZ-XU-H5m"/>
         <segue reference="vNT-NN-oB9"/>
         <segue reference="Gru-ad-IZy"/>
+        <segue reference="X8p-rp-E0z"/>
+        <segue reference="aeh-2K-3Gz"/>
+        <segue reference="lwh-ia-2sg"/>
     </inferredMetricsTieBreakers>
 </document>

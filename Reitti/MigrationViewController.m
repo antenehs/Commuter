@@ -33,6 +33,7 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topSpaceContraint;
 
 @property (strong, nonatomic) NSArray *oldSavedStops;
+@property (strong, nonatomic) NSArray *invalidStops;
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 
 @property (nonatomic) NSInteger tempRowNumber;
@@ -78,7 +79,7 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
             [self.changeListTableView reloadData];
             
             [self configureShowingListView];
-            [[StopCoreDataManager sharedManager] deleteSavedStops:invalidStops];
+            self.invalidStops = invalidStops;
             
             if (validStops.count == 0) {
                 [[ReittiAnalyticsManager sharedManager] trackEventForEventName:kEventTotalFailStopMigration category:nil value:@1];
@@ -105,6 +106,7 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
 }
 
 - (IBAction)continueButtonTapped:(id)sender {
+    [[StopCoreDataManager sharedManager] deleteSavedStops:self.invalidStops];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

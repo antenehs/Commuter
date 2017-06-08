@@ -60,5 +60,6 @@
 
 @property (nonatomic, retain) NSString * coordsString;
 @property (nonatomic) CLLocationCoordinate2D coords;
+@property (nonatomic) CLLocation *coordLocation;
 
 @end

@@ -15,11 +15,13 @@
 #import "AppManager.h"
 #import "WebViewController.h"
 #import "ReittiConfigManager.h"
+#import "MainTabBarController.h"
 
 @interface MoreTableViewController ()
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
+@property (strong, nonatomic) RemoteMessage *remoteMessage;
 
 @end
 
@@ -31,13 +33,10 @@
     [self setTableBackgroundView];
     self.clearsSelectionOnViewWillAppear = YES;
     
+    self.remoteMessage = [[ReittiConfigManager sharedManager] moreTabMessage];
+    
     [self initDataManager];
     appTranslateUrl = [self appTranslationLink];
-    
-//    thereIsDisruptions = [self areThereDisruptions];
-//    canShowDisruptions = YES;
-    
-//    [self checkForDisruptionAvailability];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
@@ -50,12 +49,9 @@
     [self.navigationItem setTitle:NSLocalizedString(@"MORE", @"MORE")];
     [self.tabBarController.tabBar setHidden:NO];
     
-//    if (thereIsDisruptions != [self areThereDisruptions] ) {
-//        thereIsDisruptions = [self areThereDisruptions];
-//        [self.tableView reloadData];
-//    }
-//    thereIsDisruptions = [self areThereDisruptions];
     [self.tableView reloadData];
+    
+    [self showBadge:[self areThereDisruptions] || self.remoteMessage];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
@@ -83,8 +79,13 @@
 }
 
 - (BOOL)areThereDisruptions {
-    UITabBarItem *moreTabBarItem = [self.tabBarController.tabBar.items objectAtIndex:4];
-    return moreTabBarItem.badgeValue != nil;
+    MainTabBarController *tabBarController = (MainTabBarController *)self.tabBarController;
+    return [tabBarController isShowingBadgeOnMoreTab];
+}
+
+- (void)showBadge:(bool)show{
+    MainTabBarController *tabBarController = (MainTabBarController *)self.tabBarController;
+    [tabBarController showBadgeOnMoreTab:show];
 }
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
@@ -97,10 +98,7 @@
     
     numberOfSection = 0;
     
-    numberOfDebugRows = 0;
-    useDigiTransitRow = numberOfDebugRows++;
-    
-    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
+    messageSection = ![AppManagerBase isProVersion] && self.remoteMessage ? numberOfSection++ : -1;
     
     numberOfMoreFeatures = 0;
     routinesRow = numberOfMoreFeatures++;
@@ -119,17 +117,18 @@
     aboutCommuterRow = numberOfCommuterRows++;
     translateRow = appTranslateUrl ? numberOfCommuterRows++ : -1;
     goProRow = ![AppManager isProVersion] ? numberOfCommuterRows++ : -1;
-    newInVersionRow = numberOfCommuterRows++;
+//    newInVersionRow = numberOfCommuterRows++;
     contactMeRow = numberOfCommuterRows++;
     rateInAppStoreRow = numberOfCommuterRows++;
     shareRow = numberOfCommuterRows++;;
     
     commuterSection = numberOfSection++;
     
-    numberOfDebugRows = 0;
-    useDigiTransitRow = numberOfDebugRows++;
+    debugFeaturesSection = -1;
+//    numberOfDebugRows = 0;
+//    useDigiTransitRow = numberOfDebugRows++;
     
-    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
+//    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -146,6 +145,8 @@
         return numberOfCommuterRows;
     }else if(section == debugFeaturesSection){
         return numberOfDebugRows;
+    }else if (section == messageSection) {
+        return 1;
     }
     
     return 0;
@@ -200,10 +201,32 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"useDigiTransit" forIndexPath:indexPath];
         UISwitch *useSwitch = [cell viewWithTag:1005];
         useSwitch.on = [SettingsManager useDigiTransit];
+    } else if (indexPath.section == messageSection) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
+        
+        UILabel *messageLabel = [cell viewWithTag:1001];
+        UIButton *actionButton = [cell viewWithTag:1002];
+        
+        messageLabel.text = self.remoteMessage.message;
+        messageLabel.textColor = [AppManager systemOrangeColor];
+        actionButton.hidden = !self.remoteMessage.isActionable;
+        if (self.remoteMessage.isActionable) {
+            [actionButton setTitle:self.remoteMessage.actionName forState:UIControlStateNormal];
+        }
+        
+        cell.backgroundColor = [UIColor clearColor];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == messageSection) {
+        return self.remoteMessage.isActionable ? 110.0 : 80.0;
+    } else {
+        return 50.0;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -263,6 +286,14 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedRateButton label:[AppManager appFullName] value:nil];
+}
+
+- (IBAction)messageActionTapped:(id)sender {
+    if (self.remoteMessage.isActionable) {
+        NSURL *deeplinkUrl = [NSURL URLWithString:self.remoteMessage.actionDeeplink];
+        if (deeplinkUrl)
+            [[UIApplication sharedApplication] openURL:deeplinkUrl];
+    }
 }
 
 #pragma mark - Debug Actions

@@ -21,6 +21,9 @@
 +(id)treDigiTransitCommunicator;
 +(id)finlandDigiTransitCommunicator;
 
+#if MAIN_APP
 -(void)fetchDeparturesForStopName:(NSString *)name withCompletionHandler:(ActionBlock)completionBlock;
+#endif
+
 -(void)fetchStopsForName:(NSString *)stopName withCompletionBlock:(ActionBlock)completionBlock;
 @end

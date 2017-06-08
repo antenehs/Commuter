@@ -8,11 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
+@interface RemoteMessage : NSObject
+
++(instancetype)messageWithMessage:(NSString *)message
+                       actionName:(NSString *)actionName
+                   actionDeepLink:(NSString *)actionDeepLink;
+
+@property(nonatomic, strong)NSString *message;
+@property(nonatomic, strong)NSString *actionName;
+@property(nonatomic, strong)NSString *actionDeeplink;
+
+@property(nonatomic, readonly) BOOL isActionable;
+
+
+@end
+
 @interface ReittiConfigManager : NSObject
 
 +(instancetype)sharedManager;
 
--(NSString *)appTranslationLink;
--(NSInteger)intervalBetweenGoProShowsInStopView;
+@property(nonatomic, strong, readonly)NSString *appTranslationLink;
+@property(nonatomic, readonly)NSInteger intervalBetweenGoProShowsInStopView;
+@property(nonatomic, strong, readonly)RemoteMessage *moreTabMessage;
+
 
 @end

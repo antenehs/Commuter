@@ -21,6 +21,24 @@
 		66026DA01D6B622B00219AC6 /* AnnotationFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */; };
 		66026DA21D6B624100219AC6 /* AnnotationFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */; };
 		66026DA31D6B624100219AC6 /* AnnotationFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */; };
+		660277F41EE5A1DA003CA3B7 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660277F31EE5A1DA003CA3B7 /* Polyline.swift */; };
+		660277F51EE5A1DA003CA3B7 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660277F31EE5A1DA003CA3B7 /* Polyline.swift */; };
+		660277F61EE5A1DA003CA3B7 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660277F31EE5A1DA003CA3B7 /* Polyline.swift */; };
+		660277F71EE5A1DA003CA3B7 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660277F31EE5A1DA003CA3B7 /* Polyline.swift */; };
+		660277F81EE5A1DA003CA3B7 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660277F31EE5A1DA003CA3B7 /* Polyline.swift */; };
+		660277F91EE5A1DA003CA3B7 /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660277F31EE5A1DA003CA3B7 /* Polyline.swift */; };
+		660277FC1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */; };
+		660277FD1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */; };
+		660277FE1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */; };
+		660277FF1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */; };
+		660278001EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */; };
+		660278011EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */; };
+		660278051EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */; };
+		660278061EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */; };
+		660278071EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */; };
+		660278081EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */; };
+		660278091EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */; };
+		6602780A1EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */; };
 		66034CFF1CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
 		66034D001CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
 		66034D011CE8D91F00EC0769 /* GraphQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */; };
@@ -1408,9 +1426,16 @@
 		66026D9D1D6B622B00219AC6 /* AnnotationFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationFilterView.h; sourceTree = "<group>"; };
 		66026D9E1D6B622B00219AC6 /* AnnotationFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilterView.m; sourceTree = "<group>"; };
 		66026DA11D6B624100219AC6 /* AnnotationFilterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnotationFilterView.xib; sourceTree = "<group>"; };
-		66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Departures-Bridging-Header.h"; sourceTree = "<group>"; };
-		66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Departures Pro-Bridging-Header.h"; sourceTree = "<group>"; };
-		66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commuter - Routes Pro-Bridging-Header.h"; sourceTree = "<group>"; };
+		660277F21EE5A1D9003CA3B7 /* WatchRoutes Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WatchRoutes Extension-Bridging-Header.h"; path = "../Reitti/WatchRoutes Extension-Bridging-Header.h"; sourceTree = "<group>"; };
+		660277F31EE5A1DA003CA3B7 /* Polyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polyline.swift; sourceTree = "<group>"; };
+		660277FA1EE5A5C1003CA3B7 /* PolylineDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolylineDecoder.h; sourceTree = "<group>"; };
+		660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolylineDecoder.m; sourceTree = "<group>"; };
+		660278021EE5AF4C003CA3B7 /* SwiftHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftHeaders.h; sourceTree = "<group>"; };
+		660278031EE5B18F003CA3B7 /* DigiPolylineGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiPolylineGeometry.h; sourceTree = "<group>"; };
+		660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DigiPolylineGeometry.m; sourceTree = "<group>"; };
+		66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Commuter - Departures-Bridging-Header.h"; path = "../Reitti/Commuter - Departures-Bridging-Header.h"; sourceTree = "<group>"; };
+		66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Commuter - Departures Pro-Bridging-Header.h"; path = "../Reitti/Commuter - Departures Pro-Bridging-Header.h"; sourceTree = "<group>"; };
+		66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Commuter - Routes Pro-Bridging-Header.h"; path = "../Reitti/Commuter - Routes Pro-Bridging-Header.h"; sourceTree = "<group>"; };
 		66034CFD1CE8D91F00EC0769 /* GraphQLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphQLQuery.h; sourceTree = "<group>"; };
 		66034CFE1CE8D91F00EC0769 /* GraphQLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphQLQuery.m; sourceTree = "<group>"; };
 		6603A8EA1CCFE9EB00991FBF /* ReittiRegionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiRegionManager.h; sourceTree = "<group>"; };
@@ -2341,6 +2366,16 @@
 			name = Contact;
 			sourceTree = "<group>";
 		};
+		660277F11EE5A174003CA3B7 /* PolylineDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				660277F31EE5A1DA003CA3B7 /* Polyline.swift */,
+				660277FA1EE5A5C1003CA3B7 /* PolylineDecoder.h */,
+				660277FB1EE5A5C1003CA3B7 /* PolylineDecoder.m */,
+			);
+			name = PolylineDecoder;
+			sourceTree = "<group>";
+		};
 		66034D041CE8E43500EC0769 /* DigiModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -2354,6 +2389,8 @@
 				66833D6B1CF99FE4005D958C /* DigiBikeRentalStation.m */,
 				66833D421CF8F425005D958C /* DigiGeometry.h */,
 				66833D431CF8F425005D958C /* DigiGeometry.m */,
+				660278031EE5B18F003CA3B7 /* DigiPolylineGeometry.h */,
+				660278041EE5B18F003CA3B7 /* DigiPolylineGeometry.m */,
 				66833D441CF8F425005D958C /* DigiIntermediateStops.h */,
 				66833D451CF8F425005D958C /* DigiIntermediateStops.m */,
 				66833D461CF8F425005D958C /* DigiPlan.h */,
@@ -2636,6 +2673,7 @@
 				66CA02B41C16367900A38858 /* RestAPI */,
 				66CA02BB1C163CB200A38858 /* View Libraries */,
 				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
+				660277F11EE5A174003CA3B7 /* PolylineDecoder */,
 			);
 			name = "Supporting Classes";
 			sourceTree = "<group>";
@@ -2822,6 +2860,7 @@
 		662481951D1FFBF700574319 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				660277F21EE5A1D9003CA3B7 /* WatchRoutes Extension-Bridging-Header.h */,
 				662481961D1FFBF700574319 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
@@ -3205,15 +3244,13 @@
 				66947CBD18830ED500642EE1 /* Reitti-Info.plist */,
 				66947CBE18830ED500642EE1 /* InfoPlist.strings */,
 				66947CC118830ED500642EE1 /* main.m */,
-				66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */,
-				66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */,
-				66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */,
 				669EA1F419C83793005A04B9 /* Reitti-Bridging-Header.h */,
 				66947CC318830ED500642EE1 /* Reitti-Prefix.pch */,
 				66B6011F1D91C1360056B7FA /* finland-region.geojson */,
 				667B98101AD3261100C45ADF /* AddressTypeList.plist */,
 				664749DA1AE59B3E0050137E /* versionInfo.html */,
 				66237EFF19CE14C500DEEC5F /* Reitti.entitlements */,
+				660278021EE5AF4C003CA3B7 /* SwiftHeaders.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3494,6 +3531,7 @@
 				66CA02C41C16FC4C00A38858 /* TodayViewController.m */,
 				66CA02C61C16FC4C00A38858 /* MainInterface.storyboard */,
 				66CA02C91C16FC4C00A38858 /* Info.plist */,
+				66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */,
 				660CFE0F1C19A105004D73FC /* API */,
 			);
 			path = "Commuter - Routes";
@@ -3641,6 +3679,8 @@
 		66DAC7D01A025ED90002BE16 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				66034C981CE8B86600EC0769 /* Commuter - Departures-Bridging-Header.h */,
+				66034C991CE8B86600EC0769 /* Commuter - Departures Pro-Bridging-Header.h */,
 				66DAC7E51A0292470002BE16 /* ReittiStringFormatterE.h */,
 				66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */,
 				66DAC7E11A0277780002BE16 /* BusStopE.h */,
@@ -3880,6 +3920,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 662481AF1D1FFBF700574319 /* Build configuration list for PBXNativeTarget "WatchRoutes" */;
 			buildPhases = (
+				66AE11201EE0DC4300178C41 /* ShellScript */,
 				662481821D1FFBF700574319 /* Resources */,
 				662481AE1D1FFBF700574319 /* Embed App Extensions */,
 				55C5799DC9355728801E58D5 /* Frameworks */,
@@ -3898,6 +3939,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 662481AD1D1FFBF700574319 /* Build configuration list for PBXNativeTarget "WatchRoutes Extension" */;
 			buildPhases = (
+				66AE111F1EE0DAB900178C41 /* ShellScript */,
 				6624818C1D1FFBF700574319 /* Sources */,
 				6624818D1D1FFBF700574319 /* Frameworks */,
 				6624818E1D1FFBF700574319 /* Resources */,
@@ -3915,6 +3957,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66947CE718830ED500642EE1 /* Build configuration list for PBXNativeTarget "Reitti" */;
 			buildPhases = (
+				66AE111B1EE0D96600178C41 /* ShellScript */,
 				495829BBB73B48947539E63F /* [CP] Check Pods Manifest.lock */,
 				66947CAE18830ED500642EE1 /* Sources */,
 				66947CAF18830ED500642EE1 /* Frameworks */,
@@ -3958,6 +4001,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66C735061C556DA5002544BC /* Build configuration list for PBXNativeTarget "Reitti Pro" */;
 			buildPhases = (
+				66AE111A1EE0D94A00178C41 /* ShellScript */,
 				05665F61C29886A2470512CD /* [CP] Check Pods Manifest.lock */,
 				66C732C11C556DA5002544BC /* Sources */,
 				66C733821C556DA5002544BC /* Frameworks */,
@@ -3984,6 +4028,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66C735611C556FA4002544BC /* Build configuration list for PBXNativeTarget "Commuter - Departures Pro" */;
 			buildPhases = (
+				66AE111D1EE0DA9000178C41 /* ShellScript */,
 				B903C8B2969079C675E4FBE3 /* [CP] Check Pods Manifest.lock */,
 				66C7350C1C556FA4002544BC /* Sources */,
 				66C735291C556FA4002544BC /* Frameworks */,
@@ -4004,6 +4049,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66C735BE1C556FB5002544BC /* Build configuration list for PBXNativeTarget "Commuter - Routes Pro" */;
 			buildPhases = (
+				66AE111E1EE0DA9E00178C41 /* ShellScript */,
 				589A2142B5E9DBB8AF2201C6 /* [CP] Check Pods Manifest.lock */,
 				66C735671C556FB5002544BC /* Sources */,
 				66C735801C556FB5002544BC /* Frameworks */,
@@ -4024,6 +4070,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66DAC7DC1A025ED90002BE16 /* Build configuration list for PBXNativeTarget "Commuter - Departures" */;
 			buildPhases = (
+				66AE111C1EE0DA7800178C41 /* ShellScript */,
 				4FFC8121664D933A8A59B7C1 /* [CP] Check Pods Manifest.lock */,
 				66DAC7C91A025ED90002BE16 /* Sources */,
 				66DAC7CA1A025ED90002BE16 /* Frameworks */,
@@ -4053,6 +4100,7 @@
 					662481831D1FFBF700574319 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4062,6 +4110,7 @@
 					6624818F1D1FFBF700574319 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4070,6 +4119,7 @@
 					};
 					66947CB118830ED500642EE1 = {
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4086,13 +4136,16 @@
 						};
 					};
 					66947CD518830ED500642EE1 = {
+						LastSwiftMigration = 0830;
 						TestTargetID = 66947CB118830ED500642EE1;
 					};
 					66C732BB1C556DA5002544BC = {
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 					};
 					66C7350B1C556FA4002544BC = {
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4101,6 +4154,7 @@
 					};
 					66C735661C556FB5002544BC = {
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4110,6 +4164,7 @@
 					66DAC7CC1A025ED90002BE16 = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = FGEKQ9U6E7;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4701,6 +4756,97 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\nrm -fr Frameworks\nfi";
 		};
+		66AE111A1EE0D94A00178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+		66AE111B1EE0D96600178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+		66AE111C1EE0DA7800178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+		66AE111D1EE0DA9000178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+		66AE111E1EE0DA9E00178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+		66AE111F1EE0DAB900178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+		66AE11201EE0DC4300178C41 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
 		66EAF8EF1D875CD00077BC5C /* Upload symbols to Firebase */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -4817,6 +4963,7 @@
 				6605C2841D30FBD100C228B1 /* ComplicationDataManager.m in Sources */,
 				66B391C11D23087300C500CC /* WatchApiClient.m in Sources */,
 				662481A21D1FFBF700574319 /* ComplicationController.m in Sources */,
+				6602780A1EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
 				6658BAB71ED7539A001F3C9C /* BusStopShort.m in Sources */,
 				6658BAAD1ED751D6001F3C9C /* DigiPlan.m in Sources */,
 				663465F71ECEA5CB004B8AAF /* LinePattern.m in Sources */,
@@ -4854,6 +5001,7 @@
 				66BCA6F71D72106C0092C5BB /* StopRowController.m in Sources */,
 				66A2FB0E1D889213004A6C24 /* RouteHeaderRowController.m in Sources */,
 				66BCA6F41D7202160092C5BB /* ReittiManagedObjectBase.m in Sources */,
+				660277F91EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */,
 				663465BC1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
 				6658BAA71ED74580001F3C9C /* DigiTransitCommunicator.m in Sources */,
@@ -4871,6 +5019,7 @@
 				663207261D29258800D8A46D /* NSArray+Helper.m in Sources */,
 				663207301D29501E00D8A46D /* RouteLegRowController.m in Sources */,
 				6658BAAE1ED751D6001F3C9C /* DigiPattern.m in Sources */,
+				660278011EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				6658BABF1ED756CF001F3C9C /* ReittiRegionManager.m in Sources */,
 				6601AC941D29898700EB8972 /* EnumManager.m in Sources */,
 				6658BAAC1ED751D6001F3C9C /* DigiGeometry.m in Sources */,
@@ -4955,6 +5104,7 @@
 				663589C31ED128BC006721EA /* NSString+Score.m in Sources */,
 				66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */,
 				66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */,
+				660277FC1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
@@ -5016,6 +5166,7 @@
 				6684BEC61CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */,
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
 				66833D1A1CEE45CE005D958C /* DigiStoptime.m in Sources */,
+				660277F41EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
 				66B7AE891EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */,
@@ -5047,6 +5198,7 @@
 				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
 				66997AAB1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
+				660278051EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
 				66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */,
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
@@ -5239,6 +5391,7 @@
 				663589C41ED128BC006721EA /* NSString+Score.m in Sources */,
 				66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */,
 				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,
+				660277FD1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				66C732E81C556DA5002544BC /* Reitti.xcdatamodeld in Sources */,
 				66C732E91C556DA5002544BC /* HTMLSerialization.m in Sources */,
 				66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */,
@@ -5300,6 +5453,7 @@
 				6684BEC71CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */,
 				66C7330F1C556DA5002544BC /* EmptyBookmarkCell.m in Sources */,
 				66833D1B1CEE45CE005D958C /* DigiStoptime.m in Sources */,
+				660277F51EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				66C733101C556DA5002544BC /* GeoCodeDetail.m in Sources */,
 				66C733111C556DA5002544BC /* Properties.m in Sources */,
 				66B7AE8A1EC79EDB00B233E7 /* StopCoreDataManager.m in Sources */,
@@ -5331,6 +5485,7 @@
 				66C733231C556DA5002544BC /* TabBarViewController.m in Sources */,
 				66C733241C556DA5002544BC /* LVThumbnail.m in Sources */,
 				66997AAC1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
+				660278061EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
 				66C733251C556DA5002544BC /* HTMLTreeEnumerator.m in Sources */,
 				66C733261C556DA5002544BC /* KBPopupBubbleView.m in Sources */,
 				66C733271C556DA5002544BC /* TravelCardManager.m in Sources */,
@@ -5501,6 +5656,8 @@
 				666E08B91CD3DBFF0058D5B0 /* ReittiStringFormatter.m in Sources */,
 				666E08971CD3D6BB0058D5B0 /* EnumManager.m in Sources */,
 				66833D4F1CF8F427005D958C /* DigiPlace.m in Sources */,
+				660278081EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
+				660277FF1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				666E08C41CD3DD6C0058D5B0 /* MatkaName.m in Sources */,
 				6683CF191CD922E70044727B /* MatkaApiClient.m in Sources */,
 				66C05AB81ED4E49300F26AD2 /* NSDate+Helper.m in Sources */,
@@ -5533,6 +5690,7 @@
 				66C7351F1C556FA4002544BC /* BusStopE.m in Sources */,
 				663465C01ECD4E76004B8AAF /* DigiBikeRentalStation.m in Sources */,
 				660579871E11DF0200F3559E /* DigiRoute.m in Sources */,
+				660277F71EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				666E08D21CD3DF520058D5B0 /* MatkaRouteStop.m in Sources */,
 				66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66C05AEF1ED54D3900F26AD2 /* ReittiManagedObjectBase.m in Sources */,
@@ -5583,12 +5741,14 @@
 				66833D501CF8F427005D958C /* DigiPlace.m in Sources */,
 				6683CF241CD929050044727B /* MatkaRouteLocation.m in Sources */,
 				66833D5F1CF8F427005D958C /* DigiPlan.m in Sources */,
+				660277F81EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				665BA1B81CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				660579881E11DF0200F3559E /* DigiRoute.m in Sources */,
 				663465F61ECEA5CB004B8AAF /* LinePattern.m in Sources */,
 				66C05AAF1ED4DE5A00F26AD2 /* DigiTransitCommunicator.m in Sources */,
 				66833D691CF8F427005D958C /* DigiPattern.m in Sources */,
 				66C7356D1C556FB5002544BC /* AppManagerBase.m in Sources */,
+				660278091EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
 				66C7356E1C556FB5002544BC /* TREAPIClient.m in Sources */,
 				66833D5A1CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66997AB71ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
@@ -5598,6 +5758,7 @@
 				660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */,
 				6683CF211CD924F90044727B /* MatkaObjectMapping.m in Sources */,
 				66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
+				660278001EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				66833D641CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C735721C556FB5002544BC /* WidgetDataManager.m in Sources */,
 				66C05AEE1ED54D3800F26AD2 /* ReittiManagedObjectBase.m in Sources */,
@@ -5694,6 +5855,8 @@
 				666E08B81CD3DBFE0058D5B0 /* ReittiStringFormatter.m in Sources */,
 				666E08961CD3D6BA0058D5B0 /* EnumManager.m in Sources */,
 				66833D4E1CF8F426005D958C /* DigiPlace.m in Sources */,
+				660278071EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
+				660277FE1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				666E08C31CD3DD6B0058D5B0 /* MatkaName.m in Sources */,
 				6683CF181CD922E70044727B /* MatkaApiClient.m in Sources */,
 				66C05AB71ED4E49200F26AD2 /* NSDate+Helper.m in Sources */,
@@ -5726,6 +5889,7 @@
 				66DAC7E31A0277780002BE16 /* BusStopE.m in Sources */,
 				663465BF1ECD4E74004B8AAF /* DigiBikeRentalStation.m in Sources */,
 				660579861E11DF0200F3559E /* DigiRoute.m in Sources */,
+				660277F61EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				666E08D11CD3DF510058D5B0 /* MatkaRouteStop.m in Sources */,
 				66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66C05AF01ED54D3A00F26AD2 /* ReittiManagedObjectBase.m in Sources */,
@@ -5869,6 +6033,7 @@
 		662481A91D1FFBF700574319 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -5887,6 +6052,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -5895,6 +6061,7 @@
 		662481AA1D1FFBF700574319 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -5914,6 +6081,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -5924,6 +6092,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = "WatchRoutes Extension/WatchRoutes Extension.entitlements";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -5938,6 +6107,9 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/WatchRoutes Extension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -5948,6 +6120,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = "WatchRoutes Extension/WatchRoutes Extension.entitlements";
 				COPY_PHASE_STRIP = NO;
@@ -5963,6 +6136,8 @@
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/WatchRoutes Extension-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -6055,6 +6230,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 74635C88F2F25E50403710A7 /* Pods-Networking-Reitti.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -6130,12 +6306,14 @@
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DMAIN_APP",
+					"-DBASIC_MAIN_APP",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = reitti.aikatauluApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Reitti-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6145,6 +6323,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA299D562B533985BE2111C2 /* Pods-Networking-Reitti.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -6220,11 +6399,13 @@
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DMAIN_APP",
+					"-DBASIC_MAIN_APP",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = reitti.aikatauluApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Reitti-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6233,6 +6414,7 @@
 		66947CEB18830ED500642EE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Reitti.app/Reitti";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -6248,6 +6430,7 @@
 				INFOPLIST_FILE = "ReittiTests/ReittiTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "shabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -6256,6 +6439,7 @@
 		66947CEC18830ED500642EE1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Reitti.app/Reitti";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -6267,6 +6451,7 @@
 				INFOPLIST_FILE = "ReittiTests/ReittiTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "shabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -6276,12 +6461,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A1C211236D4C390858DCBB2D /* Pods-Networking-Reitti Pro.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6345,12 +6532,14 @@
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DMAIN_APP",
+					"-DPRO_MAIN_APP",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = reitti.CommuterAppPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Reitti-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6360,12 +6549,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 32FC8F579D5ADDC4536A854F /* Pods-Networking-Reitti Pro.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6429,11 +6620,13 @@
 					"-isystem",
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DMAIN_APP",
+					"-DPRO_MAIN_APP",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = reitti.CommuterAppPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Reitti-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -6516,6 +6709,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DWIDGET_APP",
 					"-DDEPARTURES_WIDGET",
+					"-DDEPARTURES_PRO_WIDGET",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.CommuterAppPro.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6523,6 +6717,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Commuter - Departures Pro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -6600,12 +6795,14 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DWIDGET_APP",
 					"-DDEPARTURES_WIDGET",
+					"-DDEPARTURES_PRO_WIDGET",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.CommuterAppPro.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Commuter - Departures Pro-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -6694,6 +6891,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Commuter - Routes Pro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -6781,6 +6979,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Commuter - Routes Pro-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -6862,6 +7061,7 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DWIDGET_APP",
 					"-DDEPARTURES_WIDGET",
+					"-DDEPARTURES_BASIC_WIDGET",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatauluApp.Commuter---Departures";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -6869,6 +7069,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Commuter - Departures-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -6946,12 +7147,14 @@
 					"\"${PODS_ROOT}/Headers/Public/XMLReader\"",
 					"-DWIDGET_APP",
 					"-DDEPARTURES_WIDGET",
+					"-DDEPARTURES_BASIC_WIDGET",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "reitti.aikatauluApp.Commuter---Departures";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Reitti/Commuter - Departures-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

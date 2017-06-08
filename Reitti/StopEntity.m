@@ -101,6 +101,7 @@
 
 -(BusStopShort *)toBusStopShort {
     BusStopShort *castedBSS = [[BusStopShort alloc] init];
+    castedBSS.gtfsId = self.stopGtfsId;
     castedBSS.code = self.busStopCode;
     castedBSS.codeShort = self.busStopShortCode;
     castedBSS.coords = self.busStopWgsCoords;
@@ -109,6 +110,7 @@
     castedBSS.address = nil;
     castedBSS.distance = [NSNumber numberWithInt:0];
     castedBSS.stopType = self.stopType;
+    castedBSS.lines = self.stopLines;
     
     return castedBSS;
 }

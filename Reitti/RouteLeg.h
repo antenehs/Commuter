@@ -73,6 +73,6 @@
 //Derived properties
 @property (nonatomic, strong)NSDate * departureTime;
 @property (nonatomic, readonly) NSString * lineDisplayName;
-@property (nonatomic, retain) NSArray * legShapeCoorStrings;
+@property (nonatomic, retain) NSArray * legShapeCoordLocations;
 
 @end

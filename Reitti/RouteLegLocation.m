@@ -74,7 +74,16 @@
     if (![ReittiMapkitHelper isValidCoordinate:_coords]) {
         _coords = CLLocationCoordinate2DMake([[self.coordsDictionary objectForKey:@"y"] floatValue],[[self.coordsDictionary objectForKey:@"x"] floatValue]);
     }
+    
     return _coords;
+}
+
+-(CLLocation *)coordLocation {
+    if (!_coordLocation) {
+        _coordLocation = [[CLLocation alloc] initWithLatitude:self.coords.latitude longitude:self.coords.longitude];
+    }
+    
+    return _coordLocation;
 }
 
 #pragma mark - Dictionary representation

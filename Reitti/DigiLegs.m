@@ -8,6 +8,7 @@
 #import "DigiLegs.h"
 #import "DigiPlace.h"
 #import "DigiTrip.h"
+#import "DigiPolylineGeometry.h"
 
 
 NSString *const kDigiLegsTransitLeg = @"transitLeg";
@@ -22,6 +23,7 @@ NSString *const kDigiLegsDuration = @"duration";
 NSString *const kDigiLegsDistance = @"distance";
 NSString *const kDigiLegsStartTime = @"startTime";
 NSString *const kDigiLegsTo = @"to";
+NSString *const kDigiLegGeometry = @"legGeometry";
 
 
 @interface DigiLegs ()
@@ -45,6 +47,7 @@ NSString *const kDigiLegsTo = @"to";
 @synthesize distance = _distance;
 @synthesize startTime = _startTime;
 @synthesize to = _to;
+@synthesize legGeometry = _legGeometry;
 
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict
@@ -72,6 +75,7 @@ NSString *const kDigiLegsTo = @"to";
         self.distance = [self objectOrNilForKey:kDigiLegsDistance fromDictionary:dict];
         self.startTime = [self objectOrNilForKey:kDigiLegsStartTime fromDictionary:dict];
         self.to = [DigiPlace modelObjectWithDictionary:[dict objectForKey:kDigiLegsTo]];
+        self.legGeometry = [DigiPolylineGeometry modelObjectWithDictionary:[dict objectForKey:kDigiLegGeometry]];
 
     }
     
@@ -94,6 +98,7 @@ NSString *const kDigiLegsTo = @"to";
     [mutableDict setValue:self.distance forKey:kDigiLegsDistance];
     [mutableDict setValue:self.startTime forKey:kDigiLegsStartTime];
     [mutableDict setValue:[self.to dictionaryRepresentation] forKey:kDigiLegsTo];
+    [mutableDict setValue:[self.legGeometry dictionaryRepresentation] forKey:kDigiLegGeometry];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -129,6 +134,7 @@ NSString *const kDigiLegsTo = @"to";
     self.distance = [aDecoder decodeObjectForKey:kDigiLegsDistance];
     self.startTime = [aDecoder decodeObjectForKey:kDigiLegsStartTime];
     self.to = [aDecoder decodeObjectForKey:kDigiLegsTo];
+    self.legGeometry = [aDecoder decodeObjectForKey:kDigiLegGeometry];
     return self;
 }
 
@@ -147,6 +153,7 @@ NSString *const kDigiLegsTo = @"to";
     [aCoder encodeObject:_distance forKey:kDigiLegsDistance];
     [aCoder encodeObject:_startTime forKey:kDigiLegsStartTime];
     [aCoder encodeObject:_to forKey:kDigiLegsTo];
+    [aCoder encodeObject:_legGeometry forKey:kDigiLegGeometry];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -167,6 +174,7 @@ NSString *const kDigiLegsTo = @"to";
         copy.distance = self.distance;
         copy.startTime = self.startTime;
         copy.to = [self.to copyWithZone:zone];
+        copy.legGeometry = [self.legGeometry copyWithZone:zone];
     }
     
     return copy;
@@ -255,6 +263,10 @@ NSString *const kDigiLegsTo = @"to";
                                                                                 toKeyPath:@"to"
                                                                          withMappingClass:[DigiPlace class]];
     
+    MappingRelationShip *geometryRelationShip = [MappingRelationShip relationShipFromKeyPath:kDigiLegGeometry
+                                                                                  toKeyPath:kDigiLegGeometry
+                                                                           withMappingClass:[DigiPolylineGeometry class]];
+    
     MappingRelationShip *stopRelationShip = [MappingRelationShip relationShipFromKeyPath:@"intermediateStops"
                                                                                 toKeyPath:@"intermediateStops"
                                                                          withMappingClass:[DigiIntermediateStops class]];
@@ -266,7 +278,7 @@ NSString *const kDigiLegsTo = @"to";
     return [MappingDescriptor descriptorFromPath:path
                                         forClass:[self class]
                            withMappingDictionary:[self mappingDictionary]
-                                andRelationShips:@[fromPlaceRelationShip, toPlaceRelationShip, stopRelationShip, tripRelationShip]];
+                                andRelationShips:@[fromPlaceRelationShip, toPlaceRelationShip, geometryRelationShip, stopRelationShip, tripRelationShip]];
 }
 
 @end

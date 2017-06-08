@@ -1206,7 +1206,7 @@ typedef enum
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.tableViewMode == TableViewModeSuggestions) {
-        return 60;
+        return 70;
     }else{
         return showTopLoadingView && indexPath.row == 0 ? 90 : 130;
     }

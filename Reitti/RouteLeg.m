@@ -122,17 +122,17 @@
     }
 }
 
--(NSArray *)legShapeCoorStrings {
-    if (!_legShapeCoorStrings) {
+-(NSArray *)legShapeCoordLocations {
+    if (!_legShapeCoordLocations) {
         NSMutableArray *strings = [@[] mutableCopy];
         for (NSDictionary *coordDict in self.legShapeDictionaries) {
             [strings addObject:[NSString stringWithFormat:@"%@,%@", [coordDict objectForKey:@"x"], [coordDict objectForKey:@"y"]]];
         }
         
-        _legShapeCoorStrings = strings;
+        _legShapeCoordLocations = strings;
     }
     
-    return _legShapeCoorStrings;
+    return _legShapeCoordLocations;
 }
 
 -(int)getNumberOfStopsInLeg {
@@ -248,7 +248,7 @@
     leg.lineName = digiLeg.lineName;
     leg.legOrder = digiLeg.legOrder;
     
-    leg.legShapeCoorStrings = @[]; //TODO: Decode polyline
+    leg.legShapeCoordLocations = @[]; //TODO: Decode polyline
     
     NSMutableArray *locations = [@[] mutableCopy];
     NSMutableArray *shapeStrings = [@[] mutableCopy];
@@ -260,7 +260,7 @@
             fromLocation.arrTime = digiLeg.parsedStartTime;
             fromLocation.depTime = digiLeg.parsedStartTime;
             [locations addObject:fromLocation];
-            [shapeStrings addObject:fromLocation.coordsString];
+            [shapeStrings addObject:fromLocation.coordLocation];
         }
         
         RouteLegLocation *toLocation = [RouteLegLocation routeLocationFromDigiPlace:digiLeg.to];
@@ -270,7 +270,7 @@
             toLocation.arrTime = digiLeg.parsedEndTime;
             toLocation.depTime = digiLeg.parsedEndTime;
             [locations addObject:toLocation];
-            [shapeStrings addObject:toLocation.coordsString];
+            [shapeStrings addObject:toLocation.coordLocation];
         }
     } else {
         
@@ -281,7 +281,7 @@
             fromLocation.arrTime = digiLeg.parsedStartTime;
             fromLocation.depTime = digiLeg.parsedStartTime;
             [locations addObject:fromLocation];
-            [shapeStrings addObject:fromLocation.coordsString];
+            [shapeStrings addObject:fromLocation.coordLocation];
         }
         
         for (DigiIntermediateStops *stop in digiLeg.intermediateStops) {
@@ -292,7 +292,7 @@
                 stopLocation.arrTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
                 stopLocation.depTime = [digiLeg.trip arrivalTimeAtStop:stop.gtfsId];
                 [locations addObject:stopLocation];
-                [shapeStrings addObject:stopLocation.coordsString];
+                [shapeStrings addObject:stopLocation.coordLocation];
             }
         }
         
@@ -303,12 +303,12 @@
             toLocation.arrTime = digiLeg.parsedEndTime;
             toLocation.depTime = digiLeg.parsedEndTime;
             [locations addObject:toLocation];
-            [shapeStrings addObject:toLocation.coordsString];
+            [shapeStrings addObject:toLocation.coordLocation];
         }
     }
     
     leg.legLocations = locations;
-    leg.legShapeCoorStrings = shapeStrings;
+    leg.legShapeCoordLocations = digiLeg.legGeometry.locations ? digiLeg.legGeometry.locations : shapeStrings;
     //    leg.legShapeCoorStrings = digiLeg.trip.pattern.shapeStringCoordinates;
     
     return leg;
@@ -376,7 +376,7 @@
         }
         
         leg.legLocations = locations;
-        leg.legShapeCoorStrings = shapeStrings;
+        leg.legShapeCoordLocations = shapeStrings;
     } else {
         NSMutableArray *locations = [@[] mutableCopy];
         NSMutableArray *shapeStrings = [@[] mutableCopy];
@@ -389,7 +389,7 @@
         }
         
         leg.legLocations = locations;
-        leg.legShapeCoorStrings = shapeStrings;
+        leg.legShapeCoordLocations = shapeStrings;
     }
     
     return leg;

@@ -13,8 +13,9 @@
 //    BOOL thereIsDisruptions;
     NSURL *appTranslateUrl;
     
-    NSInteger debugFeaturesSection, moreFeaturesSection, settingsSection, commuterSection;
+    NSInteger messageSection, debugFeaturesSection, moreFeaturesSection, settingsSection, commuterSection;
     NSInteger useDigiTransitRow;
+    NSInteger messageRow;
     NSInteger routinesRow, ticketsSalesPointsRow, icloudBookmarksRow, matkakorttiRow, disruptionsRow;
     NSInteger settingsRow;
     NSInteger aboutCommuterRow, goProRow, translateRow, newInVersionRow, contactMeRow, rateInAppStoreRow, shareRow;
