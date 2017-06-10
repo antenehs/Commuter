@@ -133,6 +133,8 @@ const NSInteger kTimerRefreshInterval = 60;
     [super viewWillAppear:animated];
     [self loadSavedValues];
     
+    [self.tabBarController.tabBar setHidden:NO];
+    
     [self setEditing:NO animated:YES];
     [self setUpViewForTheSelectedMode];
     

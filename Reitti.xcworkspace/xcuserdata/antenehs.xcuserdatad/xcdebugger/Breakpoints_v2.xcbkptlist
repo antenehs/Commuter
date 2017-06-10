@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/BookmarksViewController.m"
-            timestampString = "518650835.004644"
+            timestampString = "518749975.609099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1256"
-            endingLineNumber = "1256"
+            startingLineNumber = "1258"
+            endingLineNumber = "1258"
             landmarkName = "-loadSavedValues"
             landmarkType = "7">
          </BreakpointContent>
@@ -3062,11 +3062,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/BookmarksViewController.m"
-            timestampString = "518650613.986713"
+            timestampString = "518749975.609099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "-fetchRouteForNamedBookmarks:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3079,11 +3079,11 @@
             condition = "[stopEntity.stopGtfsId isEqualToString:@&quot;MATKA:30281_EFHK&quot;]"
             continueAfterRunningActions = "No"
             filePath = "Reitti/BookmarksViewController.m"
-            timestampString = "518650798.003728"
+            timestampString = "518749975.609099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "-fetchStopDetailForBusStops:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3096,11 +3096,11 @@
             condition = "[stopEntity.stopGtfsId isEqualToString:@&quot;MATKA:30281_EFHK&quot;]"
             continueAfterRunningActions = "No"
             filePath = "Reitti/BookmarksViewController.m"
-            timestampString = "518651042.827514"
+            timestampString = "518749975.609099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1200"
-            endingLineNumber = "1200"
+            startingLineNumber = "1202"
+            endingLineNumber = "1202"
             landmarkName = "-isthereValidDetailForStop:"
             landmarkType = "7">
          </BreakpointContent>
@@ -3112,11 +3112,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/BookmarksViewController.m"
-            timestampString = "518651141.98587"
+            timestampString = "518749975.609099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1214"
-            endingLineNumber = "1214"
+            startingLineNumber = "1216"
+            endingLineNumber = "1216"
             landmarkName = "-isthereValidDetailForStop:"
             landmarkType = "7">
          </BreakpointContent>
