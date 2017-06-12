@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -52,8 +53,8 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="SDU-Ha-biX"/>
                                         <exclude reference="1ja-5v-KFN"/>
+                                        <exclude reference="SDU-Ha-biX"/>
                                         <exclude reference="tcf-Nq-ajI"/>
                                     </mask>
                                 </variation>
@@ -99,8 +100,8 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="wtN-IR-q97"/>
                                 <exclude reference="h8Y-Uv-bxC"/>
+                                <exclude reference="wtN-IR-q97"/>
                                 <exclude reference="RBP-AR-cdI"/>
                             </mask>
                         </variation>
@@ -115,11 +116,11 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Q6h-7Q-0iQ">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="0UF-fX-bgS">
+                        <barButtonItem key="leftBarButtonItem" style="done" id="0UF-fX-bgS">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="57t-xp-5Fc">
                                 <rect key="frame" x="16" y="9" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="close-button-white.png"/>
+                                <state key="normal" image="close-button-white"/>
                                 <connections>
                                     <action selector="closeButtonPressed:" destination="qfl-qB-2cT" eventType="touchUpInside" id="jF8-8y-YD6"/>
                                 </connections>
@@ -163,6 +164,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="close-button-white.png" width="16" height="16"/>
+        <image name="close-button-white" width="100" height="100"/>
     </resources>
 </document>

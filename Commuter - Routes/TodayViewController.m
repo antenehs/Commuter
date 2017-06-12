@@ -662,11 +662,7 @@
     if (bookmark) {
         //Escape space in name
         NSString *urlString = [NSString stringWithFormat:@"%@?routeSearch&%@&%@",[AppManagerBase mainAppUrl], bookmark.name, bookmark.coords];
-        if ([urlString respondsToSelector:@selector(stringByAddingPercentEncodingWithAllowedCharacters:)]) {
-            urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        }else{
-            urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        }
+        urlString = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         NSURL *url = [NSURL URLWithString:urlString];
         [self.extensionContext openURL:url completionHandler:nil];
     }

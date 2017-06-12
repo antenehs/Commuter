@@ -8,7 +8,6 @@
 #import "SearchController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
-#import "SVProgressHUD.h"
 #import "MyFixedLayoutGuide.h"
 #import "RouteSearchViewController.h"
 #import <Social/Social.h>
@@ -2238,7 +2237,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //        [self displayStopView:self.searchedStopList];
     }
     
-//    [SVProgressHUD dismiss];
     [self showStopFetchActivityIndicator:@NO];
 }
 

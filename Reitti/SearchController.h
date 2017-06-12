@@ -32,7 +32,6 @@
 #import "EditAddressTableViewController.h"
 #import "SettingsViewController.h"
 #import "SettingsManager.h"
-#import "HMSegmentedControl.h"
 #import "NearByStop.h"
 
 typedef enum
@@ -65,8 +64,6 @@ typedef enum
     IBOutlet NSLayoutConstraint *nearByStopsViewTopSpacing;
     IBOutlet JTMaterialSpinner *activityIndicator;
     IBOutlet JTMaterialSpinner *stopFetchActivityIndicator;
-    
-    HMSegmentedControl *segmentedControl;
     
     UIColor *systemBackgroundColor;
     UIColor *systemTextColor;

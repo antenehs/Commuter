@@ -9,7 +9,6 @@
 #import "StopViewController.h"
 #import "WebViewController.h"
 #import "MyFixedLayoutGuide.h"
-#import "SVProgressHUD.h"
 #import "MBProgressHUD.h"
 #import "RouteSearchViewController.h"
 #import "SearchController.h"
@@ -151,9 +150,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 #pragma mark - View methods
 -(void)setUpLoadingView{
 //    [activityView startAnimating];
-//    [SVProgressHUD showHUDInView:self.view];
     [self.activityIndicator beginRefreshing];
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     stopView.hidden = YES;
 }
 
@@ -231,7 +228,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     fullTimeTableButton.enabled = busStop.timetableLink != nil;
     
     //    [activityView stopAnimating];
-//    [SVProgressHUD dismissFromView:self.view];
     [self.activityIndicator endRefreshing];
     //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -261,7 +257,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 - (IBAction)BackButtonPressed:(id)sender {
-//    [SVProgressHUD dismiss];
     [self.reloadTimer invalidate];
     [self dismissViewControllerAnimated:YES completion:nil ];
 }

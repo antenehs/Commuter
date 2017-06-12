@@ -14,7 +14,6 @@
 #import "LineStop.h"
 #import "LocationsAnnotation.h"
 #import "StopViewController.h"
-#import "SVProgressHUD.h"
 #import "ReittiNotificationHelper.h"
 #import "LVThumbnailAnnotation.h"
 #import "LinesManager.h"

@@ -10,7 +10,6 @@
 #import "SearchController.h"
 #import "RouteSearchViewController.h"
 #import "AppManager.h"
-#import "TravelCardManager.h"
 #import "ReittiRemindersManager.h"
 #import "ReittiAppShortcutManager.h"
 #import "ReittiSearchManager.h"

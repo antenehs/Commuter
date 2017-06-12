@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Sum-e7-FcT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Sum-e7-FcT">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -46,8 +47,8 @@
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="vs0-tv-YXw"/>
                                                     <exclude reference="9wa-Ya-pdv"/>
+                                                    <exclude reference="vs0-tv-YXw"/>
                                                 </mask>
                                             </variation>
                                         </label>
@@ -109,8 +110,8 @@
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="Rk0-wi-ycm"/>
                                                     <exclude reference="OYs-Ny-NUi"/>
+                                                    <exclude reference="Rk0-wi-ycm"/>
                                                 </mask>
                                             </variation>
                                         </label>
@@ -241,13 +242,13 @@
                                         <mask key="constraints">
                                             <exclude reference="4BB-6o-Ec7"/>
                                             <exclude reference="RMt-35-KKq"/>
-                                            <exclude reference="UQm-CY-p5Z"/>
                                             <exclude reference="84d-qv-5QI"/>
+                                            <exclude reference="UQm-CY-p5Z"/>
                                             <exclude reference="KHh-Sn-Bpl"/>
-                                            <exclude reference="nQQ-Ox-7Z6"/>
-                                            <exclude reference="ZgN-iR-mBL"/>
-                                            <exclude reference="ufX-Qk-Vzl"/>
                                             <exclude reference="N6X-be-H0h"/>
+                                            <exclude reference="ZgN-iR-mBL"/>
+                                            <exclude reference="nQQ-Ox-7Z6"/>
+                                            <exclude reference="ufX-Qk-Vzl"/>
                                             <exclude reference="zVV-10-tpz"/>
                                         </mask>
                                     </variation>
@@ -263,8 +264,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="67.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Tram 4T" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="KxD-q0-9eZ">
-                                            <rect key="frame" x="65" y="13" width="458" height="21.5"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tram 4T" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="KxD-q0-9eZ">
+                                            <rect key="frame" x="65" y="13" width="233" height="21.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="26" id="Wv5-ch-5Uo"/>
                                             </constraints>
@@ -277,8 +278,8 @@
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Current location" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.89999997615814209" translatesAutoresizingMaskIntoConstraints="NO" id="EqP-gf-U88">
-                                            <rect key="frame" x="65" y="39" width="435" height="16.5"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current location" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.89999997615814209" translatesAutoresizingMaskIntoConstraints="NO" id="EqP-gf-U88">
+                                            <rect key="frame" x="65" y="39" width="210" height="16.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32.5" id="3x9-yY-SUY"/>
                                             </constraints>
@@ -291,8 +292,8 @@
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="08:30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.89999997615814209" translatesAutoresizingMaskIntoConstraints="NO" id="IEh-hD-OgM">
-                                            <rect key="frame" x="531" y="11" width="61" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08:30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.89999997615814209" translatesAutoresizingMaskIntoConstraints="NO" id="IEh-hD-OgM">
+                                            <rect key="frame" x="306" y="13" width="61" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="FZb-Bm-3Hp"/>
                                                 <constraint firstAttribute="width" constant="61" id="W7b-XE-2hG"/>
@@ -307,15 +308,15 @@
                                                 </mask>
                                             </variation>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="tramStopIcon" translatesAutoresizingMaskIntoConstraints="NO" id="4CG-P1-rwg">
-                                            <rect key="frame" x="16" y="18" width="28" height="28"/>
+                                        <imageView userInteractionEnabled="NO" tag="2001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tramStopIcon" translatesAutoresizingMaskIntoConstraints="NO" id="4CG-P1-rwg">
+                                            <rect key="frame" x="16" y="20" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="28" id="Vrd-fG-gb0"/>
                                                 <constraint firstAttribute="height" constant="28" id="iQr-b4-5g2"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Reminder time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JkO-nu-F7h">
-                                            <rect key="frame" x="531" y="36.5" width="61" height="23.5"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reminder time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JkO-nu-F7h">
+                                            <rect key="frame" x="306" y="38.5" width="61" height="23.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="23.5" id="KIw-1w-iuc"/>
                                                 <constraint firstAttribute="width" constant="61" id="cwM-Yx-YMg"/>
@@ -353,9 +354,9 @@
                                             <exclude reference="aB8-oY-kEA"/>
                                             <exclude reference="Wlf-jS-s4i"/>
                                             <exclude reference="krl-Zq-bYY"/>
-                                            <exclude reference="lOi-xZ-E69"/>
-                                            <exclude reference="h6V-at-K8a"/>
                                             <exclude reference="2nx-yv-w5e"/>
+                                            <exclude reference="h6V-at-K8a"/>
+                                            <exclude reference="lOi-xZ-E69"/>
                                             <exclude reference="Y2Z-CU-gev"/>
                                             <exclude reference="rg2-lQ-532"/>
                                         </mask>
@@ -409,10 +410,10 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="QAF-Dw-nJY"/>
                                             <exclude reference="7dJ-qH-SKu"/>
-                                            <exclude reference="tdf-mB-3Wx"/>
                                             <exclude reference="MbY-3H-XfA"/>
+                                            <exclude reference="QAF-Dw-nJY"/>
+                                            <exclude reference="tdf-mB-3Wx"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -560,7 +561,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="goZ-W5-MGj">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="e95-Xb-8Kq">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="e95-Xb-8Kq">
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="jdI-St-vO3" id="6Fm-RA-R4D"/>
                             </connections>
@@ -638,7 +639,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0DT-4Y-cVP" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="vYO-yz-g2L">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="vYO-yz-g2L">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

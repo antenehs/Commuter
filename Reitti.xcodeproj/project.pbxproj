@@ -164,7 +164,6 @@
 		661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202D61B07DD4C00D93C2E /* LVThumbnail.m */; };
 		661202DC1B07DD4C00D93C2E /* LVThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202D81B07DD4C00D93C2E /* LVThumbnailAnnotation.m */; };
 		661202DD1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202DA1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m */; };
-		661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202E11B07F99A00D93C2E /* HMSegmentedControl.m */; };
 		66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF41B3EE8F40008C6D7 /* GCThumbnail.m */; };
 		66134BFA1B3EE8F50008C6D7 /* GCThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF61B3EE8F50008C6D7 /* GCThumbnailAnnotation.m */; };
 		66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF81B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m */; };
@@ -761,22 +760,17 @@
 		66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C59DAB1999432D00E7AC7A /* ReittiShapeMaker.m */; };
 		66C732C21C556DA5002544BC /* ServicePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D921C5409F800C838AA /* ServicePoint.m */; };
 		66C732C31C556DA5002544BC /* Transport.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EBBE4219A01B35006A2128 /* Transport.m */; };
-		66C732C41C556DA5002544BC /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */; };
 		66C732C51C556DA5002544BC /* ReittiStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */; };
 		66C732C61C556DA5002544BC /* RouteViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202AF1AFFC12900D93C2E /* RouteViewManager.m */; };
-		66C732C71C556DA5002544BC /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */; };
 		66C732C81C556DA5002544BC /* AddressSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */; };
 		66C732C91C556DA5002544BC /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960B18EEE46100E95CE5 /* SWTableViewCell.m */; };
 		66C732CA1C556DA5002544BC /* DirectionRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E5B1C42AAFE00C011FB /* DirectionRef.m */; };
-		66C732CB1C556DA5002544BC /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */; };
 		66C732CC1C556DA5002544BC /* ReittiShapeMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C59DAB1999432D00E7AC7A /* ReittiShapeMaker.m */; };
 		66C732CD1C556DA5002544BC /* DisruptionLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B246601C4AABE600FED24D /* DisruptionLine.m */; };
 		66C732CE1C556DA5002544BC /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CF11886F90200642EE1 /* SearchController.m */; };
-		66C732CF1C556DA5002544BC /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */; };
 		66C732D01C556DA5002544BC /* StaticStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54901B24B134005B890D /* StaticStop.m */; };
 		66C732D11C556DA5002544BC /* ASPolylineRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EC18F71ACB3D07008E045D /* ASPolylineRenderer.m */; };
 		66C732D21C556DA5002544BC /* LVThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202D81B07DD4C00D93C2E /* LVThumbnailAnnotation.m */; };
-		66C732D31C556DA5002544BC /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC93DA18DDC3E900644281 /* SVProgressHUD.m */; };
 		66C732D51C556DA5002544BC /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960418EEE46100E95CE5 /* NSMutableArray+SWUtilityButtons.m */; };
 		66C732D61C556DA5002544BC /* Disruption.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE27619FA96380089A6F9 /* Disruption.m */; };
 		66C732D71C556DA5002544BC /* GCThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF61B3EE8F50008C6D7 /* GCThumbnailAnnotation.m */; };
@@ -797,13 +791,10 @@
 		66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960F18EEE46100E95CE5 /* SWUtilityButtonView.m */; };
 		66C732E71C556DA5002544BC /* ServicePointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D871C54088100C838AA /* ServicePointsViewController.m */; };
 		66C732E81C556DA5002544BC /* Reitti.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */; };
-		66C732E91C556DA5002544BC /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */; };
-		66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */; };
 		66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B982C1AD33A4100C45ADF /* EditAddressTableViewController.m */; };
 		66C732EC1C556DA5002544BC /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099991AEC234200F20D34 /* DetailImageView.m */; };
 		66C732ED1C556DA5002544BC /* NSDate+SAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618311E1C0DE1FF00DA979E /* NSDate+SAMAdditions.m */; };
 		66C732EE1C556DA5002544BC /* TravelCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F51B45CD2C00033049 /* TravelCard.m */; };
-		66C732EF1C556DA5002544BC /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */; };
 		66C732F01C556DA5002544BC /* JPSThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */; };
 		66C732F11C556DA5002544BC /* Line.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A7A9E118CF300300AC9E94 /* Line.m */; };
 		66C732F21C556DA5002544BC /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099661AE6ECD700F20D34 /* TSMessage.m */; };
@@ -817,15 +808,12 @@
 		66C732FA1C556DA5002544BC /* UIButton+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */; };
 		66C732FB1C556DA5002544BC /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960618EEE46100E95CE5 /* SWCellScrollView.m */; };
 		66C732FC1C556DA5002544BC /* RouteSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F13851199925A400B52B6B /* RouteSearchViewController.m */; };
-		66C732FD1C556DA5002544BC /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202E11B07F99A00D93C2E /* HMSegmentedControl.m */; };
 		66C732FE1C556DA5002544BC /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2E18A4F2B400042074 /* BusStop.m */; };
 		66C732FF1C556DA5002544BC /* UIScrollView+APParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E286F1AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m */; };
 		66C733001C556DA5002544BC /* StopEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC941218E22ECB00644281 /* StopEntity.m */; };
-		66C733011C556DA5002544BC /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */; };
 		66C733021C556DA5002544BC /* HSLLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F5A1B33630C00CE670E /* HSLLine.m */; };
 		66C733031C556DA5002544BC /* UISearchBar+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831311C11C3E200DA979E /* UISearchBar+Helper.m */; };
 		66C733041C556DA5002544BC /* RouteSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */; };
-		66C733051C556DA5002544BC /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */; };
 		66C733061C556DA5002544BC /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C1254319CF5BD400099AFF /* AMBlurView.m */; };
 		66C733071C556DA5002544BC /* OperatorRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E651C42AAFE00C011FB /* OperatorRef.m */; };
 		66C733081C556DA5002544BC /* Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202CD1B05085D00D93C2E /* Geometry.m */; };
@@ -840,10 +828,8 @@
 		66C733111C556DA5002544BC /* Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202CF1B05085D00D93C2E /* Properties.m */; };
 		66C733121C556DA5002544BC /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F791C29EE1D00511BD2 /* UIImage+Helper.m */; };
 		66C733131C556DA5002544BC /* ReittiEmailAndShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */; };
-		66C733141C556DA5002544BC /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */; };
 		66C733151C556DA5002544BC /* UITableViewCell+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */; };
 		66C733161C556DA5002544BC /* RouteOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1231AC8413C0038BA78 /* RouteOptionsTableViewController.m */; };
-		66C733171C556DA5002544BC /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACF1B4473A200DAA5B4 /* HTMLString.m */; };
 		66C733181C556DA5002544BC /* HistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC941518E2304600644281 /* HistoryEntity.m */; };
 		66C733191C556DA5002544BC /* StopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CFF188C58C400642EE1 /* StopViewController.m */; };
 		66C7331A1C556DA5002544BC /* RoutePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F13854199937F700B52B6B /* RoutePreviewView.m */; };
@@ -852,14 +838,11 @@
 		66C7331D1C556DA5002544BC /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
 		66C7331E1C556DA5002544BC /* AboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 660FB2441B39F30E009C30BF /* AboutTableViewController.m */; };
 		66C7331F1C556DA5002544BC /* LineRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E5F1C42AAFE00C011FB /* LineRef.m */; };
-		66C733201C556DA5002544BC /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */; };
 		66C733211C556DA5002544BC /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */; };
 		66C733221C556DA5002544BC /* DataFrameRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E571C42AAFE00C011FB /* DataFrameRef.m */; };
 		66C733231C556DA5002544BC /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 669602B21B1224B3006919CB /* TabBarViewController.m */; };
 		66C733241C556DA5002544BC /* LVThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202D61B07DD4C00D93C2E /* LVThumbnail.m */; };
-		66C733251C556DA5002544BC /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */; };
 		66C733261C556DA5002544BC /* KBPopupBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA032E1C1778DD00A38858 /* KBPopupBubbleView.m */; };
-		66C733271C556DA5002544BC /* TravelCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */; };
 		66C733281C556DA5002544BC /* HSLServicePointManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D8A1C5408E300C838AA /* HSLServicePointManager.m */; };
 		66C733291C556DA5002544BC /* RettiDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A73FDC18BA3CED00405043 /* RettiDataManager.m */; };
 		66C7332A1C556DA5002544BC /* NSObject+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */; };
@@ -870,8 +853,6 @@
 		66C7332F1C556DA5002544BC /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		66C733301C556DA5002544BC /* RouteHistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */; };
 		66C733311C556DA5002544BC /* SettingsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28AF1AE2FC8300BE2457 /* SettingsEntity.m */; };
-		66C733321C556DA5002544BC /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */; };
-		66C733331C556DA5002544BC /* UIERealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */; };
 		66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC940418DF6DEC00644281 /* BookmarksViewController.m */; };
 		66C733351C556DA5002544BC /* AppManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA02D11C16FEB000A38858 /* AppManagerBase.m */; };
 		66C733361C556DA5002544BC /* RouteCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC548A1B237F00005B890D /* RouteCacheEntity.m */; };
@@ -886,13 +867,11 @@
 		66C733401C556DA5002544BC /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960918EEE46100E95CE5 /* SWLongPressGestureRecognizer.m */; };
 		66C733411C556DA5002544BC /* BaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202C81B05085D00D93C2E /* BaseClass.m */; };
 		66C733421C556DA5002544BC /* GeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFF519929DF5000B4F18 /* GeoCode.m */; };
-		66C733431C556DA5002544BC /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */; };
 		66C733441C556DA5002544BC /* ProductNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715EF1B45CD2C00033049 /* ProductNames.m */; };
 		66C733451C556DA5002544BC /* HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F0996D1AE6EDDD00F20D34 /* HexColor.m */; };
 		66C733461C556DA5002544BC /* CustomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960018EEE2B500E95CE5 /* CustomeTableViewCell.m */; };
 		66C733471C556DA5002544BC /* ASABubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03251C17466E00A38858 /* ASABubbleView.m */; };
 		66C733481C556DA5002544BC /* VehicleRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 66056E691C42AAFE00C011FB /* VehicleRef.m */; };
-		66C733491C556DA5002544BC /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */; };
 		66C7334A1C556DA5002544BC /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
 		66C7334B1C556DA5002544BC /* TicketNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 660715F11B45CD2C00033049 /* TicketNames.m */; };
 		66C7334C1C556DA5002544BC /* KBPopupBubbleView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03301C1778DD00A38858 /* KBPopupBubbleView+Animations.m */; };
@@ -919,7 +898,6 @@
 		66C733611C556DA5002544BC /* SingleSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */; };
 		66C733621C556DA5002544BC /* DisruptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* DisruptionViewController.m */; };
 		66C733631C556DA5002544BC /* EmptyWorkAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 660E2F821B349B0600CE670E /* EmptyWorkAddressCell.m */; };
-		66C733641C556DA5002544BC /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */; };
 		66C733651C556DA5002544BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CC118830ED500642EE1 /* main.m */; };
 		66C733661C556DA5002544BC /* JTMaterialSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */; };
 		66C733671C556DA5002544BC /* FailedGeoCodeFetch.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E288B1ADC79F800BE2457 /* FailedGeoCodeFetch.m */; };
@@ -930,7 +908,6 @@
 		66C7336D1C556DA5002544BC /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
 		66C7336F1C556DA5002544BC /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
 		66C733701C556DA5002544BC /* ReittiAppShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */; };
-		66C733711C556DA5002544BC /* TravelCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */; };
 		66C733721C556DA5002544BC /* GCThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF41B3EE8F40008C6D7 /* GCThumbnail.m */; };
 		66C733731C556DA5002544BC /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
 		66C733741C556DA5002544BC /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
@@ -944,7 +921,6 @@
 		66C7337D1C556DA5002544BC /* ReittiRemindersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */; };
 		66C7337E1C556DA5002544BC /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831211C0DE22000DA979E /* NSDate+Helper.m */; };
 		66C7337F1C556DA5002544BC /* LocationsAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAE20019C61AF60039081D /* LocationsAnnotation.m */; };
-		66C733801C556DA5002544BC /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */; };
 		66C733811C556DA5002544BC /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F46F1A0941E4DE9CE9E29E /* Vehicle.m */; };
 		66C733831C556DA5002544BC /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF81A41A0EF4F90034C9AB /* Accelerate.framework */; };
 		66C733841C556DA5002544BC /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CB961C18F16ACB00E95CE5 /* EventKit.framework */; };
@@ -966,7 +942,6 @@
 		66C733CB1C556DA5002544BC /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
 		66C733CC1C556DA5002544BC /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
 		66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
-		66C733DD1C556DA5002544BC /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66CC93DD18DDC65300644281 /* SVProgressHUD.bundle */; };
 		66C733E01C556DA5002544BC /* Aspergit.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5918BF3785002DDC7B /* Aspergit.otf */; };
 		66C733F71C556DA5002544BC /* NotificationButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099801AE8075D00F20D34 /* NotificationButtonBackground.png */; };
 		66C733F91C556DA5002544BC /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
@@ -1101,8 +1076,6 @@
 		66CB961518EEE46100E95CE5 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960F18EEE46100E95CE5 /* SWUtilityButtonView.m */; };
 		66CB961B18F08B8500E95CE5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CB961A18F08B8500E95CE5 /* MessageUI.framework */; };
 		66CB961D18F16ACB00E95CE5 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CB961C18F16ACB00E95CE5 /* EventKit.framework */; };
-		66CC93DB18DDC3E900644281 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC93DA18DDC3E900644281 /* SVProgressHUD.m */; };
-		66CC93DE18DDC65300644281 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 66CC93DD18DDC65300644281 /* SVProgressHUD.bundle */; };
 		66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC940418DF6DEC00644281 /* BookmarksViewController.m */; };
 		66CC940A18E190D300644281 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC940918E190D300644281 /* WebViewController.m */; };
 		66CC941318E22ECB00644281 /* StopEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC941218E22ECB00644281 /* StopEntity.m */; };
@@ -1114,8 +1087,6 @@
 		66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */; };
 		66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
 		66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumbnail.m */; };
-		66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */; };
-		66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */; };
 		66CF81A51A0EF4F90034C9AB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF81A41A0EF4F90034C9AB /* Accelerate.framework */; };
 		66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5218BF2E1E002DDC7B /* trench100free.otf */; };
 		66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5418BF3327002DDC7B /* timeburner_regular.ttf */; };
@@ -1231,25 +1202,6 @@
 		66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */; };
 		66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1231AC8413C0038BA78 /* RouteOptionsTableViewController.m */; };
 		66F3B1341AC86FEC0038BA78 /* RouteSearchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */; };
-		66F3FADA1B4473A200DAA5B4 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */; };
-		66F3FADB1B4473A200DAA5B4 /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */; };
-		66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */; };
-		66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */; };
-		66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */; };
-		66F3FADF1B4473A200DAA5B4 /* HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */; };
-		66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */; };
-		66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */; };
-		66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */; };
-		66F3FAE31B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */; };
-		66F3FAE41B4473A200DAA5B4 /* HTMLSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */; };
-		66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */; };
-		66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FACF1B4473A200DAA5B4 /* HTMLString.m */; };
-		66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */; };
-		66F3FAE81B4473A200DAA5B4 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */; };
-		66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */; };
-		66F3FAEA1B4473A200DAA5B4 /* NSString+HTMLEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */; };
-		66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */; };
-		66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */; };
 		66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 66F3FAF11B44972600DAA5B4 /* logginJS.js */; };
 		66F60DE31C7F8FEE00B33511 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Helper.m */; };
 		66F60DE41C7F8FEE00B33511 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F60DE21C7F8FEE00B33511 /* NSString+Helper.m */; };
@@ -1570,8 +1522,6 @@
 		661202D81B07DD4C00D93C2E /* LVThumbnailAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVThumbnailAnnotation.m; sourceTree = "<group>"; };
 		661202D91B07DD4C00D93C2E /* LVThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVThumbnailAnnotationView.h; sourceTree = "<group>"; };
 		661202DA1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVThumbnailAnnotationView.m; sourceTree = "<group>"; };
-		661202E01B07F99A00D93C2E /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HMSegmentedControl.h; path = HMSegmentedControl/HMSegmentedControl.h; sourceTree = "<group>"; };
-		661202E11B07F99A00D93C2E /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HMSegmentedControl.m; path = HMSegmentedControl/HMSegmentedControl.m; sourceTree = "<group>"; };
 		66134BF31B3EE8F40008C6D7 /* GCThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCThumbnail.h; path = GeoCodeAnnotations/GCThumbnail.h; sourceTree = "<group>"; };
 		66134BF41B3EE8F40008C6D7 /* GCThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCThumbnail.m; path = GeoCodeAnnotations/GCThumbnail.m; sourceTree = "<group>"; };
 		66134BF51B3EE8F50008C6D7 /* GCThumbnailAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCThumbnailAnnotation.h; path = GeoCodeAnnotations/GCThumbnailAnnotation.h; sourceTree = "<group>"; };
@@ -2034,10 +1984,6 @@
 		66CB960F18EEE46100E95CE5 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		66CB961A18F08B8500E95CE5 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		66CB961C18F16ACB00E95CE5 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
-		66CC93D918DDC3E900644281 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
-		66CC93DA18DDC3E900644281 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
-		66CC93DC18DDC65300644281 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
-		66CC93DD18DDC65300644281 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		66CC940318DF6DEC00644281 /* BookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarksViewController.h; sourceTree = "<group>"; };
 		66CC940418DF6DEC00644281 /* BookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BookmarksViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66CC940818E190D300644281 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -2060,10 +2006,6 @@
 		66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotation.m; sourceTree = "<group>"; };
 		66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotationView.h; sourceTree = "<group>"; };
 		66CEE29319FED9810089A6F9 /* JPSThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnail.m; sourceTree = "<group>"; };
-		66CF819E1A0EF4800034C9AB /* UIERealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIERealTimeBlurView.h; sourceTree = "<group>"; };
-		66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIERealTimeBlurView.m; sourceTree = "<group>"; };
-		66CF81A11A0EF4C70034C9AB /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
-		66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
 		66CF81A41A0EF4F90034C9AB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		66D0BA5218BF2E1E002DDC7B /* trench100free.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = trench100free.otf; path = Reitti/Fonts/trench100free.otf; sourceTree = "<group>"; };
 		66D0BA5418BF3327002DDC7B /* timeburner_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = timeburner_regular.ttf; path = Reitti/Fonts/timeburner_regular.ttf; sourceTree = "<group>"; };
@@ -2154,49 +2096,6 @@
 		66F3B1231AC8413C0038BA78 /* RouteOptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteOptionsTableViewController.m; sourceTree = "<group>"; };
 		66F3B1321AC86FEC0038BA78 /* RouteSearchOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSearchOptions.h; sourceTree = "<group>"; };
 		66F3B1331AC86FEC0038BA78 /* RouteSearchOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteSearchOptions.m; sourceTree = "<group>"; };
-		66F3FAB31B4473A200DAA5B4 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLComment.h; sourceTree = "<group>"; };
-		66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLComment.m; sourceTree = "<group>"; };
-		66F3FAB51B4473A200DAA5B4 /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLDocument.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
-		66F3FAB71B4473A200DAA5B4 /* HTMLDocumentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLDocumentType.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentType.m; sourceTree = "<group>"; };
-		66F3FAB91B4473A200DAA5B4 /* HTMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
-		66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLElement.m; sourceTree = "<group>"; };
-		66F3FABB1B4473A200DAA5B4 /* HTMLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEncoding.h; sourceTree = "<group>"; };
-		66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEncoding.m; sourceTree = "<group>"; };
-		66F3FABD1B4473A200DAA5B4 /* HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEntities.h; sourceTree = "<group>"; };
-		66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEntities.m; sourceTree = "<group>"; };
-		66F3FABF1B4473A200DAA5B4 /* HTMLNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLNamespace.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FAC01B4473A200DAA5B4 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
-		66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
-		66F3FAC21B4473A200DAA5B4 /* HTMLOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLOrderedDictionary.h; sourceTree = "<group>"; };
-		66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLOrderedDictionary.m; sourceTree = "<group>"; };
-		66F3FAC41B4473A200DAA5B4 /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
-		66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
-		66F3FAC61B4473A200DAA5B4 /* HTMLPreprocessedInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLPreprocessedInputStream.h; sourceTree = "<group>"; };
-		66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLPreprocessedInputStream.m; sourceTree = "<group>"; };
-		66F3FAC81B4473A200DAA5B4 /* HTMLQuirksMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLQuirksMode.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FAC91B4473A200DAA5B4 /* HTMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLReader.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FACA1B4473A200DAA5B4 /* HTMLSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLSelector.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSelector.m; sourceTree = "<group>"; };
-		66F3FACC1B4473A200DAA5B4 /* HTMLSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HTMLSerialization.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLSerialization.m; sourceTree = "<group>"; };
-		66F3FACE1B4473A200DAA5B4 /* HTMLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLString.h; sourceTree = "<group>"; };
-		66F3FACF1B4473A200DAA5B4 /* HTMLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLString.m; sourceTree = "<group>"; };
-		66F3FAD01B4473A200DAA5B4 /* HTMLSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLSupport.h; sourceTree = "<group>"; };
-		66F3FAD11B4473A200DAA5B4 /* HTMLTextNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTextNode.h; sourceTree = "<group>"; };
-		66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTextNode.m; sourceTree = "<group>"; };
-		66F3FAD31B4473A200DAA5B4 /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
-		66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
-		66F3FAD51B4473A200DAA5B4 /* HTMLTokenizerState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerState.h; sourceTree = "<group>"; };
-		66F3FAD61B4473A200DAA5B4 /* HTMLTreeEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeEnumerator.h; sourceTree = "<group>"; };
-		66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeEnumerator.m; sourceTree = "<group>"; };
-		66F3FAD81B4473A200DAA5B4 /* NSString+HTMLEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSString+HTMLEntities.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLEntities.m"; sourceTree = "<group>"; };
-		66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardManager.h; sourceTree = "<group>"; };
-		66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardManager.m; sourceTree = "<group>"; };
-		66F3FAEE1B44940700DAA5B4 /* TravelCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardViewController.h; sourceTree = "<group>"; };
-		66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TravelCardViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66F3FAF11B44972600DAA5B4 /* logginJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logginJS.js; sourceTree = "<group>"; };
 		66F60DE11C7F8FEE00B33511 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Helper.h"; path = "Helpers/NSString+Helper.h"; sourceTree = "<group>"; };
 		66F60DE21C7F8FEE00B33511 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Helper.m"; path = "Helpers/NSString+Helper.m"; sourceTree = "<group>"; };
@@ -2633,15 +2532,6 @@
 			name = LVThumbnailAnnotation;
 			sourceTree = "<group>";
 		};
-		661202E31B07F9AA00D93C2E /* HMSegmentedControl */ = {
-			isa = PBXGroup;
-			children = (
-				661202E01B07F99A00D93C2E /* HMSegmentedControl.h */,
-				661202E11B07F99A00D93C2E /* HMSegmentedControl.m */,
-			);
-			name = HMSegmentedControl;
-			sourceTree = "<group>";
-		};
 		66134BF21B3EE7960008C6D7 /* GeoCodeAnnotation */ = {
 			isa = PBXGroup;
 			children = (
@@ -2672,7 +2562,6 @@
 				66CA02B21C16364200A38858 /* Environments */,
 				66CA02B41C16367900A38858 /* RestAPI */,
 				66CA02BB1C163CB200A38858 /* View Libraries */,
-				66F3FAB21B44735800DAA5B4 /* HTMLReader */,
 				660277F11EE5A174003CA3B7 /* PolylineDecoder */,
 			);
 			name = "Supporting Classes";
@@ -2699,8 +2588,6 @@
 				661090C61B36D037003F2688 /* LinesTableViewController.m */,
 				661090C81B374B43003F2688 /* LineDetailViewController.h */,
 				661090C91B374B43003F2688 /* LineDetailViewController.m */,
-				66F3FAEE1B44940700DAA5B4 /* TravelCardViewController.h */,
-				66F3FAEF1B44940700DAA5B4 /* TravelCardViewController.m */,
 				66F6CED91B511E6C00F934A2 /* RemindersTableViewController.h */,
 				66F6CEDA1B511E6C00F934A2 /* RemindersTableViewController.m */,
 				66F6CEE31B51AD0400F934A2 /* EditReminderTableViewController.h */,
@@ -3446,8 +3333,6 @@
 				66A73FDC18BA3CED00405043 /* RettiDataManager.m */,
 				66FC54821B236866005B890D /* CacheManager.h */,
 				66FC54831B236866005B890D /* CacheManager.m */,
-				66F3FAEB1B44742200DAA5B4 /* TravelCardManager.h */,
-				66F3FAEC1B44742200DAA5B4 /* TravelCardManager.m */,
 				667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */,
 				667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */,
 				664E28B11AE2FD4500BE2457 /* SettingsManager.h */,
@@ -3513,8 +3398,6 @@
 				66CEE27E19FAE3E30089A6F9 /* CustomBadge */,
 				664E28711AD86A6600BE2457 /* APParallaxHeader */,
 				66CB960218EEE46100E95CE5 /* SWTableViewCell */,
-				661202E31B07F9AA00D93C2E /* HMSegmentedControl */,
-				66CC93DF18DDC66400644281 /* SVPProgressHUD */,
 				664E287F1ADAC0D900BE2457 /* SWTableVeiwCell */,
 				664E28801ADAC0F700BE2457 /* MBProgressHUD */,
 				6618312B1C10FFAF00DA979E /* JTMaterialSpinner */,
@@ -3580,17 +3463,6 @@
 			path = SWTableViewCell;
 			sourceTree = "<group>";
 		};
-		66CC93DF18DDC66400644281 /* SVPProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				66CC93DC18DDC65300644281 /* SVProgressHUD-Prefix.pch */,
-				66CC93DD18DDC65300644281 /* SVProgressHUD.bundle */,
-				66CC93D918DDC3E900644281 /* SVProgressHUD.h */,
-				66CC93DA18DDC3E900644281 /* SVProgressHUD.m */,
-			);
-			name = SVPProgressHUD;
-			sourceTree = "<group>";
-		};
 		66CEE27419FA95810089A6F9 /* Disruption */ = {
 			isa = PBXGroup;
 			children = (
@@ -3629,10 +3501,6 @@
 		66CF819A1A0EEF3F0034C9AB /* TranslucentViews */ = {
 			isa = PBXGroup;
 			children = (
-				66CF81A11A0EF4C70034C9AB /* UIImage+BoxBlur.h */,
-				66CF81A21A0EF4C70034C9AB /* UIImage+BoxBlur.m */,
-				66CF819E1A0EF4800034C9AB /* UIERealTimeBlurView.h */,
-				66CF819F1A0EF4800034C9AB /* UIERealTimeBlurView.m */,
 				66C1254319CF5BD400099AFF /* AMBlurView.m */,
 				66C1254419CF5BD400099AFF /* AMBlurView.h */,
 			);
@@ -3795,52 +3663,6 @@
 				66F0996F1AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		66F3FAB21B44735800DAA5B4 /* HTMLReader */ = {
-			isa = PBXGroup;
-			children = (
-				66F3FAB31B4473A200DAA5B4 /* HTMLComment.h */,
-				66F3FAB41B4473A200DAA5B4 /* HTMLComment.m */,
-				66F3FAB51B4473A200DAA5B4 /* HTMLDocument.h */,
-				66F3FAB61B4473A200DAA5B4 /* HTMLDocument.m */,
-				66F3FAB71B4473A200DAA5B4 /* HTMLDocumentType.h */,
-				66F3FAB81B4473A200DAA5B4 /* HTMLDocumentType.m */,
-				66F3FAB91B4473A200DAA5B4 /* HTMLElement.h */,
-				66F3FABA1B4473A200DAA5B4 /* HTMLElement.m */,
-				66F3FABB1B4473A200DAA5B4 /* HTMLEncoding.h */,
-				66F3FABC1B4473A200DAA5B4 /* HTMLEncoding.m */,
-				66F3FABD1B4473A200DAA5B4 /* HTMLEntities.h */,
-				66F3FABE1B4473A200DAA5B4 /* HTMLEntities.m */,
-				66F3FABF1B4473A200DAA5B4 /* HTMLNamespace.h */,
-				66F3FAC01B4473A200DAA5B4 /* HTMLNode.h */,
-				66F3FAC11B4473A200DAA5B4 /* HTMLNode.m */,
-				66F3FAC21B4473A200DAA5B4 /* HTMLOrderedDictionary.h */,
-				66F3FAC31B4473A200DAA5B4 /* HTMLOrderedDictionary.m */,
-				66F3FAC41B4473A200DAA5B4 /* HTMLParser.h */,
-				66F3FAC51B4473A200DAA5B4 /* HTMLParser.m */,
-				66F3FAC61B4473A200DAA5B4 /* HTMLPreprocessedInputStream.h */,
-				66F3FAC71B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m */,
-				66F3FAC81B4473A200DAA5B4 /* HTMLQuirksMode.h */,
-				66F3FAC91B4473A200DAA5B4 /* HTMLReader.h */,
-				66F3FACA1B4473A200DAA5B4 /* HTMLSelector.h */,
-				66F3FACB1B4473A200DAA5B4 /* HTMLSelector.m */,
-				66F3FACC1B4473A200DAA5B4 /* HTMLSerialization.h */,
-				66F3FACD1B4473A200DAA5B4 /* HTMLSerialization.m */,
-				66F3FACE1B4473A200DAA5B4 /* HTMLString.h */,
-				66F3FACF1B4473A200DAA5B4 /* HTMLString.m */,
-				66F3FAD01B4473A200DAA5B4 /* HTMLSupport.h */,
-				66F3FAD11B4473A200DAA5B4 /* HTMLTextNode.h */,
-				66F3FAD21B4473A200DAA5B4 /* HTMLTextNode.m */,
-				66F3FAD31B4473A200DAA5B4 /* HTMLTokenizer.h */,
-				66F3FAD41B4473A200DAA5B4 /* HTMLTokenizer.m */,
-				66F3FAD51B4473A200DAA5B4 /* HTMLTokenizerState.h */,
-				66F3FAD61B4473A200DAA5B4 /* HTMLTreeEnumerator.h */,
-				66F3FAD71B4473A200DAA5B4 /* HTMLTreeEnumerator.m */,
-				66F3FAD81B4473A200DAA5B4 /* NSString+HTMLEntities.h */,
-				66F3FAD91B4473A200DAA5B4 /* NSString+HTMLEntities.m */,
-			);
-			name = HTMLReader;
 			sourceTree = "<group>";
 		};
 		66FC547A1B236545005B890D /* Static Data */ = {
@@ -4274,7 +4096,6 @@
 				660D31221C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66C735CC1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
-				66CC93DE18DDC65300644281 /* SVProgressHUD.bundle in Resources */,
 				663E1EE61C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
 				66D0BA5B18BF3785002DDC7B /* Aspergit.otf in Resources */,
 				66FD7F961CB94B4700C6C731 /* Oulu.gpx in Resources */,
@@ -4403,7 +4224,6 @@
 				66C735CD1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6605797D1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */,
-				66C733DD1C556DA5002544BC /* SVProgressHUD.bundle in Resources */,
 				66C733E01C556DA5002544BC /* Aspergit.otf in Resources */,
 				660579771E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
 				663589C01ED0E60F006721EA /* WebView.storyboard in Resources */,
@@ -5053,27 +4873,22 @@
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				664FE8BB1ECBC30300C3C0B5 /* DigiAlert.m in Sources */,
 				66FD7FAA1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
-				66F3FADD1B4473A200DAA5B4 /* HTMLElement.m in Sources */,
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
 				661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */,
-				66F3FAE31B4473A200DAA5B4 /* HTMLPreprocessedInputStream.m in Sources */,
 				66BCA7171D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */,
 				664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */,
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				66056E6C1C42AAFE00C011FB /* DirectionRef.m in Sources */,
-				66F3FAE81B4473A200DAA5B4 /* HTMLTokenizer.m in Sources */,
 				663E1EDD1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */,
 				660A962C1D7DE53000A813A6 /* Notifications.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
-				66F3FAE71B4473A200DAA5B4 /* HTMLTextNode.m in Sources */,
 				6603A8FD1CD29B6200991FBF /* ReittiObject.m in Sources */,
 				66034CFF1CE8D91F00EC0769 /* GraphQLQuery.m in Sources */,
 				66FC54911B24B134005B890D /* StaticStop.m in Sources */,
 				66EC18FA1ACB3D07008E045D /* ASPolylineRenderer.m in Sources */,
 				661202DC1B07DD4C00D93C2E /* LVThumbnailAnnotation.m in Sources */,
-				66CC93DB18DDC3E900644281 /* SVProgressHUD.m in Sources */,
 				66CB961018EEE46100E95CE5 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				66CEE27719FA96380089A6F9 /* Disruption.m in Sources */,
 				66134BFA1B3EE8F50008C6D7 /* GCThumbnailAnnotation.m in Sources */,
@@ -5107,8 +4922,6 @@
 				660277FC1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				66FD7FA21CBC284300C6C731 /* MatkaRoute.m in Sources */,
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
-				66F3FAE51B4473A200DAA5B4 /* HTMLSerialization.m in Sources */,
-				66F3FAE21B4473A200DAA5B4 /* HTMLParser.m in Sources */,
 				66997AA71ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
 				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
@@ -5116,7 +4929,6 @@
 				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
 				6618311F1C0DE1FF00DA979E /* NSDate+SAMAdditions.m in Sources */,
 				660716001B45CD2C00033049 /* TravelCard.m in Sources */,
-				66F3FAE41B4473A200DAA5B4 /* HTMLSelector.m in Sources */,
 				66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */,
 				66A7A9E218CF300300AC9E94 /* Line.m in Sources */,
 				66F0996A1AE6ECD700F20D34 /* TSMessage.m in Sources */,
@@ -5143,16 +4955,13 @@
 				66BCA71B1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */,
 				66BCA6EB1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */,
-				661202E21B07F99A00D93C2E /* HMSegmentedControl.m in Sources */,
 				661FAF2F18A4F2B400042074 /* BusStop.m in Sources */,
 				664E28701AD86A5B00BE2457 /* UIScrollView+APParallaxHeader.m in Sources */,
 				66833D1F1CEE45CE005D958C /* DigiTrip.m in Sources */,
 				66CC941318E22ECB00644281 /* StopEntity.m in Sources */,
-				66F3FADA1B4473A200DAA5B4 /* HTMLComment.m in Sources */,
 				660E2F5D1B33630C00CE670E /* HSLLine.m in Sources */,
 				661831321C11C3E200DA979E /* UISearchBar+Helper.m in Sources */,
 				66F3B1341AC86FEC0038BA78 /* RouteSearchOptions.m in Sources */,
-				66F3FADB1B4473A200DAA5B4 /* HTMLDocument.m in Sources */,
 				66C1254519CF5BD400099AFF /* AMBlurView.m in Sources */,
 				66056E711C42AAFE00C011FB /* OperatorRef.m in Sources */,
 				661202D21B05085D00D93C2E /* Geometry.m in Sources */,
@@ -5174,14 +4983,12 @@
 				66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */,
 				663E1EFA1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */,
-				66F3FADC1B4473A200DAA5B4 /* HTMLDocumentType.m in Sources */,
 				6603A8F91CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */,
 				66115D711ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */,
 				66656D521D5D0F5400BA291B /* OrderedManagedObject.m in Sources */,
 				66F3B1241AC8413C0038BA78 /* RouteOptionsTableViewController.m in Sources */,
 				663465F21ECEA5CB004B8AAF /* LinePattern.m in Sources */,
-				66F3FAE61B4473A200DAA5B4 /* HTMLString.m in Sources */,
 				66CC941618E2304600644281 /* HistoryEntity.m in Sources */,
 				66947D00188C58C400642EE1 /* StopViewController.m in Sources */,
 				66833D651CF8F427005D958C /* DigiPattern.m in Sources */,
@@ -5192,16 +4999,13 @@
 				660D31301C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				660FB2451B39F30E009C30BF /* AboutTableViewController.m in Sources */,
 				66056E6E1C42AAFE00C011FB /* LineRef.m in Sources */,
-				66CF81A31A0EF4C70034C9AB /* UIImage+BoxBlur.m in Sources */,
 				66BCA3821B2F0A2B00166530 /* CoreDataManager.m in Sources */,
 				66056E6A1C42AAFE00C011FB /* DataFrameRef.m in Sources */,
 				669602B31B1224B3006919CB /* TabBarViewController.m in Sources */,
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
 				66997AAB1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				660278051EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
-				66F3FAE91B4473A200DAA5B4 /* HTMLTreeEnumerator.m in Sources */,
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
-				66F3FAED1B44742200DAA5B4 /* TravelCardManager.m in Sources */,
 				66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */,
 				6684BECA1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */,
 				66A73FDD18BA3CED00405043 /* RettiDataManager.m in Sources */,
@@ -5214,10 +5018,8 @@
 				66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */,
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
-				66F3FADE1B4473A200DAA5B4 /* HTMLEncoding.m in Sources */,
 				66B7AE941ECA58C300B233E7 /* MigrationViewController.m in Sources */,
 				664FE8BA1ECBC30300C3C0B5 /* DigiAlertText.m in Sources */,
-				66CF81A01A0EF4800034C9AB /* UIERealTimeBlurView.m in Sources */,
 				66026D8A1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66E6E55C1CB9279F0086F611 /* MatkaName.m in Sources */,
@@ -5239,7 +5041,6 @@
 				66CB961218EEE46100E95CE5 /* SWLongPressGestureRecognizer.m in Sources */,
 				661202D01B05085D00D93C2E /* BaseClass.m in Sources */,
 				664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */,
-				66F3FADF1B4473A200DAA5B4 /* HTMLEntities.m in Sources */,
 				660715FD1B45CD2C00033049 /* ProductNames.m in Sources */,
 				66997AB31ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66F0996E1AE6EDDD00F20D34 /* HexColor.m in Sources */,
@@ -5247,7 +5048,6 @@
 				66833D561CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66CA03261C17466E00A38858 /* ASABubbleView.m in Sources */,
 				66056E731C42AAFE00C011FB /* VehicleRef.m in Sources */,
-				66F3FAEA1B4473A200DAA5B4 /* NSString+HTMLEntities.m in Sources */,
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				660715FE1B45CD2C00033049 /* TicketNames.m in Sources */,
 				665BA1B21CAF05EB0091C180 /* MainTabBarController.m in Sources */,
@@ -5282,7 +5082,6 @@
 				6665D7801C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */,
 				661721EF19CDA78000E3CD6E /* DisruptionViewController.m in Sources */,
 				660E2F831B349B0600CE670E /* EmptyWorkAddressCell.m in Sources */,
-				66F3FAE01B4473A200DAA5B4 /* HTMLNode.m in Sources */,
 				66F60DE31C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				66947CC218830ED500642EE1 /* main.m in Sources */,
 				66C567801CC3F07000ECA0F5 /* ReittiMapkitHelper.m in Sources */,
@@ -5297,7 +5096,6 @@
 				661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */,
 				66E6E5581CB90DA90086F611 /* MatkaStop.m in Sources */,
 				6665D7471C088FFB00ACCC3A /* ReittiAppShortcutManager.m in Sources */,
-				66F3FAF01B44940700DAA5B4 /* TravelCardViewController.m in Sources */,
 				66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */,
 				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
 				6603A8EC1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */,
@@ -5315,7 +5113,6 @@
 				66833D101CEE45CE005D958C /* DigiRouteShort.m in Sources */,
 				661831221C0DE22000DA979E /* NSDate+Helper.m in Sources */,
 				66DAE20119C61AF60039081D /* LocationsAnnotation.m in Sources */,
-				66F3FAE11B4473A200DAA5B4 /* HTMLOrderedDictionary.m in Sources */,
 				66833D4C1CF8F426005D958C /* DigiPlace.m in Sources */,
 				66FD7F9A1CBA614300C6C731 /* MatkaLine.m in Sources */,
 				66833D2F1CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */,
@@ -5339,27 +5136,22 @@
 				66C732C21C556DA5002544BC /* ServicePoint.m in Sources */,
 				66C732C31C556DA5002544BC /* Transport.m in Sources */,
 				66FD7FAB1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
-				66C732C41C556DA5002544BC /* HTMLElement.m in Sources */,
 				66C732C51C556DA5002544BC /* ReittiStringFormatter.m in Sources */,
 				66C732C61C556DA5002544BC /* RouteViewManager.m in Sources */,
-				66C732C71C556DA5002544BC /* HTMLPreprocessedInputStream.m in Sources */,
 				66BCA7181D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */,
 				66C732C81C556DA5002544BC /* AddressSearchViewController.m in Sources */,
 				66C732C91C556DA5002544BC /* SWTableViewCell.m in Sources */,
 				66C732CA1C556DA5002544BC /* DirectionRef.m in Sources */,
-				66C732CB1C556DA5002544BC /* HTMLTokenizer.m in Sources */,
 				663E1EDE1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C732CC1C556DA5002544BC /* ReittiShapeMaker.m in Sources */,
 				66C732CD1C556DA5002544BC /* DisruptionLine.m in Sources */,
 				660A962D1D7DE53000A813A6 /* Notifications.m in Sources */,
 				66C732CE1C556DA5002544BC /* SearchController.m in Sources */,
-				66C732CF1C556DA5002544BC /* HTMLTextNode.m in Sources */,
 				6603A8FE1CD29B6300991FBF /* ReittiObject.m in Sources */,
 				66034D001CE8D91F00EC0769 /* GraphQLQuery.m in Sources */,
 				66C732D01C556DA5002544BC /* StaticStop.m in Sources */,
 				66C732D11C556DA5002544BC /* ASPolylineRenderer.m in Sources */,
 				66C732D21C556DA5002544BC /* LVThumbnailAnnotation.m in Sources */,
-				66C732D31C556DA5002544BC /* SVProgressHUD.m in Sources */,
 				66C732D51C556DA5002544BC /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				66C732D61C556DA5002544BC /* Disruption.m in Sources */,
 				66C732D71C556DA5002544BC /* GCThumbnailAnnotation.m in Sources */,
@@ -5393,8 +5185,6 @@
 				66FD7FA31CBC284300C6C731 /* MatkaRoute.m in Sources */,
 				660277FD1EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				66C732E81C556DA5002544BC /* Reitti.xcdatamodeld in Sources */,
-				66C732E91C556DA5002544BC /* HTMLSerialization.m in Sources */,
-				66C732EA1C556DA5002544BC /* HTMLParser.m in Sources */,
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
 				66997AA81ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
@@ -5403,7 +5193,6 @@
 				66C732EC1C556DA5002544BC /* DetailImageView.m in Sources */,
 				66C732ED1C556DA5002544BC /* NSDate+SAMAdditions.m in Sources */,
 				66C732EE1C556DA5002544BC /* TravelCard.m in Sources */,
-				66C732EF1C556DA5002544BC /* HTMLSelector.m in Sources */,
 				66C732F01C556DA5002544BC /* JPSThumbnailAnnotationView.m in Sources */,
 				66C732F11C556DA5002544BC /* Line.m in Sources */,
 				66C732F21C556DA5002544BC /* TSMessage.m in Sources */,
@@ -5430,16 +5219,13 @@
 				66BCA71C1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */,
 				66BCA6EC1D71C3B40092C5BB /* RouteOptionManagerBase.m in Sources */,
 				6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */,
-				66C732FD1C556DA5002544BC /* HMSegmentedControl.m in Sources */,
 				66C732FE1C556DA5002544BC /* BusStop.m in Sources */,
 				66C732FF1C556DA5002544BC /* UIScrollView+APParallaxHeader.m in Sources */,
 				66833D201CEE45CE005D958C /* DigiTrip.m in Sources */,
 				66C733001C556DA5002544BC /* StopEntity.m in Sources */,
-				66C733011C556DA5002544BC /* HTMLComment.m in Sources */,
 				66C733021C556DA5002544BC /* HSLLine.m in Sources */,
 				66C733031C556DA5002544BC /* UISearchBar+Helper.m in Sources */,
 				66C733041C556DA5002544BC /* RouteSearchOptions.m in Sources */,
-				66C733051C556DA5002544BC /* HTMLDocument.m in Sources */,
 				66C733061C556DA5002544BC /* AMBlurView.m in Sources */,
 				66C733071C556DA5002544BC /* OperatorRef.m in Sources */,
 				66C733081C556DA5002544BC /* Geometry.m in Sources */,
@@ -5461,14 +5247,12 @@
 				66C733121C556DA5002544BC /* UIImage+Helper.m in Sources */,
 				663E1EFB1CA9D98A00C5543A /* AddressTableViewCell.m in Sources */,
 				66C733131C556DA5002544BC /* ReittiEmailAndShareManager.m in Sources */,
-				66C733141C556DA5002544BC /* HTMLDocumentType.m in Sources */,
 				6603A8FA1CCFFF9E00991FBF /* StaticCity.m in Sources */,
 				66C733151C556DA5002544BC /* UITableViewCell+Helper.m in Sources */,
 				66115D721ECFF57B00C8CD05 /* MapPlottingViewController.m in Sources */,
 				66656D531D5D0F5400BA291B /* OrderedManagedObject.m in Sources */,
 				66C733161C556DA5002544BC /* RouteOptionsTableViewController.m in Sources */,
 				663465F31ECEA5CB004B8AAF /* LinePattern.m in Sources */,
-				66C733171C556DA5002544BC /* HTMLString.m in Sources */,
 				66C733181C556DA5002544BC /* HistoryEntity.m in Sources */,
 				66C733191C556DA5002544BC /* StopViewController.m in Sources */,
 				66833D661CF8F427005D958C /* DigiPattern.m in Sources */,
@@ -5479,16 +5263,13 @@
 				66C7331D1C556DA5002544BC /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				66C7331E1C556DA5002544BC /* AboutTableViewController.m in Sources */,
 				66C7331F1C556DA5002544BC /* LineRef.m in Sources */,
-				66C733201C556DA5002544BC /* UIImage+BoxBlur.m in Sources */,
 				66C733211C556DA5002544BC /* CoreDataManager.m in Sources */,
 				66C733221C556DA5002544BC /* DataFrameRef.m in Sources */,
 				66C733231C556DA5002544BC /* TabBarViewController.m in Sources */,
 				66C733241C556DA5002544BC /* LVThumbnail.m in Sources */,
 				66997AAC1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				660278061EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
-				66C733251C556DA5002544BC /* HTMLTreeEnumerator.m in Sources */,
 				66C733261C556DA5002544BC /* KBPopupBubbleView.m in Sources */,
-				66C733271C556DA5002544BC /* TravelCardManager.m in Sources */,
 				66C733281C556DA5002544BC /* HSLServicePointManager.m in Sources */,
 				6684BECB1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */,
 				66C733291C556DA5002544BC /* RettiDataManager.m in Sources */,
@@ -5501,9 +5282,7 @@
 				66C7332F1C556DA5002544BC /* EnumManager.m in Sources */,
 				66C733301C556DA5002544BC /* RouteHistoryEntity.m in Sources */,
 				66C733311C556DA5002544BC /* SettingsEntity.m in Sources */,
-				66C733321C556DA5002544BC /* HTMLEncoding.m in Sources */,
 				66B7AE951ECA58C300B233E7 /* MigrationViewController.m in Sources */,
-				66C733331C556DA5002544BC /* UIERealTimeBlurView.m in Sources */,
 				66026D8B1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */,
 				66E6E55D1CB9279F0086F611 /* MatkaName.m in Sources */,
@@ -5525,7 +5304,6 @@
 				66C733401C556DA5002544BC /* SWLongPressGestureRecognizer.m in Sources */,
 				66C733411C556DA5002544BC /* BaseClass.m in Sources */,
 				66C733421C556DA5002544BC /* GeoCode.m in Sources */,
-				66C733431C556DA5002544BC /* HTMLEntities.m in Sources */,
 				66C733441C556DA5002544BC /* ProductNames.m in Sources */,
 				66C733451C556DA5002544BC /* HexColor.m in Sources */,
 				66997AB41ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
@@ -5534,7 +5312,6 @@
 				66833D571CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C733471C556DA5002544BC /* ASABubbleView.m in Sources */,
 				66C733481C556DA5002544BC /* VehicleRef.m in Sources */,
-				66C733491C556DA5002544BC /* NSString+HTMLEntities.m in Sources */,
 				66C7334A1C556DA5002544BC /* RouteLeg.m in Sources */,
 				66C7334B1C556DA5002544BC /* TicketNames.m in Sources */,
 				665BA1B31CAF05EB0091C180 /* MainTabBarController.m in Sources */,
@@ -5569,7 +5346,6 @@
 				66C733611C556DA5002544BC /* SingleSelectTableViewController.m in Sources */,
 				66C733621C556DA5002544BC /* DisruptionViewController.m in Sources */,
 				66C733631C556DA5002544BC /* EmptyWorkAddressCell.m in Sources */,
-				66C733641C556DA5002544BC /* HTMLNode.m in Sources */,
 				66F60DE41C7F8FEE00B33511 /* NSString+Helper.m in Sources */,
 				66C733651C556DA5002544BC /* main.m in Sources */,
 				66C567811CC3F07000ECA0F5 /* ReittiMapkitHelper.m in Sources */,
@@ -5584,7 +5360,6 @@
 				66C7336F1C556DA5002544BC /* RouteLegLocation.m in Sources */,
 				66E6E5591CB90DA90086F611 /* MatkaStop.m in Sources */,
 				66C733701C556DA5002544BC /* ReittiAppShortcutManager.m in Sources */,
-				66C733711C556DA5002544BC /* TravelCardViewController.m in Sources */,
 				66C733721C556DA5002544BC /* GCThumbnail.m in Sources */,
 				66C733731C556DA5002544BC /* JPSThumbnailAnnotation.m in Sources */,
 				6603A8ED1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */,
@@ -5602,7 +5377,6 @@
 				66833D111CEE45CE005D958C /* DigiRouteShort.m in Sources */,
 				66C7337E1C556DA5002544BC /* NSDate+Helper.m in Sources */,
 				66C7337F1C556DA5002544BC /* LocationsAnnotation.m in Sources */,
-				66C733801C556DA5002544BC /* HTMLOrderedDictionary.m in Sources */,
 				66833D4D1CF8F426005D958C /* DigiPlace.m in Sources */,
 				66FD7F9B1CBA614300C6C731 /* MatkaLine.m in Sources */,
 				66833D301CF0BC4D005D958C /* DepartureTableViewCell.m in Sources */,
