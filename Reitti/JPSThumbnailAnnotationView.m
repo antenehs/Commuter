@@ -27,7 +27,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 @interface JPSThumbnailAnnotationView ()
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
-@property (nonatomic, strong) NSNumber *code;
+@property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;

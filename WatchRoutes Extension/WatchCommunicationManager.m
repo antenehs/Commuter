@@ -104,6 +104,9 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 #endif
 }
 
+-(void)sessionDidDeactivate:(WCSession *)session {}
+-(void)sessionDidBecomeInactive:(WCSession *)session {}
+
 -(void)sendUsedComplicationTypeMessage:(NSString * _Nullable)complicationType {
     if (!complicationType) return;
     

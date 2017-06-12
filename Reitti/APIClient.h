@@ -34,7 +34,7 @@ typedef void (^ActionBlock)();
 -(void)doXmlApiFetchWithParams:(NSDictionary *)params mappingDictionary:(NSDictionary *)mapping mapToClass:(Class)mapToClass mapKeyPath:(NSString *)keyPath andCompletionBlock:(ActionBlock)completionBlock;
 
 -(void)doXmlApiFetchWithParams:(NSDictionary *)params responseDescriptor:(RKResponseDescriptor *)responseDescriptor andCompletionBlock:(ActionBlock)completionBlock;
-#endif[
+#endif
 
 @property (nonatomic, strong) NSString *apiBaseUrl;
 

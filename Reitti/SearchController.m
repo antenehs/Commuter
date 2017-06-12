@@ -886,16 +886,16 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-- (void)showStopFetchActivityIndicator:(BOOL)show{
+- (void)showStopFetchActivityIndicator:(NSNumber *)show{
     if ([self isNearByStopsListViewHidden]) {
         hideSearchResultViewButton.hidden = NO;
         [stopFetchActivityIndicator endRefreshing];
         return;
     }
     
-    hideSearchResultViewButton.hidden = show;
+    hideSearchResultViewButton.hidden = [show boolValue];
     
-    if (show){
+    if ([show boolValue]){
         [stopFetchActivityIndicator beginRefreshing];
     }else{
         [stopFetchActivityIndicator endRefreshing];
@@ -2111,8 +2111,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (IBAction)refreshDepartures:(id)sender{
     if(![self isNearByStopsListViewHidden]){
         //Show activity indicator no matter what
-        [self showStopFetchActivityIndicator:YES];
-        [self performSelector:@selector(showStopFetchActivityIndicator:) withObject:NO afterDelay:1];
+        [self showStopFetchActivityIndicator:@YES];
+        [self performSelector:@selector(showStopFetchActivityIndicator:) withObject:@NO afterDelay:1];
         
         [self setupNearByStopsListTableviewFor:self.nearByStopList];
         
@@ -2239,11 +2239,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
 //    [SVProgressHUD dismiss];
-    [self showStopFetchActivityIndicator:NO];
+    [self showStopFetchActivityIndicator:@NO];
 }
 
 -(void)stopFetchDidFail:(NSString *)error{
-    [self showStopFetchActivityIndicator:NO];
+    [self showStopFetchActivityIndicator:@NO];
 }
 
 #pragma mark - Stops in area handler methods
@@ -2274,7 +2274,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if ([self isthereValidDetailForShortStop:busStopShort])
             continue;
 
-        [self showStopFetchActivityIndicator:YES];
+        [self showStopFetchActivityIndicator:@YES];
         numberOfStops ++;
         
         RTStopSearchParam *searchParam = [RTStopSearchParam new];
@@ -2290,7 +2290,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             
             numberOfStops--;
             if (numberOfStops == 0)
-                [self showStopFetchActivityIndicator:NO];
+                [self showStopFetchActivityIndicator:@NO];
         }];
     }
 }

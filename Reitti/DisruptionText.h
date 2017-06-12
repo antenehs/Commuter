@@ -16,6 +16,5 @@
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSString *language;
 
-+(NSDictionary *)mappingDictionary;
 
 @end

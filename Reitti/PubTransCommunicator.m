@@ -15,7 +15,7 @@
 
 - (void)StopInAreaFetchFromPubtransDidComplete:(NSData *)objectNotation{
     NSError *error = nil;
-    NSArray *stops = [PubTransCommunicator stopsFromJSON:objectNotation error:&error];
+//    NSArray *stops = [PubTransCommunicator stopsFromJSON:objectNotation error:&error];
     
     if (error != nil) {
 //        [self.delegate fetchingStopsFromPubTransFailedWithError:error];

@@ -27,6 +27,8 @@
 #if MAIN_APP
 -(id)initWithDictionary:(NSDictionary *)dict andManagedObjectContext:(NSManagedObjectContext *)context;
 #endif
+    
+-(void)updateValuesFromDictionary:(NSDictionary *)dict;
 
 +(instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 -(instancetype)initWithDictionary:(NSDictionary *)dict;

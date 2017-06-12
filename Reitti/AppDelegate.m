@@ -44,7 +44,7 @@
     [ReittiConfigManager sharedManager]; // Remote config
     [LinesManager sharedManager];
     [ReittiRegionManager sharedManager];
-    SettingsManager *settingManager = [SettingsManager sharedManager];
+    [SettingsManager sharedManager];
     //Set region support before sending data to watch
     [[WatchCommunicationManager sharedManager] updateWatchLocalSearchSupported:YES];
     

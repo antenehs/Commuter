@@ -91,7 +91,7 @@ typedef NS_ENUM(NSInteger, kKBPopupPointerSide) {
 
 #pragma mark  - Interface (Public)
 
-@interface KBPopupBubbleView : UIView
+@interface KBPopupBubbleView : UIView <CAAnimationDelegate>
 
 #pragma mark - Properties (Public) 
 

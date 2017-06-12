@@ -18,7 +18,7 @@
 
 -(NSDate *)asa_dateIgnoringTime {
     NSDateComponents *components = [[NSCalendar currentCalendar]
-                                    components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit
+                                    components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
                                     fromDate:[NSDate date]];
     return [[NSCalendar currentCalendar] dateFromComponents:components];
 }

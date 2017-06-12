@@ -19,10 +19,6 @@
 
 @implementation RouteTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
 #pragma mark - view Settup
 -(void)setupFromICloudRecord:(CKRecord *)record{
     self.iCloudRecord = record;

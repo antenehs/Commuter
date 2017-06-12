@@ -1432,7 +1432,7 @@
         //Delete the existing one from iCloud
         [self deleteNamedBookmarksFromICloud:@[bookmark]];
         
-        [bookmark initWithDictionary:dict];
+        [bookmark updateValuesFromDictionary:dict];
     }
     
     [self saveManagedObject:bookmark];

@@ -19,8 +19,8 @@
     return [self scoreAgainst:otherString fuzziness:fuzziness options:NSStringScoreOptionNone];
 }
 
-- (CGFloat) scoreAgainst:(NSString *)anotherString fuzziness:(NSNumber *)fuzziness options:(NSStringScoreOption)options{
-    NSMutableCharacterSet *workingInvalidCharacterSet = [NSCharacterSet lowercaseLetterCharacterSet];
+- (CGFloat)scoreAgainst:(NSString *)anotherString fuzziness:(NSNumber *)fuzziness options:(NSStringScoreOption)options{
+    NSMutableCharacterSet *workingInvalidCharacterSet = [[NSCharacterSet lowercaseLetterCharacterSet] mutableCopy];
     [workingInvalidCharacterSet formUnionWithCharacterSet:[NSCharacterSet uppercaseLetterCharacterSet]];
     [workingInvalidCharacterSet addCharactersInString:@" "];
     NSCharacterSet *invalidCharacterSet = [workingInvalidCharacterSet invertedSet];
