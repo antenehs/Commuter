@@ -205,7 +205,7 @@
         return [NSString stringWithFormat:@"%@%@ %@", [self getStreetAddressString], self.city ? @"," : @"", self.city ? self.city : @""];
     }else{
         //In case of reverse geocoding, street number and city is included in the name. So check if city name exists already
-        if ([[self getStreetAddressString] containsString:self.city ? self.city : @""]) {
+        if (self.city && [[self getStreetAddressString] containsString:self.city]) {
             return [self getStreetAddressString];
         }else{
             return [NSString stringWithFormat:@"%@%@ %@", [self getStreetAddressString], self.city ? @"," : @"", self.city ? self.city : @""];
@@ -218,7 +218,7 @@
         return self.details.address;
     }else{ //Searches from HSL and TRE has the address as name
         //In case of reverse geocoding, street number and city is included in the name.
-        if ([self.name containsString:self.city ? self.city : @""]) {
+        if (self.city && [self.name containsString:self.city]) {
             return self.name;
         } else if ([SettingsManager useDigiTransit]) {
             return self.name;

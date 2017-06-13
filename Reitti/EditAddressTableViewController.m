@@ -93,12 +93,13 @@
         self.iconName = self.namedBookmark.iconPictureName;
         self.monochromeIconName = self.namedBookmark.monochromeIconName;
         self.searchedName = self.namedBookmark.searchedName;
+        self.fullAddress = self.namedBookmark.getFullAddress;
         
         //In some cases street address could already contain the city name
-        if ([self.streetAddress containsString:self.city])
-            self.fullAddress = self.streetAddress;
-        else
-            self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", [self.namedBookmark streetAddress], [self.namedBookmark city]];
+//        if ([self.streetAddress containsString:self.city])
+//            self.fullAddress = self.streetAddress;
+//        else
+//            self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", [self.namedBookmark streetAddress], [self.namedBookmark city]];
     }else if (viewControllerMode == ViewControllerModeViewGeoCode){
         if (self.geoCode.locationType == LocationTypePOI)
             self.name = self.geoCode.name;
@@ -112,12 +113,13 @@
         self.coords = self.geoCode.coords;
         self.iconName = @"location-75-red.png";
         self.monochromeIconName = @"location-black-50.png";
+        self.fullAddress = self.geoCode.fullAddressString;
         
-        //In some cases street address could already contain the city name
-        if ([self.streetAddress containsString:self.city])
-            self.fullAddress = self.streetAddress;
-        else
-            self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", self.streetAddress, self.city];
+//        //In some cases street address could already contain the city name
+//        if ([self.streetAddress containsString:self.city])
+//            self.fullAddress = self.streetAddress;
+//        else
+//            self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", self.streetAddress, self.city];
     }
 }
 
@@ -513,8 +515,13 @@
 
 #pragma mark - address search delegates
 - (void)setValuesFromGeoCode:(GeoCode *)selectedGeoCode {
-    self.fullAddress = [NSString stringWithFormat:@"%@", [selectedGeoCode fullAddressString]];
-    self.streetAddress = [selectedGeoCode getStreetAddressString];
+    if (selectedGeoCode.locationType == LocationTypeStop) {
+        self.fullAddress = [NSString stringWithFormat:@"%@ \n%@", selectedGeoCode.getAddress, selectedGeoCode.city ? selectedGeoCode.city : @""];
+        self.streetAddress = selectedGeoCode.getAddress;
+    } else {
+        self.fullAddress = [selectedGeoCode fullAddressString];
+        self.streetAddress = [selectedGeoCode getStreetAddressString];
+    }
     self.city = [selectedGeoCode city];
     self.coords = [selectedGeoCode coords];
     self.searchedName = [selectedGeoCode matchedName];
@@ -528,8 +535,8 @@
     [self setValuesFromGeoCode:selectedGeoCode];
 }
 
--(void)searchResultSelectedAStop:(StopEntity *)stopEntity{
-    self.fullAddress = [NSString stringWithFormat:@"%@ - %@,\n%@", [stopEntity busStopName], [stopEntity busStopShortCode], [stopEntity busStopCity]];
+-(void)searchResultSelectedAStop:(StopEntity *)stopEntity {
+    self.fullAddress = [NSString stringWithFormat:@"%@ - %@,\n%@", [stopEntity busStopName], [stopEntity busStopShortCode], stopEntity.busStopCity ? stopEntity.busStopCity : @""];
     self.streetAddress = [NSString stringWithFormat:@"%@ - %@", [stopEntity busStopName], [stopEntity busStopShortCode]];
     self.city = [stopEntity busStopCity];
     self.coords = [stopEntity busStopWgsCoords];
