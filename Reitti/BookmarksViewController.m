@@ -24,7 +24,7 @@
 #import "TableViewCells.h"
 #import "MainTabBarController.h"
 #import "ReittiDateHelper.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 const NSInteger kTimerRefreshInterval = 60;
 
@@ -467,7 +467,7 @@ const NSInteger kTimerRefreshInterval = 60;
 //            [delegate deletedAllSavedStops];
             [[StopCoreDataManager sharedManager] deleteAllSavedStop];
             [self.reittiDataManager deleteAllSavedroutes];
-            [self.reittiDataManager deleteAllNamedBookmarks];
+            [[NamedBookmarkCoreDataManager sharedManager] deleteAllNamedBookmarks];
             
             //NO need to hide the widget settings button
 //            [self hideWidgetSettingsButton:YES];
@@ -839,7 +839,7 @@ const NSInteger kTimerRefreshInterval = 60;
                 [self.reittiDataManager deleteSavedRouteForCode:deletedRoute.routeUniqueName];
                 [savedRoutes removeObject:deletedRoute];
             }else if (deletedNamedBookmark != nil) {
-                [self.reittiDataManager deleteNamedBookmarkForName:deletedNamedBookmark.name];
+                [[NamedBookmarkCoreDataManager sharedManager] deleteNamedBookmarkForName:deletedNamedBookmark.name];
                 [savedNamedBookmarks removeObject:deletedNamedBookmark];
             }else{
                 [[StopCoreDataManager sharedManager] deleteSavedStop:deletedStop];
@@ -906,7 +906,7 @@ const NSInteger kTimerRefreshInterval = 60;
         [self.savedNamedBookmarks removeObject: movedBookmark];
         [self.savedNamedBookmarks insertObject:movedBookmark atIndex:adjustedToIndex];
         
-        [self.reittiDataManager updateOrderedManagedObjectOrderTo:self.savedNamedBookmarks];
+        [[NamedBookmarkCoreDataManager sharedManager] updateNamedBookmarkOrderTo:self.savedNamedBookmarks];
     } else if (fromIndexPath.section == savedStopsSection) {
         id movedStop = self.savedStops[fromIndexPath.row];
         [self.savedStops removeObject: movedStop];
@@ -1257,7 +1257,7 @@ const NSInteger kTimerRefreshInterval = 60;
     NSArray * sRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
     NSArray * rStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
     NSArray * rRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-    NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+    NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
     
     self.savedStops = [NSMutableArray arrayWithArray:sStops];
     self.savedRoutes = [NSMutableArray arrayWithArray:sRoutes];
@@ -1470,7 +1470,6 @@ const NSInteger kTimerRefreshInterval = 60;
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
          EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
 //        controller.droppedPinGeoCode = self.droppedPinGeoCode;
-        controller.managedObjectContext = self.reittiDataManager.managedObjectContext;
         controller.viewControllerMode = ViewControllerModeAddNewAddress;
         controller.currentUserLocation = self.currentUserLocation;
         
@@ -1485,8 +1484,7 @@ const NSInteger kTimerRefreshInterval = 60;
     }else if([segue.identifier isEqualToString:@"namedBookmarkSelected"]){
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-        if (indexPath != nil)
-        {
+        if (indexPath != nil) {
             dataIndex = [self dataIndexForIndexPath:indexPath];
         }
         
@@ -1496,8 +1494,7 @@ const NSInteger kTimerRefreshInterval = 60;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
         controller.namedBookmark = selected;
-        controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
-        controller.managedObjectContext = self.reittiDataManager.managedObjectContext;
+        controller.viewControllerMode = ViewControllerModeEditAddress;
         controller.currentUserLocation = self.currentUserLocation;
     }
 }

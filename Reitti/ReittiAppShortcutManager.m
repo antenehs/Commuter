@@ -7,13 +7,10 @@
 //
 
 #import "ReittiAppShortcutManager.h"
-#import "RettiDataManager.h"
-#import "CoreDataManager.h"
+#import "CoreDataManagers.h"
 #import "ASA_Helpers.h"
 
 @interface ReittiAppShortcutManager()
-
-@property RettiDataManager *reittiDataManager;
 
 @end
 
@@ -28,16 +25,6 @@
     });
     
     return sharedManager;
-}
-
--(id)init{
-    self = [super init];
-    
-    if (self) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-    }
-    
-    return self;
 }
 
 +(NSString *)shortcutIdentifierStringValue:(ShortcutIdentifier)identifier{
@@ -83,7 +70,7 @@
     
     NSMutableArray *shortcuts = [@[] mutableCopy];
     
-    NSArray *namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+    NSArray *namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
     
     //TODO: Sort based on closeness to current location
     

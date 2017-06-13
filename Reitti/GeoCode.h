@@ -48,6 +48,7 @@
 //-(void)setLocationType:(LocationType)type;
 
 @property (nonatomic, retain) NSString * iconPictureName;
+@property (nonatomic, retain) NSString * monochromeIconName;
 #ifndef APPLE_WATCH
 @property (nonatomic, strong) UIImage *annotationImage;
 #endif

@@ -17,7 +17,7 @@
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <QuartzCore/QuartzCore.h>
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 NSString *kUniqueIdentifierSeparator = @"|%|";
 
@@ -171,32 +171,23 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 -(void)updateSearchableIndexes{
     //Do this in a background thread
     @try {
-        NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            @try {
-                [[CSSearchableIndex defaultSearchableIndex] deleteAllSearchableItemsWithCompletionHandler:nil];
-                [self indexNamedBookmarks];
-                [self indexSavedStops:savedStops];
-                [self indexSavedRoutes];
-            } @catch (NSException *exception) {
-                NSLog(@"Some exception occured while indexing. %@", exception);
-            }
-        });
-    }
-    @catch (NSException *exception) {
+        [[CSSearchableIndex defaultSearchableIndex] deleteAllSearchableItemsWithCompletionHandler:nil];
+        [self indexNamedBookmarks];
+        [self indexSavedStops];
+        [self indexSavedRoutes];
+    } @catch (NSException *exception) {
         NSLog(@"Some exception occured while indexing. %@", exception);
     }
 }
 
 #pragma mark - Indexing methods
 -(void)indexNamedBookmarks{
-    [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[NamedBookmark domainIdentifier]] completionHandler:^(NSError *error){
+    [self deleteSearchableItemsWithDomainIdentifiers:@[[NamedBookmark domainIdentifier]] completionHandler:^(NSError *error){
         @try {
             if (!error) {
                 NSMutableArray *searchableItems = [@[] mutableCopy];
                 
-                NSArray *namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+                NSArray *namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
                 
                 if (namedBookmarks != nil && namedBookmarks.count > 0) {
                     for (NamedBookmark *namedBookmark in namedBookmarks) {
@@ -218,8 +209,10 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
     }];
 }
 
--(void)indexSavedStops: (NSArray *)savedStops {
-    [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[StopEntity domainIdentifier]] completionHandler:^(NSError *error){
+-(void)indexSavedStops {
+    NSArray *savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
+    
+    [self deleteSearchableItemsWithDomainIdentifiers:@[[StopEntity domainIdentifier]] completionHandler:^(NSError *error){
         @try {
             if (!error) {
                 NSMutableArray *searchableItems = [@[] mutableCopy];
@@ -247,7 +240,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 }
 
 -(void)indexSavedRoutes{
-    [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:@[[RouteEntity domainIdentifier]] completionHandler:^(NSError *error){
+    [self deleteSearchableItemsWithDomainIdentifiers:@[[RouteEntity domainIdentifier]] completionHandler:^(NSError *error){
         @try {
             if (!error) {
                 NSMutableArray *searchableItems = [@[] mutableCopy];
@@ -275,6 +268,17 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 }
 
 #pragma mark - Helpers
+
+//Do deletion and return to main thread
+-(void)deleteSearchableItemsWithDomainIdentifiers:(NSArray *)identifiers completionHandler:(void (^ __nullable)(NSError * __nullable error))completionHandler {
+    
+    [[CSSearchableIndex defaultSearchableIndex] deleteSearchableItemsWithDomainIdentifiers:identifiers completionHandler:^(NSError *error){
+        [self asa_ExecuteBlockInUIThread:^{
+            completionHandler(error);
+        }];
+    }];
+}
+
 +(SpotlightObjectType)spotlightObjectTypeForIdentifier:(NSString *)identifier{
     if (!identifier)
         return UnknownSearchableType;

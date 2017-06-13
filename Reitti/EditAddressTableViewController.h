@@ -55,7 +55,5 @@ typedef enum
 
 @property(nonatomic, strong)RettiDataManager *reittiDataManager;
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 @property(nonatomic, strong) NSString *monochromeIconName;
 @end

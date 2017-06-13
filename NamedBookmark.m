@@ -64,10 +64,10 @@
 }
 
 -(NSString *)getFullAddress{
-    if ([self.streetAddress containsString:self.city])
+    if (self.city && [self.streetAddress containsString:self.city])
         return self.streetAddress;
     else
-        return [NSString stringWithFormat:@"%@, %@", self.streetAddress, self.city];
+        return [NSString stringWithFormat:@"%@%@ %@", self.streetAddress, self.city ? @"," : @"", self.city ? self.city : @""];
 }
 
 -(NSString *)getUniqueIdentifier{
@@ -99,6 +99,17 @@
     //Base class properties
     self.objectLID = [self objectOrNilForKey:@"objectLID" fromDictionary:dict];
     self.dateModified = [self objectOrNilForKey:@"dateModified" fromDictionary:dict];
+}
+
+-(void)updateValuesFromNamedBookmarkData:(NamedBookmarkData *)bookmarkData {
+    [self setName:bookmarkData.name];
+    [self setStreetAddress:bookmarkData.streetAddress];
+    [self setCity:bookmarkData.city];
+    [self setCoords:bookmarkData.coords];
+    [self setSearchedName:bookmarkData.searchedName];
+    [self setNotes:bookmarkData.notes];
+    [self setIconPictureName:bookmarkData.iconPictureName];
+    [self setMonochromeIconName:bookmarkData.monochromeIconName];
 }
 
 #if MAIN_APP

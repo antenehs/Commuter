@@ -12,6 +12,7 @@
 #import "OrderedManagedObject.h"
 #import "Mapping.h"
 #import "ApiProtocols.h"
+#import "NamedBookmarkData.h"
 
 #if MAIN_APP
 @interface NamedBookmark : OrderedManagedObject<DictionaryMappable> {
@@ -29,6 +30,7 @@
 #endif
     
 -(void)updateValuesFromDictionary:(NSDictionary *)dict;
+-(void)updateValuesFromNamedBookmarkData:(NamedBookmarkData *)bookmarkData;
 
 +(instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 -(instancetype)initWithDictionary:(NSDictionary *)dict;
@@ -42,7 +44,6 @@
 -(NSString *)getFullAddress;
 -(NSString *)getUniqueIdentifier;
 
-@property (nonatomic, retain) NSNumber * objectLID;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * streetAddress;
 @property (nonatomic, retain) NSString * city;

@@ -26,8 +26,7 @@
 #import "ReittiModels.h"
 #import "SettingsManager.h"
 
-//CLLocationCoordinate2D kHslRegionCenter = {.latitude =  60.170163, .longitude =  24.941352};
-//CLLocationCoordinate2D kTreRegionCenter = {.latitude =  61.4981508, .longitude =  23.7610254};
+#import "NamedBookmarkCoreDataManager.h"
 
 @interface RettiDataManager ()
 
@@ -47,7 +46,6 @@
 @synthesize routeEntity;
 @synthesize routeHistoryEntity;
 @synthesize allNamedBookmarkNames;
-@synthesize namedBookmark;
 @synthesize userLocationRegion;
 @synthesize hslLiveTrafficManager, treLiveTrafficManager, cacheManager, reittiRegionManager;
 
@@ -126,14 +124,13 @@
 //    [self fetchAllSavedStopCodesFromCoreData];
     [self fetchAllSavedRouteCodesFromCoreData];
     [self fetchAllRouteHistoryCodesFromCoreData];
-    [self fetchAllNamedBookmarkNamesFromCoreData];
+//    [[NamedBookmarkCoreDataManager sharedManager] fetchAllNamedBookmarkNames];
     
     //Update widget ns user default values
-    [self updateNamedBookmarksUserDefaultValue];
+//    [self updateNamedBookmarksUserDefaultValue];
 }
 
 -(void)updateIcloudRecords {
-    [self updateSavedNamedBookmarksToICloud];
     [self updateSavedRoutesToICloud];
 }
 
@@ -716,475 +713,38 @@
 -(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects {
     
     for (int i = 0; i < orderedObjects.count; i++) {
-        
         OrderedManagedObject *object = orderedObjects[i];
         if (![object isKindOfClass:[OrderedManagedObject class]]) return;
         
         object.order = [NSNumber numberWithInt:i + 1];
         [self saveManagedObject:object];
     }
-    
-    if (orderedObjects.count > 0 && [orderedObjects[0] isKindOfClass:[NamedBookmark class]]) {
-        [self updateNamedBookmarksUserDefaultValue];
-        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-    }
 }
 
--(void)updateNamedBookmarksUserDefaultValue{
-    if (![AppManager isProVersion]) return;
-    
-    NSArray * namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
-    
-    NSMutableArray *namedBookmarkDictionaries = [@[] mutableCopy];
-    
-    for (NamedBookmark *nmdBookmark in namedBookmarks) {
-        [namedBookmarkDictionaries addObject:[nmdBookmark dictionaryRepresentation]];
-    }
-    
-    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
-    
-    [sharedDefaults setObject:namedBookmarkDictionaries forKey:kUserDefaultsNamedBookmarksKey];
-    [sharedDefaults synchronize];
-    
-    //Update bookmarks to watch
-    [self.communicationManager transferNamedBookmarks:namedBookmarkDictionaries];
-}
-
-//-(void)updateSourceApiForStops:(NSArray *)savedStops {
-//    if (!savedStops || savedStops.count == 0) { return; }
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//    for (StopEntity *stop in savedStops) {
-//        dict[[stop.busStopCode stringValue]] = stop.fetchedFrom;
+//-(void)updateNamedBookmarksUserDefaultValue{
+//    if (![AppManager isProVersion]) return;
+//    
+//    NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
+//    
+//    NSMutableArray *namedBookmarkDictionaries = [@[] mutableCopy];
+//    
+//    for (NamedBookmark *nmdBookmark in namedBookmarks) {
+//        [namedBookmarkDictionaries addObject:[nmdBookmark dictionaryRepresentation]];
 //    }
 //    
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
+//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsRoutesExtensionSuitName]];
 //    
-//    [sharedDefaults setObject:dict forKey:kUserDefaultsStopSourceApiKey];
-//    [sharedDefaults synchronize];
-//}
-
-//-(void)updateSavedStopsToWatch:(NSArray *)savedStops {
-//    NSMutableArray *stopsDictionaries = [@[] mutableCopy];
-//    
-//    for (StopEntity *stop in savedStops) {
-//        [stopsDictionaries addObject:[stop dictionaryRepresentation]];
-//    }
-//    
-//    [[WatchCommunicationManager sharedManager] transferSavedStops:stopsDictionaries];
-//}
-
-//-(void)updateSavedStopsDefaultValueForStops:(NSArray *)savedStops{
-//
-//    NSString *codes = [[NSString alloc] init];
-//    
-//    BOOL firstElement = YES;
-//    for (StopEntity *stop in savedStops) {
-//        if (firstElement) {
-//            codes = [NSString stringWithFormat:@"%d",[stop.busStopCode intValue]];
-//            firstElement = NO;
-//        }else{
-//            codes = [NSString stringWithFormat:@"%@,%d",codes, [stop.busStopCode intValue]];
-//        }
-//    }
-//
-//    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[AppManager nsUserDefaultsStopsWidgetSuitName]];
-//    
-//    [sharedDefaults setObject:codes forKey:kUserDefaultsSavedStopsKey];
+//    [sharedDefaults setObject:namedBookmarkDictionaries forKey:kUserDefaultsNamedBookmarksKey];
 //    [sharedDefaults synchronize];
 //    
-//    [self updateSourceApiForStops:savedStops];
-//    [self updateSavedStopsToWatch:savedStops];
+//    //Update bookmarks to watch
+//    [self.communicationManager transferNamedBookmarks:namedBookmarkDictionaries];
 //}
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString{
     [self fetchAllSavedRouteCodesFromCoreData];
     return [allSavedRouteCodes containsObject:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
 }
-
-#pragma mark - Core data methods
-//-(CookieEntity *)fetchSystemCookie{
-//    
-////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-////    
-////    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CookieEntity" inManagedObjectContext:self.managedObjectContext];
-////    
-////    [request setEntity:entity];
-////    
-////    NSError *error = nil;
-//    
-//    NSArray *tempSystemCookie = [[CoreDataManager sharedManager] fetchAllObjectsForEntityNamed:@"CookieEntity"];
-//    
-//    if (tempSystemCookie.count > 0) {
-//        cookieEntity = [tempSystemCookie objectAtIndex:0];
-//    }
-//    else {
-//        [self initializeSystemCookie];
-//    }
-//    
-//    return cookieEntity;
-//    
-//}
-//
-//-(void)initializeSystemCookie{
-//    cookieEntity = (CookieEntity *)[[CoreDataManager sharedManager] createNewObjectForEntityNamed:@"CookieEntity"];
-//    //set default values
-//    [cookieEntity setObjectLID:[NSNumber numberWithInt:100]];
-//    [cookieEntity setAppOpenCount:[NSNumber numberWithInt:0]];
-//    
-//    [[CoreDataManager sharedManager] saveState];
-//}
-//
-//-(void)increamentObjectLID {
-//    [self fetchSystemCookie];
-//    
-//    [cookieEntity setObjectLID:[NSNumber numberWithInt:(nextObjectLID + 1)]];
-//    nextObjectLID++;
-//    
-//    [[CoreDataManager sharedManager] saveState];
-//}
-
-#pragma mark - stop core data methods
-//@ Updates a saved stop if it exists or insert a new one.
-//-(void)saveToCoreDataStop:(BusStop *)stop{
-//    if (!stop)
-//        return;
-//    
-//    self.stopEntity = [self fetchSavedStopFromCoreDataForCode:stop.code];
-//    
-//    if (!self.stopEntity) {
-//        self.stopEntity= (StopEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-//        self.stopEntity.order = [NSNumber numberWithInteger:allSavedStopCodes.count + 1];
-//    }
-//    
-//    //set default values
-//    [self.stopEntity setBusStopCode:stop.code];
-//    [self.stopEntity setBusStopShortCode:stop.codeShort];
-//    [self.stopEntity setBusStopName:stop.nameFi];
-//    [self.stopEntity setBusStopCity:stop.cityFi];
-//    [self.stopEntity setBusStopURL:stop.timetableLink];
-//    [self.stopEntity setBusStopCoords:stop.coords];
-//    [self.stopEntity setBusStopWgsCoords:stop.wgsCoords];
-//    [self.stopEntity setStopLines:stop.lines];
-//    [self.stopEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
-//    [self.stopEntity setIsHistory:@NO];
-//    [self.stopEntity setStopGtfsId:stop.gtfsId];
-//    [self.stopEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
-//    
-//    [self saveManagedObject:stopEntity];
-//    
-//    [allSavedStopCodes addObject:stop.code];
-//    
-//    [self updateSavedStopsDefaultValueForStops:[self fetchAllSavedStopsFromCoreData]];
-//    [self updateSavedStopsToICloud];
-//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-//}
-//
-//-(void)updateSavedStopIfItExists:(BusStop *)stop{
-//    if ([self isBusStopSavedWithCode:stop.code]) {
-//        [self saveToCoreDataStop:stop];
-//    }
-//}
-//
-//-(void)deleteSavedStopForCode:(NSNumber *)code{
-//    if (!code) return;
-//    
-//    StopEntity *stopToDelete = [self fetchSavedStopFromCoreDataForCode:code];
-//    
-//    [self deleteSavedStop:stopToDelete];
-//}
-//
-//-(void)deleteSavedStop:(StopEntity *)savedStop{
-//    if (!savedStop)
-//        return;
-//    
-//    [self deleteStopsFromICloud:@[savedStop]];
-//    
-//    [[CoreDataManager sharedManager] deleteManagedObject:savedStop];
-//    
-////    [self.managedObjectContext deleteObject:savedStop];
-////    
-////    NSError *error = nil;
-////    if (![self.managedObjectContext save:&error]) {
-////        // Handle error
-////        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-////        exit(-1);  // Fail
-////    }
-//    
-//    [allSavedStopCodes removeObject:savedStop.busStopCode];
-//    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
-//    
-//    [self updateSavedStopsDefaultValueForStops:savedSt];
-//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-//}
-//
-//-(void)deleteAllSavedStop{
-//    NSArray *stopsToDelete = [self fetchAllSavedStopsFromCoreData];
-//    [self deleteStopsFromICloud:stopsToDelete];
-//    
-////    for (StopEntity *stop in stopsToDelete) {
-////        [self.managedObjectContext deleteObject:stop];
-////    }
-////    
-////    NSError *error = nil;
-////    if (![self.managedObjectContext save:&error]) {
-////        // Handle error
-////        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-////        exit(-1);  // Fail
-////    }
-//    
-//    [[CoreDataManager sharedManager] deleteManagedObjects:stopsToDelete];
-//    
-//    [allSavedStopCodes removeAllObjects];
-//    NSArray *savedSt = [self fetchAllSavedStopsFromCoreData];
-//    
-//    [self updateSavedStopsDefaultValueForStops:savedSt];
-//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-//    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-//}
-//
-//-(NSArray *)fetchAllSavedStopsFromCoreData{
-//    
-////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-////    
-////    NSEntityDescription *entity = [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-////    
-////    [request setEntity:entity];
-////    
-////    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-////    [request setSortDescriptors:@[sortDescriptor]];
-////    
-////    //[request setResultType:NSDictionaryResultType];
-//////    [request setReturnsDistinctResults:YES];
-////    //[request setPropertiesToFetch :[NSArray arrayWithObjects: @"set_id",  @"title",  @"subject",  @"url",  @"score",  @"views",  @"created",  @"last_modified",  @"card_count",  @"access", nil]];
-////    
-////    NSError *error = nil;
-////    
-////    NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-////    
-////    if ([savedStops count] != 0) {
-////        return savedStops;
-////    }
-////    
-////    return nil;
-//    
-//    return [[CoreDataManager sharedManager] fetchAllOrderedObjectsForEntityNamed: @"StopEntity"];
-//}
-//
-//-(void)fetchAllSavedStopCodesFromCoreData {
-////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-////    
-////    NSEntityDescription *entity = [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-////    
-////    [request setEntity:entity];
-////    
-////    [request setResultType:NSDictionaryResultType];
-////    
-////    [request setReturnsDistinctResults:YES];
-////    [request setPropertiesToFetch :[NSArray arrayWithObject: @"busStopCode"]];
-////    
-////    NSError *error = nil;
-////    
-////    NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
-//    
-//    //TODO: Remeber to change to stopGtfsId after migration
-//    NSArray *codes = [[CoreDataManager sharedManager] fetchValuesOfProperties:@[@"busStopCode"] fromEntitiyNamed:@"StopEntity"];
-////    
-////    if ([recentStopsCodes count] != 0) {
-////        allSavedStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
-////    }
-////    else {
-////        allSavedStopCodes = [[NSMutableArray alloc] init];
-////    }
-//    
-//    allSavedStopCodes = codes ? [codes mutableCopy] : [@[] mutableCopy];
-//}
-//
-//-(StopEntity *)fetchSavedStopFromCoreDataForCode:(NSString *)code{
-////    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-////    
-////    NSEntityDescription *entity =
-////    
-////    [NSEntityDescription entityForName:@"StopEntity" inManagedObjectContext:self.managedObjectContext];
-////    
-////    [request setEntity:entity];
-////    
-//    NSString *predString = [NSString stringWithFormat:@"busStopCode == %@", code];
-//    
-////    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-////    [request setPredicate:predicate];
-////    
-////    NSError *error = nil;
-////    
-////    NSArray *savedStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-//    NSArray *savedStops = [[CoreDataManager sharedManager] fetchObjectsForEntityNamed:@"StopEntity" predicateString:predString];
-//    
-//    if ([savedStops count] != 0) {
-//        return [savedStops objectAtIndex:0];
-//    }
-//    
-//    return nil;
-//}
-//
-//-(BOOL)isBusStopSaved:(BusStop *)stop{
-//    return [self isBusStopSavedWithCode:stop.code];
-//}
-//
-//-(BOOL)isBusStopSavedWithCode:(NSNumber *)stopCode{
-//    [self fetchAllSavedStopCodesFromCoreData];
-//    return [allSavedStopCodes containsObject:stopCode];
-//}
-
-#pragma mark - Stop history core data methods
-//-(BOOL)saveHistoryToCoreDataStop:(BusStop *)stop {
-//    if (!stop)
-//        return NO;
-//    
-//    //Check for existence here first
-//    if(![allHistoryStopCodes containsObject:stop.code]){
-//        self.historyEntity= (HistoryEntity *)[NSEntityDescription insertNewObjectForEntityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-//        //set default values
-//        [self.historyEntity setBusStopCode:stop.code];
-//        [self.historyEntity setBusStopShortCode:stop.codeShort];
-//        [self.historyEntity setBusStopName:stop.nameFi];
-//        [self.historyEntity setBusStopCity:stop.cityFi];
-//        [self.historyEntity setBusStopURL:stop.timetableLink];
-//        [self.historyEntity setBusStopCoords:stop.coords];
-//        [self.historyEntity setBusStopWgsCoords:stop.wgsCoords];
-//        [self.historyEntity setFetchedFrom:[NSNumber numberWithInt:(int)stop.fetchedFromApi]];
-//        [self.historyEntity setStopGtfsId:stop.gtfsId];
-//        [self.historyEntity setIsHistory:@YES];
-//        [self.historyEntity setStopTypeNumber:[NSNumber numberWithInt:stop.stopType]];
-//        
-//        [self saveManagedObject:historyEntity];
-//        
-//        [allHistoryStopCodes addObject:stop.code];
-//        return YES;
-//    }else{
-//        self.historyEntity = [self fetchStopHistoryFromCoreDataForCode:stop.code];
-//        
-//        [self saveManagedObject:historyEntity];
-//        
-//        return YES;
-//    }
-//}
-//
-//-(void)deleteHistoryStopForCode:(NSNumber *)code{
-//    HistoryEntity *historyToDelete = [self fetchStopHistoryFromCoreDataForCode:code];
-//    
-//    [self.managedObjectContext deleteObject:historyToDelete];
-//    
-//    NSError *error = nil;
-//    if (![historyToDelete.managedObjectContext save:&error]) {
-//        // Handle error
-//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-//        exit(-1);  // Fail
-//    }
-//    
-//    [allHistoryStopCodes removeObject:code];
-//}
-//
-//-(void)deleteAllHistoryStop{
-//    NSArray *historyToDelete = [self fetchAllSavedStopHistoryFromCoreData];
-//    
-//    for (HistoryEntity *stop in historyToDelete) {
-//        [self.managedObjectContext deleteObject:stop];
-//    }
-//    
-//    NSError *error = nil;
-//    if (![self.managedObjectContext save:&error]) {
-//        // Handle error
-//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-//        exit(-1);  // Fail
-//    }
-//    
-//    [allHistoryStopCodes removeAllObjects];
-//}
-//
-//-(NSArray *)fetchAllSavedStopHistoryFromCoreData{
-//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-//    
-//    NSEntityDescription *entity =
-//    
-//    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-//    
-//    [request setEntity:entity];
-//    
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-//                                        initWithKey:@"objectLID" ascending:NO];
-//    [request setSortDescriptors:@[sortDescriptor]];
-//    
-//    [request setReturnsDistinctResults:YES];
-//    
-//    NSError *error = nil;
-//    
-//    NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-//    
-//    if ([recentStops count] != 0) {
-//        return recentStops;
-//    }
-//    
-//    return nil;
-//}
-//
-//-(HistoryEntity *)fetchStopHistoryFromCoreDataForCode:(NSNumber *)code{
-//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-//    
-//    NSEntityDescription *entity =
-//    
-//    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-//    
-//    [request setEntity:entity];
-//    
-//    NSString *predString = [NSString stringWithFormat:
-//                            @"busStopCode == %@", code];
-//    
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-//    [request setPredicate:predicate];
-//    
-//    NSError *error = nil;
-//    
-//    NSArray *recentStops = [self.managedObjectContext executeFetchRequest:request error:&error];
-//    
-//    if ([recentStops count] != 0) {
-//        return [recentStops objectAtIndex:0];
-//    }
-//    
-//    return nil;
-//}
-//
-//-(void)fetchAllHistoryStopCodesFromCoreData{
-//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-//    
-//    NSEntityDescription *entity =
-//    
-//    [NSEntityDescription entityForName:@"HistoryEntity" inManagedObjectContext:self.managedObjectContext];
-//    
-//    [request setEntity:entity];
-//    
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-//                                        initWithKey:@"objectLID" ascending:NO];
-//    [request setSortDescriptors:@[sortDescriptor]];
-//    [request setResultType:NSDictionaryResultType];
-//    
-//    [request setReturnsDistinctResults:YES];
-//    [request setPropertiesToFetch :[NSArray arrayWithObject: @"busStopCode"]];
-//    
-//    NSError *error = nil;
-//    
-//    NSArray *recentStopsCodes = [self.managedObjectContext executeFetchRequest:request error:&error];
-//    
-//    if ([recentStopsCodes count] != 0) {
-//        allHistoryStopCodes = [self simplifyCoreDataDictionaryArray:recentStopsCodes withKey:@"busStopCode"] ;
-//    }
-//    else {
-//        allHistoryStopCodes = [[NSMutableArray alloc] init];
-//    }
-//}
 
 #pragma mark - route core data methods
 +(NSString *)generateUniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc{
@@ -1376,172 +936,174 @@
 }
 
 #pragma mark - named bookmark methods
--(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)ndBookmark{
-    if (ndBookmark == nil)
-        return nil;
-    
-    //Check for existence here first
-    if(![self doesNamedBookmarkExistWithName:ndBookmark.name]){
-        self.namedBookmark = (NamedBookmark *)[NSEntityDescription insertNewObjectForEntityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-        self.namedBookmark.order = [NSNumber numberWithInteger:allNamedBookmarkNames.count + 1];
-        
-        [allNamedBookmarkNames addObject:ndBookmark.name];
-    }else{
-        self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:ndBookmark.name];
-        
-        //Delete the existing one from iCloud
-        [self deleteNamedBookmarksFromICloud:@[self.namedBookmark]];
-    }
-    
-    [self.namedBookmark setName:ndBookmark.name];
-    [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
-    [self.namedBookmark setCity:ndBookmark.city];
-    [self.namedBookmark setSearchedName:ndBookmark.searchedName];
-    [self.namedBookmark setCoords:ndBookmark.coords];
-    [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
-    [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
-    
-    [self saveManagedObject:namedBookmark];
-    
-    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    [self updateSavedNamedBookmarksToICloud];
-    [self updateNamedBookmarksUserDefaultValue];
-    [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-    
-    return self.namedBookmark;
-}
+//-(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)ndBookmark{
+//    if (ndBookmark == nil)
+//        return nil;
+//    
+//    //Check for existence here first
+//    if(![[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:ndBookmark.name]){
+//        self.namedBookmark = (NamedBookmark *)[NSEntityDescription insertNewObjectForEntityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+//        self.namedBookmark.order = [NSNumber numberWithInteger:allNamedBookmarkNames.count + 1];
+//        
+//        [allNamedBookmarkNames addObject:ndBookmark.name];
+//    }else{
+//        self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkForName:ndBookmark.name];
+//        
+//        //Delete the existing one from iCloud
+//        [self deleteNamedBookmarksFromICloud:@[self.namedBookmark]];
+//    }
+//    
+//    [self.namedBookmark setName:ndBookmark.name];
+//    [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
+//    [self.namedBookmark setCity:ndBookmark.city];
+//    [self.namedBookmark setSearchedName:ndBookmark.searchedName];
+//    [self.namedBookmark setCoords:ndBookmark.coords];
+//    [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
+//    [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
+//    
+//    [self saveManagedObject:namedBookmark];
+//    
+//    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    [self updateSavedNamedBookmarksToICloud];
+//    [self updateNamedBookmarksUserDefaultValue];
+//    [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//    
+//    return self.namedBookmark;
+//}
+//
+//-(NamedBookmark *)createOrUpdateNamedBookmarkFromICLoudRecord:(CKRecord *)record {
+//    if (!record)
+//        return nil;
+//    
+//    NSDictionary *dict = [ICloudManager ckrecordAsDictionary:record];
+//    NamedBookmark *bookmark;
+//    
+//    if(![[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:dict[kNamedBookmarkName]]){
+//        bookmark = [[NamedBookmark alloc] initWithDictionary:dict andManagedObjectContext:self.managedObjectContext];
+//        self.namedBookmark.order = [NSNumber numberWithInteger:allNamedBookmarkNames.count + 1];
+//        
+//        [allNamedBookmarkNames addObject:bookmark.name];
+//    }else{
+//        bookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkForName:dict[kNamedBookmarkName]];
+//        
+//        //Delete the existing one from iCloud
+//        [self deleteNamedBookmarksFromICloud:@[bookmark]];
+//        
+//        [bookmark updateValuesFromDictionary:dict];
+//    }
+//    
+//    [self saveManagedObject:bookmark];
+//    
+//    [allNamedBookmarkNames addObject:bookmark.name];
+//    
+//    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    [self updateNamedBookmarksUserDefaultValue];
+//    [self updateSavedAndHistoryRoutesForNamedBookmark:bookmark];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//    
+//    return bookmark;
+//}
+//
+//-(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark{
+//    //Check for existence here first
+//    if (ndBookmark == nil)
+//        return nil;
+//    
+//    self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkForObjectLid:objectLid];
+//    
+//    if(self.namedBookmark != nil){
+//        [self deleteNamedBookmarksFromICloud:@[self.namedBookmark]];
+//        
+//        [self.namedBookmark setName:ndBookmark.name];
+//        [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
+//        [self.namedBookmark setCity:ndBookmark.city];
+//        [self.namedBookmark setSearchedName:ndBookmark.searchedName];
+//        [self.namedBookmark setCoords:ndBookmark.coords];
+//        [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
+//        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
+//        
+//        NSError *error = nil;
+//        
+//        if (![namedBookmark.managedObjectContext save:&error]) {
+//            // Handle error
+//            NSLog(@"Unresolved error %@, %@: Error when saving the Managed object!!", error, [error userInfo]);
+//            exit(-1);  // Fail
+//        }
+//        
+//        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+//        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//        [self updateSavedNamedBookmarksToICloud];
+//        [self updateNamedBookmarksUserDefaultValue];
+//        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
+//        
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//        
+//        return self.namedBookmark;
+//    }else{
+//        return nil;
+//    }
+//}
 
--(NamedBookmark *)createOrUpdateNamedBookmarkFromICLoudRecord:(CKRecord *)record {
-    if (!record)
-        return nil;
-    
-    NSDictionary *dict = [ICloudManager ckrecordAsDictionary:record];
-    NamedBookmark *bookmark;
-    
-    if(![self doesNamedBookmarkExistWithName:dict[kNamedBookmarkName]]){
-        bookmark = [[NamedBookmark alloc] initWithDictionary:dict andManagedObjectContext:self.managedObjectContext];
-        self.namedBookmark.order = [NSNumber numberWithInteger:allNamedBookmarkNames.count + 1];
-        
-        [allNamedBookmarkNames addObject:bookmark.name];
-    }else{
-        bookmark = [self fetchSavedNamedBookmarkFromCoreDataForName:dict[kNamedBookmarkName]];
-        
-        //Delete the existing one from iCloud
-        [self deleteNamedBookmarksFromICloud:@[bookmark]];
-        
-        [bookmark updateValuesFromDictionary:dict];
-    }
-    
-    [self saveManagedObject:bookmark];
-    
-    [allNamedBookmarkNames addObject:bookmark.name];
-    
-    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    [self updateNamedBookmarksUserDefaultValue];
-    [self updateSavedAndHistoryRoutesForNamedBookmark:bookmark];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-    
-    return bookmark;
-}
-
--(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark{
-    //Check for existence here first
-    if (ndBookmark == nil)
-        return nil;
-    
-    self.namedBookmark = [self fetchSavedNamedBookmarkFromCoreDataForObjectLid:objectLid];
-    
-    if(self.namedBookmark != nil){
-        [self deleteNamedBookmarksFromICloud:@[self.namedBookmark]];
-        
-        [self.namedBookmark setName:ndBookmark.name];
-        [self.namedBookmark setStreetAddress:ndBookmark.streetAddress];
-        [self.namedBookmark setCity:ndBookmark.city];
-        [self.namedBookmark setSearchedName:ndBookmark.searchedName];
-        [self.namedBookmark setCoords:ndBookmark.coords];
-        [self.namedBookmark setIconPictureName:ndBookmark.iconPictureName];
-        [self.namedBookmark setMonochromeIconName:ndBookmark.monochromeIconName];
-        
-        NSError *error = nil;
-        
-        if (![namedBookmark.managedObjectContext save:&error]) {
-            // Handle error
-            NSLog(@"Unresolved error %@, %@: Error when saving the Managed object!!", error, [error userInfo]);
-            exit(-1);  // Fail
-        }
-        
-        [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-        [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-        [self updateSavedNamedBookmarksToICloud];
-        [self updateNamedBookmarksUserDefaultValue];
-        [self updateSavedAndHistoryRoutesForNamedBookmark:self.namedBookmark];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-        
-        return self.namedBookmark;
-    }else{
-        return nil;
-    }
-}
-
--(void)deleteNamedBookmarkForName:(NSString *)name{
-    NamedBookmark *bookmarkToDelete = [self fetchSavedNamedBookmarkFromCoreDataForName:name];
-    
-    if (!bookmarkToDelete)
-        return;
-    
-    [self deleteNamedBookmarksFromICloud:@[bookmarkToDelete]];
-    [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmarkToDelete];
-    
-    [self.managedObjectContext deleteObject:bookmarkToDelete];
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    //Update orders
-    [allNamedBookmarkNames removeObject:name];
-    
-    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    [self updateNamedBookmarksUserDefaultValue];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-}
-
--(void)deleteAllNamedBookmarks{
-    NSArray *bookmarksToDelete = [self fetchAllSavedNamedBookmarksFromCoreData];
-    
-    [self deleteNamedBookmarksFromICloud:bookmarksToDelete];
-    for (NamedBookmark *bookmark in bookmarksToDelete) {
-        [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmark];
-        
-        [self.managedObjectContext deleteObject:bookmark];
-    }
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        // Handle error
-        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object.", error, [error userInfo]);
-        exit(-1);  // Fail
-    }
-    
-    [allNamedBookmarkNames removeAllObjects];
-    
-    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
-    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
-    [self updateNamedBookmarksUserDefaultValue];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
-}
+//-(void)deleteNamedBookmarkForName:(NSString *)name{
+//    NamedBookmark *bookmarkToDelete = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkForName:name];
+//    
+//    if (!bookmarkToDelete)
+//        return;
+//    
+//    [self deleteNamedBookmarksFromICloud:@[bookmarkToDelete]];
+//    [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmarkToDelete];
+//    
+//    [[CoreDataManager sharedManager] deleteManagedObject:bookmarkToDelete];
+//    
+////    [self.managedObjectContext deleteObject:bookmarkToDelete];
+////    
+////    NSError *error = nil;
+////    if (![self.managedObjectContext save:&error]) {
+////        // Handle error
+////        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object:MainMenu!!", error, [error userInfo]);
+////        exit(-1);  // Fail
+////    }
+//    
+//    //Update orders
+//    [allNamedBookmarkNames removeObject:name];
+//    
+//    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    [self updateNamedBookmarksUserDefaultValue];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//}
+//
+//-(void)deleteAllNamedBookmarks {
+//    NSArray *bookmarksToDelete = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
+//    
+//    [self deleteNamedBookmarksFromICloud:bookmarksToDelete];
+//    for (NamedBookmark *bookmark in bookmarksToDelete) {
+//        [self deleteSavedAndHistoryRoutesForNamedBookmark:bookmark];
+//        
+//        [self.managedObjectContext deleteObject:bookmark];
+//    }
+//    
+//    NSError *error = nil;
+//    if (![self.managedObjectContext save:&error]) {
+//        // Handle error
+//        NSLog(@"Unresolved error %@, %@: Error when saving the Managed object.", error, [error userInfo]);
+//        exit(-1);  // Fail
+//    }
+//    
+//    [allNamedBookmarkNames removeAllObjects];
+//    
+//    [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
+//    [[ReittiSearchManager sharedManager] updateSearchableIndexes];
+//    [self updateNamedBookmarksUserDefaultValue];
+//    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kBookmarksWithAnnotationUpdated object:nil];
+//}
 
 -(void)deleteSavedAndHistoryRoutesForNamedBookmark:(NamedBookmark *)bookmark{
     NSArray *savedRoutes = [self fetchSavedRouteFromCoreDataForNamedBookmarkName:bookmark.name];
@@ -1591,146 +1153,142 @@
     [[ReittiRemindersManager sharedManger] updateRoutineForDeletedBookmarkNamed:bookmark.name];
 }
 
--(void)updateRoutinesForChangeInNamedBookmarkNamed:(NSString *)bookmarkName{
-    
-}
 
--(NSArray *)fetchAllSavedNamedBookmarksFromCoreData{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
+//-(NSArray *)fetchAllSavedNamedBookmarks{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+////    [request setReturnsDistinctResults:YES];
+//    
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+//    [request setSortDescriptors:@[sortDescriptor]];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([savedBookmarks count] != 0) {
+//        return savedBookmarks;
+//    }
+//    
+//    return nil;
+//}
+//
+//-(BOOL)doesNamedBookmarkExistWithName:(NSString *)name{
+//    return [allNamedBookmarkNames containsObject:name];
+//}
+//
+//-(NamedBookmark *)fetchSavedNamedBookmarkForName:(NSString *)name{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSString *predString = [NSString stringWithFormat:
+//                            @"name == '%@'", name];
+//    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+//    [request setPredicate:predicate];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([savedBookmarks count] != 0) {
+//        return [savedBookmarks objectAtIndex:0];
+//    }
+//    
+//    return nil;
+//}
+//
+//-(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSString *predString = [NSString stringWithFormat:
+//                            @"coords == '%@'", coords];
+//    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+//    [request setPredicate:predicate];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([savedBookmarks count] != 0) {
+//        return [savedBookmarks objectAtIndex:0];
+//    }
+//    
+//    return nil;
+//}
+//
+//-(NamedBookmark *)fetchSavedNamedBookmarkForObjectLid:(NSNumber *)objectLid{
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSString *predString = [NSString stringWithFormat:@"objectLID == %@", objectLid];
+//    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
+//    [request setPredicate:predicate];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([savedBookmarks count] != 0) {
+//        return [savedBookmarks objectAtIndex:0];
+//    }
+//    
+//    return nil;
+//}
+//
+//-(void)fetchAllNamedBookmarkNames {
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity =
+//    
+//    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
+//    
+//    [request setEntity:entity];
+//    
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
+//                                        initWithKey:@"name" ascending:NO];
+//    [request setSortDescriptors:@[sortDescriptor]];
+//    
+//    [request setResultType:NSDictionaryResultType];
+//    
 //    [request setReturnsDistinctResults:YES];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-    [request setSortDescriptors:@[sortDescriptor]];
-    
-    NSError *error = nil;
-    
-    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([savedBookmarks count] != 0) {
-        return savedBookmarks;
-    }
-    
-    return nil;
-}
-
--(BOOL)doesNamedBookmarkExistWithName:(NSString *)name{
-    return [allNamedBookmarkNames containsObject:name];
-}
-
--(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSString *predString = [NSString stringWithFormat:
-                            @"name == '%@'", name];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    
-    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([savedBookmarks count] != 0) {
-        return [savedBookmarks objectAtIndex:0];
-    }
-    
-    return nil;
-}
-
--(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSString *predString = [NSString stringWithFormat:
-                            @"coords == '%@'", coords];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    
-    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([savedBookmarks count] != 0) {
-        return [savedBookmarks objectAtIndex:0];
-    }
-    
-    return nil;
-}
-
--(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForObjectLid:(NSNumber *)objectLid{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSString *predString = [NSString stringWithFormat:
-                            @"objectLID == %@", objectLid];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predString];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    
-    NSArray *savedBookmarks = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([savedBookmarks count] != 0) {
-        return [savedBookmarks objectAtIndex:0];
-    }
-    
-    return nil;
-}
-
--(void)fetchAllNamedBookmarkNamesFromCoreData{
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-    NSEntityDescription *entity =
-    
-    [NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.managedObjectContext];
-    
-    [request setEntity:entity];
-    
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]
-                                        initWithKey:@"name" ascending:NO];
-    [request setSortDescriptors:@[sortDescriptor]];
-    
-    [request setResultType:NSDictionaryResultType];
-    
-    [request setReturnsDistinctResults:YES];
-    [request setPropertiesToFetch :[NSArray arrayWithObject: @"name"]];
-    
-    NSError *error = nil;
-    
-    NSArray *bookmarkNames = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    if ([bookmarkNames count] != 0) {
-        allNamedBookmarkNames = [self simplifyCoreDataDictionaryArray:bookmarkNames withKey:@"name"] ;
-    }
-    else {
-        allNamedBookmarkNames = [[NSMutableArray alloc] init];
-    }
-}
+//    [request setPropertiesToFetch :[NSArray arrayWithObject: @"name"]];
+//    
+//    NSError *error = nil;
+//    
+//    NSArray *bookmarkNames = [self.managedObjectContext executeFetchRequest:request error:&error];
+//    
+//    if ([bookmarkNames count] != 0) {
+//        allNamedBookmarkNames = [self simplifyCoreDataDictionaryArray:bookmarkNames withKey:@"name"] ;
+//    }
+//    else {
+//        allNamedBookmarkNames = [[NSMutableArray alloc] init];
+//    }
+//}
 
 #pragma mark - route history core data methods
 -(BOOL)saveRouteHistoryToCoreData:(NSString *)fromLocation fromCoords:(NSString *)fromCoords andToLocation:(NSString *)toLocation toCoords:(NSString *)toCoords{
@@ -1900,27 +1458,11 @@
     return retArray;
 }
 
--(BOOL)doVersion4_1CoreDataMigration{
-    
-    //Migration due to addition of monochromepicture
-    NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
-    for (NamedBookmark *ndBookmark in namedBookmarks) {
-        if (ndBookmark.monochromeIconName == nil) {
-            ndBookmark.monochromeIconName = [NamedBookmark getMonochromePictureNameForColorPicture:ndBookmark.iconPictureName];
-            [self saveNamedBookmarkToCoreData:ndBookmark];
-        }
-    }
-    
-    return YES;
-}
-
 -(void)doVersion16CoreDataMigration{
     
     //Migration due to addition orders
-    NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
     NSArray *savedRoutes = [self fetchAllSavedRoutesFromCoreData];
     
-    [self updateOrderedManagedObjectOrderTo:namedBookmarks];
     [self updateOrderedManagedObjectOrderTo:savedRoutes];
 }
 
@@ -1937,31 +1479,17 @@
     [[ICloudManager sharedManager] deleteAllRecordsWithCompletion:completionHandler];
 }
 
-- (void)updateSavedNamedBookmarksToICloud {
-    if (![ICloudManager isICloudContainerAvailable]) return;
-    
-    NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarksFromCoreData];
-    [[ICloudManager sharedManager] saveNamedBookmarksToICloud:namedBookmarks];
-}
-
-- (void)deleteNamedBookmarksFromICloud:(NSArray *)namedBookmarks {
-    if (![ICloudManager isICloudContainerAvailable]) return;
-    
-    [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
-}
-
-//- (void)updateSavedStopsToICloud {
+//- (void)updateSavedNamedBookmarksToICloud {
 //    if (![ICloudManager isICloudContainerAvailable]) return;
 //    
-//    NSArray *stops = [self fetchAllSavedStopsFromCoreData];
-//    [[ICloudManager sharedManager] saveStopsToICloud:stops];
+//    NSArray *namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
+//    [[ICloudManager sharedManager] saveNamedBookmarksToICloud:namedBookmarks];
 //}
 //
-//- (void)deleteStopsFromICloud:(NSArray *)stops {
+//- (void)deleteNamedBookmarksFromICloud:(NSArray *)namedBookmarks {
 //    if (![ICloudManager isICloudContainerAvailable]) return;
 //    
-//    [[ICloudManager sharedManager] deleteSavedStopsFromICloud:stops
-//     ];
+//    [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
 //}
 
 - (void)updateSavedRoutesToICloud {

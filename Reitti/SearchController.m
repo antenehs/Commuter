@@ -32,7 +32,7 @@
 #import "DepartureTableViewCell.h"
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 #import "MigrationViewController.h"
 
 #import <StoreKit/StoreKit.h>
@@ -108,7 +108,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         //Do new version migrations
         //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
-        [self.reittiDataManager doVersion4_1CoreDataMigration];
         [self.reittiDataManager doVersion16CoreDataMigration];
         
         [AppManager setCurrentAppVersion];
@@ -1212,7 +1211,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)plotBookmarks {
     [self removeAllAnnotationsOfType:FavouriteType];
     
-    NSArray *namedBookmarks = [reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+    NSArray *namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
     if (namedBookmarks && namedBookmarks.count > 0) {
         for (NamedBookmark *bookmark in namedBookmarks) {
             [self plotNamedBookmarkAnnotation:bookmark withSelect:NO];
@@ -2651,7 +2650,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
         NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
         NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+        NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
         
         addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         addressSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
@@ -2690,8 +2689,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
 //        controller.droppedPinGeoCode = droppedPinGeoCode;
         
-        if ([self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
-            controller.namedBookmark = [self.reittiDataManager fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
+        if ([[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
+            controller.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
             controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
         }else{

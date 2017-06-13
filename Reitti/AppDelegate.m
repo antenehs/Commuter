@@ -22,7 +22,7 @@
 #import "ReittiRegionManager.h"
 #import "WatchCommunicationManager.h"
 #import "ReittiConfigManager.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 @import Firebase;
 
@@ -138,7 +138,7 @@
 }
 
 -(void)openRouteForNamedBookmarkNamed:(NSString *)bookmarkName{
-    NamedBookmark *bookmark = [[RettiDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForName:bookmarkName];
+    NamedBookmark *bookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkForName:bookmarkName];
     if (bookmark) {
         RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:bookmark.name toCoords:bookmark.coords fromLocation:@"Current location" fromCoords:nil];
         [self switchToRouteSearchViewWithRouteParameter:searchParms];

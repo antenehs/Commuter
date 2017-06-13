@@ -51,7 +51,6 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     IBOutlet UIButton *bookmarkButton;
 //    IBOutlet UIButton *seeFullTimeTableButton;
 //    IBOutlet UIButton *showLocationButton;
-    IBOutlet UIActivityIndicatorView *activityView;
 //    IBOutlet UILabel *pressingInfoLabel;
 //    IBOutlet UIBarButtonItem *showLocationBarButtonItem;
     

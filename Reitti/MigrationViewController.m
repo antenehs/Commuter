@@ -8,7 +8,7 @@
 
 #import "MigrationViewController.h"
 #import "JTMaterialSpinner.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 #import "StopTableViewCell.h"
 #import "ASA_Helpers.h"
 #import "AppManager.h"

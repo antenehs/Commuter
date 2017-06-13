@@ -11,7 +11,7 @@
 #import "SettingsManager.h"
 #import "StopEntity.h"
 #import "SettingsManager.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
 NSString *kRecentLinesPatternCodeKey = @"recentLinesPatternCodeKey";

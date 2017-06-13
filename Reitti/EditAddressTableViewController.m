@@ -9,8 +9,7 @@
 #import "EditAddressTableViewController.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "LocationsAnnotation.h"
-#import "CoreDataManager.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 @interface EditAddressTableViewController ()
 
@@ -67,12 +66,7 @@
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-//    [self.tableView reloadData];
-//    self.tableView.tableHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, 160);
-//    self.tableView.tableHeaderView = self.tableView.tableHeaderView;
-//    [self.tableView removeParallaxWithView];
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self.tableView reloadData];
     [self setUpMapView];
 }
@@ -81,9 +75,7 @@
     // Do any additional setup after loading the view.
     
     if (self.reittiDataManager == nil) {
-        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
-        
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
     }
 }
 
@@ -92,10 +84,11 @@
         self.name = [self.addressTypeDictionary objectForKey:@"Name"];
         self.iconName = [self.addressTypeDictionary objectForKey:@"Picture"] == nil ? @"location-75-red.png" : [self.addressTypeDictionary objectForKey:@"Picture"];
         self.monochromeIconName = [self.addressTypeDictionary objectForKey:@"MonochromePicture"] == nil ? @"location-black-50.png" : [self.addressTypeDictionary objectForKey:@"MonochromePicture"];
-    }else if (viewControllerMode == ViewControllerModeViewNamedBookmark){
+    }else if (self.namedBookmark && (viewControllerMode == ViewControllerModeViewNamedBookmark ||
+                                     viewControllerMode == ViewControllerModeEditAddress)){
         self.name = self.namedBookmark.name;
         self.streetAddress = self.namedBookmark.streetAddress;
-        self.city = self.namedBookmark.city;
+        self.city = self.namedBookmark.city ? self.namedBookmark.city : @"";
         self.coords = self.namedBookmark.coords;
         self.iconName = self.namedBookmark.iconPictureName;
         self.monochromeIconName = self.namedBookmark.monochromeIconName;
@@ -435,24 +428,25 @@
             return;
         }
         
-        NamedBookmark *newBookmark = [[NamedBookmark alloc] initWithEntity:[NSEntityDescription entityForName:@"NamedBookmark" inManagedObjectContext:self.reittiDataManager.managedObjectContext] insertIntoManagedObjectContext:nil];
-        newBookmark.name = [nameTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        newBookmark.streetAddress = self.streetAddress;
-        newBookmark.city = self.city;
-        newBookmark.coords = self.coords;
-        newBookmark.iconPictureName = self.iconName;
-        newBookmark.monochromeIconName = self.monochromeIconName;
-        newBookmark.searchedName = self.searchedName;
+        NamedBookmarkData *newBookmarkData = [NamedBookmarkData new];
+        
+        [newBookmarkData setName:[nameTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        [newBookmarkData setStreetAddress:self.streetAddress];
+        [newBookmarkData setCity:self.city];
+        [newBookmarkData setCoords:self.coords];
+        [newBookmarkData setIconPictureName:self.iconName];
+        [newBookmarkData setMonochromeIconName:self.monochromeIconName];
+        [newBookmarkData setSearchedName:self.searchedName];
         
         BOOL dataSaved = NO;
         
         if (viewControllerMode == ViewControllerModeAddNewAddress) {
-            if (![self.reittiDataManager doesNamedBookmarkExistWithName:newBookmark.name]) {
-                self.namedBookmark = [self.reittiDataManager saveNamedBookmarkToCoreData:newBookmark];
+            if (![[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:newBookmarkData.name]) {
+                self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] saveNamedBookmarkToCoreData:newBookmarkData];
                 dataSaved = YES;
                 [self dismissViewControllerAnimated:YES completion:^(){
-                    NSArray *allBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
-                    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmark.name value:allBookmarks ? [NSNumber numberWithInteger:allBookmarks.count] : @0];
+                    NSArray *allBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
+                    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmarkData.name value:allBookmarks ? [NSNumber numberWithInteger:allBookmarks.count] : @0];
                 }];
             }else{
                 [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
@@ -460,24 +454,24 @@
         }else if (viewControllerMode == ViewControllerModeEditAddress){
             
             if (self.geoCode != nil) { //IS creating a new named bookmark from GEOCODE
-                if ([self.reittiDataManager doesNamedBookmarkExistWithName:newBookmark.name]){
+                if ([[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:newBookmarkData.name]){
                     [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
                 }else{
-                    [self.reittiDataManager saveNamedBookmarkToCoreData:newBookmark];
+                    self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] saveNamedBookmarkToCoreData:newBookmarkData];
                     dataSaved = YES;
                 }
             }else if (self.namedBookmark != nil){ //IS editing an existing named bookmark
+                newBookmarkData.objectLid = self.namedBookmark.objectLID;
                 //IF name is not modified, save it silently
-                if ([self.namedBookmark.name isEqualToString:newBookmark.name]) {
-                    [self.reittiDataManager saveNamedBookmarkToCoreData:newBookmark];
-                    self.namedBookmark = newBookmark;
+                if ([self.namedBookmark.name isEqualToString:newBookmarkData.name]) {
+                    self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] saveNamedBookmarkToCoreData:newBookmarkData];
                     dataSaved = YES;
                 }else{
                     //name is modified, ask for overwrite confirmation
-                    if ([self.reittiDataManager doesNamedBookmarkExistWithName:newBookmark.name]){
+                    if ([[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:newBookmarkData.name]){
                         [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
                     }else{
-                        self.namedBookmark = [self.reittiDataManager updateNamedBookmarkToCoreDataWithID:self.namedBookmark.objectLID withNamedBookmark:newBookmark];
+                        self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] saveNamedBookmarkToCoreData:newBookmarkData];
                         dataSaved = YES;
                     }
                 }
@@ -508,7 +502,7 @@
     if (actionSheet.tag == 1001) {
         if (buttonIndex == 0) {
             if (self.namedBookmark != nil) {
-                [self.reittiDataManager deleteNamedBookmarkForName:self.namedBookmark.name];
+                [[NamedBookmarkCoreDataManager sharedManager] deleteNamedBookmarkForName:self.namedBookmark.name];
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         }
@@ -676,7 +670,7 @@
         NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
         NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
         
-        NSArray * namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+        NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
         
         routeSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
         routeSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];

@@ -102,11 +102,10 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock;
 -(void)stopUpdatingBikeStations;
 
-
 -(void)updateOrderedManagedObjectOrderTo:(NSArray *)orderedObjects;
 
 -(BOOL)isRouteSaved:(NSString *)fromString andTo:(NSString *)toString;
--(BOOL)doesNamedBookmarkExistWithName:(NSString *)name;
+//-(BOOL)doesNamedBookmarkExistWithName:(NSString *)name;
 
 -(void)clearHistoryOlderThanDays:(int)numOfDays;
 
@@ -121,14 +120,15 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)deleteAllHistoryRoutes;
 -(NSArray *)fetchAllSavedRouteHistoryFromCoreData;
 
--(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)namedBookmark;
--(NamedBookmark *)createOrUpdateNamedBookmarkFromICLoudRecord:(CKRecord *)record;
--(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark;
--(void)deleteNamedBookmarkForName:(NSString *)name;
--(void)deleteAllNamedBookmarks;
--(NSArray *)fetchAllSavedNamedBookmarksFromCoreData;
--(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForName:(NSString *)name;
--(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
+//-(NamedBookmark *)saveNamedBookmarkToCoreData:(NamedBookmark *)namedBookmark;
+//-(NamedBookmark *)createOrUpdateNamedBookmarkFromICLoudRecord:(CKRecord *)record;
+//-(NamedBookmark *)updateNamedBookmarkToCoreDataWithID:(NSNumber *)objectLid withNamedBookmark:(NamedBookmark *)ndBookmark;
+//-(void)deleteNamedBookmarkForName:(NSString *)name;
+//-(void)deleteAllNamedBookmarks;
+
+//-(NSArray *)fetchAllSavedNamedBookmarks;
+//-(NamedBookmark *)fetchSavedNamedBookmarkForName:(NSString *)name;
+//-(NamedBookmark *)fetchSavedNamedBookmarkFromCoreDataForCoords:(NSString *)coords;
 
 -(void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler;
@@ -139,7 +139,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 -(void)startFetchingAllLiveVehiclesWithCompletionHandler:(ActionBlock)completionHandler;
 -(void)stopFetchingLiveVehicles;
 
--(BOOL)doVersion4_1CoreDataMigration;
 -(void)doVersion16CoreDataMigration;
 
 @property (strong, nonatomic) NSMutableArray *allSavedRouteCodes;
@@ -151,7 +150,6 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 
 @property (strong, nonatomic) RouteEntity *routeEntity;
 @property (strong, nonatomic) RouteHistoryEntity *routeHistoryEntity;
-@property (strong, nonatomic) NamedBookmark *namedBookmark;
 
 @property (nonatomic) Region userLocationRegion;
 

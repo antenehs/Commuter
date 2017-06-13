@@ -19,7 +19,7 @@
 #import "ReittiDateHelper.h"
 #import "DepartureTableViewCell.h"
 #import "ReittiConfigManager.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 #import "LocationsAnnotation.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
@@ -149,7 +149,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 #pragma mark - View methods
 -(void)setUpLoadingView{
-//    [activityView startAnimating];
     [self.activityIndicator beginRefreshing];
     stopView.hidden = YES;
 }
@@ -227,7 +226,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     stopView.hidden = NO;
     fullTimeTableButton.enabled = busStop.timetableLink != nil;
     
-    //    [activityView stopAnimating];
     [self.activityIndicator endRefreshing];
     //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -254,11 +252,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:self.stopName toCoords:coords fromLocation:nil fromCoords:nil];
         self.routeSearchHandler(searchParms);
     }
-}
-
-- (IBAction)BackButtonPressed:(id)sender {
-    [self.reloadTimer invalidate];
-    [self dismissViewControllerAnimated:YES completion:nil ];
 }
 
 - (IBAction)BookmarkButtonPressed:(id)sender {

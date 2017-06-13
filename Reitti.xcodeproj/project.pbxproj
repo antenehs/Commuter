@@ -325,6 +325,10 @@
 		663E1EFD1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663E1EF91CA9D98A00C5543A /* AddressTableViewCell.xib */; };
 		664749DB1AE59B3E0050137E /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
 		664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664749DD1AE59CD70050137E /* VersionInfoViewController.m */; };
+		664884AE1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 664884AD1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m */; };
+		664884AF1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 664884AD1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m */; };
+		664884B31EEF6157006558A2 /* NamedBookmarkData.m in Sources */ = {isa = PBXBuildFile; fileRef = 664884B21EEF6157006558A2 /* NamedBookmarkData.m */; };
+		664884B41EEF6157006558A2 /* NamedBookmarkData.m in Sources */ = {isa = PBXBuildFile; fileRef = 664884B21EEF6157006558A2 /* NamedBookmarkData.m */; };
 		664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */; };
 		664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 664ADFF519929DF5000B4F18 /* GeoCode.m */; };
 		664BAECE1D8ED1890070F15F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 664BAECD1D8ED1890070F15F /* GoogleService-Info.plist */; };
@@ -1631,6 +1635,11 @@
 		664749DA1AE59B3E0050137E /* versionInfo.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = versionInfo.html; sourceTree = "<group>"; };
 		664749DC1AE59CD70050137E /* VersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionInfoViewController.h; sourceTree = "<group>"; };
 		664749DD1AE59CD70050137E /* VersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionInfoViewController.m; sourceTree = "<group>"; };
+		664884AC1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedBookmarkCoreDataManager.h; sourceTree = "<group>"; };
+		664884AD1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedBookmarkCoreDataManager.m; sourceTree = "<group>"; };
+		664884B01EEF203F006558A2 /* CoreDataManagers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataManagers.h; sourceTree = "<group>"; };
+		664884B11EEF6157006558A2 /* NamedBookmarkData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedBookmarkData.h; sourceTree = "<group>"; };
+		664884B21EEF6157006558A2 /* NamedBookmarkData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedBookmarkData.m; sourceTree = "<group>"; };
 		664ADFE619925CC6000B4F18 /* AddressSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressSearchViewController.h; sourceTree = "<group>"; };
 		664ADFE719925CC6000B4F18 /* AddressSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressSearchViewController.m; sourceTree = "<group>"; };
 		664ADFF419929DF5000B4F18 /* GeoCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCode.h; sourceTree = "<group>"; };
@@ -2667,6 +2676,8 @@
 				669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */,
 				667B982F1AD5590D00C45ADF /* NamedBookmark.h */,
 				667B98301AD5590D00C45ADF /* NamedBookmark.m */,
+				664884B11EEF6157006558A2 /* NamedBookmarkData.h */,
+				664884B21EEF6157006558A2 /* NamedBookmarkData.m */,
 				66CC941A18E34C6300644281 /* CookieEntity.h */,
 				66CC941B18E34C6300644281 /* CookieEntity.m */,
 				664E28AE1AE2FC8300BE2457 /* SettingsEntity.h */,
@@ -3243,6 +3254,9 @@
 				66BCA37F1B2F0A2B00166530 /* CoreDataManager.m */,
 				66B7AE871EC79EDB00B233E7 /* StopCoreDataManager.h */,
 				66B7AE881EC79EDB00B233E7 /* StopCoreDataManager.m */,
+				664884AC1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.h */,
+				664884AD1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m */,
+				664884B01EEF203F006558A2 /* CoreDataManagers.h */,
 			);
 			name = "Core Data Managers";
 			sourceTree = "<group>";
@@ -5034,6 +5048,7 @@
 				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
 				66BCA7101D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
+				664884B31EEF6157006558A2 /* NamedBookmarkData.m in Sources */,
 				664E28A11AE2A50300BE2457 /* SettingsViewController.m in Sources */,
 				66F16D131E08AF5200D45613 /* DigiFeatureProperties.m in Sources */,
 				663465E41ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -5048,6 +5063,7 @@
 				66833D561CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66CA03261C17466E00A38858 /* ASABubbleView.m in Sources */,
 				66056E731C42AAFE00C011FB /* VehicleRef.m in Sources */,
+				664884AE1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m in Sources */,
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				660715FE1B45CD2C00033049 /* TicketNames.m in Sources */,
 				665BA1B21CAF05EB0091C180 /* MainTabBarController.m in Sources */,
@@ -5298,6 +5314,7 @@
 				66BCA7111D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66C7333D1C556DA5002544BC /* UIView+Helper.m in Sources */,
 				66C7333E1C556DA5002544BC /* SettingsViewController.m in Sources */,
+				664884B41EEF6157006558A2 /* NamedBookmarkData.m in Sources */,
 				66F16D141E08AF5200D45613 /* DigiFeatureProperties.m in Sources */,
 				66C7333F1C556DA5002544BC /* DisruptionText.m in Sources */,
 				663465E51ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -5312,6 +5329,7 @@
 				66833D571CF8F427005D958C /* DigiIntermediateStops.m in Sources */,
 				66C733471C556DA5002544BC /* ASABubbleView.m in Sources */,
 				66C733481C556DA5002544BC /* VehicleRef.m in Sources */,
+				664884AF1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m in Sources */,
 				66C7334A1C556DA5002544BC /* RouteLeg.m in Sources */,
 				66C7334B1C556DA5002544BC /* TicketNames.m in Sources */,
 				665BA1B31CAF05EB0091C180 /* MainTabBarController.m in Sources */,

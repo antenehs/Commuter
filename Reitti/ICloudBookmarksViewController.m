@@ -12,7 +12,7 @@
 #import "AppManager.h"
 #import "JTMaterialSpinner.h"
 #import "ApiProtocols.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 #import "TableViewCells.h"
 
@@ -71,7 +71,7 @@
     [self showLoading];
     [self.reittiDataManager fetchallBookmarksFromICloudWithCompletionHandler:^(ICloudBookmarks *result, NSString *errorString){
         if (!errorString) {
-            self.dataToLoad = [result getBookmarksExcludingNamedBookmarks:[self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData]
+            self.dataToLoad = [result getBookmarksExcludingNamedBookmarks:[[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks]
                                                                savedStops:[[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData]
                                                               savedRoutes:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
             
@@ -180,7 +180,7 @@
     CKRecord *record = bookmarkCell.iCloudRecord;
     if (!record) return;
     
-    if ([self.reittiDataManager doesNamedBookmarkExistWithName:record[kNamedBookmarkName]]) {
+    if ([[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:record[kNamedBookmarkName]]) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Replace existing bookmark."
                                                                        message:@"Another bookmark exists already with the same name. Would you like to replace it?"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -232,7 +232,7 @@
 }
 
 - (BOOL)saveNamedBookmarkFromRecord:(CKRecord *)record {
-    if ([self.reittiDataManager createOrUpdateNamedBookmarkFromICLoudRecord:record]) {
+    if ([[NamedBookmarkCoreDataManager sharedManager] createOrUpdateNamedBookmarkFromICLoudRecord:record]) {
         [self.alreadySavedRecords addObject:record];
         return YES;
     }

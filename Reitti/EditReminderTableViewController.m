@@ -12,7 +12,7 @@
 #import "CoreDataManager.h"
 #import "EnumManager.h"
 #import "AppManager.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 @interface EditReminderTableViewController ()
 
@@ -338,7 +338,7 @@
         addressSearchViewController.reittiDataManager = dataManager;
         addressSearchViewController.delegate = self;
         addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:[[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData]];
-        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:[dataManager fetchAllSavedNamedBookmarksFromCoreData]];
+        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:[[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks]];
         
         if ([segue.identifier isEqualToString:@"searchFromAddress"]) {
             addressRequestedForFrom = YES;

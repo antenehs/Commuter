@@ -19,7 +19,6 @@ typedef enum
 @interface ReittiAppShortcutManager : NSObject
 
 +(id)sharedManager;
--(id)init;
 
 +(NSString *)shortcutIdentifierStringValue:(ShortcutIdentifier)identifier;
 +(ShortcutIdentifier)shortcutIdentifierFromString:(NSString *)string;

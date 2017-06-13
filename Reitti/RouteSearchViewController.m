@@ -21,7 +21,7 @@
 #import "TableViewCells.h"
 #import "ReittiDateHelper.h"
 #import "WatchCommunicationManager.h"
-#import "StopCoreDataManager.h"
+#import "CoreDataManagers.h"
 
 typedef enum
 {
@@ -216,7 +216,7 @@ typedef enum
     NSArray * _savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
     NSArray * _recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
     NSArray * _recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
-    NSArray * _namedBookmarks = [self.reittiDataManager fetchAllSavedNamedBookmarksFromCoreData];
+    NSArray * _namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
     
     self.savedStops = [NSMutableArray arrayWithArray:_savedStops];
     self.recentStops = [NSMutableArray arrayWithArray:_recentStops];
