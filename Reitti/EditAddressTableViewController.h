@@ -53,7 +53,5 @@ typedef enum
 @property (strong, nonatomic) GeoCode * currentLocationGeoCode;;
 @property (strong, nonatomic) CLLocation * currentUserLocation;
 
-@property(nonatomic, strong)RettiDataManager *reittiDataManager;
-
 @property(nonatomic, strong) NSString *monochromeIconName;
 @end

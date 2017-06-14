@@ -44,6 +44,4 @@
 @property (strong, nonatomic) NSMutableArray * linesFromNearStops;
 @property (strong, nonatomic) NSMutableArray * searchedLines;
 
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
-
 @end

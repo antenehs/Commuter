@@ -22,6 +22,14 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
 
 @interface AddressSearchViewController ()
 
+@property (strong, nonatomic) NSArray * savedStops;
+@property (strong, nonatomic) NSArray * recentStops;
+@property (strong, nonatomic) NSArray * savedRoutes;
+@property (strong, nonatomic) NSArray * recentRoutes;
+@property (strong, nonatomic) NSArray * namedBookmarks;
+
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation AddressSearchViewController
@@ -41,6 +49,11 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
     keyboardType = AddressSearchViewControllerKeyBoardTypeText;
     topBoundary = 70.0;
     
+    if (self.reittiDataManager == nil) {
+        self.reittiDataManager = [[RettiDataManager alloc] init];
+    }
+    
+    [self loadInitialDataa];
     [reittiDataManager resetResponseQueues];
     
     [self setUpMainView];
@@ -50,7 +63,6 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
     [searchResultTableView registerNib:[UINib nibWithNibName:@"NamedBookmarkTableViewCell" bundle:nil] forCellReuseIdentifier:@"poiLocationCell"];
     [searchResultTableView registerNib:[UINib nibWithNibName:@"AddressTableViewCell" bundle:nil] forCellReuseIdentifier:@"addressLocationCell"];
     
-    //TODO: Do this after asking user access with a custom popup.
     [ContactsManager sharedManager]; //Initiate filtering
 }
 
@@ -95,6 +107,23 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
     
     searchResultTableView.backgroundColor = [UIColor clearColor];
     [searchResultTableView setBlurredBackgroundWithImageNamed:nil];
+}
+
+-(void)loadInitialDataa {
+    if (self.prefilDataType == AddressSearchViewControllerPrefilDataTypeSingleAddressed) {
+        self.savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
+        self.recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
+        self.namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
+    } else if (self.prefilDataType == AddressSearchViewControllerPrefilDataTypeTwoAddressed) {
+        self.savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
+        self.recentRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
+    }else if (self.prefilDataType == AddressSearchViewControllerPrefilDataTypeAll) {
+        self.savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
+        self.recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
+        self.savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
+        self.recentRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
+        self.namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
+    }
 }
 
 -(void)setUpMergedInitialSearchView:(bool)animated{
@@ -619,7 +648,6 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
         routeSearchViewController.prevToCoords = selected.toLocationCoordsString;
         routeSearchViewController.prevFromLocation = selected.fromLocationName;
         routeSearchViewController.prevFromCoords = selected.fromLocationCoordsString;
-        routeSearchViewController.reittiDataManager = self.reittiDataManager;
     }
 }
 

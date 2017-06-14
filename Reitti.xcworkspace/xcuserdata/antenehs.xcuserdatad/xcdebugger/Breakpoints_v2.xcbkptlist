@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Reitti/BookmarksViewController.m"
-            timestampString = "519096343.65869"
+            filePath = "Reitti/StopViewController.m"
+            timestampString = "519101577.751249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "682"
-            endingLineNumber = "682"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "-requestStopInfoAsyncForCode:andCoords:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

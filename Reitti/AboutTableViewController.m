@@ -14,6 +14,8 @@
 
 @interface AboutTableViewController ()
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation AboutTableViewController
@@ -25,9 +27,9 @@
     
     if (self.reittiDataManager == nil) {
         self.reittiDataManager = [[RettiDataManager alloc] init];
-        
-        self.settingsManager = [SettingsManager sharedManager];
     }
+    
+    self.settingsManager = [SettingsManager sharedManager];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)

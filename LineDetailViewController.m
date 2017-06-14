@@ -25,6 +25,8 @@
 
 @interface LineDetailViewController ()
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation LineDetailViewController

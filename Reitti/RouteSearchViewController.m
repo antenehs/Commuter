@@ -34,6 +34,8 @@ typedef enum
 @property (nonatomic)TableViewMode tableViewMode;
 @property (nonatomic, strong) id previewingContext;
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation RouteSearchViewController
@@ -167,20 +169,11 @@ typedef enum
 
 #pragma mark - initializations
 - (void)initDataManagerIfNull {
-    // Do any additional setup after loading the view.
+    self.reittiDataManager = [[RettiDataManager alloc] init];
     
-    if (self.reittiDataManager == nil) {
-        
-        self.reittiDataManager = [[RettiDataManager alloc] init];
-        
-        self.settingsManager = [SettingsManager sharedManager];
-        
-        self.droppedPinGeoCode = [[DroppedPinManager sharedManager] droppedPin];
-    }
+    self.settingsManager = [SettingsManager sharedManager];
     
-    if (self.settingsManager == nil) {
-        self.settingsManager = [SettingsManager sharedManager];
-    }
+    self.droppedPinGeoCode = [[DroppedPinManager sharedManager] droppedPin];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationValueChanged:)
@@ -1684,9 +1677,7 @@ typedef enum
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         AddressSearchViewController *addressSearchViewController = [[navigationController viewControllers] lastObject];
         
-        addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:self.savedStops];
-        addressSearchViewController.recentStops = [NSMutableArray arrayWithArray:self.recentStops];
-        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:self.namedBookmarks];
+        addressSearchViewController.prefilDataType = AddressSearchViewControllerPrefilDataTypeSingleAddressed;
         addressSearchViewController.routeSearchMode = YES;
         addressSearchViewController.simpleSearchMode = YES;
         addressSearchViewController.darkMode = self.darkMode;
@@ -1706,7 +1697,6 @@ typedef enum
             activeSearchBar = toSearchBar;
         }
         addressSearchViewController.delegate = self;
-        addressSearchViewController.reittiDataManager = self.reittiDataManager;
         
         isSelectingAddress = YES;
     }

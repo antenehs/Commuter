@@ -45,8 +45,6 @@ typedef enum{
 
 @property (nonatomic) DisruptionViewControllerMode viewControllerMode;
 
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
-
 @property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end

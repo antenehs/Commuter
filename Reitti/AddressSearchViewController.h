@@ -26,11 +26,17 @@
 - (void)searchResultSelectedARoute:(RouteEntity *)routeEntity;
 @end
 
-typedef enum
-{
+typedef enum {
     AddressSearchViewControllerKeyBoardTypeText = 1,
     AddressSearchViewControllerKeyBoardTypeNumber = 2
 } AddressSearchViewControllerKeyBoardType;
+
+typedef enum {
+    AddressSearchViewControllerPrefilDataTypeNone = 0,
+    AddressSearchViewControllerPrefilDataTypeAll = 1,
+    AddressSearchViewControllerPrefilDataTypeSingleAddressed = 2,
+    AddressSearchViewControllerPrefilDataTypeTwoAddressed =3,
+} AddressSearchViewControllerPrefilDataType;
 
 @interface AddressSearchViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UISearchBarDelegate>{
     
@@ -49,16 +55,10 @@ typedef enum
     BOOL isInitialMergedView;
     AddressSearchViewControllerKeyBoardType keyboardType;
     
-//    NSString *pendingSearchTerm;
-    
     float topBoundary;
 }
 
-@property (strong, nonatomic) NSMutableArray * savedStops;
-@property (strong, nonatomic) NSMutableArray * recentStops;
-@property (strong, nonatomic) NSMutableArray * savedRoutes;
-@property (strong, nonatomic) NSMutableArray * recentRoutes;
-@property (strong, nonatomic) NSMutableArray * namedBookmarks;
+@property (nonatomic) AddressSearchViewControllerPrefilDataType prefilDataType;
 
 @property (strong, nonatomic) NSMutableArray * dataToLoad;
 @property (strong, nonatomic) NSMutableArray * additionalGeoCodeResults;
@@ -69,8 +69,6 @@ typedef enum
 @property (strong, nonatomic) NSString * prevSearchTerm;
 
 @property (strong, nonatomic) GeoCode * droppedPinGeoCode;
-
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
 
 @property (nonatomic, weak) id <AddressSearchViewControllerDelegate> delegate;
 

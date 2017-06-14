@@ -331,14 +331,11 @@
         
         AddressSearchViewController *addressSearchViewController = (AddressSearchViewController *)[navigationController.viewControllers lastObject];
         
-        RettiDataManager *dataManager = [[RettiDataManager alloc] init];
-        
+        addressSearchViewController.prefilDataType = AddressSearchViewControllerPrefilDataTypeNone;
         addressSearchViewController.routeSearchMode = YES;
         addressSearchViewController.simpleSearchMode = YES;
-        addressSearchViewController.reittiDataManager = dataManager;
         addressSearchViewController.delegate = self;
-        addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:[[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData]];
-        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:[[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks]];
+        addressSearchViewController.prefilDataType = AddressSearchViewControllerPrefilDataTypeSingleAddressed;
         
         if ([segue.identifier isEqualToString:@"searchFromAddress"]) {
             addressRequestedForFrom = YES;

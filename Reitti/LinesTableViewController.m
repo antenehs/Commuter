@@ -32,6 +32,8 @@
 
 @interface LinesTableViewController ()
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation LinesTableViewController
@@ -88,7 +90,7 @@
 }
 
 #pragma mark - init components methods
--(void)initDataManagers{
+-(void)initDataManagers {
     self.reittiDataManager = [[RettiDataManager alloc] init];
 }
 

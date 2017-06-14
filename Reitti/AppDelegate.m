@@ -146,7 +146,7 @@
 }
 
 -(void)openRouteForSavedRouteNamed:(NSString *)routeUniqueName{
-    RouteEntity *route = [[RettiDataManager sharedManager] fetchSavedRouteFromCoreDataForCode:routeUniqueName];
+    RouteEntity *route = [[RouteCoreDataManager sharedManager] fetchSavedRouteFromCoreDataForCode:routeUniqueName];
     if (route) {
         RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:route.toLocationName toCoords:route.toLocationCoordsString fromLocation:route.fromLocationName fromCoords:route.fromLocationCoordsString];
         [self switchToRouteSearchViewWithRouteParameter:searchParms];

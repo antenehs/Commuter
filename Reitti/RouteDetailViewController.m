@@ -37,6 +37,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 @property (strong, nonatomic) NSArray * allBikeStations;
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation RouteDetailViewController

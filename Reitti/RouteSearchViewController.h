@@ -118,7 +118,6 @@
 
 @property (strong, nonatomic) NSNumber * modalViewControllerMode;
 
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
 @property (strong, nonatomic) CLLocation * currentUserLocation;
 @property (strong, nonatomic) CLLocationManager *locationManager;

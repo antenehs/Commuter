@@ -22,7 +22,6 @@
     NSInteger numberOfDebugRows, numberOfMoreFeatures, numberOfSettingsRows, numberOfCommuterRows , numberOfSection;
     
     BOOL canShowLines;
-//    BOOL canShowDisruptions;
 }
 
 @end

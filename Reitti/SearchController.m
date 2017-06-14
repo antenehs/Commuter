@@ -52,6 +52,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
 @property (strong, nonatomic) IBOutlet AnnotationFilterView *filterAnnotationsView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *filterAnnotationViewWidthConstraint;
 
+
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+@property (strong, nonatomic) SettingsManager *settingsManager;
+
 @end
 
 @implementation SearchController
@@ -330,8 +334,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 - (void)initDataManagers {
     
-    RettiDataManager * dataManger = [[RettiDataManager alloc] init];
-    self.reittiDataManager = dataManger;
+    self.reittiDataManager = [[RettiDataManager alloc] init];
     
     self.settingsManager = [SettingsManager sharedManager];
     
@@ -2516,70 +2519,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
--(void)settingsValueChanged{
-//    
-//    switch ([settingsManager getMapMode]) {
-//        case StandartMapMode:
-//            mapView.mapType = MKMapTypeStandard;
-//            break;
-//            
-//        case HybridMapMode:
-//            mapView.mapType = MKMapTypeHybrid;
-//            break;
-//            
-//        case SateliteMapMode:
-//            mapView.mapType = MKMapTypeSatellite;
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//    
-//    if ([self.reittiDataManager getRegionForCoords:mapView.region.center] != [settingsManager userLocation]) {
-//        [self.reittiDataManager setUserLocation:[settingsManager userLocation]];
-//        [self centerMapRegionToCoordinate:[RettiDataManager getCoordinateForRegion:[settingsManager userLocation]]];
-//    }
-//    
-//    [self fetchDisruptions];
+-(void)settingsValueChanged {
     
-}
-
-#pragma mark - Bookmarks view delegate
-
-- (void)savedStopSelected:(NSNumber *)code fromMode:(int)mode{
-//    bookmarkViewMode = mode;
-////    [self hideStopView:YES animated:NO];
-//    [self requestStopInfoAsyncForCode:[NSString stringWithFormat:@"%d", [code intValue]]];
-//    [self showProgressHUD];
-}
-
-- (void)viewControllerWillBeDismissed:(int)mode{
-    bookmarkViewMode = mode;
-}
-
-- (void)deletedSavedStopForCode:(NSNumber *)code{
-//    [self.reittiDataManager deleteSavedStopForCode:code];
-}
-
-- (void)deletedHistoryStopForCode:(NSNumber *)code{
-//    [self.reittiDataManager deleteHistoryStopForCode:code];
-}
-
-- (void)deletedSavedRouteForCode:(NSString *)code{
-//    [self.reittiDataManager deleteSavedRouteForCode:code];
-}
-- (void)deletedHistoryRouteForCode:(NSString *)code{
-//    [self.reittiDataManager deleteHistoryRouteForCode:code];
-}
-
-- (void)deletedAllSavedStops{
-//    [self.reittiDataManager deleteAllSavedStop];
-//    [self.reittiDataManager deleteAllSavedroutes];
-}
-
-- (void)deletedAllHistoryStops{
-//    [self.reittiDataManager deleteAllHistoryStop];
-//    [self.reittiDataManager deleteAllHistoryRoutes];
 }
 
 -(RouteSearchFromStopHandler)stopViewRouteSearchHandler {
@@ -2627,24 +2568,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         AddressSearchViewController *addressSearchViewController = [[navigationController viewControllers] lastObject];
         
-        NSArray * savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
-        NSArray * savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
-        NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
-        NSArray * recentRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
-        NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
-        
-        addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
-        addressSearchViewController.recentStops = [NSMutableArray arrayWithArray:recentStops];
-        addressSearchViewController.savedRoutes = [NSMutableArray arrayWithArray:savedRoutes];
-        addressSearchViewController.recentRoutes = [NSMutableArray arrayWithArray:recentRoutes];
-        addressSearchViewController.namedBookmarks = [NSMutableArray arrayWithArray:namedBookmarks];
-        
+        addressSearchViewController.prefilDataType = AddressSearchViewControllerPrefilDataTypeAll;
         addressSearchViewController.routeSearchMode = NO;
         addressSearchViewController.simpleSearchMode = YES;
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
         addressSearchViewController.delegate = self;
-        //FIXME: THis should be dealt with. Is messsy
-        addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     if ([segue.identifier isEqualToString:@"showSettings"]) {
@@ -2661,24 +2589,19 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         controller.namedBookmark = selectedNamedBookmark;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
-        controller.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     if ([segue.identifier isEqualToString:@"showGeoCode"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
-//        controller.droppedPinGeoCode = droppedPinGeoCode;
-        
         if ([[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
             controller.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
-            controller.reittiDataManager = [[RettiDataManager alloc] init];
         }else{
             controller.geoCode = selectedGeoCode;
             controller.currentUserLocation = self.currentUserLocation;
             controller.viewControllerMode = ViewControllerModeViewGeoCode;
-            controller.reittiDataManager = [[RettiDataManager alloc] init];
         }
     }
     
@@ -2741,7 +2664,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         {
             JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)annotationView.annotation;
             if ([EnumManager isNearbyStopAnnotationType:stopAnnotation.thumbnail.annotationType] || stopAnnotation.thumbnail.annotationType == SearchedStopType) {
-                stopCode = [NSString stringWithFormat:@"%d", [stopAnnotation.code intValue]];
+                stopCode = stopAnnotation.code;
                 stopCoords = stopAnnotation.coordinate;
                 stopShortCode = stopAnnotation.thumbnail.shortCode;
                 stopName = stopAnnotation.thumbnail.title;

@@ -13,7 +13,6 @@
 
 @interface AboutTableViewController : UITableViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end

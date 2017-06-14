@@ -31,6 +31,8 @@ const NSInteger kTimerRefreshInterval = 60;
 @property (nonatomic, readonly) BOOL showRouteSuggestions;
 @property (nonatomic, readonly) BOOL showStopDepartures;
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation BookmarksViewController
@@ -49,7 +51,7 @@ const NSInteger kTimerRefreshInterval = 60;
 @synthesize savedNamedBookmarks;
 @synthesize mode, darkMode;
 @synthesize dataToLoad;
-@synthesize delegate;
+//@synthesize delegate;
 @synthesize _tintColor;
 @synthesize reittiDataManager, settingsManager;
 @synthesize namedBRouteDetail;
@@ -693,8 +695,6 @@ const NSInteger kTimerRefreshInterval = 60;
         }
     }
     @catch (NSException *exception) {
-//        NSLog(NSLog@"Exception when displaying table: %@", [exception description]);
-        //This is to leave on extra empty row
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     

@@ -44,7 +44,6 @@
 @property (strong, nonatomic) StaticRoute *staticRoute;
 
 @property (strong, nonatomic) Line *line;
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end

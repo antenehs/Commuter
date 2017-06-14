@@ -8,13 +8,13 @@
 
 #import "ReittiEmailAndShareManager.h"
 #import "AppManager.h"
-#import "RettiDataManager.h"
+#import "SettingsManager.h"
 
 NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
 
 @interface ReittiEmailAndShareManager ()
 
-@property (nonatomic, strong)RettiDataManager *reittiDataManager;
+@property (nonatomic, strong)SettingsManager *settingsManager;
 
 @end
 
@@ -35,7 +35,7 @@ NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
     self = [super init];
     
     if (self) {
-        self.reittiDataManager = [[RettiDataManager alloc] init];
+        self.settingsManager = [SettingsManager sharedManager];
     }
     
     return self;
@@ -129,7 +129,7 @@ NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
     [debugText appendString:[NSString stringWithFormat:@"iOS Version: %@\n", [AppManager iosVersionNumber]]];
     [debugText appendString:[NSString stringWithFormat:@"Device: %@\n\n", [AppManager iosDeviceModel]]];
     
-    [debugText appendString:[NSString stringWithFormat:@"Region: %u\n\n", [self.reittiDataManager userLocationRegion]]];
+    [debugText appendString:[NSString stringWithFormat:@"Region: %u\n\n", [self.settingsManager userLocation]]];
     [debugText appendString:@"============END============\n\n"];
     
     return debugText;

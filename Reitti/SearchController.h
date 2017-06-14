@@ -55,7 +55,7 @@ typedef enum
     MainMapViewModeStopsAndLive = 2
 } MainMapViewMode;
 
-@interface SearchController : UIViewController<SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate, BookmarksViewControllerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate, UIViewControllerPreviewingDelegate>{
+@interface SearchController : UIViewController<SettingsDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate, SWTableViewCellDelegate,AddressSearchViewControllerDelegate, UIViewControllerPreviewingDelegate>{
     IBOutlet UISearchBar *mainSearchBar;
     IBOutlet UIButton *currentLocationButton;
     IBOutlet UIButton *infoAndAboutButton;
@@ -193,8 +193,5 @@ typedef enum
 @property (strong, nonatomic)NSArray * disruptionList;
 @property (nonatomic)RSearchResultViewMode searchResultListViewMode;
 @property (strong, nonatomic)CLLocation * currentUserLocation;
-
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
-@property (strong, nonatomic) SettingsManager *settingsManager;
 
 @end

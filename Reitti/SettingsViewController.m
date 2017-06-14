@@ -8,9 +8,9 @@
 
 #import "SettingsViewController.h"
 #import "RettiDataManager.h"
-#import "SearchController.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
+#import "WebViewController.h"
 
 NSInteger kHistoryCleaningDaysSelectionViewControllerTag = 1001;
 NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
@@ -26,16 +26,8 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-//    self.advancedSettingsMode = YES;
-    
-    if (settingsManager == nil) {
-        UINavigationController * homeViewNavController = (UINavigationController *)[[self.tabBarController viewControllers] objectAtIndex:0];
-        SearchController *homeViewController = (SearchController *)[[homeViewNavController viewControllers] lastObject];
-        
-        self.settingsManager = homeViewController.settingsManager;
-    }
+    self.settingsManager = [SettingsManager sharedManager];
     
     dayNumbers = @[@1, @5, @10, @15, @30, @90, @180, @365];
     dayStrings = @[@"1 day", @"5 days", @"10 days", @"15 days", @"30 days", @"3 months", @"6 months", @"1 year"];

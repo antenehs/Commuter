@@ -726,14 +726,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     stopFetchFailMessage = error;
     
     [departuresTable reloadData];
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error                                                                                      message:nil
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
     
     [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@2];
-//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Seague
@@ -762,9 +756,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             routeSearchViewController.prevFromLocation = self.stopName;
             routeSearchViewController.prevFromCoords = [NSString stringWithFormat:@"%f,%f",self.stopCoords.longitude, self.stopCoords.latitude];
         }
-        
-        routeSearchViewController.reittiDataManager = self.reittiDataManager;
-        //        routeSearchViewController.reittiDataManager = self.reittiDataManager;
         
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From stop" value:nil];
     }

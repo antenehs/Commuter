@@ -16,17 +16,6 @@
 
 @class BookmarksViewController;
 
-@protocol BookmarksViewControllerDelegate <NSObject>
-- (void)savedStopSelected:(NSNumber *)code fromMode:(int)mode;
-- (void)viewControllerWillBeDismissed:(int)mode;
-- (void)deletedSavedStopForCode:(NSNumber *)code;
-- (void)deletedHistoryStopForCode:(NSNumber *)code;
-- (void)deletedSavedRouteForCode:(NSString *)code;
-- (void)deletedHistoryRouteForCode:(NSString *)code;
-- (void)deletedAllSavedStops;
-- (void)deletedAllHistoryStops;
-@end
-
 @interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIBarButtonItem *widgetSettingButton;
@@ -77,9 +66,5 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
 @property (strong, nonatomic) SettingsManager * settingsManager;
-
-@property (strong, nonatomic) RettiDataManager *reittiDataManager;
-
-@property (nonatomic, weak) id <BookmarksViewControllerDelegate> delegate;
 
 @end

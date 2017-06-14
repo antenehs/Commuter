@@ -16,6 +16,8 @@
 
 @interface DisruptionViewController ()
 
+@property (strong, nonatomic) RettiDataManager *reittiDataManager;
+
 @end
 
 @implementation DisruptionViewController
