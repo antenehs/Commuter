@@ -29,25 +29,18 @@
 }
 
 -(void)setupFromRouteEntity:(RouteEntity *)stopEntity{
+    if (!stopEntity) return;
+    
     self.routeEntity = stopEntity;
     
     self.iCloudDownloadButton.hidden = YES;
-    self.dateLabel.hidden = YES;
     
     self.toLabel.text = stopEntity.toLocationName;
     self.fromLabel.text = stopEntity.fromLocationName;
-}
-
--(void)setupFromHistoryEntity:(RouteHistoryEntity *)historyEntity{
-    self.routeHistoryEntity = historyEntity;
     
-    self.iCloudDownloadButton.hidden = YES;
-    self.dateLabel.hidden = NO;
-    
-    self.toLabel.text = historyEntity.toLocationName;
-    self.fromLabel.text = historyEntity.fromLocationName;
-    
-    self.dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:historyEntity.dateModified];
+    self.dateLabel.hidden = !stopEntity.isHistoryRoute;
+    if(stopEntity.isHistoryRoute)
+        self.dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:stopEntity.dateModified];
 }
 
 -(void)setupFromRoute:(Route *)route{

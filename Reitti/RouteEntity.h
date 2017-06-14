@@ -18,5 +18,10 @@
 @property (nonatomic, retain) NSString * fromLocationCoordsString;
 @property (nonatomic, retain) NSString * toLocationName;
 @property (nonatomic, retain) NSString * toLocationCoordsString;
+@property (nonatomic, retain) NSNumber * isHistory;
+
+@property (nonatomic, readonly) BOOL isHistoryRoute;
+
++(NSString *)uniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc;
 
 @end

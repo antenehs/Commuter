@@ -213,9 +213,9 @@ typedef enum
 
 - (void)loadData {
     NSArray * _savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
-    NSArray * _savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+    NSArray * _savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
     NSArray * _recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
-    NSArray * _recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+    NSArray * _recentRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
     NSArray * _namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
     
     self.savedStops = [NSMutableArray arrayWithArray:_savedStops];
@@ -588,7 +588,7 @@ typedef enum
     if (fromString != nil && fromCoords != nil && toString != nil && toCoords != nil){
         bookmarkRouteButton.enabled = YES;
         //Check if route is saved already
-        if([self.reittiDataManager isRouteSaved:fromString andTo:toString]){
+        if([[RouteCoreDataManager sharedManager] isRouteSaved:fromString andTo:toString]){
             [self setRouteBookmarkedState];
         }else{
             [self setRouteNotBookmarkedState];
@@ -727,7 +727,7 @@ typedef enum
             actionSheet.tag = 1001;
             [actionSheet showInView:self.view];
         }else{
-            [self.reittiDataManager saveRouteToCoreData:fromString fromCoords:fromCoords andToLocation:toString andToCoords:toCoords];
+            [[RouteCoreDataManager sharedManager] saveRouteToCoreData:fromString fromCoords:fromCoords andToLocation:toString andToCoords:toCoords];
             [self setRouteBookmarkedState];
             
             [delegate routeModified];
@@ -742,7 +742,7 @@ typedef enum
 {
     if (actionSheet.tag == 1001) {
         if (buttonIndex == 0) {
-            [self.reittiDataManager deleteSavedRouteForCode:[RettiDataManager generateUniqueRouteNameFor:fromString andToLoc:toString]];
+            [[RouteCoreDataManager sharedManager] deleteSavedRouteForCode:[RouteEntity uniqueRouteNameFor:fromString andToLoc:toString]];
             [self setRouteNotBookmarkedState];
             
             [delegate routeModified];
@@ -820,7 +820,7 @@ typedef enum
     [self initRefreshControl]; // In case it was set to nil
     
     if (![fromSearchBar.text isEqualToString:currentLocationText] || ![toSearchBar.text isEqualToString:currentLocationText]) {
-        [self.reittiDataManager saveRouteHistoryToCoreData:fromString fromCoords:fromCoords andToLocation:toString toCoords:toCoords];
+        [[RouteCoreDataManager sharedManager] saveRouteHistoryToCoreData:fromString fromCoords:fromCoords andToLocation:toString toCoords:toCoords];
     }
     
     [self setBookmarkButtonStatus];
@@ -950,18 +950,14 @@ typedef enum
             }
             
             [(NamedBookmarkTableViewCell *)cell setupFromNamedBookmark:namedBookmark];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
+        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
             cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
-            RouteEntity *routeEntity = [RouteEntity alloc];
+            RouteEntity *routeEntity;
             if (indexPath.row < self.dataToLoad.count) {
                 routeEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             }
             
-            if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
-                [(RouteTableViewCell *)cell setupFromHistoryEntity:(RouteHistoryEntity *)routeEntity];
-            }else{
-                [(RouteTableViewCell *)cell setupFromRouteEntity:routeEntity];
-            }
+            [(RouteTableViewCell *)cell setupFromRouteEntity:routeEntity];
         }
         
         cell.backgroundColor = [UIColor clearColor];
@@ -1182,7 +1178,7 @@ typedef enum
             toCoords = namedBookmark.coords;
         
             [self searchRouteIfPossible];
-        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
+        }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]){
             RouteEntity *routeEntity = [self.dataToLoad objectAtIndex:indexPath.row];
             
             [self setTextToSearchBar:fromSearchBar text:routeEntity.fromLocationName];

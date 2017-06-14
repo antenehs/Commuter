@@ -22,6 +22,7 @@
 #import "LVThumbnailAnnotation.h"
 #import "BikeStation.h"
 #import "ReittiModels.h"
+#import "WatchCommunicationManager.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * 180.0 / M_PI)

@@ -24,7 +24,7 @@
     [super viewDidLoad];
     
     if (self.reittiDataManager == nil) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
+        self.reittiDataManager = [[RettiDataManager alloc] init];
         
         self.settingsManager = [SettingsManager sharedManager];
     }

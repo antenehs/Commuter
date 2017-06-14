@@ -153,6 +153,11 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 -(void)fetchAllBookmarksWithCompletionHandler:(ActionBlock)completionHandler {
+    if (![ICloudManager isICloudContainerAvailable]) {
+        completionHandler(nil, @"No iCloud container found");
+        return;
+    }
+    
     ICloudBookmarks *bookmarks = [ICloudBookmarks new];
     
     __block int totalCount = 3;
@@ -199,6 +204,11 @@ NSString *SavedRouteType = @"SavedRoute";
 }
 
 -(void)deleteAllRecordsWithCompletion:(ActionBlock)completion {
+    if (![ICloudManager isICloudContainerAvailable]) {
+        completion(@"No iCloud container found");
+        return;
+    }
+    
     [self fetchAllBookmarksWithCompletionHandler:^(ICloudBookmarks *bookmaks, NSString *error){
         if (!error ) {
             NSArray *allRecordIds = bookmaks.allRecordIds;

@@ -11,7 +11,6 @@
 #import "RettiDataManager.h"
 #import "StopEntity.h"
 #include "RouteEntity.h"
-#include "RouteHistoryEntity.h"
 #import "GeoCode.h"
 
 @class AddressSearchViewController;

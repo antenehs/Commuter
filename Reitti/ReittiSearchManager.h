@@ -19,7 +19,6 @@ typedef enum
 @interface ReittiSearchManager : NSObject
 
 +(id)sharedManager;
--(id)init;
 
 -(void)updateSearchableIndexes;
 

@@ -16,5 +16,14 @@
 @dynamic fromLocationCoordsString;
 @dynamic toLocationName;
 @dynamic toLocationCoordsString;
+@dynamic isHistory;
+
+-(BOOL)isHistoryRoute {
+    return self.isHistory ? [self.isHistory boolValue] : YES;
+}
+
++(NSString *)uniqueRouteNameFor:(NSString *)fromLoc andToLoc:(NSString *)toLoc {
+    return [NSString stringWithFormat:@"%@ - %@",fromLoc, toLoc];
+}
 
 @end

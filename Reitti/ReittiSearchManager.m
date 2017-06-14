@@ -142,8 +142,6 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
 
 @interface ReittiSearchManager ()
 
-@property (nonatomic, strong)RettiDataManager *reittiDataManager;
-
 @end
 
 @implementation ReittiSearchManager
@@ -157,15 +155,6 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
     });
     
     return sharedManager;
-}
-
--(id)init{
-    self = [super init];
-    if (self) {
-        self.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:[[CoreDataManager sharedManager] managedObjectContext]];
-    }
-    
-    return self;
 }
 
 -(void)updateSearchableIndexes{
@@ -245,7 +234,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
             if (!error) {
                 NSMutableArray *searchableItems = [@[] mutableCopy];
                 
-                NSArray *savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+                NSArray *savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
                 
                 if (savedRoutes != nil && savedRoutes.count > 0) {
                     for (RouteEntity *savedRoute in savedRoutes) {

@@ -16,5 +16,6 @@
 @dynamic fromLocationCoordsString;
 @dynamic fromLocationName;
 @dynamic toLocationName;
+@dynamic isHistory;
 
 @end

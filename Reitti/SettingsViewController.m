@@ -10,6 +10,7 @@
 #import "RettiDataManager.h"
 #import "SearchController.h"
 #import "AppManager.h"
+#import "ASA_Helpers.h"
 
 NSInteger kHistoryCleaningDaysSelectionViewControllerTag = 1001;
 NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;

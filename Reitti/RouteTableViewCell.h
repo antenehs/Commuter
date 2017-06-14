@@ -13,7 +13,6 @@
 
 -(void)setupFromICloudRecord:(CKRecord *)record;
 -(void)setupFromRouteEntity:(RouteEntity *)stopEntity;
--(void)setupFromHistoryEntity:(RouteHistoryEntity *)historyEntity;
 -(void)setupFromRoute:(Route *)route;
 
 -(void)startDownloadActivity;
@@ -32,6 +31,5 @@
 //Data sources
 @property (strong, nonatomic)CKRecord *iCloudRecord;
 @property (strong, nonatomic)RouteEntity *routeEntity;
-@property (strong, nonatomic)RouteHistoryEntity *routeHistoryEntity;
 
 @end

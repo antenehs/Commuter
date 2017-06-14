@@ -673,9 +673,9 @@
         RouteSearchViewController *routeSearchViewController = (RouteSearchViewController *)[navigationController.viewControllers lastObject];
         
         NSArray * savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
-        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+        NSArray * savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
         NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
-        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+        NSArray * recentRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
         
         NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
         

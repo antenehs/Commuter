@@ -165,13 +165,8 @@ typedef enum
 }
 
 -(void)initDataComponentsAndModules;
--(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext;
-//-(void)openRouteSearchView;
-//-(void)openRouteViewToNamedBookmarkNamed:(NSString *)bookmarkName;
 -(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute;
 -(void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo;
-//-(void)openBookmarksView;
-//-(void)openWidgetSettingsView;
 -(void)openStopViewForCode:(NSString *)code;
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
@@ -201,8 +196,5 @@ typedef enum
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
-
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 
 @end

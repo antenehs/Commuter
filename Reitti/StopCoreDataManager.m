@@ -100,7 +100,7 @@
     NSArray *savedStops = [super fetchObjectsForEntityNamed:@"StopEntity" predicateString:predString];
     
     if ([savedStops count] != 0) {
-        return [savedStops objectAtIndex:0];
+        return [savedStops firstObject];
     }
     
     return nil;
@@ -122,7 +122,7 @@
     [self saveToCoreDataStop:stop isHistory:YES];
 }
 
--(void)saveToCoreDataStop:(BusStop *)stop isHistory:(BOOL)isHistory{
+-(void)saveToCoreDataStop:(BusStop *)stop isHistory:(BOOL)isHistory {
     if (!stop)
         return;
     
@@ -229,7 +229,7 @@
         
         NSMutableArray *stopsToDelete = [@[] mutableCopy];
         NSArray *allStopHistory = [self fetchAllSavedStopHistoryFromCoreData];
-        for (HistoryEntity *stop in allStopHistory) {
+        for (StopEntity *stop in allStopHistory) {
             if (stop.dateModified != nil) {
                 if ([stop.dateModified timeIntervalSinceNow] < -(numOfDays * 24 * 60 * 60)) {
                     [stopsToDelete addObject:stop];

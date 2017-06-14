@@ -7,9 +7,6 @@
 //
 
 #import "BookmarksViewController.h"
-#import "StopEntity.h"
-#import "RouteEntity.h"
-#import "RouteHistoryEntity.h"
 #import "StopViewController.h"
 #import "RouteSearchViewController.h"
 #import "SearchController.h"
@@ -466,7 +463,7 @@ const NSInteger kTimerRefreshInterval = 60;
         if (mode == 0) {
 //            [delegate deletedAllSavedStops];
             [[StopCoreDataManager sharedManager] deleteAllSavedStop];
-            [self.reittiDataManager deleteAllSavedroutes];
+            [[RouteCoreDataManager sharedManager] deleteAllSavedroutes];
             [[NamedBookmarkCoreDataManager sharedManager] deleteAllNamedBookmarks];
             
             //NO need to hide the widget settings button
@@ -474,7 +471,7 @@ const NSInteger kTimerRefreshInterval = 60;
         }else{
 //            [delegate deletedAllHistoryStops];
             [[StopCoreDataManager sharedManager] deleteAllHistoryStop];
-            [self.reittiDataManager deleteAllHistoryRoutes];
+            [[RouteCoreDataManager sharedManager] deleteAllHistoryRoutes];
         }
         
         [dataToLoad removeAllObjects];
@@ -681,19 +678,15 @@ const NSInteger kTimerRefreshInterval = 60;
                 leavesTime.hidden = YES;
                 arrivesTime.hidden = YES;
             }
-        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
             RouteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
             
-            RouteEntity *routeEntity = [RouteEntity alloc];
+            RouteEntity *routeEntity;
             if (dataIndex < self.dataToLoad.count) {
                 routeEntity = [self.dataToLoad objectAtIndex:dataIndex];
             }
             
-            if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]) {
-                [cell setupFromHistoryEntity:(RouteHistoryEntity *)routeEntity];
-            }else{
-                [cell setupFromRouteEntity:routeEntity];
-            }
+            [cell setupFromRouteEntity:routeEntity];
             
             cell.backgroundColor = [UIColor clearColor];
             return cell;
@@ -812,8 +805,7 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 // Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
         StopEntity *deletedStop;
@@ -823,7 +815,7 @@ const NSInteger kTimerRefreshInterval = 60;
             deletedStop = [dataToLoad objectAtIndex:dataIndex];
             if (listSegmentControl.selectedSegmentIndex == 1)
                 [dataToLoad removeObject:deletedStop];
-        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+        }else if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
             deletedRoute = [dataToLoad objectAtIndex:dataIndex];
             if (listSegmentControl.selectedSegmentIndex == 1)
                 [dataToLoad removeObject:deletedRoute];
@@ -836,7 +828,7 @@ const NSInteger kTimerRefreshInterval = 60;
         
         if (mode == 0) {
             if (deletedRoute != nil) {
-                [self.reittiDataManager deleteSavedRouteForCode:deletedRoute.routeUniqueName];
+                [[RouteCoreDataManager sharedManager] deleteSavedRouteForCode:deletedRoute.routeUniqueName];
                 [savedRoutes removeObject:deletedRoute];
             }else if (deletedNamedBookmark != nil) {
                 [[NamedBookmarkCoreDataManager sharedManager] deleteNamedBookmarkForName:deletedNamedBookmark.name];
@@ -847,7 +839,7 @@ const NSInteger kTimerRefreshInterval = 60;
             }
         }else{
             if (deletedRoute != nil) {
-                [self.reittiDataManager deleteHistoryRouteForCode:deletedRoute.routeUniqueName];
+                [[RouteCoreDataManager sharedManager] deleteHistoryRouteForCode:deletedRoute.routeUniqueName];
                 [recentRoutes removeObject:deletedRoute];
             }else{
                 [[StopCoreDataManager sharedManager] deleteHistoryStopForCode:deletedStop.stopGtfsId];
@@ -912,14 +904,13 @@ const NSInteger kTimerRefreshInterval = 60;
         [self.savedStops removeObject: movedStop];
         [self.savedStops insertObject:movedStop atIndex:toIndexPath.row];
         
-//        [self.reittiDataManager updateOrderedManagedObjectOrderTo:self.savedStops];
         [[StopCoreDataManager sharedManager] updateStopsOrderTo:self.savedStops];
     } else {
         id movedRoute = self.savedRoutes[fromIndexPath.row];
         [self.savedRoutes removeObject: movedRoute];
         [self.savedRoutes insertObject:movedRoute atIndex:toIndexPath.row];
         
-        [self.reittiDataManager updateOrderedManagedObjectOrderTo:self.savedRoutes];
+        [[RouteCoreDataManager sharedManager] updateRoutesOrderTo:self.savedRoutes];
     }
     
     [self loadSavedValues];
@@ -955,8 +946,7 @@ const NSInteger kTimerRefreshInterval = 60;
 {
     NSInteger dataIndex = [self dataIndexForIndexPath:indexPath];
     if (dataIndex < self.dataToLoad.count) {
-        if([self.dataToLoad[dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [self.dataToLoad[dataIndex] isKindOfClass:[RouteEntity class]]){
-//            [self performSegueWithIdentifier:@"routeSelected" sender:self];
+        if([self.dataToLoad[dataIndex] isKindOfClass:[RouteEntity class]]){
             RouteEntity * routeEntity = [self.dataToLoad objectAtIndex:dataIndex];
             
             RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:routeEntity.toLocationName toCoords:routeEntity.toLocationCoordsString fromLocation:routeEntity.fromLocationName fromCoords:routeEntity.fromLocationCoordsString];
@@ -964,7 +954,6 @@ const NSInteger kTimerRefreshInterval = 60;
             
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From saved route" value:nil];
         }else if([self.dataToLoad[dataIndex] isKindOfClass:[NamedBookmark class]]){
-            //            [self performSegueWithIdentifier:@"routeSelected" sender:self];
             NamedBookmark *namedBookmark = [self.dataToLoad objectAtIndex:dataIndex];
             
             RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:namedBookmark.name toCoords:namedBookmark.coords fromLocation:nil fromCoords:nil];
@@ -1254,9 +1243,9 @@ const NSInteger kTimerRefreshInterval = 60;
 
 - (void)loadSavedValues{
     NSArray * sStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
-    NSArray * sRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+    NSArray * sRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
     NSArray * rStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
-    NSArray * rRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+    NSArray * rRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
     NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
     
     self.savedStops = [NSMutableArray arrayWithArray:sStops];
@@ -1323,9 +1312,9 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 - (void)routeModified{
     //Fetch saved route list again
-    savedRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
+    savedRoutes = [NSMutableArray arrayWithArray:[[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData]];
     
-    recentRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData]];
+    recentRoutes = [NSMutableArray arrayWithArray:[[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData]];
 }
 
 - (NSArray *)sortedNamedBookmarksByLocationTo:(CLLocationCoordinate2D)coords{
@@ -1500,34 +1489,12 @@ const NSInteger kTimerRefreshInterval = 60;
 }
 
 - (RouteSearchViewController *)routeSearchViewControllerForNamedBookmark:(NamedBookmark *)namedBookmark{
-//    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
-//        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-//        
-//        routeSearchViewController.prevToLocation = namedBookmark.name;
-//        routeSearchViewController.prevToCoords = namedBookmark.coords;
-//        
-//        routeSearchViewController.delegate = self;
-//        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
-//    }
-    
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:namedBookmark.name toCoords:namedBookmark.coords fromLocation:nil fromCoords:nil];
     
     return [self routeSearchViewWithRouteParameter:searchParms];
 }
 
 - (RouteSearchViewController *)routeSearchControllerForRouteEntity:(RouteEntity *)routeEntity{
-//    if ([navigationController.topViewController isKindOfClass:[RouteSearchViewController class]]) {
-//        RouteSearchViewController *routeSearchViewController = [[navigationController viewControllers] lastObject];
-//        
-//        routeSearchViewController.prevToLocation = routeEntity.toLocationName;
-//        routeSearchViewController.prevToCoords = routeEntity.toLocationCoordsString;
-//        routeSearchViewController.prevFromLocation = routeEntity.fromLocationName;
-//        routeSearchViewController.prevFromCoords = routeEntity.fromLocationCoordsString;
-//        
-//        routeSearchViewController.delegate = self;
-//        routeSearchViewController.managedObjectContext = self.reittiDataManager.managedObjectContext;
-//    }
-    
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:routeEntity.toLocationName toCoords:routeEntity.toLocationCoordsString fromLocation:routeEntity.fromLocationName fromCoords:routeEntity.fromLocationCoordsString];
     
     return [self routeSearchViewWithRouteParameter:searchParms];
@@ -1565,26 +1532,16 @@ const NSInteger kTimerRefreshInterval = 60;
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Route to named bookmark" value:nil];
             
             NamedBookmark * selected = [self.dataToLoad objectAtIndex:dataIndex];
-//
-//            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
+
             return [self routeSearchViewControllerForNamedBookmark:selected];
-            
-//            [navigationController setNavigationBarHidden:YES];
-            
-//            return navigationController;
         }
         
-        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteHistoryEntity class]]  || [[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
+        if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[RouteEntity class]]){
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionUsed3DTouch label:@"Viewed saved route" value:nil];
             
             RouteEntity * selected = [self.dataToLoad objectAtIndex:dataIndex];
-            
-//            UINavigationController *navigationController = (UINavigationController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASARouteSearchNavigationController"];
+
             return [self routeSearchControllerForRouteEntity:selected];
-            
-//            [navigationController setNavigationBarHidden:YES];
-            
-//            return navigationController;
         }
         
         if ([[self.dataToLoad objectAtIndex:dataIndex] isKindOfClass:[StopEntity class]]){

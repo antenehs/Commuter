@@ -16,6 +16,7 @@
 #import "TableViewCells.h"
 #import "ContactsManager.h"
 #import "ReittiMapkitHelper.h"
+#import "CoreDataManagers.h"
 
 typedef void(^PendingSearchBlock)(NSString *searchTerm);
 
@@ -63,7 +64,7 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
     }
     
     if (!routeSearchMode) {
-        savedRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
+        savedRoutes = [NSMutableArray arrayWithArray:[[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData]];
         [searchResultTableView reloadData];
     }
     
@@ -338,7 +339,7 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.backgroundColor = [UIColor clearColor];
         return cell;
-    }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]] || [[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteHistoryEntity class]]) {
+    }else if ([[self.dataToLoad objectAtIndex:indexPath.row] isKindOfClass:[RouteEntity class]]) {
         
         RouteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"savedRouteCell"];
         
@@ -347,11 +348,7 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
             routeEntity = [self.dataToLoad objectAtIndex:indexPath.row];
         }
         
-        if ([routeEntity isKindOfClass:[RouteHistoryEntity class]]) {
-            [cell setupFromHistoryEntity:(RouteHistoryEntity *)routeEntity];
-        }else{
-            [cell setupFromRouteEntity:routeEntity];
-        }
+        [cell setupFromRouteEntity:routeEntity];
         
         cell.toLabel.attributedText = [ReittiStringFormatter highlightSubstringInString: routeEntity.toLocationName substring:addressSearchBar.text withNormalFont:cell.toLabel.font];
         cell.fromLabel.attributedText = [ReittiStringFormatter highlightSubstringInString:[NSString stringWithFormat:@"%@", routeEntity.fromLocationName] substring:addressSearchBar.text withNormalFont:cell.fromLabel.font];
@@ -429,8 +426,7 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
         [self dismissViewControllerAnimated:YES completion:^{
             [delegate searchResultSelectedAStop:selectedStopEntity];
         }];
-    }else if([selectedAddress isKindOfClass:[RouteEntity class]] || [selectedAddress isKindOfClass:[RouteHistoryEntity class]]){
-//        [self performSegueWithIdentifier:@"savedRouteSelected" sender:self];
+    }else if([selectedAddress isKindOfClass:[RouteEntity class]]){
         RouteEntity * selected = selectedAddress;
         [self dismissViewControllerAnimated:NO completion:^{
             if ([delegate respondsToSelector:@selector(searchResultSelectedARoute:)]) {
@@ -474,7 +470,7 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
 
 #pragma mark - route search view delegate
 - (void)routeModified{
-    savedRoutes = [NSMutableArray arrayWithArray:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
+    savedRoutes = [NSMutableArray arrayWithArray:[[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData]];
 }
 
 #pragma mark - helper methods
@@ -530,7 +526,7 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
     if(key.length > 1)
         [searched addObjectsFromArray:[[ContactsManager sharedManager] getContactsForSearchTerm:key]];
     
-    for (RouteHistoryEntity *routeHistoryEntity in recentRoutes) {
+    for (RouteEntity *routeHistoryEntity in recentRoutes) {
         if ([[routeHistoryEntity.fromLocationName lowercaseString] containsString:key ]) {
             [searched addObject:routeHistoryEntity];
         }else if ([[routeHistoryEntity.toLocationName lowercaseString] containsString:key]) {

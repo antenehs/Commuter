@@ -11,6 +11,7 @@
 #import "BookmarksViewController.h"
 #import "SearchController.h"
 #import <MapKit/MapKit.h>
+#import "ASA_Helpers.h"
 
 @interface MainTabBarController ()
 
@@ -31,12 +32,6 @@
     [super viewDidLoad];
     
     [[UITabBar appearance] setTintColor:[AppManager systemGreenColor]];
-    
-//    UITabBar *tabBar = self.tabBar;
-//    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
-//    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
-//    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-//    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     
     self.mapTabBarItem.title = @"Map";
     UIImage *image1 = [UIImage imageNamed:@"globe-filled-100.png"];

@@ -18,5 +18,6 @@
 @property (nonatomic, retain) NSString * fromLocationCoordsString;
 @property (nonatomic, retain) NSString * fromLocationName;
 @property (nonatomic, retain) NSString * toLocationName;
+@property (nonatomic, retain) NSNumber * isHistory;
 
 @end

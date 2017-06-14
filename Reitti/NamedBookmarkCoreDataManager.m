@@ -13,6 +13,8 @@
 #import "ReittiSearchManager.h"
 #import "RouteEntity.h"
 #import "RouteHistoryEntity.h"
+#import "ReittiRemindersManager.h"
+#import "RouteCoreDataManager.h"
 
 NSString *kNamedBookmarkEntityName = @"NamedBookmark";
 
@@ -70,6 +72,8 @@ NSString *kNamedBookmarkEntityName = @"NamedBookmark";
     
     if(bookmarkToSave) { //Exist already
         [self deleteNamedBookmarksFromICloud:@[bookmarkToSave]];
+        [self updateSavedAndHistoryRoutesWithLocation:bookmarkToSave.name
+                                          withNewData:namedBookmarkData];
     }else{
         bookmarkToSave = [self createNewNamedBookmark];
         //TODO: This doesnt work. Has to reset orders of others
@@ -79,7 +83,6 @@ NSString *kNamedBookmarkEntityName = @"NamedBookmark";
     [bookmarkToSave updateValuesFromNamedBookmarkData:namedBookmarkData];
     [super saveReittiManagedObject:bookmarkToSave];
     
-    [self updateSavedAndHistoryRoutesForNamedBookmark:bookmarkToSave];
     [self updatedBookmarksWithNotification:YES];
     
     return bookmarkToSave;
@@ -240,58 +243,17 @@ NSString *kNamedBookmarkEntityName = @"NamedBookmark";
     [[ICloudManager sharedManager] deleteNamedBookmarksFromICloud:namedBookmarks];
 }
 
--(void)updateSavedAndHistoryRoutesForNamedBookmark:(NamedBookmark *)bookmark {
-    //TODO
-    /*
-    NSArray *savedRoutes = [self fetchSavedRouteFromCoreDataForNamedBookmarkName:bookmark.name];
+-(void)updateSavedAndHistoryRoutesWithLocation:(NSString *)locationName withNewData:(NamedBookmarkData *)newBookmark {
+    [[RouteCoreDataManager sharedManager] updateSavedAndHistoryRoutesWithLocation:locationName
+                                                              withNewLocationName:newBookmark.name
+                                                                     withNewCoord:newBookmark.coords];
     
-    for (RouteEntity *entity in savedRoutes) {
-        if ([entity.toLocationName isEqualToString:bookmark.name]) {
-            entity.toLocationCoordsString = bookmark.coords;
-        }
-        
-        if ([entity.fromLocationName isEqualToString:bookmark.name]) {
-            entity.fromLocationCoordsString = bookmark.coords;
-        }
-        
-        [self saveManagedObject:entity];
-    }
-    
-    NSArray *historyRoutes = [self fetchRouteHistoryFromCoreDataForNamedBookmarkName:bookmark.name];
-    
-    for (RouteHistoryEntity *entity in historyRoutes) {
-        if ([entity.toLocationName isEqualToString:bookmark.name]) {
-            entity.toLocationCoordsString = bookmark.coords;
-        }
-        
-        if ([entity.fromLocationName isEqualToString:bookmark.name]) {
-            entity.fromLocationCoordsString = bookmark.coords;
-        }
-        
-        [self saveManagedObject:entity];
-    }
-    
-    [[ReittiRemindersManager sharedManger] updateRoutineForDeletedBookmarkNamed:bookmark.name];
-     */
+    [[ReittiRemindersManager sharedManger] updateRoutineForDeletedBookmarkNamed:locationName];
 }
 
 -(void)deleteSavedAndHistoryRoutesForNamedBookmark:(NamedBookmark *)bookmark {
-    //TODO
-    /*
-    NSArray *savedRoutes = [self fetchSavedRouteFromCoreDataForNamedBookmarkName:bookmark.name];
-    
-    for (RouteEntity *entity in savedRoutes) {
-        [self deleteSavedRouteForCode:entity.routeUniqueName];
-    }
-    
-    NSArray *historyRoutes = [self fetchRouteHistoryFromCoreDataForNamedBookmarkName:bookmark.name];
-    
-    for (RouteHistoryEntity *entity in historyRoutes) {
-        [self deleteHistoryRouteForCode:entity.routeUniqueName];
-    }
-    
+    [[RouteCoreDataManager sharedManager] deleteSavedAndHistoryRoutesForLocationName:bookmark.name];
     [[ReittiRemindersManager sharedManger] updateRoutineForDeletedBookmarkNamed:bookmark.name];
-     */
 }
 
 #pragma mark - Order

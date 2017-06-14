@@ -56,7 +56,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 @implementation SearchController
 
-@synthesize managedObjectContext;
 @synthesize reittiDataManager, settingsManager;
 //@synthesize stopViewController;
 @synthesize searchViewHidden;
@@ -102,13 +101,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         } else {
             [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
             
-            //Do this only once for this version.
-            [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *error){}];
+            //Do this only once for this version. To clean change in device id
+            [[ICloudManager sharedManager] deleteAllRecordsWithCompletion:^(NSString *error){}];
         }
-        
-        //Do new version migrations
-        //TODO: The next version me - Esti be clever here and find a way for supporting a version jumping update
-        [self.reittiDataManager doVersion16CoreDataMigration];
         
         [AppManager setCurrentAppVersion];
     } else {
@@ -333,26 +328,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self plotBookmarks];
 }
 
--(void)initDataComponentsAndModulesWithManagedObjectCOntext:(NSManagedObjectContext *)mngdObjectContext {
-    self.managedObjectContext = mngdObjectContext;
-    [self initDataComponentsAndModules];
-}
-
 - (void)initDataManagers {
-    if (self.managedObjectContext == nil) {
-        self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
-    }
     
-    RettiDataManager * dataManger = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
-    //dataManger.managedObjectContext = self.managedObjectContext;
+    RettiDataManager * dataManger = [[RettiDataManager alloc] init];
     self.reittiDataManager = dataManger;
     
     self.settingsManager = [SettingsManager sharedManager];
-    
-    //Clean history more than the specified date
-    if ([settingsManager isClearingHistoryEnabled]) {
-        [self.reittiDataManager clearHistoryOlderThanDays:[settingsManager numberOfDaysToKeepHistory]];
-    }
     
     //StartVehicleFetching
     if ([settingsManager showLiveVehicles]) {
@@ -2012,7 +1993,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)openRouteViewForSavedRouteWithName:(NSString *)savedRoute{
-    RouteEntity *route = [self.reittiDataManager fetchSavedRouteFromCoreDataForCode:savedRoute];
+    RouteEntity *route = [[RouteCoreDataManager sharedManager] fetchSavedRouteFromCoreDataForCode:savedRoute];
     if (route) {
         RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:route.toLocationName toCoords:route.toLocationCoordsString fromLocation:route.fromLocationName fromCoords:route.fromLocationCoordsString];
         [self switchToRouteSearchViewWithRouteParameter:searchParms];
@@ -2647,9 +2628,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         AddressSearchViewController *addressSearchViewController = [[navigationController viewControllers] lastObject];
         
         NSArray * savedStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData];
-        NSArray * savedRoutes = [self.reittiDataManager fetchAllSavedRoutesFromCoreData];
+        NSArray * savedRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData];
         NSArray * recentStops = [[StopCoreDataManager sharedManager] fetchAllSavedStopHistoryFromCoreData];
-        NSArray * recentRoutes = [self.reittiDataManager fetchAllSavedRouteHistoryFromCoreData];
+        NSArray * recentRoutes = [[RouteCoreDataManager sharedManager] fetchAllSavedRouteHistoryFromCoreData];
         NSArray * namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
         
         addressSearchViewController.savedStops = [NSMutableArray arrayWithArray:savedStops];
@@ -2663,7 +2644,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         addressSearchViewController.prevSearchTerm = mainSearchBar.text;
         addressSearchViewController.delegate = self;
         //FIXME: THis should be dealt with. Is messsy
-        addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        addressSearchViewController.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     if ([segue.identifier isEqualToString:@"showSettings"]) {
@@ -2680,7 +2661,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         
         controller.namedBookmark = selectedNamedBookmark;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
-        controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        controller.reittiDataManager = [[RettiDataManager alloc] init];
     }
     
     if ([segue.identifier isEqualToString:@"showGeoCode"]) {
@@ -2692,12 +2673,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if ([[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords] != nil) {
             controller.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] fetchSavedNamedBookmarkFromCoreDataForCoords:selectedGeoCode.coords];
             controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
-            controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            controller.reittiDataManager = [[RettiDataManager alloc] init];
         }else{
             controller.geoCode = selectedGeoCode;
             controller.currentUserLocation = self.currentUserLocation;
             controller.viewControllerMode = ViewControllerModeViewGeoCode;
-            controller.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+            controller.reittiDataManager = [[RettiDataManager alloc] init];
         }
     }
     
@@ -2729,7 +2710,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         stopViewController.stopName = busStop.name;
         
         stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
-        stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        stopViewController.reittiDataManager = [[RettiDataManager alloc] init];
     }
 }
 
@@ -2741,7 +2722,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         stopViewController.stopName = selectedStopName;
         
         stopViewController.routeSearchHandler = [self stopViewRouteSearchHandler];
-        stopViewController.reittiDataManager = [[RettiDataManager alloc] initWithManagedObjectContext:self.managedObjectContext];
+        stopViewController.reittiDataManager = [[RettiDataManager alloc] init];
     }
 }
 

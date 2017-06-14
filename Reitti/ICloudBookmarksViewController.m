@@ -69,11 +69,11 @@
 
 -(void)fetchBookmarks {
     [self showLoading];
-    [self.reittiDataManager fetchallBookmarksFromICloudWithCompletionHandler:^(ICloudBookmarks *result, NSString *errorString){
+    [self fetchallBookmarksFromICloudWithCompletionHandler:^(ICloudBookmarks *result, NSString *errorString){
         if (!errorString) {
             self.dataToLoad = [result getBookmarksExcludingNamedBookmarks:[[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks]
                                                                savedStops:[[StopCoreDataManager sharedManager] fetchAllSavedStopsFromCoreData]
-                                                              savedRoutes:[self.reittiDataManager fetchAllSavedRoutesFromCoreData]];
+                                                              savedRoutes:[[RouteCoreDataManager sharedManager] fetchAllSavedRoutesFromCoreData]];
             
             BOOL thereAreOtherDevices = [[[result allBookmarksGrouped] allKeys] count] > 1;
             if (self.dataToLoad.allKeys.count == 0 && thereAreOtherDevices) {
@@ -88,6 +88,14 @@
             [self showErrorWithMessage:errorString];
         }
     }];
+}
+
+- (void)fetchallBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler {
+    [[ICloudManager sharedManager] fetchAllBookmarksWithCompletionHandler:completionHandler];
+}
+
+-(void)deleteAllBookmarksFromICloudWithCompletionHandler:(ActionBlock)completionHandler {
+    [[ICloudManager sharedManager] deleteAllRecordsWithCompletion:completionHandler];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -163,7 +171,7 @@
 - (IBAction)resetButtonTapped:(id)sender {
     [self showLoading];
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    [self.reittiDataManager deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *errorString) {
+    [self deleteAllBookmarksFromICloudWithCompletionHandler:^(NSString *errorString) {
         if (errorString) {
             [self showErrorWithMessage:errorString];
         } else {
@@ -280,7 +288,7 @@
 - (void)saveRouteFromRecord:(CKRecord *)record {
     if (!record || !record[kRouteUniqueName]) return;
     
-    [self.reittiDataManager saveRouteToCoreData:record[kRouteFromLocaiton] fromCoords:record[kRouteFromCoords] andToLocation:record[kRouteToLocation] andToCoords:record[kRouteToCoords]];
+    [[RouteCoreDataManager sharedManager] saveRouteToCoreData:record[kRouteFromLocaiton] fromCoords:record[kRouteFromCoords] andToLocation:record[kRouteToLocation] andToCoords:record[kRouteToCoords]];
 }
 
 - (void)animateDownloadButtonChange:(UIButton *)button {

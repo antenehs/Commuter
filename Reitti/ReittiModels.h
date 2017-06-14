@@ -37,9 +37,7 @@
 
 
 #import "StopEntity.h"
-#import "HistoryEntity.h"
 #import "RouteEntity.h"
-#import "RouteHistoryEntity.h"
 #import "NamedBookmark.h"
 #import "CookieEntity.h"
 #import "SettingsEntity.h"
