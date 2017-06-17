@@ -8,23 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "AnnotationProtocols.h"
 
-typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
-
-typedef enum
-{
-    DefaultAddressLocation = 0,
-    StartLocation = 1,
-    DestinationLocation = 2,
-    StopLocation = 3,
-    TransferStopLocation = 4,
-    OtherStopLocation = 5,
-    BikeStationLocation = 6,
-    ServicePointAnnotationType = 7,
-    SalesPointAnnotationType = 8
-} AnnotationLocationType;
-
-@interface LocationsAnnotation : NSObject<MKAnnotation>{
+@interface LocationsAnnotation : NSObject<MKAnnotation, ReittiAnnotationProtocol>{
     
     NSString *title;
     CLLocationCoordinate2D coordinate;
@@ -37,12 +23,25 @@ typedef enum
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
-@property (nonatomic, readonly) AnnotationLocationType locationType;
 
+//Positive -> up
+@property (nonatomic) CGPoint imageCenterOffset;
+@property (nonatomic) CGSize preferedSize;
+
+//ReittiAnnotationProtocol
+@property (nonatomic, weak) id associatedObject;
+@property (nonatomic, strong) NSString *uniqueIdentifier;
+@property (nonatomic) ReittiAnnotationType locationType;
 @property (nonatomic, copy) AnnotationActionBlock calloutAccessoryAction;
 
+@property (nonatomic) BOOL shrinksWhenZoomedOut;
+@property (nonatomic, strong) UIColor *shrinkedImageColor;
+@property (nonatomic) NSInteger shrinkingZoomLevel;
+
+@property (nonatomic) BOOL disappearsWhenZoomedOut;
+@property (nonatomic) NSInteger disappearingZoomLevel;
 
 
-- (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andLocationType:(AnnotationLocationType)type;
+- (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andLocationType:(ReittiAnnotationType)type;
 
 @end

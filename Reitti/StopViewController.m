@@ -21,6 +21,8 @@
 #import "ReittiConfigManager.h"
 #import "CoreDataManagers.h"
 #import "LocationsAnnotation.h"
+#import "MapViewManager.h"
+#import "MappingExtensions.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
 typedef AlertControllerAction (^ActionGenerator)(int minutes);
@@ -30,16 +32,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
 @property (nonatomic) NSTimer *reloadTimer;
 
+@property (strong, nonatomic) MapViewManager *mapViewManager;
+
 @end
 
 @implementation StopViewController
-
-#define CUSTOME_FONT(s) [UIFont fontWithName:@"Aspergit" size:s]
-#define CUSTOME_FONT_BOLD(s) [UIFont fontWithName:@"AspergitBold" size:s]
-#define CUSTOME_FONT_LIGHT(s) [UIFont fontWithName:@"AspergitLight" size:s]
-
-#define SYSTEM_GRAY_COLOR [UIColor colorWithWhite:0.1 alpha:1]
-#define SYSTEM_GREEN_COLOR [UIColor colorWithRed:39.0/255.0 green:174.0/255.0 blue:96.0/255.0 alpha:1.0];
 
 //@synthesize StopView;
 @synthesize modalMode;
@@ -91,7 +88,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self setNeedsStatusBarAppearanceUpdate];
     
     mapView = [[MKMapView alloc] init];
-    mapView.delegate = self;
+//    mapView.delegate = self;
+    self.mapViewManager = [MapViewManager managerForMapView:mapView];
     
     [self initNotifications];
     
@@ -366,34 +364,39 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     NSString * name = stopGtfsId;
     NSString * shortCode = stopGtfsId;
     
-    LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords andLocationType:StopLocation];
-    newAnnotation.code = stopGtfsId;
-    
-    [mapView addAnnotation:newAnnotation];
-    
-}
-
-- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    static NSString *selectedIdentifier = @"selectedLocation";
-    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
-        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
-        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
-        annotationView.enabled = YES;
-
-        if (_busStop) {
-            annotationView.image = [AppManager stopAnnotationImageForStopType:_busStop.stopType];
-        }else{
-            annotationView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
-        }
+    if (_busStop) {
+        id annotation = [_busStop basicLocationAnnotation];
+        if(annotation) [self.mapViewManager plotAnnotations:@[annotation]];
+    } else {
+        LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:shortCode andSubtitle:name andCoordinate:stopCoords andLocationType:StopLocation];
+        newAnnotation.code = stopGtfsId;
+        newAnnotation.imageNameForView = [AppManager stopAnnotationImageNameForStopType:StopTypeBus];
         
-        [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
-        annotationView.centerOffset = CGPointMake(0,-21);
-        
-        return annotationView;
+        [mapView addAnnotation:newAnnotation];
     }
-    
-    return nil;
 }
+
+//- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+//    static NSString *selectedIdentifier = @"selectedLocation";
+//    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
+//        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
+//        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
+//        annotationView.enabled = YES;
+//
+//        if (_busStop) {
+//            annotationView.image = [AppManager stopAnnotationImageForStopType:_busStop.stopType];
+//        }else{
+//            annotationView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
+//        }
+//        
+//        [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
+//        annotationView.centerOffset = CGPointMake(0,-21);
+//        
+//        return annotationView;
+//    }
+//    
+//    return nil;
+//}
 
 #pragma mark - reminder methods
 - (void)setStopBookmarkedState{

@@ -67,8 +67,10 @@
 @property (nonatomic) NSInteger waitingTimeInSeconds;
 @property (nonatomic) bool showDetailed;
 @property (nonatomic) int legOrder;
-@property (nonatomic, retain) NSString * startLocName;
-@property (nonatomic, retain) NSString * endLocName;
+@property (nonatomic, retain) NSString *startLocName;
+@property (nonatomic, retain) NSString *endLocName;
+@property (nonatomic, retain) NSString * lineDestination;
+@property (nonatomic, strong) NSArray *fullLineShapeLocations;
 
 //Derived properties
 @property (nonatomic, strong)NSDate * departureTime;

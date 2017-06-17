@@ -14,18 +14,16 @@
 #import "StaticRoute.h"
 #import "AMBlurView.h"
 #import "JTMaterialSpinner.h"
-#import "MapPlottingViewController.h"
+#import "MapViewManager.h"
 
-@interface LineDetailViewController : MapPlottingViewController <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface LineDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     
     CLLocationCoordinate2D upperBound;
     CLLocationCoordinate2D lowerBound;
     CLLocationCoordinate2D leftBound;
     CLLocationCoordinate2D rightBound;
     
-    NSString *selectedAnnotionStopShortCode, *selectedAnnotionStopName;
-    NSString *selectedAnnotionStopCode;
-    CLLocationCoordinate2D selectedAnnotationStopCoords;
+    IBOutlet MKMapView *mapView;
     
     IBOutlet UILabel *nameLabel;
     IBOutlet AMBlurView *tableViewContainerView;

@@ -563,8 +563,7 @@ typedef enum : NSUInteger {
             
             completionHandler(reittiVehicles, nil);
         } else {
-            if (lineCodes.count > 1)
-                [self stopFetchingVehicles];
+            [self stopFetchingVehicles];                
             
             completionHandler(nil, @"Vehicle fetching failed");
         }

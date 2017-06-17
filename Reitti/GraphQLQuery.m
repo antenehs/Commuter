@@ -225,7 +225,7 @@
         case GraphQLQueryTypeAlert:
             return @"AlertQuery";
         default:
-            assert(false);
+            NSAssert(false, @"");
             return nil;
     }
 }
@@ -257,7 +257,7 @@
         case GraphQLQueryTypeStopTime:
             return @"StopTimeFragment";
         default:
-            assert(false);
+            NSAssert(false, @"");
             return nil;
     }
 }

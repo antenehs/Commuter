@@ -54,6 +54,12 @@ itineraries {
         },
         trip {
             tripHeadsign,
+            pattern {
+                geometry {
+                    lat,
+                    lon
+                }
+            },
             route {
                 [*SHORT_ROUTE_FRAGMENT*]
             },

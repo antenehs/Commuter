@@ -32,12 +32,14 @@
 @property(nonatomic) int legOrder;
 @property(nonatomic, strong, readonly) NSString *lineName;
 @property(nonatomic, strong, readonly) NSString *lineGtfsId;
-@property(nonatomic)LegTransportType legType;
+@property(nonatomic, strong, readonly) NSString *lineDestination;
+@property(nonatomic, readonly)LegTransportType legType;
 //@property(nonatomic)NSInteger waitingTimeInSeconds;
 @property (nonatomic, strong) NSDate *parsedStartTime;
 @property (nonatomic, strong) NSDate *parsedEndTime;
-@property (nonatomic) CLLocationCoordinate2D startCoords;
-@property (nonatomic) CLLocationCoordinate2D destinationCoords;
+@property (nonatomic, readonly) CLLocationCoordinate2D startCoords;
+@property (nonatomic, readonly) CLLocationCoordinate2D destinationCoords;
+@property (nonatomic, strong, readonly) NSArray *fullTripShapeLocations;
 
 //+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 //- (instancetype)initWithDictionary:(NSDictionary *)dict;

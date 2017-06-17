@@ -34,6 +34,7 @@
 #import "AnnotationFilterView.h"
 #import "CoreDataManagers.h"
 #import "MigrationViewController.h"
+#import "MapViewManager.h"
 
 #import <StoreKit/StoreKit.h>
 
@@ -55,6 +56,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
+@property (strong, nonatomic) MapViewManager *mapViewManager;
 
 @end
 
@@ -77,8 +79,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 @synthesize droppedPinGeoCode;
 @synthesize mapView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -86,8 +87,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return self;
 }
 
-- (void)viewDidLoad
-{
+-(void)viewDidLoad {
     [super viewDidLoad];
     
     [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
@@ -128,7 +128,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     currentLocationButton.hidden = YES; // just to prevent annoying color splash on sreen when view loads
 }
 
-- (void)showRateAppNotification{
+-(void)showRateAppNotification{
     appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
     
     if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
@@ -161,7 +161,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
 }
 
-- (void)showGoProNotification{
+-(void)showGoProNotification{
     if ([AppManager getAndIncrimentAppOpenCountForGoingPro] < 8)
         return;
     
@@ -192,7 +192,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)appWillEnterForeground:(NSNotification *)notification {
+-(void)appWillEnterForeground:(NSNotification *)notification {
     [self initDeparturesRefreshTimer];
     [self initDisruptionFetching];
     
@@ -206,7 +206,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self startFetchingBikeStations];
 }
 
-- (void)appWillEnterBackground:(NSNotification *)notification {
+-(void)appWillEnterBackground:(NSNotification *)notification {
     [departuresRefreshTimer invalidate];
     [refreshTimer invalidate];
     
@@ -231,7 +231,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [mainSearchBar asa_setTextColorAndPlaceholderText:[UIColor whiteColor] placeHolderColor:[UIColor lightTextColor]];
     
-//    [self setNavBarSize];
     [mainSearchBar setPlaceholder:@"address, stop or place"];
     
     //StartVehicleFetching
@@ -266,17 +265,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-//    [self setNavBarSize];
-    
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self hideNearByStopsView:[self isNearByStopsListViewHidden] animated:YES];
     
     [centerLocatorView removeFromSuperview];
     [mapView addSubview:centerLocatorView];
 }
 
-- (id<UILayoutSupport>)bottomLayoutGuide {
+-(id<UILayoutSupport>)bottomLayoutGuide {
     return [[MyFixedLayoutGuide alloc]initWithLength:bottomLayoutGuide];
 }
 
@@ -288,14 +284,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)dealloc {
+-(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
 
 #pragma - mark initialization Methods
 
-- (void)initDataComponentsAndModules {
+-(void)initDataComponentsAndModules {
     [self updateFilter]; //This should be called first.
     [self initVariablesAndConstants];
     [self initDataManagers];
@@ -304,17 +300,17 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self registerFor3DTouchIfAvailable];
 }
 
-- (void)updateAppShortcuts {
+-(void)updateAppShortcuts {
     if([UIApplicationShortcutItem class]){
         [[ReittiAppShortcutManager sharedManager] updateAppShortcuts];
     }
 }
 
-- (void)reindexSavedDataForSpotlight{
+-(void)reindexSavedDataForSpotlight{
     [[ReittiSearchManager sharedManager] updateSearchableIndexes];
 }
 
-- (void)initViewComponents {
+-(void)initViewComponents {
     /*init View Components*/
     
     [currentLocationButton asa_updateAsCurrentLocationButtonWithBorderColor:[AppManager systemGreenColor] animated:NO];
@@ -332,11 +328,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self plotBookmarks];
 }
 
-- (void)initDataManagers {
+-(void)initDataManagers {
     
     self.reittiDataManager = [[RettiDataManager alloc] init];
     
     self.settingsManager = [SettingsManager sharedManager];
+    
+    self.mapViewManager = [MapViewManager managerForMapView:mapView];
+    mapView.delegate = self;
     
     //StartVehicleFetching
     if ([settingsManager showLiveVehicles]) {
@@ -367,7 +366,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
-- (void)initGuestureRecognizers {
+-(void)initGuestureRecognizers {
     stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
     [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
@@ -383,7 +382,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.mapView addGestureRecognizer:mapViewTapGestureRecognizer];
 }
 
-- (void)initVariablesAndConstants {
+-(void)initVariablesAndConstants {
     //Vars
     topLayoutGuide = 46;
     bottomLayoutGuide = -10;
@@ -449,11 +448,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [centerLocatorView addGestureRecognizer:centerTapRecognizer];
 }
 
-- (CGRect)centerLocatorFrameForCenter:(CGPoint)center{
+-(CGRect)centerLocatorFrameForCenter:(CGPoint)center{
     return CGRectMake(center.x - 12, center.y + 12, 24, 24);
 }
 
-- (void)updateCenterLocationPosition{
+-(void)updateCenterLocationPosition{
     if ([self shouldShowDroppedPin]) {
         CGPoint centerPoint = [self visibleMapRectCenter];
         if (centerLocatorView == nil)
@@ -471,7 +470,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)bounceAnimateCenterLocator {
+-(void)bounceAnimateCenterLocator {
     //Do spring animation
     CGRect originalFrame = centerLocatorView.frame;
     CGRect shrinkedFrame = CGRectMake(originalFrame.origin.x + 8, originalFrame.origin.y + 8, originalFrame.size.width - 16, originalFrame.size.height - 16);
@@ -490,7 +489,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-- (void)updateFilter {
+-(void)updateFilter {
     if ([AppManager isProVersion]) {
         NSArray *optionsForRegion = [reittiDataManager annotationFilterOptions];
         
@@ -504,7 +503,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self updateFilterView];
 }
 
-- (void)updateFilterView {
+-(void)updateFilterView {
     if (self.annotationFilter.filterOptions == nil) {
         self.filterAnnotationsView.hidden = YES;
     } else {
@@ -522,7 +521,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)updateViewForFilterChange:(AnnotationFilter *)newFilter changedOption:(AnnotationFilterOption *)changedOption {
+-(void)updateViewForFilterChange:(AnnotationFilter *)newFilter changedOption:(AnnotationFilterOption *)changedOption {
     self.annotationFilter = newFilter;
     
     //If enabled,
@@ -549,12 +548,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionFilteredStops label:[NSString stringWithFormat:@"%@ - %@", changedOption.name, changedOption.isEnabled ? @"On" : @"Off"] value:nil];
 }
 
-- (void)hideFilterViewOptions {
+-(void)hideFilterViewOptions {
     [self.filterAnnotationsView setFilterOptionsHidden:YES];
 }
 
 #pragma mark - Nav bar and toolbar methods
-- (void)setNavBarSize {
+-(void)setNavBarSize {
     CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
     UIView *titleView = self.navigationItem.titleView;
     CGRect titleViewFrame = titleView.frame;
@@ -563,7 +562,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.view layoutIfNeeded];
 }
 
-- (void)setNavBarApearance{
+-(void)setNavBarApearance{
     [self setNavBarSize];
     [self.navigationItem setTitle:@""];
     //Set search bar text color
@@ -579,11 +578,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(int)searchViewLowerBound{
     return self.view.bounds.origin.y;
 }
-
-#pragma mark - extension methods
-//- (void)setBookmarkedStopsToDefaults{
-//    [[StopCoreDataManager sharedManager] updateSavedStopsDefaultValueForStops];
-//}
 
 #pragma mark - Annotation helpers
 -(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
@@ -681,11 +675,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return _stopDetailMap;
 }
 
-- (BusStop *)getDetailStopForBusStopShort:(BusStopShort *)shortStop{
+-(BusStop *)getDetailStopForBusStopShort:(BusStopShort *)shortStop{
     return [self.stopDetailMap objectForKey:shortStop.gtfsId];
 }
 
-- (BusStop *)getDetailStopForTableViewCell:(NSInteger)section{
+-(BusStop *)getDetailStopForTableViewCell:(NSInteger)section{
     if (nearByStopList.count > section) {
         BusStopShort *stopForCell = [nearByStopList objectAtIndex:section];
         return [self getDetailStopForBusStopShort:stopForCell];
@@ -694,17 +688,17 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return nil;
 }
 
-- (void)setDetailStopForBusStopShort:(BusStopShort *)shortStop busStop:(BusStop *)stop{
+-(void)setDetailStopForBusStopShort:(BusStopShort *)shortStop busStop:(BusStop *)stop{
     if (stop) {
         [self.stopDetailMap setObject:stop forKey:shortStop.gtfsId];
     }
 }
 
-- (void)clearStopDetailMap{
+-(void)clearStopDetailMap{
     [self.stopDetailMap removeAllObjects];
 }
 
-- (BOOL)isthereValidDetailForShortStop:(BusStopShort *)shortStop{
+-(BOOL)isthereValidDetailForShortStop:(BusStopShort *)shortStop{
     
     @try {
         BusStop *detailStop = [self getDetailStopForBusStopShort:shortStop];
@@ -734,7 +728,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return NO;
 }
 
-- (BOOL)isThereValidDetailForTableViewSection:(NSInteger)section{
+-(BOOL)isThereValidDetailForTableViewSection:(NSInteger)section{
     if (nearByStopList.count > section) {
         BusStopShort *stopForCell = [nearByStopList objectAtIndex:section];
         return [self isthereValidDetailForShortStop:stopForCell];
@@ -743,7 +737,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return NO;
 }
 
-- (NSInteger)busStopShortIndexForCode:(NSString *)code{
+-(NSInteger)busStopShortIndexForCode:(NSString *)code{
     NSInteger index = 0;
     @try {
         for (BusStopShort *stop in nearByStopList) {
@@ -773,11 +767,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [self setupTableViewForNearByStops:nearByStops];
 }
+
 -(void)setupTableViewForNearByStops:(NSArray *)result{
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
     [nearbyStopsListsTable reloadData];
     [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
+
 -(void)setupListTableViewAppearance{
     nearbyStopsListsTable.backgroundColor = [UIColor clearColor];
     [searchResultsView setBlurTintColor:nil];
@@ -795,7 +791,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     } completion:nil];
 }
 
-- (void)hideNearByStopsView:(BOOL)hidden{
+-(void)hideNearByStopsView:(BOOL)hidden{
     if (hidden) {
         [self setNearbyStopsViewTopSpacing:self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height];
         isSearchResultsViewDisplayed = NO;
@@ -809,7 +805,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self setupNearByStopsListTableviewFor:self.nearByStopList];
 }
 
-- (void)decelerateStopListViewFromVelocity:(CGFloat)velocity withCompletionBlock:(ActionBlock)completionBlock{
+-(void)decelerateStopListViewFromVelocity:(CGFloat)velocity withCompletionBlock:(ActionBlock)completionBlock{
     
     [UIView animateWithDuration:1 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:0.5 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         [self increamentNearByStopViewTopSpaceBy:velocity/4];
@@ -820,11 +816,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-- (CGFloat)nearbyStopViewTopSpacing{
+-(CGFloat)nearbyStopViewTopSpacing{
     return nearByStopsViewTopSpacing.constant;
 }
 
-- (void)setNearbyStopsViewTopSpacing:(CGFloat)topSpace{
+-(void)setNearbyStopsViewTopSpacing:(CGFloat)topSpace{
     if (topSpace < 0)
         topSpace = 0;
     
@@ -852,15 +848,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
 }
 
-- (void)increamentNearByStopViewTopSpaceBy:(CGFloat)increament{
+-(void)increamentNearByStopViewTopSpaceBy:(CGFloat)increament{
     [self setNearbyStopsViewTopSpacing:nearByStopsViewTopSpacing.constant + increament];
 }
 
-- (BOOL)isNearByStopsListViewHidden{
+-(BOOL)isNearByStopsListViewHidden{
     return [self nearbyStopViewTopSpacing] > self.view.frame.size.height - 60 - self.tabBarController.tabBar.frame.size.height;
 }
 
-- (void)moveSearchResultViewByPoint:(CGPoint)displacement animated:(BOOL)anim{
+-(void)moveSearchResultViewByPoint:(CGPoint)displacement animated:(BOOL)anim{
     [UIView transitionWithView:searchResultsView duration:0.15 options:UIViewAnimationOptionCurveEaseIn animations:^{
         [self increamentNearByStopViewTopSpaceBy:displacement.y];
     } completion:^(BOOL finished) {
@@ -868,7 +864,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-- (void)showStopFetchActivityIndicator:(NSNumber *)show{
+-(void)showStopFetchActivityIndicator:(NSNumber *)show{
     if ([self isNearByStopsListViewHidden]) {
         hideSearchResultViewButton.hidden = NO;
         [stopFetchActivityIndicator endRefreshing];
@@ -886,16 +882,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma mark - Table view datasource and delegate methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (self.nearByStopList.count == 0)
         return 1;
     
     return self.nearByStopList.count > 30 ? 30 : self.nearByStopList.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([self isThereValidDetailForTableViewSection:section]) {
         BusStop *detailStop = [self getDetailStopForTableViewCell:section];
         if (detailStop && detailStop.departures) {
@@ -915,8 +909,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (nearByStopList.count > 0) {
         BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
         
@@ -989,7 +982,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row > 0) {
         return 35;
     }
@@ -1005,20 +998,16 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return 10.0;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DepartureTableViewCell *cell = (DepartureTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if (cell != nil && [cell isKindOfClass:[DepartureTableViewCell class]]) {
         [self performSegueWithIdentifier:@"openNearbyStop2" sender:self];
     }
 }
 
-#pragma mark - Nearby stops list departures methods
-
 #pragma - mark Map methods
 
-- (void)initializeMapComponents
-{
+- (void)initializeMapComponents {
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.distanceFilter = kCLDistanceFilterNone;
@@ -1139,7 +1128,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return YES;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     self.currentUserLocation = [locations lastObject];
     if (centerMap) {
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
@@ -1178,7 +1167,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     firstRecievedLocation = false;
 }
 
-- (NSMutableArray *)collectStopCodes:(NSArray *)stopList {
+-(NSMutableArray *)collectStopCodes:(NSArray *)stopList {
     
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
     for (BusStopShort *stop in stopList) {
@@ -1187,7 +1176,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return codeList;
 }
 
-- (NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList {
+-(NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList {
     
     return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.gtfsId", codeList]];
 }
@@ -1442,8 +1431,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-
-- (void)dropAnnotation:(CLLocationCoordinate2D)coordinate{
+-(void)dropAnnotation:(CLLocationCoordinate2D)coordinate{
 //    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
 //        return;
     
@@ -1534,118 +1522,100 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList
-{
-    
-    NSMutableArray *codeList = [[NSMutableArray alloc] init];
-    for (Vehicle *vehicle in vehicleList) {
-        [codeList addObject:vehicle.vehicleId];
-    }
-    return codeList;
-}
-
-- (NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList
-{
-    return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
-}
-
-- (double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
-{
-    double fLat = degreesToRadians(fromLoc.latitude);
-    double fLng = degreesToRadians(fromLoc.longitude);
-    double tLat = degreesToRadians(toLoc.latitude);
-    double tLng = degreesToRadians(toLoc.longitude);
-    
-    double degree = radiansToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
-    
-    if (degree >= 0) {
-        return degree;
-    } else {
-        return 360+degree;
-    }
-}
-
--(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
+//-(NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList {
+//    
+//    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+//    for (Vehicle *vehicle in vehicleList) {
+//        [codeList addObject:vehicle.vehicleId];
+//    }
+//    return codeList;
+//}
+//
+//-(NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList {
+//    return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
+//}
+//
+//-(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
+////    for (id<MKAnnotation> annotation in mapView.annotations) {
+////        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+//////            LVThumbnailAnnotation *sAnnotation = (LVThumbnailAnnotation *)annotation;
+////            [mapView removeAnnotation:annotation];
+////        }
+////    }
+//    
+//    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
+//    
+//    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+//    
+//    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
+//    
 //    for (id<MKAnnotation> annotation in mapView.annotations) {
 //        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-////            LVThumbnailAnnotation *sAnnotation = (LVThumbnailAnnotation *)annotation;
-//            [mapView removeAnnotation:annotation];
+//            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+//            
+//            if (![codeList containsObject:annot.code]) {
+//                [annotToRemove addObject:annotation];
+//            }else{
+//                [codeList removeObject:annot.code];
+//                [existingVehicles addObject:annotation];
+//            }
 //        }
 //    }
-    
-    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
-    
-    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
-    
-    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
-    
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-            
-            if (![codeList containsObject:annot.code]) {
-                [annotToRemove addObject:annotation];
-            }else{
-                [codeList removeObject:annot.code];
-                [existingVehicles addObject:annotation];
-            }
-        }
-    }
-    
-    for (id<MKAnnotation> annotation in existingVehicles) {
-        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-            @try {
-                Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
-                if (!vehicleToUpdate) continue;
-                
-                if (vehicleToUpdate.vehicleType == VehicleTypeBus ) {
-                    vehicleToUpdate.bearing = [self getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
-                    //Vehicle did not move
-                    if (vehicleToUpdate.bearing == 0) {
-                        vehicleToUpdate.bearing = [annot.thumbnail.bearing doubleValue];
-                    }else{
-                        [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:vehicleToUpdate.vehicleType]];
-                    }
-                }
-                
-                annot.coordinate = vehicleToUpdate.coords;
-                
-                if (vehicleToUpdate.bearing != -1) {
-                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
-                }
-            }
-            @catch (NSException *exception) {
-                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
-                [annotToRemove addObject:annot];
-                [codeList addObject:annot.code];
-            }
-        }
-    }
-    
-    [mapView removeAnnotations:annotToRemove];
-    
-    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
-//    [mapView removeAnnotations:mapView.annotations];
-    
-    for (Vehicle *vehicle in newVehicles) {
-        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
-        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
-        if (vehicle.bearing != -1 ) {
-            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
-        }else{
-            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
-        }
-        vehicleAnT.code = vehicle.vehicleId;
-        vehicleAnT.title = vehicle.vehicleName;
-        vehicleAnT.lineId = vehicle.vehicleLineId;
-        vehicleAnT.vehicleType = vehicle.vehicleType;
-        vehicleAnT.coordinate = vehicle.coords;
-        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
-        
-        [mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
-    }
-}
+//    
+//    for (id<MKAnnotation> annotation in existingVehicles) {
+//        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+//            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+//            @try {
+//                Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+//                if (!vehicleToUpdate) continue;
+//                
+//                if (vehicleToUpdate.vehicleType == VehicleTypeBus ) {
+//                    vehicleToUpdate.bearing = [MapViewManager getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
+//                    //Vehicle did not move
+//                    if (vehicleToUpdate.bearing == 0) {
+//                        vehicleToUpdate.bearing = [annot.thumbnail.bearing doubleValue];
+//                    }else{
+//                        [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:vehicleToUpdate.vehicleType]];
+//                    }
+//                }
+//                
+//                annot.coordinate = vehicleToUpdate.coords;
+//                
+//                if (vehicleToUpdate.bearing != -1) {
+//                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
+//                }
+//            }
+//            @catch (NSException *exception) {
+//                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
+//                [annotToRemove addObject:annot];
+//                [codeList addObject:annot.code];
+//            }
+//        }
+//    }
+//    
+//    [mapView removeAnnotations:annotToRemove];
+//    
+//    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
+////    [mapView removeAnnotations:mapView.annotations];
+//    
+//    for (Vehicle *vehicle in newVehicles) {
+//        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
+//        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+//        if (vehicle.bearing != -1 ) {
+//            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+//        }else{
+//            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
+//        }
+//        vehicleAnT.code = vehicle.vehicleId;
+//        vehicleAnT.title = vehicle.vehicleName;
+//        vehicleAnT.lineId = vehicle.vehicleLineId;
+//        vehicleAnT.vehicleType = vehicle.vehicleType;
+//        vehicleAnT.coordinate = vehicle.coords;
+//        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
+//        
+//        [mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
+//    }
+//}
 
 -(void)removeAllVehicleAnnotation{
     for (id<MKAnnotation> annotation in mapView.annotations) {
@@ -1663,14 +1633,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+-(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 
     if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
         return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
-        
-        return [((NSObject<LVThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
+    }
+    else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
+        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+    }
+    else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
         if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
             droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
         }
@@ -1681,7 +1652,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return nil;
 }
 
-- (void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
+-(void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
@@ -1728,7 +1699,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
+-(void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
         selectedAnnotationView = nil;
@@ -1740,7 +1711,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+-(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
     
     MKAnnotationView *aV;
     for (aV in views) {
@@ -1761,14 +1732,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)openAnnotation:(id)annotation;
-{
-    //mv is the mapView
-    [mapView selectAnnotation:annotation animated:YES];
-    
-}
-
-- (void)removeAllStopAnnotations {
+-(void)removeAllStopAnnotations {
     NSMutableArray *tempArray = [@[] mutableCopy];
     for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
@@ -1783,7 +1747,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.mapView removeAnnotations:tempArray];
 }
 
-- (void)removeAllBikeStationAnnotations {
+-(void)removeAllBikeStationAnnotations {
     for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
             JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
@@ -1815,7 +1779,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     canShowDroppedPin = YES;
 }
 
-- (void)mapView:(MKMapView *)_mapView regionWillChangeAnimated:(BOOL)animated{
+-(void)mapView:(MKMapView *)_mapView regionWillChangeAnimated:(BOOL)animated{
     if (ignoreRegionChange)
         return;
     
@@ -1829,9 +1793,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self removeAllGeocodeAnnotation];
 }
 
-
-
-- (void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
+-(void)mapView:(MKMapView *)_mapView regionDidChangeAnimated:(BOOL)animated{
     if (ignoreRegionChange){
         ignoreRegionChange = NO;
         return;
@@ -1950,8 +1912,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return NO;
 }
 
--(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels
-{
+-(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels {
     NSUInteger zoomLevel = 20; // MAXIMUM_ZOOM is 20 with MapKit
     MKZoomScale zoomScale = mRect.size.width / viewSizeInPixels.width; //MKZoomScale is just a CGFloat typedef
     double zoomExponent = log2(zoomScale);
@@ -1959,16 +1920,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return zoomLevel;
 }
 
-
-
 #pragma mark - disruptions methods
-- (void)initDisruptionFetching{
+-(void)initDisruptionFetching{
     //init a timer
     [self fetchDisruptions];
     refreshTimer = [NSTimer scheduledTimerWithTimeInterval:90 target:self selector:@selector(fetchDisruptions) userInfo:nil repeats:YES];
 }
 
-- (void)fetchDisruptions{
+-(void)fetchDisruptions{
     [self.reittiDataManager fetchDisruptionsWithCompletionBlock:^(NSArray *disruption, NSString *errorString){
         if (!errorString) {
             [self disruptionFetchDidComplete:disruption];
@@ -1978,19 +1937,19 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-- (void)showDisruptionCustomBadge:(bool)show{
+-(void)showDisruptionCustomBadge:(bool)show{
     MainTabBarController *tabBarController = (MainTabBarController *)self.tabBarController;
     [tabBarController showBadgeOnMoreTab:show];
 }
 
 #pragma mark - text field mehthods
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     [self performSegueWithIdentifier: @"addressSearchController" sender: self];
 }
 
 #pragma - mark View transition methods
 
-- (IBAction)openRouteSearchView:(id)sender{
+-(IBAction)openRouteSearchView:(id)sender{
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:mainSearchBar.text toCoords:prevSearchedCoords fromLocation:nil fromCoords:nil];
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
@@ -2003,7 +1962,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo{
+-(void)openRouteViewForFromLocation:(MKDirectionsRequest *)directionsInfo{
     MKMapItem *source = directionsInfo.source;
     NSString *fromLocation, *fromCoords, *toLocation, *toCoords;
     if (source.isCurrentLocation) {
@@ -2038,23 +1997,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
 
-//-(void)openWidgetSettingsView{
-//    [self performSegueWithIdentifier:@"openWidgetSettingFromHome" sender:self];
-//}
-
-#pragma mark - helper methods
-
-
-- (GeoCode *)castNamedBookmarkToGeoCode:(NamedBookmark *)namedBookmark{
-    GeoCode * newGeoCode = [[GeoCode alloc] init];
-    newGeoCode.name = namedBookmark.name;
-    
-    return newGeoCode;
-}
-
 #pragma - mark IBActions
-
-- (IBAction)centerCurrentLocationButtonPressed:(id)sender {
+-(IBAction)centerCurrentLocationButtonPressed:(id)sender {
     [self isLocationServiceAvailableWithNotification:YES];
     
     if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
@@ -2071,7 +2015,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
 }
 
-- (IBAction)listNearbyStopsPressed:(id)sender {
+-(IBAction)listNearbyStopsPressed:(id)sender {
     if ([self isNearByStopsListViewHidden]) {
         [self hideNearByStopsView:NO animated:YES];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionListNearByStops label:nil value:nil];
@@ -2080,7 +2024,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (IBAction)refreshOrShowListButtonPressed:(id)sender{
+-(IBAction)refreshOrShowListButtonPressed:(id)sender{
     if ([self isNearByStopsListViewHidden]) {
         [self listNearbyStopsPressed:self];
     }else{
@@ -2090,7 +2034,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (IBAction)refreshDepartures:(id)sender{
+-(IBAction)refreshDepartures:(id)sender{
     if(![self isNearByStopsListViewHidden]){
         //Show activity indicator no matter what
         [self showStopFetchActivityIndicator:@YES];
@@ -2101,7 +2045,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)centerLocatorTapped:(id)sender{
+-(void)centerLocatorTapped:(id)sender{
     CGPoint mapCenter = centerLocatorView.center;
     //The center has to be moved up from the center so that the annotation will be positioned right above it.
     mapCenter.y -= 20;
@@ -2111,7 +2055,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self dropAnnotation:coordinate];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 1001) {
 //        if (buttonIndex == 0) {
 //            [self.reittiDataManager setAppOpenCountValue:-7];
@@ -2161,15 +2105,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (IBAction)openSettingsButtonPressed:(id)sender {
+-(IBAction)openSettingsButtonPressed:(id)sender {
     [self performSegueWithIdentifier:@"showSettings" sender:self];
 }
 
-- (IBAction)hideSearchResultViewPressed:(id)sender {
+-(IBAction)hideSearchResultViewPressed:(id)sender {
     [self hideNearByStopsView:YES animated:YES];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     // Return YES so the pan gesture of the containing table view is not cancelled by the long press recognizer
     return YES;
 }
@@ -2228,11 +2172,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 #pragma mark - Stops in area handler methods
-- (void)fetchStopsInCurrentMapViewRegion {
+-(void)fetchStopsInCurrentMapViewRegion {
     [self fetchStopsInMapViewRegion:[self visibleMapRegion]];
 }
 
-- (void)fetchStopsInMapViewRegion:(MKCoordinateRegion)region{
+-(void)fetchStopsInMapViewRegion:(MKCoordinateRegion)region{
     if (![self.annotationFilter isAnyNearByStopAnnotationEnabled]) return;
     
     nearbyStopsFetchErrorMessage = nil;
@@ -2245,7 +2189,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
-- (void)fetchStopsDetailsForBusStopShorts:(NSArray *)busStopShorts{
+-(void)fetchStopsDetailsForBusStopShorts:(NSArray *)busStopShorts{
     if (!busStopShorts || busStopShorts.count < 1)
         return;
     
@@ -2276,7 +2220,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)nearByStopFetchDidComplete:(NSArray *)stopList{
+-(void)nearByStopFetchDidComplete:(NSArray *)stopList{
     
     if (stopList.count > 0) {
         NSArray *fetchedStops = stopList;
@@ -2307,7 +2251,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     retryCount = 0;
 }
-- (void)nearByStopFetchDidFail:(NSString *)error{
+-(void)nearByStopFetchDidFail:(NSString *)error{
     if (![error isEqualToString:@""]) {
         if ([error isEqualToString:@"Request timed out."] && retryCount < 1) {
             [self listNearbyStopsPressed:nil];
@@ -2321,7 +2265,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self setupNearByStopsListTableviewFor:nil];
 }
 
-- (void)detailStopFetchCompleted:(BusStop *)stop{
+-(void)detailStopFetchCompleted:(BusStop *)stop{
     //TODO: Set linesCodes to the bus stop short
     //TODO: Check the selected anotation is the right one
     if (selectedAnnotationView && stop.linesString && stop.linesString.length > 0) {
@@ -2329,14 +2273,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)routeSearchDidComplete:(NSArray *)routeList{
+-(void)routeSearchDidComplete:(NSArray *)routeList{
     if (routeList != nil && routeList.count > 0) {
         Route *route = [routeList firstObject];
         NSInteger durationInSeconds = [route.routeDurationInSeconds integerValue];
         [selectedAnnotationView setGoToHereDurationString:nil duration:[NSString stringWithFormat:@"%d min", (int)durationInSeconds/60] withIconImage:route.routeIcon];
     }
 }
-- (void)routeSearchDidFail:(NSString *)error{
+-(void)routeSearchDidFail:(NSString *)error{
     
 }
 
@@ -2375,7 +2319,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.reittiDataManager startFetchingAllLiveVehiclesWithCompletionHandler:^(NSArray *vehicles, NSString *errorString){
         if (!errorString) {
             if ([settingsManager showLiveVehicles]) {
-                [self plotVehicleAnnotations:vehicles isTrainVehicles:NO];
+                [self.mapViewManager plotVehicleAnnotations:vehicles];
             }
         }
     }];
@@ -2414,13 +2358,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 #pragma mark - Address search view delegates
-- (void)searchResultSelectedARoute:(RouteEntity *)routeEntity {
+-(void)searchResultSelectedARoute:(RouteEntity *)routeEntity {
     
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:routeEntity.toLocationName toCoords:routeEntity.toLocationCoordsString fromLocation:routeEntity.fromLocationName fromCoords:routeEntity.fromLocationCoordsString];
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
 }
 
-- (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
+-(void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
     [self plotStopAnnotation:stopEntity.toBusStopShort withSelect:YES isBookmark:YES];
@@ -2428,7 +2372,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     mainSearchBar.text = [NSString stringWithFormat:@"%@, %@", stopEntity.busStopName, stopEntity.busStopCity];
     prevSearchedCoords = stopEntity.busStopCoords;
 }
-- (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
+-(void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:geoCode.coords]];
     //Check if it is type busstop
@@ -2444,7 +2388,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     prevSearchedCoords = geoCode.coords;
 }
 
-- (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
+-(void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:namedBookmark.coords]];
     //Check if it is type busstop
@@ -2455,7 +2399,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     prevSearchedCoords = namedBookmark.coords;
 }
 
-- (void)searchResultSelectedCurrentLocation{
+-(void)searchResultSelectedCurrentLocation{
     
 }
 
@@ -2467,7 +2411,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 #pragma mark - settings view delegate
-- (void)setMapModeForSettings {
+-(void)setMapModeForSettings {
     switch ([settingsManager mapMode]) {
         case StandartMapMode:
             mapView.mapType = MKMapTypeStandard;
@@ -2538,8 +2482,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma mark - Seague
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"seeFullTimeTable"]) {
         WebViewController *webViewController = (WebViewController *)segue.destinationViewController;
         NSURL *url = [NSURL URLWithString:self._busStop.timetableLink];
@@ -2625,7 +2568,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)configureStopViewController:(StopViewController *)stopViewController withBusStopShort:(BusStopShort *)busStop{
+-(void)configureStopViewController:(StopViewController *)stopViewController withBusStopShort:(BusStopShort *)busStop{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
         stopViewController.stopGtfsId = busStop.gtfsId;
         stopViewController.stopCoords = [ReittiStringFormatter convertStringTo2DCoord:busStop.coords];
@@ -2637,7 +2580,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-- (void)configureStopViewControllerWithAnnotation:(StopViewController *)stopViewController{
+-(void)configureStopViewControllerWithAnnotation:(StopViewController *)stopViewController{
     if ([stopViewController isKindOfClass:[StopViewController class]]) {
         stopViewController.stopGtfsId = selectedStopCode;
         stopViewController.stopCoords = selectedStopAnnotationCoords;

@@ -244,11 +244,13 @@
     leg.legDurationInSeconds = digiLeg.duration;
     leg.waitingTimeInSeconds = 0;
     leg.legType = digiLeg.legType;
-    leg.lineCode = digiLeg.lineGtfsId;
-    leg.lineName = digiLeg.lineName;
+    if (digiLeg.legType != LegTypeWalk) {
+        leg.lineCode = digiLeg.lineGtfsId;
+        leg.lineName = digiLeg.lineName;
+        leg.lineDestination = digiLeg.lineDestination;
+    }
+    leg.fullLineShapeLocations = digiLeg.fullTripShapeLocations;
     leg.legOrder = digiLeg.legOrder;
-    
-    leg.legShapeCoordLocations = @[]; //TODO: Decode polyline
     
     NSMutableArray *locations = [@[] mutableCopy];
     NSMutableArray *shapeStrings = [@[] mutableCopy];

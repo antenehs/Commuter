@@ -18,7 +18,9 @@
 @property (nonatomic, strong) NSArray *stopTimes;
 @property (nonatomic, strong) NSString *tripHeadsign;
 
+//Computed
 -(NSDate *)arrivalTimeAtStop:(NSString *)stopCode;
+@property(nonatomic, strong, readonly) NSString *destination;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

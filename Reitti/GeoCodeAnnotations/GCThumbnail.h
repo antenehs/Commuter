@@ -12,14 +12,6 @@
 
 typedef void (^ActionBlock)();
 
-//typedef enum{
-//    NearByStopType = 1,
-//    SearchedStopType = 2,
-//    GeoCodeType = 3,
-//    DroppedPinType = 4,
-//    LiveVehicleType = 5
-//}AnnotationType;
-
 @interface GCThumbnail : NSObject
 
 @property (nonatomic, strong) NSNumber *code;
@@ -27,7 +19,6 @@ typedef void (^ActionBlock)();
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, copy) NSString *reuseIdentifier;
-//@property (nonatomic) AnnotationType annotationType;
 @property (nonatomic) StopType stopType;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) ActionBlock disclosureBlock;

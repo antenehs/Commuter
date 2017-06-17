@@ -204,9 +204,9 @@ NSString *const kDigiLegGeometry = @"legGeometry";
     if (!_lineName) {
         if (self.trip.route.shortName) {
             _lineName = self.trip.route.shortName;
-        } else if (self.trip.tripHeadsign){
+        } else if (self.trip.destination){
             //First three letters of destination
-            NSString *dest = self.trip.tripHeadsign;
+            NSString *dest = self.trip.destination;
             if (dest.length > 2) {
                 _lineName = [[dest substringToIndex:3] uppercaseString];
             } else {
@@ -223,6 +223,10 @@ NSString *const kDigiLegGeometry = @"legGeometry";
     return self.trip.route.gtfsId;
 }
 
+-(NSString *)lineDestination {
+    return self.trip.destination;
+}
+
 -(LegTransportType)legType {
     if (self.mode) {
         return [EnumManager legTypeForDigiTrasportType:self.mode];
@@ -237,6 +241,10 @@ NSString *const kDigiLegGeometry = @"legGeometry";
 
 -(CLLocationCoordinate2D)destinationCoords {
     return self.to.coords;
+}
+
+-(NSArray *)fullTripShapeLocations {
+    return self.trip.pattern.shapeCoordinates;
 }
 
 #pragma mark - mapping

@@ -15,6 +15,7 @@
 #import "ReittiRemindersManager.h"
 #import "SettingsManager.h"
 #import "StopViewController.h"
+#import "MapViewManager.h"
 
 typedef enum{
     RouteListViewLoactionBottom = 1,
@@ -27,7 +28,7 @@ typedef enum{
     MapViewCenterLocationCenter = 2,
 } MapViewCenterLocation;
 
-@interface RouteDetailViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
+@interface RouteDetailViewController : UIViewController<MapViewManagerDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
     
     IBOutlet MKMapView *routeMapView;
     IBOutlet AMBlurView *topBarView;
@@ -60,7 +61,7 @@ typedef enum{
     CLLocation *previousCenteredLocation;
     
     CLLocationManager *locationManager;
-    MKMapRect previousRegion;
+//    MKMapRect previousRegion;
     
     ReittiRemindersManager *reittiRemindersManager;
     
@@ -68,7 +69,7 @@ typedef enum{
     IBOutlet NSLayoutConstraint *mapViewVerticalSpacing;
     
     BOOL isShowingStopView;
-    BOOL isShowingBikeAnnotations;
+//    BOOL isShowingBikeAnnotations;
     NSString *selectedAnnotionStopShortCode, *selectedAnnotionStopName;
     NSString *selectedAnnotionStopCode;
     CLLocationCoordinate2D selectedAnnotationStopCoords;

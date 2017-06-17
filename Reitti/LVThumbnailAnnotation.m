@@ -25,8 +25,21 @@
         _thumbnail = thumbnail;
         _vehicleType = thumbnail.vehicleType;
         _lineId = thumbnail.lineId;
+        _associatedObject = thumbnail.associatedVehicle;
     }
     return self;
+}
+
+-(NSString *)uniqueIdentifier {
+    if (!_uniqueIdentifier) {
+        _uniqueIdentifier = _code;
+    }
+    
+    return _uniqueIdentifier;
+}
+
+-(ReittiAnnotationType)locationType {
+    return LiveVehicleAnnotationType;
 }
 
 - (MKAnnotationView *)annotationViewInMap:(MKMapView *)mapView {

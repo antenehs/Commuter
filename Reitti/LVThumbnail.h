@@ -11,7 +11,7 @@ typedef enum{
     Train = 3,
     LongDistanceTrain = 4,
     Bus = 5
-}VehicleAnnotationType;
+} VehicleAnnotationType;
 
 @interface LVThumbnail : NSObject
 
@@ -24,5 +24,6 @@ typedef enum{
 @property (nonatomic) VehicleType vehicleType;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) NSNumber * bearing;
+@property (nonatomic, strong) id associatedVehicle;
 
 @end

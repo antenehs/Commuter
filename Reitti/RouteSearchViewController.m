@@ -1343,12 +1343,12 @@ typedef enum
         if (refreshingRouteTable) {
             refreshingRouteTable = NO;
         }else{
-//            [searchActivitySpinner beginRefreshing];
             showTopLoadingView = YES;
             [self.refreshControl endRefreshing];
             tableViewController.refreshControl = nil;
+            [routeResultsTableView scrollRectToVisible:CGRectMake(1, 1, 1, 1)
+                                              animated:self.tableViewMode != TableViewModeSuggestions];
             [routeResultsTableView reloadData];
-            [routeResultsTableView scrollRectToVisible:CGRectMake(1, 1, 1, 1) animated:YES];
         }
         
         if (self.tableViewMode == TableViewModeSuggestions) {
@@ -1403,6 +1403,7 @@ typedef enum
     }];
 }
 
+#warning Might be obsolete with digi transit
 -(void)searchLineDetailsForLinesInRoutes:(NSArray *)routes fromApi:(ReittiApi)api{
     for (Route *route in routes) {
          NSMutableArray *lineCodes = [@[] mutableCopy];
@@ -1430,18 +1431,22 @@ typedef enum
     }
 }
 
+#warning Might be obsolete with digi transit
 -(void)setLineCodesFromLineDetails {
     for (Route *route in self.routeList) {
         for (RouteLeg *leg in route.routeLegs) {
+            if (leg.legType == LegTypeWalk) { continue; }
             if (!leg.lineName || [leg.lineName isEqualToString:@"-"] || [leg.lineName isEqualToString:@""]) {
                 NSString *codeFromLineDetail = [self getLineShortCodeForLineCode:leg.lineCode];
-                if (codeFromLineDetail) leg.lineName = codeFromLineDetail;
+                if (codeFromLineDetail)
+                    leg.lineName = codeFromLineDetail;
             }
         }
     }
 }
 
-- (void)populateLineDetailMapFromLines:(NSArray *)lines{
+#warning Might be obsolete with digi transit
+- (void)populateLineDetailMapFromLines:(NSArray *)lines {
     if (!lines || lines.count < 1)
         return;
     
@@ -1453,6 +1458,7 @@ typedef enum
     @catch (NSException *exception) {}
 }
 
+#warning Might be obsolete with digi transit
 - (NSString *)getDestinationForLineCode:(NSString *)code{
     if (!code)
         return nil;
@@ -1465,6 +1471,7 @@ typedef enum
     return nil;
 }
 
+#warning Might be obsolete with digi transit
 - (NSString *)getLineShortCodeForLineCode:(NSString *)code{
     if (!code)
         return nil;

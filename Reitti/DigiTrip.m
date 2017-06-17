@@ -13,6 +13,7 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
 
 
 @interface DigiTrip ()
+@property(nonatomic, strong) NSString *destination;
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
 
@@ -79,7 +80,6 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
 
 
 #pragma mark - NSCoding Methods
-
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
@@ -108,6 +108,23 @@ NSString *const kDigiTripTripHeadsign = @"tripHeadsign";
     
     return copy;
 }
+
+#pragma mark - computed properties
+-(NSString *)destination {
+    if (!_destination) {
+        if (self.tripHeadsign) { _destination = self.tripHeadsign; }
+        if (!_destination && self.pattern.headsign) {
+            _destination = self.pattern.headsign;
+        }
+        if (!_destination && self.route.lineEnd) {
+            _destination = self.route.lineEnd;
+        }
+    }
+    
+    return _destination;
+}
+
+#pragma mark - mapping
 
 +(MappingDescriptor *)mappingDescriptorForPath:(NSString *)path {
     MappingRelationShip *routeRelationShip = [MappingRelationShip relationShipFromKeyPath:@"route"

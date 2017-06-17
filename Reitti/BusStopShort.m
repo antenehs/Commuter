@@ -35,7 +35,7 @@
     @try {
         if (_stopType == StopTypeUnknown) {
             NSLog(@"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
-//            assert(false);
+//            NSAssert(false, @"DIGITRANSITERROR: ========= THIS shouldn't have happened with digi transit");
 #if MAIN_APP
             if (!_staticStop) {
                 _staticStop = [[CacheManager sharedManager] getStopForCode:[NSString stringWithFormat:@"%@", self.code]];
@@ -184,6 +184,9 @@
     return [ReittiStringFormatter commaSepStringFromArray:self.lineCodes withSeparator:@", "];
 }
 
+-(CLLocationCoordinate2D)coordinate {
+    return [ReittiStringFormatter convertStringTo2DCoord:self.coords];
+}
 
 
 @end

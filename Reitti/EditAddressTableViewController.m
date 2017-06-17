@@ -187,7 +187,6 @@
 }
 
 -(void)plotAnnotation{
-    
     for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
             [mapView removeAnnotation:annotation];
@@ -196,12 +195,9 @@
     
     CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:self.coords];
     
-    
-    
     LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:self.name andSubtitle:self.streetAddress andCoordinate:coordinate andLocationType:DefaultAddressLocation];
     
     [mapView addAnnotation:newAnnotation];
-    
 }
 
 - (void)didReceiveMemoryWarning {
