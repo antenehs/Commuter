@@ -390,6 +390,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         }
     }
     
+    if (tempTrainArray.count == 0 && tempOthersArray.count == 0) { return; }
+    
     [self.reittiDataManager fetchAllLiveVehiclesWithCodes:tempOthersArray andTrainCodes:tempTrainArray withCompletionHandler:^(NSArray *vehicleList, NSString *errorString){
         [self.mapViewManager plotVehicleAnnotations:vehicleList];
     }];
@@ -692,7 +694,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 -(void)plotTransferAnnotation:(RouteLegLocation *)loc {
     LocationsAnnotation *annotation = (LocationsAnnotation *)loc.mapAnnotation;
-    annotation.calloutAccessoryAction = ^(MKAnnotationView *annotationView){
+    annotation.primaryAccessoryAction = ^(MKAnnotationView *annotationView){
         [self calloutAccessoryControlTappedOnAnnotationView: annotationView];
     };
     if (annotation) [self.mapViewManager plotAnnotations:@[annotation]];
@@ -721,10 +723,10 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
                 if (loc.shortCode != nil) {
                     LocationsAnnotation *annotation = (LocationsAnnotation *)loc.mapAnnotation;
                     if (annotation) {
-                        annotation.locationType = StopLocation;
+                        annotation.annotationType = StopLocation;
                         annotation.imageCenterOffset = CGPointMake(0, -15);
                         annotation.shrinksWhenZoomedOut = YES;
-                        annotation.calloutAccessoryAction = ^(MKAnnotationView *annotationView){
+                        annotation.primaryAccessoryAction = ^(MKAnnotationView *annotationView){
                             [self calloutAccessoryControlTappedOnAnnotationView: annotationView];
                         };
                         [self.mapViewManager plotAnnotations:@[annotation]];
@@ -746,7 +748,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self removeAllBikeStationAnnotations];
     
     for (BikeStation *station in stationList) {
-        LocationsAnnotation *stationAnnotation = (LocationsAnnotation *)station.mapAnnotation;
+        LocationsAnnotation *stationAnnotation = (LocationsAnnotation *)station.basicLocationAnnotation;
         stationAnnotation.preferedSize = CGSizeMake(16, 25);
         stationAnnotation.imageCenterOffset = CGPointMake(0, -8);
         stationAnnotation.shrinksWhenZoomedOut = YES;
@@ -764,7 +766,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         if ([self isOtherStopOneOfTheLocationStops:stop]) continue;
         
         LocationsAnnotation *newAnnotation = (LocationsAnnotation *)[stop basicLocationAnnotation];
-        newAnnotation.locationType = OtherStopLocation;
+        newAnnotation.annotationType = OtherStopLocation;
         newAnnotation.preferedSize = CGSizeMake(16, 25);
         newAnnotation.imageCenterOffset = CGPointMake(0, -8);
         newAnnotation.shrinksWhenZoomedOut = YES;
@@ -772,7 +774,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         newAnnotation.disappearsWhenZoomedOut = YES;
         newAnnotation.disappearingZoomLevel = 14;
         
-        newAnnotation.calloutAccessoryAction = ^(MKAnnotationView *annotationView){
+        newAnnotation.primaryAccessoryAction = ^(MKAnnotationView *annotationView){
             [self calloutAccessoryControlTappedOnAnnotationView: annotationView];
         };
         if (newAnnotation) [allAnots addObject:newAnnotation];
@@ -1753,7 +1755,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 //        }else
         if ([annotationView.annotation isKindOfClass:[LocationsAnnotation class]]) {
             LocationsAnnotation *annotation = (LocationsAnnotation *)annotationView.annotation;
-            if (annotation.locationType == StopLocation || annotation.locationType == TransferStopLocation || annotation.locationType == OtherStopLocation) {
+            if (annotation.annotationType == StopLocation || annotation.annotationType == TransferStopLocation || annotation.annotationType == OtherStopLocation) {
                 stopCode = annotation.code;
                 stopCoords = annotation.coordinate;
                 stopShortCode = annotation.subtitle;

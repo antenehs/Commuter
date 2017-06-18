@@ -589,13 +589,13 @@ const NSInteger kTimerRefreshInterval = 60;
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
             title.text = stopEntity.busStopName;
-            //stopName.font = CUSTOME_FONT_BOLD(23.0f);
+            subTitle.text = stopEntity.detailText;
             
-            if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
-                subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
-            } else {
-                subTitle.text = [NSString stringWithFormat:@"%@", stopEntity.busStopShortCode];
-            }
+//            if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
+//                subTitle.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+//            } else {
+//                subTitle.text = [NSString stringWithFormat:@"%@", stopEntity.busStopShortCode];
+//            }
             
             UICollectionView *collectionView = (UICollectionView *)[cell viewWithTag:2007];
             

@@ -8,10 +8,41 @@
 
 #import "BusStop+MapView.h"
 #import "AppManager.h"
+#import "ASA_Helpers.h"
+#import "SwiftHeaders.h"
 
 @implementation BusStop (MapView)
 
-
+-(id<MKAnnotation>)mapAnnotation {
+    CLLocationCoordinate2D coordinate = self.coordinate;
+    if (coordinate.latitude < 30 || coordinate.latitude > 90 || coordinate.longitude < 10 || coordinate.longitude > 90)
+        return nil;
+    
+    NSString *codeShort = self.codeShort ? self.codeShort : @"";
+    
+    JPSThumbnail *annotationThumb = [[JPSThumbnail alloc] init];
+    annotationThumb.image = [AppManager stopAnnotationImageForStopType:self.stopType];
+    annotationThumb.code = self.gtfsId;
+    annotationThumb.shortCode = codeShort;
+    annotationThumb.title = self.name;
+    if (self.linesString) {
+        annotationThumb.subtitle = [NSString stringWithFormat:@"Code: %@ · %@", codeShort, self.linesString];
+    } else {
+        annotationThumb.subtitle = [NSString stringWithFormat:@"Code: %@", codeShort];
+    }
+    
+    annotationThumb.coordinate = coordinate;
+    annotationThumb.annotationType = [EnumManager annotTypeForNearbyStopType:self.stopType];
+    annotationThumb.reuseIdentifier = [self annotationReuseIdentifier];
+    
+//    annotationThumb.shrinkedImage = [self shrinkedImage];
+    
+    JPSThumbnailAnnotation *annotation = [JPSThumbnailAnnotation annotationWithThumbnail:annotationThumb];
+    annotation.associatedObject = self;
+    annotation.shrinkedImageColor = [AppManager colorForStopType:self.stopType];
+    
+    return annotation;
+}
 
 -(id<MKAnnotation>)basicLocationAnnotation {
     return [self basicLocationAnnotationWithIdentifier:nil andAnnotationType:StopLocation];
@@ -22,7 +53,7 @@
     NSString * name = self.name;
     NSString * codeShort = self.codeShort;
     NSString * imageName = [AppManager stopAnnotationImageNameForStopType:self.stopType];
-    NSString *reuseIdentifier = annotationIdentier ? annotationIdentier : [NSString stringWithFormat:@"StopLocation-%@", imageName];
+    NSString *reuseIdentifier = annotationIdentier ? annotationIdentier : [self annotationReuseIdentifier];
     
     LocationsAnnotation *annotation = [[LocationsAnnotation alloc] initWithTitle:name andSubtitle:codeShort andCoordinate:self.coordinate andLocationType:annotType];
     annotation.code = self.gtfsId;
@@ -33,5 +64,22 @@
     
     return annotation;
 }
+
+#pragma mark - Helpers
+-(NSString *)annotationReuseIdentifier {
+    NSString * imageName = [AppManager stopAnnotationImageNameForStopType:self.stopType];
+    return [NSString stringWithFormat:@"StopLocation-%@", imageName];
+}
+
+//-(UIImage *)shrinkedImage {
+//    UIColor *shrinkedColor = [AppManager colorForStopType:self.stopType];
+//    CGSize imageSize = [JPSThumbnailAnnotationView imageSize];
+//    
+//    UIImage *dotImage = [[UIImage new] asa_addCircleBackgroundWithColor:shrinkedColor andImageSize:CGSizeMake(8, 8) andInset:CGPointZero andOffset:CGPointZero];
+//    
+//    UIImage *marginedImage = [dotImage asa_addMarginWithInsets:UIEdgeInsetsMake(imageSize.height - 14, (imageSize.width - 8)/2, 6, (imageSize.width - 8)/2 )];
+//    
+//    return marginedImage;
+//}
 
 @end

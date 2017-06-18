@@ -266,7 +266,7 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     [self saveBoolForKey:kShowDeparturesFromBookmarksKey boolVal:show];
 }
 
-+(BOOL)isAnnotationTypeEnabled:(AnnotationType)type {
++(BOOL)isAnnotationTypeEnabled:(ReittiAnnotationType)type {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *statusDic = [standardUserDefaults dictionaryForKey:kAnnotationTypesEnableStateKey];
     
@@ -279,7 +279,7 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return [statusNumber boolValue];
 }
 
-+(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(AnnotationType)type {
++(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(ReittiAnnotationType)type {
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     

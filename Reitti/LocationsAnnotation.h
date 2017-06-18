@@ -10,11 +10,9 @@
 #import <MapKit/MapKit.h>
 #import "AnnotationProtocols.h"
 
-@interface LocationsAnnotation : NSObject<MKAnnotation, ReittiAnnotationProtocol>{
-    
+@interface LocationsAnnotation : NSObject<MKAnnotation, ReittiAnnotationProtocol, ReittiActionableAnnotationProtocol> {
     NSString *title;
     CLLocationCoordinate2D coordinate;
-    
 }
 
 @property (nonatomic, copy) NSString *code;
@@ -31,8 +29,7 @@
 //ReittiAnnotationProtocol
 @property (nonatomic, weak) id associatedObject;
 @property (nonatomic, strong) NSString *uniqueIdentifier;
-@property (nonatomic) ReittiAnnotationType locationType;
-@property (nonatomic, copy) AnnotationActionBlock calloutAccessoryAction;
+@property (nonatomic) ReittiAnnotationType annotationType;
 
 @property (nonatomic) BOOL shrinksWhenZoomedOut;
 @property (nonatomic, strong) UIColor *shrinkedImageColor;
@@ -40,6 +37,8 @@
 
 @property (nonatomic) BOOL disappearsWhenZoomedOut;
 @property (nonatomic) NSInteger disappearingZoomLevel;
+
+@property (nonatomic, copy) AnnotationActionBlock primaryAccessoryAction;
 
 
 - (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andLocationType:(ReittiAnnotationType)type;

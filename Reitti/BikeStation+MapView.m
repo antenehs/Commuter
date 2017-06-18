@@ -12,6 +12,28 @@
 @implementation BikeStation (MapView)
 
 -(id<MKAnnotation>)mapAnnotation {
+    NSString * name = self.name;
+    NSString * codeShort = self.stationId;
+    
+    JPSThumbnail *bikeAnT = [[JPSThumbnail alloc] init];
+    bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:self]];
+    //                stopAnT.code = station.stationId;
+    bikeAnT.code = codeShort;
+    bikeAnT.shortCode = codeShort;
+    bikeAnT.title = name;
+    bikeAnT.subtitle = [NSString stringWithFormat:@"%@ - %@", self.bikesAvailableString, self.spacesAvailableString];
+    bikeAnT.coordinate = self.coordinates;
+    bikeAnT.annotationType = BikeStationLocation;
+    bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:self];
+    
+    JPSThumbnailAnnotation *annotation = [JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT];
+    annotation.associatedObject = self;
+    annotation.shrinkedImageColor = [AppManager systemYellowColor];
+    
+    return annotation;
+}
+
+-(id<MKAnnotation>)basicLocationAnnotation {
     NSString * subtitile = [NSString stringWithFormat:@"%@ - %@", self.bikesAvailableString, self.spacesAvailableString];
     
     LocationsAnnotation *newAnnotation = [[LocationsAnnotation alloc] initWithTitle:self.name

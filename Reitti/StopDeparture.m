@@ -47,7 +47,7 @@ NSString *const kIsRealTime = @"isRealTime";
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.code = [self objectOrNilForKey:kDeparturesCode fromDictionary:dict];
-            self.date = [[self objectOrNilForKey:kDeparturesDate fromDictionary:dict] stringValue];
+            self.date = [self objectOrNilForKey:kDeparturesDate fromDictionary:dict];
             self.name = [self objectOrNilForKey:kDeparturesName fromDictionary:dict];
             self.time = [self objectOrNilForKey:kDeparturesTime fromDictionary:dict];
             self.direction = [self objectOrNilForKey:kDeparturesDirection fromDictionary:dict];

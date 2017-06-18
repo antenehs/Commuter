@@ -20,14 +20,14 @@
     return filter;
 }
 
--(void)setEnabledStateForOptionType:(AnnotationType)type state:(BOOL)enabled {
+-(void)setEnabledStateForOptionType:(ReittiAnnotationType)type state:(BOOL)enabled {
     AnnotationFilterOption *option = [self optionForType:type];
     if (!option) return;
     
     option.isEnabled = enabled;
 }
 
--(BOOL)isAnnotationTypeEnabled:(AnnotationType)type {
+-(BOOL)isAnnotationTypeEnabled:(ReittiAnnotationType)type {
     AnnotationFilterOption *option = [self optionForType:type];
     if (!option) return YES;
     
@@ -58,7 +58,7 @@
     return YES;
 }
 
--(AnnotationFilterOption *)optionForType:(AnnotationType)type {
+-(AnnotationFilterOption *)optionForType:(ReittiAnnotationType)type {
     if (!self.filterOptions || self.filterOptions.count < 1) return nil;
     
     NSArray *filtered = [self.filterOptions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"annotType == %d", (int)type]];

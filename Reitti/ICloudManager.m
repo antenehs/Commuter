@@ -66,7 +66,7 @@ NSString *SavedRouteType = @"SavedRoute";
     record[kStopGtfsId] = self.stopGtfsId;
     record[kStopShortCode] = self.busStopShortCode;
     record[kStopName] = self.busStopName;
-    record[kStopCity] = self.busStopCity;
+    record[kStopCity] = self.busStopCity ? self.busStopCity : @"";
     record[kStopType] = [NSNumber numberWithInt: (int)self.stopType];
     
     CLLocationCoordinate2D coordinates = [ReittiStringFormatter convertStringTo2DCoord:self.busStopCoords];

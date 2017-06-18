@@ -23,14 +23,14 @@ CGFloat kDefaultAnnotationImageHeight = 42.0;
 
 @implementation LocationsAnnotation
 
-@synthesize title, subtitle , coordinate, code, locationType, imageNameForView;
+@synthesize title, subtitle , coordinate, code, annotationType, imageNameForView;
 
 - (id)initWithTitle:(NSString *)ttl andSubtitle:(NSString *)subttl andCoordinate:(CLLocationCoordinate2D)c2d andLocationType:(ReittiAnnotationType)type {
     if ((self = [super init])){
         title = ttl;
         coordinate = c2d;
         subtitle = subttl;
-        locationType = type;
+        annotationType = type;
     }
     
     return self;
@@ -117,7 +117,7 @@ CGFloat kDefaultAnnotationImageHeight = 42.0;
     annotationView.enabled = YES;
     annotationView.canShowCallout = YES;
     //Add callout based on specified block.
-    if (self.calloutAccessoryAction) {
+    if (self.primaryAccessoryAction) {
         annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }
     
@@ -134,11 +134,12 @@ CGFloat kDefaultAnnotationImageHeight = 42.0;
     annotationView.enabled = YES;
     annotationView.canShowCallout = YES;
     //Add callout based on specified block.
-    if (self.calloutAccessoryAction) {
+    if (self.primaryAccessoryAction) {
         annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     }
     
     UIColor *dotColor = self.shrinkedImageColor ? self.shrinkedImageColor : [AppManagerBase systemBlueColor];
+    dotColor = [dotColor colorWithAlphaComponent:0.8];
     annotationView.image = [[UIImage new] asa_addCircleBackgroundWithColor:dotColor andImageSize:CGSizeMake(8, 8) andInset:CGPointZero andOffset:CGPointZero];
     [annotationView setFrame:CGRectMake(0, 0, 8, 8)];
     

@@ -10,7 +10,7 @@
 #import "BusStop.h"
 #import "MapViewHelpers.h"
 
-@interface BusStop (MapView)
+@interface BusStop (MapView) <MapViewAnnotationProtocol>
 
 -(id<MKAnnotation>)basicLocationAnnotation;
 -(id<MKAnnotation>)basicLocationAnnotationWithIdentifier:(NSString *)annotationIdentier andAnnotationType:(ReittiAnnotationType)annotType;

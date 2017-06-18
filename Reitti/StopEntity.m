@@ -9,6 +9,7 @@
 #import "StopEntity.h"
 #import "StopLine.h"
 #import "ReittiStringFormatter.h"
+#import "ASA_Helpers.h"
 
 #ifndef APPLE_WATCH
 #import "CacheManager.h"
@@ -119,6 +120,27 @@
 
 -(void)setStopType:(StopType)stopType{
     self.stopType = stopType;
+}
+
+#pragma mark - Computed properties
+-(NSString *)displayName {
+    return [NSString stringWithFormat:@"%@ (%@)", self.busStopName, self.busStopShortCode];
+}
+
+-(NSString *)displayNameWithCity {
+    if ([NSString isNilOrEmpty:self.busStopCity]) {
+        return [self displayName];
+    } else {
+        return [NSString stringWithFormat:@"%@, %@", [self displayName], self.busStopCity];
+    }
+}
+
+-(NSString *)detailText {
+    if (![NSString isNilOrEmpty:self.busStopCity]) {
+        return [NSString stringWithFormat:@"%@ - %@", self.busStopShortCode, self.busStopCity];
+    } else {
+        return [NSString stringWithFormat:@"%@", self.busStopShortCode];
+    }
 }
 
 -(NSArray *)lineCodes{

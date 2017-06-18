@@ -25,6 +25,11 @@ typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewState) {
     JPSThumbnailAnnotationViewStateAnimating,
 };
 
+typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewSize) {
+    JPSThumbnailAnnotationViewSizeShrinked,
+    JPSThumbnailAnnotationViewSizeNormal
+};
+
 @protocol JPSThumbnailAnnotationViewProtocol <NSObject>
 
 - (void)didSelectAnnotationViewInMap:(MKMapView *)mapView;
@@ -37,8 +42,14 @@ typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewState) {
 
 @interface JPSThumbnailAnnotationView : MKAnnotationView <JPSThumbnailAnnotationViewProtocol>
 
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier;
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation
+         reuseIdentifier:(NSString *)reuseIdentifier
+          annotationSize:(JPSThumbnailAnnotationViewSize)annotationSize;
 
 - (void)updateWithThumbnail:(JPSThumbnail *)thumbnail;
+
++(CGSize)imageSize;
+
+@property (nonatomic) JPSThumbnailAnnotationViewSize annotationSize;
 
 @end

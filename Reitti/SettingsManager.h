@@ -54,8 +54,8 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 
 //Methods
 +(NSString *)uniqueDeviceIdentifier;
-+(BOOL)isAnnotationTypeEnabled:(AnnotationType)type;
-+(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(AnnotationType)type;
++(BOOL)isAnnotationTypeEnabled:(ReittiAnnotationType)type;
++(void)saveAnnotationTypeEnabled:(BOOL)enabled type:(ReittiAnnotationType)type;
 
 @property(nonatomic, class)BOOL isAnalyticsEnabled;
 

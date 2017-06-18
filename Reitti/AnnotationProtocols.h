@@ -6,20 +6,9 @@
 //  Copyright © 2017 Anteneh Sahledengel. All rights reserved.
 //
 
-typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
+#import "EnumManager.h"
 
-typedef enum {
-    DefaultAddressLocation = 0,
-    StartLocation = 1,
-    DestinationLocation = 2,
-    StopLocation = 3,
-    TransferStopLocation = 4,
-    OtherStopLocation = 5,
-    BikeStationLocation = 6,
-    ServicePointAnnotationType = 7,
-    SalesPointAnnotationType = 8,
-    LiveVehicleAnnotationType = 9
-} ReittiAnnotationType;
+typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
 
 @protocol ReittiAnnotationProtocol <NSObject>
 
@@ -37,7 +26,17 @@ typedef enum {
 @property (nonatomic) BOOL disappearsWhenZoomedOut;
 @property (nonatomic) NSInteger disappearingZoomLevel;
 
-@property (nonatomic) ReittiAnnotationType locationType;
-@property (nonatomic, copy) AnnotationActionBlock calloutAccessoryAction;
+@property (nonatomic) ReittiAnnotationType annotationType;
+
+@end
+
+@protocol ReittiActionableAnnotationProtocol <NSObject>
+
+@optional
+@property (nonatomic, copy) AnnotationActionBlock primaryAccessoryAction;
+@property (nonatomic, copy) AnnotationActionBlock secondaryButtonBlock;
+@property (nonatomic, copy) AnnotationActionBlock disclosureBlock;
+
+
 
 @end

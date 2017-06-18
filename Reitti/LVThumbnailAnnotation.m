@@ -38,7 +38,7 @@
     return _uniqueIdentifier;
 }
 
--(ReittiAnnotationType)locationType {
+-(ReittiAnnotationType)annotationType {
     return LiveVehicleAnnotationType;
 }
 

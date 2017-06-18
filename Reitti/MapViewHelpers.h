@@ -13,6 +13,7 @@
 #import "GCThumbnailAnnotation.h"
 #import "LVThumbnailAnnotation.h"
 #import "ReittiPolyline.h"
+#import "DXAnnotationView.h"
 
 
 @protocol MapViewAnnotationProtocol <NSObject>

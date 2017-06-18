@@ -45,6 +45,10 @@
 -(BusStopShort *)toBusStopShort;
 #endif
 
+@property (nonatomic, strong, readonly) NSString *displayName;
+@property (nonatomic, strong, readonly) NSString *displayNameWithCity;
+@property (nonatomic, strong, readonly) NSString *detailText;
+
 @property (nonatomic, retain, readonly) NSArray * lineCodes;
 @property (nonatomic, strong, readonly) NSArray * fullLineCodes;
 @property (nonatomic, retain, readonly) NSString * linesString;

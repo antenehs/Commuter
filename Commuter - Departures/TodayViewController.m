@@ -576,6 +576,7 @@ int kMaxNumberOfStops = 3;
             
             NSMutableArray *fDepartures = [@[] mutableCopy];
             for (StopDeparture *dept in newStop.departures) {
+                if (!dept.parsedScheduledDate) continue;
 //                NSLog(@"%@",dept);
                 if ([date timeIntervalSinceDate:dept.parsedScheduledDate] < 0) {
                     [fDepartures addObject:dept];

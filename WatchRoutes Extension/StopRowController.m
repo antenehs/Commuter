@@ -17,11 +17,7 @@
     [self.stopimage setImage:iconImage != nil ? iconImage : [UIImage imageNamed:@"busStopIcon"]];
     
     [self.stopNameLabel setText:stop.busStopName];
-    if (stop.busStopCity && ![stop.busStopCity isEqualToString:@""]) {
-        self.stopDetailLabel.text = [NSString stringWithFormat:@"%@ - %@", stop.busStopShortCode, stop.busStopCity];
-    } else {
-        self.stopDetailLabel.text = [NSString stringWithFormat:@"%@", stop.busStopShortCode];
-    }
+    self.stopDetailLabel.text = stop.detailText;
 }
 
 @end

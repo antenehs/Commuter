@@ -72,21 +72,45 @@ typedef enum {
     WeekDaySunday = 7
 } WeekDay;
 
+//typedef enum {
+//    NearByBusStopType = 11,
+//    NearByTramStopType = 12,
+//    NearByTrainStopType = 13,
+//    NearByMetroStopType = 14,
+//    NearByFerryStopType = 15,
+//    NearByAirportType = 16,
+//    SearchedStopType = 2,
+//    GeoCodeType = 3,
+//    DroppedPinType = 4,
+//    LiveVehicleType = 5,
+//    BikeStationType = 6,
+//    FavouriteType = 7,
+//    OtherType = 8
+//} AnnotationType;
+
 typedef enum {
+    DefaultAddressLocation = 0,
+    StartLocation = 1,
+    SearchedStopType = 2,
+    GeoCodeType = 3,
+    DroppedPinType = 4,
+    OtherStopLocation = 5,
+    BikeStationLocation = 6,
+    FavouriteType = 7,
+    SalesPointAnnotationType = 8,
+    LiveVehicleAnnotationType = 9,
+    AllNearByStopType = 10,
     NearByBusStopType = 11,
     NearByTramStopType = 12,
     NearByTrainStopType = 13,
     NearByMetroStopType = 14,
     NearByFerryStopType = 15,
     NearByAirportType = 16,
-    SearchedStopType = 2,
-    GeoCodeType = 3,
-    DroppedPinType = 4,
-    LiveVehicleType = 5,
-    BikeStationType = 6,
-    FavouriteType = 7,
-    OtherType = 8
-} AnnotationType;
+    DestinationLocation = 17,
+    StopLocation = 18,
+    TransferStopLocation = 19,
+    ServicePointAnnotationType = 20,
+} ReittiAnnotationType;
 
 typedef enum {
     LocationTypeUnknown = 0,
@@ -122,7 +146,8 @@ typedef enum {
 +(LegTransportType)legTypeForDigiTrasportType:(NSString *)trasportType;
 
 //Annot type methods
-+(BOOL)isNearbyStopAnnotationType:(AnnotationType)annotType;
-+(AnnotationType)annotTypeForNearbyStopType:(StopType)stopType;
++(BOOL)isNearbyStopAnnotationType:(ReittiAnnotationType)annotType;
++(ReittiAnnotationType)annotTypeForNearbyStopType:(StopType)stopType;
++(BOOL)isAnnotationType:(ReittiAnnotationType)firstType sameAsAnnotaionType:(ReittiAnnotationType)secondType;
 
 @end

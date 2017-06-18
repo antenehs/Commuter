@@ -526,6 +526,11 @@ typedef enum : NSUInteger {
     if (trainCodes) [allVehicleCodes addObjectsFromArray:trainCodes];
     allVehicleCodes = allVehicleCodes ? allVehicleCodes : nil;
     
+    if ((lineCodes || trainCodes) && allVehicleCodes.count == 0) {
+        completionHandler(nil, @"Specific search but no line codes specified");
+        return;
+    }
+    
     @try {
         self.vehicleFetchingCompletionHandler = completionHandler;
         [self fetchAllLiveVehiclesWithCodes:allVehicleCodes withCompletionHandler:completionHandler];

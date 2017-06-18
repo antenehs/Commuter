@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong)NSString *name;
 @property (nonatomic, strong)UIImage *image;
-@property (nonatomic)AnnotationType annotType;
+@property (nonatomic)ReittiAnnotationType annotType;
 @property (nonatomic)BOOL isEnabled;
 
 @end

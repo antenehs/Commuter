@@ -45,11 +45,13 @@
     
     self.stopImageView.image = [AppManager stopIconForStopType:stopEntity.stopType];
     self.stopNameLabel.text = stopEntity.busStopName;
-    if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
-        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
-    } else {
-        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", stopEntity.busStopShortCode];
-    }
+    self.stopSubtitleLabel.text = stopEntity.detailText;
+    
+//    if (stopEntity.busStopCity && ![stopEntity.busStopCity isEqualToString:@""]) {
+//        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", stopEntity.busStopShortCode, stopEntity.busStopCity];
+//    } else {
+//        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", stopEntity.busStopShortCode];
+//    }
 }
 
 -(void)setupFromHistoryEntity:(StopEntity *)historyEntity{
@@ -59,12 +61,13 @@
     
     self.stopImageView.image = [AppManager stopIconForStopType:historyEntity.stopType];
     self.stopNameLabel.text = historyEntity.busStopName;
+    self.stopSubtitleLabel.text = historyEntity.detailText;
     
-    if (historyEntity.busStopCity && ![historyEntity.busStopCity isEqualToString:@""]) {
-        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", historyEntity.busStopShortCode, historyEntity.busStopCity];
-    } else {
-        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", historyEntity.busStopShortCode];
-    }
+//    if (historyEntity.busStopCity && ![historyEntity.busStopCity isEqualToString:@""]) {
+//        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@ - %@", historyEntity.busStopShortCode, historyEntity.busStopCity];
+//    } else {
+//        self.stopSubtitleLabel.text = [NSString stringWithFormat:@"%@", historyEntity.busStopShortCode];
+//    }
     
     self.dateLabel.text = [[ReittiDateHelper sharedFormatter] formatPrittyDate:historyEntity.dateModified];
 }

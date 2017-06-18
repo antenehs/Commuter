@@ -34,7 +34,7 @@
 #import "AnnotationFilterView.h"
 #import "CoreDataManagers.h"
 #import "MigrationViewController.h"
-#import "MapViewManager.h"
+#import "MappingExtensions.h"
 
 #import <StoreKit/StoreKit.h>
 
@@ -335,7 +335,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     self.settingsManager = [SettingsManager sharedManager];
     
     self.mapViewManager = [MapViewManager managerForMapView:mapView];
-    mapView.delegate = self;
+    self.mapViewManager.delegate = self;
     
     //StartVehicleFetching
     if ([settingsManager showLiveVehicles]) {
@@ -533,14 +533,14 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
         
         //Bike stations
-        if (changedOption.annotType == BikeStationType) {
+        if (changedOption.annotType == BikeStationLocation) {
             [self plotBikeStationAnnotations:self.allBikeStations];
             [self startFetchingBikeStations];
         }
     } else {
         [self removeAllAnnotationsOfType:changedOption.annotType];
         
-        if (changedOption.annotType == BikeStationType) {
+        if (changedOption.annotType == BikeStationLocation) {
            [reittiDataManager stopUpdatingBikeStations];
         }
     }
@@ -1167,20 +1167,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     firstRecievedLocation = false;
 }
 
--(NSMutableArray *)collectStopCodes:(NSArray *)stopList {
-    
-    NSMutableArray *codeList = [[NSMutableArray alloc] init];
-    for (BusStopShort *stop in stopList) {
-        [codeList addObject:stop.gtfsId];
-    }
-    return codeList;
-}
-
--(NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList {
-    
-    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.gtfsId", codeList]];
-}
-
+#pragma mark - Plot annotations
 -(void)plotBookmarks {
     [self removeAllAnnotationsOfType:FavouriteType];
     
@@ -1199,86 +1186,115 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
+-(NSMutableArray *)collectStopCodes:(NSArray *)stopList {
+    
+    NSMutableArray *codeList = [[NSMutableArray alloc] init];
+    for (BusStopShort *stop in stopList) {
+        [codeList addObject:stop.gtfsId];
+    }
+    return codeList;
+}
+
+-(NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList {
+    
+    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.gtfsId", codeList]];
+}
+
 -(void)plotStopAnnotations:(NSArray *)stopList{
-    @try {
-        NSMutableArray *codeList;
-        codeList = [self collectStopCodes:stopList];
-        
-        NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
-        NSMutableArray *newStops = [[NSMutableArray alloc] init];
-        
-        if (stopList.count > 0) {
+    //        NSMutableArray *codeList = [self collectStopCodes:stopList];
+    
+    //        NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+    //        NSMutableArray *newStops = [[NSMutableArray alloc] init];
+    
+    if (stopList.count > 0) {
             //This is to avoid the flickering effect of removing and adding annotations
-            for (id<MKAnnotation> annotation in mapView.annotations) {
-                if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-                    JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-                    
-                    if (![codeList containsObject:annot.code]) {
-                        //Remove stop if it doesn't exist in the new list
-                        if ([EnumManager isNearbyStopAnnotationType:annot.annotationType]) {
-                            [annotToRemove addObject:annotation];
-                        }
-                    }else{
-                        //remove annot if type is bus because it might have been updated with another call from pubtrans
-                        [codeList removeObject:annot.code];
-                    }
-                }
-            }
-            newStops = [NSMutableArray arrayWithArray:[self collectStopsForCodes:codeList fromStops:stopList]];
+//            for (id<MKAnnotation> annotation in mapView.annotations) {
+//                if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+//                    JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//
+//                    if (![codeList containsObject:annot.code]) {
+//                        //Remove stop if it doesn't exist in the new list
+//                        if ([EnumManager isNearbyStopAnnotationType:annot.annotationType]) {
+//                            [annotToRemove addObject:annotation];
+//                        }
+//                    }else{
+//                        [codeList removeObject:annot.code];
+//                    }
+//                }
+//            }
+//            newStops = [NSMutableArray arrayWithArray:[self collectStopsForCodes:codeList fromStops:stopList]];
+//
+//            [mapView removeAnnotations:annotToRemove];
+        
+        NSMutableArray *allAnots = [@[] mutableCopy];
+        for (BusStop *stop in stopList) {
+            ReittiAnnotationType type = [EnumManager annotTypeForNearbyStopType:stop.stopType];
             
-            [mapView removeAnnotations:annotToRemove];
+            if (![self.annotationFilter isAnnotationTypeEnabled:type]) continue;
             
-            NSMutableArray *allAnots = [@[] mutableCopy];
-            for (BusStopShort *stop in newStops) {
-                AnnotationType type = [EnumManager annotTypeForNearbyStopType:stop.stopType];
-                if (![self.annotationFilter isAnnotationTypeEnabled:type]) continue;
+//                UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
+//
+//                CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+//                if (coordinate.latitude < 30 || coordinate.latitude > 90 || coordinate.longitude < 10 || coordinate.longitude > 90)
+//                    continue;
+//                NSString * name = stop.name;
+//                NSString * codeShort = stop.codeShort ? stop.codeShort : @"";
+//
+//                JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
+//                stopAnT.image = stopImage;
+//                stopAnT.code = stop.gtfsId;
+//                stopAnT.shortCode = codeShort;
+//                stopAnT.title = name;
+//                if (stop.linesString) {
+//                    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@ · %@",codeShort, stop.linesString];
+//                } else {
+//                    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", codeShort];
+//                }
+//
+//                stopAnT.coordinate = coordinate;
+//                stopAnT.annotationType = [EnumManager annotTypeForNearbyStopType:stop.stopType];
+//                stopAnT.annotationType = type;
+//                stopAnT.reuseIdentifier = @"NearByStopAnnotation";
+//                __weak SearchController *weakSelf = self;
+//                stopAnT.primaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
+//                if (stop.gtfsId) {
+//                    stopAnT.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
+//                    stopAnT.disclosureBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
+//                }
+            
+            JPSThumbnailAnnotation *annotation = (JPSThumbnailAnnotation *)stop.mapAnnotation;
+            if (annotation) {
                 
-                UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
+                annotation.shrinksWhenZoomedOut = YES;
+                annotation.shrinkingZoomLevel = 15;
+                annotation.disappearsWhenZoomedOut = YES;
+                annotation.disappearingZoomLevel = 13;
                 
-                CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
-                if (coordinate.latitude < 30 || coordinate.latitude > 90 || coordinate.longitude < 10 || coordinate.longitude > 90)
-                    continue;
-                NSString * name = stop.name;
-                NSString * codeShort = stop.codeShort ? stop.codeShort : @"";
-                
-                JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
-                stopAnT.image = stopImage;
-                stopAnT.code = stop.gtfsId;
-                stopAnT.shortCode = codeShort;
-                stopAnT.title = name;
-                if (stop.linesString) {
-                    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@ · %@",codeShort, stop.linesString];
-                } else {
-                    stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", codeShort];
-                }
-                
-                stopAnT.coordinate = coordinate;
-                stopAnT.annotationType = [EnumManager annotTypeForNearbyStopType:stop.stopType];
-                stopAnT.stopType = stop.stopType;
-                stopAnT.reuseIdentifier = @"NearByStopAnnotation";
                 __weak SearchController *weakSelf = self;
-                stopAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:coordinate];};
+                annotation.thumbnail.primaryButtonBlock = ^(MKAnnotationView *annotationView){
+                    [weakSelf openRouteForAnnotationWithTitle:stop.name subtitle:stop.codeShort andCoords:stop.coordinate];
+                };
                 if (stop.gtfsId) {
-                    stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
-                    stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
+                    annotation.thumbnail.secondaryButtonBlock = ^(MKAnnotationView *annotationView){
+                        [weakSelf openStopViewForCode:stop.gtfsId shortCode:stop.codeShort name:stop.name andCoords:stop.coordinate];
+                    };
+                    annotation.thumbnail.disclosureBlock = ^(MKAnnotationView *annotationView){
+                        [weakSelf openStopViewForCode:stop.gtfsId shortCode:stop.codeShort name:stop.name andCoords:stop.coordinate];
+                    };
                 }
                 
-                FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@ currentMapRegion: %@", name, codeShort, stop.coords, [ReittiStringFormatter convert2DCoordToString:self.mapView.region.center]);
-                if (CLLocationCoordinate2DIsValid(coordinate)) {
+                FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@ currentMapRegion: %@", stop.name, stop.codeShort, stop.coords, [ReittiStringFormatter convert2DCoordToString:self.mapView.region.center]);
+                if (CLLocationCoordinate2DIsValid(stop.coordinate)) {
                     //add the Station object to the array if its coordinate is valid
-                    [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
+                    [allAnots addObject:annotation];
                 } else {
                     //otherwise just log an error and go to the next station
-                    FIRCrashLog(@"Invalid station coordinate: %f, %f", coordinate.latitude, coordinate.longitude);
+                    FIRCrashLog(@"Invalid station coordinate: %f, %f", stop.coordinate.latitude, stop.coordinate.longitude);
                 }
-//                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:stopAnT]];
             }
-            
-            [self.mapView addAnnotations:allAnots];
         }
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Adding annotations failed!!! Exception %@", exception);
+        
+        [self.mapViewManager plotOnlyNewAnnotations:allAnots forAnnotationType:AllNearByStopType];
     }
 }
 
@@ -1301,7 +1317,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
     }
     
-    CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:stop.coords];
+    CLLocationCoordinate2D coordinate = stop.coordinate;
     
     NSString * name = stop.name;
     NSString * shortCode = stop.codeShort ? stop.codeShort : @"";
@@ -1321,11 +1337,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     stopAnT.coordinate = coordinate;
     stopAnT.annotationType = isBookmark ? FavouriteType : SearchedStopType;
     stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
-    stopAnT.primaryButtonBlock = ^{ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
+    stopAnT.primaryButtonBlock = ^(MKAnnotationView *annotationView){ [self openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
     if (stopCode) {
         __weak SearchController *weakSelf = self;
-        stopAnT.secondaryButtonBlock = ^{ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
-        stopAnT.disclosureBlock = ^{ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
+        stopAnT.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
+        stopAnT.disclosureBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
     }
     
     FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@", name, shortCode, stop.coords);
@@ -1335,7 +1351,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     if (select) {
         [mapView selectAnnotation:annot animated:YES];
-        [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stop.coords]];
+        [self centerMapRegionToCoordinate:stop.coordinate];
     }
 }
 
@@ -1375,8 +1391,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     geoAnT.annotationType = GeoCodeType;
     geoAnT.reuseIdentifier = @"geoLocationAnnotation";
     __weak SearchController *weakSelf = self;
-    geoAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
-    geoAnT.secondaryButtonBlock = ^{ [weakSelf showGeoCode:geoCode];};
+    geoAnT.primaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
+    geoAnT.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf showGeoCode:geoCode];};
     JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:geoAnT];
     [mapView addAnnotation:annot];
     
@@ -1417,8 +1433,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     bookmrkAnT.annotationType = FavouriteType;
     bookmrkAnT.reuseIdentifier = @"namedBookmarkAnnotation";
     __weak SearchController *weakSelf = self;
-    bookmrkAnT.primaryButtonBlock = ^{ [weakSelf openRouteForNamedAnnotationWithTitle:name andCoords:coordinate];};
-    bookmrkAnT.secondaryButtonBlock = ^{ [weakSelf showNamedBookmark:namedBookmark];};
+    bookmrkAnT.primaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForNamedAnnotationWithTitle:name andCoords:coordinate];};
+    bookmrkAnT.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf showNamedBookmark:namedBookmark];};
     
     FIRCrashLog(@"Named bookmark annotation coord: %@", namedBookmark.coords);
     
@@ -1447,7 +1463,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     annotTN.title = @"Dropped pin";
     annotTN.subtitle = @"Searching address";
     annotTN.coordinate = coordinate;
-//    annotTN.annotationType = DroppedPinType;
     annotTN.reuseIdentifier = @"geoLocationAnnotation";
     __weak SearchController *weakSelf = self;
     annotTN.primaryButtonBlock = ^{ [weakSelf openRouteFromAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
@@ -1473,8 +1488,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self searchReverseGeocodeForCoordinate:coords];
 }
 
--(void)plotBikeStationAnnotations:(NSArray *)stationList{
-    if (![self.annotationFilter isAnnotationTypeEnabled:BikeStationType]) return;
+-(void)plotBikeStationAnnotations:(NSArray *)stationList {
+    if (![self.annotationFilter isAnnotationTypeEnabled:BikeStationLocation]) return;
     @try {
         if (stationList && stationList.count > 0) {
             
@@ -1484,30 +1499,44 @@ CGFloat  kDeparturesRefreshInterval = 60;
             for (BikeStation *station in stationList) {
                 if (![ReittiMapkitHelper isValidCoordinate:station.coordinates])
                     continue;
+                
                 NSString * name = station.name;
                 NSString * codeShort = station.stationId;
+//
+//                JPSThumbnail *bikeAnT = [[JPSThumbnail alloc] init];
+//                bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:station]];
+////                stopAnT.code = station.stationId;
+//                bikeAnT.shortCode = codeShort;
+//                bikeAnT.title = name;
+//                bikeAnT.subtitle = [NSString stringWithFormat:@"%@ - %@", station.bikesAvailableString, station.spacesAvailableString];
+//                bikeAnT.coordinate = station.coordinates;
+//                bikeAnT.annotationType = BikeStationLocation;
+//                bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:station];
                 
-                JPSThumbnail *bikeAnT = [[JPSThumbnail alloc] init];
-                bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:station]];
-//                stopAnT.code = station.stationId;
-                bikeAnT.shortCode = codeShort;
-                bikeAnT.title = name;
-                bikeAnT.subtitle = [NSString stringWithFormat:@"%@ - %@", station.bikesAvailableString, station.spacesAvailableString];
-                bikeAnT.coordinate = station.coordinates;
-                bikeAnT.annotationType = BikeStationType;
-                bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:station];
-                __weak SearchController *weakSelf = self;
-                bikeAnT.primaryButtonBlock = ^{ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:station.coordinates];};
+                JPSThumbnailAnnotation *annotation = (JPSThumbnailAnnotation *)station.mapAnnotation;
+                if (annotation) {
+                    annotation.shrinksWhenZoomedOut = YES;
+                    annotation.shrinkingZoomLevel = 15;
+                    annotation.disappearsWhenZoomedOut = YES;
+                    annotation.disappearingZoomLevel = 13;
+                    
+                    __weak SearchController *weakSelf = self;
+                    
+                    annotation.thumbnail.primaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForAnnotationWithTitle:name subtitle:codeShort andCoords:station.coordinates];};
+                    
+                    [allAnots addObject:annotation];
+                }
+    
                 
                 FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
                 
-                [allAnots addObject:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
+                
 //                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
             }
             
             if (allAnots.count > 0) {
                 @try {
-                    [self.mapView addAnnotations:allAnots];
+                    [self.mapViewManager plotAnnotations:allAnots];
                 }
                 @catch (NSException *exception) {
                     NSLog(@"Adding annotations failed!!! Exception %@", exception);
@@ -1617,39 +1646,34 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //    }
 //}
 
--(void)removeAllVehicleAnnotation{
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            [mapView removeAnnotation:annotation];
+#pragma mark - Map view manager delegates
+
+//-(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+//
+//    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
+//        return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+//    }
+//    else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
+//        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+//    }
+//    else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
+//        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
+//            droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+//        }
+//        
+//        return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+//    }
+//    
+//    return nil;
+//}
+
+-(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    for (MKAnnotationView *aV in views) {
+        if ([aV isKindOfClass:[GCThumbnailAnnotationView class]]){
+            droppedPinAnnotationView = (GCThumbnailAnnotationView *)aV;
+            break;
         }
     }
-}
-
--(void)removeAllGeocodeAnnotation{
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
-            [mapView removeAnnotation:annotation];
-        }
-    }
-}
-
--(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-
-    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
-        return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }
-    else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
-        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }
-    else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
-        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
-            droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-        }
-        
-        return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }
-    
-    return nil;
 }
 
 -(void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
@@ -1709,70 +1733,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
         selectedAnnotationView = nil;
     }
-}
-
--(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    
-    MKAnnotationView *aV;
-    for (aV in views) {
-
-        if ([aV.annotation isKindOfClass:[JPSThumbnailAnnotation class]]){
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)aV.annotation ;
-            if (annot.annotationType == DroppedPinType || annot.annotationType == GeoCodeType) {
-                CGRect endFrame = aV.frame;
-                
-                aV.frame = CGRectMake(endFrame.origin.x, endFrame.origin.y - 40, endFrame.size.width, endFrame.size.height);
-                
-                [self.view asa_springAnimationWithDuration:0.2 animation:^{
-                    [aV setFrame:endFrame];
-                } completion:nil];
-            }
-        }
-        
-    }
-}
-
--(void)removeAllStopAnnotations {
-    NSMutableArray *tempArray = [@[] mutableCopy];
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-            
-            if ([EnumManager isNearbyStopAnnotationType:annot.annotationType]) {
-                [tempArray addObject:annot];
-            }
-        }
-    }
-    
-    [self.mapView removeAnnotations:tempArray];
-}
-
--(void)removeAllBikeStationAnnotations {
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-            if (annot.annotationType == BikeStationType) {
-                [mapView removeAnnotation:annotation];
-            }
-        }
-    }
-    
-    isShowingBikeAnnotations = NO;
-}
-
--(void)removeAllAnnotationsOfType:(AnnotationType)annotType {
-    NSMutableArray *tempArray = [@[] mutableCopy];
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
-            
-            if (annot.annotationType == annotType) {
-                [tempArray addObject:annot];
-            }
-        }
-    }
-    
-    [self.mapView removeAnnotations:tempArray];
 }
 
 -(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
@@ -1842,6 +1802,73 @@ CGFloat  kDeparturesRefreshInterval = 60;
     ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
 }
 
+#pragma mark - MapView helpers
+
+-(void)removeAllVehicleAnnotation {
+    [self.mapViewManager removeAllAnotationsOfType:[LVThumbnailAnnotation class]];
+    //    for (id<MKAnnotation> annotation in mapView.annotations) {
+    //        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+    //            [mapView removeAnnotation:annotation];
+    //        }
+    //    }
+}
+
+-(void)removeAllGeocodeAnnotation {
+    [self.mapViewManager removeAllAnotationsOfType:[GCThumbnailAnnotation class]];
+    //    for (id<MKAnnotation> annotation in mapView.annotations) {
+    //        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
+    //            [mapView removeAnnotation:annotation];
+    //        }
+    //    }
+}
+
+-(void)removeAllStopAnnotations {
+    NSMutableArray *tempArray = [@[] mutableCopy];
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+            
+            if ([EnumManager isNearbyStopAnnotationType:annot.annotationType]) {
+                [tempArray addObject:annot];
+            }
+        }
+    }
+    
+    [self.mapView removeAnnotations:tempArray];
+}
+
+-(void)removeAllBikeStationAnnotations {
+    [self.mapViewManager removeAllReittiAnotationsOfType:BikeStationLocation];
+    
+//    for (id<MKAnnotation> annotation in mapView.annotations) {
+//        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+//            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//            if (annot.annotationType == BikeStationLocation) {
+//                [mapView removeAnnotation:annotation];
+//            }
+//        }
+//    }
+    
+    isShowingBikeAnnotations = NO;
+}
+
+-(void)removeAllAnnotationsOfType:(ReittiAnnotationType)annotType {
+    [self.mapViewManager removeAllReittiAnotationsOfType:annotType];
+    
+//    NSMutableArray *tempArray = [@[] mutableCopy];
+//    for (id<MKAnnotation> annotation in mapView.annotations) {
+//        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
+//            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//            
+//            if (annot.annotationType == annotType) {
+//                [tempArray addObject:annot];
+//            }
+//        }
+//    }
+//    
+//    [self.mapView removeAnnotations:tempArray];
+}
+
 -(BOOL)shouldShowDroppedPin{
     
     if (!canShowDroppedPin) {
@@ -1891,11 +1918,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(BOOL)shouldShowNearByStops{
-    //Check the zoom level
-    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14)
-        return YES;
-    
-    return NO;
+    return YES;
+//    //Check the zoom level
+//    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14)
+//        return YES;
+//    
+//    return NO;
 }
 
 -(BOOL)shouldUpdateNearByStops{
@@ -2301,7 +2329,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [[DroppedPinManager sharedManager] setDroppedPin:self.droppedPinGeoCode];
     
-    if (droppedPinAnnotationView && [droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
+    if (droppedPinAnnotationView &&
+        [droppedPinAnnotationView conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
         [((NSObject<GCThumbnailAnnotationViewProtocol> *)droppedPinAnnotationView) enableAddressInfoButton];
     }
     
@@ -2330,7 +2359,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 - (void)startFetchingBikeStations {
     if (![AppManager isProVersion]) return;
     
-    if (![self.annotationFilter isAnnotationTypeEnabled:BikeStationType]) return;
+    if (![self.annotationFilter isAnnotationTypeEnabled:BikeStationLocation]) return;
     
     [self.reittiDataManager startFetchingBikeStationsWithCompletionBlock:^(NSArray *bikeStations, NSString *errorString){
         if (!errorString && bikeStations && bikeStations.count > 0) {
@@ -2369,7 +2398,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
     [self plotStopAnnotation:stopEntity.toBusStopShort withSelect:YES isBookmark:YES];
     
-    mainSearchBar.text = [NSString stringWithFormat:@"%@, %@", stopEntity.busStopName, stopEntity.busStopCity];
+    mainSearchBar.text = stopEntity.displayName;
     prevSearchedCoords = stopEntity.busStopCoords;
 }
 -(void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{

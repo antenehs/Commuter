@@ -603,6 +603,12 @@
 		6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC31CB151C80053AAE1 /* TREVehicle.m */; };
 		6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
 		6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
+		66862FEA1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */; };
+		66862FEB1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */; };
+		66862FEC1EF6FBB00023F47B /* DXAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DXAnnotationView.m */; };
+		66862FED1EF6FBB00023F47B /* DXAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DXAnnotationView.m */; };
+		66862FF01EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */; };
+		66862FF11EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */; };
 		668A8B271EF1FB8F00922F40 /* Line+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A8B261EF1FB8F00922F40 /* Line+MapView.m */; };
 		668A8B281EF1FB8F00922F40 /* Line+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A8B261EF1FB8F00922F40 /* Line+MapView.m */; };
 		668A8B2C1EF1FD7D00922F40 /* ReittiPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A8B2B1EF1FD7D00922F40 /* ReittiPolyline.m */; };
@@ -645,6 +651,8 @@
 		669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 669E6D011D393E14006C8580 /* RoutableLocation.m */; };
 		669EA1F719C83794005A04B9 /* RouteEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F619C83794005A04B9 /* RouteEntity.m */; };
 		669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */; };
+		669FEA061EF616640038318B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669FEA051EF616640038318B /* UIImageExtension.swift */; };
+		669FEA071EF616650038318B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669FEA051EF616640038318B /* UIImageExtension.swift */; };
 		66A2FB081D887612004A6C24 /* RouteSummaryRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */; };
 		66A2FB0B1D887A01004A6C24 /* RouteSummaryInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A2FB0A1D887A01004A6C24 /* RouteSummaryInterfaceController.m */; };
 		66A2FB0E1D889213004A6C24 /* RouteHeaderRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A2FB0D1D889213004A6C24 /* RouteHeaderRowController.m */; };
@@ -1851,6 +1859,11 @@
 		6684BEC41CB151C80053AAE1 /* TREVehicleLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehicleLocation.h; sourceTree = "<group>"; };
 		6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREVehicleLocation.m; sourceTree = "<group>"; };
 		6684BED01CB151F20053AAE1 /* TREVehiceDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehiceDataModels.h; sourceTree = "<group>"; };
+		66862FE61EF6FBB00023F47B /* DXAnnotationSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAnnotationSettings.h; sourceTree = "<group>"; };
+		66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAnnotationSettings.m; sourceTree = "<group>"; };
+		66862FE81EF6FBB00023F47B /* DXAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAnnotationView.h; sourceTree = "<group>"; };
+		66862FE91EF6FBB00023F47B /* DXAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAnnotationView.m; sourceTree = "<group>"; };
+		66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultAnnotationCallout.xib; sourceTree = "<group>"; };
 		668A8B251EF1FB8F00922F40 /* Line+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Line+MapView.h"; sourceTree = "<group>"; };
 		668A8B261EF1FB8F00922F40 /* Line+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Line+MapView.m"; sourceTree = "<group>"; };
 		668A8B2A1EF1FD7D00922F40 /* ReittiPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiPolyline.h; sourceTree = "<group>"; };
@@ -1917,6 +1930,7 @@
 		669EA1F619C83794005A04B9 /* RouteEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteEntity.m; sourceTree = "<group>"; };
 		669EA1F819C83794005A04B9 /* RouteHistoryEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteHistoryEntity.h; sourceTree = "<group>"; };
 		669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteHistoryEntity.m; sourceTree = "<group>"; };
+		669FEA051EF616640038318B /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		66A2FB061D887612004A6C24 /* RouteSummaryRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSummaryRowController.h; sourceTree = "<group>"; };
 		66A2FB071D887612004A6C24 /* RouteSummaryRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteSummaryRowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66A2FB091D887A01004A6C24 /* RouteSummaryInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSummaryInterfaceController.h; sourceTree = "<group>"; };
@@ -2906,6 +2920,7 @@
 				661202D41B07DD0F00D93C2E /* LVThumbnailAnnotation */,
 				66134BF21B3EE7960008C6D7 /* GeoCodeAnnotation */,
 				660DED641EF4A50C00201445 /* LocationAnnotation */,
+				66862FE51EF6FB890023F47B /* DXAnnotationView */,
 			);
 			name = CustomAnnotations;
 			sourceTree = "<group>";
@@ -2987,6 +3002,7 @@
 				663B7BDF1B4DB5B9008CF187 /* Reachability.m */,
 				6665D74D1C0B538A00ACCC3A /* ASA_Helpers.h */,
 				6665D7491C0B52DE00ACCC3A /* Categories */,
+				669FEA041EF616470038318B /* SwiftHelpers */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -3100,6 +3116,26 @@
 				6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */,
 			);
 			name = TreVehicle;
+			sourceTree = "<group>";
+		};
+		66862FE51EF6FB890023F47B /* DXAnnotationView */ = {
+			isa = PBXGroup;
+			children = (
+				66862FEE1EF6FC0F0023F47B /* CalloutViews */,
+				66862FE61EF6FBB00023F47B /* DXAnnotationSettings.h */,
+				66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */,
+				66862FE81EF6FBB00023F47B /* DXAnnotationView.h */,
+				66862FE91EF6FBB00023F47B /* DXAnnotationView.m */,
+			);
+			name = DXAnnotationView;
+			sourceTree = "<group>";
+		};
+		66862FEE1EF6FC0F0023F47B /* CalloutViews */ = {
+			isa = PBXGroup;
+			children = (
+				66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */,
+			);
+			name = CalloutViews;
 			sourceTree = "<group>";
 		};
 		668A8B291EF1FD5500922F40 /* CustomPolylines */ = {
@@ -3268,6 +3304,14 @@
 				669602D51B14D8E7006919CB /* SanFranciscoText-SemiboldItalic.otf */,
 			);
 			name = "San Fransisco Font";
+			sourceTree = "<group>";
+		};
+		669FEA041EF616470038318B /* SwiftHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				669FEA051EF616640038318B /* UIImageExtension.swift */,
+			);
+			name = SwiftHelpers;
 			sourceTree = "<group>";
 		};
 		66AF3ABA1B5596B200D6B645 /* Sounds */ = {
@@ -4238,6 +4282,7 @@
 				66C05AA71ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				663207051D27D25900D8A46D /* AddressTypes.xcassets in Resources */,
 				66160F061C580577005617CE /* Cool-96.png in Resources */,
+				66862FF01EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */,
 				66B7AE901ECA54BE00B233E7 /* Migration.storyboard in Resources */,
 				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
@@ -4422,6 +4467,7 @@
 				66C734F91C556DA5002544BC /* NotificationBackgroundMessage@2x.png in Resources */,
 				663589B71ED0D847006721EA /* Reminders.storyboard in Resources */,
 				66C734FE1C556DA5002544BC /* routes.json in Resources */,
+				66862FF11EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */,
 				663E1EE71C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4986,6 +5032,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				665BA1B61CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
+				66862FEC1EF6FBB00023F47B /* DXAnnotationView.m in Sources */,
 				66780D961C5409F800C838AA /* ServicePoint.m in Sources */,
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				664FE8BB1ECBC30300C3C0B5 /* DigiAlert.m in Sources */,
@@ -5042,6 +5089,7 @@
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66997AA71ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
+				66862FEA1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */,
 				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
 				66B7AE981ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
@@ -5189,6 +5237,7 @@
 				66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */,
 				661202D11B05085D00D93C2E /* Features.m in Sources */,
 				666602591AED933A00E3E392 /* AppManager.m in Sources */,
+				669FEA061EF616640038318B /* UIImageExtension.swift in Sources */,
 				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
 				66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */,
@@ -5263,6 +5312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				665BA1B71CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
+				66862FED1EF6FBB00023F47B /* DXAnnotationView.m in Sources */,
 				66C732C21C556DA5002544BC /* ServicePoint.m in Sources */,
 				66C732C31C556DA5002544BC /* Transport.m in Sources */,
 				66FD7FAB1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
@@ -5319,6 +5369,7 @@
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
 				66997AA81ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
+				66862FEB1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */,
 				66B7AE991ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				664FE8BC1ECBC5A600C3C0B5 /* DigiAlert.m in Sources */,
 				66C732EC1C556DA5002544BC /* DetailImageView.m in Sources */,
@@ -5466,6 +5517,7 @@
 				66C733511C556DA5002544BC /* RoutineEntity.m in Sources */,
 				66C733521C556DA5002544BC /* Features.m in Sources */,
 				66C733531C556DA5002544BC /* AppManager.m in Sources */,
+				669FEA071EF616650038318B /* UIImageExtension.swift in Sources */,
 				66C733541C556DA5002544BC /* JPSThumbnail.m in Sources */,
 				66C733551C556DA5002544BC /* AppDelegate.m in Sources */,
 				66C733561C556DA5002544BC /* EditReminderTableViewController.m in Sources */,

@@ -534,9 +534,9 @@
 }
 
 -(void)searchResultSelectedAStop:(StopEntity *)stopEntity {
-    self.fullAddress = [NSString stringWithFormat:@"%@ - %@,\n%@", [stopEntity busStopName], [stopEntity busStopShortCode], stopEntity.busStopCity ? stopEntity.busStopCity : @""];
-    self.streetAddress = [NSString stringWithFormat:@"%@ - %@", [stopEntity busStopName], [stopEntity busStopShortCode]];
-    self.city = [stopEntity busStopCity];
+    self.fullAddress = [NSString stringWithFormat:@"%@,\n%@", [stopEntity displayName], stopEntity.busStopCity ? stopEntity.busStopCity : @""];
+    self.streetAddress = [stopEntity displayNameWithCity];
+    self.city = [stopEntity busStopCity] ? stopEntity.busStopCity : @"";
     self.coords = [stopEntity busStopWgsCoords];
     self.searchedName = [stopEntity busStopName];
 //    [self.tableView reloadData];

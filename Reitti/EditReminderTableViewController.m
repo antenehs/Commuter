@@ -222,7 +222,7 @@
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     NSString *address = nil;
     
-    address = [NSString stringWithFormat:@"%@ - %@, %@", [stopEntity busStopName], [stopEntity busStopShortCode], [stopEntity busStopCity]];
+    address = [stopEntity displayNameWithCity];
     
     if (addressRequestedForFrom) {
         self.fromString = address;
@@ -238,7 +238,7 @@
     [self setDoneButtonState];
 }
 - (void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
-    NSString *address = [NSString stringWithFormat:@"%@, %@", [geoCode getStreetAddressString], [geoCode city]];
+    NSString *address = [geoCode fullAddressString];
     
     if (addressRequestedForFrom) {
         self.fromString = address;
@@ -254,7 +254,7 @@
     [self setDoneButtonState];
 }
 - (void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
-    NSString *address = [NSString stringWithFormat:@"%@, %@", [namedBookmark streetAddress], [namedBookmark city]];
+    NSString *address = [namedBookmark getFullAddress];
     
     if (addressRequestedForFrom) {
         self.fromString = address;

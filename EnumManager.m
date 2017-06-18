@@ -378,7 +378,7 @@
     return [EnumManager legTrasportTypeForLineType:lineType];
 }
 
-+ (BOOL)isNearbyStopAnnotationType:(AnnotationType)annotType {
++ (BOOL)isNearbyStopAnnotationType:(ReittiAnnotationType)annotType {
     if (annotType == NearByBusStopType ||
         annotType == NearByTramStopType ||
         annotType == NearByTrainStopType ||
@@ -391,7 +391,7 @@
     }
 }
 
-+ (AnnotationType)annotTypeForNearbyStopType:(StopType)stopType {
++ (ReittiAnnotationType)annotTypeForNearbyStopType:(StopType)stopType {
     switch (stopType) {
         case StopTypeBus: return NearByBusStopType;
         case StopTypeTram: return NearByTramStopType;
@@ -401,6 +401,20 @@
         case StopTypeAirport: return NearByAirportType;
         default: return NearByBusStopType;
     }
+}
+
++(BOOL)isAnnotationType:(ReittiAnnotationType)firstType sameAsAnnotaionType:(ReittiAnnotationType)secondType {
+    if (firstType == AllNearByStopType) {
+        return [self isNearbyStopAnnotationType:secondType];
+    }
+    
+    if (secondType == AllNearByStopType) {
+        return [self isNearbyStopAnnotationType:firstType];
+    }
+    
+    
+    
+    return firstType == secondType;
 }
 
 @end

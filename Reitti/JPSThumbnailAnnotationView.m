@@ -26,6 +26,8 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 
 @interface JPSThumbnailAnnotationView ()
 
+@property (nonatomic, strong) JPSThumbnail *thumbnail;
+
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) UIImageView *imageView;
@@ -54,7 +56,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 
 #pragma mark - Setup
 
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationSize:(JPSThumbnailAnnotationViewSize)annotationSize {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     
     if (self) {
@@ -62,13 +64,21 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
         self.frame = CGRectMake(0, 0, kJPSThumbnailAnnotationViewStandardWidth, kJPSThumbnailAnnotationViewStandardHeight);
         self.backgroundColor = [UIColor clearColor];
         self.centerOffset = CGPointMake(0, -kJPSThumbnailAnnotationViewVerticalOffset);
+//        self.clipsToBounds = YES;
         
         _state = JPSThumbnailAnnotationViewStateCollapsed;
         _systemGreenColor = [UIColor colorWithRed:51/256 green:153/256 blue:102/256 alpha:1];
+        
+        self.annotationSize = annotationSize;
+        
         [self setupView];
     }
     
     return self;
+}
+
++(CGSize)imageSize {
+    return CGSizeMake(40.0f, ASAThumbnailAnnotationViewImageViewHeight);
 }
 
 - (void)setupView {
@@ -190,14 +200,18 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     [self.layer insertSublayer:_bgLayer atIndex:0];
 }
 
-
+//Required since the callout view is out of bounds and wont be tapped
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     
+//    UIView* hitView = [super hitTest:point withEvent:event];
+//    if (hitView) {
+//        NSLog(hitView);
+//    }
     // Convert the point to the target view's coordinate system.
     // The target view isn't necessarily the immediate subview
     CGPoint pointForTargetView = [self.primaryButton convertPoint:point fromView:self];
     
-    if (CGRectContainsPoint(self.primaryButton.bounds, pointForTargetView)) {
+    if (self.primaryButton.alpha != 0 && CGRectContainsPoint(self.primaryButton.bounds, pointForTargetView)) {
         
         // The target view may have its view hierarchy,
         // so call its hitTest method to return the right hit-test view
@@ -206,12 +220,38 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     
     CGPoint pointForSTargetView = [self.secondaryButton convertPoint:point fromView:self];
     
-    if (CGRectContainsPoint(self.secondaryButton.bounds, pointForSTargetView)) {
-        
+    if (self.secondaryButton.alpha != 0 && CGRectContainsPoint(self.secondaryButton.bounds, pointForSTargetView)) {
         return [self.secondaryButton hitTest:pointForSTargetView withEvent:event];
     }
     
-    return [super hitTest:point withEvent:event];
+    CGPoint pointForImageTargetView = [self convertPoint:point fromView:self];
+    CGRect targetArea;
+    if (self.annotationSize == JPSThumbnailAnnotationViewSizeShrinked) {
+        targetArea = CGRectMake(12, 14, 10, 10);
+    } else {
+        targetArea = self.bounds;
+    }
+    if (CGRectContainsPoint(targetArea, pointForImageTargetView)) {
+        return nil;
+    }
+    
+    return nil;
+}
+
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    
+    CGPoint pointForImageTargetView = [self.imageView convertPoint:point fromView:self];
+    CGRect targetArea;
+    if (self.annotationSize == JPSThumbnailAnnotationViewSizeShrinked) {
+        targetArea = CGRectMake(18, 24, 8, 8);
+    } else {
+        targetArea = self.imageView.bounds;
+    }
+    if (CGRectContainsPoint(targetArea, pointForImageTargetView)) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 #pragma mark - Updating
@@ -222,8 +262,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     self.titleLabel.text = thumbnail.title;
     self.subtitleLabel.text = thumbnail.subtitle;
 //    self.selected = thumbnail.selected;
-    self.imageView.image = thumbnail.image;
-    self.disclosureBlock = thumbnail.disclosureBlock;
+    self.imageView.image = self.annotationSize == JPSThumbnailAnnotationViewSizeNormal ? thumbnail.image : thumbnail.shrinkedImage;
     self.primaryButtonBlock = thumbnail.primaryButtonBlock;
     self.secondaryButtonBlock = thumbnail.secondaryButtonBlock;
     self.disclosureBlock = thumbnail.disclosureBlock;
@@ -243,6 +282,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     else
         self.disclosureButton.hidden = NO;
     
+    self.thumbnail = thumbnail;
 }
 
 #pragma mark - JPSThumbnailAnnotationViewProtocol
@@ -251,6 +291,9 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     // Center map at annotation point
 //    MKCoordinateSpan span = mapView.region.span;
 //    MKCoordinateRegion region = {self.coordinate, span};
+    
+    //Always set normal size image
+    self.imageView.image = self.thumbnail.image;
     
     CGPoint annotPoint = [mapView convertCoordinate:self.coordinate toPointToView:mapView];
     
@@ -279,6 +322,9 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     //Return small primary button to position if it was moved
     self.primaryButtonSmall.frame = CGRectMake(15.0f, 15.0f, 25.0f, 25.0f);
     self.primaryButtonLabel.text = @"";
+    
+    
+    self.imageView.image = self.annotationSize == JPSThumbnailAnnotationViewSizeNormal ? self.thumbnail.image : self.thumbnail.shrinkedImage;
 }
 
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString withIconImage:(UIImage *)image {

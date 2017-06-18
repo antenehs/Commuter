@@ -13,8 +13,8 @@
 
 +(instancetype)initWithOptions:(NSArray *)filterOptions;
 
--(void)setEnabledStateForOptionType:(AnnotationType)type state:(BOOL)enabled;
--(BOOL)isAnnotationTypeEnabled:(AnnotationType)type;
+-(void)setEnabledStateForOptionType:(ReittiAnnotationType)type state:(BOOL)enabled;
+-(BOOL)isAnnotationTypeEnabled:(ReittiAnnotationType)type;
 -(BOOL)isAnyNearByStopAnnotationEnabled;
 -(BOOL)allOptionsEnabled;
 

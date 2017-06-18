@@ -66,7 +66,7 @@
     AnnotationFilterOption *option = [[AnnotationFilterOption alloc] init];
     option.name = @"Bike Station";
     option.image = [AppManager stopIconForStopType:StopTypeBikeStation];
-    option.annotType = BikeStationType;
+    option.annotType = BikeStationLocation;
     option.isEnabled = YES;
     
     return option;

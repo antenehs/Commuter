@@ -10,4 +10,10 @@
 
 @implementation JPSThumbnail
 
+-(NSString *)annotIdentifier {
+    if (!_reuseIdentifier) { _reuseIdentifier = @"JPSThumbnailAnnotationViewReuseID"; }
+    
+    return _reuseIdentifier;
+}
+
 @end

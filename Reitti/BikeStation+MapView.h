@@ -12,4 +12,6 @@
 
 @interface BikeStation(MapView) <MapViewAnnotationProtocol>
 
+-(id<MKAnnotation>)basicLocationAnnotation;
+
 @end

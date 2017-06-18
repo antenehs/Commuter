@@ -137,7 +137,7 @@
     if (!self.line || !self.line.lineStops) return stopAnnotations;
     
     for (LocationsAnnotation *stopAnnot in self.line.lineStopAnnotations) {
-        stopAnnot.calloutAccessoryAction = ^(MKAnnotationView *annotationView){
+        stopAnnot.primaryAccessoryAction = ^(MKAnnotationView *annotationView){
                                                 [self calloutAccessoryControlTappedOnAnnotationView: annotationView];
                                             };
         stopAnnot.imageCenterOffset = CGPointMake(0, -15);
@@ -303,6 +303,10 @@
     [ReittiNotificationHelper showErrorBannerMessage:@"Fetching line detail failed" andContent:nil];
     [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:error value:@3];
     [self performSelector:@selector(popViewController) withObject:nil afterDelay:2];
+}
+
+-(void)popViewController{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - live vehicle delegates
