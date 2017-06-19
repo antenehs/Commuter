@@ -15,7 +15,7 @@
     NSString * name = self.name;
     NSString * codeShort = self.stationId;
     
-    JPSThumbnail *bikeAnT = [[JPSThumbnail alloc] init];
+    AnnotationThumbnail *bikeAnT = [[AnnotationThumbnail alloc] init];
     bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:self]];
     //                stopAnT.code = station.stationId;
     bikeAnT.code = codeShort;
@@ -26,7 +26,7 @@
     bikeAnT.annotationType = BikeStationLocation;
     bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:self];
     
-    JPSThumbnailAnnotation *annotation = [JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT];
+    DetailedAnnotation *annotation = [DetailedAnnotation annotationWithThumbnail:bikeAnT];
     annotation.associatedObject = self;
     annotation.shrinkedImageColor = [AppManager systemYellowColor];
     

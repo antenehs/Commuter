@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapViewHelpers.h"
+#import "MapViewProtocols.h"
 #import "ReittiModels.h"
 
 @protocol MapViewManagerDelegate <NSObject>

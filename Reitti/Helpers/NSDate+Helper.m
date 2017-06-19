@@ -16,11 +16,13 @@
     return difference < 0 ? difference > -60 : difference < 60;
 }
 
--(NSDate *)asa_dateIgnoringTime {
-    NSDateComponents *components = [[NSCalendar currentCalendar]
-                                    components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
-                                    fromDate:[NSDate date]];
-    return [[NSCalendar currentCalendar] dateFromComponents:components];
-}
+
+//Expensive
+//-(NSDate *)asa_dateIgnoringTime {
+//    NSDateComponents *components = [[NSCalendar currentCalendar]
+//                                    components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+//                                    fromDate:[NSDate date]];
+//    return [[NSCalendar currentCalendar] dateFromComponents:components];
+//}
 
 @end

@@ -187,7 +187,7 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 
 -(NSDate *)parseTime:(NSNumber *)unixTime {
     double dateSeconds = self.serviceDay && ![self.serviceDay  isEqual: @0] ? [self.serviceDay doubleValue]
-    : [[[NSDate date] asa_dateIgnoringTime] timeIntervalSince1970];
+    : [[[ReittiDateHelper sharedFormatter] dateIgnoringTime] timeIntervalSince1970];
     double time = dateSeconds + [unixTime doubleValue];
     return [NSDate dateWithTimeIntervalSince1970:time];
 }
@@ -196,7 +196,6 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 -(StopDeparture *)reittiStopDeparture {
     StopDeparture *departure = [StopDeparture new];
     
-    //TODO: Full info when needed. Now we are only interested in the realtime times.
     departure.code = self.routeShortName;
     departure.date = nil;
     departure.name = self.routeLongName;

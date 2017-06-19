@@ -26,7 +26,7 @@
 #import "CustomeTableViewCell.h"
 #import "CommandView.h"
 #import "CustomBadge.h"
-#import "JPSThumbnailAnnotation.h"
+#import "DetailedAnnotation.h"
 #import "LVThumbnailAnnotation.h"
 #import <AddressBookUI/AddressBookUI.h>
 #import "EditAddressTableViewController.h"
@@ -98,7 +98,7 @@ typedef enum
     CLLocationManager *locationManager;
     EKEventStore * _eventStore;
     
-    NSObject<JPSThumbnailAnnotationViewProtocol> *selectedAnnotationView;
+    NSObject<DetailAnnotationViewProtocol> *selectedAnnotationView;
     MKAnnotationView *droppedPinAnnotationView;
 
     //NSTimer *notificationTimer;

@@ -11,6 +11,6 @@
 @interface NSDate (Helper)
 
 -(BOOL)asa_IsEqualToDateIgnoringSeconds:(NSDate *)otherDate;
--(NSDate *)asa_dateIgnoringTime;
+//-(NSDate *)asa_dateIgnoringTime;
 
 @end

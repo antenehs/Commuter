@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RouteLeg.h"
-#import "MapViewHelpers.h"
+#import "MapViewProtocols.h"
 
 @interface RouteLeg (MapView) <MapViewPolylineProtocol>
 

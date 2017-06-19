@@ -8,7 +8,7 @@
 
 @import MapKit;
 
-@class JPSThumbnail;
+@class AnnotationThumbnail;
 
 typedef void (^ActionBlock)();
 
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, JPSThumbnailAnnotationViewSize) {
          reuseIdentifier:(NSString *)reuseIdentifier
           annotationSize:(JPSThumbnailAnnotationViewSize)annotationSize;
 
-- (void)updateWithThumbnail:(JPSThumbnail *)thumbnail;
+- (void)updateWithThumbnail:(AnnotationThumbnail *)thumbnail;
 
 +(CGSize)imageSize;
 

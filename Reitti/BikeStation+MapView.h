@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BikeStation.h"
-#import "MapViewHelpers.h"
+#import "MapViewProtocols.h"
 
 @interface BikeStation(MapView) <MapViewAnnotationProtocol>
 

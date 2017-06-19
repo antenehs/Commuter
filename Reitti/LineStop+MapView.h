@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MapViewHelpers.h"
+#import "MapViewProtocols.h"
 #import "LineStop.h"
 
 @interface LineStop (MapView)<MapViewAnnotationProtocol>

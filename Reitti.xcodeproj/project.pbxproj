@@ -603,12 +603,14 @@
 		6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC31CB151C80053AAE1 /* TREVehicle.m */; };
 		6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
 		6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
-		66862FEA1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */; };
-		66862FEB1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */; };
-		66862FEC1EF6FBB00023F47B /* DXAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DXAnnotationView.m */; };
-		66862FED1EF6FBB00023F47B /* DXAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DXAnnotationView.m */; };
+		66862FEA1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DetailAnnotationSettings.m */; };
+		66862FEB1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DetailAnnotationSettings.m */; };
+		66862FEC1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DetailAnnotationView.m */; };
+		66862FED1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DetailAnnotationView.m */; };
 		66862FF01EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */; };
 		66862FF11EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */; };
+		66862FF61EF73C040023F47B /* DefaultAnnotationCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FF51EF73C040023F47B /* DefaultAnnotationCallout.m */; };
+		66862FF71EF73C040023F47B /* DefaultAnnotationCallout.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FF51EF73C040023F47B /* DefaultAnnotationCallout.m */; };
 		668A8B271EF1FB8F00922F40 /* Line+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A8B261EF1FB8F00922F40 /* Line+MapView.m */; };
 		668A8B281EF1FB8F00922F40 /* Line+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A8B261EF1FB8F00922F40 /* Line+MapView.m */; };
 		668A8B2C1EF1FD7D00922F40 /* ReittiPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 668A8B2B1EF1FD7D00922F40 /* ReittiPolyline.m */; };
@@ -912,7 +914,7 @@
 		66C733511C556DA5002544BC /* RoutineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */; };
 		66C733521C556DA5002544BC /* Features.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202CB1B05085D00D93C2E /* Features.m */; };
 		66C733531C556DA5002544BC /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
-		66C733541C556DA5002544BC /* JPSThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumbnail.m */; };
+		66C733541C556DA5002544BC /* AnnotationThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* AnnotationThumbnail.m */; };
 		66C733551C556DA5002544BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CC518830ED500642EE1 /* AppDelegate.m */; };
 		66C733561C556DA5002544BC /* EditReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */; };
 		66C733571C556DA5002544BC /* ASPolylineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EC18F91ACB3D07008E045D /* ASPolylineView.m */; };
@@ -939,7 +941,7 @@
 		66C7336F1C556DA5002544BC /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
 		66C733701C556DA5002544BC /* ReittiAppShortcutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7461C088FFB00ACCC3A /* ReittiAppShortcutManager.m */; };
 		66C733721C556DA5002544BC /* GCThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF41B3EE8F40008C6D7 /* GCThumbnail.m */; };
-		66C733731C556DA5002544BC /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
+		66C733731C556DA5002544BC /* DetailedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* DetailedAnnotation.m */; };
 		66C733741C556DA5002544BC /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
 		66C733751C556DA5002544BC /* AddressTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98291AD32A8300C45ADF /* AddressTypeTableViewController.m */; };
 		66C733761C556DA5002544BC /* LVThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 661202DA1B07DD4C00D93C2E /* LVThumbnailAnnotationView.m */; };
@@ -1115,8 +1117,8 @@
 		66CEE27719FA96380089A6F9 /* Disruption.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE27619FA96380089A6F9 /* Disruption.m */; };
 		66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28019FAE4000089A6F9 /* CustomBadge.m */; };
 		66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */; };
-		66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */; };
-		66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* JPSThumbnail.m */; };
+		66CEE29519FED9810089A6F9 /* DetailedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29119FED9810089A6F9 /* DetailedAnnotation.m */; };
+		66CEE29619FED9810089A6F9 /* AnnotationThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CEE29319FED9810089A6F9 /* AnnotationThumbnail.m */; };
 		66CF81A51A0EF4F90034C9AB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66CF81A41A0EF4F90034C9AB /* Accelerate.framework */; };
 		66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5218BF2E1E002DDC7B /* trench100free.otf */; };
 		66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5418BF3327002DDC7B /* timeburner_regular.ttf */; };
@@ -1859,11 +1861,13 @@
 		6684BEC41CB151C80053AAE1 /* TREVehicleLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehicleLocation.h; sourceTree = "<group>"; };
 		6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TREVehicleLocation.m; sourceTree = "<group>"; };
 		6684BED01CB151F20053AAE1 /* TREVehiceDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREVehiceDataModels.h; sourceTree = "<group>"; };
-		66862FE61EF6FBB00023F47B /* DXAnnotationSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAnnotationSettings.h; sourceTree = "<group>"; };
-		66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAnnotationSettings.m; sourceTree = "<group>"; };
-		66862FE81EF6FBB00023F47B /* DXAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAnnotationView.h; sourceTree = "<group>"; };
-		66862FE91EF6FBB00023F47B /* DXAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAnnotationView.m; sourceTree = "<group>"; };
+		66862FE61EF6FBB00023F47B /* DetailAnnotationSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailAnnotationSettings.h; sourceTree = "<group>"; };
+		66862FE71EF6FBB00023F47B /* DetailAnnotationSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailAnnotationSettings.m; sourceTree = "<group>"; };
+		66862FE81EF6FBB00023F47B /* DetailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailAnnotationView.h; sourceTree = "<group>"; };
+		66862FE91EF6FBB00023F47B /* DetailAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailAnnotationView.m; sourceTree = "<group>"; };
 		66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultAnnotationCallout.xib; sourceTree = "<group>"; };
+		66862FF41EF73C040023F47B /* DefaultAnnotationCallout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultAnnotationCallout.h; sourceTree = "<group>"; };
+		66862FF51EF73C040023F47B /* DefaultAnnotationCallout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultAnnotationCallout.m; sourceTree = "<group>"; };
 		668A8B251EF1FB8F00922F40 /* Line+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Line+MapView.h"; sourceTree = "<group>"; };
 		668A8B261EF1FB8F00922F40 /* Line+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Line+MapView.m"; sourceTree = "<group>"; };
 		668A8B2A1EF1FD7D00922F40 /* ReittiPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiPolyline.h; sourceTree = "<group>"; };
@@ -2064,11 +2068,11 @@
 		66CEE27F19FAE4000089A6F9 /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		66CEE28019FAE4000089A6F9 /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotationView.m; sourceTree = "<group>"; };
-		66CEE28F19FED9810089A6F9 /* JPSThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnail.h; sourceTree = "<group>"; };
-		66CEE29019FED9810089A6F9 /* JPSThumbnailAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotation.h; sourceTree = "<group>"; };
-		66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnailAnnotation.m; sourceTree = "<group>"; };
+		66CEE28F19FED9810089A6F9 /* AnnotationThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationThumbnail.h; sourceTree = "<group>"; };
+		66CEE29019FED9810089A6F9 /* DetailedAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedAnnotation.h; sourceTree = "<group>"; };
+		66CEE29119FED9810089A6F9 /* DetailedAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedAnnotation.m; sourceTree = "<group>"; };
 		66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPSThumbnailAnnotationView.h; sourceTree = "<group>"; };
-		66CEE29319FED9810089A6F9 /* JPSThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPSThumbnail.m; sourceTree = "<group>"; };
+		66CEE29319FED9810089A6F9 /* AnnotationThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationThumbnail.m; sourceTree = "<group>"; };
 		66CF81A41A0EF4F90034C9AB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		66D0BA5218BF2E1E002DDC7B /* trench100free.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = trench100free.otf; path = Reitti/Fonts/trench100free.otf; sourceTree = "<group>"; };
 		66D0BA5418BF3327002DDC7B /* timeburner_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = timeburner_regular.ttf; path = Reitti/Fonts/timeburner_regular.ttf; sourceTree = "<group>"; };
@@ -2157,7 +2161,7 @@
 		66F1F4891EF07D24004174D0 /* RouteCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteCoreDataManager.h; sourceTree = "<group>"; };
 		66F1F48A1EF07D24004174D0 /* RouteCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCoreDataManager.m; sourceTree = "<group>"; };
 		66F1F48D1EF07FBA004174D0 /* Reitti 18.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 18.xcdatamodel"; sourceTree = "<group>"; };
-		66F1F4901EF1E845004174D0 /* MapViewHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewHelpers.h; sourceTree = "<group>"; };
+		66F1F4901EF1E845004174D0 /* MapViewProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewProtocols.h; sourceTree = "<group>"; };
 		66F1F4911EF1E93B004174D0 /* LineStop+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LineStop+MapView.h"; sourceTree = "<group>"; };
 		66F1F4921EF1E93B004174D0 /* LineStop+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LineStop+MapView.m"; sourceTree = "<group>"; };
 		66F1F4951EF1EB52004174D0 /* MappingExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MappingExtensions.h; sourceTree = "<group>"; };
@@ -2717,7 +2721,6 @@
 		661FAF26189E8ACB00042074 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				66F1F4901EF1E845004174D0 /* MapViewHelpers.h */,
 				66F1F48F1EF1E755004174D0 /* MappingExtensions */,
 				663465BD1ECD2C5E004B8AAF /* Mapping */,
 				663E1ED81C9EBF1E00C5543A /* ReittiModels.h */,
@@ -2916,11 +2919,13 @@
 			isa = PBXGroup;
 			children = (
 				660DED531EF3480300201445 /* AnnotationProtocols.h */,
+				66CEE28F19FED9810089A6F9 /* AnnotationThumbnail.h */,
+				66CEE29319FED9810089A6F9 /* AnnotationThumbnail.m */,
 				66CEE28D19FED94B0089A6F9 /* JPSThumbnailAnnotation */,
 				661202D41B07DD0F00D93C2E /* LVThumbnailAnnotation */,
 				66134BF21B3EE7960008C6D7 /* GeoCodeAnnotation */,
 				660DED641EF4A50C00201445 /* LocationAnnotation */,
-				66862FE51EF6FB890023F47B /* DXAnnotationView */,
+				66862FE51EF6FB890023F47B /* DetailAnnotationView */,
 			);
 			name = CustomAnnotations;
 			sourceTree = "<group>";
@@ -3118,22 +3123,26 @@
 			name = TreVehicle;
 			sourceTree = "<group>";
 		};
-		66862FE51EF6FB890023F47B /* DXAnnotationView */ = {
+		66862FE51EF6FB890023F47B /* DetailAnnotationView */ = {
 			isa = PBXGroup;
 			children = (
 				66862FEE1EF6FC0F0023F47B /* CalloutViews */,
-				66862FE61EF6FBB00023F47B /* DXAnnotationSettings.h */,
-				66862FE71EF6FBB00023F47B /* DXAnnotationSettings.m */,
-				66862FE81EF6FBB00023F47B /* DXAnnotationView.h */,
-				66862FE91EF6FBB00023F47B /* DXAnnotationView.m */,
+				66862FE61EF6FBB00023F47B /* DetailAnnotationSettings.h */,
+				66862FE71EF6FBB00023F47B /* DetailAnnotationSettings.m */,
+				66CEE29019FED9810089A6F9 /* DetailedAnnotation.h */,
+				66CEE29119FED9810089A6F9 /* DetailedAnnotation.m */,
+				66862FE81EF6FBB00023F47B /* DetailAnnotationView.h */,
+				66862FE91EF6FBB00023F47B /* DetailAnnotationView.m */,
 			);
-			name = DXAnnotationView;
+			name = DetailAnnotationView;
 			sourceTree = "<group>";
 		};
 		66862FEE1EF6FC0F0023F47B /* CalloutViews */ = {
 			isa = PBXGroup;
 			children = (
 				66862FEF1EF6FC400023F47B /* DefaultAnnotationCallout.xib */,
+				66862FF41EF73C040023F47B /* DefaultAnnotationCallout.h */,
+				66862FF51EF73C040023F47B /* DefaultAnnotationCallout.m */,
 			);
 			name = CalloutViews;
 			sourceTree = "<group>";
@@ -3505,6 +3514,7 @@
 		66CA02BB1C163CB200A38858 /* View Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				66F1F4901EF1E845004174D0 /* MapViewProtocols.h */,
 				665BA1AB1CAAE8F80091C180 /* Custom views */,
 				660D312D1C36FC080051DDAA /* CollectionViewLayout */,
 				66CA033D1C1778E300A38858 /* KBPopupBubble */,
@@ -3608,10 +3618,6 @@
 			children = (
 				66CEE29219FED9810089A6F9 /* JPSThumbnailAnnotationView.h */,
 				66CEE28E19FED9810089A6F9 /* JPSThumbnailAnnotationView.m */,
-				66CEE28F19FED9810089A6F9 /* JPSThumbnail.h */,
-				66CEE29319FED9810089A6F9 /* JPSThumbnail.m */,
-				66CEE29019FED9810089A6F9 /* JPSThumbnailAnnotation.h */,
-				66CEE29119FED9810089A6F9 /* JPSThumbnailAnnotation.m */,
 			);
 			name = JPSThumbnailAnnotation;
 			sourceTree = "<group>";
@@ -5032,7 +5038,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				665BA1B61CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
-				66862FEC1EF6FBB00023F47B /* DXAnnotationView.m in Sources */,
+				66862FEC1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */,
 				66780D961C5409F800C838AA /* ServicePoint.m in Sources */,
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				664FE8BB1ECBC30300C3C0B5 /* DigiAlert.m in Sources */,
@@ -5089,7 +5095,7 @@
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66997AA71ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
-				66862FEA1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */,
+				66862FEA1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */,
 				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
 				66B7AE981ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				66F0999A1AEC234200F20D34 /* DetailImageView.m in Sources */,
@@ -5214,6 +5220,7 @@
 				661202D01B05085D00D93C2E /* BaseClass.m in Sources */,
 				664ADFF619929DF5000B4F18 /* GeoCode.m in Sources */,
 				660715FD1B45CD2C00033049 /* ProductNames.m in Sources */,
+				66862FF61EF73C040023F47B /* DefaultAnnotationCallout.m in Sources */,
 				66997AB31ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66F0996E1AE6EDDD00F20D34 /* HexColor.m in Sources */,
 				66CB960118EEE2B500E95CE5 /* CustomeTableViewCell.m in Sources */,
@@ -5238,7 +5245,7 @@
 				661202D11B05085D00D93C2E /* Features.m in Sources */,
 				666602591AED933A00E3E392 /* AppManager.m in Sources */,
 				669FEA061EF616640038318B /* UIImageExtension.swift in Sources */,
-				66CEE29619FED9810089A6F9 /* JPSThumbnail.m in Sources */,
+				66CEE29619FED9810089A6F9 /* AnnotationThumbnail.m in Sources */,
 				66947CC618830ED500642EE1 /* AppDelegate.m in Sources */,
 				66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */,
 				663465B71ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
@@ -5275,7 +5282,7 @@
 				66E6E5581CB90DA90086F611 /* MatkaStop.m in Sources */,
 				6665D7471C088FFB00ACCC3A /* ReittiAppShortcutManager.m in Sources */,
 				66134BF91B3EE8F50008C6D7 /* GCThumbnail.m in Sources */,
-				66CEE29519FED9810089A6F9 /* JPSThumbnailAnnotation.m in Sources */,
+				66CEE29519FED9810089A6F9 /* DetailedAnnotation.m in Sources */,
 				6603A8EC1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */,
 				6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */,
 				667B982A1AD32A8300C45ADF /* AddressTypeTableViewController.m in Sources */,
@@ -5312,7 +5319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				665BA1B71CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
-				66862FED1EF6FBB00023F47B /* DXAnnotationView.m in Sources */,
+				66862FED1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */,
 				66C732C21C556DA5002544BC /* ServicePoint.m in Sources */,
 				66C732C31C556DA5002544BC /* Transport.m in Sources */,
 				66FD7FAB1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
@@ -5369,7 +5376,7 @@
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
 				66997AA81ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
-				66862FEB1EF6FBB00023F47B /* DXAnnotationSettings.m in Sources */,
+				66862FEB1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */,
 				66B7AE991ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				664FE8BC1ECBC5A600C3C0B5 /* DigiAlert.m in Sources */,
 				66C732EC1C556DA5002544BC /* DetailImageView.m in Sources */,
@@ -5494,6 +5501,7 @@
 				66C733421C556DA5002544BC /* GeoCode.m in Sources */,
 				66C733441C556DA5002544BC /* ProductNames.m in Sources */,
 				66C733451C556DA5002544BC /* HexColor.m in Sources */,
+				66862FF71EF73C040023F47B /* DefaultAnnotationCallout.m in Sources */,
 				66997AB41ED2AB5B00B206D4 /* GraphQLQueryEnum.m in Sources */,
 				66C733461C556DA5002544BC /* CustomeTableViewCell.m in Sources */,
 				664FE8BD1ECBC5AB00C3C0B5 /* DigiAlertText.m in Sources */,
@@ -5518,7 +5526,7 @@
 				66C733521C556DA5002544BC /* Features.m in Sources */,
 				66C733531C556DA5002544BC /* AppManager.m in Sources */,
 				669FEA071EF616650038318B /* UIImageExtension.swift in Sources */,
-				66C733541C556DA5002544BC /* JPSThumbnail.m in Sources */,
+				66C733541C556DA5002544BC /* AnnotationThumbnail.m in Sources */,
 				66C733551C556DA5002544BC /* AppDelegate.m in Sources */,
 				66C733561C556DA5002544BC /* EditReminderTableViewController.m in Sources */,
 				663465B81ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
@@ -5555,7 +5563,7 @@
 				66E6E5591CB90DA90086F611 /* MatkaStop.m in Sources */,
 				66C733701C556DA5002544BC /* ReittiAppShortcutManager.m in Sources */,
 				66C733721C556DA5002544BC /* GCThumbnail.m in Sources */,
-				66C733731C556DA5002544BC /* JPSThumbnailAnnotation.m in Sources */,
+				66C733731C556DA5002544BC /* DetailedAnnotation.m in Sources */,
 				6603A8ED1CCFE9EB00991FBF /* ReittiRegionManager.m in Sources */,
 				66C733741C556DA5002544BC /* RouteDetailViewController.m in Sources */,
 				66C733751C556DA5002544BC /* AddressTypeTableViewController.m in Sources */,

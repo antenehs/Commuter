@@ -20,7 +20,7 @@
     
     NSString *codeShort = self.codeShort ? self.codeShort : @"";
     
-    JPSThumbnail *annotationThumb = [[JPSThumbnail alloc] init];
+    AnnotationThumbnail *annotationThumb = [[AnnotationThumbnail alloc] init];
     annotationThumb.image = [AppManager stopAnnotationImageForStopType:self.stopType];
     annotationThumb.code = self.gtfsId;
     annotationThumb.shortCode = codeShort;
@@ -37,7 +37,7 @@
     
 //    annotationThumb.shrinkedImage = [self shrinkedImage];
     
-    JPSThumbnailAnnotation *annotation = [JPSThumbnailAnnotation annotationWithThumbnail:annotationThumb];
+    DetailedAnnotation *annotation = [DetailedAnnotation annotationWithThumbnail:annotationThumb];
     annotation.associatedObject = self;
     annotation.shrinkedImageColor = [AppManager colorForStopType:self.stopType];
     
@@ -70,16 +70,5 @@
     NSString * imageName = [AppManager stopAnnotationImageNameForStopType:self.stopType];
     return [NSString stringWithFormat:@"StopLocation-%@", imageName];
 }
-
-//-(UIImage *)shrinkedImage {
-//    UIColor *shrinkedColor = [AppManager colorForStopType:self.stopType];
-//    CGSize imageSize = [JPSThumbnailAnnotationView imageSize];
-//    
-//    UIImage *dotImage = [[UIImage new] asa_addCircleBackgroundWithColor:shrinkedColor andImageSize:CGSizeMake(8, 8) andInset:CGPointZero andOffset:CGPointZero];
-//    
-//    UIImage *marginedImage = [dotImage asa_addMarginWithInsets:UIEdgeInsetsMake(imageSize.height - 14, (imageSize.width - 8)/2, 6, (imageSize.width - 8)/2 )];
-//    
-//    return marginedImage;
-//}
 
 @end

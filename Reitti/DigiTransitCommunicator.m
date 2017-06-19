@@ -102,6 +102,8 @@ typedef enum : NSUInteger {
 #pragma mark - Stop in area fetching methods
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock {
     
+    diameter = MIN(diameter, 2000);
+    
     [super doGraphQlQuery:[self stopInAreadGraphQlQueryForRegionCenterCoords:regionCenter andDiameter:diameter] mappingDiscriptor:[DigiStopAtDistance mappingDescriptorForPath:@"data.stopsByRadius.edges"] andCompletionBlock:^(NSArray *stops, NSError *error){
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
@@ -261,8 +263,6 @@ typedef enum : NSUInteger {
             completionBlock(nil, [self routeSearchErrorMessageForError:error]);
         }
     }];
-    
-    
 }
 
 -(NSString *)routeGraphQlQueryForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options {

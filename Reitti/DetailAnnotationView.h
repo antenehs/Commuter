@@ -1,5 +1,5 @@
 //
-//  DXAnnotationView.h
+//  DetailAnnotationView.h
 //  CustomCallout
 //
 //  Created by Selvin on 05/04/15.
@@ -7,9 +7,15 @@
 //
 
 #import <MapKit/MapKit.h>
-#import "DXAnnotationSettings.h"
+#import "DetailAnnotationSettings.h"
+#import "AnnotationProtocols.h"
 
-@interface DXAnnotationView : MKAnnotationView
+typedef NS_ENUM(NSInteger, DetailAnnotationViewSize) {
+    DetailAnnotationViewSizeShrinked,
+    DetailAnnotationViewSizeNormal
+};
+
+@interface DetailAnnotationView : MKAnnotationView <DetailAnnotationViewProtocol>
 
 @property(nonatomic, strong) UIView *pinView;
 @property(nonatomic, strong) UIView *calloutView;
@@ -18,9 +24,9 @@
                    reuseIdentifier:(NSString *)reuseIdentifier
                            pinView:(UIView *)pinView
                        calloutView:(UIView *)calloutView
-                          settings:(DXAnnotationSettings *)settings;
+                          settings:(DetailAnnotationSettings *)settings;
 
-- (void)hideCalloutView;
-- (void)showCalloutView;
+
+@property (nonatomic) DetailAnnotationViewSize annotationSize;
 
 @end

@@ -49,6 +49,9 @@
     /* Search date and time */
     NSDate * searchDate = searchOptions[kRouteSearchDateKey];
     if (searchDate != nil) {
+#if DEBUG
+        searchDate = [searchDate dateByAddingTimeInterval:(60 * 60 * 7)];
+#endif
         NSString *date = [[ReittiDateHelper sharedFormatter] digitransitQueryDateStringFromDate:searchDate];
         NSString *time = [[ReittiDateHelper sharedFormatter] digitransitQueryTimeStringFromDate:searchDate];
         

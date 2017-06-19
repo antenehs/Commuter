@@ -297,7 +297,7 @@ static const CGFloat kKBDefaultSlideDuration = 0.4f;
         switch ( _side) {
             case kKBPopupPointerSideTop:
             case kKBPopupPointerSideBottom:
-                targetX = kKBPopupArrowMargin + _drawable.workingWidth * position;
+                targetX = kKBPopupArrowMargin - kKBPopupArrowWidth/2 + _drawable.workingWidth * position;
                 targetY = rect1.origin.y;
                 break;
             case kKBPopupPointerSideLeft:

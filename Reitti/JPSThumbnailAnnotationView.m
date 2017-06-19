@@ -8,7 +8,7 @@
 
 @import QuartzCore;
 #import "JPSThumbnailAnnotationView.h"
-#import "JPSThumbnail.h"
+#import "AnnotationThumbnail.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 
@@ -26,7 +26,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 
 @interface JPSThumbnailAnnotationView ()
 
-@property (nonatomic, strong) JPSThumbnail *thumbnail;
+@property (nonatomic, strong) AnnotationThumbnail *thumbnail;
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) NSString *code;
@@ -256,7 +256,7 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
 
 #pragma mark - Updating
 
-- (void)updateWithThumbnail:(JPSThumbnail *)thumbnail {
+- (void)updateWithThumbnail:(AnnotationThumbnail *)thumbnail {
     self.coordinate = thumbnail.coordinate;
     self.code = thumbnail.code;
     self.titleLabel.text = thumbnail.title;
@@ -392,8 +392,6 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     }else{
         CGPathAddArc(path, NULL, rect.origin.x + radius, rect.origin.y + rect.size.height - radius, radius, M_PI, M_PI_2 + M_PI_4, 1);
         curveTouchPoint = CGPathGetCurrentPoint(path);
-        
-        
     }
 	
 	CGPathAddLineToPoint(path, NULL, parentX, rect.origin.y + rect.size.height + 7.0f);

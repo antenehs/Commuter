@@ -340,7 +340,7 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
+    if ([self zoomLevel] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
         //Zoom level changed. Force update. Do it only for stationary annotations
         NSArray *allAnnotations = [self getAllAnnotationsExceptOfType:[LVThumbnailAnnotation class]];
         [self.mapView removeAnnotations:allAnnotations];
@@ -357,10 +357,10 @@
         [self.delegate mapView:self.mapView didSelectAnnotationView:view];
     }
     
-    if ([view isKindOfClass:[DXAnnotationView class]]) {
-        [((DXAnnotationView *)view)showCalloutView];
-        view.layer.zPosition = 0;
-    }
+//    if ([view isKindOfClass:[DetailAnnotationView class]]) {
+//        [((DetailAnnotationView *)view)showCalloutView];
+//        view.layer.zPosition = 0;
+//    }
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
@@ -368,10 +368,10 @@
         [self.delegate mapView:self.mapView didDeselectAnnotationView:view];
     }
     
-    if ([view isKindOfClass:[DXAnnotationView class]]) {
-        [((DXAnnotationView *)view)hideCalloutView];
-        view.layer.zPosition = -1;
-    }
+//    if ([view isKindOfClass:[DetailAnnotationView class]]) {
+//        [((DetailAnnotationView *)view) hideCalloutView];
+//        view.layer.zPosition = -1;
+//    }
 }
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {

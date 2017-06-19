@@ -16,4 +16,5 @@ scheduledArrival,
 realtimeDeparture,
 scheduledDeparture,
 realtime,
-stopHeadsign
+stopHeadsign,
+serviceDay

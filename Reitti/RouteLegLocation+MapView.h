@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RouteLegLocation.h"
-#import "MapViewHelpers.h"
+#import "MapViewProtocols.h"
 
 @interface RouteLegLocation (MapView) <MapViewAnnotationProtocol>
 

@@ -25,6 +25,7 @@
 -(NSString *)digitransitQueryDateStringFromDate:(NSDate *)date;
 -(NSString *)digitransitQueryTimeStringFromDate:(NSDate *)date;
 
+
 +(BOOL)isSameDateAsToday:(NSDate *)date1;
 +(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 
@@ -38,5 +39,9 @@
 
 @property (nonatomic, strong) NSDateFormatter *digiTransitDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *digiTransitTimeFormatter;
+
+@property (nonatomic, strong) NSCalendar *currentCalendar;
+
+@property (nonatomic) NSDate *dateIgnoringTime;
 
 @end

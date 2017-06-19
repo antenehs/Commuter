@@ -1,5 +1,5 @@
 //
-//  MapViewHelpers.h
+//  MapViewProtocols.h
 //  Reitti
 //
 //  Created by Anteneh Sahledengel on 6/15/17.
@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "LocationsAnnotation.h"
-#import "JPSThumbnailAnnotation.h"
+#import "DetailedAnnotation.h"
 #import "GCThumbnailAnnotation.h"
 #import "LVThumbnailAnnotation.h"
 #import "ReittiPolyline.h"
-#import "DXAnnotationView.h"
+#import "DetailAnnotationView.h"
+#import "DefaultAnnotationCallout.h"
+#import "AnnotationThumbnail.h"
 
 
 @protocol MapViewAnnotationProtocol <NSObject>

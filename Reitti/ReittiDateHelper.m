@@ -110,6 +110,14 @@
     return _digiTransitTimeFormatter;
 }
 
+-(NSCalendar *)currentCalendar {
+    if (!_currentCalendar) {
+        _currentCalendar = [NSCalendar currentCalendar];
+    }
+    
+    return _currentCalendar;
+}
+
 #pragma mark - Public methods
 /**
 Expected format @"YYYYMMdd" and @"HHmm"
@@ -297,6 +305,13 @@ Expected format @"YYYYMMdd" and @"HHmm"
 
 -(NSString *)digitransitQueryTimeStringFromDate:(NSDate *)date {
     return [self.digiTransitTimeFormatter stringFromDate:date];
+}
+
+-(NSDate *)dateIgnoringTime {
+    NSDateComponents *components = [self.currentCalendar
+                                    components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
+                                    fromDate:[NSDate date]];
+    return [self.currentCalendar dateFromComponents:components];
 }
 
 @end

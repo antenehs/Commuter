@@ -1,5 +1,5 @@
 //
-//  DXAnnotationSettings.h
+//  DetailAnnotationSettings.h
 //  CustomCallout
 //
 //  Created by Selvin on 12/04/15.
@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger, DXCalloutAnimation) {
-    DXCalloutAnimationNone,
-    DXCalloutAnimationFadeIn,
-    DXCalloutAnimationZoomIn
+typedef NS_ENUM(NSUInteger, DetailCalloutAnimation) {
+    DetailCalloutAnimationNone,
+    DetailCalloutAnimationFadeIn,
+    DetailCalloutAnimationZoomIn
 };
 
-@interface DXAnnotationSettings : NSObject
+@interface DetailAnnotationSettings : NSObject
 
 @property(nonatomic, assign) CGFloat calloutOffset;
 
@@ -26,7 +26,8 @@ typedef NS_ENUM(NSUInteger, DXCalloutAnimation) {
 @property(nonatomic, strong) UIColor *calloutBorderColor;
 @property(nonatomic, assign) CGFloat calloutBorderWidth;
 
-@property(nonatomic, assign) DXCalloutAnimation animationType;
+@property(nonatomic, assign) DetailCalloutAnimation showAnimationType;
+@property(nonatomic, assign) DetailCalloutAnimation hideAnimationType;
 @property(nonatomic, assign) NSTimeInterval animationDuration;
 
 + (instancetype)defaultSettings;

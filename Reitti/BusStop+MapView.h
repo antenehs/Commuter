@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BusStop.h"
-#import "MapViewHelpers.h"
+#import "MapViewProtocols.h"
 
 @interface BusStop (MapView) <MapViewAnnotationProtocol>
 

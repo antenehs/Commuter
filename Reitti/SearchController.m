@@ -35,6 +35,7 @@
 #import "CoreDataManagers.h"
 #import "MigrationViewController.h"
 #import "MappingExtensions.h"
+#import "JPSThumbnailAnnotationView.h"
 
 #import <StoreKit/StoreKit.h>
 
@@ -1209,8 +1210,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (stopList.count > 0) {
             //This is to avoid the flickering effect of removing and adding annotations
 //            for (id<MKAnnotation> annotation in mapView.annotations) {
-//                if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-//                    JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//                if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+//                    DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
 //
 //                    if (![codeList containsObject:annot.code]) {
 //                        //Remove stop if it doesn't exist in the new list
@@ -1240,7 +1241,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //                NSString * name = stop.name;
 //                NSString * codeShort = stop.codeShort ? stop.codeShort : @"";
 //
-//                JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
+//                AnnotationThumbnail *stopAnT = [[AnnotationThumbnail alloc] init];
 //                stopAnT.image = stopImage;
 //                stopAnT.code = stop.gtfsId;
 //                stopAnT.shortCode = codeShort;
@@ -1262,13 +1263,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //                    stopAnT.disclosureBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stop.gtfsId shortCode:codeShort name:name andCoords:coordinate];};
 //                }
             
-            JPSThumbnailAnnotation *annotation = (JPSThumbnailAnnotation *)stop.mapAnnotation;
+            DetailedAnnotation *annotation = (DetailedAnnotation *)stop.mapAnnotation;
             if (annotation) {
                 
                 annotation.shrinksWhenZoomedOut = YES;
                 annotation.shrinkingZoomLevel = 15;
                 annotation.disappearsWhenZoomedOut = YES;
-                annotation.disappearingZoomLevel = 13;
+                annotation.disappearingZoomLevel = 14;
                 
                 __weak SearchController *weakSelf = self;
                 annotation.thumbnail.primaryButtonBlock = ^(MKAnnotationView *annotationView){
@@ -1300,8 +1301,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(void)plotStopAnnotation:(BusStopShort *)stop withSelect:(BOOL)select isBookmark:(bool)isBookmark{
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
+        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+            DetailedAnnotation *sAnnotation = (DetailedAnnotation *)annotation;
             if ([sAnnotation.code isEqualToString: stop.gtfsId]) {
                 //If is bookmark, no need to draw again.
                 if (isBookmark && !select) {
@@ -1323,7 +1324,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     NSString * shortCode = stop.codeShort ? stop.codeShort : @"";
     NSString * stopCode = stop.gtfsId;
     
-    JPSThumbnail *stopAnT = [[JPSThumbnail alloc] init];
+    AnnotationThumbnail *stopAnT = [[AnnotationThumbnail alloc] init];
     UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
     stopAnT.image = stopImage;
     stopAnT.code = stopCode;
@@ -1346,7 +1347,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@", name, shortCode, stop.coords);
     
-    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:stopAnT];
+    DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:stopAnT];
     [mapView addAnnotation:annot];
     
     if (select) {
@@ -1358,8 +1359,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)plotGeoCodeAnnotation:(GeoCode *)geoCode{
     
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
+        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+            DetailedAnnotation *sAnnotation = (DetailedAnnotation *)annotation;
             if (sAnnotation.annotationType == SearchedStopType) {
                 [mapView removeAnnotation:annotation];
             }
@@ -1383,7 +1384,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         //[self plotStopAnnotation:<#(StopEntity *)#> forCoordinate:<#(NSString *)#>]
     }
     
-    JPSThumbnail *geoAnT = [[JPSThumbnail alloc] init];
+    AnnotationThumbnail *geoAnT = [[AnnotationThumbnail alloc] init];
     geoAnT.image = geoCode.annotationImage;
     geoAnT.title = name;
     geoAnT.subtitle = city;
@@ -1393,7 +1394,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     __weak SearchController *weakSelf = self;
     geoAnT.primaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForAnnotationWithTitle:name subtitle:city andCoords:coordinate];};
     geoAnT.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf showGeoCode:geoCode];};
-    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:geoAnT];
+    DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:geoAnT];
     [mapView addAnnotation:annot];
     
     [mapView selectAnnotation:annot animated:YES];
@@ -1407,8 +1408,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(void)plotNamedBookmarkAnnotation:(NamedBookmark *)namedBookmark withSelect:(BOOL)select {
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *sAnnotation = (JPSThumbnailAnnotation *)annotation;
+        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+            DetailedAnnotation *sAnnotation = (DetailedAnnotation *)annotation;
             
             if ([sAnnotation.thumbnail.shortCode isEqualToString:namedBookmark.getUniqueIdentifier] && sAnnotation.annotationType == FavouriteType) {
                 [mapView removeAnnotation:sAnnotation];
@@ -1424,7 +1425,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     subtitle = [NSString stringWithFormat:@"%@, %@", namedBookmark.streetAddress , namedBookmark.city];
     
     
-    JPSThumbnail *bookmrkAnT = [[JPSThumbnail alloc] init];
+    AnnotationThumbnail *bookmrkAnT = [[AnnotationThumbnail alloc] init];
     bookmrkAnT.shortCode = namedBookmark.getUniqueIdentifier;
     bookmrkAnT.image = namedBookmark.annotationImage;
     bookmrkAnT.title = name;
@@ -1438,7 +1439,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     FIRCrashLog(@"Named bookmark annotation coord: %@", namedBookmark.coords);
     
-    JPSThumbnailAnnotation *annot = [JPSThumbnailAnnotation annotationWithThumbnail:bookmrkAnT];
+    DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:bookmrkAnT];
     [mapView addAnnotation:annot];
     
     if (select) {
@@ -1503,7 +1504,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 NSString * name = station.name;
                 NSString * codeShort = station.stationId;
 //
-//                JPSThumbnail *bikeAnT = [[JPSThumbnail alloc] init];
+//                AnnotationThumbnail *bikeAnT = [[AnnotationThumbnail alloc] init];
 //                bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:station]];
 ////                stopAnT.code = station.stationId;
 //                bikeAnT.shortCode = codeShort;
@@ -1513,12 +1514,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //                bikeAnT.annotationType = BikeStationLocation;
 //                bikeAnT.reuseIdentifier = [AppManager stationAnnotionImageNameForBikeStation:station];
                 
-                JPSThumbnailAnnotation *annotation = (JPSThumbnailAnnotation *)station.mapAnnotation;
+                DetailedAnnotation *annotation = (DetailedAnnotation *)station.mapAnnotation;
                 if (annotation) {
                     annotation.shrinksWhenZoomedOut = YES;
                     annotation.shrinkingZoomLevel = 15;
                     annotation.disappearsWhenZoomedOut = YES;
-                    annotation.disappearingZoomLevel = 13;
+                    annotation.disappearingZoomLevel = 14;
                     
                     __weak SearchController *weakSelf = self;
                     
@@ -1531,7 +1532,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
                 
                 
-//                [self.mapView addAnnotation:[JPSThumbnailAnnotation annotationWithThumbnail:bikeAnT]];
+//                [self.mapView addAnnotation:[DetailedAnnotation annotationWithThumbnail:bikeAnT]];
             }
             
             if (allAnots.count > 0) {
@@ -1677,10 +1678,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)mapView:(MKMapView *)affectedMapView didSelectAnnotationView:(MKAnnotationView *)view{
-    if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+    if ([view conformsToProtocol:@protocol(DetailAnnotationViewProtocol)]) {
         ignoreRegionChange = YES;
-        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
-        selectedAnnotationView = (NSObject<JPSThumbnailAnnotationViewProtocol> *)view;
+        [((NSObject<DetailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
+        selectedAnnotationView = (NSObject<DetailAnnotationViewProtocol> *)view;
         id<MKAnnotation> ann = view.annotation;
         CLLocationCoordinate2D coord = ann.coordinate;
 //        NSLog(@"lat = %f, lon = %f", coord.latitude, coord.longitude);
@@ -1698,19 +1699,19 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }];
         
         //Not needed with digi transit
-//        if ([view.annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-//            JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)view.annotation;
-//            NSString *code = stopAnnotation.thumbnail.code;;
-//            
-//            RTStopSearchParam *searchParam = [RTStopSearchParam new];
-//            searchParam.longCode = code;
-//            
-//            [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
-//                if (!errorString) {
-//                    [self detailStopFetchCompleted:stop];
-//                }
-//            }];
-//        }
+        if ([view.annotation isKindOfClass:[DetailedAnnotation class]]) {
+            DetailedAnnotation *stopAnnotation = (DetailedAnnotation *)view.annotation;
+            NSString *code = stopAnnotation.thumbnail.code;;
+            
+            RTStopSearchParam *searchParam = [RTStopSearchParam new];
+            searchParam.longCode = code;
+            
+            [self.reittiDataManager fetchStopsForSearchParams:searchParam andCoords:coord withCompletionBlock:^(BusStop *stop, NSString *errorString){
+                if (!errorString) {
+                    [self detailStopFetchCompleted:stop];
+                }
+            }];
+        }
         
         [centerLocatorView removeFromSuperview];
         if (droppedPinAnnotationView)
@@ -1726,6 +1727,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
     if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
         [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+        selectedAnnotationView = nil;
+        NSAssert(false, @"This should not be used anymore");
+    }
+    
+    if ([view conformsToProtocol:@protocol(DetailAnnotationViewProtocol)]) {
+        [((NSObject<DetailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
         selectedAnnotationView = nil;
     }
     
@@ -1825,8 +1832,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)removeAllStopAnnotations {
     NSMutableArray *tempArray = [@[] mutableCopy];
     for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+            DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
             
             if ([EnumManager isNearbyStopAnnotationType:annot.annotationType]) {
                 [tempArray addObject:annot];
@@ -1841,8 +1848,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.mapViewManager removeAllReittiAnotationsOfType:BikeStationLocation];
     
 //    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-//            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+//            DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
 //            if (annot.annotationType == BikeStationLocation) {
 //                [mapView removeAnnotation:annotation];
 //            }
@@ -1857,8 +1864,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
 //    NSMutableArray *tempArray = [@[] mutableCopy];
 //    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[JPSThumbnailAnnotation class]]) {
-//            JPSThumbnailAnnotation *annot = (JPSThumbnailAnnotation *)annotation;
+//        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
+//            DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
 //            
 //            if (annot.annotationType == annotType) {
 //                [tempArray addObject:annot];
@@ -2632,9 +2639,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         NSString *stopCode, *stopShortCode, *stopName;
         CLLocationCoordinate2D stopCoords;
         
-        if ([annotationView.annotation isKindOfClass:[JPSThumbnailAnnotation class]])
+        if ([annotationView.annotation isKindOfClass:[DetailedAnnotation class]])
         {
-            JPSThumbnailAnnotation *stopAnnotation = (JPSThumbnailAnnotation *)annotationView.annotation;
+            DetailedAnnotation *stopAnnotation = (DetailedAnnotation *)annotationView.annotation;
             if ([EnumManager isNearbyStopAnnotationType:stopAnnotation.thumbnail.annotationType] || stopAnnotation.thumbnail.annotationType == SearchedStopType) {
                 stopCode = stopAnnotation.code;
                 stopCoords = stopAnnotation.coordinate;

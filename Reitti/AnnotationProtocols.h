@@ -18,7 +18,6 @@ typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
 @property (nonatomic, strong) NSString *uniqueIdentifier;
 
 @optional
-- (MKAnnotationView *)smallAnnotationViewInMap:(MKMapView *)mapView;
 @property (nonatomic) BOOL shrinksWhenZoomedOut;
 @property (nonatomic, strong) UIColor *shrinkedImageColor;
 @property (nonatomic) NSInteger shrinkingZoomLevel;
@@ -37,6 +36,22 @@ typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
 @property (nonatomic, copy) AnnotationActionBlock secondaryButtonBlock;
 @property (nonatomic, copy) AnnotationActionBlock disclosureBlock;
 
+@end
+
+@protocol DetailAnnotationViewProtocol <NSObject>
+
+- (void)didSelectAnnotationViewInMap:(MKMapView *)mapView;
+- (void)didDeselectAnnotationViewInMap:(MKMapView *)mapView;
+- (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString withIconImage:(UIImage *)image;
+- (void)setSubtitleLabelText:(NSString *)subtitleText;
+
+@end
 
 
+@protocol AnnotationCalloutProtocol <NSObject>
+@optional
+- (void)didShowCalloutView;
+- (void)didHideCalloutView;
+- (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString withIconImage:(UIImage *)image;
+- (void)setSubtitleLabelText:(NSString *)subtitleText;
 @end
