@@ -23,16 +23,21 @@
 #import "LocationsAnnotation.h"
 #import "MapViewManager.h"
 #import "MappingExtensions.h"
+#import "ReittiLocationManager.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
 typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
-@interface StopViewController ()
+@interface StopViewController () <ReittiLocationManagerProtocol> {
+    BOOL fetchedRouteAlready;
+    BOOL mapViewCenteredAlready;
+}
 
 @property (nonatomic) NSArray<id<UIPreviewActionItem>> *previewActions;
 @property (nonatomic) NSTimer *reloadTimer;
 
 @property (strong, nonatomic) MapViewManager *mapViewManager;
+@property (strong, nonatomic) ReittiLocationManager *locationManager;
 
 @end
 
@@ -57,8 +62,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self initDataManagerIfNull];
     
@@ -70,7 +74,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     stopBookmarked = NO;
     departuresTableIndex = nil;
-//    pressTime = 0;
+    
+    fetchedRouteAlready = NO;
+    mapViewCenteredAlready = NO;
     
     modalMode = [NSNumber numberWithBool:NO];
     
@@ -88,8 +94,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [self setNeedsStatusBarAppearanceUpdate];
     
     mapView = [[MKMapView alloc] init];
-//    mapView.delegate = self;
+    mapView.showsUserLocation = YES;
     self.mapViewManager = [MapViewManager managerForMapView:mapView];
+    [self initLocationUpdating];
     
     [self initNotifications];
     
@@ -131,11 +138,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     return [[MyFixedLayoutGuide alloc] initWithLength:topBarView.frame.size.height];
 }
 
-//- (id<UILayoutSupport>)bottomLayoutGuide {
-//    return [[MyFixedLayoutGuide alloc] initWithLength:-bottomBarView.frame.origin.y];
-//}
-
-
 #pragma mark - initialization
 - (void)initDataManagerIfNull {
     // Do any additional setup after loading the view.
@@ -170,7 +172,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     topToolbarHeightConstraint.constant = self.routeSearchHandler == nil ? 0 : 44;
     [self.view layoutSubviews];
-//    topToolBar.hidden = self.routeSearchHandler == nil;
     
     [self setUpMapViewForBusStop];
     
@@ -188,10 +189,13 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     @catch (NSException *exception) {}
 }
 
-- (void)setUpMapViewForBusStop{
+- (void)setUpMapViewForBusStop {
     [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 160)];
     
-    [self centerMapRegionToCoordinate:stopCoords];
+    if (!mapViewCenteredAlready) {
+        [self centerMapRegionToCoordinate:stopCoords];
+        mapViewCenteredAlready = YES;
+    }
     [self plotStopAnnotation];
     
     [departuresTable addParallaxWithView:mapView andHeight:160];
@@ -273,29 +277,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"Stop View" value:nil];
 }
 
-
-//- (IBAction)showMapViewButtonPressed:(id)sender {
-//    departuresTableViewContainer.hidden = !departuresTableViewContainer.hidden;
-//    if (departuresTableViewContainer.hidden) {
-//        [showLocationBarButtonItem setTitle:@"Show departures"];
-//    }else{
-//        [showLocationBarButtonItem setTitle:@"Show on map"];
-//    }
-//    [self startTimer];
-//}
-
-//- (IBAction)hideMapViewButtonPressed:(id)sender {
-//    departuresTableViewContainer.hidden = NO;
-////    NSLog(@"Time is %d", pressTime);
-//    if (pressTime < 1) {
-//        pressingInfoLabel.hidden = NO;
-//    }else{
-//        pressingInfoLabel.hidden = YES;
-//    }
-//    pressTime = 0;
-//    [timer invalidate];
-//}
-
 -(IBAction)showFullTimeTable:(id)sender{
     [self performSegueWithIdentifier:@"seeFullTimeTable" sender:self];
 }
@@ -346,6 +327,29 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 #pragma mark - mapView methods
+-(void)initLocationUpdating {
+    self.locationManager = [ReittiLocationManager sharedManager];
+    self.locationManager.delegate = self;
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    //Search route
+    if (!fetchedRouteAlready) {
+        CLLocationCoordinate2D coord = self.locationManager.currentUserLocation.coordinate;
+        NSString *toCoordsString = [ReittiStringFormatter convert2DCoordToString:coord];
+
+        NSString *fromCoordsString = [ReittiStringFormatter convert2DCoordToString:stopCoords];
+        
+        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
+            if (!error && result && result.count > 0) {
+                [self drawWalkingPolylineForRoute:[result firstObject]];
+            }
+        }];
+        
+        fetchedRouteAlready = YES;
+    }
+}
+
 -(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate{
     if (coordinate.latitude < 30 || coordinate.latitude > 90 || coordinate.longitude < 0 || coordinate.longitude > 150)
         return NO;
@@ -376,27 +380,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     }
 }
 
-//- (MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-//    static NSString *selectedIdentifier = @"selectedLocation";
-//    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
-//        MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:selectedIdentifier];
-//        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:selectedIdentifier];
-//        annotationView.enabled = YES;
-//
-//        if (_busStop) {
-//            annotationView.image = [AppManager stopAnnotationImageForStopType:_busStop.stopType];
-//        }else{
-//            annotationView.image = [AppManager stopAnnotationImageForStopType:StopTypeBus];
-//        }
-//        
-//        [annotationView setFrame:CGRectMake(0, 0, 30, 42)];
-//        annotationView.centerOffset = CGPointMake(0,-21);
-//        
-//        return annotationView;
-//    }
-//    
-//    return nil;
-//}
+-(void)drawWalkingPolylineForRoute:(Route *)route {
+    if (route.isOnlyWalkingRoute && route.routeLegs && route.routeLegs.count > 0) {
+        [self.mapViewManager drawPolylineForObject:route.routeLegs[0] andAdjustToFit:YES];
+    }
+}
 
 #pragma mark - reminder methods
 - (void)setStopBookmarkedState{
@@ -692,20 +680,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     departuresTableIndex = [departuresTable indexPathForCell:cell];
     
 }
-
-//#pragma mark - timer methods
-//- (void) startTimer {
-//    timer = [NSTimer scheduledTimerWithTimeInterval:0.1
-//                                     target:self
-//                                   selector:@selector(tick:)
-//                                   userInfo:nil
-//                                    repeats:YES];
-//}
-
-//- (void) tick:(NSTimer *) timer {
-//    //do something here..
-//    pressTime ++;
-//}
 
 #pragma - mark RettiDataManager Delegate methods
 -(void)stopFetchDidComplete:(BusStop *)stop{

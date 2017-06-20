@@ -49,14 +49,9 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
     IBOutlet UILabel *stopViewTitle;
     IBOutlet UILabel *stopViewSubTitle;
     IBOutlet UIButton *bookmarkButton;
-//    IBOutlet UIButton *seeFullTimeTableButton;
-//    IBOutlet UIButton *showLocationButton;
-//    IBOutlet UILabel *pressingInfoLabel;
-//    IBOutlet UIBarButtonItem *showLocationBarButtonItem;
     
     UIButton *fullTimeTableButton;
     
-//    EKEventStore * _eventStore;
     BOOL stopFetched;
     BOOL stopFetchFailed;
     BOOL stopDetailRequested;

@@ -91,7 +91,7 @@ typedef enum{
 @property (strong, nonatomic) MKPolylineRenderer *currentpolyLine;
 @property (strong, nonatomic) NSString *toLocation;
 @property (strong, nonatomic) NSString *fromLocation;
-@property (strong, nonatomic)CLLocation * currentUserLocation;
+@property (strong, nonatomic) CLLocation * currentUserLocation;
 
 @property (nonatomic)ReittiApi useApi;
 

@@ -29,6 +29,135 @@
     return manager;
 }
 
+#pragma mark - Annotation Plotting
+//This method should be called only once for an annotation type in a map
+-(void)plotOnlyNewAnnotations:(NSArray *)annotations forAnnotationType:(ReittiAnnotationType)annotationType {
+    if (!annotations) { return; }
+    
+    NSArray *codeList = [self collectReittiAnnotationUniqueCodesFromAnnotations:annotations];
+    
+    codeList = [self removeAllReittiAnotationsOfType:annotationType notInCodeList:codeList];
+    
+    NSArray *newAnnotations = [self collectReittiAnnotationForUniqueCodes:codeList fromAnnotations:annotations];
+    
+    [self plotAnnotations:newAnnotations];
+}
+
+-(void)plotAnnotations:(NSArray *)annotations {
+    if (!annotations || annotations.count == 0) return;
+    
+    //Filter out annotations that should disappear for zoom level
+    annotations = [self filterOutAnnotationsForZoomLevel:annotations];
+    
+    @try {
+//        FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
+        [self.mapView removeAnnotations:annotations];
+        [self.mapView addAnnotations:annotations];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Adding annotations failed!!! Exception %@", exception);
+    }
+}
+
+-(void)plotVehicleAnnotations:(NSArray *)vehicleList {
+    
+    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
+    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
+    
+    for (id<MKAnnotation> annotation in self.mapView.annotations) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            
+            if (![codeList containsObject:annot.code]) {
+                [annotToRemove addObject:annotation];
+            }else{
+                [codeList removeObject:annot.code];
+                [existingVehicles addObject:annotation];
+            }
+        }
+    }
+    
+    for (id<MKAnnotation> annotation in existingVehicles) {
+        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
+            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
+            @try {
+                Vehicle *updatedVehicle = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
+                
+                if (updatedVehicle.bearing == -1 || updatedVehicle.bearing == 0) {
+                    double bearing = [MapViewManager getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:updatedVehicle.coords];
+                    if (bearing != 0) {
+                        updatedVehicle.bearing = bearing;
+                        [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:updatedVehicle.vehicleType]];
+                    }else{
+                        updatedVehicle.bearing = -1; //Do not update
+                    }
+                }
+                
+                if (updatedVehicle.bearing != -1) {
+                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:updatedVehicle.bearing]];
+                }
+                
+                annot.coordinate = updatedVehicle.coords;
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
+                [annotToRemove addObject:annot];
+                [codeList addObject:annot.code];
+            }
+        }
+    }
+    
+    [self.mapView removeAnnotations:annotToRemove];
+    
+    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
+    
+    for (Vehicle *vehicle in newVehicles) {
+        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
+        //        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
+        if (vehicle.bearing != -1 ) {
+            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
+        }else{
+            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
+        }
+        vehicleAnT.code = vehicle.vehicleId;
+        vehicleAnT.title = vehicle.vehicleName;
+        vehicleAnT.lineId = vehicle.vehicleLineId;
+        vehicleAnT.vehicleType = vehicle.vehicleType;
+        vehicleAnT.coordinate = vehicle.coords;
+        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
+        vehicleAnT.associatedVehicle = vehicle;
+        
+        [self.mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
+    }
+}
+
+#pragma mark - Annotation filter helpers
+-(NSArray *)filterOutAnnotationsForZoomLevel:(NSArray *)annotations {
+    NSMutableArray *filtered = [@[] mutableCopy];
+    NSInteger currentZoomLevel = [self zoomLevel];
+    for (id<MKAnnotation> annotation in annotations) {
+        if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
+            if([(NSObject<ReittiAnnotationProtocol> *)annotation disappearsWhenZoomedOut]) {
+                if (currentZoomLevel < [(NSObject<ReittiAnnotationProtocol> *)annotation disappearingZoomLevel]) {
+                    [self.mapView removeAnnotation:annotation];
+                } else {
+                    [filtered addObject:annotation];
+                }
+            } else {
+                [filtered addObject:annotation];
+            }
+        } else {
+            [filtered addObject:annotation];
+        }
+    }
+    
+    return filtered;
+}
+
 -(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType {
     for (id<MKAnnotation> annotation in self.mapView.annotations) {
         if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
@@ -147,82 +276,6 @@
     return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
 }
 
--(void)plotVehicleAnnotations:(NSArray *)vehicleList {
-    
-    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
-    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
-    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
-    
-    for (id<MKAnnotation> annotation in self.mapView.annotations) {
-        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-            
-            if (![codeList containsObject:annot.code]) {
-                [annotToRemove addObject:annotation];
-            }else{
-                [codeList removeObject:annot.code];
-                [existingVehicles addObject:annotation];
-            }
-        }
-    }
-    
-    for (id<MKAnnotation> annotation in existingVehicles) {
-        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-            @try {
-                Vehicle *updatedVehicle = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
-                
-                if (updatedVehicle.bearing == -1 || updatedVehicle.bearing == 0) {
-                    double bearing = [MapViewManager getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:updatedVehicle.coords];
-                    if (bearing != 0) {
-                        updatedVehicle.bearing = bearing;
-                        [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:updatedVehicle.vehicleType]];
-                    }else{
-                        updatedVehicle.bearing = -1; //Do not update
-                    }
-                }
-                
-                if (updatedVehicle.bearing != -1) {
-                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:updatedVehicle.bearing]];
-                }
-                
-                annot.coordinate = updatedVehicle.coords;
-            }
-            @catch (NSException *exception) {
-                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
-                [annotToRemove addObject:annot];
-                [codeList addObject:annot.code];
-            }
-        }
-    }
-    
-    [self.mapView removeAnnotations:annotToRemove];
-    
-    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
-    
-    for (Vehicle *vehicle in newVehicles) {
-        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
-        //        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
-        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
-        vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
-        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
-        if (vehicle.bearing != -1 ) {
-            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
-        }else{
-            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
-        }
-        vehicleAnT.code = vehicle.vehicleId;
-        vehicleAnT.title = vehicle.vehicleName;
-        vehicleAnT.lineId = vehicle.vehicleLineId;
-        vehicleAnT.vehicleType = vehicle.vehicleType;
-        vehicleAnT.coordinate = vehicle.coords;
-        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
-        vehicleAnT.associatedVehicle = vehicle;
-        
-        [self.mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
-    }
-}
-
 -(NSArray *)collectReittiAnnotationUniqueCodesFromAnnotations:(NSArray *)anotations {
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
     
@@ -233,7 +286,7 @@
             [codeList addObject:uniqueIdentifier];
         }
     }
-
+    
     return codeList;
 }
 
@@ -241,55 +294,16 @@
     return [annotations filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.uniqueIdentifier", codeList]];
 }
 
-//This method should be called only once for an annotation type in a map
--(void)plotOnlyNewAnnotations:(NSArray *)annotations forAnnotationType:(ReittiAnnotationType)annotationType {
-    if (!annotations) { return; }
-    
-    NSArray *codeList = [self collectReittiAnnotationUniqueCodesFromAnnotations:annotations];
-    
-    codeList = [self removeAllReittiAnotationsOfType:annotationType notInCodeList:codeList];
-    
-    NSArray *newAnnotations = [self collectReittiAnnotationForUniqueCodes:codeList fromAnnotations:annotations];
-    
-    [self plotAnnotations:newAnnotations];
+#pragma mark - Line Drawing
+-(void)drawPolylineForObject:(id<MapViewPolylineProtocol>)drawableObject {
+    [self drawPolylineForObject:drawableObject andAdjustToFit:NO];
 }
 
--(void)plotAnnotations:(NSArray *)annotations {
-    if (!annotations || annotations.count == 0) return;
-    
-    //Filter out annotations that should disappear for zoom level
-    annotations = [self filterOutAnnotationsForZoomLevel:annotations];
-    
-    @try {
-//        FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
-        [self.mapView removeAnnotations:annotations];
-        [self.mapView addAnnotations:annotations];
+-(void)drawPolylineForObject:(id<MapViewPolylineProtocol>)drawableObject andAdjustToFit:(BOOL)adjustToFit {
+    if ([drawableObject conformsToProtocol:@protocol(MapViewPolylineProtocol)]) {
+        id polyline = (ReittiPolyline *)[drawableObject mapPolyline];
+        [self drawPolyline:polyline andAdjustToFit:adjustToFit];
     }
-    @catch (NSException *exception) {
-        NSLog(@"Adding annotations failed!!! Exception %@", exception);
-    }
-}
-
--(NSArray *)filterOutAnnotationsForZoomLevel:(NSArray *)annotations {
-    NSMutableArray *filtered = [@[] mutableCopy];
-    NSInteger currentZoomLevel = [self zoomLevel];
-    for (id<MKAnnotation> annotation in annotations) {
-        if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
-            if([(NSObject<ReittiAnnotationProtocol> *)annotation disappearsWhenZoomedOut]) {
-                if (currentZoomLevel < [(NSObject<ReittiAnnotationProtocol> *)annotation disappearingZoomLevel]) {
-                    [self.mapView removeAnnotation:annotation];
-                } else {
-                    [filtered addObject:annotation];
-                }
-            } else {
-                [filtered addObject:annotation];
-            }
-        } else {
-            [filtered addObject:annotation];
-        }
-    }
-    
-    return filtered;
 }
 
 -(void)drawPolyline:(ReittiPolyline *)polyline {
@@ -299,17 +313,42 @@
 -(void)drawPolyline:(ReittiPolyline *)polyline andAdjustToFit:(BOOL)adjustToFit {
     if (!polyline) return;
     
+    [self removeAllOverlaysForUniqId:polyline.uniqueIdentifier andType:polyline.polylineType];
+    
     [self.mapView addOverlay:polyline];
     
     if (adjustToFit) {
         MKCoordinateRegion region = polyline.regionToFitPolyline;
         
         if ([ReittiMapkitHelper isValidCoordinate:region.center])
-            [self.mapView setRegion:region animated:NO];
+            [self.mapView setRegion:region animated:YES];
     }
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+#pragma mark - Polyline filtering
+-(void)removeAllOverlaysOfType:(ReittiPolylineType)polylineType {
+    for (id<MKOverlay> overlay in self.mapView.overlays) {
+        if ([overlay isKindOfClass:[ReittiPolyline class]] &&
+            [(ReittiPolyline *)overlay polylineType] == polylineType) {
+            
+            [self.mapView removeOverlay:overlay];
+        }
+    }
+}
+
+-(void)removeAllOverlaysForUniqId:(NSString *)uniqueId andType:(ReittiPolylineType)polylineType {
+    for (id<MKOverlay> overlay in self.mapView.overlays) {
+        if ([overlay isKindOfClass:[ReittiPolyline class]] &&
+            [(ReittiPolyline *)overlay polylineType] == polylineType &&
+            [[(ReittiPolyline *)overlay uniqueIdentifier] isEqualToString:uniqueId]) {
+            
+            [self.mapView removeOverlay:overlay];
+        }
+    }
+}
+
+#pragma mark - Map Delegates
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
         return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }
@@ -325,16 +364,7 @@
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    
-    if ([view.annotation conformsToProtocol:@protocol(ReittiActionableAnnotationProtocol)]) {
-        AnnotationActionBlock calloutAccessoryAction = [((NSObject<ReittiActionableAnnotationProtocol> *)view.annotation) primaryAccessoryAction];
-        if (calloutAccessoryAction)
-            calloutAccessoryAction(view);
-    }
-}
-
-- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
     
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithOverlay:(MKPolyline *)overlay];
@@ -356,7 +386,15 @@
     }
 }
 
-#pragma mark - Map Delegates
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    
+    if ([view.annotation conformsToProtocol:@protocol(ReittiActionableAnnotationProtocol)]) {
+        AnnotationActionBlock calloutAccessoryAction = [((NSObject<ReittiActionableAnnotationProtocol> *)view.annotation) primaryAccessoryAction];
+        if (calloutAccessoryAction)
+            calloutAccessoryAction(view);
+    }
+}
+
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views {
     if ([self.delegate respondsToSelector:@selector(mapView:didAddAnnotationViews:)]) {
         [self.delegate mapView:self.mapView didAddAnnotationViews:views];
@@ -440,6 +478,7 @@
         [self.delegate mapViewDidFinishLoadingMap:mapView];
     }
 }
+
 
 #pragma mark - Helpers
 -(NSUInteger)zoomLevel {

@@ -37,14 +37,19 @@
 -(void)removeAllReittiAnotationsExceptOfType:(ReittiAnnotationType)annotationType;
 -(void)removeAllAnotationsOfType:(Class)annotationType;
 -(void)removeAllAnotationsExceptOfType:(Class)annotationType;
-
 -(NSArray *)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType notInCodeList:(NSArray *)codeList;
+
+//Remove annotations
+-(void)removeAllOverlaysOfType:(ReittiPolylineType)polylineType;
+-(void)removeAllOverlaysForUniqId:(NSString *)uniqueId andType:(ReittiPolylineType)polylineType;
 
 //specialized plots
 -(void)plotVehicleAnnotations:(NSArray *)vehicleList;
-
 -(void)plotOnlyNewAnnotations:(NSArray *)annotations forAnnotationType:(ReittiAnnotationType)annotationType;
 -(void)plotAnnotations:(NSArray *)annotations;
+
+-(void)drawPolylineForObject:(id<MapViewPolylineProtocol>)drawableObject;
+-(void)drawPolylineForObject:(id<MapViewPolylineProtocol>)drawableObject andAdjustToFit:(BOOL)adjustToFit;
 -(void)drawPolyline:(ReittiPolyline *)polyline;
 -(void)drawPolyline:(ReittiPolyline *)polyline andAdjustToFit:(BOOL)adjustToFit;
 

@@ -1132,6 +1132,8 @@
 		66D100FD1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FB1EF96B1C00CAC251 /* GeoCode+MapView.m */; };
 		66D101001EF96FF000CAC251 /* NamedBookmark+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */; };
 		66D101011EF96FF000CAC251 /* NamedBookmark+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */; };
+		66D101041EF9E01800CAC251 /* ReittiLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D101031EF9E01800CAC251 /* ReittiLocationManager.m */; };
+		66D101051EF9E01800CAC251 /* ReittiLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D101031EF9E01800CAC251 /* ReittiLocationManager.m */; };
 		66DAC7CE1A025ED90002BE16 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
 		66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7D31A025ED90002BE16 /* TodayViewController.m */; };
 		66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */; };
@@ -2093,6 +2095,8 @@
 		66D100FB1EF96B1C00CAC251 /* GeoCode+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GeoCode+MapView.m"; sourceTree = "<group>"; };
 		66D100FE1EF96FF000CAC251 /* NamedBookmark+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NamedBookmark+MapView.h"; sourceTree = "<group>"; };
 		66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NamedBookmark+MapView.m"; sourceTree = "<group>"; };
+		66D101021EF9E01800CAC251 /* ReittiLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiLocationManager.h; sourceTree = "<group>"; };
+		66D101031EF9E01800CAC251 /* ReittiLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiLocationManager.m; sourceTree = "<group>"; };
 		66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Commuter - Departures.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DAC7D11A025ED90002BE16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66DAC7D21A025ED90002BE16 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -3508,6 +3512,8 @@
 				66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */,
 				66115D6F1ECFF57B00C8CD05 /* MapViewManager.h */,
 				66115D701ECFF57B00C8CD05 /* MapViewManager.m */,
+				66D101021EF9E01800CAC251 /* ReittiLocationManager.h */,
+				66D101031EF9E01800CAC251 /* ReittiLocationManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -5210,6 +5216,7 @@
 				661090C71B36D037003F2688 /* LinesTableViewController.m in Sources */,
 				660DED5A1EF356A600201445 /* RouteLegLocation+MapView.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,
+				66D101041EF9E01800CAC251 /* ReittiLocationManager.m in Sources */,
 				66CA033A1C1778DD00A38858 /* KBPopupDrawableView.m in Sources */,
 				66833D601CF8F427005D958C /* DigiLegs.m in Sources */,
 				66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */,
@@ -5494,6 +5501,7 @@
 				66C7332C1C556DA5002544BC /* LinesTableViewController.m in Sources */,
 				660DED5B1EF356A600201445 /* RouteLegLocation+MapView.m in Sources */,
 				66C7332D1C556DA5002544BC /* ReittiManagedObjectBase.m in Sources */,
+				66D101051EF9E01800CAC251 /* ReittiLocationManager.m in Sources */,
 				66C7332E1C556DA5002544BC /* KBPopupDrawableView.m in Sources */,
 				66833D611CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C7332F1C556DA5002544BC /* EnumManager.m in Sources */,

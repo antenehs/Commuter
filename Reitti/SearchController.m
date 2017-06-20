@@ -653,10 +653,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
 }
 
--(void)showDroppedPinGeoCode{
+-(void)saveDroppedPinGeoCode {
     if (droppedPinGeoCode != nil) {
         selectedGeoCode = droppedPinGeoCode;
-        [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
+        [self performSegueWithIdentifier:@"saveGeoCode" sender:nil];
     }
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenGeoLocationFromDroppedPin label:nil value:nil];
@@ -1332,7 +1332,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)plotGeoCodeAnnotation:(GeoCode *)geoCode {
-    if (!geoCode || [geoCode isKindOfClass:[GeoCode class]]) { return; }
+    if (!geoCode || ![geoCode isKindOfClass:[GeoCode class]]) { return; }
     
 //    [self.mapViewManager removeAllReittiAnotationsOfType:SearchedStopType];
 //    [self.mapViewManager removeAllReittiAnotationsOfType:GeoCodeType];
@@ -1488,7 +1488,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     __weak SearchController *weakSelf = self;
     annotTN.primaryButtonBlock = ^{ [weakSelf openRouteFromAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
     annotTN.secondaryButtonBlock = ^{ [weakSelf openRouteForNamedAnnotationWithTitle:@"Dropped pin" andCoords:coordinate];};
-    annotTN.middleButtonBlock = ^{ [weakSelf showDroppedPinGeoCode];};
+    annotTN.middleButtonBlock = ^{ [weakSelf saveDroppedPinGeoCode];};
     GCThumbnailAnnotation *annot = [GCThumbnailAnnotation annotationWithThumbnail:annotTN];
     
     [self.mapViewManager plotAnnotations:@[annot]];
@@ -1508,6 +1508,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //Find the coordinate for the center. Not the annotation
     CLLocationCoordinate2D coords = [mapView convertPoint:centerLocatorView.center toCoordinateFromView:mapView];
     [self searchReverseGeocodeForCoordinate:coords];
+}
+
+-(void)drawWalkingPolylineForRoute:(Route *)route {
+    if (route.isOnlyWalkingRoute && route.routeLegs && route.routeLegs.count > 0) {
+        [self.mapViewManager drawPolylineForObject:route.routeLegs[0]];
+    }
 }
 
 //-(void)plotStopAnnotation:(BusStopShort *)stop withSelect:(BOOL)select isBookmark:(bool)isBookmark{
@@ -1751,6 +1757,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 -(void)mapView:(MKMapView *)affectedMapView didDeselectAnnotationView:(MKAnnotationView *)view{
     selectedAnnotationView = nil;
+    
+    [self.mapViewManager removeAllOverlaysOfType:ReittiPolylineTypeRouteLeg];
 }
 
 -(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView{
@@ -2315,9 +2323,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
         Route *route = [routeList firstObject];
         NSInteger durationInSeconds = [route.routeDurationInSeconds integerValue];
         [selectedAnnotationView setGoToHereDurationString:nil duration:[NSString stringWithFormat:@"%d min", (int)durationInSeconds/60] withIconImage:route.routeIcon];
+        [self drawWalkingPolylineForRoute:route];
     }
 }
--(void)routeSearchDidFail:(NSString *)error{
+-(void)routeSearchDidFail:(NSString *)error {
     
 }
 
@@ -2580,7 +2589,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         controller.viewControllerMode = ViewControllerModeViewNamedBookmark;
     }
     
-    if ([segue.identifier isEqualToString:@"showGeoCode"]) {
+    if ([segue.identifier isEqualToString:@"showGeoCode"] || [segue.identifier isEqualToString:@"saveGeoCode"]) {
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         EditAddressTableViewController *controller = (EditAddressTableViewController *)[[navigationController viewControllers] lastObject];
         
@@ -2590,7 +2599,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }else{
             controller.geoCode = selectedGeoCode;
             controller.currentUserLocation = self.currentUserLocation;
-            controller.viewControllerMode = ViewControllerModeEditAddress;
+            controller.viewControllerMode = [segue.identifier isEqualToString:@"saveGeoCode"] ? ViewControllerModeEditAddress : ViewControllerModeViewGeoCode ;
         }
     }
     

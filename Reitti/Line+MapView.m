@@ -15,22 +15,10 @@
 @implementation Line (MapView)
 
 -(ReittiPolyline *)mapPolyline {
-//    int shapeCount = (int)self.shapeCoordinates.count;
-//    
-//    // create an array of coordinates from allPins
-//    CLLocationCoordinate2D coordinates[shapeCount];
-//    int i = 0;
-//    
-//    for (CLLocation *location in self.shapeCoordinates) {
-//        CLLocationCoordinate2D coord = location.coordinate;
-//        coordinates[i] = coord;
-//        i++;
-//    }
-    
-    // create a polyline with all cooridnates
-//    ReittiPolyline *polyline = [ReittiPolyline polylineWithCoordinates:coordinates count:shapeCount];
     ReittiPolyline *polyline = [Polyline reittiPolylineFromLocationArray:self.shapeCoordinates];
     polyline.strokeColor = [AppManager colorForLineType:self.lineType];
+    polyline.polylineType = ReittiPolylineTypeLine;
+    polyline.uniqueIdentifier = self.code;
     
     return polyline;
 }

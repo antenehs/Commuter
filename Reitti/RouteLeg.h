@@ -76,5 +76,6 @@
 @property (nonatomic, strong)NSDate * departureTime;
 @property (nonatomic, readonly) NSString * lineDisplayName;
 @property (nonatomic, retain) NSArray * legShapeCoordLocations;
+@property (nonatomic, strong, readonly) NSString *legUniqueName;
 
 @end

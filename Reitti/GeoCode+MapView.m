@@ -25,12 +25,14 @@
     geoAnT.image = self.annotationImage;
     geoAnT.title = name;
     geoAnT.subtitle = city;
+    geoAnT.code = self.getStreetAddressString;
     geoAnT.coordinate = self.coordinates;
     geoAnT.annotationType = GeoCodeType;
     geoAnT.reuseIdentifier = self.iconPictureName;
     
     DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:geoAnT];
     annot.associatedObject = self;
+    annot.uniqueIdentifier = self.getStreetAddressString;
     
     return annot;
 }

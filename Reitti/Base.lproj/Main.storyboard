@@ -613,6 +613,7 @@
                         <segue destination="aTA-lg-F9E" kind="presentation" identifier="showSettings" id="XXG-2d-aPo"/>
                         <segue destination="iPB-tz-RGS" kind="presentation" identifier="showWelcomeView" id="ZaE-2c-eHB"/>
                         <segue destination="ueK-Aq-XDa" kind="presentation" identifier="showProFeatures" id="uxq-Dp-zOu"/>
+                        <segue destination="5LJ-Iz-iZd" kind="show" identifier="saveGeoCode" id="fRy-4s-jWt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uil-Zh-FCL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -6372,18 +6373,18 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="NMg-f3-rlS"/>
-        <segue reference="oJb-eU-zeZ"/>
-        <segue reference="X8p-rp-E0z"/>
         <segue reference="s3H-Jn-riC"/>
         <segue reference="rqm-Vp-DPt"/>
-        <segue reference="ZaE-2c-eHB"/>
         <segue reference="uxq-Dp-zOu"/>
+        <segue reference="fRy-4s-jWt"/>
+        <segue reference="ZaE-2c-eHB"/>
+        <segue reference="oJb-eU-zeZ"/>
+        <segue reference="W05-cy-Jxe"/>
         <segue reference="qxY-Ak-fPt"/>
         <segue reference="XlZ-XU-H5m"/>
         <segue reference="Gru-ad-IZy"/>
         <segue reference="tk7-jO-rac"/>
         <segue reference="lwh-ia-2sg"/>
-        <segue reference="W05-cy-Jxe"/>
+        <segue reference="NMg-f3-rlS"/>
     </inferredMetricsTieBreakers>
 </document>

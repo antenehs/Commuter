@@ -177,6 +177,10 @@
     return [EnumManager lineDisplayName:self.legType forLineCode:self.lineName];
 }
 
+-(NSString *)legUniqueName {
+    return [NSString stringWithFormat:@"%@-%@-%@",self.startLocName, self.endLocName, self.lineDisplayName];
+}
+
 #pragma mark - to and from dictionary
 
 +(instancetype)initFromDictionary: (NSDictionary *)dictionary {

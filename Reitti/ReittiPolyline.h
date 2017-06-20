@@ -8,17 +8,25 @@
 
 #import <MapKit/MapKit.h>
 
+typedef enum {
+    ReittiPolylineTypeUnknown = 0,
+    ReittiPolylineTypeRouteLeg = 1,
+    ReittiPolylineTypeLine =2,
+    ReittiPolylineTypeWalkableRadius = 3
+} ReittiPolylineType;
+
 @interface ReittiPolyline : MKPolyline
 
+@property(strong, nonatomic)NSString *uniqueIdentifier;
 @property(strong, nonatomic)UIColor *strokeColor;
 @property(strong, nonatomic)NSArray *lineDashPattern;
 @property(nonatomic)CGFloat lineWidth;
+
+@property(nonatomic)ReittiPolylineType polylineType;
 
 @property(nonatomic)const CLLocationCoordinate2D *coordinates;
 @property(nonatomic)NSUInteger coordsCount;
 
 @property(nonatomic)MKCoordinateRegion regionToFitPolyline;
-
-//+(instancetype)reittiPolylineWithCoordinates:(const CLLocationCoordinate2D * _Nullable)coords count:(NSUInteger)count;
 
 @end
