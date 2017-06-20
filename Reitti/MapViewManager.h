@@ -32,7 +32,7 @@
 +(instancetype)managerForMapView:(MKMapView *)mapView;
 
 //Remove Annotations
--(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId;
+-(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType;
 -(void)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType;
 -(void)removeAllReittiAnotationsExceptOfType:(ReittiAnnotationType)annotationType;
 -(void)removeAllAnotationsOfType:(Class)annotationType;

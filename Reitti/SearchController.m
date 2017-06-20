@@ -585,6 +585,19 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return self.view.bounds.origin.y;
 }
 
+-(void)setSearchBarText:(NSString *)text isManualSearchText:(BOOL)searchedText {
+    if (searchedText) {
+        mainSearchBar.text = text;
+        searchBarTextManuallySet = searchedText;
+    }
+    
+    //If not search text, it is it was not previouisly searched term or is empty
+    if (!searchedText && (!searchBarTextManuallySet || [NSString isNilOrEmpty:mainSearchBar.text])) {
+        mainSearchBar.text = text;
+        searchBarTextManuallySet = searchedText;
+    }
+}
+
 #pragma mark - Annotation helpers
 -(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
     NSString *toLocationName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
@@ -664,12 +677,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     if (!stop)
         return;
     [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
-}
-
-#pragma - mark StopView methods
-
-- (void)showProgressHUD{
-    [activityIndicator beginRefreshing];
 }
 
 #pragma mark - stop detail handling
@@ -1223,7 +1230,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //            }
 //        }
         
-        [self.mapViewManager removeReittiAnnotationWithUniqueId:firstStop.gtfsId];
+        [self.mapViewManager removeReittiAnnotationWithUniqueId:firstStop.gtfsId andType:FavouriteType];
     }
     
     NSArray *allAnots = [self stopAnnotationsForStops:savedStops
@@ -1416,7 +1423,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         annot.primaryAccessoryAction = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForNamedAnnotationWithTitle:namedBookmark.name andCoords:namedBookmark.coordinates];};
         annot.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf showNamedBookmark:namedBookmark];};
         
-        [self.mapViewManager removeReittiAnnotationWithUniqueId:namedBookmark.getUniqueIdentifier];
+        [self.mapViewManager removeReittiAnnotationWithUniqueId:namedBookmark.getUniqueIdentifier andType:FavouriteType];
         [self.mapViewManager plotAnnotations:@[annot]];
         
         if (select) {
@@ -1890,12 +1897,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     //if there is another seleced annotation
-    if (mapView.selectedAnnotations != nil && mapView.selectedAnnotations.count > 0) {
-        id<MKAnnotation> annotation = [mapView.selectedAnnotations objectAtIndex:0];
-        if (![annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-            return NO;
-        }
-    }
+    if (selectedAnnotationView) { return NO; }
     
     //Check if the region is out of supported regions
     CGPoint centerPoint = self.mapView.center;
@@ -2342,7 +2344,11 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     droppedPinLocation = [geoCode getStreetAddressString];
-
+    
+    [self setSearchBarText:droppedPinLocation isManualSearchText:NO];
+    if (!searchBarTextManuallySet) {
+        prevSearchedCoords = geoCode.coords;
+    }
 }
 - (void)reverseGeocodeSearchDidFail:(NSString *)error{
     self.droppedPinGeoCode = nil;
@@ -2408,7 +2414,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self plotSearchedStop:busStop];
     }
     
-    mainSearchBar.text = stopEntity.displayName;
+//    mainSearchBar.text = stopEntity.displayName;
+    [self setSearchBarText:stopEntity.displayName isManualSearchText:YES];
     prevSearchedCoords = stopEntity.busStopCoords;
 }
 -(void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
@@ -2421,7 +2428,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self plotGeoCodeAnnotation:geoCode];
     }
     
-    mainSearchBar.text = geoCode.getStreetAddressString;
+//    mainSearchBar.text = geoCode.getStreetAddressString;
+    [self setSearchBarText:geoCode.getStreetAddressString isManualSearchText:YES];
     prevSearchedCoords = geoCode.coords;
 }
 
@@ -2431,7 +2439,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     [self plotNamedBookmarkAnnotation:namedBookmark withSelect:YES];
     
-    mainSearchBar.text = namedBookmark.name;
+//    mainSearchBar.text = namedBookmark.name;
+    [self setSearchBarText:namedBookmark.name isManualSearchText:YES];
     prevSearchedCoords = namedBookmark.coords;
 }
 
@@ -2440,7 +2449,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
-    mainSearchBar.text = prevSearchTerm;
+//    mainSearchBar.text = prevSearchTerm;
+    [self setSearchBarText:prevSearchTerm isManualSearchText:YES];
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:mainSearchBar.text toCoords:prevSearchedCoords fromLocation:nil fromCoords:nil];
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
 //    [self performSegueWithIdentifier:@"switchToRouteSearchTab" sender:nil];

@@ -153,6 +153,7 @@ typedef enum
     BOOL canShowDroppedPin;
 //    BOOL isShowingBikeAnnotations;
     BOOL isShowingWelcomeView;
+    BOOL searchBarTextManuallySet;
     CGRect searchBarFrame;
     
     NSIndexPath * departuresTableIndex;

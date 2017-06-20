@@ -29,12 +29,12 @@
     return manager;
 }
 
--(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId {
+-(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType {
     for (id<MKAnnotation> annotation in self.mapView.annotations) {
         if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
-            if ([(NSObject<ReittiAnnotationProtocol> *)annotation uniqueIdentifier] == uniqueId) {
+            if ([(NSObject<ReittiAnnotationProtocol> *)annotation annotationType] == annotationType &&
+                [[(NSObject<ReittiAnnotationProtocol> *)annotation uniqueIdentifier] isEqualToString:uniqueId]) {
                 [self.mapView removeAnnotation:annotation];
-                break;
             }
         }
     }
