@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "NearByStop.h"
 #import "EnumManager.h"
-#import "AnnotationProtocols.h"
+//#import "AnnotationProtocols.h"
+
+typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
 
 @import MapKit;
 

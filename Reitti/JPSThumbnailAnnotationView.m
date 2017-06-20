@@ -263,9 +263,9 @@ static CGFloat const kJPSThumbnailAnnotationViewAnimationDuration = 0.20f;
     self.subtitleLabel.text = thumbnail.subtitle;
 //    self.selected = thumbnail.selected;
     self.imageView.image = self.annotationSize == JPSThumbnailAnnotationViewSizeNormal ? thumbnail.image : thumbnail.shrinkedImage;
-    self.primaryButtonBlock = thumbnail.primaryButtonBlock;
-    self.secondaryButtonBlock = thumbnail.secondaryButtonBlock;
-    self.disclosureBlock = thumbnail.disclosureBlock;
+//    self.primaryButtonBlock = thumbnail.primaryButtonBlock;
+//    self.secondaryButtonBlock = thumbnail.secondaryButtonBlock;
+//    self.disclosureBlock = thumbnail.disclosureBlock;
     
     if (!self.primaryButtonBlock)
         self.primaryButton.hidden = YES;

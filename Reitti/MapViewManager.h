@@ -49,6 +49,7 @@
 
 
 //Helpers
+-(NSUInteger)zoomLevel;
 +(double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc;
 +(MKCoordinateRegion)evaluateRegionToFitCoords:(CLLocationCoordinate2D *)coords andCount:(NSUInteger)count;
 

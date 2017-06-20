@@ -11,7 +11,7 @@
 #import "AnnotationThumbnail.h"
 #import "AnnotationProtocols.h"
 
-@interface DetailedAnnotation : NSObject <MKAnnotation, ReittiAnnotationProtocol>
+@interface DetailedAnnotation : NSObject <MKAnnotation, ReittiAnnotationProtocol, ReittiActionableAnnotationProtocol>
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly) NSString *code;
@@ -29,6 +29,11 @@
 @property (nonatomic) NSInteger disappearingZoomLevel;
 
 @property (nonatomic) ReittiAnnotationType annotationType;
+
+//Actionable annotation Protocol
+@property (nonatomic, copy) AnnotationActionBlock primaryAccessoryAction;
+@property (nonatomic, copy) AnnotationActionBlock secondaryButtonBlock;
+@property (nonatomic, copy) AnnotationActionBlock disclosureBlock;
 
 + (instancetype)annotationWithThumbnail:(AnnotationThumbnail *)thumbnail;
 - (id)initWithThumbnail:(AnnotationThumbnail *)thumbnail;

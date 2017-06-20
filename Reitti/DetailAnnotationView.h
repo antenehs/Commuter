@@ -9,6 +9,7 @@
 #import <MapKit/MapKit.h>
 #import "DetailAnnotationSettings.h"
 #import "AnnotationProtocols.h"
+#import "AnnotationThumbnail.h"
 
 typedef NS_ENUM(NSInteger, DetailAnnotationViewSize) {
     DetailAnnotationViewSizeShrinked,
@@ -28,5 +29,6 @@ typedef NS_ENUM(NSInteger, DetailAnnotationViewSize) {
 
 
 @property (nonatomic) DetailAnnotationViewSize annotationSize;
+- (void)updateWithThumbnail:(AnnotationThumbnail *)thumbnail;
 
 @end

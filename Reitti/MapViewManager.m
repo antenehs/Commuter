@@ -109,6 +109,20 @@
     return array;
 }
 
+-(NSArray *)getAllShrinkableAndDisapearingAnnotations {
+    NSMutableArray *annots = [[NSMutableArray alloc] init];
+    
+    for (id<MKAnnotation> annotation in self.mapView.annotations) {
+        if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
+            if ([(NSObject<ReittiAnnotationProtocol> *)annotation shrinksWhenZoomedOut] ||
+                [(NSObject<ReittiAnnotationProtocol> *)annotation disappearsWhenZoomedOut])
+                [annots addObject:annotation];
+        }
+    }
+    
+    return annots;
+}
+
 -(NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList {
     NSMutableArray *codeList = [[NSMutableArray alloc] init];
     
@@ -217,6 +231,8 @@
 }
 
 -(void)plotOnlyNewAnnotations:(NSArray *)annotations forAnnotationType:(ReittiAnnotationType)annotationType {
+    if (!annotations) { return; }
+    
     NSArray *codeList = [self collectReittiAnnotationUniqueCodesFromAnnotations:annotations];
     
     codeList = [self removeAllReittiAnotationsOfType:annotationType notInCodeList:codeList];
@@ -233,6 +249,7 @@
     annotations = [self filterOutAnnotationsForZoomLevel:annotations];
     
     @try {
+//        FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
         [self.mapView addAnnotations:annotations];
     }
     @catch (NSException *exception) {
@@ -342,7 +359,7 @@
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     if ([self zoomLevel] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
         //Zoom level changed. Force update. Do it only for stationary annotations
-        NSArray *allAnnotations = [self getAllAnnotationsExceptOfType:[LVThumbnailAnnotation class]];
+        NSArray *allAnnotations = [self getAllShrinkableAndDisapearingAnnotations];
         [self.mapView removeAnnotations:allAnnotations];
         [self plotAnnotations:allAnnotations];
     }

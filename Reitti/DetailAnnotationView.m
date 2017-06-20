@@ -15,6 +15,7 @@
 }
 
 @property(nonatomic, strong) DetailAnnotationSettings *settings;
+@property(nonatomic, strong) AnnotationThumbnail *thumbnail;
 
 @end
 
@@ -60,6 +61,16 @@
         frame.origin.x = (self.frame.size.width - frame.size.width) / 2.0;
         self.calloutView.frame = frame;
     }
+}
+
+- (void)updateWithThumbnail:(AnnotationThumbnail *)thumbnail {
+    if ([self.pinView isKindOfClass:[UIImageView class]]) {
+        [(UIImageView *)self.pinView setImage:self.annotationSize == DetailAnnotationViewSizeNormal ? thumbnail.image : thumbnail.shrinkedImage];
+    }
+    
+    [(NSObject<AnnotationCalloutProtocol> *)self.calloutView updateWithThumbnail:thumbnail];
+    
+    self.thumbnail = thumbnail;
 }
 
 #pragma mark - Delegates

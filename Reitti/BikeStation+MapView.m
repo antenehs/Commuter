@@ -17,7 +17,6 @@
     
     AnnotationThumbnail *bikeAnT = [[AnnotationThumbnail alloc] init];
     bikeAnT.image = [UIImage imageNamed:[AppManager stationAnnotionImageNameForBikeStation:self]];
-    //                stopAnT.code = station.stationId;
     bikeAnT.code = codeShort;
     bikeAnT.shortCode = codeShort;
     bikeAnT.title = name;

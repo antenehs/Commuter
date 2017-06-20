@@ -178,6 +178,13 @@
     }];
 }
 
+- (void)updateWithThumbnail:(AnnotationThumbnail *)thumbnail {
+    self.thumbnail = thumbnail;
+    
+    self.titleLabel.text = thumbnail.title;
+    self.subtitleLabel.text = thumbnail.subtitle;
+}
+
 - (void)setSubtitleLabelText:(NSString *)subtitleText {
     self.subtitleLabel.text = subtitleText;
 }

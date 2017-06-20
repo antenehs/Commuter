@@ -7,6 +7,7 @@
 //
 
 #import "EnumManager.h"
+#import "AnnotationThumbnail.h"
 
 typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
 
@@ -47,11 +48,11 @@ typedef void (^AnnotationActionBlock)(MKAnnotationView *onAnnotation);
 
 @end
 
-
 @protocol AnnotationCalloutProtocol <NSObject>
 @optional
 - (void)didShowCalloutView;
 - (void)didHideCalloutView;
 - (void)setGoToHereDurationString:(MKMapView *)mapView duration:(NSString *)durationString withIconImage:(UIImage *)image;
 - (void)setSubtitleLabelText:(NSString *)subtitleText;
+- (void)updateWithThumbnail:(AnnotationThumbnail *)thumbnail;
 @end

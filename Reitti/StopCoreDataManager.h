@@ -38,4 +38,6 @@
 //Comon
 -(void)updateStopsOrderTo:(NSArray *)orderedObjects;
 
+@property (strong, nonatomic, readonly) NSMutableArray *allSavedStopCodes;
+
 @end

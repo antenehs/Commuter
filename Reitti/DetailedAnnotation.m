@@ -59,6 +59,18 @@
     return _disappearingZoomLevel;
 }
 
+-(void)setPrimaryAccessoryAction:(AnnotationActionBlock)primaryAccessoryAction {
+    self.thumbnail.primaryButtonBlock = primaryAccessoryAction;
+}
+
+-(void)setSecondaryButtonBlock:(AnnotationActionBlock)secondaryButtonBlock {
+    self.thumbnail.secondaryButtonBlock = secondaryButtonBlock;
+}
+
+-(void)setDisclosureBlock:(AnnotationActionBlock)disclosureBlock {
+    self.thumbnail.disclosureBlock = disclosureBlock;
+}
+
 - (MKAnnotationView *)annotationViewInMap:(MKMapView *)mapView {
     if ([self shrinksWhenZoomedOut] && [self zoomLevelForMapView:mapView] < self.shrinkingZoomLevel) {
         return [self smallAnnotationViewInMap:mapView];
@@ -81,6 +93,7 @@
         self.view.annotation = self;
     }
     
+    [self updateThumbnail];
     return self.view;
 }
 
@@ -98,7 +111,7 @@
         self.view.annotation = self;
     }
     
-    
+    [self updateThumbnail];
     return self.view;
 }
 
@@ -134,6 +147,12 @@
     annotView.annotationSize = DetailAnnotationViewSizeNormal;
     
     return annotView;
+}
+
+- (void)updateThumbnail {
+    self.thumbnail.shrinkedImage = [self shrinkedImage];
+    
+    [self.view updateWithThumbnail:self.thumbnail];
 }
 
 #pragma mark - helpers
