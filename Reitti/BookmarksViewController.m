@@ -1326,8 +1326,8 @@ const NSInteger kTimerRefreshInterval = 60;
             NamedBookmark *first = (NamedBookmark *)a;
             NamedBookmark *second = (NamedBookmark *)b;
             
-            CLLocation *locA = [[CLLocation alloc] initWithLatitude:first.cl2dCoords.latitude longitude:first.cl2dCoords.longitude];
-            CLLocation *locB = [[CLLocation alloc] initWithLatitude:second.cl2dCoords.latitude longitude:second.cl2dCoords.longitude];
+            CLLocation *locA = [[CLLocation alloc] initWithLatitude:first.coordinates.latitude longitude:first.coordinates.longitude];
+            CLLocation *locB = [[CLLocation alloc] initWithLatitude:second.coordinates.latitude longitude:second.coordinates.longitude];
             CLLocation *ref = [[CLLocation alloc] initWithLatitude:coords.latitude longitude:coords.longitude];
             
             CLLocationDistance distanceA = [locA distanceFromLocation:ref];

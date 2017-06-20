@@ -16,6 +16,7 @@
 #import "DetailAnnotationView.h"
 #import "DefaultAnnotationCallout.h"
 #import "AnnotationThumbnail.h"
+#import "JPSThumbnailAnnotationView.h"
 
 
 @protocol MapViewAnnotationProtocol <NSObject>

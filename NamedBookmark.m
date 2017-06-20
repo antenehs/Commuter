@@ -74,7 +74,7 @@
     return [NSString stringWithFormat:@"%@ - %@", self.name , [self getFullAddress]];
 }
 
-- (CLLocationCoordinate2D)cl2dCoords{
+- (CLLocationCoordinate2D)coordinates {
     return [ReittiStringFormatter convertStringTo2DCoord:self.coords];
 }
 

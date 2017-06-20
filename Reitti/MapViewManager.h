@@ -32,6 +32,7 @@
 +(instancetype)managerForMapView:(MKMapView *)mapView;
 
 //Remove Annotations
+-(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId;
 -(void)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType;
 -(void)removeAllReittiAnotationsExceptOfType:(ReittiAnnotationType)annotationType;
 -(void)removeAllAnotationsOfType:(Class)annotationType;
@@ -50,9 +51,11 @@
 
 //Helpers
 -(NSUInteger)zoomLevel;
+-(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels;
 +(double)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc;
 +(MKCoordinateRegion)evaluateRegionToFitCoords:(CLLocationCoordinate2D *)coords andCount:(NSUInteger)count;
 
+@property (nonatomic) BOOL ignoreRegionChange;
 @property (nonatomic, weak) id<MapViewManagerDelegate> delegate;
 
 @end

@@ -149,9 +149,9 @@ typedef enum
     bool annotationSelectionChanged;
     int annotationAnimCounter;
     bool lastSelectionDismissed;
-    bool ignoreRegionChange;
+//    bool ignoreRegionChange;
     BOOL canShowDroppedPin;
-    BOOL isShowingBikeAnnotations;
+//    BOOL isShowingBikeAnnotations;
     BOOL isShowingWelcomeView;
     CGRect searchBarFrame;
     

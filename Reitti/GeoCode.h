@@ -31,9 +31,6 @@
 -(NSString *)fullAddressString;
 -(NSString *)getStreetAddressString;
 
-//-(StopType)getStopType;
-
-//@property (nonatomic, retain) NSString * locType;
 @property (nonatomic, retain) NSNumber * locTypeId;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * matchedName;
@@ -44,8 +41,7 @@
 @property (nonatomic) LocationType locationType;
 @property (nonatomic) StopType stopType;
 
-//-(LocationType)getLocationType;
-//-(void)setLocationType:(LocationType)type;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinates;
 
 @property (nonatomic, retain) NSString * iconPictureName;
 @property (nonatomic, retain) NSString * monochromeIconName;

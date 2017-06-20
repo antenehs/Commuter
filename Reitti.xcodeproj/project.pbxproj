@@ -1128,6 +1128,10 @@
 		66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */; };
 		66D100F81EF8708400CAC251 /* BusStopShort+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100F71EF8708400CAC251 /* BusStopShort+MapView.m */; };
 		66D100F91EF8708400CAC251 /* BusStopShort+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100F71EF8708400CAC251 /* BusStopShort+MapView.m */; };
+		66D100FC1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FB1EF96B1C00CAC251 /* GeoCode+MapView.m */; };
+		66D100FD1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FB1EF96B1C00CAC251 /* GeoCode+MapView.m */; };
+		66D101001EF96FF000CAC251 /* NamedBookmark+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */; };
+		66D101011EF96FF000CAC251 /* NamedBookmark+MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */; };
 		66DAC7CE1A025ED90002BE16 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
 		66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7D31A025ED90002BE16 /* TodayViewController.m */; };
 		66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */; };
@@ -2085,6 +2089,10 @@
 		66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiStringFormatter.m; sourceTree = "<group>"; };
 		66D100F61EF8708400CAC251 /* BusStopShort+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BusStopShort+MapView.h"; sourceTree = "<group>"; };
 		66D100F71EF8708400CAC251 /* BusStopShort+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BusStopShort+MapView.m"; sourceTree = "<group>"; };
+		66D100FA1EF96B1C00CAC251 /* GeoCode+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GeoCode+MapView.h"; sourceTree = "<group>"; };
+		66D100FB1EF96B1C00CAC251 /* GeoCode+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GeoCode+MapView.m"; sourceTree = "<group>"; };
+		66D100FE1EF96FF000CAC251 /* NamedBookmark+MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NamedBookmark+MapView.h"; sourceTree = "<group>"; };
+		66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NamedBookmark+MapView.m"; sourceTree = "<group>"; };
 		66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Commuter - Departures.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DAC7D11A025ED90002BE16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66DAC7D21A025ED90002BE16 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -3834,6 +3842,10 @@
 				66D100F71EF8708400CAC251 /* BusStopShort+MapView.m */,
 				660DED601EF4894200201445 /* RouteLeg+MapView.h */,
 				660DED611EF4894200201445 /* RouteLeg+MapView.m */,
+				66D100FA1EF96B1C00CAC251 /* GeoCode+MapView.h */,
+				66D100FB1EF96B1C00CAC251 /* GeoCode+MapView.m */,
+				66D100FE1EF96FF000CAC251 /* NamedBookmark+MapView.h */,
+				66D100FF1EF96FF000CAC251 /* NamedBookmark+MapView.m */,
 			);
 			name = MappingExtensions;
 			sourceTree = "<group>";
@@ -5149,6 +5161,7 @@
 				66CC941918E3452D00644281 /* MyFixedLayoutGuide.m in Sources */,
 				66F6CEDB1B511E6C00F934A2 /* RemindersTableViewController.m in Sources */,
 				66056E6B1C42AAFE00C011FB /* DevHslVehicle.m in Sources */,
+				66D100FC1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */,
 				66D100F81EF8708400CAC251 /* BusStopShort+MapView.m in Sources */,
 				660716021B45CD2C00033049 /* ValueState.m in Sources */,
 				66F16D021E05F7C500D45613 /* DigiStopAtDistance.m in Sources */,
@@ -5220,6 +5233,7 @@
 				6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
 				664884B31EEF6157006558A2 /* NamedBookmarkData.m in Sources */,
 				664E28A11AE2A50300BE2457 /* SettingsViewController.m in Sources */,
+				66D101001EF96FF000CAC251 /* NamedBookmark+MapView.m in Sources */,
 				66F16D131E08AF5200D45613 /* DigiFeatureProperties.m in Sources */,
 				663465E41ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				66B2465E1C4AAB4400FED24D /* DisruptionText.m in Sources */,
@@ -5431,6 +5445,7 @@
 				66C733091C556DA5002544BC /* MyFixedLayoutGuide.m in Sources */,
 				66C7330A1C556DA5002544BC /* RemindersTableViewController.m in Sources */,
 				66C7330B1C556DA5002544BC /* DevHslVehicle.m in Sources */,
+				66D100FD1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */,
 				66D100F91EF8708400CAC251 /* BusStopShort+MapView.m in Sources */,
 				66C7330C1C556DA5002544BC /* ValueState.m in Sources */,
 				66F16D031E05F7C500D45613 /* DigiStopAtDistance.m in Sources */,
@@ -5502,6 +5517,7 @@
 				66C7333E1C556DA5002544BC /* SettingsViewController.m in Sources */,
 				664884B41EEF6157006558A2 /* NamedBookmarkData.m in Sources */,
 				66F16D141E08AF5200D45613 /* DigiFeatureProperties.m in Sources */,
+				66D101011EF96FF000CAC251 /* NamedBookmark+MapView.m in Sources */,
 				66C7333F1C556DA5002544BC /* DisruptionText.m in Sources */,
 				663465E51ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
 				66C733401C556DA5002544BC /* SWLongPressGestureRecognizer.m in Sources */,

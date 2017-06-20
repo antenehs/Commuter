@@ -113,7 +113,7 @@ typedef struct {
         CLLocationCoordinate2D coord = {.latitude = 61.4981508 , .longitude = 23.7610254 };
         return coord;
     }else {
-        CLLocationCoordinate2D coord = {.latitude = 60.168959 , .longitude = 24.924714 };
+        CLLocationCoordinate2D coord = {.latitude = 60.170263 , .longitude = 24.941797 };
         return coord;
     }
 }

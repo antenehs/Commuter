@@ -11,4 +11,7 @@
 #import "RouteLegLocation+MapView.h"
 #import "BikeStation+MapView.h"
 #import "BusStop+MapView.h"
+#import "BusStop+MapView.h"
 #import "RouteLeg+MapView.h"
+#import "GeoCode+MapView.h"
+#import "NamedBookmark+MapView.h"

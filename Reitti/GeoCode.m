@@ -262,6 +262,10 @@
     }
 }
 
+-(CLLocationCoordinate2D)coordinates {
+    return [ReittiStringFormatter convertStringTo2DCoord:self.coords];
+}
+
 #ifndef APPLE_WATCH
 -(UIImage *)annotationImage {
     if (!_annotationImage) {

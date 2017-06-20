@@ -195,8 +195,9 @@ static CGFloat const kGCThumbnailAnnotationViewAnimationDuration = 0.25f;
 }
 
 - (void)setupMiddleButton {
-    _middleButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    _middleButton.frame = CGRectMake(-11, -ASAMagicVerticalOffset + 10, 22, 22);
+    _middleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_middleButton setImage:[UIImage imageNamed:@"star-filled-template-100"] forState:UIControlStateNormal];
+    _middleButton.frame = CGRectMake(-13, -ASAMagicVerticalOffset + 8, 26, 26);
     _middleButton.tintColor = SYSTEM_GREEN_COLOR;
     _middleButton.enabled = NO;
     [self addSubview:_middleButton];

@@ -53,7 +53,7 @@
 @property (nonatomic, retain) NSString * iconPictureName;
 @property (nonatomic, retain) NSString * monochromeIconName;
 
-@property (nonatomic, readonly) CLLocationCoordinate2D cl2dCoords;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinates;
 
 @property (nonatomic, readonly)BOOL isHomeAddress;
 @property (nonatomic, readonly)BOOL isWorkAddress;

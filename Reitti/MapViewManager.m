@@ -29,6 +29,17 @@
     return manager;
 }
 
+-(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId {
+    for (id<MKAnnotation> annotation in self.mapView.annotations) {
+        if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
+            if ([(NSObject<ReittiAnnotationProtocol> *)annotation uniqueIdentifier] == uniqueId) {
+                [self.mapView removeAnnotation:annotation];
+                break;
+            }
+        }
+    }
+}
+
 -(void)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType {
     NSMutableArray *array = [@[] mutableCopy];
     for (id<MKAnnotation> annotation in self.mapView.annotations) {
@@ -230,6 +241,7 @@
     return [annotations filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.uniqueIdentifier", codeList]];
 }
 
+//This method should be called only once for an annotation type in a map
 -(void)plotOnlyNewAnnotations:(NSArray *)annotations forAnnotationType:(ReittiAnnotationType)annotationType {
     if (!annotations) { return; }
     
@@ -250,6 +262,7 @@
     
     @try {
 //        FIRCrashLog(@"Bike annotation name: %@ coord: %@,%@", station.name, station.lon, station.lat );
+        [self.mapView removeAnnotations:annotations];
         [self.mapView addAnnotations:annotations];
     }
     @catch (NSException *exception) {
@@ -271,6 +284,8 @@
             } else {
                 [filtered addObject:annotation];
             }
+        } else {
+            [filtered addObject:annotation];
         }
     }
     
@@ -349,6 +364,9 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+    if (self.ignoreRegionChange)
+        return;
+    
     previousRegion = mapView.visibleMapRect;
     
     if ([self.delegate respondsToSelector:@selector(mapView:regionWillChangeAnimated:)]) {
@@ -357,6 +375,11 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    if (self.ignoreRegionChange){
+        self.ignoreRegionChange = NO;
+        return;
+    }
+    
     if ([self zoomLevel] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
         //Zoom level changed. Force update. Do it only for stationary annotations
         NSArray *allAnnotations = [self getAllShrinkableAndDisapearingAnnotations];
@@ -370,25 +393,46 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    if ([view conformsToProtocol:@protocol(DetailAnnotationViewProtocol)]) {
+        self.ignoreRegionChange = YES;
+        
+        [((NSObject<DetailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
+    }
+    
+    if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
+        [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
+    }
+    
+    if ([view conformsToProtocol:@protocol(LVThumbnailAnnotationViewProtocol)]) {
+        //Do nothing just yet
+    }
+    
     if ([self.delegate respondsToSelector:@selector(mapView:didSelectAnnotationView:)]) {
         [self.delegate mapView:self.mapView didSelectAnnotationView:view];
     }
     
-//    if ([view isKindOfClass:[DetailAnnotationView class]]) {
-//        [((DetailAnnotationView *)view)showCalloutView];
-//        view.layer.zPosition = 0;
-//    }
+    view.layer.zPosition = 0;
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+        NSAssert(false, @"This should not be used anymore");
+    }
+    
+    if ([view conformsToProtocol:@protocol(DetailAnnotationViewProtocol)]) {
+        [((NSObject<DetailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+    }
+    
+    if ([view conformsToProtocol:@protocol(GCThumbnailAnnotationViewProtocol)]) {
+        [((NSObject<GCThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(mapView:didDeselectAnnotationView:)]) {
         [self.delegate mapView:self.mapView didDeselectAnnotationView:view];
     }
     
-//    if ([view isKindOfClass:[DetailAnnotationView class]]) {
-//        [((DetailAnnotationView *)view) hideCalloutView];
-//        view.layer.zPosition = -1;
-//    }
+    view.layer.zPosition = -1;
 }
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView {
