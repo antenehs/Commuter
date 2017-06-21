@@ -53,6 +53,8 @@
 -(void)drawPolyline:(ReittiPolyline *)polyline;
 -(void)drawPolyline:(ReittiPolyline *)polyline andAdjustToFit:(BOOL)adjustToFit;
 
+-(void)drawFiveMinWalkingCircleAtCoordinate:(CLLocation *)center;
+
 
 //Helpers
 -(NSUInteger)zoomLevel;

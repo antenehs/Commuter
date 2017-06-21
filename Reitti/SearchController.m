@@ -1148,6 +1148,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
         centerMap = NO;
     }
     
+    [self.mapViewManager drawFiveMinWalkingCircleAtCoordinate:self.currentUserLocation];
+    
     if (!firstRecievedLocation && !userLocationUpdated) {
         Region currentRegion = [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:self.currentUserLocation.coordinate];
         

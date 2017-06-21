@@ -14,7 +14,8 @@
 #define radiansToDegrees(x) (x * 180.0 / M_PI)
 
 @interface MapViewManager ()
-@property (nonatomic, weak)MKMapView *mapView;
+@property (nonatomic, weak) MKMapView *mapView;
+@property (nonatomic, strong) CLLocation *previousCircledLocation;
 @end
 
 @implementation MapViewManager
@@ -325,6 +326,33 @@
     }
 }
 
+-(void)drawFiveMinWalkingCircleAtCoordinate:(CLLocation *)center {
+    if (self.previousCircledLocation) {
+        CLLocationDistance distance = [center distanceFromLocation:self.previousCircledLocation];
+        if (distance < 20) return;
+    }
+    
+    //Add circle overlay
+    MKCircle *circle = [MKCircle circleWithCenterCoordinate:center.coordinate radius:400];
+    [self removeAllCircleOverlays];
+    [self.mapView addOverlay:circle];
+    
+    //Add label annotation
+    MKCoordinateRegion coordRegion = MKCoordinateRegionForMapRect(circle.boundingMapRect);
+    double annotLat = center.coordinate.latitude + coordRegion.span.latitudeDelta/2;
+    CLLocationCoordinate2D annotCoord = CLLocationCoordinate2DMake(annotLat, center.coordinate.longitude);
+    
+    LocationsAnnotation *annot = [[LocationsAnnotation alloc] initWithTitle:nil andSubtitle:@"5 min walking radius" andCoordinate:annotCoord andLocationType:FiveMinMarkerAnnotationType];
+    annot.imageNameForView = @"5minAnnot";
+    annot.preferedSize = CGSizeMake(24, 30);
+    
+    [self removeAllReittiAnotationsOfType:FiveMinMarkerAnnotationType];
+    [self.mapView addAnnotation:annot];
+    
+    self.previousCircledLocation = center;
+}
+
+
 #pragma mark - Polyline filtering
 -(void)removeAllOverlaysOfType:(ReittiPolylineType)polylineType {
     for (id<MKOverlay> overlay in self.mapView.overlays) {
@@ -347,15 +375,23 @@
     }
 }
 
+-(void)removeAllCircleOverlays {
+    for (id<MKOverlay> overlay in self.mapView.overlays) {
+        if ([overlay isKindOfClass:[MKCircle class]]) {
+            [self.mapView removeOverlay:overlay];
+        }
+    }
+}
+
 #pragma mark - Map Delegates
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
         return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }
     
-    if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
-        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-    }
+//    if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
+//        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
+//    }
     
     if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
         return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
@@ -381,6 +417,12 @@
         }
         
         return polylineRenderer;
+    } else if ([overlay isKindOfClass:[MKCircle class]]) {
+        MKCircleRenderer *circleView = [[MKCircleRenderer alloc] initWithOverlay:overlay];
+        circleView.lineWidth = 2;
+        circleView.strokeColor = [[UIColor grayColor] colorWithAlphaComponent:0.7];
+        circleView.fillColor = [[UIColor greenColor] colorWithAlphaComponent:0.03];
+        return circleView;
     } else {
         return nil;
     }

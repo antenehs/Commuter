@@ -110,6 +110,7 @@ typedef enum {
     StopLocation = 18,
     TransferStopLocation = 19,
     ServicePointAnnotationType = 20,
+    FiveMinMarkerAnnotationType = 20
 } ReittiAnnotationType;
 
 typedef enum {
