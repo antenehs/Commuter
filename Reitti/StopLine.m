@@ -70,6 +70,14 @@
     return dict;
 }
 
+-(NSString *)lineUniqueName {
+    if (!_lineUniqueName) {
+        _lineUniqueName = [NSString stringWithFormat:@"%@-%@", self.fullCode, self.destination];
+    }
+    
+    return _lineUniqueName;
+}
+
 #pragma mark - Helper Method
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict
 {

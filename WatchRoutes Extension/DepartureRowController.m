@@ -20,7 +20,7 @@
     
     [self.lineCodeLabel setText:departure.code];
     
-    [self.departureTimeLabel setText:[[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departure.parsedScheduledDate]];
+    [self.departureTimeLabel setText:[[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departure.departureTime]];
     
     [self.destinationLabel setText:departure.destination];
 }

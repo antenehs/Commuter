@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSNumber *realtimeArrival;
 @property (nonatomic, strong) NSString *realtimeState;
 @property (nonatomic, strong) NSNumber *realtime;
+@property (nonatomic, strong) NSString *routeGtfsId;
 @property (nonatomic, strong) NSString *routeLongName;
 @property (nonatomic, strong) NSString *routeShortName;
 @property (nonatomic, strong) NSString *destination;

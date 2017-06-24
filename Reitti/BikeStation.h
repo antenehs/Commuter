@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "ReittiObject.h"
+#import "ReittiObjectProtocols.h"
 
 @class RouteLegLocation;
 
@@ -37,7 +38,7 @@ typedef enum
     FullAvailability = 4
 } Availability;
 
-@interface BikeStation : ReittiObject
+@interface BikeStation : ReittiObject <ReittiPlaceAtDistance>
 
 +(id)bikeStationFromLegLocation:(RouteLegLocation *)location;
 
@@ -53,10 +54,15 @@ typedef enum
 @property (nonatomic) BOOL realTimeData;
 
 @property (nonatomic)CLLocationCoordinate2D coordinates;
-@property (nonatomic, strong)NSString *bikesAvailableString;
-@property (nonatomic, strong)NSString *spacesAvailableString;
-@property (nonatomic)CLLocationDistance distance;
+@property (nonatomic, strong, readonly)CLLocation *location;
+@property (nonatomic, strong, readonly)NSString *bikesAvailableString;
+@property (nonatomic, strong, readonly)NSString *bikesUnitString;
+@property (nonatomic, strong, readonly)NSString *spacesAvailableString;
+@property (nonatomic, strong, readonly)NSString *spacesUnitString;
+@property (nonatomic)NSNumber *distance;
 @property (nonatomic)Availability bikeAvailability;
 @property (nonatomic)Availability spaceAvailability;
+
+@property (nonatomic, retain, readonly) NSNumber * totalSpaces;
 
 @end

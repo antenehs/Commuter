@@ -387,7 +387,7 @@
     
     NSMutableArray *fDepartures = [@[] mutableCopy];
     for (StopDeparture *dept in existingStop.departures) {
-        if ([[NSDate date] timeIntervalSinceDate:dept.parsedScheduledDate] < 0) {
+        if ([[NSDate date] timeIntervalSinceDate:dept.departureTime] < 0) {
             [fDepartures addObject:dept];
         }
     }

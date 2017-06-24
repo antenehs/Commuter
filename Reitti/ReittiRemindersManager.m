@@ -104,7 +104,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     DepartureNotification *notification = [DepartureNotification notificationForDeparture:departure stop:stop offsetMin:minute];
     
     NSTimeInterval seconds = (minute * -60);
-    NSDate *fireDate = [departure.parsedScheduledDate dateByAddingTimeInterval:seconds];
+    NSDate *fireDate = [departure.departureTime dateByAddingTimeInterval:seconds];
     
     notification.fireDate = fireDate;
     notification.toneName = [self.settingsManager toneName];

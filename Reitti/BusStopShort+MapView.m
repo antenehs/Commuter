@@ -30,7 +30,7 @@
     }
     
     annotationThumb.coordinate = coordinate;
-    annotationThumb.annotationType = [EnumManager annotTypeForNearbyStopType:self.stopType];
+    annotationThumb.annotationType = [EnumManager annotTypeForStopType:self.stopType];
     annotationThumb.reuseIdentifier = [self annotationReuseIdentifier];
     
     DetailedAnnotation *annotation = [DetailedAnnotation annotationWithThumbnail:annotationThumb];

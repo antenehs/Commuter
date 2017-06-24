@@ -148,7 +148,7 @@ typedef enum {
 
 //Annot type methods
 +(BOOL)isNearbyStopAnnotationType:(ReittiAnnotationType)annotType;
-+(ReittiAnnotationType)annotTypeForNearbyStopType:(StopType)stopType;
++(ReittiAnnotationType)annotTypeForStopType:(StopType)stopType;
 +(BOOL)isAnnotationType:(ReittiAnnotationType)firstType sameAsAnnotaionType:(ReittiAnnotationType)secondType;
 
 @end

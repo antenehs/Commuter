@@ -6,6 +6,7 @@
 //
 
 #import "StopDeparture.h"
+#import "AppManager.h"
 
 
 NSString *const kDeparturesCode = @"code";
@@ -22,6 +23,7 @@ NSString *const kIsRealTime = @"isRealTime";
 @interface StopDeparture ()
 
 - (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
+@property (nonatomic, strong) NSDate *departureTime;
 
 @end
 
@@ -118,6 +120,18 @@ NSString *const kIsRealTime = @"isRealTime";
 - (NSString *)description 
 {
     return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
+}
+
+-(NSDate *)departureTime {
+    if (!_departureTime) {
+        if ([AppManager isProVersion] && self.isRealTime && self.parsedRealtimeDate) {
+            _departureTime = self.parsedRealtimeDate;
+        } else {
+            _departureTime = self.parsedScheduledDate;
+        }
+    }
+    
+    return _departureTime;
 }
 
 #pragma mark - Helper Method

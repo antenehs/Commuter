@@ -996,17 +996,8 @@ const NSInteger kTimerRefreshInterval = 60;
     lineName.text = departure.code;
     lineName.textColor = [UIColor blackColor];
     
-    NSDate *departureTime = departure.parsedScheduledDate;
-    if (departure.isRealTime && [AppManager isProVersion]) {
-        realtimeIndicatorImageView.hidden = NO;
-//        timeLabel.textColor = [AppManager systemGreenColor];
-        if (departure.parsedRealtimeDate) {
-            departureTime = departure.parsedRealtimeDate;
-        }
-    } else {
-        realtimeIndicatorImageView.hidden = YES;
-//        timeLabel.textColor = [UIColor darkGrayColor];
-    }
+    NSDate *departureTime = departure.departureTime;
+    realtimeIndicatorImageView.hidden = !departure.isRealTime || ![AppManager isProVersion];
     
     NSString *formattedHour = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departureTime];
     if (!formattedHour || formattedHour.length < 1 ) {

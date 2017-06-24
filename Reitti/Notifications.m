@@ -51,7 +51,7 @@ NSString *kNotificationStopCode = @"stopCode";
     LineType lineType = [EnumManager lineTypeForStopType:stop.stopType];
     LegTransportType legType = [EnumManager legTrasportTypeForLineType:lineType];
     notif.departureLine = [EnumManager lineDisplayName:legType forLineCode:departure.code];
-    notif.departureTime = departure.parsedScheduledDate;
+    notif.departureTime = departure.departureTime;
     
     return notif;
 }

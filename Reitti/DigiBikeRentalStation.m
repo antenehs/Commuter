@@ -131,6 +131,7 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
     station.spacesAvailable = self.spacesAvailable;
     station.allowDropoff = self.allowDropoff;
     station.realTimeData = self.realtime;
+    station.distance = self.distance;
     
     return station;
 }
@@ -138,14 +139,15 @@ NSString *const kDigiBikeRentalStationSpacesAvailable = @"spacesAvailable";
 
 +(NSDictionary *)mappingDictionary {
     return @{
-             @"stationId"       : @"stationId",
-             @"name"            : @"name",
-             @"lon"             : @"lon",
-             @"lat"             : @"lat",
-             @"bikesAvailable"  : @"bikesAvailable",
-             @"spacesAvailable" : @"spacesAvailable",
-             @"allowDropoff"    : @"allowDropoff",
-             @"realtime"        : @"realtime",
+             @"place.stationId"       : @"stationId",
+             @"place.name"            : @"name",
+             @"place.lon"             : @"lon",
+             @"place.lat"             : @"lat",
+             @"place.bikesAvailable"  : @"bikesAvailable",
+             @"place.spacesAvailable" : @"spacesAvailable",
+             @"place.allowDropoff"    : @"allowDropoff",
+             @"place.realtime"        : @"realtime",
+             @"distance"              : @"distance"
              };
     
 }

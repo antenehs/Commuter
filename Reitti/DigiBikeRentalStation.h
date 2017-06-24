@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *lat;
 @property (nonatomic, strong) NSNumber *bikesAvailable;
 @property (nonatomic, strong) NSNumber *spacesAvailable;
+@property (nonatomic, strong) NSNumber *distance;
 @property (nonatomic) BOOL realtime;
 @property (nonatomic) BOOL allowDropoff;
 

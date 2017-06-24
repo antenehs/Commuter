@@ -58,7 +58,7 @@
                                 </connections>
                             </mapView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gn-os-Xrb">
-                                <rect key="frame" x="325" y="500" width="35" height="35"/>
+                                <rect key="frame" x="325" y="0.0" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="9Nk-0h-7PN"/>
                                     <constraint firstAttribute="height" constant="35" id="DoK-FW-uQt"/>
@@ -81,9 +81,9 @@
                                 </connections>
                             </button>
                             <view autoresizesSubviews="NO" tag="1000" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="RPy-oI-JaQ" customClass="AMBlurView">
-                                <rect key="frame" x="0.0" y="550" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="50" width="375" height="603"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEARBY STOPS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Li3-9Q-t1v" userLabel="Nearby stops">
+                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEARBY STOPS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Li3-9Q-t1v" userLabel="Nearby stops">
                                         <rect key="frame" x="14" y="0.0" width="290" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="9bW-LT-eR8"/>
@@ -102,8 +102,9 @@
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="dIy-Zh-BEc">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="515"/>
+                                        <rect key="frame" x="0.0" y="3" width="375" height="556"/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchResultCell" rowHeight="60" id="wNz-Oz-8gc">
                                                 <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
@@ -317,14 +318,14 @@
                                             <outlet property="delegate" destination="139-RC-VnC" id="Ysu-QM-D6r"/>
                                         </connections>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQ6-cg-S34" customClass="JTMaterialSpinner">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SQ6-cg-S34" customClass="JTMaterialSpinner">
                                         <rect key="frame" x="339" y="12" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="1ts-Vg-Yez"/>
                                             <constraint firstAttribute="width" constant="20" id="l2M-MD-n38"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XhT-aI-0GD">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XhT-aI-0GD">
                                         <rect key="frame" x="337" y="12" width="25" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="iVv-m4-UYK"/>
@@ -332,9 +333,6 @@
                                         </constraints>
                                         <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button" image="list-white-100.png"/>
-                                        <connections>
-                                            <action selector="refreshOrShowListButtonPressed:" destination="139-RC-VnC" eventType="touchUpInside" id="stO-ue-nE9"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -354,7 +352,7 @@
                                     <constraint firstItem="Li3-9Q-t1v" firstAttribute="top" secondItem="RPy-oI-JaQ" secondAttribute="top" id="j49-gb-ira"/>
                                     <constraint firstAttribute="trailing" secondItem="K27-h1-qlN" secondAttribute="trailing" id="kxG-95-CfN"/>
                                     <constraint firstItem="K27-h1-qlN" firstAttribute="top" secondItem="RPy-oI-JaQ" secondAttribute="top" id="or0-s4-bS0"/>
-                                    <constraint firstItem="dIy-Zh-BEc" firstAttribute="top" secondItem="RPy-oI-JaQ" secondAttribute="top" constant="44" id="rij-8u-5WD"/>
+                                    <constraint firstItem="dIy-Zh-BEc" firstAttribute="top" secondItem="RPy-oI-JaQ" secondAttribute="top" constant="3" id="rij-8u-5WD"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -388,7 +386,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="BYt-oF-ZIw" customClass="AnnotationFilterView">
-                                <rect key="frame" x="15" y="500" width="35" height="35"/>
+                                <rect key="frame" x="15" y="0.0" width="35" height="35"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="35" id="CEW-wp-6nK"/>
@@ -405,7 +403,7 @@
                             <constraint firstAttribute="trailing" secondItem="658-LZ-zeV" secondAttribute="trailing" id="8HY-A1-sd1"/>
                             <constraint firstItem="BYt-oF-ZIw" firstAttribute="leading" secondItem="4Yo-N4-ctk" secondAttribute="leading" constant="15" id="Ba5-gd-V0w"/>
                             <constraint firstAttribute="bottom" secondItem="658-LZ-zeV" secondAttribute="bottom" id="Fw7-6B-uhi"/>
-                            <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="HFn-6S-gFZ" secondAttribute="bottom" constant="550" id="GLP-4W-3Ww"/>
+                            <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="HFn-6S-gFZ" secondAttribute="bottom" constant="50" id="GLP-4W-3Ww"/>
                             <constraint firstItem="RPy-oI-JaQ" firstAttribute="top" secondItem="BYt-oF-ZIw" secondAttribute="bottom" constant="15" id="Gwn-fa-id3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RPy-oI-JaQ" secondAttribute="trailing" constant="-16" id="Jti-MW-Bpt"/>
                             <constraint firstItem="BYt-oF-ZIw" firstAttribute="leading" secondItem="4Yo-N4-ctk" secondAttribute="leading" constant="15" id="OaW-ry-JTu"/>

@@ -67,16 +67,27 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 }
 
 +(BOOL)isProVersion{
-    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+//    static NSNumber *isProVersion;
     
-    if (!infoPlist)
-        return YES;
+//    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+//    
+//    if (!infoPlist)
+//        return YES;
+//    
+//    NSNumber * isProVersion = infoPlist[@"IsProVersion"];
+//    if (isProVersion)
+//        return [isProVersion boolValue];
+//    
+//    return YES;
     
-    NSNumber * isProVersion = infoPlist[@"IsProVersion"];
-    if (isProVersion)
-        return [isProVersion boolValue];
-    
+#if PRO_MAIN_APP || DEPARTURES_PRO_WIDGET || ROUTES_WIDGET || APPLE_WATCH
     return YES;
+#endif
+    
+#if BASIC_MAIN_APP || DEPARTURES_BASIC_WIDGET
+    return NO;
+#endif
+
 }
 
 +(BOOL)isDebugMode {

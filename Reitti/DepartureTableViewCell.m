@@ -24,7 +24,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    self.realtimeImages = @[[UIImage imageNamed:@"realtime1"], [UIImage imageNamed:@"realtime2"]];
+    self.realtimeImages = @[[UIImage imageNamed:@"realtime3"], [UIImage imageNamed:@"realtime2"]];
+    self.realtimeIndicatorImageView.tintColor = [AppManager systemGreenColor];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = [UIColor whiteColor];
     self.compactMode = NO;

@@ -15,6 +15,7 @@
 @interface DetailedAnnotation ()
 
 @property (nonatomic, readwrite) DetailAnnotationView *view;
+@property (nonatomic, strong) DefaultAnnotationCallout *calloutView;
 
 @end
 
@@ -119,12 +120,15 @@
     UIImageView *pinView = [[UIImageView alloc] initWithImage:[self shrinkedImage]];
     pinView.frame = CGRectMake(0, 0, 16, 16);
     
-    UIView *calloutView = [DefaultAnnotationCallout calloutForThumbnail:self.thumbnail andSettings:[DetailAnnotationSettings defaultSettings]];
+    //No need to creat the callout view again.  Cache it.
+    if (!self.calloutView) {
+        self.calloutView = [DefaultAnnotationCallout calloutForThumbnail:self.thumbnail andSettings:[DetailAnnotationSettings defaultSettings]];;
+    }
     
     DetailAnnotationView *annotView = [[DetailAnnotationView alloc] initWithAnnotation:self
                                                    reuseIdentifier:self.thumbnail.reuseIdentifier
                                                            pinView:pinView
-                                                       calloutView:calloutView
+                                                       calloutView:self.calloutView
                                                           settings:[DetailAnnotationSettings defaultSettings]];
     
     annotView.annotationSize = DetailAnnotationViewSizeShrinked;
@@ -134,16 +138,18 @@
 
 -(DetailAnnotationView *)newNormalSizeAnnotationView {
     UIImageView *pinView = [[UIImageView alloc] initWithImage:self.thumbnail.image];
-    pinView.frame = CGRectMake(0, 0, 28, 42);
+    pinView.frame = CGRectMake(0, 0, 25, 38);
     
-    UIView *calloutView = [DefaultAnnotationCallout calloutForThumbnail:self.thumbnail andSettings:[DetailAnnotationSettings defaultSettings]];
+    if (!self.calloutView) {
+        self.calloutView = [DefaultAnnotationCallout calloutForThumbnail:self.thumbnail andSettings:[DetailAnnotationSettings defaultSettings]];;
+    }
     
     DetailAnnotationView *annotView = [[DetailAnnotationView alloc] initWithAnnotation:self
                                                    reuseIdentifier:self.thumbnail.reuseIdentifier
                                                            pinView:pinView
-                                                       calloutView:calloutView
+                                                       calloutView:self.calloutView
                                                           settings:[DetailAnnotationSettings defaultSettings]];
-    annotView.centerOffset = CGPointMake(0, -15);
+    annotView.centerOffset = CGPointMake(0, -9);
     annotView.annotationSize = DetailAnnotationViewSizeNormal;
     
     return annotView;

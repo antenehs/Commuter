@@ -258,7 +258,7 @@
         case LegTypeTrain:
             return [UIImage imageNamed:@"train-filled-light-64"];
         case LegTypeMetro:
-            return [UIImage imageNamed:@"metro-logo-orange"];
+            return [UIImage imageNamed:@"metro-filled-light"];
         case LegTypeTram:
             return [UIImage imageNamed:@"tram-filled-light-64"];
         case LegTypeFerry:

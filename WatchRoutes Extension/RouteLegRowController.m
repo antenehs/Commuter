@@ -66,8 +66,8 @@
         [self.legTypeImage setImageNamed:@"walking-template"];
     } else {
         UIImage *image = [AppManager lightColorImageForLegTransportType:routeLeg.legType];
-        if (routeLeg.legType != LegTypeMetro)
-            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            
         [self.legTypeImage setImage:image];
     }
     

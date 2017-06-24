@@ -31,6 +31,9 @@
 
 +(instancetype)managerForMapView:(MKMapView *)mapView;
 
+//Select annotations
+-(void)selectReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType;
+
 //Remove Annotations
 -(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType;
 -(void)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType;
@@ -39,7 +42,7 @@
 -(void)removeAllAnotationsExceptOfType:(Class)annotationType;
 -(NSArray *)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType notInCodeList:(NSArray *)codeList;
 
-//Remove annotations
+//Remove Overlays
 -(void)removeAllOverlaysOfType:(ReittiPolylineType)polylineType;
 -(void)removeAllOverlaysForUniqId:(NSString *)uniqueId andType:(ReittiPolylineType)polylineType;
 

@@ -1,7 +1,14 @@
 {
-    bikeRentalStations {
-
-        [*BIKES_FRAGMENT*]
-
+    nearest(lat: 60.170263, lon: 24.941797, maxDistance: 30000, filterByPlaceTypes: BICYCLE_RENT, maxResults: 1000) {
+        edges {
+            node {
+                place {
+                    ... on BikeRentalStation {
+                        [*BIKES_FRAGMENT*]
+                    }
+                }
+                distance
+            }
+        }
     }
 }

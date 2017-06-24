@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ReittiObject.h"
+#import "ReittiObjectProtocols.h"
 #import "EnumManager.h"
 
 #ifndef APPLE_WATCH
@@ -15,7 +16,7 @@
 #import "MatkaStop.h"
 #endif
 
-@interface BusStopShort : ReittiObject
+@interface BusStopShort : ReittiObject <ReittiPlaceAtDistance>
 
 #ifndef APPLE_WATCH
 +(id)stopFromMatkaStop:(MatkaStop *)matkaStop;

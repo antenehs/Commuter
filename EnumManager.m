@@ -391,7 +391,7 @@
     }
 }
 
-+ (ReittiAnnotationType)annotTypeForNearbyStopType:(StopType)stopType {
++ (ReittiAnnotationType)annotTypeForStopType:(StopType)stopType {
     switch (stopType) {
         case StopTypeBus: return NearByBusStopType;
         case StopTypeTram: return NearByTramStopType;
@@ -399,6 +399,7 @@
         case StopTypeMetro: return NearByMetroStopType;
         case StopTypeFerry: return NearByFerryStopType;
         case StopTypeAirport: return NearByAirportType;
+        case StopTypeBikeStation: return BikeStationLocation;
         default: return NearByBusStopType;
     }
 }

@@ -196,6 +196,7 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 -(StopDeparture *)reittiStopDeparture {
     StopDeparture *departure = [StopDeparture new];
     
+    departure.lineGtfsId = self.routeGtfsId;
     departure.code = self.routeShortName;
     departure.date = nil;
     departure.name = self.routeLongName;
@@ -212,6 +213,7 @@ NSString *const kDigiStoptimesRealtimeState = @"realtimeState";
 #pragma mark - mapping
 +(NSDictionary *)mappingDictionary {
     return @{
+              @"trip.route.gtfsId"      : @"routeGtfsId",
               @"trip.route.longName"    : @"routeLongName",
               @"trip.route.shortName"   : @"routeShortName",
               @"stop.name"              : @"stopName",

@@ -10,6 +10,8 @@
 #import "EnumManager.h"
 #import "ReittiStringFormatter.h"
 #import "StopLine.h"
+#import "GroupedDepartures.h"
+#import "AppManager.h"
 
 #ifndef APPLE_WATCH
 #import "MatkaLine.h"
@@ -75,7 +77,6 @@
         line.fullCode = matkaLine.lineId;
         line.code = [matkaLine.codeShort uppercaseString];
         line.name = matkaLine.name;
-//        line.direction = @"1";
         line.destination = matkaLine.name;
         line.lineType = matkaLine.lineType;
         line.lineStart = matkaLine.lineStart;
@@ -172,6 +173,87 @@
                            @"addressSv":self.addressSv!= nil? self.addressSv : @"",};
     
     return dict;
+}
+
+#pragma mark - Derived properties
+-(NSArray *)groupedDepartures {
+    NSMutableArray *groupedDepartures = [@[] mutableCopy];
+    
+    //We see lines as unique if they have same gtfs id and destination. But sometimes
+    //Even with same id and destination there could be different patters.
+    NSMutableArray *departuresCopy = [self.validDepartures mutableCopy];
+    for (StopDeparture *departure in self.departures) {
+        NSArray *sameDepartures = [self collectDeparturesFromList:departuresCopy forLineGtfsId:departure.lineGtfsId andDestination:departure.destination];
+        if (!sameDepartures)
+            continue;
+        
+        StopLine *line = [self lineForDeparture:departure];
+        if (!line)
+            continue;
+        
+        [groupedDepartures addObject:[GroupedDepartures groupedDeparutesForLine:line
+                                                                        busStop:self
+                                                                     departures:sameDepartures]];
+        [departuresCopy removeObjectsInArray:sameDepartures];
+    }
+
+    _groupedDepartures = groupedDepartures;
+    
+    return _groupedDepartures;
+}
+
+
+//Departures matching line within the next 2 hours
+-(NSArray *)collectDeparturesFromList:(NSMutableArray *)departuresList forLineGtfsId:(NSString *)lineGtfsId andDestination:(NSString *)destination {
+    
+    NSArray *filtered = [departuresList filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(StopDeparture *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [evaluatedObject.lineGtfsId isEqualToString:lineGtfsId] &&
+               [evaluatedObject.destination isEqualToString:destination] &&
+               [evaluatedObject.departureTime timeIntervalSinceNow] < 7000;
+    }]];
+    
+    return filtered.count > 0 ? filtered : nil;
+}
+
+/* 
+ //DOESNT WORK FOR SOME REASON
+ 
+-(void)sortDepartureGroupsInPlace:(inout NSArray<GroupedDepartures *> *)departureGroups {
+    [departureGroups sortedArrayUsingComparator:^NSComparisonResult(GroupedDepartures *  _Nonnull obj1, GroupedDepartures *  _Nonnull obj2) {
+        if (obj1.departures.count < 1 || obj2.departures.count < 1) {
+            return NSOrderedSame;
+        }
+        
+        NSTimeInterval firstDeparture = [[(StopDeparture *)obj1.departures[0] departureTime] timeIntervalSinceNow];
+        
+        NSTimeInterval secondDeparture = [[(StopDeparture *)obj2.departures[0] departureTime] timeIntervalSinceNow];
+ 
+        return firstDeparture <= secondDeparture ? NSOrderedAscending : NSOrderedDescending;
+    }];
+}
+*/
+
+-(NSArray *)validDepartures {
+    NSMutableArray *validDepartures = [@[] mutableCopy];
+    
+    for (StopDeparture *departure in self.departures) {
+        NSDate *departureTime = departure.departureTime;
+        
+        if (departureTime && [departureTime timeIntervalSinceNow] > 0) {
+            [validDepartures addObject:departure];
+        }
+    }
+    
+    return validDepartures;
+}
+
+-(StopLine *)lineForDeparture:(StopDeparture *)departure {
+    if (!self.lines)
+        return nil;
+    
+    NSArray *filteredLines = [self.lines filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"fullCode == %@", departure.lineGtfsId]];
+    
+    return filteredLines.count > 0 ? filteredLines[0] : nil;
 }
 
 #pragma mark - Helper Method

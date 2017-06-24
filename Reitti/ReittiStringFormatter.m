@@ -231,14 +231,14 @@
 
 +(NSAttributedString *)formatAttributedString:(NSString *)numberString withUnit:(NSString *)unitString withFont:(UIFont *)font andUnitFontSize:(NSInteger)smallFontSize{
     
-    UIFont *smallerFont = [font fontWithSize:smallFontSize];
+    UIFont *smallerFont = [UIFont systemFontOfSize:smallFontSize];
     
     //    NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
     NSMutableDictionary *numbersDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
     //    [numbersDict setObject:font forKey:NSFontAttributeName];
     
-    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:[UIColor grayColor] forKey:NSForegroundColorAttributeName];
-    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
+    NSMutableDictionary *stringsDict = [NSMutableDictionary dictionaryWithObject:smallerFont forKey:NSFontAttributeName];
+//    [stringsDict setObject:smallerFont forKey:NSFontAttributeName];
     
     
     NSMutableAttributedString *formattedString = [[NSMutableAttributedString alloc] initWithString:numberString attributes:numbersDict];
@@ -248,34 +248,6 @@
 }
 
 +(NSAttributedString *)highlightSubstringInString:(NSString *)text substring:(NSString *)substring withNormalFont:(UIFont *)font{
-    //    [UIColor colorWithRed:51.0/255.0 green:153.0/255.0 blue:102/255.0 alpha:1.0]
-//    NSMutableDictionary *subStringDict = [NSMutableDictionary dictionaryWithObject:[AppManagerBase systemOrangeColor] forKey:NSForegroundColorAttributeName];
-//    [subStringDict setObject:font forKey:NSFontAttributeName];
-//    
-//    NSMutableDictionary *restStringDict = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-//    
-//    if (text == nil)
-//        return nil;
-//    
-//    if (substring == nil)
-//        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
-//    
-//    if ([text rangeOfString:substring options:NSCaseInsensitiveSearch].location == NSNotFound)
-//        return [[NSMutableAttributedString alloc] initWithString:text attributes:restStringDict];
-//    
-//    NSRange location = [text rangeOfString:substring options:NSCaseInsensitiveSearch];
-//    
-//    NSMutableAttributedString *highlighted = [[NSMutableAttributedString alloc] initWithString:[text substringWithRange:location] attributes:subStringDict];
-//    
-//    NSMutableAttributedString *notHightlighted1 = [[NSMutableAttributedString alloc] initWithString:[text substringToIndex:location.location] attributes:restStringDict];
-//    
-//    NSMutableAttributedString *notHightlighted2 = [[NSMutableAttributedString alloc] initWithString:[text substringFromIndex:location.location + location.length ] attributes:restStringDict];
-//    
-//    [notHightlighted1 appendAttributedString:highlighted];
-//    [notHightlighted1 appendAttributedString:notHightlighted2];
-    
-//    return notHightlighted1;
-    
     return [self highlightSubstringInString:text substrings:@[substring] withNormalFont:font highlightedFont:font andHighlightColor:[AppManagerBase systemOrangeColor]];
 }
 

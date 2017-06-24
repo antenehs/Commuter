@@ -1313,8 +1313,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
         startTimeLabel.text = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:loc.depTime];
         
         UIImage *image = [AppManager lightColorImageForLegTransportType:loc.locationLegType];
-        if (selectedLeg.legType != LegTypeMetro)
-            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            
         [legTypeImage setImage:image];
         legTypeImage.contentMode = UIViewContentModeScaleAspectFill;
         if (selectedLeg.legType != LegTypeWalk)

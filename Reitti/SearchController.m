@@ -30,6 +30,7 @@
 #import "ReittiDateHelper.h"
 #import "BikeStation.h"
 #import "DepartureTableViewCell.h"
+#import "NearbyTableViewCell.h"
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
 #import "CoreDataManagers.h"
@@ -47,7 +48,10 @@
 #define kDisapearingZoomLevel 14
 #define kShrinkingZoomLevel 15
 
-CGFloat  kDeparturesRefreshInterval = 60;
+#define kMinHeightForListTableView 110.0
+#define kMinTopSpaceForListTableView 0
+
+CGFloat  kDeparturesRefreshInterval = 10;
 
 @interface SearchController ()
 
@@ -61,6 +65,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) SettingsManager *settingsManager;
 @property (strong, nonatomic) MapViewManager *mapViewManager;
+
+@property (strong, nonatomic) NSArray *nearbyRows;
 
 @end
 
@@ -95,6 +101,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [super viewDidLoad];
     
     [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
+    
+    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"NearbyTableViewCell" bundle:nil] forCellReuseIdentifier:@"nearByCell"];
     
     [self initDataComponentsAndModules];
     [self updateAppShortcuts];
@@ -132,37 +140,38 @@ CGFloat  kDeparturesRefreshInterval = 60;
     currentLocationButton.hidden = YES; // just to prevent annoying color splash on sreen when view loads
 }
 
--(void)showRateAppNotification{
-    appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
-    
-    if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
-    
-    if ([SKStoreReviewController class]) {
-        [SKStoreReviewController requestReview];
-        [AppManager setAppOpenCountForRating:-8];
-        return;
-    }
-     
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
-                                                                   message:@"The gift of 5 little starts is satisfying for both of us more than you think."
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
-                                                              [AppManager setAppOpenCountForRating:-50];
-                                                              
-                                                          }];
-    
-    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
-                                                        handler:^(UIAlertAction * action) {
-                                                            [AppManager setAppOpenCountForRating:-8];
-                                                        }];
-    
-    [alert addAction:laterAction];
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
-    
+-(void)showRateAppNotification {
+    [self asa_ExecuteBlockInUIThread:^{
+        appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
+        
+        if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
+        
+        if ([SKStoreReviewController class]) {
+            [SKStoreReviewController requestReview];
+            [AppManager setAppOpenCountForRating:-8];
+            return;
+        }
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
+                                                                       message:@"The gift of 5 little starts is satisfying for both of us more than you think."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
+                                                                  [AppManager setAppOpenCountForRating:-50];
+                                                                  
+                                                              }];
+        
+        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
+                                                            handler:^(UIAlertAction * action) {
+                                                                [AppManager setAppOpenCountForRating:-8];
+                                                            }];
+        
+        [alert addAction:laterAction];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
 }
 
 -(void)showGoProNotification{
@@ -371,15 +380,15 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)initGuestureRecognizers {
-    stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
+//    stopViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
-    [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
+//    [StopView addGestureRecognizer:stopViewDragGestureRecognizer];
     
     searchResultsViewGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(listNearbyStopsPressed:)];
     
-    searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
+//    searchResultViewDragGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragStopView:)];
     
-    [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
+//    [searchResultsView addGestureRecognizer:searchResultViewDragGestureRecognizer];
     
     mapViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideFilterViewOptions)];
     
@@ -434,6 +443,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
 -(void)initDeparturesRefreshTimer{
     departuresRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:kDeparturesRefreshInterval target:self selector:@selector(refreshDepartures:) userInfo:nil repeats:YES];
 }
+
+#pragma mark - Center locator methods
 
 -(void)initCenterLocator:(CGPoint)point{
     centerLocatorView = [[UIView alloc] initWithFrame:[self centerLocatorFrameForCenter:point]];
@@ -494,6 +505,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }];
 }
 
+#pragma mark - stop filter method
 -(void)updateFilter {
     if ([AppManager isProVersion]) {
         NSArray *optionsForRegion = [reittiDataManager annotationFilterOptions];
@@ -549,9 +561,25 @@ CGFloat  kDeparturesRefreshInterval = 60;
         if (changedOption.annotType == BikeStationLocation) {
            [reittiDataManager stopUpdatingBikeStations];
         }
+        
+        [self setupNearByPlacesListTableView];
     }
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionFilteredStops label:[NSString stringWithFormat:@"%@ - %@", changedOption.name, changedOption.isEnabled ? @"On" : @"Off"] value:nil];
+}
+
+-(NSArray *)filterStopsForAnnotationFilter:(NSArray<BusStopShort *> *)stopList {
+    if (!stopList)
+        return nil;
+    
+    if (!self.annotationFilter || self.annotationFilter.filterOptions == nil) {
+        return stopList;
+    }
+    
+    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(BusStopShort *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        ReittiAnnotationType annotType = [EnumManager annotTypeForStopType:evaluatedObject.stopType];
+        return [self.annotationFilter isAnnotationTypeEnabled:annotType];
+    }]];
 }
 
 -(void)hideFilterViewOptions {
@@ -581,10 +609,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
--(int)searchViewLowerBound{
-    return self.view.bounds.origin.y;
-}
-
 -(void)setSearchBarText:(NSString *)text isManualSearchText:(BOOL)searchedText {
     if (searchedText) {
         mainSearchBar.text = text;
@@ -598,89 +622,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
-#pragma mark - Annotation helpers
--(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
-    NSString *toLocationName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
-    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
-    
-    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocationName toCoords:coordString fromLocation:nil fromCoords:nil];
-    [self switchToRouteSearchViewWithRouteParameter:searchParms];
-    
-    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
-}
-
--(void)openRouteForNamedAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
-    NSString *toLocationName = [NSString stringWithFormat:@"%@", title];
-    if (droppedPinGeoCode != nil) {
-        if ([title isEqualToString:@"Dropped pin"]) {
-            toLocationName = [droppedPinGeoCode getStreetAddressString];
-            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
-        }else{
-            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
-        }
-    }
-    
-    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
-    
-    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocationName toCoords:coordString fromLocation:nil fromCoords:nil];
-    [self switchToRouteSearchViewWithRouteParameter:searchParms];
-    
-    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
-}
-
--(void)openRouteFromAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
-    NSString *fromLocation = title;
-    if (droppedPinGeoCode != nil) {
-        if ([title isEqualToString:@"Dropped pin"]) {
-            fromLocation = [droppedPinGeoCode getStreetAddressString];
-        }
-    }
-    
-    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
-    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:nil toCoords:nil fromLocation:fromLocation fromCoords:coordString];
-    [self switchToRouteSearchViewWithRouteParameter:searchParms];
-    
-    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
-}
-
--(void)showNamedBookmark:(NamedBookmark *)namedBookmark{
-    selectedNamedBookmark = namedBookmark;
-    [self performSegueWithIdentifier:@"showNamedBookmark" sender:nil];
-}
-
--(void)showGeoCode:(GeoCode *)geoCode{
-    selectedGeoCode = geoCode;
-    [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
-}
-
--(void)saveDroppedPinGeoCode {
-    if (droppedPinGeoCode != nil) {
-        selectedGeoCode = droppedPinGeoCode;
-        [self performSegueWithIdentifier:@"saveGeoCode" sender:nil];
-    }
-    
-    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenGeoLocationFromDroppedPin label:nil value:nil];
-}
-
--(void)openStopViewForCode:(NSString *)code shortCode:(NSString *)shortCode name:(NSString *)name andCoords:(CLLocationCoordinate2D)coords{
-    selectedStopCode = code;
-    selectedStopAnnotationCoords = coords;
-    selectedStopShortCode = shortCode;
-    selectedStopName = name;
-    [self performSegueWithIdentifier:@"openStopView" sender:nil];
-}
-
--(void)openStopViewForCode:(NSString *)code {
-    if (!code) return;
-    
-    StopEntity *stop = [[StopCoreDataManager sharedManager] fetchSavedStopFromCoreDataForCode:code];
-    if (!stop)
-        return;
-    [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
-}
-
 #pragma mark - stop detail handling
--(NSMutableDictionary *)stopDetailMap{
+-(NSMutableDictionary *)stopDetailMap {
     if (!_stopDetailMap) {
         _stopDetailMap = [@{} mutableCopy];
     }
@@ -707,7 +650,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
--(void)clearStopDetailMap{
+-(void)clearStopDetailMap {
     [self.stopDetailMap removeAllObjects];
 }
 
@@ -722,7 +665,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         NSMutableArray *departuresCopy = [detailStop.departures mutableCopy];
         for (int i = 0; i < departuresCopy.count;i++) {
             StopDeparture *departure = [departuresCopy objectAtIndex:i];
-            if ([departure.parsedScheduledDate timeIntervalSinceNow] < 0){
+            if ([departure.departureTime timeIntervalSinceNow] < 0){
                 [departuresCopy removeObject:departure];
             }else{
                 [detailStop setDepartures:departuresCopy];
@@ -750,72 +693,139 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return NO;
 }
 
--(NSInteger)busStopShortIndexForCode:(NSString *)code{
-    NSInteger index = 0;
-    @try {
-        for (BusStopShort *stop in nearByStopList) {
-            if ([stop.gtfsId isEqualToString:code]) {
-                return index;
-            }
-            
-            index++;
-        }
-    }
-    @catch (NSException *exception) {}
-    
-    return NSNotFound;
-}
-
 #pragma mark - nearby stops list methods
--(void)setupNearByStopsListTableviewFor:(NSArray *)nearByStops{
-    if (![self isNearByStopsListViewHidden]) {
-        if (nearByStops.count > 4) {
-            [self fetchStopsDetailsForBusStopShorts:[nearByStops objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 4)]]];
-        }else{
-            [self fetchStopsDetailsForBusStopShorts:nearByStops];
-        }
-        
-//        [self clearStopDetailMap];
-    }
-    
-    [self setupTableViewForNearByStops:nearByStops];
-}
-
--(void)setupTableViewForNearByStops:(NSArray *)result{
-    self.searchResultListViewMode = RSearchResultViewModeNearByStops;
-    [nearbyStopsListsTable reloadData];
-    [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-}
-
 -(void)setupListTableViewAppearance{
     nearbyStopsListsTable.backgroundColor = [UIColor clearColor];
     [searchResultsView setBlurTintColor:nil];
     searchResultsView.layer.borderWidth = 0.5;
     searchResultsView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
-    hideSearchResultViewButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    hideSearchResultViewButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    nearbyStopsListsTable.rowHeight = UITableViewAutomaticDimension;
+    nearbyStopsListsTable.estimatedRowHeight = 80;
 }
 
--(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim{
+-(void)sortPlaceAtDistance:(inout NSMutableArray *)placesArray {
+    [placesArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        if (![obj1 conformsToProtocol:@protocol(ReittiPlaceAtDistance)] ||
+            ![obj2 conformsToProtocol:@protocol(ReittiPlaceAtDistance)]) {
+            return NSOrderedDescending;
+        }
+        
+        double obj1Distance = [[(id<ReittiPlaceAtDistance>)obj1 distance] doubleValue];
+        double obj2Distance = [[(id<ReittiPlaceAtDistance>)obj2 distance] doubleValue];
+        
+        return obj1Distance > obj2Distance;
+    }];
+}
+
+-(void)buildNearbyRowsList {
+    NSMutableArray *allNearbyRows = [@[] mutableCopy];
+    NSArray *filteredStops = [self filterStopsForAnnotationFilter:self.nearByStopList];
     
+    //TODO: Make exception for fav stops
+    if (![self shouldShowNearByPlaces]) {
+        self.nearbyRows = [NSArray arrayWithArray:allNearbyRows];
+        return;
+    }
+    
+    for (BusStop *stop in filteredStops) {
+        if ([stop.distance intValue] > 800) {
+            //TODO: Make exception for fav stops
+            continue;
+        }
+        id groupedDepartures = stop.groupedDepartures;
+        if (groupedDepartures) {
+            [allNearbyRows addObjectsFromArray:groupedDepartures];
+        }
+    }
+    
+    if ([self.annotationFilter isAnnotationTypeEnabled:BikeStationLocation] && [self shouldShowNearByPlaces] &&
+        self.allBikeStations) {
+        //Calculate distance from center
+        CLLocation *centerLocation =  centerLocation = [[CLLocation alloc] initWithLatitude:self.visibleMapRegion.center.latitude longitude:self.mapView.region.center.longitude];;
+        
+        for (BikeStation *station in self.allBikeStations) {
+            CLLocationDistance distance = [station.location distanceFromLocation:centerLocation];
+            station.distance = [NSNumber numberWithInt:distance];
+        }
+        
+        NSMutableArray<BikeStation *> *bikesCopy = [self.allBikeStations mutableCopy];
+        [self sortPlaceAtDistance:bikesCopy];
+        
+        NSMutableArray *closestStations = [@[] mutableCopy];
+        for (int i = 0; i < bikesCopy.count; i++) {
+            if ([bikesCopy[i].distance intValue] < 500)
+                [closestStations addObject:bikesCopy[i]];
+            
+            if (i > 9)
+                break;
+        }
+        
+        [allNearbyRows addObjectsFromArray:closestStations];
+    }
+    
+    [self sortPlaceAtDistance:allNearbyRows];
+    
+    [allNearbyRows sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        if (![obj1 conformsToProtocol:@protocol(ReittiPlaceAtDistance)] ||
+            ![obj2 conformsToProtocol:@protocol(ReittiPlaceAtDistance)]) {
+            return NSOrderedDescending;
+        }
+        
+        double obj1Distance = [[(id<ReittiPlaceAtDistance>)obj1 distance] doubleValue];
+        double obj2Distance = [[(id<ReittiPlaceAtDistance>)obj2 distance] doubleValue];
+        
+        return obj1Distance > obj2Distance;
+    }];
+    
+    //TODO: Use closest 50
+    
+    self.nearbyRows = [NSArray arrayWithArray:allNearbyRows];
+}
+
+-(void)setupNearByPlacesListTableView {
+//    if (![self isNearByStopsListViewHidden]) {
+//        if (self.nearByStops.count > 4) {
+//            [self fetchStopsDetailsForBusStopShorts:[nearByStops objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 4)]]];
+//        }else{
+//            [self fetchStopsDetailsForBusStopShorts:nearByStops];
+//        }
+//    }
+    
+    [self buildNearbyRowsList];
+    
+    self.searchResultListViewMode = RSearchResultViewModeNearByStops;
+    [nearbyStopsListsTable reloadData];
+//    [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+}
+
+-(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim {
+    [self hideNearByStopsView:hidden animated:anim completion:nil];
+}
+
+-(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim completion:(ActionBlock)completion {
     //Animate size
     [self.view asa_springAnimationWithDuration:anim ? 0.5 : 0 animation:^{
         [self hideNearByStopsView:hidden];
+        if (completion) completion();
     } completion:nil];
 }
 
 -(void)hideNearByStopsView:(BOOL)hidden{
     if (hidden) {
-        [self setNearbyStopsViewTopSpacing:self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height];
+        [self setNearbyStopsViewTopSpacing:self.searchViewLowerBound];
+        [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
         isSearchResultsViewDisplayed = NO;
     }else{
-        [self setNearbyStopsViewTopSpacing:self.view.frame.size.height/2 - 10];
+        [self setNearbyStopsViewTopSpacing:[self searchViewUpperBound]];
         isSearchResultsViewDisplayed = YES;
         [self hideFilterViewOptions];
     }
     
     if(!hidden)
-        [self setupNearByStopsListTableviewFor:self.nearByStopList];
+        [self setupNearByPlacesListTableView];
 }
 
 -(void)decelerateStopListViewFromVelocity:(CGFloat)velocity withCompletionBlock:(ActionBlock)completionBlock{
@@ -834,24 +844,24 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)setNearbyStopsViewTopSpacing:(CGFloat)topSpace{
-    if (topSpace < 0)
-        topSpace = 0;
+    if (topSpace < [self searchViewUpperBound])
+        topSpace = [self searchViewUpperBound];
     
-    if (topSpace > self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height)
-        topSpace = self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height;
+    if (topSpace > self.searchViewLowerBound)
+        topSpace = self.searchViewLowerBound;
 
     CGFloat spaceDiff = topSpace - nearByStopsViewTopSpacing.constant;
     
     nearByStopsViewTopSpacing.constant = topSpace;
     [self.view layoutSubviews];
     
-    if ([self isNearByStopsListViewHidden]) {
-        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"list-white-100.png"] forState:UIControlStateNormal];
-        searchResultsLabel.text = @"LIST NEARBY STOPS";
-    }else{
-        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"reload-128.png"] forState:UIControlStateNormal];
-        searchResultsLabel.text = @"NEARBY STOPS";
-    }
+//    if ([self isNearByStopsListViewHidden]) {
+//        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"list-white-100.png"] forState:UIControlStateNormal];
+//        searchResultsLabel.text = @"LIST NEARBY STOPS";
+//    }else{
+//        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"reload-128.png"] forState:UIControlStateNormal];
+//        searchResultsLabel.text = @"NEARBY STOPS";
+//    }
     
     //Set center locator position
     [self updateCenterLocationPositionWithGeocodeUpdate:NO];
@@ -866,18 +876,26 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(BOOL)isNearByStopsListViewHidden{
-    return [self nearbyStopViewTopSpacing] > self.view.frame.size.height - 60 - self.tabBarController.tabBar.frame.size.height;
+    return [self nearbyStopViewTopSpacing] >= self.searchViewLowerBound - 5;
 }
 
--(void)moveSearchResultViewByPoint:(CGPoint)displacement animated:(BOOL)anim{
-    [UIView transitionWithView:searchResultsView duration:0.15 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self increamentNearByStopViewTopSpaceBy:displacement.y];
-    } completion:^(BOOL finished) {
-        [self hideNearByStopsView:NO animated:YES];
-    }];
+-(CGFloat)viewVisibleHeight {
+    return self.view.frame.size.height - self.tabBarController.tabBar.frame.size.height;
+}
+
+-(int)searchViewLowerBound {
+    return self.viewVisibleHeight - kMinHeightForListTableView;
+}
+
+-(int)searchViewUpperBound {
+        CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+        return MAX(self.viewVisibleHeight - tableContentSize.height, kMinTopSpaceForListTableView);
+//    return 0;
 }
 
 -(void)showStopFetchActivityIndicator:(NSNumber *)show{
+    stopFetchActivityIndicator.hidden = YES;
+    /*
     if ([self isNearByStopsListViewHidden]) {
         hideSearchResultViewButton.hidden = NO;
         [stopFetchActivityIndicator endRefreshing];
@@ -891,39 +909,50 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }else{
         [stopFetchActivityIndicator endRefreshing];
     }
+    */
 }
 
 #pragma mark - Table view datasource and delegate methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (self.nearByStopList.count == 0)
-        return 1;
+    return 1;
     
-    return self.nearByStopList.count > 30 ? 30 : self.nearByStopList.count;
+//    if (self.nearByStopList.count == 0)
+//        return 1;
+//    
+//    return self.nearByStopList.count > 30 ? 30 : self.nearByStopList.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self isThereValidDetailForTableViewSection:section]) {
-        BusStop *detailStop = [self getDetailStopForTableViewCell:section];
-        if (detailStop && detailStop.departures) {
-            if (detailStop.departures.count == 0) {
-                return 1;
-            }else if (detailStop.departures.count == 1) {
-                return 2;
-            }else if (detailStop.departures.count == 2){
-                return 3;
-            }else{
-                return 4;
-            }
-        }
-        return 1;
-    }
+//    if ([self isThereValidDetailForTableViewSection:section]) {
+//        BusStop *detailStop = [self getDetailStopForTableViewCell:section];
+//        if (detailStop && detailStop.departures) {
+//            if (detailStop.departures.count == 0) {
+//                return 1;
+//            }else if (detailStop.departures.count == 1) {
+//                return 2;
+//            }else if (detailStop.departures.count == 2){
+//                return 3;
+//            }else{
+//                return 4;
+//            }
+//        }
+//        return 1;
+//    }
     
-    return 1;
+    return self.nearbyRows && self.nearbyRows.count > 0 ? self.nearbyRows.count : 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (nearByStopList.count > 0) {
+    if (self.nearbyRows.count > 0) {
+        NearbyTableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"nearByCell"];
+        
+        [cell setupFromNearByRowObject:self.nearbyRows[indexPath.row]];
+        
+        return cell;
+        
+        
+        /*
         BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
         
         if (indexPath.row == 0) {
@@ -959,7 +988,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             distanceLabel.text = [NSString stringWithFormat:@"%dm", [stop.distance intValue]];
             
             return cell;
-        }else{
+        } else {
             DepartureTableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"departureCell"];
             
             CustomeTableViewCell __weak *weakCell = (CustomeTableViewCell *)cell;
@@ -981,6 +1010,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
             }
             @catch (NSException *exception) {}
         }
+         */
     }else{
         UITableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"noStopCell"];
         UILabel *infoLabel = (UILabel *)[cell viewWithTag:2003];
@@ -995,13 +1025,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row > 0) {
-        return 35;
-    }
-    
-    return 60;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    if (indexPath.row > 0) {
+//        return 35;
+//    }
+//    
+//    return 60;
+//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 1.0;
@@ -1012,9 +1042,18 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DepartureTableViewCell *cell = (DepartureTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if (cell != nil && [cell isKindOfClass:[DepartureTableViewCell class]]) {
+    NearbyTableViewCell *cell = (NearbyTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) return;
+    
+    if ([cell isKindOfClass:[NearbyTableViewCell class]] &&
+        cell.groupedDepartures) {
         [self performSegueWithIdentifier:@"openNearbyStop2" sender:self];
+    } else if ([cell isKindOfClass:[NearbyTableViewCell class]] &&
+               cell.bikeStation) {
+        [self hideNearByStopsView:YES animated:YES completion:^{
+            [self centerMapRegionToCoordinate:cell.bikeStation.coordinates];
+            [self.mapViewManager selectReittiAnnotationWithUniqueId:cell.bikeStation.stationId andType:BikeStationLocation];
+        }];
     }
 }
 
@@ -1043,7 +1082,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 /**
  Rect of the map not covered by the nearbylist tableview in the self.view coordinate system
  */
--(CGRect)visibleMapRect{
+-(CGRect)visibleMapRect {
     CGRect fullMapFrame = self.mapView.frame;
     CGFloat visibleHeight = [self nearbyStopViewTopSpacing];
     
@@ -1052,13 +1091,13 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return fullMapFrame;
 }
 
--(CGPoint)visibleMapRectCenter{
+-(CGPoint)visibleMapRectCenter {
     CGRect visibleRect = [self visibleMapRect];
     
     return CGPointMake(visibleRect.origin.x + visibleRect.size.width/2, visibleRect.origin.y + visibleRect.size.height/2 );
 }
 
--(void)scrollMapViewByPoint:(CGPoint)point animated:(BOOL)animated{
+-(void)scrollMapViewByPoint:(CGPoint)point animated:(BOOL)animated {
     CGPoint currentCenter = [self.mapView convertCoordinate:self.mapView.region.center toPointToView:self.mapView];
     currentCenter.x += point.x;
     currentCenter.y += point.y;
@@ -1068,7 +1107,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [mapView setCenterCoordinate:coordinate animated:animated];
 }
 
--(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate{
+-(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate {
     
     BOOL toReturn = YES;
     
@@ -1106,7 +1145,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return toReturn;
 }
 
--(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify{
+-(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify {
     BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
     BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
     
@@ -1141,7 +1180,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return YES;
 }
 
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     self.currentUserLocation = [locations lastObject];
     if (centerMap) {
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
@@ -1287,7 +1326,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     NSMutableArray *allAnots = [@[] mutableCopy];
     for (BusStop *stop in stopList) {
         if (applyFilter) {
-            ReittiAnnotationType type = [EnumManager annotTypeForNearbyStopType:stop.stopType];
+            ReittiAnnotationType type = [EnumManager annotTypeForStopType:stop.stopType];
             if (![self.annotationFilter isAnnotationTypeEnabled:type]) continue;
         }
         
@@ -1381,10 +1420,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
         [self centerMapRegionToCoordinate:geoCode.coordinates];
     }
 }
-
-//-(void)plotNamedBookmarkAnnotation:(NamedBookmark *)namedBookmark {
-//    [self plotNamedBookmarkAnnotation:namedBookmark withSelect:YES];
-//}
 
 -(void)plotNamedBookmarkAnnotation:(NamedBookmark *)namedBookmark withSelect:(BOOL)select {
 //    for (id<MKAnnotation> annotation in mapView.annotations) {
@@ -1513,7 +1548,10 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(void)drawWalkingPolylineForRoute:(Route *)route {
-    if (route.isOnlyWalkingRoute && route.routeLegs && route.routeLegs.count > 0) {
+    if (selectedAnnotationView &&
+        route.isOnlyWalkingRoute &&
+        route.routeLegs &&
+        route.routeLegs.count > 0) {
         [self.mapViewManager drawPolylineForObject:route.routeLegs[0]];
     }
 }
@@ -1577,135 +1615,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
 //    }
 //}
 
-//-(NSMutableArray *)collectStopCodes:(NSArray *)stopList {
-//    
-//    NSMutableArray *codeList = [[NSMutableArray alloc] init];
-//    for (BusStopShort *stop in stopList) {
-//        [codeList addObject:stop.gtfsId];
-//    }
-//    return codeList;
-//}
-//
-//-(NSArray *)collectStopsForCodes:(NSArray *)codeList fromStops:(NSArray *)stopList {
-//    
-//    return [stopList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.gtfsId", codeList]];
-//}
-
-//-(NSMutableArray *)collectVehicleCodes:(NSArray *)vehicleList {
-//    
-//    NSMutableArray *codeList = [[NSMutableArray alloc] init];
-//    for (Vehicle *vehicle in vehicleList) {
-//        [codeList addObject:vehicle.vehicleId];
-//    }
-//    return codeList;
-//}
-//
-//-(NSArray *)collectVehiclesForCodes:(NSArray *)codeList fromVehicles:(NSArray *)vehicleList {
-//    return [vehicleList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%@ containsObject:self.vehicleId",codeList ]];
-//}
-//
-//-(void)plotVehicleAnnotations:(NSArray *)vehicleList isTrainVehicles:(BOOL)isTrain{
-////    for (id<MKAnnotation> annotation in mapView.annotations) {
-////        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-//////            LVThumbnailAnnotation *sAnnotation = (LVThumbnailAnnotation *)annotation;
-////            [mapView removeAnnotation:annotation];
-////        }
-////    }
-//    
-//    NSMutableArray *codeList = [self collectVehicleCodes:vehicleList];
-//    
-//    NSMutableArray *annotToRemove = [[NSMutableArray alloc] init];
-//    
-//    NSMutableArray *existingVehicles = [[NSMutableArray alloc] init];
-//    
-//    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-//            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-//            
-//            if (![codeList containsObject:annot.code]) {
-//                [annotToRemove addObject:annotation];
-//            }else{
-//                [codeList removeObject:annot.code];
-//                [existingVehicles addObject:annotation];
-//            }
-//        }
-//    }
-//    
-//    for (id<MKAnnotation> annotation in existingVehicles) {
-//        if ([annotation isKindOfClass:[LVThumbnailAnnotation class]]) {
-//            LVThumbnailAnnotation *annot = (LVThumbnailAnnotation *)annotation;
-//            @try {
-//                Vehicle *vehicleToUpdate = [[self collectVehiclesForCodes:@[annot.code] fromVehicles:vehicleList] firstObject];
-//                if (!vehicleToUpdate) continue;
-//                
-//                if (vehicleToUpdate.vehicleType == VehicleTypeBus ) {
-//                    vehicleToUpdate.bearing = [MapViewManager getHeadingForDirectionFromCoordinate:annot.coordinate toCoordinate:vehicleToUpdate.coords];
-//                    //Vehicle did not move
-//                    if (vehicleToUpdate.bearing == 0) {
-//                        vehicleToUpdate.bearing = [annot.thumbnail.bearing doubleValue];
-//                    }else{
-//                        [annot updateVehicleImage:[AppManager vehicleImageForVehicleType:vehicleToUpdate.vehicleType]];
-//                    }
-//                }
-//                
-//                annot.coordinate = vehicleToUpdate.coords;
-//                
-//                if (vehicleToUpdate.bearing != -1) {
-//                    [((NSObject<LVThumbnailAnnotationProtocol> *)annot) updateBearing:[NSNumber numberWithDouble:vehicleToUpdate.bearing]];
-//                }
-//            }
-//            @catch (NSException *exception) {
-//                NSLog(@"Failed to update annotation for vehicle with code: %@", annot.code);
-//                [annotToRemove addObject:annot];
-//                [codeList addObject:annot.code];
-//            }
-//        }
-//    }
-//    
-//    [mapView removeAnnotations:annotToRemove];
-//    
-//    NSArray *newVehicles = [self collectVehiclesForCodes:codeList fromVehicles:vehicleList];
-////    [mapView removeAnnotations:mapView.annotations];
-//    
-//    for (Vehicle *vehicle in newVehicles) {
-//        LVThumbnail *vehicleAnT = [[LVThumbnail alloc] init];
-//        vehicleAnT.bearing = [NSNumber numberWithDouble:vehicle.bearing];
-//        if (vehicle.bearing != -1 ) {
-//            vehicleAnT.image = [AppManager vehicleImageForVehicleType:vehicle.vehicleType];
-//        }else{
-//            vehicleAnT.image = [AppManager vehicleImageWithNoBearingForVehicleType:vehicle.vehicleType];
-//        }
-//        vehicleAnT.code = vehicle.vehicleId;
-//        vehicleAnT.title = vehicle.vehicleName;
-//        vehicleAnT.lineId = vehicle.vehicleLineId;
-//        vehicleAnT.vehicleType = vehicle.vehicleType;
-//        vehicleAnT.coordinate = vehicle.coords;
-//        vehicleAnT.reuseIdentifier = [NSString stringWithFormat:@"reusableIdentifierFor%@", vehicle.vehicleId];
-//        
-//        [mapView addAnnotation:[LVThumbnailAnnotation annotationWithThumbnail:vehicleAnT]];
-//    }
-//}
-
 #pragma mark - Map view manager delegates
-
-//-(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-//
-//    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
-//        return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-//    }
-//    else if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
-//        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-//    }
-//    else if ([annotation conformsToProtocol:@protocol(GCThumbnailAnnotationProtocol)]) {
-//        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
-//            droppedPinAnnotationView = [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-//        }
-//        
-//        return [((NSObject<GCThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
-//    }
-//    
-//    return nil;
-//}
 
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
     for (MKAnnotationView *aV in views) {
@@ -1788,22 +1698,23 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
     
     if (self.mapMode == MainMapViewModeStops || self.mapMode == MainMapViewModeStopsAndLive) {
-        if ([self shouldFetchNearByStops]) {
+        if ([self shouldShowNearByPlaces]) {
             if ([self shouldUpdateNearByStops]){
-                [self fetchStopsInMapViewRegion:[self visibleMapRegion]];
+                [self setupNearByPlacesListTableView]; //Update bike station distances
+                [self fetchStopsInCurrentMapViewRegion];
                 //If the location is valid, save the center
                 previousValidLocation = [[CLLocation alloc] initWithLatitude:self.mapView.region.center.latitude longitude:self.mapView.region.center.longitude];
                 
             }
             
-            if (self.allBikeStations)
-                [self plotBikeStationAnnotations:self.allBikeStations];
+//            if (self.allBikeStations)
+//                [self plotBikeStationAnnotations:self.allBikeStations];
         }else{
 //            [self removeAllStopAnnotations];
 //            [self removeAllBikeStationAnnotations];
-            nearByStopList = @[];
-            nearbyStopsFetchErrorMessage = @"Zoom in to get nearby stops.";
-            [self setupTableViewForNearByStops:nearByStopList];
+            self.nearByStopList = @[];
+            nearbyStopsFetchErrorMessage = @"Zoom in to get nearby departures.";
+            [self setupNearByPlacesListTableView];
         }
     }
     
@@ -1830,6 +1741,87 @@ CGFloat  kDeparturesRefreshInterval = 60;
     ignoreMapRegionChangeForCurrentLocationButtonStatus = NO;
 }
 
+#pragma mark - Annotation helpers
+-(void)openRouteForAnnotationWithTitle:(NSString *)title subtitle:(NSString *)subTitle andCoords:(CLLocationCoordinate2D)coords{
+    NSString *toLocationName = [NSString stringWithFormat:@"%@ (%@)", title,subTitle];
+    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
+    
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocationName toCoords:coordString fromLocation:nil fromCoords:nil];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
+}
+
+-(void)openRouteForNamedAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
+    NSString *toLocationName = [NSString stringWithFormat:@"%@", title];
+    if (droppedPinGeoCode != nil) {
+        if ([title isEqualToString:@"Dropped pin"]) {
+            toLocationName = [droppedPinGeoCode getStreetAddressString];
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
+        }else{
+            [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
+        }
+    }
+    
+    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
+    
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:toLocationName toCoords:coordString fromLocation:nil fromCoords:nil];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From annotation" value:nil];
+}
+
+-(void)openRouteFromAnnotationWithTitle:(NSString *)title andCoords:(CLLocationCoordinate2D)coords{
+    NSString *fromLocation = title;
+    if (droppedPinGeoCode != nil) {
+        if ([title isEqualToString:@"Dropped pin"]) {
+            fromLocation = [droppedPinGeoCode getStreetAddressString];
+        }
+    }
+    
+    NSString *coordString = [ReittiStringFormatter convert2DCoordToString:coords];
+    RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:nil toCoords:nil fromLocation:fromLocation fromCoords:coordString];
+    [self switchToRouteSearchViewWithRouteParameter:searchParms];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSearchedRoute label:@"From dropped pin" value:nil];
+}
+
+-(void)showNamedBookmark:(NamedBookmark *)namedBookmark{
+    selectedNamedBookmark = namedBookmark;
+    [self performSegueWithIdentifier:@"showNamedBookmark" sender:nil];
+}
+
+-(void)showGeoCode:(GeoCode *)geoCode{
+    selectedGeoCode = geoCode;
+    [self performSegueWithIdentifier:@"showGeoCode" sender:nil];
+}
+
+-(void)saveDroppedPinGeoCode {
+    if (droppedPinGeoCode != nil) {
+        selectedGeoCode = droppedPinGeoCode;
+        [self performSegueWithIdentifier:@"saveGeoCode" sender:nil];
+    }
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionOpenGeoLocationFromDroppedPin label:nil value:nil];
+}
+
+-(void)openStopViewForCode:(NSString *)code shortCode:(NSString *)shortCode name:(NSString *)name andCoords:(CLLocationCoordinate2D)coords{
+    selectedStopCode = code;
+    selectedStopAnnotationCoords = coords;
+    selectedStopShortCode = shortCode;
+    selectedStopName = name;
+    [self performSegueWithIdentifier:@"openStopView" sender:nil];
+}
+
+-(void)openStopViewForCode:(NSString *)code {
+    if (!code) return;
+    
+    StopEntity *stop = [[StopCoreDataManager sharedManager] fetchSavedStopFromCoreDataForCode:code];
+    if (!stop)
+        return;
+    [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
+}
+
 #pragma mark - MapView helpers
 
 -(void)removeAllVehicleAnnotation {
@@ -1850,53 +1842,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //    }
 }
 
-//-(void)removeAllStopAnnotations {
-//    NSMutableArray *tempArray = [@[] mutableCopy];
-//    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
-//            DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
-//            
-//            if ([EnumManager isNearbyStopAnnotationType:annot.annotationType]) {
-//                [tempArray addObject:annot];
-//            }
-//        }
-//    }
-//    
-//    [self.mapView removeAnnotations:tempArray];
-//}
-
-//-(void)removeAllBikeStationAnnotations {
-//    [self.mapViewManager removeAllReittiAnotationsOfType:BikeStationLocation];
-//    
-////    for (id<MKAnnotation> annotation in mapView.annotations) {
-////        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
-////            DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
-////            if (annot.annotationType == BikeStationLocation) {
-////                [mapView removeAnnotation:annotation];
-////            }
-////        }
-////    }
-//    
-////    isShowingBikeAnnotations = NO;
-//}
-
-//-(void)removeAllAnnotationsOfType:(ReittiAnnotationType)annotType {
-//    [self.mapViewManager removeAllReittiAnotationsOfType:annotType];
-//    
-////    NSMutableArray *tempArray = [@[] mutableCopy];
-////    for (id<MKAnnotation> annotation in mapView.annotations) {
-////        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
-////            DetailedAnnotation *annot = (DetailedAnnotation *)annotation;
-////            
-////            if (annot.annotationType == annotType) {
-////                [tempArray addObject:annot];
-////            }
-////        }
-////    }
-////    
-////    [self.mapView removeAnnotations:tempArray];
-//}
-
 -(BOOL)shouldShowDroppedPin {
     if (!canShowDroppedPin) {
         return NO;
@@ -1912,12 +1857,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     //Check if the region is out of supported regions
     CGPoint centerPoint = self.mapView.center;
     CLLocationCoordinate2D coordinate = [mapView convertPoint:centerPoint toCoordinateFromView:mapView];
-    
-//    Region pointRegion = [reittiDataManager getRegionForCoords:coordinate];
-//    
-//    if (pointRegion == OtherRegion) {
-//        return NO;
-//    }
     
     //Check if at least 250m from current location
     CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
@@ -1939,13 +1878,8 @@ CGFloat  kDeparturesRefreshInterval = 60;
     return YES;
 }
 
--(BOOL)shouldFetchNearByStops{
+-(BOOL)shouldShowNearByPlaces {
     return [self.mapViewManager zoomLevel] >= kDisapearingZoomLevel;
-//    //Check the zoom level
-//    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] >= 14)
-//        return YES;
-//    
-//    return NO;
 }
 
 -(BOOL)shouldUpdateNearByStops{
@@ -1961,14 +1895,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     return NO;
 }
-
-//-(NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels {
-//    NSUInteger zoomLevel = 20; // MAXIMUM_ZOOM is 20 with MapKit
-//    MKZoomScale zoomScale = mRect.size.width / viewSizeInPixels.width; //MKZoomScale is just a CGFloat typedef
-//    double zoomExponent = log2(zoomScale);
-//    zoomLevel = (NSUInteger)(20 - ceil(zoomExponent));
-//    return zoomLevel;
-//}
 
 #pragma mark - disruptions methods
 -(void)initDisruptionFetching{
@@ -2066,33 +1992,35 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 -(IBAction)listNearbyStopsPressed:(id)sender {
+    /*
     if ([self isNearByStopsListViewHidden]) {
         [self hideNearByStopsView:NO animated:YES];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionListNearByStops label:nil value:nil];
     }else{
         [self hideNearByStopsView:YES animated:YES];
     }
+     */
 }
 
--(IBAction)refreshOrShowListButtonPressed:(id)sender{
-    if ([self isNearByStopsListViewHidden]) {
-        [self listNearbyStopsPressed:self];
-    }else{
-        [departuresRefreshTimer invalidate];
-        [self initDeparturesRefreshTimer];
-        [self refreshDepartures:self];
-    }
-}
+//-(IBAction)refreshOrShowListButtonPressed:(id)sender{
+//    if ([self isNearByStopsListViewHidden]) {
+//        [self listNearbyStopsPressed:self];
+//    }else{
+//        [departuresRefreshTimer invalidate];
+//        [self initDeparturesRefreshTimer];
+//        [self refreshDepartures:self];
+//    }
+//}
 
 -(IBAction)refreshDepartures:(id)sender{
-    if(![self isNearByStopsListViewHidden]){
-        //Show activity indicator no matter what
-        [self showStopFetchActivityIndicator:@YES];
-        [self performSelector:@selector(showStopFetchActivityIndicator:) withObject:@NO afterDelay:1];
-        
-        [self setupNearByStopsListTableviewFor:self.nearByStopList];
-        
-    }
+//    if(![self isNearByStopsListViewHidden]){
+//        //Show activity indicator no matter what
+//        [self showStopFetchActivityIndicator:@YES];
+//        [self performSelector:@selector(showStopFetchActivityIndicator:) withObject:@NO afterDelay:1];
+//        
+//        [self setupNearByPlacesListTableView];
+//    }
+    [self setupNearByPlacesListTableView];
 }
 
 -(void)centerLocatorTapped:(id)sender{
@@ -2123,7 +2051,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
         }
     }
 }
-
+/*
 -(IBAction)dragStopView:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint translation = [recognizer translationInView:self.view];
@@ -2148,20 +2076,21 @@ CGFloat  kDeparturesRefreshInterval = 60;
                 }else{
                     [self hideNearByStopsView:YES animated:YES];
                 }
-            }else if(recognizer.view.frame.origin.y < 0){
-                [self setNearbyStopsViewTopSpacing:0];
+            }else if(recognizer.view.frame.origin.y < [self searchViewUpperBound]){
+                [self setNearbyStopsViewTopSpacing:[self searchViewUpperBound]];
             }
         }];
     }
 }
+*/
 
 -(IBAction)openSettingsButtonPressed:(id)sender {
     [self performSegueWithIdentifier:@"showSettings" sender:self];
 }
 
--(IBAction)hideSearchResultViewPressed:(id)sender {
-    [self hideNearByStopsView:YES animated:YES];
-}
+//-(IBAction)hideSearchResultViewPressed:(id)sender {
+//    [self hideNearByStopsView:YES animated:YES];
+//}
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     // Return YES so the pan gesture of the containing table view is not cancelled by the long press recognizer
@@ -2170,31 +2099,67 @@ CGFloat  kDeparturesRefreshInterval = 60;
 
 #pragma - mark Scroll View delegates
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
+    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y < -1) { /* drag the stop view down if table view is fully scrolled down */
         [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
         stopViewDragedDown = YES;
         scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
         
     }else if(scrollView.contentOffset.y > 0 ){
-        if ([self nearbyStopViewTopSpacing] > 0) {
+        if ([self nearbyStopViewTopSpacing] > [self searchViewUpperBound]) {
             [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
-            stopViewDragedDown = NO;
-            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+            
+//            if ([self nearbyStopViewTopSpacing] > 0)
+                scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
         }else{
-            stopViewDragedDown = NO;
+//            stopViewDragedDown = NO;
             //
-            nearbyStopsListsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-            nearbyStopsListsTable.layer.borderWidth = 0.5;
+//            nearbyStopsListsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//            nearbyStopsListsTable.layer.borderWidth = 0.5;
         }
+        stopViewDragedDown = NO;
+
     }else{
-        nearbyStopsListsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        nearbyStopsListsTable.layer.borderWidth = 0;
+//        nearbyStopsListsTable.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//        nearbyStopsListsTable.layer.borderWidth = 0;
     }
 }
 
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    static CGFloat previousOffset;
+//    NSLog(@"Content offset: %f", previousOffset);
+//    if (scrollView.contentOffset.y < -1) { /* drag the stop view down if table view is fully scrolled down */
+//        [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
+//        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+//        
+//    }else if(scrollView.contentOffset.y > 0 ){
+//        if ([self nearbyStopViewTopSpacing] > 0) {
+//            [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
+//            scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+//        }else{
+//            [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
+//        }
+//    }
+//    CGFloat verticalDelta = previousOffset - scrollView.contentOffset.y;
+//    NSLog(@"Delta: %f", verticalDelta);
+//    
+//    [self increamentNearByStopViewTopSpaceBy:verticalDelta];
+//    
+////    if (scrollView.contentOffset.y < -1) {
+////        [self increamentNearByStopViewTopSpaceBy:verticalDelta];
+////        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+////    }else
+//    if ([self nearbyStopViewTopSpacing] > [self searchViewUpperBound] ||
+//        scrollView.contentOffset.y < 0) {
+////        previousOffset = scrollView.contentOffset.y;
+//        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+//    } else {
+//        previousOffset = scrollView.contentOffset.y;
+//    }
+//}
+
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    if (stopViewDragedDown & !decelerate) { /* drag the stop view down if table view is fully scrolled down */
+    if (stopViewDragedDown && !decelerate) { /* drag the stop view down if table view is fully scrolled down */
         [self decelerateStopListViewFromVelocity:[scrollView.panGestureRecognizer velocityInView:nearbyStopsListsTable].y withCompletionBlock:nil];
     }
 }
@@ -2208,17 +2173,17 @@ CGFloat  kDeparturesRefreshInterval = 60;
 }
 
 #pragma - mark RettiDataManager Delegate methods
--(void)stopFetchDidComplete:(NSArray *)stopList{
-    if (stopList != nil) {
-        self.searchedStopList = stopList;
-    }
-    
-    [self showStopFetchActivityIndicator:@NO];
-}
-
--(void)stopFetchDidFail:(NSString *)error{
-    [self showStopFetchActivityIndicator:@NO];
-}
+//-(void)stopFetchDidComplete:(NSArray *)stopList{
+//    if (stopList != nil) {
+//        self.searchedStopList = stopList;
+//    }
+//    
+//    [self showStopFetchActivityIndicator:@NO];
+//}
+//
+//-(void)stopFetchDidFail:(NSString *)error{
+//    [self showStopFetchActivityIndicator:@NO];
+//}
 
 #pragma mark - Stops in area handler methods
 -(void)fetchStopsInCurrentMapViewRegion {
@@ -2269,34 +2234,18 @@ CGFloat  kDeparturesRefreshInterval = 60;
     }
 }
 
--(void)nearByStopFetchDidComplete:(NSArray *)stopList{
+-(void)nearByStopFetchDidComplete:(NSArray *)stopList {
+    //Filter for current annotation list
+    NSArray *filteredStops = [self filterStopsForAnnotationFilter:stopList];
     
-    if (stopList.count > 0) {
-        NSArray *fetchedStops = stopList;
-        
-        if ([stopList.firstObject isKindOfClass:NearByStop.class]) {
-            //TODO: Check if update is needed by checking existing list and values in cache
-            //Do the check in separate thread
-            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-            
-            for (NearByStop *stop in stopList) {
-                BusStopShort *sStop = [[BusStopShort alloc] initWithNearByStop:stop];
-                [tempArray addObject:sStop];
-            }
-            
-            fetchedStops = tempArray;
-            //TODO: Store in stops cache
-        } else if ([stopList.firstObject isKindOfClass:[BusStop class]] ) {
-            for (BusStop *stop in stopList) {
-                [self setDetailStopForBusStopShort:stop busStop:stop];
-            }
-        }
-        
-        self.nearByStopList = fetchedStops;
+    self.nearByStopList = filteredStops;
+    
+    for (BusStop *stop in filteredStops) {
+        [self setDetailStopForBusStopShort:stop busStop:stop];
     }
     
-    [self setupNearByStopsListTableviewFor:stopList];
-    [self plotNearbyStopAnnotations:self.nearByStopList];
+    [self setupNearByPlacesListTableView];
+    [self plotNearbyStopAnnotations:filteredStops];
     
     retryCount = 0;
 }
@@ -2311,7 +2260,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     
     nearbyStopsFetchErrorMessage = error;
     self.nearByStopList = [@[] mutableCopy];
-    [self setupNearByStopsListTableviewFor:nil];
+    [self setupNearByPlacesListTableView];
 }
 
 -(void)detailStopFetchCompleted:(BusStop *)stop{
@@ -2388,6 +2337,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self.reittiDataManager startFetchingBikeStationsWithCompletionBlock:^(NSArray *bikeStations, NSString *errorString){
         if (!errorString && bikeStations && bikeStations.count > 0) {
             self.allBikeStations = bikeStations;
+            [self setupNearByPlacesListTableView];
             [self plotBikeStationAnnotations:bikeStations];
         }
     }];
@@ -2429,6 +2379,7 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self setSearchBarText:stopEntity.displayName isManualSearchText:YES];
     prevSearchedCoords = stopEntity.busStopCoords;
 }
+
 -(void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:geoCode.coordinates];
@@ -2510,7 +2461,6 @@ CGFloat  kDeparturesRefreshInterval = 60;
     [self updateFilter];
 }
 
-
 -(void)shouldShowVehiclesSettingsValueChanged:(NSNotification *)notification{
     if ([settingsManager showLiveVehicles]) {
         [self startFetchingLiveVehicles];
@@ -2552,11 +2502,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
         StopViewController *stopViewController = (StopViewController *)segue.destinationViewController;
         
         if ([segue.identifier isEqualToString:@"openNearbyStop"] || [segue.identifier isEqualToString:@"openNearbyStop2"] ) {
-            NSIndexPath *selectedRowIndexPath = [nearbyStopsListsTable indexPathForSelectedRow];
             
-            BusStopShort *selected = [self.nearByStopList objectAtIndex:selectedRowIndexPath.section];
+            NearbyTableViewCell *selectedCell = [nearbyStopsListsTable cellForRowAtIndexPath:nearbyStopsListsTable.indexPathForSelectedRow];
+            if (selectedCell.groupedDepartures) {
+                [self configureStopViewController:stopViewController withBusStopShort:selectedCell.groupedDepartures.stop];
+            }
             
-            [self configureStopViewController:stopViewController withBusStopShort:selected];
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionViewedAStop label:@"From nearby list" value:nil];
         }else{
             [self configureStopViewControllerWithAnnotation:stopViewController];
@@ -2655,6 +2606,12 @@ CGFloat  kDeparturesRefreshInterval = 60;
               viewControllerForLocation:(CGPoint)location {
     
     UIView *view = [self.view hitTest:location withEvent:UIEventTypeTouches];
+    //For some reason detailAnnotView returns the pins imageview for hit test
+    if (![view isKindOfClass:[MKAnnotationView class]] &&
+        [[view superview] isKindOfClass:[MKAnnotationView class]]) {
+        view = [view superview];
+    }
+    
     if ([view isKindOfClass:[MKAnnotationView class]]) {
         MKAnnotationView *annotationView = (MKAnnotationView *)view;
         NSString *stopCode, *stopShortCode, *stopName;
@@ -2698,9 +2655,9 @@ CGFloat  kDeparturesRefreshInterval = 60;
         CGPoint locationInTableView = [self.view convertPoint:location toView:nearbyStopsListsTable];
         
         NSIndexPath *selectedRowIndexPath = [nearbyStopsListsTable indexPathForRowAtPoint:locationInTableView];
-        UITableViewCell *cell = [nearbyStopsListsTable cellForRowAtIndexPath:selectedRowIndexPath];
+        NearbyTableViewCell *cell = (NearbyTableViewCell *)[nearbyStopsListsTable cellForRowAtIndexPath:selectedRowIndexPath];
         
-        BusStopShort *selected = self.nearByStopList.count > selectedRowIndexPath.section ? [self.nearByStopList objectAtIndex:selectedRowIndexPath.section] : nil;
+        BusStopShort *selected = cell && [cell isKindOfClass:NearbyTableViewCell.class] ? cell.groupedDepartures.stop : nil;
         if (cell && selected) {
             CGRect convertedRect = [cell.superview convertRect:[nearbyStopsListsTable rectForSection:selectedRowIndexPath.section] toView:self.view];
             previewingContext.sourceRect = convertedRect;

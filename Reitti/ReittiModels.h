@@ -6,6 +6,8 @@
 //  Copyright © 2016 Anteneh Sahledengel. All rights reserved.
 //
 
+#import "ReittiObject.h"
+
 #import "BusStop.h"
 #import "BusStopShort.h"
 #import "StopDeparture.h"
@@ -35,7 +37,6 @@
 
 #import "ServicePoint.h"
 
-
 #import "StopEntity.h"
 #import "RouteEntity.h"
 #import "NamedBookmark.h"
@@ -49,5 +50,7 @@
 #import "NearByStop.h"
 #import "RoutineEntity.h"
 #import "ICloudBookmarks.h"
+
+
 
 

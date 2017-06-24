@@ -27,4 +27,6 @@
 @property (nonatomic, strong)NSString *lineStart;
 @property (nonatomic, strong)NSString *lineEnd;
 
+@property (nonatomic, strong)NSString *lineUniqueName;
+
 @end

@@ -77,8 +77,8 @@
 
 -(UIImage *)imageForLeg:(LegTransportType)legType {
     UIImage *image = [AppManager lightColorImageForLegTransportType:legType];
-    if (legType != LegTypeMetro)
-        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     return image;
 }
 

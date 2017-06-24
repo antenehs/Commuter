@@ -25,6 +25,9 @@
 -(id)initWithDictionary:(NSDictionary *)dict parseLines:(BOOL)noLines;
 -(NSDictionary *)toDictionary;
 
-@property (nonatomic, retain) NSArray * departures;
+@property (nonatomic, retain) NSArray *departures;
+
+//drived Properites
+@property (nonatomic, strong) NSArray *groupedDepartures;
 
 @end

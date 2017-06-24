@@ -103,12 +103,15 @@ typedef enum : NSUInteger {
 - (void)fetchStopsInAreaForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter withCompletionBlock:(ActionBlock)completionBlock {
     
     diameter = MIN(diameter, 2000);
+    diameter = MAX(diameter, 1000);
     
     [super doGraphQlQuery:[self stopInAreadGraphQlQueryForRegionCenterCoords:regionCenter andDiameter:diameter] mappingDiscriptor:[DigiStopAtDistance mappingDescriptorForPath:@"data.stopsByRadius.edges"] andCompletionBlock:^(NSArray *stops, NSError *error){
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStopAtDistance *stopAtDist in stops) {
-                [allStops addObject:stopAtDist.stop.reittiBusStop];
+                BusStop *reittiStop = stopAtDist.stop.reittiBusStop;
+                reittiStop.distance = stopAtDist.distance;
+                [allStops addObject:reittiStop];
             }
             completionBlock(allStops, nil);
         } else {
@@ -451,11 +454,11 @@ typedef enum : NSUInteger {
     }
     [self fetchBikeStationsWithCompletionHandler:completion];
     self.bikeFetchingCompletionHandler = completion;
-    self.bikeFetchUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(updateBikeStations) userInfo:nil repeats:YES];
+    self.bikeFetchUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:40 target:self selector:@selector(updateBikeStations) userInfo:nil repeats:YES];
 }
 
 -(void)fetchBikeStationsWithCompletionHandler:(ActionBlock)completion {
-    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] mappingDiscriptor:[DigiBikeRentalStation mappingDescriptorForPath:@"data.bikeRentalStations"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
+    [super doGraphQlQuery:[GraphQLQuery bikeStationsQueryString] mappingDiscriptor:[DigiBikeRentalStation mappingDescriptorForPath:@"data.nearest.edges.node"] andCompletionBlock:^(NSArray *responseArray, NSError *error) {
         if (!error && responseArray) {
             NSMutableArray *bikeStations = [@[] mutableCopy];
             for (DigiBikeRentalStation *station in responseArray) {

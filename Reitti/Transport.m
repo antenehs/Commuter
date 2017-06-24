@@ -62,7 +62,7 @@
             acceptableWidthForOthers = size.width + 27;
         }
         
-        if (alwaysShow && routeLeg.legType != LegTypeWalk && routeLeg.legType != LegTypeFerry && routeLeg.legType != LegTypeMetro) {
+        if (alwaysShow && routeLeg.legType != LegTypeWalk && routeLeg.legType != LegTypeFerry) {
             if (width < size.width + 35) {
                 width = size.width + 35;
             }
@@ -71,12 +71,13 @@
     
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, width, self.frame.size.height);
     
-    if(routeLeg.legType == LegTypeMetro){
-        lineNumberLabel.text = @"Metro";
-        if (width < acceptableWidthForMetroAndFerry) {
-            lineNumberLabel.hidden = YES;
-        }
-    }else if(routeLeg.legType == LegTypeFerry){
+//    if(routeLeg.legType == LegTypeMetro){
+//        lineNumberLabel.text = @"Metro";
+//        if (width < acceptableWidthForMetroAndFerry) {
+//            lineNumberLabel.hidden = YES;
+//        }
+//    }else
+    if(routeLeg.legType == LegTypeFerry){
         lineNumberLabel.text = @"Ferry";
         if (width < acceptableWidthForMetroAndFerry) {
             lineNumberLabel.hidden = YES;
@@ -113,9 +114,7 @@
     
     [imageView setImage:[AppManager lightColorImageForLegTransportType:routeLeg.legType]];
     
-    if (routeLeg.legType != LegTypeMetro) {
-        imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
+    imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     
     if (imageView.hidden && !lineNumberLabel.hidden) {
         lineNumberLabel.frame = CGRectMake(0, lineNumberLabel.frame.origin.y, self.frame.size.width, lineNumberLabel.frame.size.height);

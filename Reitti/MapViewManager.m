@@ -16,6 +16,9 @@
 @interface MapViewManager ()
 @property (nonatomic, weak) MKMapView *mapView;
 @property (nonatomic, strong) CLLocation *previousCircledLocation;
+
+@property (nonatomic) NSUInteger mapZoomLevel;
+
 @end
 
 @implementation MapViewManager
@@ -25,6 +28,8 @@
     if (manager) {
         manager.mapView = mapView;
         mapView.delegate = manager;
+        
+        [manager updateZoomLevel];
     }
     
     return manager;
@@ -136,6 +141,12 @@
     }
 }
 
+#pragma mark - Selection
+-(void)selectReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType {
+    id annot = [self reittiAnnotationWithUniqueId:uniqueId andType:annotationType];
+    if (annot) [self.mapView selectAnnotation:annot animated:YES];
+}
+
 #pragma mark - Annotation filter helpers
 -(NSArray *)filterOutAnnotationsForZoomLevel:(NSArray *)annotations {
     NSMutableArray *filtered = [@[] mutableCopy];
@@ -160,14 +171,21 @@
 }
 
 -(void)removeReittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType {
+    id annot = [self reittiAnnotationWithUniqueId:uniqueId andType:annotationType];
+    if (annot) [self.mapView removeAnnotation:annot];
+}
+
+-(id<ReittiAnnotationProtocol>)reittiAnnotationWithUniqueId:(NSString *)uniqueId andType:(ReittiAnnotationType)annotationType {
     for (id<MKAnnotation> annotation in self.mapView.annotations) {
         if ([annotation conformsToProtocol:@protocol(ReittiAnnotationProtocol)]) {
             if ([(NSObject<ReittiAnnotationProtocol> *)annotation annotationType] == annotationType &&
                 [[(NSObject<ReittiAnnotationProtocol> *)annotation uniqueIdentifier] isEqualToString:uniqueId]) {
-                [self.mapView removeAnnotation:annotation];
+                return (NSObject<ReittiAnnotationProtocol> *)annotation;
             }
         }
     }
+    
+    return nil;
 }
 
 -(void)removeAllReittiAnotationsOfType:(ReittiAnnotationType)annotationType {
@@ -327,6 +345,8 @@
 }
 
 -(void)drawFiveMinWalkingCircleAtCoordinate:(CLLocation *)center {
+    if ([self zoomLevel] < 14) return;
+    
     if (self.previousCircledLocation) {
         CLLocationDistance distance = [center distanceFromLocation:self.previousCircledLocation];
         if (distance < 20) return;
@@ -455,6 +475,8 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    [self updateZoomLevel];
+    
     if (self.ignoreRegionChange){
         self.ignoreRegionChange = NO;
         return;
@@ -465,6 +487,13 @@
         NSArray *allAnnotations = [self getAllShrinkableAndDisapearingAnnotations];
         [self.mapView removeAnnotations:allAnnotations];
         [self plotAnnotations:allAnnotations];
+        
+        //Remove circle overlay
+        if ([self zoomLevel] < 14) {
+            [self removeAllCircleOverlays];
+            [self removeAllReittiAnotationsOfType:FiveMinMarkerAnnotationType];
+            self.previousCircledLocation = nil;
+        }
     }
     
     if ([self.delegate respondsToSelector:@selector(mapView:regionDidChangeAnimated:)]) {
@@ -523,8 +552,12 @@
 
 
 #pragma mark - Helpers
+-(void)updateZoomLevel {
+    self.mapZoomLevel = [self zoomLevelForMapRect:self.mapView.visibleMapRect withMapViewSizeInPixels:self.mapView.bounds.size];
+}
+
 -(NSUInteger)zoomLevel {
-    return [self zoomLevelForMapRect:self.mapView.visibleMapRect withMapViewSizeInPixels:self.mapView.bounds.size];
+    return self.mapZoomLevel;
 }
 
 //Zoom level goes from 1 (the world) to 20 (zoomed innnn)
