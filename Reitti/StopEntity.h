@@ -44,6 +44,7 @@
 
 -(BusStopShort *)toBusStopShort;
 #endif
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinates;
 
 @property (nonatomic, strong, readonly) NSString *displayName;
 @property (nonatomic, strong, readonly) NSString *displayNameWithCity;

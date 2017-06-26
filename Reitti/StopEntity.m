@@ -123,6 +123,10 @@
 }
 
 #pragma mark - Computed properties
+-(CLLocationCoordinate2D)coordinates {
+    return [ReittiStringFormatter convertStringTo2DCoord:self.busStopWgsCoords];
+}
+
 -(NSString *)displayName {
     return [NSString stringWithFormat:@"%@ (%@)", self.busStopName, self.busStopShortCode];
 }

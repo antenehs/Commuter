@@ -708,7 +708,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 //    hideSearchResultViewButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     nearbyStopsListsTable.rowHeight = UITableViewAutomaticDimension;
-    nearbyStopsListsTable.estimatedRowHeight = 80;
+    nearbyStopsListsTable.estimatedRowHeight = 50;
     
     nearbyListInfoType = NearbyListInfoTypeLoading;
 }
@@ -787,8 +787,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
         return obj1Distance > obj2Distance;
     }];
     
-    //TODO: Use closest 50
-    
     self.nearbyRows = [NSArray arrayWithArray:allNearbyRows];
 }
 
@@ -806,6 +804,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
     [nearbyStopsListsTable reloadData];
 //    [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    //Adjust table size
+    [self fitContentInNearbyList];
 }
 
 -(void)hideNearByStopsView:(BOOL)hidden animated:(BOOL)anim {
@@ -846,8 +846,10 @@ CGFloat  kDeparturesRefreshInterval = 10;
     }];
 }
 
--(CGFloat)nearbyStopViewTopSpacing{
-    return nearByStopsViewTopSpacing.constant;
+-(void)setNearbyStopsViewTopSpacing:(CGFloat)topSpace animated:(BOOL) animated {
+    [self.view asa_springAnimationWithDuration:animated ? 0.7 : 0 animation:^{
+        [self setNearbyStopsViewTopSpacing:topSpace];
+    } completion:nil];
 }
 
 -(void)setNearbyStopsViewTopSpacing:(CGFloat)topSpace{
@@ -862,24 +864,33 @@ CGFloat  kDeparturesRefreshInterval = 10;
     nearByStopsViewTopSpacing.constant = topSpace;
     [self.view layoutSubviews];
     
-//    if ([self isNearByStopsListViewHidden]) {
-//        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"list-white-100.png"] forState:UIControlStateNormal];
-//        searchResultsLabel.text = @"LIST NEARBY STOPS";
-//    }else{
-//        [hideSearchResultViewButton setImage:[UIImage imageNamed:@"reload-128.png"] forState:UIControlStateNormal];
-//        searchResultsLabel.text = @"NEARBY STOPS";
-//    }
+    
+    if (self.nearbyStopViewTopSpacing < self.viewVisibleHeight - kMinHeightForListTableView) {
+
+    }
     
     //Set center locator position
     [self updateCenterLocationPositionWithGeocodeUpdate:NO];
     
     //Adjust map
     [self scrollMapViewByPoint:CGPointMake(0, -spaceDiff/2) animated:NO];
-    
 }
 
 -(void)increamentNearByStopViewTopSpaceBy:(CGFloat)increament{
     [self setNearbyStopsViewTopSpacing:nearByStopsViewTopSpacing.constant + increament];
+}
+
+//
+-(void)fitContentInNearbyList {
+    if (self.nearbyStopViewTopSpacing > self.searchViewLowerBound) {
+        [self setNearbyStopsViewTopSpacing:self.searchViewLowerBound animated:YES];
+    }
+    
+    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    //The 5 is to compensate for area above tableview
+    if (self.nearbyStopViewTopSpacing < (self.viewVisibleHeight - tableContentSize.height - 5)) {
+        [self setNearbyStopsViewTopSpacing:self.viewVisibleHeight - tableContentSize.height animated:YES];
+    }
 }
 
 -(BOOL)isNearByStopsListViewHidden{
@@ -890,15 +901,20 @@ CGFloat  kDeparturesRefreshInterval = 10;
     return self.view.frame.size.height - self.tabBarController.tabBar.frame.size.height;
 }
 
--(int)searchViewLowerBound {
-    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
-    return self.viewVisibleHeight - MIN(tableContentSize.height, kMinHeightForListTableView);
+-(CGFloat)nearbyStopViewTopSpacing {
+    return nearByStopsViewTopSpacing.constant;
 }
 
--(int)searchViewUpperBound {
+-(CGFloat)searchViewLowerBound {
+    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    //The 5 is to compensate for area above tableview
+    return self.viewVisibleHeight - MIN(tableContentSize.height + 5, kMinHeightForListTableView);
+}
+
+-(CGFloat)searchViewUpperBound {
         CGSize tableContentSize = nearbyStopsListsTable.contentSize;
-        return MAX(self.viewVisibleHeight - tableContentSize.height, kMinTopSpaceForListTableView);
-//    return 0;
+    //The 5 is to compensate for area above tableview
+        return MAX(self.viewVisibleHeight - tableContentSize.height + 5, kMinTopSpaceForListTableView);
 }
 
 -(void)showStopFetchActivityIndicator:(NSNumber *)show{
@@ -948,7 +964,14 @@ CGFloat  kDeparturesRefreshInterval = 10;
 //        return 1;
 //    }
     
-    return self.nearbyRows && self.nearbyRows.count > 0 ? self.nearbyRows.count : 1;
+    BOOL showInfoRow = nearbyListInfoType == NearbyListInfoTypeError ||
+                       nearbyListInfoType == NearbyListInfoTypeLoading;
+    
+    NSInteger nearbyPlacesCount = self.nearbyRows ? self.nearbyRows.count : 0;
+    if (nearbyPlacesCount == 0 && showInfoRow)
+        nearbyPlacesCount = 1;
+    
+    return nearbyPlacesCount;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1033,22 +1056,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
         cell.separatorInset = UIEdgeInsetsMake(0, 2000, 0, 0);
         return cell;
     }
-}
-
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (indexPath.row > 0) {
-//        return 35;
-//    }
-//    
-//    return 60;
-//}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 1.0;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -2381,13 +2388,12 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 -(void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     [self hideNearByStopsView:YES animated:YES];
-    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:stopEntity.busStopWgsCoords]];
-    id busStop = stopEntity.toBusStopShort;
-    if (busStop) {
-        [self plotSearchedStop:busStop];
-    }
+    [self centerMapRegionToCoordinate:stopEntity.coordinates];
     
-//    mainSearchBar.text = stopEntity.displayName;
+    id busStop = stopEntity.toBusStopShort;
+    if (busStop)
+        [self plotSearchedStop:busStop];
+    
     [self setSearchBarText:stopEntity.displayName isManualSearchText:YES];
     prevSearchedCoords = stopEntity.busStopCoords;
 }
@@ -2395,39 +2401,33 @@ CGFloat  kDeparturesRefreshInterval = 10;
 -(void)searchResultSelectedAGeoCode:(GeoCode *)geoCode{
     [self hideNearByStopsView:YES animated:YES];
     [self centerMapRegionToCoordinate:geoCode.coordinates];
-    //Check if it is type busstop
+    
     if (geoCode.locationType == LocationTypeStop) {
         [self plotSearchedStop:geoCode.busStop];
     }else{
         [self plotGeoCodeAnnotation:geoCode];
     }
     
-//    mainSearchBar.text = geoCode.getStreetAddressString;
     [self setSearchBarText:geoCode.getStreetAddressString isManualSearchText:YES];
     prevSearchedCoords = geoCode.coords;
 }
 
 -(void)searchResultSelectedANamedBookmark:(NamedBookmark *)namedBookmark{
     [self hideNearByStopsView:YES animated:YES];
-    [self centerMapRegionToCoordinate:[ReittiStringFormatter convertStringTo2DCoord:namedBookmark.coords]];
+    [self centerMapRegionToCoordinate:namedBookmark.coordinates];
     
     [self plotNamedBookmarkAnnotation:namedBookmark withSelect:YES];
     
-//    mainSearchBar.text = namedBookmark.name;
     [self setSearchBarText:namedBookmark.name isManualSearchText:YES];
     prevSearchedCoords = namedBookmark.coords;
 }
 
--(void)searchResultSelectedCurrentLocation{
-    
-}
+-(void)searchResultSelectedCurrentLocation {}
 
 -(void)searchViewControllerDismissedToRouteSearch:(NSString *)prevSearchTerm{
-//    mainSearchBar.text = prevSearchTerm;
     [self setSearchBarText:prevSearchTerm isManualSearchText:YES];
     RouteSearchParameters *searchParms = [[RouteSearchParameters alloc] initWithToLocation:mainSearchBar.text toCoords:prevSearchedCoords fromLocation:nil fromCoords:nil];
     [self switchToRouteSearchViewWithRouteParameter:searchParms];
-//    [self performSegueWithIdentifier:@"switchToRouteSearchTab" sender:nil];
 }
 
 #pragma mark - settings view delegate
