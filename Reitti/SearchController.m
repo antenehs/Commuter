@@ -31,6 +31,7 @@
 #import "BikeStation.h"
 #import "DepartureTableViewCell.h"
 #import "NearbyTableViewCell.h"
+#import "NearbyInfoTableViewCell.h"
 #import "AnnotationFilter.h"
 #import "AnnotationFilterView.h"
 #import "CoreDataManagers.h"
@@ -53,7 +54,9 @@
 
 CGFloat  kDeparturesRefreshInterval = 10;
 
-@interface SearchController ()
+@interface SearchController () {
+    NearbyListInfoType nearbyListInfoType;
+}
 
 @property (nonatomic, strong) id previewingContext;
 @property (nonatomic, strong) AnnotationFilter *annotationFilter;
@@ -103,6 +106,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
     [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"DepartureTableViewCell" bundle:nil] forCellReuseIdentifier:@"departureCell"];
     
     [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"NearbyTableViewCell" bundle:nil] forCellReuseIdentifier:@"nearByCell"];
+    
+    [nearbyStopsListsTable registerNib:[UINib nibWithNibName:@"NearbyInfoTableViewCell" bundle:nil] forCellReuseIdentifier:@"nearByInfoCell"];
     
     [self initDataComponentsAndModules];
     [self updateAppShortcuts];
@@ -704,6 +709,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
     
     nearbyStopsListsTable.rowHeight = UITableViewAutomaticDimension;
     nearbyStopsListsTable.estimatedRowHeight = 80;
+    
+    nearbyListInfoType = NearbyListInfoTypeLoading;
 }
 
 -(void)sortPlaceAtDistance:(inout NSMutableArray *)placesArray {
@@ -884,7 +891,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 -(int)searchViewLowerBound {
-    return self.viewVisibleHeight - kMinHeightForListTableView;
+    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    return self.viewVisibleHeight - MIN(tableContentSize.height, kMinHeightForListTableView);
 }
 
 -(int)searchViewUpperBound {
@@ -1012,15 +1020,17 @@ CGFloat  kDeparturesRefreshInterval = 10;
         }
          */
     }else{
-        UITableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"noStopCell"];
-        UILabel *infoLabel = (UILabel *)[cell viewWithTag:2003];
+        NearbyInfoTableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"nearByInfoCell"];
+        [cell setupForInfoType:nearbyListInfoType specialErrorMessage:nearbyStopsFetchErrorMessage];
         
-        if (nearbyStopsFetchErrorMessage) {
-            infoLabel.text = nearbyStopsFetchErrorMessage;
-        }else{
-            infoLabel.text = @"No Stops Nearby";
-        }
-        
+//        UILabel *infoLabel = (UILabel *)[cell viewWithTag:2003];
+//        
+//        if (nearbyStopsFetchErrorMessage) {
+//            infoLabel.text = nearbyStopsFetchErrorMessage;
+//        }else{
+//            infoLabel.text = @"No Stops Nearby";
+//        }
+        cell.separatorInset = UIEdgeInsetsMake(0, 2000, 0, 0);
         return cell;
     }
 }
@@ -1038,7 +1048,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10.0;
+    return 0.0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1713,7 +1723,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 //            [self removeAllStopAnnotations];
 //            [self removeAllBikeStationAnnotations];
             self.nearByStopList = @[];
-            nearbyStopsFetchErrorMessage = @"Zoom in to get nearby departures.";
+            nearbyListInfoType = NearbyListInfoTypeZoomedOut;
             [self setupNearByPlacesListTableView];
         }
     }
@@ -2193,7 +2203,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 -(void)fetchStopsInMapViewRegion:(MKCoordinateRegion)region{
     if (![self.annotationFilter isAnyNearByStopAnnotationEnabled]) return;
     
-    nearbyStopsFetchErrorMessage = nil;
+    nearbyListInfoType = NearbyListInfoTypeLoading;
     [self.reittiDataManager fetchStopsInAreaForRegion:region withCompletionBlock:^(NSArray *stopsList, NSString *errorMessage){
         if (!errorMessage) {
             [self nearByStopFetchDidComplete:stopsList];
@@ -2244,6 +2254,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [self setDetailStopForBusStopShort:stop busStop:stop];
     }
     
+    nearbyListInfoType = NearbyListInfoTypeNothingNearby;
     [self setupNearByPlacesListTableView];
     [self plotNearbyStopAnnotations:filteredStops];
     
@@ -2258,6 +2269,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
         }
     }
     
+    nearbyListInfoType = NearbyListInfoTypeError;
     nearbyStopsFetchErrorMessage = error;
     self.nearByStopList = [@[] mutableCopy];
     [self setupNearByPlacesListTableView];

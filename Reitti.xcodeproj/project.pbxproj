@@ -1148,6 +1148,10 @@
 		66D101181EFC841000CAC251 /* RealtimeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D101161EFC841000CAC251 /* RealtimeIndicatorView.swift */; };
 		66D1011A1EFF187B00CAC251 /* SilverSpring.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66D101191EFF187B00CAC251 /* SilverSpring.gpx */; };
 		66D1011B1EFF187C00CAC251 /* SilverSpring.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 66D101191EFF187B00CAC251 /* SilverSpring.gpx */; };
+		66D1011F1EFF326400CAC251 /* NearbyInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1011D1EFF326400CAC251 /* NearbyInfoTableViewCell.m */; };
+		66D101201EFF326400CAC251 /* NearbyInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1011D1EFF326400CAC251 /* NearbyInfoTableViewCell.m */; };
+		66D101211EFF326400CAC251 /* NearbyInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66D1011E1EFF326400CAC251 /* NearbyInfoTableViewCell.xib */; };
+		66D101221EFF326400CAC251 /* NearbyInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66D1011E1EFF326400CAC251 /* NearbyInfoTableViewCell.xib */; };
 		66DAC7CE1A025ED90002BE16 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
 		66DAC7D41A025ED90002BE16 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7D31A025ED90002BE16 /* TodayViewController.m */; };
 		66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */; };
@@ -2119,6 +2123,9 @@
 		66D101151EFC3C3800CAC251 /* ReittiObjectProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiObjectProtocols.h; sourceTree = "<group>"; };
 		66D101161EFC841000CAC251 /* RealtimeIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealtimeIndicatorView.swift; sourceTree = "<group>"; };
 		66D101191EFF187B00CAC251 /* SilverSpring.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SilverSpring.gpx; sourceTree = "<group>"; };
+		66D1011C1EFF326400CAC251 /* NearbyInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyInfoTableViewCell.h; sourceTree = "<group>"; };
+		66D1011D1EFF326400CAC251 /* NearbyInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyInfoTableViewCell.m; sourceTree = "<group>"; };
+		66D1011E1EFF326400CAC251 /* NearbyInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NearbyInfoTableViewCell.xib; sourceTree = "<group>"; };
 		66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Commuter - Departures.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DAC7D11A025ED90002BE16 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66DAC7D21A025ED90002BE16 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -3009,6 +3016,9 @@
 				66B7AE961ECA674C00B233E7 /* DynamicHeightTableView.h */,
 				66B7AE971ECA674C00B233E7 /* DynamicHeightTableView.m */,
 				66D101161EFC841000CAC251 /* RealtimeIndicatorView.swift */,
+				66D1011C1EFF326400CAC251 /* NearbyInfoTableViewCell.h */,
+				66D1011D1EFF326400CAC251 /* NearbyInfoTableViewCell.m */,
+				66D1011E1EFF326400CAC251 /* NearbyInfoTableViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -4378,6 +4388,7 @@
 				6605797C1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66F099831AE8075D00F20D34 /* NotificationBackgroundError@2x.png in Resources */,
 				66822F6B1C286E4700511BD2 /* reload-128.png in Resources */,
+				66D101211EFF326400CAC251 /* NearbyInfoTableViewCell.xib in Resources */,
 				6605796E1E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605798A1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				663589BC1ED0E227006721EA /* ServicePoints.storyboard in Resources */,
@@ -4527,6 +4538,7 @@
 				66C734EB1C556DA5002544BC /* Main.storyboard in Resources */,
 				663589BD1ED0E227006721EA /* ServicePoints.storyboard in Resources */,
 				66C734F11C556DA5002544BC /* NotificationBackgroundSuccess.png in Resources */,
+				66D101221EFF326400CAC251 /* NearbyInfoTableViewCell.xib in Resources */,
 				66C734F61C556DA5002544BC /* NotificationBackgroundSuccess@2x.png in Resources */,
 				66C734F91C556DA5002544BC /* NotificationBackgroundMessage@2x.png in Resources */,
 				663589B71ED0D847006721EA /* Reminders.storyboard in Resources */,
@@ -5272,6 +5284,7 @@
 				66D101091EFC160F00CAC251 /* NearbyTableViewCell.m in Sources */,
 				660FB23C1B39E5ED009C30BF /* MoreTableViewController.m in Sources */,
 				66056E6F1C42AAFE00C011FB /* MonitoredCall.m in Sources */,
+				66D1011F1EFF326400CAC251 /* NearbyInfoTableViewCell.m in Sources */,
 				663B7BE01B4DB5B9008CF187 /* Reachability.m in Sources */,
 				66BCA7101D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */,
@@ -5560,6 +5573,7 @@
 				66D1010A1EFC160F00CAC251 /* NearbyTableViewCell.m in Sources */,
 				66C7333A1C556DA5002544BC /* MonitoredCall.m in Sources */,
 				66C7333B1C556DA5002544BC /* Reachability.m in Sources */,
+				66D101201EFF326400CAC251 /* NearbyInfoTableViewCell.m in Sources */,
 				66BCA7111D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66C7333D1C556DA5002544BC /* UIView+Helper.m in Sources */,
 				66C7333E1C556DA5002544BC /* SettingsViewController.m in Sources */,

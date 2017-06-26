@@ -101,13 +101,13 @@
                                             <action selector="listNearbyStopsPressed:" destination="139-RC-VnC" eventType="touchUpInside" id="wny-dT-wBP"/>
                                         </connections>
                                     </button>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="dIy-Zh-BEc">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dIy-Zh-BEc">
                                         <rect key="frame" x="0.0" y="3" width="375" height="556"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="searchResultCell" rowHeight="60" id="wNz-Oz-8gc">
-                                                <rect key="frame" x="0.0" y="55.5" width="375" height="60"/>
+                                                <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wNz-Oz-8gc" id="1DU-xZ-dKU">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
@@ -228,7 +228,7 @@
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="departureCell" rowHeight="35" id="SGX-mw-iI7" customClass="DepartureTableViewCell">
-                                                <rect key="frame" x="0.0" y="115.5" width="375" height="35"/>
+                                                <rect key="frame" x="0.0" y="88" width="375" height="35"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SGX-mw-iI7" id="xHP-N2-3n0">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="34.5"/>
@@ -280,7 +280,7 @@
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noStopCell" rowHeight="50" id="VLi-9O-Cc7">
-                                                <rect key="frame" x="0.0" y="150.5" width="375" height="50"/>
+                                                <rect key="frame" x="0.0" y="123" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VLi-9O-Cc7" id="7og-eW-Mr1">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>

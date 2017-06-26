@@ -648,7 +648,9 @@ typedef enum : NSUInteger {
                  [AnnotationFilterOption optionForMetroStop],
                  [AnnotationFilterOption optionForBikeStation]];
     } else {
-        return @[[AnnotationFilterOption optionForBusStop]];
+        return @[[AnnotationFilterOption optionForBusStop],
+                 [AnnotationFilterOption optionForTrainStop]
+                 ];
     }
 }
 
