@@ -8,7 +8,7 @@
 
 #import "ReittiAnalyticsManager.h"
 #import "SettingsManager.h"
-//#import <Google/Analytics.h>
+#import <Google/Analytics.h>
 
 @import Firebase;
 
@@ -143,11 +143,38 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     return manager;
 }
 
+-(id)init{
+    self = [super init];
+    
+    if (self) {
+        @try {
+            // Configure tracker from GoogleService-Info.plist.
+            NSError *configureError;
+            [[GGLContext sharedInstance] configureWithError:&configureError];
+            if (configureError) {
+                NSLog(@"Error configuring Google services: %@", configureError);
+                self.isEnabled = NO;
+            }
+            
+            // Optional: configure GAI options.
+            GAI *gai = [GAI sharedInstance];
+            gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+            
+            self.googleAnalyticsEnabled = YES;
+        }
+        @catch (NSException *exception) {
+            self.googleAnalyticsEnabled = NO;
+        }
+    }
+    
+    return self;
+}
+
 -(BOOL)isEnabled{
     return [SettingsManager isAnalyticsEnabled];
 }
 
--(void)setIsEnabled:(BOOL)enabled{
+-(void)setIsEnabled:(BOOL)enabled {
     SettingsManager.isAnalyticsEnabled = enabled;
 }
 
@@ -155,27 +182,32 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
     [FIRAnalytics setUserPropertyString:value forName:userProperty];
 }
 
+#pragma mark - Firebase tracking
 -(void)trackScreenViewForScreenName:(NSString *)screenName{
     if (self.isEnabled) {
         @try {
-            [FIRAnalytics logEventWithName:[NSString stringWithFormat:@"screen_view %@", screenName]
+            [FIRAnalytics logEventWithName:[NSString stringWithFormat:@"screen_view_%@", screenName]
                                 parameters:@{ kFIRParameterItemName: screenName }];
         }
         @catch (NSException *exception) {}
     }
+    
+    [self trackScreenViewWithGAForScreenName:screenName];
 }
 
 -(void)trackFeatureUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
     [self trackEventForEventName:action category:label value:value];
+    [self trackFeatureUseEventWithGAForAction:action label:label value:value];
 }
 
 -(void)trackApiUseEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
-    
     [self trackEventForEventName:action category:label value:value];
+    [self trackApiUseEventWithGAForAction:action label:label value:value];
 }
 
 -(void)trackErrorEventForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
     [self trackEventForEventName:action category:label value:value];
+    [self trackErrorEventWithGAForAction:action label:label value:value];
 }
 
 -(void)trackEventForEventName:(NSString *)name category:(NSString *)category value:(NSNumber *)value {
@@ -190,6 +222,49 @@ NSString *kActionApiSearchFailed = @"ApiSearchFailed";
         }
         @catch (NSException *exception) {}
     }
+    
+    
 }
 
+#pragma mark - Google analytics tracking
+-(void)trackScreenViewWithGAForScreenName:(NSString *)screenName{
+    if (self.isEnabled && self.googleAnalyticsEnabled) {
+        @try {
+            id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+            [tracker set:kGAIScreenName value:screenName];
+            [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+        }
+        @catch (NSException *exception) {}
+    }
+}
+
+-(void)trackFeatureUseEventWithGAForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
+    [self trackEventWithGAForEventCategory:kEventCategoryFeatureUse action:action label:label value:value];
+}
+
+-(void)trackApiUseEventWithGAForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
+    [self trackEventWithGAForEventCategory:kEventCategoryApiUse action:action label:label value:value];
+}
+
+-(void)trackErrorEventWithGAForAction:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
+    [self trackEventWithGAForEventCategory:kEventCategoryError action:action label:label value:value];
+}
+
+-(void)trackEventWithGAForEventCategory:(NSString *)category action:(NSString *)action label:(NSString *)label value:(NSNumber *)value{
+    if (self.isEnabled && self.googleAnalyticsEnabled) {
+        @try {
+            // May return nil if a tracker has not already been initialized with a property
+            id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+            
+            if (!tracker)
+                return;
+            
+            [tracker send:[[GAIDictionaryBuilder createEventWithCategory:category       // Event category (required)
+                                                                  action:action         // Event action (required)
+                                                                   label:label          // Event label
+                                                                   value:value] build]];// Event value
+        }
+        @catch (NSException *exception) {}
+    }
+}
 @end

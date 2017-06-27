@@ -4010,8 +4010,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66947CE718830ED500642EE1 /* Build configuration list for PBXNativeTarget "Reitti" */;
 			buildPhases = (
-				66AE111B1EE0D96600178C41 /* ShellScript */,
 				495829BBB73B48947539E63F /* [CP] Check Pods Manifest.lock */,
+				66AE111B1EE0D96600178C41 /* ShellScript */,
 				66947CAE18830ED500642EE1 /* Sources */,
 				66947CAF18830ED500642EE1 /* Frameworks */,
 				66947CB018830ED500642EE1 /* Resources */,
@@ -4054,8 +4054,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66C735061C556DA5002544BC /* Build configuration list for PBXNativeTarget "Reitti Pro" */;
 			buildPhases = (
-				66AE111A1EE0D94A00178C41 /* ShellScript */,
 				05665F61C29886A2470512CD /* [CP] Check Pods Manifest.lock */,
+				66AE111A1EE0D94A00178C41 /* ShellScript */,
 				66C732C11C556DA5002544BC /* Sources */,
 				66C733821C556DA5002544BC /* Frameworks */,
 				66C7338C1C556DA5002544BC /* Resources */,
@@ -4081,8 +4081,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66C735611C556FA4002544BC /* Build configuration list for PBXNativeTarget "Commuter - Departures Pro" */;
 			buildPhases = (
-				66AE111D1EE0DA9000178C41 /* ShellScript */,
 				B903C8B2969079C675E4FBE3 /* [CP] Check Pods Manifest.lock */,
+				66AE111D1EE0DA9000178C41 /* ShellScript */,
 				66C7350C1C556FA4002544BC /* Sources */,
 				66C735291C556FA4002544BC /* Frameworks */,
 				66C7352B1C556FA4002544BC /* Resources */,
@@ -4102,8 +4102,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66C735BE1C556FB5002544BC /* Build configuration list for PBXNativeTarget "Commuter - Routes Pro" */;
 			buildPhases = (
-				66AE111E1EE0DA9E00178C41 /* ShellScript */,
 				589A2142B5E9DBB8AF2201C6 /* [CP] Check Pods Manifest.lock */,
+				66AE111E1EE0DA9E00178C41 /* ShellScript */,
 				66C735671C556FB5002544BC /* Sources */,
 				66C735801C556FB5002544BC /* Frameworks */,
 				66C735821C556FB5002544BC /* Resources */,
@@ -4123,8 +4123,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66DAC7DC1A025ED90002BE16 /* Build configuration list for PBXNativeTarget "Commuter - Departures" */;
 			buildPhases = (
-				66AE111C1EE0DA7800178C41 /* ShellScript */,
 				4FFC8121664D933A8A59B7C1 /* [CP] Check Pods Manifest.lock */,
+				66AE111C1EE0DA7800178C41 /* ShellScript */,
 				66DAC7C91A025ED90002BE16 /* Sources */,
 				66DAC7CA1A025ED90002BE16 /* Frameworks */,
 				66DAC7CB1A025ED90002BE16 /* Resources */,

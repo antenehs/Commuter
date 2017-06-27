@@ -6,6 +6,8 @@
 	<string>ca-app-pub-3940256099942544/2934735716</string>
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>TRACKING_ID</key>
+	<string>UA-71810762-4</string>
 	<key>CLIENT_ID</key>
 	<string>69378195651-70bjfrl12tvt7ibq5aqh27c38o7tdh0k.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
@@ -31,7 +33,7 @@
 	<key>IS_GCM_ENABLED</key>
 	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<false/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:69378195651:ios:8289ef345e41a878</string>
 	<key>DATABASE_URL</key>

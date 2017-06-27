@@ -15,7 +15,7 @@ def networking_pods
 end
 
 def analytics_pods
-#  pod 'Google/Analytics'
+  pod 'Google/Analytics'
   pod 'Firebase/Core'
 end
 

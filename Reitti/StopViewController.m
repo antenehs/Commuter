@@ -486,6 +486,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     if (![AppManager isProVersion] && [self thereAreLiveDepartures]) {
         NSInteger requestCount = [self showGoProRequestCount];
         NSInteger minInterval = [[ReittiConfigManager sharedManager] intervalBetweenGoProShowsInStopView];
+        minInterval = minInterval == 0 ? 1 : minInterval;
         canShow = requestCount > 0 && requestCount % minInterval == 0;
     }
     

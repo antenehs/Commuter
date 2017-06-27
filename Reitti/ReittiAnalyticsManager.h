@@ -138,5 +138,6 @@ extern NSString *kActionApiSearchFailed;
 -(void)trackEventForEventName:(NSString *)name category:(NSString *)category value:(NSNumber *)value;
 
 @property (nonatomic, readonly)BOOL isEnabled;
+@property (nonatomic)BOOL googleAnalyticsEnabled;
 
 @end

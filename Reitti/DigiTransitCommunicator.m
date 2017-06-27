@@ -124,7 +124,6 @@ typedef enum : NSUInteger {
             completionBlock(nil, [self formattedNearbyStopSearchErrorMessageForError:error]);//Proper error message here.
         }
     }];
-    
 }
 
 -(NSString *)stopInAreadGraphQlQueryForRegionCenterCoords:(CLLocationCoordinate2D)regionCenter andDiameter:(NSInteger)diameter {

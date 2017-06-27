@@ -39,7 +39,7 @@ NSString *kUniqueIdentifierSeparator = @"|%|";
     attrSet.title = self.name;
     attrSet.contentDescription = [NSString stringWithFormat:@"%@ \nTap to get transit routes to %@", [self getFullAddress], self.name];
     attrSet.thumbnailData = UIImagePNGRepresentation([self imageForSpotlight]);
-    attrSet.keywords = @[self.streetAddress, self.city];
+    attrSet.keywords = @[self.streetAddress, self.city ? self.city : @""];
     
     return attrSet;
 }
