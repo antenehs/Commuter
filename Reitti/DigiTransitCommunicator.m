@@ -109,6 +109,12 @@ typedef enum : NSUInteger {
         if (!error && stops.count > 0) {
             NSMutableArray *allStops = [@[] mutableCopy];
             for (DigiStopAtDistance *stopAtDist in stops) {
+                //Continue if there is no routes or departures
+                if ((!stopAtDist.stop.routes ||
+                    stopAtDist.stop.routes.count < 1) &&
+                    (!stopAtDist.stop.stoptimes ||
+                    stopAtDist.stop.stoptimes.count < 1))
+                    continue;
                 BusStop *reittiStop = stopAtDist.stop.reittiBusStop;
                 reittiStop.distance = stopAtDist.distance;
                 [allStops addObject:reittiStop];

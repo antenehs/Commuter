@@ -221,6 +221,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [self removeAllVehicleAnnotation];
     }
     
+    [self fetchStopsInCurrentMapViewRegion];
+    
     [self startFetchingBikeStations];
 }
 
