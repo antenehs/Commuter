@@ -384,7 +384,7 @@
     
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Hold On! Do you really want to loose your settings and reset to default?"
                                                                         message:nil
-                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
                                                            style:UIAlertActionStyleCancel

@@ -21,6 +21,8 @@
 
 -(CLLocation *)currentUserLocation;
 
++(BOOL)isLocationServiceAvailableWithMessage:(bool)showMessage showMessageIn:(UIViewController *)viewController;
+
 @property (nonatomic, weak)id<ReittiLocationManagerProtocol> delegate;
 
 @end

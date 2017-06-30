@@ -16,7 +16,7 @@
 
 @class BookmarksViewController;
 
-@interface BookmarksViewController : UITableViewController<UIActionSheetDelegate,StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
+@interface BookmarksViewController : UITableViewController<StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIBarButtonItem *widgetSettingButton;
     

@@ -17,6 +17,8 @@
 -(MFMailComposeViewController *)mailComposeVcForBugReportEmail;
 -(MFMailComposeViewController *)mailComposeVcForHiEmail;
 
+-(void)showShareSheetOnViewController:(UIViewController *)controller atRect:(CGRect)rect;
+
 -(SLComposeViewController *)slComposeVcForFacebook;
 -(SLComposeViewController *)slComposeVcForTwitter;
 

@@ -25,15 +25,15 @@ extern NSString *kRoutineNotificationToName;
 extern NSString *kRoutineNotificationToCoords;
 extern NSString *kRoutineNotificationUniqueName;
 
-@interface ReittiRemindersManager : NSObject<UIAlertViewDelegate>
+@interface ReittiRemindersManager : NSObject
 
 +(id)sharedManger;
 
--(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute;
+-(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute showNotifInController:(UIViewController *)controller;
 -(NSArray *)getAllDepartureNotifications;
 -(NSArray *)getDepartureNotificationsForStop:(BusStop *)stop;
 
--(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute;
+-(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute showNotifInController:(UIViewController *)controller;
 -(NSArray *)getAllRouteNotifications;
 -(NSArray *)getRouteNotificationsForRoute:(Route *)route;
 

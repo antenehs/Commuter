@@ -11,6 +11,7 @@
 #import <Social/Social.h>
 #import "ReittiEmailAndShareManager.h"
 #import "AppManager.h"
+#import "ReittiNotificationHelper.h"
 
 @interface AboutTableViewController ()
 
@@ -102,11 +103,48 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)contactUsButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Feel free to contact me for anything, even just to say hi!", @"Feel free to contact me for anything, even just to say hi!") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Request A Feature", @"Request A Feature"), NSLocalizedString(@"Report A Bug", @"Report A Bug"), NSLocalizedString(@"Say Hi!", @"Say Hi!"), nil];
-    //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-    actionSheet.tag = 1002;
-    [actionSheet showInView:self.view];
+- (IBAction)contactUsButtonPressed:(UIButton *)sender {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Feel free to contact me for anything, even just to say hi!"
+                                                                        message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:cancelAction];
+    
+    UIAlertAction *firstAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Request A Feature", @"Request A Feature")
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            [self sendFeatureRequestEmail];
+                                                        }];
+    
+    [controller addAction:firstAction];
+    
+    UIAlertAction *secondAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Report A Bug", @"Report A Bug")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                             [self sendBugReportEmail];
+                                                         }];
+    
+    [controller addAction:secondAction];
+    
+    UIAlertAction *thirdAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Say Hi!", @"Say Hi!")
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            [self sendHiEmail];
+                                                        }];
+    
+    [controller addAction:thirdAction];
+    
+    UITableViewCell *contactMeCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    CGRect translated = [self.tableView convertRect:sender.frame fromView:contactMeCell];
+    controller.popoverPresentationController.sourceView = self.tableView;
+    controller.popoverPresentationController.sourceRect = translated;
+    
+    [self presentViewController:controller animated:YES completion:nil];
+    
 }
 
 - (IBAction)requestAFeatureButtonPressed:(id)sender {
@@ -114,10 +152,11 @@
 }
 
 - (IBAction)tweetorFacebookAboutThisAppPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"They say sharing is caring, right?.", @"They say sharing is caring, right?.") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Share on Facebook", @"Share on Facebook"), NSLocalizedString(@"Share on Twitter", @"Share on Twitter"), nil];
-    //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-    actionSheet.tag = 1001;
-    [actionSheet showInView:self.view];
+    UIButton *shareButton = (UIButton *)sender;
+    
+    UITableViewCell *shareCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    CGRect translated = [self.view convertRect:shareButton.frame fromView:shareCell];
+    [[ReittiEmailAndShareManager sharedManager] showShareSheetOnViewController:self atRect:translated];
 }
 
 - (IBAction)postToFacebookButtonPressed:(id)sender {
@@ -145,43 +184,6 @@
     [[UIApplication sharedApplication] openURL:url];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
-    if (actionSheet.tag == 1001) {
-        switch (buttonIndex) {
-            case 0:
-                [self postToFacebook];
-                break;
-            case 1:
-                [self postToTwitter];
-                //                [self sendEmailWithSubject:@"[Feature Request] - "];
-                break;
-            default:
-                break;
-        }
-        
-        if (buttonIndex == 0) {
-            
-        }
-        
-    }else if (actionSheet.tag == 1002){
-        switch (buttonIndex) {
-            case 0:
-                [self sendFeatureRequestEmail];
-                break;
-            case 1:
-                [self sendBugReportEmail];
-                break;
-            case 2:
-                [self sendHiEmail];
-                break;
-            default:
-                break;
-        }
-    }
-}
-
 #pragma mark - Notifications
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{
     [self.reittiDataManager setUserLocationRegion:[settingsManager userLocation]];
@@ -196,12 +198,9 @@
         [self presentViewController:controller animated:YES completion:Nil];
         
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sorry", @"Sorry")
-                                                            message:NSLocalizedString(@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup", @"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup")
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Sorry", @"Sorry")
+                                                  andContent:NSLocalizedString(@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup", nil)
+                                                inController:self];
     }
 }
 
@@ -211,12 +210,9 @@
         SLComposeViewController *tweetSheet = [[ReittiEmailAndShareManager sharedManager] slComposeVcForTwitter];
         [self presentViewController:tweetSheet animated:YES completion:nil];
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sorry", @"Sorry")
-                                                            message:NSLocalizedString(@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup", @"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup")
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Sorry", @"Sorry")
+                                                  andContent:NSLocalizedString(@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup", nil)
+                                                inController:self];
     }
 }
 

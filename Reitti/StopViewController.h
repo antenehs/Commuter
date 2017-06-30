@@ -30,7 +30,7 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
 - (void)deletedSavedStop:(StopEntity *)busStop;
 @end
 
-@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, UIActionSheetDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate, UIAlertViewDelegate>{
+@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate>{
     
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;

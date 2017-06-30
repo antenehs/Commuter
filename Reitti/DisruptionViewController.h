@@ -17,7 +17,7 @@ typedef enum{
     DisruptionViewModeStaticRouteDisruptions = 1
 }DisruptionViewControllerMode;
 
-@interface DisruptionViewController : UIViewController<UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ADBannerViewDelegate>{
+@interface DisruptionViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ADBannerViewDelegate>{
     
     IBOutlet UITableView *disruptionsTableView;
     IBOutlet UIScrollView *mainScrollView;

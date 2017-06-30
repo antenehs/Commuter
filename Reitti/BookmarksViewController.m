@@ -443,43 +443,47 @@ const NSInteger kTimerRefreshInterval = 60;
             message  = NSLocalizedString(@"Hold on! Are you sure you want to delete all your history? This action cannot be undone", @"Hold on! Are you sure you want to delete all your history? This action cannot be undone");
         }
         
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:message
-                                                                 delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Delete", @"Delete")
-                                                        otherButtonTitles:nil];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:message
+                                                                            message:nil
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
         
-        [actionSheet showInView:self.view];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:^(UIAlertAction * _Nonnull action) {}];
+        
+        [controller addAction:cancelAction];
+        
+        UIAlertAction *firstAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                              style:UIAlertActionStyleDestructive
+                                                            handler:^(UIAlertAction * _Nonnull action) {
+                                                                [self deleteAllBookmarksOnCurrentPage];
+                                                                [self setEditing:NO animated:YES];
+                                                            }];
+        
+        [controller addAction:firstAction];
+        
+        
+        [self presentViewController:controller animated:YES completion:nil];
     }    
+}
+
+-(void)deleteAllBookmarksOnCurrentPage {
+    if (mode == 0) {
+        [[StopCoreDataManager sharedManager] deleteAllSavedStop];
+        [[RouteCoreDataManager sharedManager] deleteAllSavedroutes];
+        [[NamedBookmarkCoreDataManager sharedManager] deleteAllNamedBookmarks];
+    }else{
+        [[StopCoreDataManager sharedManager] deleteAllHistoryStop];
+        [[RouteCoreDataManager sharedManager] deleteAllHistoryRoutes];
+    }
+    
+    [dataToLoad removeAllObjects];
+    [self loadSavedValues];
+    [self setUpViewForTheSelectedMode];
 }
 
 - (IBAction)addBookmarkButtonPressed:(id)sender {
     [self openAddBookmarkController];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-//    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
-    
-    if (buttonIndex == 0) {
-        if (mode == 0) {
-//            [delegate deletedAllSavedStops];
-            [[StopCoreDataManager sharedManager] deleteAllSavedStop];
-            [[RouteCoreDataManager sharedManager] deleteAllSavedroutes];
-            [[NamedBookmarkCoreDataManager sharedManager] deleteAllNamedBookmarks];
-            
-            //NO need to hide the widget settings button
-//            [self hideWidgetSettingsButton:YES];
-        }else{
-//            [delegate deletedAllHistoryStops];
-            [[StopCoreDataManager sharedManager] deleteAllHistoryStop];
-            [[RouteCoreDataManager sharedManager] deleteAllHistoryRoutes];
-        }
-        
-        [dataToLoad removeAllObjects];
-        [self loadSavedValues];
-        [self setUpViewForTheSelectedMode];
-    }
 }
 
 - (IBAction)segmentControlValueChanged:(id)sender {

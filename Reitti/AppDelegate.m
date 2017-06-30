@@ -181,11 +181,10 @@
         [self handleLocalNotification:notification];
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
     }else if (application.applicationState == UIApplicationStateActive) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:notification.alertTitle
-                                                        message:notification.alertBody
-                                                       delegate:nil cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
+        MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+        [ReittiNotificationHelper showSimpleMessageWithTitle:notification.alertTitle
+                                                  andContent:notification.alertBody
+                                                inController:tabBarController];
     }
 }
 
@@ -202,11 +201,10 @@
         }
         
         if (message) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                            message:message
-                                                           delegate:nil cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil, nil];
-            [alert show];
+            MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+            [ReittiNotificationHelper showSimpleMessageWithTitle:title
+                                                      andContent:message
+                                                    inController:tabBarController];
         }
     }
 }

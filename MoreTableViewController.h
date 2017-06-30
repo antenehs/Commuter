@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 
-@interface MoreTableViewController : UITableViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate>{
+@interface MoreTableViewController : UITableViewController<MFMailComposeViewControllerDelegate>{
 //    BOOL thereIsDisruptions;
     NSURL *appTranslateUrl;
     

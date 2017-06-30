@@ -11,7 +11,7 @@
 #import "RettiDataManager.h"
 #import "SettingsManager.h"
 
-@interface AboutTableViewController : UITableViewController<UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
+@interface AboutTableViewController : UITableViewController<MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) SettingsManager *settingsManager;
 

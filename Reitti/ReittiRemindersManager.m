@@ -63,44 +63,52 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     return self;
 }
 
--(void)setNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo{
+-(void)setNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo showNotifInController:(UIViewController *)viewController {
     //If it is first time, just create it becuase the user will be asked to enable it anyways.
     if ([self isLocalNotificationEnabled] || ![ReittiRemindersManager notificationAccessRequested]) {
         BOOL showConfirmation = [ReittiRemindersManager notificationAccessRequested];
         
         [self registerNotification];
         if (date == nil) {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"  andContent:@"Setting reminder failed."];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Uh-oh"
+                                                      andContent:@"Setting reminder failed."
+                                                    inController:viewController];
             
             return;
         }
     
         if ([[NSDate date] compare:date] == NSOrderedDescending ) {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"   andContent:@"The alarm time you selected has already passed."];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"You might wanna hurry up!"
+                                                      andContent:@"The alarm time you selected has already passed."
+                                                    inController:viewController];
         } else {
             if (showConfirmation)
-                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"   andContent:@"You will be reminded."];
+                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Got it!"
+                                                          andContent:@"You will be reminded."
+                                                        inController:viewController];
             [self scheduleOneTimeNotificationForDate:date message:message userInfo:userInfo];
         }
         
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Access to Notifications Granted"                                                                                      message:@"Please grant access to Notifications from Settings to use this feature."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:@"Settings",nil];
-        [alertView show];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"No Access to Notifications Granted"
+                                                                            message:@"Please grant access to Notifications from Settings to use this feature."
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) { }];
+        [controller addAction:okAction];
+        
+        UIAlertAction *settingAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self openAppSettings];
+        }];
+        [controller addAction:settingAction];
+        
+        [viewController presentViewController:controller animated:YES completion:nil];
     }
     
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1) {
-        [self openAppSettings];
-    }
-}
-
 #pragma mark - Departure notif methods
--(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute {
+-(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute showNotifInController:(UIViewController *)controller {
     DepartureNotification *notification = [DepartureNotification notificationForDeparture:departure stop:stop offsetMin:minute];
     
     NSTimeInterval seconds = (minute * -60);
@@ -115,7 +123,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     
     
     
-    [self setNotificationForDate:fireDate message:notification.body userInfo:userInfo];
+    [self setNotificationForDate:fireDate message:notification.body userInfo:userInfo showNotifInController:controller];
 }
 
 -(NSArray *)getAllDepartureNotifications {
@@ -141,7 +149,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 }
 
 #pragma mark - Route notification methods
--(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute {
+-(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute showNotifInController:(UIViewController *)controller {
     RouteNotification *routeNotif = [RouteNotification notificationForRoute:route offsetMn:minute];
     
     NSTimeInterval seconds = (minute * -60);
@@ -155,7 +163,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
         userInfo[kNotificationTypeUserInfoKey] = kNotificationTypeRoute;
     
     
-    [self setNotificationForDate:fireDate message:routeNotif.body userInfo:userInfo];
+    [self setNotificationForDate:fireDate message:routeNotif.body userInfo:userInfo showNotifInController:controller];
 }
 
 -(NSArray *)getAllRouteNotifications {

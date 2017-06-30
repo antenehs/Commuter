@@ -248,12 +248,17 @@ typedef enum : NSUInteger {
 #pragma mark - Route search
 -(void)searchRouteForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options andCompletionBlock:(ActionBlock)completionBlock {
     
-    NSString *queryString = [self routeGraphQlQueryForFromCoords:fromCoords andToCoords:toCoords withOptions:options];
-    
-    if (!queryString) {
-        completionBlock(nil, @"No Coords");
+    if (![ReittiMapkitHelper isValidCoordinate:fromCoords]) {
+        completionBlock(nil, @"Invalid from location.");
         return;
     }
+    
+    if (![ReittiMapkitHelper isValidCoordinate:toCoords]) {
+        completionBlock(nil, @"Invalid to location.");
+        return;
+    }
+    
+    NSString *queryString = [self routeGraphQlQueryForFromCoords:fromCoords andToCoords:toCoords withOptions:options];
     
     [super doGraphQlQuery:queryString mappingDiscriptor:[DigiPlan mappingDescriptorForPath:@"data.plan.itineraries"] andCompletionBlock:^(NSArray *digiRoutes, NSError *error){
         if (!error && digiRoutes && digiRoutes.count > 0) {
@@ -274,8 +279,6 @@ typedef enum : NSUInteger {
 }
 
 -(NSString *)routeGraphQlQueryForFromCoords:(CLLocationCoordinate2D)fromCoords andToCoords:(CLLocationCoordinate2D)toCoords withOptions:(RouteSearchOptions *)options {
-    if (![ReittiMapkitHelper isValidCoordinate:fromCoords] || ![ReittiMapkitHelper isValidCoordinate:toCoords])
-        return nil;
     
     NSMutableDictionary *arguments = [@{@"from" : @{@"lat": [NSNumber numberWithDouble:fromCoords.latitude], @"lon": [NSNumber numberWithDouble:fromCoords.longitude]},
                                 @"to" : @{@"lat": [NSNumber numberWithDouble:toCoords.latitude], @"lon": [NSNumber numberWithDouble:toCoords.longitude]}} mutableCopy];

@@ -38,8 +38,8 @@
 #import "MigrationViewController.h"
 #import "MappingExtensions.h"
 #import "JPSThumbnailAnnotationView.h"
-
-#import <StoreKit/StoreKit.h>
+#import "ReittiLocationManager.h"
+#import "SwiftHeaders.h"
 
 @import Firebase;
 
@@ -115,12 +115,15 @@ CGFloat  kDeparturesRefreshInterval = 10;
     [self initViewComponents];
     
     if ([AppManager isNewInstallOrNewVersion]) {
-        if ([AppManager isNewInstall]) {
-            //Only for this hot fix version. dont show for upgrade case since it is just shown
-//            [self performSegueWithIdentifier:@"showWelcomeView" sender:self];
-//            isShowingWelcomeView = YES;
-        } else {
-            [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
+        if (![AppManager isNewInstall]) {
+            if ([AppManager isPreDigiTransitVersion]) {
+                [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
+            } else {
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[NewInVersionViewController generateNewInVersionVc]];
+                [self presentViewController:navController animated:YES completion:nil];
+            }
+            
+            isShowingWelcomeView = YES;
             
             //Do this only once for this version. To clean change in device id
             [[ICloudManager sharedManager] deleteAllRecordsWithCompletion:^(NSString *error){}];
@@ -147,39 +150,41 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 -(void)showRateAppNotification {
     [self asa_ExecuteBlockInUIThread:^{
-        appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
+        [ReittiNotificationHelper showRateAppNotificationInController:self];
         
-        if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
-        
-        if ([SKStoreReviewController class]) {
-            [SKStoreReviewController requestReview];
-            [AppManager setAppOpenCountForRating:-8];
-            return;
-        }
-        
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
-                                                                       message:@"The gift of 5 little starts is satisfying for both of us more than you think."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
-                                                                  [AppManager setAppOpenCountForRating:-50];
-                                                                  
-                                                              }];
-        
-        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
-                                                            handler:^(UIAlertAction * action) {
-                                                                [AppManager setAppOpenCountForRating:-8];
-                                                            }];
-        
-        [alert addAction:laterAction];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+//        appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
+//        
+//        if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
+//        
+//        if ([SKStoreReviewController class]) {
+//            [SKStoreReviewController requestReview];
+//            [AppManager setAppOpenCountForRating:-8];
+//            return;
+//        }
+//        
+//        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
+//                                                                       message:@"The gift of 5 little starts is satisfying for both of us more than you think."
+//                                                                preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
+//                                                              handler:^(UIAlertAction * action) {
+//                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
+//                                                                  [AppManager setAppOpenCountForRating:-50];
+//                                                                  
+//                                                              }];
+//        
+//        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
+//                                                            handler:^(UIAlertAction * action) {
+//                                                                [AppManager setAppOpenCountForRating:-8];
+//                                                            }];
+//        
+//        [alert addAction:laterAction];
+//        [alert addAction:defaultAction];
+//        [self presentViewController:alert animated:YES completion:nil];
     }];
 }
 
--(void)showGoProNotification{
+-(void)showGoProNotification {
     if ([AppManager getAndIncrimentAppOpenCountForGoingPro] < 8)
         return;
     
@@ -889,8 +894,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
     }
     
     CGSize tableContentSize = nearbyStopsListsTable.contentSize;
-    //The 5 is to compensate for area above tableview
-    if (self.nearbyStopViewTopSpacing < (self.viewVisibleHeight - tableContentSize.height - 5)) {
+
+    if (self.nearbyStopViewTopSpacing < (self.viewVisibleHeight - tableContentSize.height)) {
         [self setNearbyStopsViewTopSpacing:self.viewVisibleHeight - tableContentSize.height animated:YES];
     }
 }
@@ -909,14 +914,12 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 -(CGFloat)searchViewLowerBound {
     CGSize tableContentSize = nearbyStopsListsTable.contentSize;
-    //The 5 is to compensate for area above tableview
-    return self.viewVisibleHeight - MIN(tableContentSize.height + 5, kMinHeightForListTableView);
+    return self.viewVisibleHeight - MIN(tableContentSize.height, kMinHeightForListTableView);
 }
 
 -(CGFloat)searchViewUpperBound {
-        CGSize tableContentSize = nearbyStopsListsTable.contentSize;
-    //The 5 is to compensate for area above tableview
-        return MAX(self.viewVisibleHeight - tableContentSize.height + 5, kMinTopSpaceForListTableView);
+    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    return MAX(self.viewVisibleHeight - tableContentSize.height, kMinTopSpaceForListTableView);
 }
 
 -(void)showStopFetchActivityIndicator:(NSNumber *)show{
@@ -1130,7 +1133,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
     
     BOOL toReturn = YES;
     
-    if (![self isLocationServiceAvailableWithNotification:NO]) {
+    if (![ReittiLocationManager isLocationServiceAvailableWithMessage:NO showMessageIn:self]) {
         coordinate = [ReittiRegionManager getCoordinateForRegion:[settingsManager userLocation]];
         
         toReturn = NO;
@@ -1164,41 +1167,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
     return toReturn;
 }
 
--(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify {
-    BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
-    
-    if (!locationServicesEnabled) {
-        if (notify) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                                message:@"Looks like location services is not enabled. Enable it from Settings."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:@"Settings", nil];
-            alertView.tag = 2003;
-            [alertView show];
-        }
-        
-        return NO;
-    }
-    
-    if (!accessGranted) {
-        if (notify) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                                message:@"Looks like access is not granted to this app for location services. Grant access from Settings."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:@"Settings", nil];
-            alertView.tag = 2003;
-            [alertView show];
-        }
-    
-        return NO;
-    }
-    
-    return YES;
-}
-
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     self.currentUserLocation = [locations lastObject];
     if (centerMap) {
@@ -1218,14 +1186,19 @@ CGFloat  kDeparturesRefreshInterval = 10;
                 if (![AppManager isNewInstallOrNewVersion]) {
                     NSString *title = [NSString stringWithFormat:@"Moved to the %@ region?",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
                     NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@ region. You can change it anytime from settings.",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
+                    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                                        message:body
+                                                                                 preferredStyle:UIAlertControllerStyleAlert];
                     
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                                        message:body
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"Settings"
-                                                              otherButtonTitles:@"Cool", nil];
-                    alertView.tag = 1003;
-                    [alertView show];
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Cool" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) { }];
+                    [controller addAction:okAction];
+                    
+                    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        [self openSettingsButtonPressed:self];
+                    }];
+                    [controller addAction:settingsAction];
+                    
+                    [self presentViewController:controller animated:YES completion:nil];
                 }
             }else{
                 [settingsManager setUserLocation:FINRegion];
@@ -1994,7 +1967,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 #pragma - mark IBActions
 -(IBAction)centerCurrentLocationButtonPressed:(id)sender {
-    [self isLocationServiceAvailableWithNotification:YES];
+    [ReittiLocationManager isLocationServiceAvailableWithMessage:YES showMessageIn:self];
     
     if (currentLocationButton.tag == kNormalCurrentLocationButtonTag) {
         [self centerMapRegionToCoordinate:self.currentUserLocation.coordinate];
@@ -2052,24 +2025,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
     [self dropAnnotation:coordinate];
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 1001) {
-//        if (buttonIndex == 0) {
-//            [self.reittiDataManager setAppOpenCountValue:-7];
-//        }else if(buttonIndex == 1){
-//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreLink]]];
-//            [self.reittiDataManager setAppOpenCountValue:-50];
-//        }
-    }else if (alertView.tag == 1003) {
-        if (buttonIndex == 0) {
-            [self openSettingsButtonPressed:self];
-        }
-    }else if (alertView.tag == 2003) {
-        if (buttonIndex == 1) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        }
-    }
-}
 /*
 -(IBAction)dragStopView:(UIPanGestureRecognizer *)recognizer {
     

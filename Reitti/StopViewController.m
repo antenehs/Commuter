@@ -258,9 +258,27 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (IBAction)BookmarkButtonPressed:(id)sender {
     if (stopBookmarked) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to delete your bookmark?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
-        actionSheet.tag = 1001;
-        [actionSheet showInView:self.view];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to delete your bookmark?", @"Are you sure you want to delete your bookmark?")
+                                                                            message:nil
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * _Nonnull action) { }];
+        
+        [controller addAction:cancelAction];
+        
+        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                               style:UIAlertActionStyleDestructive
+                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                 [self setStopNotBookmarkedState];
+                                                                 NSString *code = self._busStop ? self._busStop.gtfsId : self.stopGtfsId;
+                                                                 [[StopCoreDataManager sharedManager] deleteSavedStopForCode:code];
+                                                                 [delegate deletedSavedStop:self.stopEntity];
+                                                             }];
+        
+        [controller addAction:deleteAction];
+        [self presentViewController:controller animated:YES completion:nil];
         
     }else{
         [[StopCoreDataManager sharedManager] saveToCoreDataStop:self._busStop];
@@ -279,27 +297,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 -(IBAction)showFullTimeTable:(id)sender{
     [self performSegueWithIdentifier:@"seeFullTimeTable" sender:self];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == 1001) {
-        if (buttonIndex == 0) {
-            
-            [self setStopNotBookmarkedState];
-            NSString *code = self._busStop ? self._busStop.gtfsId : self.stopGtfsId;
-            [[StopCoreDataManager sharedManager] deleteSavedStopForCode:code];
-            [delegate deletedSavedStop:self.stopEntity];
-        }
-    }
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 1005){
-        if (buttonIndex == 1) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        }
-    }
 }
 
 #pragma mark - Peek and Pop actions support
@@ -629,6 +626,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             ActionGenerator actionGenerator = ^(int minutes){
                 return ^(UIAlertAction *alertAction) {
                     [self setReminderForDeparture:departure Offset:minutes];
+                    [cell hideUtilityButtonsAnimated:YES];
                     
                     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSetDepartureReminder label:[NSString stringWithFormat:@"%d min", minutes] value:nil];
                 };
@@ -640,7 +638,9 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             UIAlertAction *action15min = [UIAlertAction actionWithTitle:@"15 min before" style:UIAlertActionStyleDefault handler:actionGenerator(15)];
             UIAlertAction *action30min = [UIAlertAction actionWithTitle:@"30 min before" style:UIAlertActionStyleDefault handler:actionGenerator(30)];
             
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction){}];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *alertAction){
+                [cell hideUtilityButtonsAnimated:YES];
+            }];
             
             [alertController addAction:action1min];
             [alertController addAction:action5min];
@@ -659,9 +659,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             
             [alertController addAction:cancelAction];
             
+            CGRect cellRect = cell.frame;
+            cellRect.size.width = 100;
+            alertController.popoverPresentationController.sourceView = departuresTable;
+            alertController.popoverPresentationController.sourceRect = cellRect;
             [self presentViewController:alertController animated:YES completion:nil];
-            
-            [cell hideUtilityButtonsAnimated:YES];
         }
             break;
         default:
@@ -670,7 +672,10 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 -(void)setReminderForDeparture:(StopDeparture *)departure Offset:(int)offset {
-    [[ReittiRemindersManager sharedManger] setNotificationForDeparture:departure inStop:self._busStop offset:offset];
+    [[ReittiRemindersManager sharedManger] setNotificationForDeparture:departure
+                                                                inStop:self._busStop
+                                                                offset:offset
+                                                 showNotifInController:self];
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state{

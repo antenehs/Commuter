@@ -72,6 +72,10 @@ typedef void(^SearchCompletionBlock)(NSArray *stops, NSError *error, ReittiApi f
 -(void)viewDidAppear:(BOOL)animated {
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
     
+    [self doMigration];
+}
+
+- (void)doMigration {
     [self migrateStopToDigiTransitApiWithCompletion:^(NSArray *invalidStops, NSArray *validStops) {
         
         if (invalidStops.count > 0) {

@@ -7,6 +7,7 @@
 //
 
 #import "ReittiLocationManager.h"
+#import "ReittiNotificationHelper.h"
 
 @interface ReittiLocationManager () <CLLocationManagerDelegate> {
     BOOL skipUserLocation;
@@ -55,6 +56,46 @@
     }
     
     skipUserLocation = NO;
+}
+
++(BOOL)isLocationServiceAvailableWithMessage:(bool)showMessage showMessageIn:(UIViewController *)viewController {
+    BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
+    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
+    NSString *messageTitle, *messageBody;
+    
+    ShowMessageBlock showMessageBlock = ^(NSString *messageTitle, NSString *messageBody) {
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:messageTitle message:messageBody preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) { }];
+        
+        [controller addAction:okAction];
+        
+        UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        }];
+        
+        [controller addAction:settingsAction];
+        
+        [viewController presentViewController:controller animated:YES completion:nil];
+    };
+    
+    if (!locationServicesEnabled) {
+        messageTitle = @"Looks like location services is not enabled";
+        messageBody = @"Enable it from Settings/Privacy/Location Services.";
+        showMessageBlock(messageTitle, messageBody);
+        
+        return NO;
+    }
+    
+    if (!accessGranted) {
+        messageTitle = @"Looks like access is not granted to this app for location services.";
+        messageBody = @"Grant access from Settings/Privacy/Location Services.";
+        showMessageBlock(messageTitle, messageBody);
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

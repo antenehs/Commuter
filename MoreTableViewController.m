@@ -17,6 +17,7 @@
 #import "ReittiConfigManager.h"
 #import "MainTabBarController.h"
 #import "ASA_Helpers.h"
+#import "SwiftHeaders.h"
 
 @interface MoreTableViewController ()
 
@@ -118,7 +119,7 @@
     aboutCommuterRow = numberOfCommuterRows++;
     translateRow = appTranslateUrl ? numberOfCommuterRows++ : -1;
     goProRow = ![AppManager isProVersion] ? numberOfCommuterRows++ : -1;
-//    newInVersionRow = numberOfCommuterRows++;
+    newInVersionRow = numberOfCommuterRows++;
     contactMeRow = numberOfCommuterRows++;
     rateInAppStoreRow = numberOfCommuterRows++;
     shareRow = numberOfCommuterRows++;;
@@ -236,6 +237,11 @@
             [[UIApplication sharedApplication] openURL:appTranslateUrl];
             [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedTranslateCell label:@"" value:nil];
         }
+        
+        if (indexPath.row == newInVersionRow) {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[NewInVersionViewController generateNewInVersionVc]];
+            [self presentViewController:navController animated:YES completion:nil];
+        }
     }
 }
 
@@ -270,17 +276,52 @@
 #pragma mark - ibactions
 
 - (IBAction)contactUsButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Feel free to contact me for anything, even just to say hi!" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Request A Feature", @"Request A Feature"), NSLocalizedString(@"Report A Bug", @"Report A Bug"), NSLocalizedString(@"Say Hi!", @"Say Hi!"), nil];
-    //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-    actionSheet.tag = 1002;
-    [actionSheet showInView:self.view];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Feel free to contact me for anything, even just to say hi!"
+                                                                        message:nil
+                                                                 preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:cancelAction];
+    
+    UIAlertAction *firstAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Request A Feature", @"Request A Feature")
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            [self sendFeatureRequestEmail];
+                                                        }];
+    
+    [controller addAction:firstAction];
+    
+    UIAlertAction *secondAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Report A Bug", @"Report A Bug")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                             [self sendBugReportEmail];
+                                                         }];
+    
+    [controller addAction:secondAction];
+    
+    UIAlertAction *thirdAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Say Hi!", @"Say Hi!")
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            [self sendHiEmail];
+                                                        }];
+    
+    [controller addAction:thirdAction];
+    
+    CGRect contactMeCellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:contactMeRow inSection:commuterSection]];
+    controller.popoverPresentationController.sourceView = self.tableView;
+    controller.popoverPresentationController.sourceRect = contactMeCellRect;
+    
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (IBAction)shareButtonPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"They say sharing is caring, right?." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Share on Facebook",@"Share on Twitter", nil];
-    //actionSheet.tintColor = SYSTEM_GRAY_COLOR;
-    actionSheet.tag = 1001;
-    [actionSheet showInView:self.view];
+    CGRect shareCellRect = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:shareRow inSection:commuterSection]];
+    CGRect translated = [self.view convertRect:shareCellRect fromView:self.tableView];
+    [[ReittiEmailAndShareManager sharedManager] showShareSheetOnViewController:self atRect:translated];
+    
 }
 
 - (IBAction)rateInAppStoreButtonPressed:(id)sender {
@@ -313,37 +354,6 @@
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSelectedMatkakorttiMonitor label:@"Twitter" value:nil];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (actionSheet.tag == 1002){
-        switch (buttonIndex) {
-            case 0:
-                [self sendFeatureRequestEmail];
-                break;
-            case 1:
-                [self sendBugReportEmail];
-                break;
-            case 2:
-                [self sendHiEmail];
-                break;
-            default:
-                break;
-        }
-    }else{
-        switch (buttonIndex) {
-            case 0:
-                [self postToFacebook];
-                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedShareButton label:@"Facebook" value:nil];
-                break;
-            case 1:
-                [self postToTwitter];
-                [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionTappedShareButton label:@"Twitter" value:nil];
-                break;
-            default:
-                break;
-        }
-    }
-}
-
 - (void)sendFeatureRequestEmail{
     MFMailComposeViewController *mc = [[ReittiEmailAndShareManager sharedManager] mailComposeVcForFeatureRequestEmail];
     mc.mailComposeDelegate = self;
@@ -372,42 +382,7 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)postToFacebook {
-    if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        
-        SLComposeViewController *controller = [[ReittiEmailAndShareManager sharedManager] slComposeVcForFacebook];
-        
-        [self presentViewController:controller animated:YES completion:Nil];
-        
-    }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't post to Facebook right now. Make sure your device has an internet connection and you have at least one Facebook account setup"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-}
-
-- (void)postToTwitter {
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
-    {
-        SLComposeViewController *tweetSheet = [[ReittiEmailAndShareManager sharedManager] slComposeVcForTwitter];
-        [self presentViewController:tweetSheet animated:YES completion:nil];
-    }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                            message:@"You can't send a tweet right now. Make sure your device has an internet connection and you have at least one Twitter account setup"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-}
-
 -(void)goToProVersionInAppStore {
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
-//    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionGoToProVersionAppStore label:@"More View" value:nil];
-    
     [self performSegueWithIdentifier:@"viewProFeatures" sender:self];
 }
 

@@ -1169,11 +1169,14 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     
     [alertController addAction:cancelAction];
     
+    alertController.popoverPresentationController.barButtonItem = self.navigationItem.rightBarButtonItem;
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)setReminderForRouteWithOfset:(int)offset {
-    [[ReittiRemindersManager sharedManger] setNotificationForRoute:self.route withMinOffset:offset];
+    [[ReittiRemindersManager sharedManger] setNotificationForRoute:self.route
+                                                     withMinOffset:offset
+                                             showNotifInController:self];
 }
 
 -(void)swipeToLeftDetected:(id)sender{

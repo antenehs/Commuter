@@ -12,6 +12,7 @@
 #import "AppManager.h"
 #import "RouteSearchViewController.h"
 #import "ReittiStringFormatter.h"
+#import "ReittiLocationManager.h"
 
 @interface ServicePointsViewController ()
 
@@ -78,39 +79,6 @@
     }
     
     skipUserLocation = NO;
-}
-
--(BOOL)isLocationServiceAvailableWithNotification:(BOOL)notify{
-    BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
-    
-    if (!locationServicesEnabled) {
-        if (notify) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                                message:@"Looks like location services is not enabled. Enable it from Settings/Privacy/Location Services to get nearby stops suggestions."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        }
-        
-        return NO;
-    }
-    
-    if (!accessGranted) {
-        if (notify) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh-Oh"
-                                                                message:@"Looks like access is not granted to this app for location services. Grant access from Settings/Privacy/Location Services to get nearby stops suggestions."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        }
-        
-        return NO;
-    }
-    
-    return YES;
 }
 
 -(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coord{
@@ -216,7 +184,7 @@
 
 #pragma mark - IB Actions
 - (IBAction)currentLocationButtonTapped:(id)sender {
-    if (![self isLocationServiceAvailableWithNotification:YES])
+    if (![ReittiLocationManager isLocationServiceAvailableWithMessage:YES showMessageIn:self])
         return;
     
     if (mainMapView.userLocation.location != nil) {

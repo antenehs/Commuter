@@ -425,7 +425,7 @@
         }
     }else{
         if ([nameTextView.text isEqualToString:@""]){
-            [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Name field cannot be empty", @"Name field cannot be empty") andContent:nil];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Name field cannot be empty", @"Name field cannot be empty") andContent:nil inController:self];
             return;
         }
         
@@ -450,13 +450,17 @@
                     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionCreatedNewNamedBookmark label:newBookmarkData.name value:allBookmarks ? [NSNumber numberWithInteger:allBookmarks.count] : @0];
                 }];
             }else{
-                [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
+                [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already")
+                                                          andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")
+                                                        inController:self];
             }
         }else if (viewControllerMode == ViewControllerModeEditAddress){
             
             if (self.geoCode != nil) { //IS creating a new named bookmark from GEOCODE
                 if ([[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:newBookmarkData.name]){
-                    [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
+                    [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already")
+                                                              andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")
+                                                            inController:self];
                 }else{
                     self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] saveNamedBookmarkToCoreData:newBookmarkData];
                     dataSaved = YES;
@@ -470,7 +474,9 @@
                 }else{
                     //name is modified, ask for overwrite confirmation
                     if ([[NamedBookmarkCoreDataManager sharedManager] doesNamedBookmarkExistWithName:newBookmarkData.name]){
-                        [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already") andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")];
+                        [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Bookmark with the name exists already", @"Bookmark with the name exists already")
+                                                                  andContent:NSLocalizedString(@"Please give another name.", @"Please give another name.")
+                                                                inController:self];
                     }else{
                         self.namedBookmark = [[NamedBookmarkCoreDataManager sharedManager] saveNamedBookmarkToCoreData:newBookmarkData];
                         dataSaved = YES;
@@ -487,28 +493,28 @@
 }
 
 - (IBAction)deleteBookmarkButtonPressed:(id)sender {
-    if (viewControllerMode == ViewControllerModeEditAddress){
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to delete your bookmark?", @"Are you sure you want to delete your bookmark?")
-                                                                 delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Delete", @"Delete")
-                                                        otherButtonTitles:nil];
-        actionSheet.tag = 1001;
-        [actionSheet showInView:self.view];
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == 1001) {
-        if (buttonIndex == 0) {
-            if (self.namedBookmark != nil) {
-                [[NamedBookmarkCoreDataManager sharedManager] deleteNamedBookmarkForName:self.namedBookmark.name];
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-        }
-    }else{
+    if (viewControllerMode == ViewControllerModeEditAddress){        
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to delete your bookmark?", @"Are you sure you want to delete your bookmark?")
+                                                                            message:nil
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
         
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) { }];
+        
+        [controller addAction:cancelAction];
+        
+        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                           style:UIAlertActionStyleDestructive
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                             if (self.namedBookmark != nil) {
+                                                                 [[NamedBookmarkCoreDataManager sharedManager] deleteNamedBookmarkForName:self.namedBookmark.name];
+                                                                 [self dismissViewControllerAnimated:YES completion:nil];
+                                                             }
+        }];
+        
+        [controller addAction:deleteAction];
+        [self presentViewController:controller animated:YES completion:nil];
     }
 }
 

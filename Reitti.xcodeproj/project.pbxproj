@@ -482,6 +482,14 @@
 		66780D961C5409F800C838AA /* ServicePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D921C5409F800C838AA /* ServicePoint.m */; };
 		66780D971C5409F800C838AA /* Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D931C5409F800C838AA /* Attributes.m */; };
 		66780DBF1C553E8D00C838AA /* ReittiEmailAndShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */; };
+		66785FFD1F05BC2400D3E3CB /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66785FFC1F05BC2400D3E3CB /* TutorialViewController.swift */; };
+		66785FFE1F05BC2400D3E3CB /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66785FFC1F05BC2400D3E3CB /* TutorialViewController.swift */; };
+		667860041F05BD3500D3E3CB /* OnboardingContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667860011F05BD3500D3E3CB /* OnboardingContentViewController.m */; };
+		667860051F05BD3500D3E3CB /* OnboardingContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667860011F05BD3500D3E3CB /* OnboardingContentViewController.m */; };
+		667860061F05BD3500D3E3CB /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667860031F05BD3500D3E3CB /* OnboardingViewController.m */; };
+		667860071F05BD3500D3E3CB /* OnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667860031F05BD3500D3E3CB /* OnboardingViewController.m */; };
+		667860091F05C21100D3E3CB /* MiscImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667860081F05C21100D3E3CB /* MiscImages.xcassets */; };
+		6678600A1F05CC1700D3E3CB /* MiscImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667860081F05C21100D3E3CB /* MiscImages.xcassets */; };
 		6679ADC819C1CA3700DD38DD /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */; };
 		667B980C1AD07AC600C45ADF /* ReittiRemindersManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B980B1AD07AC600C45ADF /* ReittiRemindersManager.m */; };
 		667B98111AD3261100C45ADF /* AddressTypeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 667B98101AD3261100C45ADF /* AddressTypeList.plist */; };
@@ -1813,6 +1821,12 @@
 		66780D951C5409F800C838AA /* ServicePoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePoint.h; sourceTree = "<group>"; };
 		66780DBD1C553E8D00C838AA /* ReittiEmailAndShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiEmailAndShareManager.h; sourceTree = "<group>"; };
 		66780DBE1C553E8D00C838AA /* ReittiEmailAndShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiEmailAndShareManager.m; sourceTree = "<group>"; };
+		66785FFC1F05BC2400D3E3CB /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		667860001F05BD3500D3E3CB /* OnboardingContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingContentViewController.h; sourceTree = "<group>"; };
+		667860011F05BD3500D3E3CB /* OnboardingContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingContentViewController.m; sourceTree = "<group>"; };
+		667860021F05BD3500D3E3CB /* OnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingViewController.h; sourceTree = "<group>"; };
+		667860031F05BD3500D3E3CB /* OnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnboardingViewController.m; sourceTree = "<group>"; };
+		667860081F05C21100D3E3CB /* MiscImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MiscImages.xcassets; sourceTree = "<group>"; };
 		6679ADC619C1CA3700DD38DD /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		6679ADC719C1CA3700DD38DD /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteDetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		667B980A1AD07AC600C45ADF /* ReittiRemindersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiRemindersManager.h; sourceTree = "<group>"; };
@@ -2749,6 +2763,7 @@
 				664749DD1AE59CD70050137E /* VersionInfoViewController.m */,
 				66F0999F1AEC4F5D00F20D34 /* WelcomeViewController.h */,
 				66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */,
+				66785FFC1F05BC2400D3E3CB /* TutorialViewController.swift */,
 				669602B11B1224B3006919CB /* TabBarViewController.h */,
 				669602B21B1224B3006919CB /* TabBarViewController.m */,
 				66780D861C54088100C838AA /* ServicePointsViewController.h */,
@@ -3122,6 +3137,17 @@
 			name = "Service Points";
 			sourceTree = "<group>";
 		};
+		66785FFF1F05BD0300D3E3CB /* OnboardingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				667860001F05BD3500D3E3CB /* OnboardingContentViewController.h */,
+				667860011F05BD3500D3E3CB /* OnboardingContentViewController.m */,
+				667860021F05BD3500D3E3CB /* OnboardingViewController.h */,
+				667860031F05BD3500D3E3CB /* OnboardingViewController.m */,
+			);
+			name = OnboardingViewController;
+			sourceTree = "<group>";
+		};
 		66822F5E1C24688C00511BD2 /* Stops */ = {
 			isa = PBXGroup;
 			children = (
@@ -3338,6 +3364,7 @@
 				6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */,
 				6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */,
 				660716031B45E28C00033049 /* Version 4.1 */,
+				667860081F05C21100D3E3CB /* MiscImages.xcassets */,
 			);
 			name = Pictures;
 			sourceTree = "<group>";
@@ -3571,6 +3598,7 @@
 		66CA02BB1C163CB200A38858 /* View Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				66785FFF1F05BD0300D3E3CB /* OnboardingViewController */,
 				66F1F4901EF1E845004174D0 /* MapViewProtocols.h */,
 				665BA1AB1CAAE8F80091C180 /* Custom views */,
 				660D312D1C36FC080051DDAA /* CollectionViewLayout */,
@@ -4393,6 +4421,7 @@
 				6605798A1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				663589BC1ED0E227006721EA /* ServicePoints.storyboard in Resources */,
 				660716171B49CBFA00033049 /* logoutJS.js in Resources */,
+				667860091F05C21100D3E3CB /* MiscImages.xcassets in Resources */,
 				66B391A01D206CE100C500CC /* OlderImages.xcassets in Resources */,
 				660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */,
 				664FE8B31ECBB20D00C3C0B5 /* BikesQueryFragment.graphql in Resources */,
@@ -4473,6 +4502,7 @@
 				66C734081C556DA5002544BC /* Transport.xib in Resources */,
 				66C7340A1C556DA5002544BC /* trench100free.otf in Resources */,
 				66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */,
+				6678600A1F05CC1700D3E3CB /* MiscImages.xcassets in Resources */,
 				66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */,
 				66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */,
 				66C734231C556DA5002544BC /* Bar Chart-100.png in Resources */,
@@ -5150,6 +5180,7 @@
 				66833D271CEE4685005D958C /* DigiTransitCommunicator.m in Sources */,
 				66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */,
 				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
+				66785FFD1F05BC2400D3E3CB /* TutorialViewController.swift in Sources */,
 				66997AA31ED1676E00B206D4 /* DigiVehicle.m in Sources */,
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
@@ -5182,6 +5213,7 @@
 				666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */,
 				660547DB1EDE78CD00826F40 /* NSDictionary+Helper.m in Sources */,
 				660579841E11DF0200F3559E /* DigiRoute.m in Sources */,
+				667860041F05BD3500D3E3CB /* OnboardingContentViewController.m in Sources */,
 				6665D7841C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */,
 				665B6B731CDF8A9500E1C6CB /* BikeStation.m in Sources */,
 				66833D5B1CF8F427005D958C /* DigiPlan.m in Sources */,
@@ -5370,6 +5402,7 @@
 				660715FF1B45CD2C00033049 /* Tickets.m in Sources */,
 				66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */,
 				66CA02B91C1637AB00A38858 /* HSLAndTRECommon.m in Sources */,
+				667860061F05BD3500D3E3CB /* OnboardingViewController.m in Sources */,
 				661202C21B04F01E00D93C2E /* PubTransCommunicator.m in Sources */,
 				663465AF1ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				664E28841ADAC1E400BE2457 /* TRECommunication.m in Sources */,
@@ -5439,6 +5472,7 @@
 				66C732E01C556DA5002544BC /* ReittiSearchManager.m in Sources */,
 				66C732E11C556DA5002544BC /* MultiSelectTableViewController.m in Sources */,
 				66C732E21C556DA5002544BC /* VersionInfoViewController.m in Sources */,
+				66785FFE1F05BC2400D3E3CB /* TutorialViewController.swift in Sources */,
 				66997AA41ED1676E00B206D4 /* DigiVehicle.m in Sources */,
 				66C732E31C556DA5002544BC /* APIClient.m in Sources */,
 				663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,
@@ -5471,6 +5505,7 @@
 				66C732F41C556DA5002544BC /* ToneSelectorTableViewController.m in Sources */,
 				660547DC1EDE78CD00826F40 /* NSDictionary+Helper.m in Sources */,
 				660579851E11DF0200F3559E /* DigiRoute.m in Sources */,
+				667860051F05BD3500D3E3CB /* OnboardingContentViewController.m in Sources */,
 				66C732F51C556DA5002544BC /* UITableView+Helper.m in Sources */,
 				665B6B741CDF929800E1C6CB /* BikeStation.m in Sources */,
 				66833D5C1CF8F427005D958C /* DigiPlan.m in Sources */,
@@ -5659,6 +5694,7 @@
 				66C733771C556DA5002544BC /* Tickets.m in Sources */,
 				66C733781C556DA5002544BC /* GCThumbnailAnnotationView.m in Sources */,
 				66C733791C556DA5002544BC /* HSLAndTRECommon.m in Sources */,
+				667860071F05BD3500D3E3CB /* OnboardingViewController.m in Sources */,
 				66C7337A1C556DA5002544BC /* PubTransCommunicator.m in Sources */,
 				663465B01ECD08E0004B8AAF /* ReittiMapping.m in Sources */,
 				66C7337C1C556DA5002544BC /* TRECommunication.m in Sources */,

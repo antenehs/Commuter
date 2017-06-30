@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ReittiStringFormatter.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

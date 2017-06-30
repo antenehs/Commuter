@@ -12,9 +12,11 @@
 
 NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
 
-@interface ReittiEmailAndShareManager ()
+@interface ReittiEmailAndShareManager () <UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, strong)SettingsManager *settingsManager;
+@property (nonatomic, weak)UIViewController *shareSheetPresenterController;
+@property (nonatomic)CGRect shareSheetShowingRect;
 
 @end
 
@@ -61,6 +63,23 @@ NSString *ewketAppsEmailAddress = @"ewketapps@gmail.com";
     NSString *subject = [NSString stringWithFormat:@"[%@ - Hi] - ", [AppManager appFullName]];
     
     return [self basicMaincomposeVcWithSubject:subject];
+}
+
+-(void)showShareSheetOnViewController:(UIViewController *)controller atRect:(CGRect)rect{
+    NSString *text = @"All the tool you need for conquering public transport in Finland. Try it out.";
+    NSString *link = [AppManager appAppstoreLink];
+    
+    UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[text, link] applicationActivities:@[]];
+    vc.popoverPresentationController.delegate = self;
+
+    [controller presentViewController:vc animated:YES completion:nil];
+    self.shareSheetPresenterController = controller;
+    self.shareSheetShowingRect = rect;
+}
+
+-(void)prepareForPopoverPresentation:(UIPopoverPresentationController *)popoverPresentationController {
+    popoverPresentationController.sourceView = self.shareSheetPresenterController.view;
+    popoverPresentationController.sourceRect = self.shareSheetShowingRect;
 }
 
 -(SLComposeViewController *)slComposeVcForFacebook{

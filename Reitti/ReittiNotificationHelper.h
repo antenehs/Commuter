@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^ShowMessageBlock)(NSString *title, NSString *body);
+
 @interface ReittiNotificationHelper : NSObject
 
-+(void)showSimpleMessageWithTitle:(NSString *)title andContent:(NSString *)content;
-+(void)showSimpleMessageWithTitle:(NSString *)title content:(NSString *)content andDelegate:(id)delegate otherButtonName:(NSString *)otherButtonName;
++(void)showRateAppNotificationInController:(UIViewController *)viewController;
+
++(void)showSimpleMessageWithTitle:(NSString *)title andContent:(NSString *)content inController:(UIViewController *)viewController;
 
 +(void)showSuccessBannerMessage:(NSString *)title andContent:(NSString *)content;
 +(void)showErrorBannerMessage:(NSString *)title andContent:(NSString *)content;

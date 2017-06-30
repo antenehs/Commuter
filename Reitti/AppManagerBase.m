@@ -36,7 +36,16 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 
 @implementation AppManagerBase
 
-+(BOOL)isNewInstallOrNewVersion{
+//Only used for pro app for now. Free is still not using digi
++(BOOL)isPreDigiTransitVersion {
+    NSString *previousBundleVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"PreviousBundleVersion"];
+    
+    NSArray *oldVersions = @[@"6", @"5.1.2", @"5.1.1", @"5.1", @"5", @"4", @"3", @"2.1", @"2.0", @"1.0"];
+    
+    return [oldVersions containsObject:previousBundleVersion];
+}
+
++(BOOL)isNewInstallOrNewVersion {
     if ([self isNewInstall])
         return YES;
 
@@ -136,7 +145,7 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 
 +(UIImage *)appVersionPicture{
     if ([self isProVersion])
-        return [UIImage imageNamed:@"versionNumber5"];
+        return [UIImage imageNamed:@"versionNumber6"];
     else
         return [UIImage imageNamed:@"versionNumber5"];
 }

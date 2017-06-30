@@ -22,6 +22,7 @@
 #import "ReittiDateHelper.h"
 #import "WatchCommunicationManager.h"
 #import "CoreDataManagers.h"
+#import "ReittiLocationManager.h"
 
 typedef enum
 {
@@ -467,43 +468,6 @@ typedef enum
     locationManager.delegate = self;
 }
 
--(BOOL)isLocationServiceAvailableWithMessage:(bool)showMessage{
-    BOOL accessGranted = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse;
-//    NSLog(@"%d",[CLLocationManager authorizationStatus]);
-    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
-    
-    if (!locationServicesEnabled) {
-        if(showMessage){
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Looks like location services is not enabled"
-                                                                message:@"Enable it from Settings/Privacy/Location Services to get route searches from current location (which makes your life way easier BTW)."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:@"Settings", nil];
-            alertView.tag = 1243;
-            [alertView show];
-        }
-        
-        return NO;
-    }
-    
-    if (!accessGranted) {
-        if(showMessage){
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Looks like access is not granted to this app for location services."
-                                                                message:@"Grant access from Settings/Privacy/Location Services to get route searches from current location (which makes your life way easier BTW)."
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:@"Settings", nil];
-            alertView.tag = 1243;
-            [alertView show];
-        }
-        
-        return NO;
-    }
-    
-    return YES;
-
-}
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     self.currentUserLocation = [locations lastObject];
     //set from search bar value if it still empty and search route if possible
@@ -714,11 +678,28 @@ typedef enum
 - (IBAction)bookmarkRouteButtonClicked:(id)sender {
     
     if (fromString != nil && fromCoords != nil && toString != nil && toCoords != nil) {
-        if (routeBookmarked) {
-            //unbookmark
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to delete your bookmark?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil];
-            actionSheet.tag = 1001;
-            [actionSheet showInView:self.view];
+        if (routeBookmarked) {            
+            UIAlertController *controller = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to delete your bookmark?", @"Are you sure you want to delete your bookmark?")
+                                                                                message:nil
+                                                                         preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) { }];
+            
+            [controller addAction:cancelAction];
+            
+            UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                                   style:UIAlertActionStyleDestructive
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     [[RouteCoreDataManager sharedManager] deleteSavedRouteForCode:[RouteEntity uniqueRouteNameFor:fromString andToLoc:toString]];
+                                                                     [self setRouteNotBookmarkedState];
+                                                                     
+                                                                     [delegate routeModified];
+                                                                 }];
+            
+            [controller addAction:deleteAction];
+            [self presentViewController:controller animated:YES completion:nil];
         }else{
             [[RouteCoreDataManager sharedManager] saveRouteToCoreData:fromString fromCoords:fromCoords andToLocation:toString andToCoords:toCoords];
             [self setRouteBookmarkedState];
@@ -729,18 +710,6 @@ typedef enum
     }
     
     [self setBookmarkButtonStatus];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == 1001) {
-        if (buttonIndex == 0) {
-            [[RouteCoreDataManager sharedManager] deleteSavedRouteForCode:[RouteEntity uniqueRouteNameFor:fromString andToLoc:toString]];
-            [self setRouteNotBookmarkedState];
-            
-            [delegate routeModified];
-        }
-    }
 }
 
 #pragma mark - search bar methods
@@ -1213,13 +1182,6 @@ typedef enum
 ////    }
 //}
 
-#pragma mark - UIAlertView delegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 1243) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-    }
-}
-
 #pragma mark - address search view controller
 - (void)searchResultSelectedAStop:(StopEntity *)stopEntity{
     [self setTextToSearchBar:activeSearchBar text:stopEntity.busStopName];
@@ -1264,7 +1226,7 @@ typedef enum
 }
 
 -(void)searchResultSelectedCurrentLocation{
-    if ([self isLocationServiceAvailableWithMessage:YES]) {
+    if ([ReittiLocationManager isLocationServiceAvailableWithMessage:YES showMessageIn:self]) {
         if (activeSearchBar == toSearchBar) {
             [self setCurrentLocationIfAvailableToToSearchBar];
         }else{

@@ -32,6 +32,7 @@ extern NSString *kProAppRateAppStoreLink;
 +(void)setCurrentAppVersion;
 +(NSString *)currentAppVersion;
 
++(BOOL)isPreDigiTransitVersion;
 +(BOOL)isProVersion;
 +(BOOL)isDebugMode;
 

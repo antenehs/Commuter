@@ -246,11 +246,9 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
         
         //Message that search term is short
         if (isFinalSearch) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"At least 3 letters, that's the rule.", @"To tell atleast 3 letters is required to search") message:NSLocalizedString(@"The search term is too short. Minimum length is 3.", @"The search term is too short. Minimum length is 3.")
-                                                               delegate:nil
-                                                      cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                                      otherButtonTitles:nil];
-            [alertView show];
+            [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"At least 3 letters, that's the rule.", nil)
+                                                      andContent:NSLocalizedString(@"The search term is too short. Minimum length is 3.", nil)
+                                                    inController:self];
         }
     }
 }
@@ -317,22 +315,16 @@ typedef void(^PendingSearchBlock)(NSString *searchTerm);
 }
 
 -(void)showErrorMessage:(NSString *)errorMessage {
-    UIAlertView *alertView;
     if (errorMessage != nil) {
-        alertView = [[UIAlertView alloc] initWithTitle:errorMessage                                                                                      message:nil
-                                              delegate:nil
-                                     cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                     otherButtonTitles:nil];
-        [alertView show];
+        [ReittiNotificationHelper showSimpleMessageWithTitle:errorMessage
+                                                  andContent:nil
+                                                inController:self];
         
-        [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:errorMessage value:@5];
+        [[ReittiAnalyticsManager sharedManager] trackErrorEventForAction:kActionApiSearchFailed label:errorMessage value:@1];
     }else{
-        alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Looks like there is a free address name.", @"Indicates as search term returned nothing")
-                                               message:NSLocalizedString(@"The search returned nothing for that search term.", @"The search returned nothing for that search term.")
-                                              delegate:nil
-                                     cancelButtonTitle:NSLocalizedString(@"OK", @"OK")
-                                     otherButtonTitles:nil];
-        [alertView show];
+        [ReittiNotificationHelper showSimpleMessageWithTitle:NSLocalizedString(@"Looks like there is a free address name.", @"Indicates as search term returned nothing")
+                                                  andContent:NSLocalizedString(@"The search returned nothing for that search term.", @"The search returned nothing for that search term.")
+                                                inController:self];
     }
 }
 
