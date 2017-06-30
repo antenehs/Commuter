@@ -196,6 +196,8 @@
 		661ABBF0199A924700F93894 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBEF199A924700F93894 /* Route.m */; };
 		661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF2199AABF900F93894 /* RouteLeg.m */; };
 		661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
+		661EC2031F06B8AA00E02C86 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661EC2021F06B8AA00E02C86 /* UserNotifications.framework */; };
+		661EC2041F06B8B900E02C86 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661EC2021F06B8AA00E02C86 /* UserNotifications.framework */; };
 		661FAF25189BA5EB00042074 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
 		661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */; };
 		661FAF2F18A4F2B400042074 /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2E18A4F2B400042074 /* BusStop.m */; };
@@ -1634,6 +1636,7 @@
 		661ABBF2199AABF900F93894 /* RouteLeg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteLeg.m; sourceTree = "<group>"; };
 		661ABBF4199AB04100F93894 /* RouteLegLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegLocation.h; sourceTree = "<group>"; };
 		661ABBF5199AB04100F93894 /* RouteLegLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteLegLocation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		661EC2021F06B8AA00E02C86 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		661FAF23189BA5EB00042074 /* APIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
 		661FAF24189BA5EB00042074 /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
 		661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Reitti.xcdatamodel; sourceTree = "<group>"; };
@@ -2318,6 +2321,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				661EC2041F06B8B900E02C86 /* UserNotifications.framework in Frameworks */,
 				66CF81A51A0EF4F90034C9AB /* Accelerate.framework in Frameworks */,
 				66CB961D18F16ACB00E95CE5 /* EventKit.framework in Frameworks */,
 				66CB961B18F08B8500E95CE5 /* MessageUI.framework in Frameworks */,
@@ -2345,6 +2349,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				661EC2031F06B8AA00E02C86 /* UserNotifications.framework in Frameworks */,
 				66026D8D1D68E56800219AC6 /* AddressBook.framework in Frameworks */,
 				66C733831C556DA5002544BC /* Accelerate.framework in Frameworks */,
 				66C733841C556DA5002544BC /* EventKit.framework in Frameworks */,
@@ -3275,6 +3280,7 @@
 		66947CB418830ED500642EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				661EC2021F06B8AA00E02C86 /* UserNotifications.framework */,
 				66026D8C1D68E56800219AC6 /* AddressBook.framework */,
 				663E1EBB1C949EB200C5543A /* CloudKit.framework */,
 				66CF81A41A0EF4F90034C9AB /* Accelerate.framework */,

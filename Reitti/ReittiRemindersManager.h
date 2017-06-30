@@ -39,7 +39,6 @@ extern NSString *kRoutineNotificationUniqueName;
 
 -(void)cancelNotifications:(NSArray *)notification;
 
-+(BOOL)notificationAccessRequested;
 -(BOOL)isLocalNotificationEnabled;
 -(void)registerNotification;
 

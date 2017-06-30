@@ -114,6 +114,10 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     NSTimeInterval seconds = (minute * -60);
     NSDate *fireDate = [departure.departureTime dateByAddingTimeInterval:seconds];
     
+    //For debug
+//    NSTimeInterval seconds = 10;
+//    NSDate *fireDate = [[NSDate date] dateByAddingTimeInterval:seconds];
+    
     notification.fireDate = fireDate;
     notification.toneName = [self.settingsManager toneName];
     
@@ -323,7 +327,8 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 
 - (UILocalNotification *)createNotificationForRoutine:(RoutineEntity *)routine {
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertTitle = [NSString stringWithFormat:@"Time to go to %@", routine.toDisplayName];
+    localNotification.alertTitle = @"Routine reminder";
+    localNotification.alertBody = [NSString stringWithFormat:@"Time to go to %@", routine.toDisplayName];
     localNotification.alertAction = @"Get route info";
     if (routine.toneName == UILocalNotificationDefaultSoundName) {
         localNotification.soundName = UILocalNotificationDefaultSoundName;
@@ -338,7 +343,7 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
     return localNotification;
 }
 
--(void)scheduleLocalNotification:(UILocalNotification *)notification forDate:(NSDate *)date withRepeat:(NSCalendarUnit)repeat{
+-(void)scheduleLocalNotification:(UILocalNotification *)notification forDate:(NSDate *)date withRepeat:(NSCalendarUnit)repeat {
     notification.repeatInterval = repeat;
     notification.fireDate = date;
     
@@ -347,7 +352,8 @@ NSString *kRoutineNotificationUniqueName = @"kRoutineNotificationUniqueName";
 
 -(void)scheduleOneTimeNotificationForDate:(NSDate *)date message:(NSString *)message userInfo:(NSDictionary *)userInfo {
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.alertTitle = message;
+    localNotification.alertTitle = @"Time to go";
+    localNotification.alertBody = message;
     NSString *toneName = [self.settingsManager toneName];
     if (toneName == UILocalNotificationDefaultSoundName) {
         localNotification.soundName = UILocalNotificationDefaultSoundName;
