@@ -1810,6 +1810,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
     
     StopEntity *stop = [[StopCoreDataManager sharedManager] fetchSavedStopFromCoreDataForCode:code];
     if (!stop)
+        stop = [[StopCoreDataManager sharedManager] fetchStopHistoryFromCoreDataForCode:code];
+    if (!stop)
         return;
     [self openStopViewForCode:code shortCode:stop.busStopShortCode name:stop.busStopName andCoords:[ReittiStringFormatter convertStringTo2DCoord:stop.busStopCoords]];
 }

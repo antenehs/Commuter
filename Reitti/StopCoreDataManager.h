@@ -34,6 +34,7 @@
 -(void)deleteAllHistoryStop;
 
 -(NSArray *)fetchAllSavedStopHistoryFromCoreData;
+-(StopEntity *)fetchStopHistoryFromCoreDataForCode:(NSString *)code;
 
 //Comon
 -(void)updateStopsOrderTo:(NSArray *)orderedObjects;

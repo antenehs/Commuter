@@ -865,7 +865,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="QbN-9l-p3E" kind="show" id="sVZ-fP-35j"/>
+                                            <segue destination="QbN-9l-p3E" kind="show" identifier="selectNotificationTone" id="sVZ-fP-35j"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clearHistoryCell" id="wet-cl-7bD">
@@ -1948,7 +1948,7 @@
             <objects>
                 <navigationController storyboardIdentifier="AddressSearchNavController" navigationBarHidden="YES" id="aME-sU-Pw3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="gMi-Nh-yXe"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="U8j-5q-rgb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="U8j-5q-rgb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2312,7 +2312,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Oiv-6M-ej1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Bookmarks" id="wj5-S2-c7f"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="gwk-VO-EKk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="gwk-VO-EKk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2694,7 +2694,7 @@
             <objects>
                 <navigationController storyboardIdentifier="ASARouteSearchNavigationController" toolbarHidden="NO" id="5jX-TA-pDV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Route" id="BFf-cp-BQ8"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="S98-li-irr">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="S98-li-irr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4874,7 +4874,7 @@ Helsinki, Finland</string>
                 <navigationController title="Home" automaticallyAdjustsScrollViewInsets="NO" id="dE0-re-BB2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" id="RF3-9H-puq"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Bao-eL-rsf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="Bao-eL-rsf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4901,7 +4901,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a6b-PA-9mt" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="t7r-m9-mGG">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="t7r-m9-mGG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4924,7 +4924,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5LJ-Iz-iZd" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="dGn-oD-lCH">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="dGn-oD-lCH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4947,7 +4947,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wBQ-bi-mzN" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="RH4-kH-5oW">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="RH4-kH-5oW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5983,7 +5983,7 @@ Helsinki, Finland</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aTA-lg-F9E" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="B76-rw-PdA"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="1F7-Cq-TtY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="1F7-Cq-TtY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6120,7 +6120,7 @@ Helsinki, Finland</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="09Y-9V-j1w" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Lines" id="FQ5-qi-s6H"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="PWx-Ll-c15">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="PWx-Ll-c15">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6144,7 +6144,7 @@ Helsinki, Finland</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="U8r-B5-g8m" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="Glz-bb-DaU"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6Ca-SF-VbB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="6Ca-SF-VbB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6270,7 +6270,7 @@ Helsinki, Finland</string>
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cmx-42-hGE" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="UZA-c0-qPB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="UZA-c0-qPB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

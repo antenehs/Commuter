@@ -216,9 +216,9 @@
         RouteSearchParameters *searchParams = [[RouteSearchParameters alloc] initWithToLocation:localNotification.userInfo[kRoutineNotificationToName] toCoords:localNotification.userInfo[kRoutineNotificationToCoords] fromLocation:localNotification.userInfo[kRoutineNotificationFromName] fromCoords:localNotification.userInfo[kRoutineNotificationFromCoords]];
         [self switchToRouteSearchViewWithRouteParameter:searchParams];
     } else if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeDeparture]) {
-        NSNumber *stopCode = localNotification.userInfo[kNotificationStopCode];
+        NSString *stopCode = localNotification.userInfo[kNotificationStopCode];
         if (stopCode)
-            [self openStopDetailForStopWithCode:[stopCode stringValue]];
+            [self openStopDetailForStopWithCode:stopCode];
     } else if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeRoute]) {
         [self switchToRouteSearchViewWithRouteParameter:nil];
     }
