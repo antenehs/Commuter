@@ -24,7 +24,6 @@
 #import "WebViewController.h"
 #import "SWTableViewCell.h"
 #import "CustomeTableViewCell.h"
-#import "CommandView.h"
 #import "CustomBadge.h"
 #import "DetailedAnnotation.h"
 #import "LVThumbnailAnnotation.h"

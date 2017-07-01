@@ -160,8 +160,8 @@
 
 - (UIButton *)openBookmarkButtonWithFrame:(CGRect)buttonFrame {
     UIButton *bookmarkButton = [[UIButton alloc] initWithFrame:buttonFrame];
-    [bookmarkButton setImage:[UIImage imageNamed:@"bookmarks-colored-100.png"] forState:UIControlStateNormal];
-    [bookmarkButton setImage:[UIImage imageNamed:@"bookmarks-colored-100.png"] forState:UIControlStateDisabled];
+    [bookmarkButton setImage:[UIImage imageNamed:@"bookmarks-colored-100"] forState:UIControlStateNormal];
+    [bookmarkButton setImage:[UIImage imageNamed:@"bookmarks-colored-100"] forState:UIControlStateDisabled];
     bookmarkButton.tag = 3131;
     [bookmarkButton addTarget:self action:@selector(openBookmarkButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [bookmarkButton setImageEdgeInsets:UIEdgeInsetsMake(13, 13, 13, 13)];

@@ -60,7 +60,7 @@
 
 - (void)asa_SetBlurredBackgroundWithImageNamed:(NSString *)imageName{
     if (imageName == nil) {
-        imageName = @"launch-screen-bkgrnd-3.png";
+        imageName = @"launch-screen-bkgrnd-1";
     }
     
     UIView *bluredBackViewContainer = [[UIView alloc] initWithFrame:self.bounds];

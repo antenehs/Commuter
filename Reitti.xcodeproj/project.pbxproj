@@ -120,19 +120,11 @@
 		660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
 		660A962C1D7DE53000A813A6 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
 		660A962D1D7DE53000A813A6 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
-		660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
-		660CFE091C188FD8004D73FC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
-		660CFE0A1C188FEC004D73FC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
-		660CFE0B1C188FEC004D73FC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
 		660CFE1A1C19A168004D73FC /* TREAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE191C19A168004D73FC /* TREAPIClient.m */; };
 		660CFE1F1C19A209004D73FC /* WidgetDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE1E1C19A209004D73FC /* WidgetDataManager.m */; };
 		660CFE231C19B09F004D73FC /* WidgetHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE221C19B09F004D73FC /* WidgetHelpers.m */; };
 		660CFE361C19BD02004D73FC /* HSLandTRECommonApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 660CFE341C19BA4F004D73FC /* HSLandTRECommonApiClient.m */; };
 		660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D311C1C317B1A0051DDAA /* ReittiAnalyticsManager.m */; };
-		660D31221C32E3AC0051DDAA /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
-		660D31231C32E3AC0051DDAA /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
-		660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
-		660D31261C32E3AC0051DDAA /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
 		660D312A1C3425F60051DDAA /* LinesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D31291C3425F60051DDAA /* LinesManager.m */; };
 		660D31301C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
 		660D31311C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
@@ -182,8 +174,6 @@
 		66134BFA1B3EE8F50008C6D7 /* GCThumbnailAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF61B3EE8F50008C6D7 /* GCThumbnailAnnotation.m */; };
 		66134BFB1B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66134BF81B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m */; };
 		66134C031B41D69A0008C6D7 /* routesFiltered.json in Resources */ = {isa = PBXBuildFile; fileRef = 66134C021B41D69A0008C6D7 /* routesFiltered.json */; };
-		66160F061C580577005617CE /* Cool-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 66160F051C580577005617CE /* Cool-96.png */; };
-		66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 66160F071C5CF313005617CE /* app-logo-rounded-small.png */; };
 		661721EF19CDA78000E3CD6E /* DisruptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661721EE19CDA78000E3CD6E /* DisruptionViewController.m */; };
 		6618311F1C0DE1FF00DA979E /* NSDate+SAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6618311E1C0DE1FF00DA979E /* NSDate+SAMAdditions.m */; };
 		661831221C0DE22000DA979E /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661831211C0DE22000DA979E /* NSDate+Helper.m */; };
@@ -198,6 +188,9 @@
 		661ABBF6199AB04100F93894 /* RouteLegLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661ABBF5199AB04100F93894 /* RouteLegLocation.m */; };
 		661EC2031F06B8AA00E02C86 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661EC2021F06B8AA00E02C86 /* UserNotifications.framework */; };
 		661EC2041F06B8B900E02C86 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661EC2021F06B8AA00E02C86 /* UserNotifications.framework */; };
+		661EC2061F07565800E02C86 /* Annotations.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661EC2051F07565800E02C86 /* Annotations.xcassets */; };
+		661EC2071F07565800E02C86 /* Annotations.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661EC2051F07565800E02C86 /* Annotations.xcassets */; };
+		661EC20C1F0759D800E02C86 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661EC2091F07599700E02C86 /* Icons.xcassets */; };
 		661FAF25189BA5EB00042074 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
 		661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */; };
 		661FAF2F18A4F2B400042074 /* BusStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF2E18A4F2B400042074 /* BusStop.m */; };
@@ -212,15 +205,12 @@
 		662481A81D1FFBF700574319 /* WatchRoutes.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 662481841D1FFBF700574319 /* WatchRoutes.app */; };
 		663207051D27D25900D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		663207061D27D26D00D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
-		663207071D27D26F00D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
-		663207081D27D27000D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		663207091D27D27100D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		6632070B1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		6632070C1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		6632070D1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		6632070F1D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */; };
 		663207101D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */; };
-		663207111D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */; };
 		663207121D27E1F300D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207161D27E2AE00D8A46D /* HomeAndWorkRowController.m */; };
 		6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207191D27E36400D8A46D /* LocationRowController.m */; };
@@ -358,8 +348,6 @@
 		664E28A11AE2A50300BE2457 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28A01AE2A50300BE2457 /* SettingsViewController.m */; };
 		664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28AF1AE2FC8300BE2457 /* SettingsEntity.m */; };
 		664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E28B21AE2FD4500BE2457 /* SettingsManager.m */; };
-		664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
-		664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664FA7EE198EBC5E00C6A5B0 /* CommandView.m */; };
 		664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
 		664FE8B31ECBB20D00C3C0B5 /* BikesQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */; };
 		664FE8B41ECBB58E00C3C0B5 /* BikesQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */; };
@@ -423,8 +411,6 @@
 		6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
 		6665D7791C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */; };
 		6665D77A1C0CDDA300ACCC3A /* UITableViewCell+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */; };
-		6665D77C1C0CDFB600ACCC3A /* Subway-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D77B1C0CDFB600ACCC3A /* Subway-100.png */; };
-		6665D77D1C0CDFB600ACCC3A /* Subway-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D77B1C0CDFB600ACCC3A /* Subway-100.png */; };
 		6665D7801C0CE6C500ACCC3A /* SingleSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */; };
 		6665D7841C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
 		6665D7851C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
@@ -475,9 +461,7 @@
 		666E08D31CD3DF790058D5B0 /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		666E08E41CD3F1C80058D5B0 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
-		667085331C5CF745008AA606 /* app-logo-new-rounded.png in Resources */ = {isa = PBXBuildFile; fileRef = 667085321C5CF745008AA606 /* app-logo-new-rounded.png */; };
 		6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674089A1C1C59AE00C1E34A /* UIView+Helper.m */; };
-		6674089E1C1CDE9E00C1E34A /* bookmarks-colored-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */; };
 		66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D871C54088100C838AA /* ServicePointsViewController.m */; };
 		66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D8A1C5408E300C838AA /* HSLServicePointManager.m */; };
 		66780D901C54097200C838AA /* HSLCardServicePoints.json in Resources */ = {isa = PBXBuildFile; fileRef = 66780D8F1C54097200C838AA /* HSLCardServicePoints.json */; };
@@ -503,10 +487,6 @@
 		66822F621C2468A300511BD2 /* StopDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F601C2468A300511BD2 /* StopDeparture.m */; };
 		66822F661C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
 		66822F671C24695900511BD2 /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
-		66822F6B1C286E4700511BD2 /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
-		66822F6C1C286E4700511BD2 /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
-		66822F6F1C28C65400511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
-		66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
 		66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F761C29999E00511BD2 /* ReittiSearchManager.m */; };
 		66822F7A1C29EE1D00511BD2 /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F791C29EE1D00511BD2 /* UIImage+Helper.m */; };
 		66822F7F1C2B6C4000511BD2 /* NSObject+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F7E1C2B6C4000511BD2 /* NSObject+Helper.m */; };
@@ -602,7 +582,6 @@
 		6683CF301CD94EA50044727B /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
 		6683CF311CD94EA60044727B /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
 		6683CF321CD94EA70044727B /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
-		6683CF331CD954060044727B /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66978A731C7664B200C45B96 /* Icons.xcassets */; };
 		6684BEC61CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */; };
 		6684BEC71CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */; };
 		6684BEC81CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBF1CB151C80053AAE1 /* TREMonitoredVehicleJourney.m */; };
@@ -845,7 +824,6 @@
 		66C732F51C556DA5002544BC /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
 		66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 667B98301AD5590D00C45ADF /* NamedBookmark.m */; };
 		66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D74B1C0B532500ACCC3A /* NSArray+Helper.m */; };
-		66C732F81C556DA5002544BC /* CommandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 664FA7EE198EBC5E00C6A5B0 /* CommandView.m */; };
 		66C732F91C556DA5002544BC /* StaticRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FC54801B23677B005B890D /* StaticRoute.m */; };
 		66C732FA1C556DA5002544BC /* UIButton+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 661AB3AD1C22E2E20061E1F6 /* UIButton+Helper.m */; };
 		66C732FB1C556DA5002544BC /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960618EEE46100E95CE5 /* SWCellScrollView.m */; };
@@ -874,7 +852,6 @@
 		66C733161C556DA5002544BC /* RouteOptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F3B1231AC8413C0038BA78 /* RouteOptionsTableViewController.m */; };
 		66C733181C556DA5002544BC /* HistoryEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CC941518E2304600644281 /* HistoryEntity.m */; };
 		66C733191C556DA5002544BC /* StopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66947CFF188C58C400642EE1 /* StopViewController.m */; };
-		66C7331A1C556DA5002544BC /* RoutePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F13854199937F700B52B6B /* RoutePreviewView.m */; };
 		66C7331B1C556DA5002544BC /* TSBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099641AE6ECD700F20D34 /* TSBlurView.m */; };
 		66C7331C1C556DA5002544BC /* TSMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099681AE6ECD700F20D34 /* TSMessageView.m */; };
 		66C7331D1C556DA5002544BC /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D312F1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.m */; };
@@ -979,14 +956,11 @@
 		66C733B61C556DA5002544BC /* NotificationBackgroundErrorIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099751AE8075D00F20D34 /* NotificationBackgroundErrorIcon@2x.png */; };
 		66C733BC1C556DA5002544BC /* createCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08A1B5EEE2900DC20D0 /* createCardJS.js */; };
 		66C733BF1C556DA5002544BC /* NotificationBackgroundSuccessIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997A1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon.png */; };
-		66C733C31C556DA5002544BC /* Subway-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D77B1C0CDFB600ACCC3A /* Subway-100.png */; };
 		66C733C51C556DA5002544BC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F3B11F1AC5B59B0038BA78 /* LaunchScreen.xib */; };
 		66C733CB1C556DA5002544BC /* versionInfo.html in Resources */ = {isa = PBXBuildFile; fileRef = 664749DA1AE59B3E0050137E /* versionInfo.html */; };
-		66C733CC1C556DA5002544BC /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
 		66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 6663A08C1B62A79B00DC20D0 /* deleteCardJS.js */; };
 		66C733E01C556DA5002544BC /* Aspergit.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5918BF3785002DDC7B /* Aspergit.otf */; };
 		66C733F71C556DA5002544BC /* NotificationButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099801AE8075D00F20D34 /* NotificationButtonBackground.png */; };
-		66C733F91C556DA5002544BC /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
 		66C733FD1C556DA5002544BC /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 66F0996F1AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json */; };
 		66C733FE1C556DA5002544BC /* NotificationBackgroundWarningIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png */; };
 		66C734021C556DA5002544BC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66947CD018830ED500642EE1 /* Images.xcassets */; };
@@ -995,8 +969,6 @@
 		66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5818BF3785002DDC7B /* Aspergit Bold.otf */; };
 		66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5C18BF3A22002DDC7B /* Aspergit Light.otf */; };
 		66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CD1B5C259700889DD2 /* Time to go 2.mp3 */; };
-		66C734231C556DA5002544BC /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
-		66C7342A1C556DA5002544BC /* RoutePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */; };
 		66C7342E1C556DA5002544BC /* Mellow mood.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CB1B5C259700889DD2 /* Mellow mood.mp3 */; };
 		66C734391C556DA5002544BC /* Time to go 5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */; };
 		66C734471C556DA5002544BC /* Tampere.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 664E28881ADAE6AD00BE2457 /* Tampere.gpx */; };
@@ -1006,16 +978,12 @@
 		66C734531C556DA5002544BC /* Features.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6666024F1AED831600E3E392 /* Features.xib */; };
 		66C734541C556DA5002544BC /* routesFiltered.json in Resources */ = {isa = PBXBuildFile; fileRef = 66134C021B41D69A0008C6D7 /* routesFiltered.json */; };
 		66C734551C556DA5002544BC /* NotificationBackgroundWarning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png */; };
-		66C7345D1C556DA5002544BC /* bookmarks-colored-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */; };
 		66C7345F1C556DA5002544BC /* NotificationBackgroundSuccessIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997B1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon@2x.png */; };
-		66C734621C556DA5002544BC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
 		66C734641C556DA5002544BC /* timeburner_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66D0BA5418BF3327002DDC7B /* timeburner_regular.ttf */; };
 		66C734671C556DA5002544BC /* NotificationBackgroundWarning.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997C1AE8075D00F20D34 /* NotificationBackgroundWarning.png */; };
 		66C7346D1C556DA5002544BC /* NotificationBackgroundWarningIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F0997E1AE8075D00F20D34 /* NotificationBackgroundWarningIcon.png */; };
 		66C734761C556DA5002544BC /* NotificationBackgroundError@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099731AE8075D00F20D34 /* NotificationBackgroundError@2x.png */; };
-		66C734811C556DA5002544BC /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
 		66C734821C556DA5002544BC /* logoutJS.js in Resources */ = {isa = PBXBuildFile; fileRef = 660716161B49CBFA00033049 /* logoutJS.js */; };
-		66C734931C556DA5002544BC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
 		66C734971C556DA5002544BC /* NotificationBackgroundErrorIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66F099741AE8075D00F20D34 /* NotificationBackgroundErrorIcon.png */; };
 		66C734A11C556DA5002544BC /* Wheels on the bus.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1CC1B5C259700889DD2 /* Wheels on the bus.mp3 */; };
 		66C734B01C556DA5002544BC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66947CBE18830ED500642EE1 /* InfoPlist.strings */; };
@@ -1056,16 +1024,9 @@
 		66C735261C556FA4002544BC /* KBPopupDrawableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03321C1778DD00A38858 /* KBPopupDrawableView.m */; };
 		66C735271C556FA4002544BC /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
 		66C7352A1C556FA4002544BC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
-		66C7352D1C556FA4002544BC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
-		66C735321C556FA4002544BC /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
-		66C735341C556FA4002544BC /* Subway-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6665D77B1C0CDFB600ACCC3A /* Subway-100.png */; };
 		66C735351C556FA4002544BC /* stopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7EB1A04000D0002BE16 /* stopIcon.png */; };
-		66C735361C556FA4002544BC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
 		66C7353B1C556FA4002544BC /* search-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7E81A03F4FB0002BE16 /* search-green-50.png */; };
-		66C7353D1C556FA4002544BC /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
-		66C735421C556FA4002544BC /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
 		66C7354C1C556FA4002544BC /* bookmark-green-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7E71A03F4FB0002BE16 /* bookmark-green-50.png */; };
-		66C7354E1C556FA4002544BC /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
 		66C735541C556FA4002544BC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66DAC7D51A025ED90002BE16 /* MainInterface.storyboard */; };
 		66C735681C556FB5002544BC /* ReittiStringFormatterE.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DAC7E41A0292470002BE16 /* ReittiStringFormatterE.m */; };
 		66C7356A1C556FB5002544BC /* KBPopupBubbleView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03301C1778DD00A38858 /* KBPopupBubbleView+Animations.m */; };
@@ -1086,14 +1047,7 @@
 		66C7357D1C556FB5002544BC /* StopLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F651C24695900511BD2 /* StopLine.m */; };
 		66C7357E1C556FB5002544BC /* StopDeparture.m in Sources */ = {isa = PBXBuildFile; fileRef = 66822F601C2468A300511BD2 /* StopDeparture.m */; };
 		66C735811C556FB5002544BC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661721F719CE0F5000E3CD6E /* NotificationCenter.framework */; };
-		66C735971C556FB5002544BC /* advanced-setting-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31201C32E3AC0051DDAA /* advanced-setting-100.png */; };
-		66C735981C556FB5002544BC /* Forward-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE061C188FD8004D73FC /* Forward-light-100.png */; };
-		66C735A81C556FB5002544BC /* reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6A1C286E4700511BD2 /* reload-128.png */; };
-		66C735B01C556FB5002544BC /* Bar Chart-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660D31211C32E3AC0051DDAA /* Bar Chart-100.png */; };
-		66C735B21C556FB5002544BC /* notification-tone-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 66822F6E1C28C65400511BD2 /* notification-tone-100.png */; };
 		66C735B31C556FB5002544BC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66CA02C61C16FC4C00A38858 /* MainInterface.storyboard */; };
-		66C735B41C556FB5002544BC /* Back-light-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 660CFE071C188FD8004D73FC /* Back-light-100.png */; };
-		66C735BC1C556FB5002544BC /* bookmarks-colored-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */; };
 		66C735C31C557025002544BC /* Commuter - Departures Pro.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66C735641C556FA4002544BC /* Commuter - Departures Pro.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66C735C71C55702F002544BC /* Commuter - Routes Pro.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66C735C11C556FB5002544BC /* Commuter - Routes Pro.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		66C735CC1C557127002544BC /* LaunchScreenPro.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C735CA1C557127002544BC /* LaunchScreenPro.xib */; };
@@ -1224,7 +1178,6 @@
 		66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F0999B1AEC236B00F20D34 /* DetailImageView.xib */; };
 		66F099A11AEC4F5D00F20D34 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */; };
 		66F13852199925A400B52B6B /* RouteSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F13851199925A400B52B6B /* RouteSearchViewController.m */; };
-		66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F13854199937F700B52B6B /* RoutePreviewView.m */; };
 		66F16CE11E05EE7600D45613 /* StopsQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66F16CE01E05EE7600D45613 /* StopsQuery.graphql */; };
 		66F16CE21E05EE7600D45613 /* StopsQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66F16CE01E05EE7600D45613 /* StopsQuery.graphql */; };
 		66F16CE31E05EE7600D45613 /* StopsQuery.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66F16CE01E05EE7600D45613 /* StopsQuery.graphql */; };
@@ -1526,8 +1479,6 @@
 		660716161B49CBFA00033049 /* logoutJS.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logoutJS.js; sourceTree = "<group>"; };
 		660A962A1D7DE53000A813A6 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
 		660A962B1D7DE53000A813A6 /* Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notifications.m; sourceTree = "<group>"; };
-		660CFE061C188FD8004D73FC /* Forward-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Forward-light-100.png"; path = "Pictures/version 4.1/Forward-light-100.png"; sourceTree = "<group>"; };
-		660CFE071C188FD8004D73FC /* Back-light-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Back-light-100.png"; path = "Pictures/version 4.1/Back-light-100.png"; sourceTree = "<group>"; };
 		660CFE141C19A157004D73FC /* HSLAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLAPIClient.h; sourceTree = "<group>"; };
 		660CFE151C19A157004D73FC /* HSLAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLAPIClient.m; sourceTree = "<group>"; };
 		660CFE181C19A168004D73FC /* TREAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TREAPIClient.h; sourceTree = "<group>"; };
@@ -1541,8 +1492,6 @@
 		660CFE341C19BA4F004D73FC /* HSLandTRECommonApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSLandTRECommonApiClient.m; sourceTree = "<group>"; };
 		660D311B1C317B1A0051DDAA /* ReittiAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiAnalyticsManager.h; sourceTree = "<group>"; };
 		660D311C1C317B1A0051DDAA /* ReittiAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiAnalyticsManager.m; sourceTree = "<group>"; };
-		660D31201C32E3AC0051DDAA /* advanced-setting-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "advanced-setting-100.png"; path = "Pictures/version 4.1/advanced-setting-100.png"; sourceTree = "<group>"; };
-		660D31211C32E3AC0051DDAA /* Bar Chart-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bar Chart-100.png"; path = "Pictures/version 4.1/Bar Chart-100.png"; sourceTree = "<group>"; };
 		660D31281C3425F60051DDAA /* LinesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinesManager.h; sourceTree = "<group>"; };
 		660D31291C3425F60051DDAA /* LinesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinesManager.m; sourceTree = "<group>"; };
 		660D312E1C36FC230051DDAA /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
@@ -1615,8 +1564,6 @@
 		66134BF71B3EE8F50008C6D7 /* GCThumbnailAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCThumbnailAnnotationView.h; path = GeoCodeAnnotations/GCThumbnailAnnotationView.h; sourceTree = "<group>"; };
 		66134BF81B3EE8F50008C6D7 /* GCThumbnailAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCThumbnailAnnotationView.m; path = GeoCodeAnnotations/GCThumbnailAnnotationView.m; sourceTree = "<group>"; };
 		66134C021B41D69A0008C6D7 /* routesFiltered.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routesFiltered.json; sourceTree = "<group>"; };
-		66160F051C580577005617CE /* Cool-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Cool-96.png"; path = "Pictures/version 4.1/Cool-96.png"; sourceTree = "<group>"; };
-		66160F071C5CF313005617CE /* app-logo-rounded-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-rounded-small.png"; path = "Pictures/version 4.1/app-logo-rounded-small.png"; sourceTree = "<group>"; };
 		661721ED19CDA78000E3CD6E /* DisruptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisruptionViewController.h; sourceTree = "<group>"; };
 		661721EE19CDA78000E3CD6E /* DisruptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisruptionViewController.m; sourceTree = "<group>"; };
 		661721F719CE0F5000E3CD6E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -1637,6 +1584,8 @@
 		661ABBF4199AB04100F93894 /* RouteLegLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegLocation.h; sourceTree = "<group>"; };
 		661ABBF5199AB04100F93894 /* RouteLegLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteLegLocation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		661EC2021F06B8AA00E02C86 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		661EC2051F07565800E02C86 /* Annotations.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Annotations.xcassets; sourceTree = "<group>"; };
+		661EC2091F07599700E02C86 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		661FAF23189BA5EB00042074 /* APIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
 		661FAF24189BA5EB00042074 /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
 		661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Reitti.xcdatamodel; sourceTree = "<group>"; };
@@ -1748,9 +1697,6 @@
 		664E28B11AE2FD4500BE2457 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
 		664E28B21AE2FD4500BE2457 /* SettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsManager.m; sourceTree = "<group>"; };
 		664E28B41AE3E7EB00BE2457 /* Reitti 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 5.xcdatamodel"; sourceTree = "<group>"; };
-		664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoutePreviewView.xib; sourceTree = "<group>"; };
-		664FA7ED198EBC5E00C6A5B0 /* CommandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandView.h; sourceTree = "<group>"; };
-		664FA7EE198EBC5E00C6A5B0 /* CommandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandView.m; sourceTree = "<group>"; };
 		664FE8B01ECBB20D00C3C0B5 /* BikesQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BikesQuery.graphql; sourceTree = "<group>"; };
 		664FE8B11ECBB20D00C3C0B5 /* BikesQueryFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BikesQueryFragment.graphql; sourceTree = "<group>"; };
 		664FE8B61ECBC30300C3C0B5 /* DigiAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DigiAlert.h; sourceTree = "<group>"; };
@@ -1788,7 +1734,6 @@
 		6665D74E1C0C9BF300ACCC3A /* Reitti 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 12.xcdatamodel"; sourceTree = "<group>"; };
 		6665D7771C0CDDA300ACCC3A /* UITableViewCell+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableViewCell+Helper.h"; path = "Helpers/UITableViewCell+Helper.h"; sourceTree = "<group>"; };
 		6665D7781C0CDDA300ACCC3A /* UITableViewCell+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewCell+Helper.m"; path = "Helpers/UITableViewCell+Helper.m"; sourceTree = "<group>"; };
-		6665D77B1C0CDFB600ACCC3A /* Subway-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Subway-100.png"; path = "Pictures/version 4.1/Subway-100.png"; sourceTree = "<group>"; };
 		6665D77E1C0CE6C500ACCC3A /* SingleSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleSelectTableViewController.h; sourceTree = "<group>"; };
 		6665D77F1C0CE6C500ACCC3A /* SingleSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleSelectTableViewController.m; sourceTree = "<group>"; };
 		6665D7821C0CFD5700ACCC3A /* UITableView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableView+Helper.h"; path = "Helpers/UITableView+Helper.h"; sourceTree = "<group>"; };
@@ -1809,10 +1754,8 @@
 		666BC1CF1B5C259700889DD2 /* Vibration sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Vibration sound.mp3"; path = "Sounds/Vibration sound.mp3"; sourceTree = "<group>"; };
 		666BC1D01B5C259700889DD2 /* Time to go 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 4.mp3"; path = "Sounds/Time to go 4.mp3"; sourceTree = "<group>"; };
 		666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 5.mp3"; path = "Sounds/Time to go 5.mp3"; sourceTree = "<group>"; };
-		667085321C5CF745008AA606 /* app-logo-new-rounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-logo-new-rounded.png"; path = "Pictures/Version 2.3/app-logo-new-rounded.png"; sourceTree = "<group>"; };
 		667408991C1C59AE00C1E34A /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Helper.h"; path = "Helpers/UIView+Helper.h"; sourceTree = "<group>"; };
 		6674089A1C1C59AE00C1E34A /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "Helpers/UIView+Helper.m"; sourceTree = "<group>"; };
-		6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bookmarks-colored-100.png"; path = "Pictures/version 4.1/bookmarks-colored-100.png"; sourceTree = "<group>"; };
 		66780D861C54088100C838AA /* ServicePointsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointsViewController.h; sourceTree = "<group>"; };
 		66780D871C54088100C838AA /* ServicePointsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointsViewController.m; sourceTree = "<group>"; };
 		66780D891C5408E300C838AA /* HSLServicePointManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLServicePointManager.h; sourceTree = "<group>"; };
@@ -1849,8 +1792,6 @@
 		66822F641C24695900511BD2 /* StopLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopLine.h; sourceTree = "<group>"; };
 		66822F651C24695900511BD2 /* StopLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopLine.m; sourceTree = "<group>"; };
 		66822F691C24BF7900511BD2 /* Reitti 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 13.xcdatamodel"; sourceTree = "<group>"; };
-		66822F6A1C286E4700511BD2 /* reload-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reload-128.png"; path = "Pictures/version 4.1/reload-128.png"; sourceTree = "<group>"; };
-		66822F6E1C28C65400511BD2 /* notification-tone-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "notification-tone-100.png"; path = "Pictures/version 4.1/notification-tone-100.png"; sourceTree = "<group>"; };
 		66822F721C28CA2800511BD2 /* Reitti 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 14.xcdatamodel"; sourceTree = "<group>"; };
 		66822F751C29999E00511BD2 /* ReittiSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiSearchManager.h; sourceTree = "<group>"; };
 		66822F761C29999E00511BD2 /* ReittiSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiSearchManager.m; sourceTree = "<group>"; };
@@ -2209,8 +2150,6 @@
 		66F099A01AEC4F5D00F20D34 /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
 		66F13850199925A400B52B6B /* RouteSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteSearchViewController.h; sourceTree = "<group>"; };
 		66F13851199925A400B52B6B /* RouteSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteSearchViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		66F13853199937F700B52B6B /* RoutePreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutePreviewView.h; sourceTree = "<group>"; };
-		66F13854199937F700B52B6B /* RoutePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RoutePreviewView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66F16CE01E05EE7600D45613 /* StopsQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopsQuery.graphql; sourceTree = "<group>"; };
 		66F16CE81E05EEB800D45613 /* StopsInAreaQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopsInAreaQuery.graphql; sourceTree = "<group>"; };
 		66F16CF11E05EECA00D45613 /* PlanQueryFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PlanQueryFragment.graphql; sourceTree = "<group>"; };
@@ -2553,24 +2492,6 @@
 			name = TravelCard;
 			sourceTree = "<group>";
 		};
-		660716031B45E28C00033049 /* Version 4.1 */ = {
-			isa = PBXGroup;
-			children = (
-				667085321C5CF745008AA606 /* app-logo-new-rounded.png */,
-				66160F071C5CF313005617CE /* app-logo-rounded-small.png */,
-				66160F051C580577005617CE /* Cool-96.png */,
-				660D31201C32E3AC0051DDAA /* advanced-setting-100.png */,
-				660D31211C32E3AC0051DDAA /* Bar Chart-100.png */,
-				66822F6E1C28C65400511BD2 /* notification-tone-100.png */,
-				66822F6A1C286E4700511BD2 /* reload-128.png */,
-				6674089D1C1CDE9E00C1E34A /* bookmarks-colored-100.png */,
-				660CFE061C188FD8004D73FC /* Forward-light-100.png */,
-				660CFE071C188FD8004D73FC /* Back-light-100.png */,
-				6665D77B1C0CDFB600ACCC3A /* Subway-100.png */,
-			);
-			name = "Version 4.1";
-			sourceTree = "<group>";
-		};
 		660CFE0F1C19A105004D73FC /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -2704,6 +2625,14 @@
 				6618312D1C10FFC900DA979E /* JTMaterialSpinner.m */,
 			);
 			name = JTMaterialSpinner;
+			sourceTree = "<group>";
+		};
+		661EC2081F07596C00E02C86 /* Pictures */ = {
+			isa = PBXGroup;
+			children = (
+				661EC2091F07599700E02C86 /* Icons.xcassets */,
+			);
+			name = Pictures;
 			sourceTree = "<group>";
 		};
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
@@ -2999,11 +2928,6 @@
 		664FA7EA198EB11900C6A5B0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				664FA7ED198EBC5E00C6A5B0 /* CommandView.h */,
-				664FA7EE198EBC5E00C6A5B0 /* CommandView.m */,
-				66F13853199937F700B52B6B /* RoutePreviewView.h */,
-				66F13854199937F700B52B6B /* RoutePreviewView.m */,
-				664FA7EB198EBAB600C6A5B0 /* RoutePreviewView.xib */,
 				66EBBE4319A01B35006A2128 /* Transport.h */,
 				66EBBE4219A01B35006A2128 /* Transport.m */,
 				66C59DA419993CC300E7AC7A /* Transport.xib */,
@@ -3365,11 +3289,11 @@
 			isa = PBXGroup;
 			children = (
 				66978A731C7664B200C45B96 /* Icons.xcassets */,
-				66B3919F1D206CE100C500CC /* OlderImages.xcassets */,
 				663207041D27D25900D8A46D /* AddressTypes.xcassets */,
 				6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */,
+				661EC2051F07565800E02C86 /* Annotations.xcassets */,
 				6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */,
-				660716031B45E28C00033049 /* Version 4.1 */,
+				66B3919F1D206CE100C500CC /* OlderImages.xcassets */,
 				667860081F05C21100D3E3CB /* MiscImages.xcassets */,
 			);
 			name = Pictures;
@@ -3635,6 +3559,7 @@
 				66CA02C91C16FC4C00A38858 /* Info.plist */,
 				66034C9A1CE8B86600EC0769 /* Commuter - Routes Pro-Bridging-Header.h */,
 				660CFE0F1C19A105004D73FC /* API */,
+				661EC2081F07596C00E02C86 /* Pictures */,
 			);
 			path = "Commuter - Routes";
 			sourceTree = "<group>";
@@ -4341,6 +4266,7 @@
 				66F3FAF21B44972600DAA5B4 /* logginJS.js in Resources */,
 				6632070B1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */,
 				663589B91ED0DB77006721EA /* Lines.storyboard in Resources */,
+				661EC2061F07565800E02C86 /* Annotations.xcassets in Resources */,
 				663465D61ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
 				663589B31ED0D67E006721EA /* AlertTone.storyboard in Resources */,
 				663E1ECF1C9EB86700C5543A /* StopTableViewCell.xib in Resources */,
@@ -4355,11 +4281,9 @@
 				6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */,
 				66F0998A1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon.png in Resources */,
 				66F16CF91E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
-				6665D77C1C0CDFB600ACCC3A /* Subway-100.png in Resources */,
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
 				664749DB1AE59B3E0050137E /* versionInfo.html in Resources */,
 				66115D7A1ED0D11E00C8CD05 /* Onboarding.storyboard in Resources */,
-				660D31221C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66C735CC1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6663A08D1B62A79B00DC20D0 /* deleteCardJS.js in Resources */,
 				663E1EE61C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
@@ -4367,7 +4291,6 @@
 				66FD7F961CB94B4700C6C731 /* Oulu.gpx in Resources */,
 				66F099901AE8075D00F20D34 /* NotificationButtonBackground.png in Resources */,
 				66D1010B1EFC160F00CAC251 /* NearbyTableViewCell.xib in Resources */,
-				66822F6F1C28C65400511BD2 /* notification-tone-100.png in Resources */,
 				66F099701AE6EE1B00F20D34 /* TSMessagesDefaultDesign.json in Resources */,
 				66F0998F1AE8075D00F20D34 /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				66F16CE11E05EE7600D45613 /* StopsQuery.graphql in Resources */,
@@ -4377,20 +4300,16 @@
 				66FD7F931CB94B4700C6C731 /* Jyvaskula.gpx in Resources */,
 				66D0BA5A18BF3785002DDC7B /* Aspergit Bold.otf in Resources */,
 				66EB0D491DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
-				66160F081C5CF313005617CE /* app-logo-rounded-small.png in Resources */,
 				6603A8F51CCFFF2100991FBF /* HSLRegion.kml in Resources */,
 				663589B61ED0D847006721EA /* Reminders.storyboard in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
 				664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */,
 				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
-				660D31251C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				664FE8C01ECBC81F00C3C0B5 /* AlertQueryFragment.graphql in Resources */,
 				66C05AA71ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				663207051D27D25900D8A46D /* AddressTypes.xcassets in Resources */,
-				66160F061C580577005617CE /* Cool-96.png in Resources */,
 				66862FF01EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */,
 				66B7AE901ECA54BE00B233E7 /* Migration.storyboard in Resources */,
-				664FA7EC198EBAB600C6A5B0 /* RoutePreviewView.xib in Resources */,
 				66833D341CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				666BC1D61B5C259700889DD2 /* Mellow mood.mp3 in Resources */,
 				66115D741ED0CBA600C8CD05 /* Disruptions.storyboard in Resources */,
@@ -4410,10 +4329,8 @@
 				66F0998D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png in Resources */,
 				663E1EDF1C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
 				664FE8C11ECBC81F00C3C0B5 /* AlertQuery.graphql in Resources */,
-				6674089E1C1CDE9E00C1E34A /* bookmarks-colored-100.png in Resources */,
 				6632070F1D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */,
 				66F0998B1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
-				660CFE091C188FD8004D73FC /* Back-light-100.png in Resources */,
 				66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */,
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
 				66978A741C7664B200C45B96 /* Icons.xcassets in Resources */,
@@ -4421,7 +4338,6 @@
 				66F0998E1AE8075D00F20D34 /* NotificationBackgroundWarningIcon.png in Resources */,
 				6605797C1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66F099831AE8075D00F20D34 /* NotificationBackgroundError@2x.png in Resources */,
-				66822F6B1C286E4700511BD2 /* reload-128.png in Resources */,
 				66D101211EFF326400CAC251 /* NearbyInfoTableViewCell.xib in Resources */,
 				6605796E1E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605798A1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
@@ -4429,13 +4345,11 @@
 				660716171B49CBFA00033049 /* logoutJS.js in Resources */,
 				667860091F05C21100D3E3CB /* MiscImages.xcassets in Resources */,
 				66B391A01D206CE100C500CC /* OlderImages.xcassets in Resources */,
-				660CFE081C188FD8004D73FC /* Forward-light-100.png in Resources */,
 				664FE8B31ECBB20D00C3C0B5 /* BikesQueryFragment.graphql in Resources */,
 				66115D771ED0CFAB00C8CD05 /* AboutCommuter.storyboard in Resources */,
 				66F099841AE8075D00F20D34 /* NotificationBackgroundErrorIcon.png in Resources */,
 				663E1EFC1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */,
 				666BC1D71B5C259700889DD2 /* Wheels on the bus.mp3 in Resources */,
-				667085331C5CF745008AA606 /* app-logo-new-rounded.png in Resources */,
 				66947CC018830ED500642EE1 /* InfoPlist.strings in Resources */,
 				66780D901C54097200C838AA /* HSLCardServicePoints.json in Resources */,
 				666BC1D41B5C259700889DD2 /* Train.mp3 in Resources */,
@@ -4474,6 +4388,7 @@
 				66EB0D4A1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
 				663589B41ED0D67E006721EA /* AlertTone.storyboard in Resources */,
 				66C733921C556DA5002544BC /* logginJS.js in Resources */,
+				661EC2071F07565800E02C86 /* Annotations.xcassets in Resources */,
 				66C733A11C556DA5002544BC /* Time to go 4.mp3 in Resources */,
 				66EB0D531DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				66C733AD1C556DA5002544BC /* changeToFullVersionJS.js in Resources */,
@@ -4486,11 +4401,9 @@
 				66C733BF1C556DA5002544BC /* NotificationBackgroundSuccessIcon.png in Resources */,
 				6632070C1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */,
 				66F16CFA1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
-				66C733C31C556DA5002544BC /* Subway-100.png in Resources */,
 				66B601211D91C1370056B7FA /* finland-region.geojson in Resources */,
 				66C733C51C556DA5002544BC /* LaunchScreen.xib in Resources */,
 				66C733CB1C556DA5002544BC /* versionInfo.html in Resources */,
-				66C733CC1C556DA5002544BC /* advanced-setting-100.png in Resources */,
 				66C735CD1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6605797D1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */,
@@ -4501,7 +4414,6 @@
 				66978A751C7676F800C45B96 /* Icons.xcassets in Resources */,
 				66833D351CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66C733F71C556DA5002544BC /* NotificationButtonBackground.png in Resources */,
-				66C733F91C556DA5002544BC /* notification-tone-100.png in Resources */,
 				66C733FD1C556DA5002544BC /* TSMessagesDefaultDesign.json in Resources */,
 				66C733FE1C556DA5002544BC /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				66C734021C556DA5002544BC /* Images.xcassets in Resources */,
@@ -4511,8 +4423,6 @@
 				6678600A1F05CC1700D3E3CB /* MiscImages.xcassets in Resources */,
 				66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */,
 				66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */,
-				66C734231C556DA5002544BC /* Bar Chart-100.png in Resources */,
-				66C7342A1C556DA5002544BC /* RoutePreviewView.xib in Resources */,
 				66C7342E1C556DA5002544BC /* Mellow mood.mp3 in Resources */,
 				66C734391C556DA5002544BC /* Time to go 5.mp3 in Resources */,
 				66C734471C556DA5002544BC /* Tampere.gpx in Resources */,
@@ -4525,12 +4435,10 @@
 				66C734541C556DA5002544BC /* routesFiltered.json in Resources */,
 				66C734551C556DA5002544BC /* NotificationBackgroundWarning@2x.png in Resources */,
 				663E1ED01C9EB86700C5543A /* StopTableViewCell.xib in Resources */,
-				66C7345D1C556DA5002544BC /* bookmarks-colored-100.png in Resources */,
 				6605798B1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				664FE8C21ECBC82A00C3C0B5 /* AlertQueryFragment.graphql in Resources */,
 				663589B11ED0D49F006721EA /* ICloud.storyboard in Resources */,
 				66C7345F1C556DA5002544BC /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
-				66C734621C556DA5002544BC /* Back-light-100.png in Resources */,
 				66C734641C556DA5002544BC /* timeburner_regular.ttf in Resources */,
 				66C734671C556DA5002544BC /* NotificationBackgroundWarning.png in Resources */,
 				663E1EE01C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
@@ -4542,11 +4450,9 @@
 				66B391A11D206CE100C500CC /* OlderImages.xcassets in Resources */,
 				66C734761C556DA5002544BC /* NotificationBackgroundError@2x.png in Resources */,
 				6603A8F41CCFFF2100991FBF /* TRERegion.kml in Resources */,
-				66C734811C556DA5002544BC /* reload-128.png in Resources */,
 				66F16CEA1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
 				66C734821C556DA5002544BC /* logoutJS.js in Resources */,
 				663207061D27D26D00D8A46D /* AddressTypes.xcassets in Resources */,
-				66C734931C556DA5002544BC /* Forward-light-100.png in Resources */,
 				66115D751ED0CBA600C8CD05 /* Disruptions.storyboard in Resources */,
 				66C734971C556DA5002544BC /* NotificationBackgroundErrorIcon.png in Resources */,
 				66C734A11C556DA5002544BC /* Wheels on the bus.mp3 in Resources */,
@@ -4590,32 +4496,24 @@
 			files = (
 				66FDC9E41D83566900F6288D /* Localizable.strings in Resources */,
 				66C05ADC1ED546FF00F26AD2 /* BikesQuery.graphql in Resources */,
-				66C7352D1C556FA4002544BC /* Forward-light-100.png in Resources */,
 				66C05AAA1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
-				66C735321C556FA4002544BC /* notification-tone-100.png in Resources */,
-				66C735341C556FA4002544BC /* Subway-100.png in Resources */,
 				660579711E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605797F1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C735351C556FA4002544BC /* stopIcon.png in Resources */,
-				66C735361C556FA4002544BC /* Back-light-100.png in Resources */,
 				6683CF311CD94EA60044727B /* HSLRegion.kml in Resources */,
 				6683CF2E1CD94EA10044727B /* TRERegion.kml in Resources */,
 				66C7353B1C556FA4002544BC /* search-green-50.png in Resources */,
-				66C7353D1C556FA4002544BC /* reload-128.png in Resources */,
 				66C05ADF1ED546FF00F26AD2 /* AlertQueryFragment.graphql in Resources */,
-				66C735421C556FA4002544BC /* advanced-setting-100.png in Resources */,
 				66F16CFC1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				66F16CEC1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
 				66EB0D4C1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
 				66833D371CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66C7354C1C556FA4002544BC /* bookmark-green-50.png in Resources */,
-				66C7354E1C556FA4002544BC /* Bar Chart-100.png in Resources */,
 				663465D91ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
 				66C05AC71ED4FEC000F26AD2 /* TransportTypes.xcassets in Resources */,
 				663465DF1ECE5160004B8AAF /* PatternFullFragment.graphql in Resources */,
 				66EB0D551DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				660579791E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
-				663207081D27D27000D8A46D /* AddressTypes.xcassets in Resources */,
 				66C05ADD1ED546FF00F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				66F16CE41E05EE7600D45613 /* StopsQuery.graphql in Resources */,
 				66C05ADE1ED546FF00F26AD2 /* AlertQuery.graphql in Resources */,
@@ -4630,15 +4528,13 @@
 			files = (
 				66F16CED1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
 				66C05AE01ED5470000F26AD2 /* BikesQuery.graphql in Resources */,
+				661EC20C1F0759D800E02C86 /* Icons.xcassets in Resources */,
 				6683CF2F1CD94EA20044727B /* TRERegion.kml in Resources */,
 				663207091D27D27100D8A46D /* AddressTypes.xcassets in Resources */,
 				66F16CE51E05EE7600D45613 /* StopsQuery.graphql in Resources */,
 				6632070D1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */,
 				6605797A1E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
-				66C735971C556FB5002544BC /* advanced-setting-100.png in Resources */,
 				66EB0D4D1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
-				66C735981C556FB5002544BC /* Forward-light-100.png in Resources */,
-				663207111D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */,
 				66F16CFD1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				660579801E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				663465E01ECE5160004B8AAF /* PatternFullFragment.graphql in Resources */,
@@ -4646,21 +4542,15 @@
 				660579721E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6683CF321CD94EA70044727B /* HSLRegion.kml in Resources */,
 				66C05AF21ED5558500F26AD2 /* Transport.xib in Resources */,
-				6683CF331CD954060044727B /* Icons.xcassets in Resources */,
 				66EB0D561DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				66833D381CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
-				66C735A81C556FB5002544BC /* reload-128.png in Resources */,
-				66C735B01C556FB5002544BC /* Bar Chart-100.png in Resources */,
 				66FDC9E51D83566900F6288D /* Localizable.strings in Resources */,
 				6605798E1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				66C05AAB1ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
 				663465DA1ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
-				66C735B21C556FB5002544BC /* notification-tone-100.png in Resources */,
 				66C05AE11ED5470000F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				66C735B31C556FB5002544BC /* MainInterface.storyboard in Resources */,
 				66C05AE21ED5470000F26AD2 /* AlertQuery.graphql in Resources */,
-				66C735B41C556FB5002544BC /* Back-light-100.png in Resources */,
-				66C735BC1C556FB5002544BC /* bookmarks-colored-100.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4670,32 +4560,24 @@
 			files = (
 				66FDC9E31D83566900F6288D /* Localizable.strings in Resources */,
 				66C05AD81ED546FE00F26AD2 /* BikesQuery.graphql in Resources */,
-				660CFE0A1C188FEC004D73FC /* Forward-light-100.png in Resources */,
 				66C05AA91ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */,
-				66822F701C28C65500511BD2 /* notification-tone-100.png in Resources */,
-				6665D77D1C0CDFB600ACCC3A /* Subway-100.png in Resources */,
 				660579701E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605797E1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */,
-				660CFE0B1C188FEC004D73FC /* Back-light-100.png in Resources */,
 				6683CF301CD94EA50044727B /* HSLRegion.kml in Resources */,
 				6683CF2D1CD94EA00044727B /* TRERegion.kml in Resources */,
 				66DAC7EA1A03F4FB0002BE16 /* search-green-50.png in Resources */,
-				66822F6C1C286E4700511BD2 /* reload-128.png in Resources */,
 				66C05ADB1ED546FE00F26AD2 /* AlertQueryFragment.graphql in Resources */,
-				660D31231C32E3AC0051DDAA /* advanced-setting-100.png in Resources */,
 				66F16CFB1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				66F16CEB1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
 				66EB0D4B1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
 				66833D361CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
 				66DAC7E91A03F4FB0002BE16 /* bookmark-green-50.png in Resources */,
-				660D31261C32E3AC0051DDAA /* Bar Chart-100.png in Resources */,
 				663465D81ECE5160004B8AAF /* PatternShortFragment.graphql in Resources */,
 				66C05AC81ED4FEC200F26AD2 /* TransportTypes.xcassets in Resources */,
 				663465DE1ECE5160004B8AAF /* PatternFullFragment.graphql in Resources */,
 				66EB0D541DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				660579781E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
-				663207071D27D26F00D8A46D /* AddressTypes.xcassets in Resources */,
 				66C05AD91ED546FE00F26AD2 /* BikesQueryFragment.graphql in Resources */,
 				66F16CE31E05EE7600D45613 /* StopsQuery.graphql in Resources */,
 				66C05ADA1ED546FE00F26AD2 /* AlertQuery.graphql in Resources */,
@@ -5227,7 +5109,6 @@
 				66026D911D68ED8D00219AC6 /* ContactAddress.m in Sources */,
 				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
-				664FA7EF198EBC5E00C6A5B0 /* CommandView.m in Sources */,
 				663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */,
 				6683CF1D1CD924F90044727B /* MatkaObjectMapping.m in Sources */,
 				66FC54811B23677B005B890D /* StaticRoute.m in Sources */,
@@ -5279,7 +5160,6 @@
 				66CC941618E2304600644281 /* HistoryEntity.m in Sources */,
 				66947D00188C58C400642EE1 /* StopViewController.m in Sources */,
 				66833D651CF8F427005D958C /* DigiPattern.m in Sources */,
-				66F13855199937F700B52B6B /* RoutePreviewView.m in Sources */,
 				66F099691AE6ECD700F20D34 /* TSBlurView.m in Sources */,
 				66F0996B1AE6ECD700F20D34 /* TSMessageView.m in Sources */,
 				668A8B2C1EF1FD7D00922F40 /* ReittiPolyline.m in Sources */,
@@ -5519,7 +5399,6 @@
 				66026D921D68ED8D00219AC6 /* ContactAddress.m in Sources */,
 				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
-				66C732F81C556DA5002544BC /* CommandView.m in Sources */,
 				663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */,
 				6683CF1E1CD924F90044727B /* MatkaObjectMapping.m in Sources */,
 				66C732F91C556DA5002544BC /* StaticRoute.m in Sources */,
@@ -5571,7 +5450,6 @@
 				66C733181C556DA5002544BC /* HistoryEntity.m in Sources */,
 				66C733191C556DA5002544BC /* StopViewController.m in Sources */,
 				66833D661CF8F427005D958C /* DigiPattern.m in Sources */,
-				66C7331A1C556DA5002544BC /* RoutePreviewView.m in Sources */,
 				66C7331B1C556DA5002544BC /* TSBlurView.m in Sources */,
 				66C7331C1C556DA5002544BC /* TSMessageView.m in Sources */,
 				668A8B2D1EF1FD7D00922F40 /* ReittiPolyline.m in Sources */,
@@ -6340,7 +6218,7 @@
 			baseConfigurationReference = 74635C88F2F25E50403710A7 /* Pods-Networking-Reitti.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
@@ -6433,7 +6311,7 @@
 			baseConfigurationReference = CA299D562B533985BE2111C2 /* Pods-Networking-Reitti.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
@@ -6571,7 +6449,7 @@
 			baseConfigurationReference = A1C211236D4C390858DCBB2D /* Pods-Networking-Reitti Pro.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;
@@ -6659,7 +6537,7 @@
 			baseConfigurationReference = 32FC8F579D5ADDC4536A854F /* Pods-Networking-Reitti Pro.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Pro";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Reitti/Reitti.entitlements;

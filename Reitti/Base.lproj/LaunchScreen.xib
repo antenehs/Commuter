@@ -78,6 +78,6 @@
     <resources>
         <image name="app-logo-new-rounded.png" width="500" height="505"/>
         <image name="ewketapps-logo.png" width="281" height="65"/>
-        <image name="launch-screen-bkgrnd-1" width="1000" height="668"/>
+        <image name="launch-screen-bkgrnd-1" width="700" height="468"/>
     </resources>
 </document>

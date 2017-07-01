@@ -147,7 +147,7 @@
                                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" tag="3001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busAnnotation3_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="IfB-xh-0en">
+                                                        <imageView userInteractionEnabled="NO" tag="3001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busStopIcon" translatesAutoresizingMaskIntoConstraints="NO" id="IfB-xh-0en">
                                                             <rect key="frame" x="17" y="16" width="28" height="28"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="4pL-T6-Jll"/>
@@ -1159,7 +1159,7 @@
                                             <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busAnnotation3_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="LhL-xm-0fk">
+                                        <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busStopIcon" translatesAutoresizingMaskIntoConstraints="NO" id="LhL-xm-0fk">
                                             <rect key="frame" x="20" y="19" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="28" id="XEi-um-e7Y"/>
@@ -2408,7 +2408,7 @@
                                                             <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busAnnotation3_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="drG-rg-CaS">
+                                                        <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BusAnnotationFlat" translatesAutoresizingMaskIntoConstraints="NO" id="drG-rg-CaS">
                                                             <rect key="frame" x="15" y="15" width="20" height="31"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="N7H-4M-KeE"/>
@@ -2728,9 +2728,6 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blured-background-dark.png" translatesAutoresizingMaskIntoConstraints="NO" id="72o-Su-FWO">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                            </imageView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sHs-8A-LMm">
                                 <rect key="frame" x="30" y="259" width="314" height="30"/>
                                 <state key="normal">
@@ -3354,7 +3351,7 @@
                                                             <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="busAnnotation3_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="FiV-nO-DK2">
+                                                        <imageView userInteractionEnabled="NO" tag="2005" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BusAnnotationFlat" translatesAutoresizingMaskIntoConstraints="NO" id="FiV-nO-DK2">
                                                             <rect key="frame" x="15" y="17" width="20" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="zRh-rv-MdX"/>
@@ -3552,7 +3549,6 @@
                             <constraint firstAttribute="trailing" secondItem="VXp-gc-1eP" secondAttribute="trailing" id="IjE-Cs-d2o"/>
                             <constraint firstItem="e4O-Ob-E2l" firstAttribute="top" secondItem="tJC-yx-nax" secondAttribute="bottom" id="Kgg-et-76V"/>
                             <constraint firstItem="VXp-gc-1eP" firstAttribute="top" secondItem="aYR-ju-7T0" secondAttribute="bottom" id="M9J-zI-wt2"/>
-                            <constraint firstItem="72o-Su-FWO" firstAttribute="top" secondItem="aYR-ju-7T0" secondAttribute="bottom" id="Mqj-xO-Ctc"/>
                             <constraint firstAttribute="trailing" secondItem="tJC-yx-nax" secondAttribute="trailing" id="O7J-6B-1Qp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sHs-8A-LMm" secondAttribute="trailing" constant="15" id="QOR-KB-4GN"/>
                             <constraint firstItem="e4O-Ob-E2l" firstAttribute="leading" secondItem="GXf-b3-bEa" secondAttribute="leading" id="St2-y8-6ec"/>
@@ -3560,14 +3556,11 @@
                             <constraint firstItem="tJC-yx-nax" firstAttribute="top" secondItem="VXp-gc-1eP" secondAttribute="bottom" id="Ufo-mc-Boj"/>
                             <constraint firstItem="sHs-8A-LMm" firstAttribute="centerX" secondItem="D8N-7h-dCs" secondAttribute="centerX" id="WT1-My-QiO"/>
                             <constraint firstItem="VXp-gc-1eP" firstAttribute="bottom" secondItem="n8H-HA-Kgs" secondAttribute="top" id="e6O-Fy-lAP"/>
-                            <constraint firstItem="72o-Su-FWO" firstAttribute="leading" secondItem="GXf-b3-bEa" secondAttribute="leading" id="m3C-sp-OH0"/>
                             <constraint firstItem="n8H-HA-Kgs" firstAttribute="top" secondItem="e4O-Ob-E2l" secondAttribute="bottom" id="miF-Bc-PT9"/>
                             <constraint firstAttribute="trailing" secondItem="e4O-Ob-E2l" secondAttribute="trailing" id="ofo-Ju-mtn"/>
                             <constraint firstItem="e4O-Ob-E2l" firstAttribute="leading" secondItem="GXf-b3-bEa" secondAttribute="leadingMargin" constant="-20" id="q3t-wp-cvx"/>
                             <constraint firstItem="VXp-gc-1eP" firstAttribute="leading" secondItem="GXf-b3-bEa" secondAttribute="leading" id="qgu-gm-Ybz"/>
                             <constraint firstItem="sHs-8A-LMm" firstAttribute="leading" secondItem="GXf-b3-bEa" secondAttribute="leadingMargin" constant="14" id="tbe-6B-FUf"/>
-                            <constraint firstAttribute="bottom" secondItem="72o-Su-FWO" secondAttribute="bottom" id="wIJ-Ah-mKh"/>
-                            <constraint firstAttribute="trailing" secondItem="72o-Su-FWO" secondAttribute="trailing" id="xDd-Gk-vcY"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -6306,15 +6299,15 @@ Helsinki, Finland</string>
         </scene>
     </scenes>
     <resources>
+        <image name="BusAnnotationFlat" width="41" height="62"/>
         <image name="Edit-gray-100" width="100" height="100"/>
         <image name="Edit-gray-100.png" width="100" height="100"/>
         <image name="Up Left Filled-100.png" width="100" height="100"/>
         <image name="add-button-white.png" width="96" height="96"/>
         <image name="alarm-clock-filled-white-100" width="100" height="100"/>
         <image name="alarmClockColored" width="33" height="33"/>
-        <image name="blured-background-dark.png" width="710" height="1292"/>
         <image name="bus-filled-light-100.png" width="100" height="100"/>
-        <image name="busAnnotation3_2.png" width="79" height="119"/>
+        <image name="busStopIcon" width="33" height="33"/>
         <image name="close-button-white" width="100" height="100"/>
         <image name="close-button-white.png" width="100" height="100"/>
         <image name="coolIconColored" width="50" height="50"/>
@@ -6359,17 +6352,17 @@ Helsinki, Finland</string>
         <image name="work-filled-100.png" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="tk7-jO-rac"/>
+        <segue reference="fRy-4s-jWt"/>
+        <segue reference="NMg-f3-rlS"/>
+        <segue reference="s3H-Jn-riC"/>
         <segue reference="uxq-Dp-zOu"/>
         <segue reference="oJb-eU-zeZ"/>
-        <segue reference="rqm-Vp-DPt"/>
-        <segue reference="s3H-Jn-riC"/>
-        <segue reference="fRy-4s-jWt"/>
-        <segue reference="W05-cy-Jxe"/>
         <segue reference="qxY-Ak-fPt"/>
         <segue reference="XlZ-XU-H5m"/>
         <segue reference="Gru-ad-IZy"/>
-        <segue reference="tk7-jO-rac"/>
+        <segue reference="W05-cy-Jxe"/>
         <segue reference="lwh-ia-2sg"/>
-        <segue reference="NMg-f3-rlS"/>
+        <segue reference="e2V-qU-oq6"/>
     </inferredMetricsTieBreakers>
 </document>
