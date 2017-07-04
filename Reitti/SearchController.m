@@ -908,7 +908,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [self setNearbyStopsViewTopSpacing:self.searchViewLowerBound animated:YES];
     }
     
-    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    CGSize tableContentSize = self.tableViewContentSize;
 
     if (self.nearbyStopViewTopSpacing < (self.viewVisibleHeight - tableContentSize.height)) {
         [self setNearbyStopsViewTopSpacing:self.viewVisibleHeight - tableContentSize.height animated:YES];
@@ -917,6 +917,11 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 -(BOOL)isNearByStopsListViewHidden{
     return [self nearbyStopViewTopSpacing] >= self.searchViewLowerBound - 5;
+}
+
+-(CGSize)tableViewContentSize {
+    [nearbyStopsListsTable layoutIfNeeded];
+    return nearbyStopsListsTable.contentSize;
 }
 
 -(CGFloat)viewVisibleHeight {
@@ -928,12 +933,12 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 -(CGFloat)searchViewLowerBound {
-    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    CGSize tableContentSize = self.tableViewContentSize;
     return self.viewVisibleHeight - MIN(tableContentSize.height, kMinHeightForListTableView);
 }
 
 -(CGFloat)searchViewUpperBound {
-    CGSize tableContentSize = nearbyStopsListsTable.contentSize;
+    CGSize tableContentSize = self.tableViewContentSize;
     return MAX(self.viewVisibleHeight - tableContentSize.height, kMinTopSpaceForListTableView);
 }
 
