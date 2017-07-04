@@ -71,8 +71,9 @@ NSString *kActionResetICloudBookmarks = @"ResetICloudBookmarks";
 //5. Lines View Controller
 NSString *kActionViewedLine = @"ViewedLine";
 
-//6. Routine View Controller
+//6. Reminders View Controller
 NSString *kActionSavedRoutine = @"SavedRoutine";
+NSString *kActionSnoozedNotification = @"SnoozedNotification";
 
 //7. More View Controller
 NSString *kActionViewedTicketSalesPoints = @"ViewedTicketSalesPoints";

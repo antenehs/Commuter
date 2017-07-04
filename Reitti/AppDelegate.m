@@ -222,6 +222,8 @@
     [self handleLocalNotificationResponse:response];
     
     [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
+    
+    completionHandler();
 }
 
 -(void)handleLocalNotificationResponse:(UNNotificationResponse *)notificationResponse {
@@ -231,6 +233,8 @@
     
     if ([notificationResponse.actionIdentifier isEqualToString:kNotificationActionSnooze]) {
         [[ReittiRemindersManager sharedManger] snoozeNotification:notificationResponse.notification.request];
+        
+        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionSnoozedNotification label:notificationResponse.notification.request.content.categoryIdentifier value:@1];
         return;
     }
     

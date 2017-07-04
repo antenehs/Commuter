@@ -89,7 +89,7 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 //    
 //    return YES;
     
-#if PRO_MAIN_APP || DEPARTURES_PRO_WIDGET || ROUTES_WIDGET || APPLE_WATCH
+#if PRO_MAIN_APP || DEPARTURES_PRO_WIDGET || ROUTES_WIDGET || APPLE_WATCH || DEPARTURE_NOTIFICATION
     return YES;
 #endif
     

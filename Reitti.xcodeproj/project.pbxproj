@@ -592,6 +592,8 @@
 		6684BECD1CB151C80053AAE1 /* TREVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC31CB151C80053AAE1 /* TREVehicle.m */; };
 		6684BECE1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
 		6684BECF1CB151C80053AAE1 /* TREVehicleLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEC51CB151C80053AAE1 /* TREVehicleLocation.m */; };
+		6684DAE11F0BF7410098B1B5 /* AppManagerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA02D11C16FEB000A38858 /* AppManagerBase.m */; };
+		6684DAE21F0C09710098B1B5 /* Annotations.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661EC2051F07565800E02C86 /* Annotations.xcassets */; };
 		66862FEA1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DetailAnnotationSettings.m */; };
 		66862FEB1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE71EF6FBB00023F47B /* DetailAnnotationSettings.m */; };
 		66862FEC1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66862FE91EF6FBB00023F47B /* DetailAnnotationView.m */; };
@@ -1063,6 +1065,9 @@
 		66CA03381C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03301C1778DD00A38858 /* KBPopupBubbleView+Animations.m */; };
 		66CA033A1C1778DD00A38858 /* KBPopupDrawableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03321C1778DD00A38858 /* KBPopupDrawableView.m */; };
 		66CA033B1C1778DD00A38858 /* KBPopupDrawableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CA03321C1778DD00A38858 /* KBPopupDrawableView.m */; };
+		66CB27F41F0BF07D00BB0D0B /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 660A962B1D7DE53000A813A6 /* Notifications.m */; };
+		66CB27F51F0BF2CB00BB0D0B /* ReittiStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */; };
+		66CB27F61F0BF2D500BB0D0B /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		66CB960118EEE2B500E95CE5 /* CustomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960018EEE2B500E95CE5 /* CustomeTableViewCell.m */; };
 		66CB961018EEE46100E95CE5 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960418EEE46100E95CE5 /* NSMutableArray+SWUtilityButtons.m */; };
 		66CB961118EEE46100E95CE5 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CB960618EEE46100E95CE5 /* SWCellScrollView.m */; };
@@ -1130,6 +1135,13 @@
 		66DD9ACB1D8D5098009C59AB /* ReittiConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */; };
 		66DD9ACC1D8D5098009C59AB /* ReittiConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */; };
 		66E031981D2EA0AA00623223 /* NativeActivityIndicator.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */; };
+		66E0F0191F0B1F2300FA1532 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661EC2021F06B8AA00E02C86 /* UserNotifications.framework */; };
+		66E0F01B1F0B1F2300FA1532 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E0F01A1F0B1F2300FA1532 /* UserNotificationsUI.framework */; };
+		66E0F01F1F0B1F2300FA1532 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E0F01E1F0B1F2300FA1532 /* NotificationViewController.m */; };
+		66E0F0221F0B1F2300FA1532 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66E0F0201F0B1F2300FA1532 /* MainInterface.storyboard */; };
+		66E0F0261F0B1F2300FA1532 /* DepartureNotification.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 66E0F0181F0B1F2300FA1532 /* DepartureNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		66E0F02A1F0B2BCC00FA1532 /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
+		66E0F02B1F0B35B400FA1532 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66947CFA188C535300642EE1 /* MapKit.framework */; };
 		66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
 		66E6E5541CB907A10086F611 /* MatkaCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5521CB907A10086F611 /* MatkaCommunicator.m */; };
 		66E6E5581CB90DA90086F611 /* MatkaStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaStop.m */; };
@@ -1338,6 +1350,13 @@
 			remoteGlobalIDString = 66DAC7CC1A025ED90002BE16;
 			remoteInfo = "Commuter - Departures";
 		};
+		66E0F0241F0B1F2300FA1532 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66947CAA18830ED500642EE1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 66E0F0171F0B1F2300FA1532;
+			remoteInfo = DepartureNotification;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1380,6 +1399,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				66E0F0261F0B1F2300FA1532 /* DepartureNotification.appex in Embed App Extensions */,
 				66C735C31C557025002544BC /* Commuter - Departures Pro.appex in Embed App Extensions */,
 				66C735C71C55702F002544BC /* Commuter - Routes Pro.appex in Embed App Extensions */,
 			);
@@ -2104,6 +2124,12 @@
 		66DD9AC91D8D5098009C59AB /* ReittiConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiConfigManager.h; sourceTree = "<group>"; };
 		66DD9ACA1D8D5098009C59AB /* ReittiConfigManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiConfigManager.m; sourceTree = "<group>"; };
 		66E031971D2EA0AA00623223 /* NativeActivityIndicator.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NativeActivityIndicator.xcassets; sourceTree = "<group>"; };
+		66E0F0181F0B1F2300FA1532 /* DepartureNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DepartureNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		66E0F01A1F0B1F2300FA1532 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		66E0F01D1F0B1F2300FA1532 /* NotificationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		66E0F01E1F0B1F2300FA1532 /* NotificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		66E0F0211F0B1F2300FA1532 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		66E0F0231F0B1F2300FA1532 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66E6E5511CB907A10086F611 /* MatkaCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaCommunicator.h; sourceTree = "<group>"; };
 		66E6E5521CB907A10086F611 /* MatkaCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MatkaCommunicator.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66E6E5561CB90DA90086F611 /* MatkaStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaStop.h; sourceTree = "<group>"; };
@@ -2327,6 +2353,16 @@
 			files = (
 				66DAC7CE1A025ED90002BE16 /* NotificationCenter.framework in Frameworks */,
 				BF457356710214BC7F414D17 /* libPods-Networking-Commuter - Departures.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66E0F0151F0B1F2300FA1532 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66E0F02B1F0B35B400FA1532 /* MapKit.framework in Frameworks */,
+				66E0F01B1F0B1F2300FA1532 /* UserNotificationsUI.framework in Frameworks */,
+				66E0F0191F0B1F2300FA1532 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3177,6 +3213,7 @@
 				66CA02C21C16FC4C00A38858 /* Commuter - Routes */,
 				662481851D1FFBF700574319 /* WatchRoutes */,
 				662481941D1FFBF700574319 /* WatchRoutes Extension */,
+				66E0F01C1F0B1F2300FA1532 /* DepartureNotification */,
 				66947CB418830ED500642EE1 /* Frameworks */,
 				66947CB318830ED500642EE1 /* Products */,
 				66C7350A1C556DA6002544BC /* Reitti copy-Info.plist */,
@@ -3197,6 +3234,7 @@
 				66C735C11C556FB5002544BC /* Commuter - Routes Pro.appex */,
 				662481841D1FFBF700574319 /* WatchRoutes.app */,
 				662481901D1FFBF700574319 /* WatchRoutes Extension.appex */,
+				66E0F0181F0B1F2300FA1532 /* DepartureNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3223,6 +3261,7 @@
 				716C66DD8E742924F56C4810 /* libPods-Networking-Reitti.a */,
 				6E822A0EB54FE158934160E6 /* libPods-Networking-Reitti Pro.a */,
 				5281DDE2ED010CEFE42A76AA /* libPods-WatchRoutes Extension.a */,
+				66E0F01A1F0B1F2300FA1532 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3698,6 +3737,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		66E0F01C1F0B1F2300FA1532 /* DepartureNotification */ = {
+			isa = PBXGroup;
+			children = (
+				66E0F01D1F0B1F2300FA1532 /* NotificationViewController.h */,
+				66E0F01E1F0B1F2300FA1532 /* NotificationViewController.m */,
+				66E0F0201F0B1F2300FA1532 /* MainInterface.storyboard */,
+				66E0F0231F0B1F2300FA1532 /* Info.plist */,
+			);
+			path = DepartureNotification;
+			sourceTree = "<group>";
+		};
 		66E6E5501CB907740086F611 /* Matka */ = {
 			isa = PBXGroup;
 			children = (
@@ -4030,6 +4080,7 @@
 				66C735C51C557025002544BC /* PBXTargetDependency */,
 				66C735C91C557030002544BC /* PBXTargetDependency */,
 				662481A71D1FFBF700574319 /* PBXTargetDependency */,
+				66E0F0251F0B1F2300FA1532 /* PBXTargetDependency */,
 			);
 			name = "Reitti Pro";
 			productName = Reitti;
@@ -4097,6 +4148,23 @@
 			name = "Commuter - Departures";
 			productName = "Commuter - Departures";
 			productReference = 66DAC7CD1A025ED90002BE16 /* Commuter - Departures.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		66E0F0171F0B1F2300FA1532 /* DepartureNotification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66E0F0291F0B1F2300FA1532 /* Build configuration list for PBXNativeTarget "DepartureNotification" */;
+			buildPhases = (
+				66E0F0141F0B1F2300FA1532 /* Sources */,
+				66E0F0151F0B1F2300FA1532 /* Frameworks */,
+				66E0F0161F0B1F2300FA1532 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DepartureNotification;
+			productName = DepartureNotification;
+			productReference = 66E0F0181F0B1F2300FA1532 /* DepartureNotification.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -4183,6 +4251,11 @@
 							};
 						};
 					};
+					66E0F0171F0B1F2300FA1532 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = FGEKQ9U6E7;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 66947CAD18830ED500642EE1 /* Build configuration list for PBXProject "Reitti" */;
@@ -4207,6 +4280,7 @@
 				66C735661C556FB5002544BC /* Commuter - Routes Pro */,
 				662481831D1FFBF700574319 /* WatchRoutes */,
 				6624818F1D1FFBF700574319 /* WatchRoutes Extension */,
+				66E0F0171F0B1F2300FA1532 /* DepartureNotification */,
 			);
 		};
 /* End PBXProject section */
@@ -4583,6 +4657,16 @@
 				66C05ADA1ED546FE00F26AD2 /* AlertQuery.graphql in Resources */,
 				6605798C1E11E79300F3559E /* StopsQueryShortFragment.graphql in Resources */,
 				66DAC7D61A025ED90002BE16 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66E0F0161F0B1F2300FA1532 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6684DAE21F0C09710098B1B5 /* Annotations.xcassets in Resources */,
+				66E0F0221F0B1F2300FA1532 /* MainInterface.storyboard in Resources */,
+				66E0F02A1F0B2BCC00FA1532 /* TransportTypes.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5896,6 +5980,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		66E0F0141F0B1F2300FA1532 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66CB27F61F0BF2D500BB0D0B /* ReittiDateHelper.m in Sources */,
+				66CB27F51F0BF2CB00BB0D0B /* ReittiStringFormatter.m in Sources */,
+				6684DAE11F0BF7410098B1B5 /* AppManagerBase.m in Sources */,
+				66CB27F41F0BF07D00BB0D0B /* Notifications.m in Sources */,
+				66E0F01F1F0B1F2300FA1532 /* NotificationViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -5938,6 +6034,11 @@
 			isa = PBXTargetDependency;
 			target = 66DAC7CC1A025ED90002BE16 /* Commuter - Departures */;
 			targetProxy = 66DAC7D71A025ED90002BE16 /* PBXContainerItemProxy */;
+		};
+		66E0F0251F0B1F2300FA1532 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 66E0F0171F0B1F2300FA1532 /* DepartureNotification */;
+			targetProxy = 66E0F0241F0B1F2300FA1532 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -5992,6 +6093,14 @@
 			children = (
 				66CA02C71C16FC4C00A38858 /* Base */,
 				66FDC9DD1D83561300F6288D /* fi */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		66E0F0201F0B1F2300FA1532 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66E0F0211F0B1F2300FA1532 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -7146,6 +7255,51 @@
 			};
 			name = Release;
 		};
+		66E0F0271F0B1F2300FA1532 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FGEKQ9U6E7;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = DepartureNotification/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = "-DDEPARTURE_NOTIFICATION";
+				PRODUCT_BUNDLE_IDENTIFIER = reitti.CommuterAppPro.DepartureNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		66E0F0281F0B1F2300FA1532 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FGEKQ9U6E7;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = DepartureNotification/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-DDEPARTURE_NOTIFICATION";
+				PRODUCT_BUNDLE_IDENTIFIER = reitti.CommuterAppPro.DepartureNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -7226,6 +7380,15 @@
 			buildConfigurations = (
 				66DAC7DA1A025ED90002BE16 /* Debug */,
 				66DAC7DB1A025ED90002BE16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66E0F0291F0B1F2300FA1532 /* Build configuration list for PBXNativeTarget "DepartureNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66E0F0271F0B1F2300FA1532 /* Debug */,
+				66E0F0281F0B1F2300FA1532 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

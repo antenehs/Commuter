@@ -215,7 +215,20 @@
     return filtered.count > 0 ? filtered : nil;
 }
 
-/* 
+-(NSArray *)departuresMatchingDeparture:(StopDeparture *)departure {
+    
+    if (!self.departures) { return nil; }
+    
+    NSArray *filtered = [self.departures filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(StopDeparture *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [evaluatedObject.lineGtfsId isEqualToString:departure.lineGtfsId] &&
+        [evaluatedObject.destination isEqualToString:departure.destination] &&
+        [evaluatedObject.departureTime timeIntervalSinceDate:departure.departureTime] > 0;
+    }]];
+    
+    return filtered.count > 0 ? filtered : nil;
+}
+
+/*
  //DOESNT WORK FOR SOME REASON
  
 -(void)sortDepartureGroupsInPlace:(inout NSArray<GroupedDepartures *> *)departureGroups {

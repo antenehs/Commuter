@@ -68,8 +68,9 @@ extern NSString *kActionResetICloudBookmarks;
 //5. Lines View Controller
 extern NSString *kActionViewedLine;
 
-//6. Routine View Controller
+//6. Reminders View Controller
 extern NSString *kActionSavedRoutine;
+extern NSString *kActionSnoozedNotification;
 
 //7. More View Controller
 extern NSString *kActionViewedTicketSalesPoints;

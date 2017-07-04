@@ -56,6 +56,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 @interface SearchController () {
     NearbyListInfoType nearbyListInfoType;
+    BOOL createdTestNotif;
 }
 
 @property (nonatomic, strong) id previewingContext;
@@ -420,6 +421,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
     smallAnnotationHeight = 37;
     
     //Default values
+    createdTestNotif = NO;
     viewApearForTheFirstTime = YES;
     darkMode = YES;
     centerMap = YES;
@@ -752,6 +754,18 @@ CGFloat  kDeparturesRefreshInterval = 10;
         id groupedDepartures = stop.groupedDepartures;
         if (groupedDepartures) {
             [allNearbyRows addObjectsFromArray:groupedDepartures];
+/* JUST TESTING
+#if DEBUG
+            //For testing only
+            if (!createdTestNotif && stop.departures.count > 0) {
+                [[ReittiRemindersManager sharedManger] setNotificationForDeparture:stop.departures[0]
+                                                                            inStop:stop
+                                                                            offset:1
+                                                             showNotifInController:nil];
+                createdTestNotif = YES;
+            }
+#endif
+*/
         }
     }
     

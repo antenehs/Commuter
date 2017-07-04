@@ -7,13 +7,20 @@
 //
 
 #import "Notifications.h"
+
+#if MAIN_APP
 #import "EnumManager.h"
 #import "SettingsManager.h"
 #import "ReittiDateHelper.h"
+#import "ASA_Helpers.h"
+#import "AppManager.h"
+#endif
 
 NSString *kNotificationStopCode = @"stopCode";
 
 NSString *KNotificationDefaultSoundName = @"KNotificationDefaultSoundName";
+
+NSString *kNotificationSnoozedBodyUserInfoKey = @"snoozedBody";
 
 NSString *kNotificationTypeUserInfoKey = @"type";
 NSString *kNotificationTypeDeparture = @"kNotificationTypeDeparture";
@@ -35,6 +42,7 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
     }
 }
 
+#if MAIN_APP
 -(UNMutableNotificationContent *)notificationContent {
     UNMutableNotificationContent *content = [UNMutableNotificationContent new];
     content.title = self.title;
@@ -44,6 +52,7 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
     
     return content;
 }
+#endif
 
 -(NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [@{} mutableCopy];
@@ -52,6 +61,7 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
     [dict setValue:self.title forKey:@"title"];
     [dict setValue:self.fireDate forKey:@"fireDate"];
     [dict setValue:self.body forKey:@"body"];
+    [dict setValue:self.snoozedBody forKey:@"snoozedBody"];
     [dict setValue:self.toneName forKey:@"toneName"];
     
     return dict;
@@ -64,6 +74,7 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
     self.title = dict[@"title"];
     self.fireDate = dict[@"fireDate"];
     self.body = dict[@"body"];
+    self.snoozedBody = dict[@"snoozedBody"];
     self.toneName = dict[@"toneName"];
     
     return self;
@@ -73,23 +84,39 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
 
 @implementation DepartureNotification
 
+#if MAIN_APP
 +(instancetype)notificationForDeparture:(StopDeparture *)departure stop:(BusStop *)stop offsetMin:(int)minute {
     DepartureNotification *notif = [DepartureNotification new];
-    notif.title = @"Departure Reminder";
-    notif.body = [NSString stringWithFormat:@"Your ride will leave in %d minutes.", minute];
-    notif.stopName = [DepartureNotification notificationStopNameForStop:stop];
-    notif.stopCode = stop.gtfsId;
-    notif.stopIconName = stop.stopIconName;
     
     LineType lineType = [EnumManager lineTypeForStopType:stop.stopType];
     LegTransportType legType = [EnumManager legTrasportTypeForLineType:lineType];
-    notif.departureLine = [EnumManager lineDisplayName:legType forLineCode:departure.code];
+    NSString *departureLineDispName = [EnumManager lineDisplayName:legType forLineCode:departure.code];
+    
+    NSString *stopName = [DepartureNotification notificationStopNameForStop:stop];
+    
+    notif.title = @"Departure Reminder";
+    notif.body = [NSString stringWithFormat:@"%@ will leave in %d %@ from %@.", departureLineDispName, minute, minute == 1 ? @"minute" : @"minutes", stopName];
+    notif.snoozedBody = [NSString stringWithFormat:@"%@ is leaving from %@.", departureLineDispName, stopName];
+    notif.stopName = stopName;
+    notif.stopCode = stop.gtfsId;
+    notif.stopCoordString = stop.coords;
+    notif.stopIconName = stop.stopIconName;
+    notif.stopAnnotationImageName = [AppManager stopAnnotationImageNameForStopType:stop.stopType];
+    
+    notif.departureLine = departureLineDispName;
+    notif.departureLineDestination = departure.destination;
     notif.departureTime = departure.departureTime;
+    
+    NSArray *laterDepartures = [stop departuresMatchingDeparture:departure];
+    
+    notif.laterDepartureTimes = [laterDepartures asa_mapWith:^NSDate *(StopDeparture *element) {
+        return element.departureTime;
+    }];
     
     NSTimeInterval seconds = (minute * -60);
     NSDate *fireDate = [departure.departureTime dateByAddingTimeInterval:seconds];
     
-//    NSTimeInterval seconds = 10;
+//    NSTimeInterval seconds = 5;
 //    NSDate *fireDate = [[NSDate date] dateByAddingTimeInterval:seconds];
     
     notif.fireDate = fireDate;
@@ -124,15 +151,20 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
 +(NSString *)notificationStopNameForStop:(BusStop *)stop {
     return stop.displayName;
 }
+#endif
 
 -(NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];
     
     [dict setValue:self.stopName forKey:@"stopName"];
     [dict setValue:self.stopCode forKey:kNotificationStopCode];
+    [dict setValue:self.stopCoordString forKey:@"stopCoordString"];
     [dict setValue:self.stopIconName forKey:@"stopIconName"];
+    [dict setValue:self.stopAnnotationImageName forKey:@"stopAnnotationImageName"];
     [dict setValue:self.departureLine forKey:@"departureLine"];
+    [dict setValue:self.departureLineDestination forKey:@"departureLineDestination"];
     [dict setValue:self.departureTime forKey:@"departureTime"];
+    [dict setValue:self.laterDepartureTimes forKey:@"laterDepartureTimes"];
     
     return dict;
 }
@@ -144,9 +176,13 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
     if (self) {
         self.stopName = dict[@"stopName"];
         self.stopCode = dict[kNotificationStopCode];
+        self.stopCoordString = dict[@"stopCoordString"];
         self.stopIconName = dict[@"stopIconName"];
+        self.stopAnnotationImageName = dict[@"stopAnnotationImageName"];
         self.departureLine = dict[@"departureLine"];
+        self.departureLineDestination = dict[@"departureLineDestination"];
         self.departureTime = dict[@"departureTime"];
+        self.laterDepartureTimes = dict[@"laterDepartureTimes"];
     }
     
     return self;
@@ -156,10 +192,12 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
 
 @implementation RouteNotification
 
+#if MAIN_APP
 +(instancetype)notificationForRoute:(Route *)route offsetMn:(int)minute {
     RouteNotification *notif = [RouteNotification new];
     notif.title = @"Route Reminder";
     notif.body = [NSString stringWithFormat:@"Get ready to leave %@ in %d minutes", route.fromLocationName, minute];
+    notif.snoozedBody = [NSString stringWithFormat:@"Get ready to leave %@", route.fromLocationName];
     notif.routeUniqueIdentifier = route.routeUniqueName;
     notif.routeToLocation = route.toLocationName;
     notif.routeFromLocation = route.fromLocationName;
@@ -198,6 +236,7 @@ NSString *kNotificationActionSeeRoutes = @"VIEW_ROUTES_ACTION";
     NSString *dateString = [[ReittiDateHelper sharedFormatter] formatFullDateString:self.fireDate];
     return [NSString stringWithFormat:@"%@-%@", self.routeUniqueIdentifier, dateString];
 }
+#endif
 
 -(NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dict = [[super dictionaryRepresentation] mutableCopy];

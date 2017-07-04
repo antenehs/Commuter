@@ -29,5 +29,6 @@
 
 //drived Properites
 @property (nonatomic, strong) NSArray *groupedDepartures;
+-(NSArray *)departuresMatchingDeparture:(StopDeparture *)departure;
 
 @end

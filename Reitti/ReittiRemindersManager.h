@@ -52,7 +52,6 @@ typedef void (^NotifRegistrationBlock)(BOOL granted);
 @property(nonatomic, strong)NSMutableArray *allRoutines;
 @property(nonatomic, strong)NSMutableArray *allSavedRoutineIds;
 
-@property(nonatomic, strong)NSString *reminderMessageFormater;
 @property(nonatomic, strong)NSManagedObjectContext *managedObjectContext;
 
 @end

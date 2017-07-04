@@ -13,6 +13,7 @@
 #import <EventKit/EventKit.h>
 #import "SettingsManager.h"
 #import "RettiDataManager.h"
+#import "AppManager.h"
 #import "ASA_Helpers.h"
 
 @import UserNotifications;
@@ -27,7 +28,7 @@
 @implementation ReittiRemindersManager
 
 @synthesize allRoutines,allSavedRoutineIds;
-@synthesize reminderMessageFormater, managedObjectContext;
+@synthesize managedObjectContext;
 
 +(id)sharedManger{
     static ReittiRemindersManager *remindersManager = nil;
@@ -40,8 +41,6 @@
 }
 
 -(id)init{
-    reminderMessageFormater = @"Your ride will leave in %d minutes.";
-    
     self.managedObjectContext = [[CoreDataManager sharedManager] managedObjectContext];
     self.settingsManager = [SettingsManager sharedManager];
     
@@ -50,7 +49,8 @@
     //Do some sanity check
     [self checkIfRoutineNotificationsAreValid:self.allRoutines];
     
-    [self registerCategoriesAndActions];
+    if ([AppManager isProVersion])
+        [self registerCategoriesAndActions];
     
     //TODO:
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -170,7 +170,8 @@
     if (routine.repeatDays.count == 0) {
         return;
     }else if (routine.repeatDays.count == 7){
-        NSDateComponents *dailyComponents = [gregorian components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:[NSDate dateWithTimeIntervalSinceNow:10]];
+//        NSDateComponents *dailyComponents = [gregorian components:NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond fromDate:[NSDate dateWithTimeIntervalSinceNow:10]];
+        NSDateComponents *dailyComponents = [gregorian components:NSCalendarUnitHour|NSCalendarUnitMinute fromDate:routine.routeDate];
         trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:dailyComponents  repeats:YES];
         UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:routine.uniqueName content:notificationContent trigger:trigger];
         [self scheduleNotification:request];
@@ -287,10 +288,16 @@
     
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     
-    UNTimeIntervalNotificationTrigger *newTrigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+    UNTimeIntervalNotificationTrigger *newTrigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:300 repeats:NO];
+    
+    UNMutableNotificationContent *newContent = [notifRequest.content mutableCopy];
+    
+    if (notifRequest.content.userInfo[kNotificationSnoozedBodyUserInfoKey]) {
+        newContent.body = notifRequest.content.userInfo[kNotificationSnoozedBodyUserInfoKey];
+    }
     
     UNNotificationRequest *newRequest = [UNNotificationRequest requestWithIdentifier:notifRequest.identifier
-                                                                             content:notifRequest.content
+                                                                             content:newContent
                                                                              trigger:newTrigger];
     
     [center removePendingNotificationRequestsWithIdentifiers:@[notifRequest.identifier]];
@@ -311,7 +318,6 @@
 }
 
 -(void)registerNotificationWithCompletion:(NotifRegistrationBlock)completion {
-    
     UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
     
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -336,7 +342,7 @@
     
     UNNotificationAction* stopDeparturesAction = [UNNotificationAction
                                         actionWithIdentifier:@"DEPARTURES_ACTION"
-                                        title:@"View All Departures"
+                                        title:@"View Stop"
                                         options:UNNotificationActionOptionForeground|UNNotificationActionOptionAuthenticationRequired];
     
     UNNotificationAction* routineRoutesAction = [UNNotificationAction
