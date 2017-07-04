@@ -28,4 +28,8 @@ typedef enum
 +(CLLocationCoordinate2D)getCoordinateForRegion:(Region)region;
 -(BOOL)areCoordinatesInTheSameRegion:(CLLocationCoordinate2D)firstcoord andCoordinate:(CLLocationCoordinate2D)secondCoord;
 
+//For debugging
+-(NSArray *)hslRegionCornerLocations;
+-(NSArray *)treRegionCornerLocations;
+
 @end

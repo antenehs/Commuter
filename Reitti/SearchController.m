@@ -352,6 +352,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
     [self setupListTableViewAppearance];
     [self hideNearByStopsView:YES animated:NO];
     [self plotBookmarks];
+    [self plotRegionBoundaries];
 }
 
 -(void)initDataManagers {
@@ -1197,6 +1198,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
             if (currentRegion == HSLRegion || currentRegion == TRERegion) {
                 //Notify and ask for confirmation
                 [settingsManager setUserLocation:currentRegion];
+                
                 if (![AppManager isNewInstallOrNewVersion]) {
                     NSString *title = [NSString stringWithFormat:@"Moved to the %@ region?",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
                     NSString *body = [NSString stringWithFormat:@"Your location has been updated to %@ region. You can change it anytime from settings.",[[ReittiRegionManager sharedManager] getNameOfRegion:currentRegion]];
@@ -1228,6 +1230,19 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 #pragma mark - Plot annotations
+
+-(void)plotRegionBoundaries {
+#if DEBUG
+    ReittiPolyline *hslRegionPolyline = [Polyline reittiPolylineFromLocationArray:[[ReittiRegionManager sharedManager] hslRegionCornerLocations]];
+    hslRegionPolyline.strokeColor = [UIColor redColor];
+    [self.mapViewManager drawPolyline:hslRegionPolyline];
+    
+    ReittiPolyline *treRegionPolyline = [Polyline reittiPolylineFromLocationArray:[[ReittiRegionManager sharedManager] treRegionCornerLocations]];
+    treRegionPolyline.strokeColor = [UIColor redColor];
+    [self.mapViewManager drawPolyline:treRegionPolyline];
+#endif
+}
+
 -(void)plotBookmarks {
 //    [self removeAllAnnotationsOfType:FavouriteType];
     [self.mapViewManager removeAllReittiAnotationsOfType:FavouriteType];

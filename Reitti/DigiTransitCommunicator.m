@@ -61,10 +61,10 @@ typedef enum : NSUInteger {
     communicator.apiBaseUrl = kHslDigiTransitGraphQlUrl;
     communicator.source = HslApi;
     
-    communicator.searchFilterBoundary = @{@"boundary.rect.min_lon" : @"24.332469",
-                                          @"boundary.rect.min_lat" : @"59.917154",
-                                          @"boundary.rect.max_lon" : @"25.507191",
-                                          @"boundary.rect.max_lat" : @"60.456700"};
+    communicator.searchFilterBoundary = @{@"boundary.rect.min_lon" : @"24.032469",
+                                          @"boundary.rect.min_lat" : @"59.017154",
+                                          @"boundary.rect.max_lon" : @"26.507191",
+                                          @"boundary.rect.max_lat" : @"60.856700"};
     
     communicator.liveVehicleFetchClient = [[APIClient alloc] init];
     communicator.liveVehicleFetchClient.apiBaseUrl = @"https://api.digitransit.fi/realtime/vehicle-positions/v1/siriaccess/vm/json";

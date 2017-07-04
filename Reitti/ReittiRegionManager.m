@@ -21,8 +21,8 @@ typedef struct {
 //@property (nonatomic, strong)AGSMutablePolygon *hslRegionPolygon;
 //@property (nonatomic, strong)AGSMutablePolygon *treRegionPolygon;
 
-@property (nonatomic) RTCoordinateRegion additionalHelsinkiRegion;
-@property (nonatomic) RTCoordinateRegion additionalTampereRegion;
+@property (nonatomic) RTCoordinateRegion helsinkiRegion;
+@property (nonatomic) RTCoordinateRegion tampereRegion;
 
 @end
 
@@ -57,12 +57,12 @@ typedef struct {
     CLLocationCoordinate2D coord1 = {.latitude = 60.256700 , .longitude = 24.507191 };
     CLLocationCoordinate2D coord2 = {.latitude = 60.017154 , .longitude = 25.332469};
     RTCoordinateRegion helsinkiRegionCoords = { coord1,coord2 };
-    self.additionalHelsinkiRegion = helsinkiRegionCoords;
+    self.helsinkiRegion = helsinkiRegionCoords;
     
     CLLocationCoordinate2D coord3 = {.latitude = 61.892057 , .longitude = 22.781625 };
     CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
     RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
-    self.additionalTampereRegion = tampereRegionCoords;
+    self.tampereRegion = tampereRegionCoords;
     
 //    NSArray *treRegionCities = [self regionsFromKmlFileNamed:@"TRERegion"];
 //    self.treRegionPolygon = [self polygoneFromRegionCities:treRegionCities];
@@ -74,7 +74,7 @@ typedef struct {
 //    //Additional area check since the kml file might miss some border cases eg. near zalando office.
 //    return [self.hslRegionPolygon containsPoint:point1] ||
     
-    return [self isCoordinateInReittiRegion:self.additionalHelsinkiRegion coordinate:coord];
+    return [self isCoordinateInReittiRegion:self.helsinkiRegion coordinate:coord];
 }
 
 -(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord {
@@ -82,7 +82,7 @@ typedef struct {
 //    
 //    return [self.treRegionPolygon containsPoint:point1];
     
-    return [self isCoordinateInReittiRegion:self.additionalTampereRegion coordinate:coord];
+    return [self isCoordinateInReittiRegion:self.tampereRegion coordinate:coord];
 }
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
@@ -205,6 +205,20 @@ typedef struct {
         return YES;
     }else
         return NO;
+}
+
+-(NSArray *)hslRegionCornerLocations {
+    return @[[[CLLocation alloc] initWithLatitude:self.helsinkiRegion.topLeftCorner.latitude longitude:self.helsinkiRegion.topLeftCorner.longitude],
+             [[CLLocation alloc] initWithLatitude:self.helsinkiRegion.topLeftCorner.latitude longitude:self.helsinkiRegion.bottomRightCorner.longitude],
+             [[CLLocation alloc] initWithLatitude:self.helsinkiRegion.bottomRightCorner.latitude longitude:self.helsinkiRegion.bottomRightCorner.longitude],
+             [[CLLocation alloc] initWithLatitude:self.helsinkiRegion.bottomRightCorner.latitude longitude:self.helsinkiRegion.topLeftCorner.longitude]];
+}
+
+-(NSArray *)treRegionCornerLocations {
+    return @[[[CLLocation alloc] initWithLatitude:self.tampereRegion.topLeftCorner.latitude longitude:self.tampereRegion.topLeftCorner.longitude],
+             [[CLLocation alloc] initWithLatitude:self.tampereRegion.topLeftCorner.latitude longitude:self.tampereRegion.bottomRightCorner.longitude],
+             [[CLLocation alloc] initWithLatitude:self.tampereRegion.bottomRightCorner.latitude longitude:self.tampereRegion.bottomRightCorner.longitude],
+             [[CLLocation alloc] initWithLatitude:self.tampereRegion.bottomRightCorner.latitude longitude:self.tampereRegion.topLeftCorner.longitude]];
 }
 
 @end
