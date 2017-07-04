@@ -180,7 +180,7 @@
         case kKBPopupPointerSideTop:
             X = kKBPopupArrowMargin + self.workingWidth * position;
             Y = (-1) * kKBPopupArrowHeight;
-            rect = CGRectMake(X, Y, kKBPopupArrowWidth - kKBPopupArrowWidth/2, kKBPopupArrowHeight + kKBPopupArrowAdjustment);
+            rect = CGRectMake(X, Y, kKBPopupArrowWidth, kKBPopupArrowHeight + kKBPopupArrowAdjustment);
             break;
         case kKBPopupPointerSideBottom:
             X = kKBPopupArrowMargin - kKBPopupArrowWidth/2 + self.workingWidth * position;

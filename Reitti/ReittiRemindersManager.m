@@ -49,8 +49,8 @@
     //Do some sanity check
     [self checkIfRoutineNotificationsAreValid:self.allRoutines];
     
-    if ([AppManager isProVersion])
-        [self registerCategoriesAndActions];
+//    if ([AppManager isProVersion] && NO) // Diabled for this hot fix
+//        [self registerCategoriesAndActions];
     
     //TODO:
     [[UIApplication sharedApplication] registerForRemoteNotifications];
