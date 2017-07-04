@@ -138,9 +138,11 @@
         }
     }
     
-    if (localNotifications.count != enabledRoutines) {
+    if (localNotifications.count != enabledRoutines || ![SettingsManager migratedRoutines]) {
         //Cancel all notification
         [self recreateAllNotificationsForRoutines:routines];
+        
+        [SettingsManager setMigratedRoutines:YES];
     }
 }
 

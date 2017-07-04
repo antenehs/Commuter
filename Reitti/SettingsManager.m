@@ -24,6 +24,7 @@ NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks
 NSString * const kAskedContactsPermission = @"AskedContactsPermission";
 NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
 NSString * const kUseDigiTransitApi = @"UseDigiTransitApi";
+NSString * const kMigratedRoutineNotification = @"MigratedRoutineNotification";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequestCount";
 NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocalSearching";
@@ -340,6 +341,15 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
 
 +(void)setUseDigiTransit:(BOOL)use {
     [self saveBoolForKey:kUseDigiTransitApi boolVal:use];
+}
+
+//From UINotification to UserNotification
++(BOOL)migratedRoutines {
+    return [self readBoolForKey:kMigratedRoutineNotification withDefault:NO];
+}
+
++(void)setMigratedRoutines:(BOOL)migrated {
+    [self saveBoolForKey:kMigratedRoutineNotification boolVal:migrated];
 }
 
 #if APPLE_WATCH
