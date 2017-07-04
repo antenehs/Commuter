@@ -9,7 +9,11 @@
 #import "ReittiRegionManager.h"
 #import "XMLReader.h"
 #import "StaticCity.h"
-//#import <ArcGIS/ArcGIS.h>
+
+#if MAIN_APP
+#import <RestKit/RestKit.h>
+#import <ArcGIS/ArcGIS.h>
+#endif
 
 typedef struct {
     CLLocationCoordinate2D topLeftCorner;
@@ -18,8 +22,10 @@ typedef struct {
 
 @interface ReittiRegionManager ()
 
-//@property (nonatomic, strong)AGSMutablePolygon *hslRegionPolygon;
-//@property (nonatomic, strong)AGSMutablePolygon *treRegionPolygon;
+#if MAIN_APP
+@property (nonatomic, strong)AGSMutablePolygon *hslRegionPolygon;
+@property (nonatomic, strong)AGSMutablePolygon *treRegionPolygon;
+#endif
 
 @property (nonatomic) RTCoordinateRegion helsinkiRegion;
 @property (nonatomic) RTCoordinateRegion tampereRegion;
@@ -51,8 +57,13 @@ typedef struct {
 }
 
 -(void)initRegions {
-//    NSArray *hslRegionCities = [self regionsFromKmlFileNamed:@"HSLRegion"];
-//    self.hslRegionPolygon = [self polygoneFromRegionCities:hslRegionCities];
+#if MAIN_APP
+    NSArray *hslRegionCities = [self regionsFromKmlFileNamed:@"HSLRegion"];
+    self.hslRegionPolygon = [self polygoneFromRegionCities:hslRegionCities];
+
+    NSArray *treRegionCities = [self regionsFromKmlFileNamed:@"TRERegion"];
+    self.treRegionPolygon = [self polygoneFromRegionCities:treRegionCities];
+#endif
     
     CLLocationCoordinate2D coord1 = {.latitude = 60.256700 , .longitude = 24.507191 };
     CLLocationCoordinate2D coord2 = {.latitude = 60.017154 , .longitude = 25.332469};
@@ -63,26 +74,27 @@ typedef struct {
     CLLocationCoordinate2D coord4 = {.latitude = 61.092114 , .longitude = 24.716342};
     RTCoordinateRegion tampereRegionCoords = { coord3,coord4 };
     self.tampereRegion = tampereRegionCoords;
-    
-//    NSArray *treRegionCities = [self regionsFromKmlFileNamed:@"TRERegion"];
-//    self.treRegionPolygon = [self polygoneFromRegionCities:treRegionCities];
 }
 
 -(BOOL)isCoordinateInHSLRegion:(CLLocationCoordinate2D)coord {
-//    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
-//    
-//    //Additional area check since the kml file might miss some border cases eg. near zalando office.
-//    return [self.hslRegionPolygon containsPoint:point1] ||
+#if MAIN_APP
+    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
     
+    //Additional area check since the kml file might miss some border cases eg. near zalando office.
+    return [self.hslRegionPolygon containsPoint:point1] || [self isCoordinateInReittiRegion:self.helsinkiRegion coordinate:coord];
+#else
     return [self isCoordinateInReittiRegion:self.helsinkiRegion coordinate:coord];
+#endif
 }
 
 -(BOOL)isCoordinateInTRERegion:(CLLocationCoordinate2D)coord {
-//    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
-//    
-//    return [self.treRegionPolygon containsPoint:point1];
+#if MAIN_APP
+    AGSPoint* point1 = [AGSPoint pointWithX:coord.longitude y:coord.latitude spatialReference:[AGSSpatialReference spatialReferenceWithWKID:4326 WKT:nil]];
     
+    return [self.treRegionPolygon containsPoint:point1] || [self isCoordinateInReittiRegion:self.tampereRegion coordinate:coord];;
+#else
     return [self isCoordinateInReittiRegion:self.tampereRegion coordinate:coord];
+#endif
 }
 
 -(Region)identifyRegionOfCoordinate:(CLLocationCoordinate2D)coords{
@@ -104,7 +116,7 @@ typedef struct {
     }else if (region == TRERegion) {
         return @"Tampere";
     }else{
-        return @"Whole finland";
+        return @"Whole Finland";
     }
 }
 
@@ -126,7 +138,7 @@ typedef struct {
 }
 
 #pragma mark - Helpers
-/*
+#if MAIN_APP
 -(AGSMutablePolygon *)polygoneFromRegionCities:(NSArray *)regionCities {
     if (!regionCities) return nil;
     
@@ -158,9 +170,7 @@ typedef struct {
     
     return poly;
 }
- */
 
-/*
 -(NSArray *)regionsFromKmlFileNamed:(NSString *)kmlFileName {
     NSString *pathToDataFile = [[NSBundle mainBundle] pathForResource:kmlFileName ofType:@"kml"];
     NSError *error;
@@ -188,14 +198,14 @@ typedef struct {
     BOOL isMapped = [mapper execute:&mappingError];
     
     if (isMapped && !mappingError) {
-        NSLog(@"SUCCESS : %@",[[mapper mappingResult] array]);
+//        NSLog(@"SUCCESS : %@",[[mapper mappingResult] array]);
         return [[mapper mappingResult] array];
     } else {
-        NSLog(@"FAIL : %@",mappingError);
+//        NSLog(@"FAIL : %@",mappingError);
         return  nil;
     }
 }
- */
+#endif
 
 -(BOOL)isCoordinateInReittiRegion:(RTCoordinateRegion)region coordinate:(CLLocationCoordinate2D)coords{
     if (coords.latitude < region.topLeftCorner.latitude &&

@@ -6,7 +6,6 @@ platform :ios, '9.0'
 #pod 'RestKit', '~> 0.24.0’
 #pod 'RKXMLReaderSerialization', :git => 'https://github.com/RestKit/RKXMLReaderSerialization.git', :branch => 'master'
 #
-#pod ‘ArcGIS-Runtime-SDK-iOS’
 #pod 'Google/Analytics'
 
 def networking_pods
@@ -31,6 +30,10 @@ def push_notification
   pod 'Firebase/Messaging'
 end
 
+def arc_gis
+  pod ‘ArcGIS-Runtime-SDK-iOS’, '~> 10.2.5'
+end
+
 abstract_target 'Networking' do
   networking_pods
 
@@ -45,6 +48,7 @@ abstract_target 'Networking' do
     crash_reporting
     remote_config
     push_notification
+    arc_gis
   end
 
   target 'Reitti Pro' do
@@ -52,6 +56,7 @@ abstract_target 'Networking' do
     crash_reporting
     remote_config
     push_notification
+    arc_gis
   end
 
 end

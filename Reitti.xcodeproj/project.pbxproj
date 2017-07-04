@@ -576,12 +576,6 @@
 		6683CF2A1CD929170044727B /* MatkaGeoCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD7F9D1CBA843900C6C731 /* MatkaGeoCode.m */; };
 		6683CF2B1CD9294F0044727B /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		6683CF2C1CD929610044727B /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
-		6683CF2D1CD94EA00044727B /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
-		6683CF2E1CD94EA10044727B /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
-		6683CF2F1CD94EA20044727B /* TRERegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F11CCFFF2100991FBF /* TRERegion.kml */; };
-		6683CF301CD94EA50044727B /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
-		6683CF311CD94EA60044727B /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
-		6683CF321CD94EA70044727B /* HSLRegion.kml in Resources */ = {isa = PBXBuildFile; fileRef = 6603A8F21CCFFF2100991FBF /* HSLRegion.kml */; };
 		6684BEC61CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */; };
 		6684BEC71CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBD1CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m */; };
 		6684BEC81CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */ = {isa = PBXBuildFile; fileRef = 6684BEBF1CB151C80053AAE1 /* TREMonitoredVehicleJourney.m */; };
@@ -4574,8 +4568,6 @@
 				660579711E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605797F1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C735351C556FA4002544BC /* stopIcon.png in Resources */,
-				6683CF311CD94EA60044727B /* HSLRegion.kml in Resources */,
-				6683CF2E1CD94EA10044727B /* TRERegion.kml in Resources */,
 				66C7353B1C556FA4002544BC /* search-green-50.png in Resources */,
 				66C05ADF1ED546FF00F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				66F16CFC1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
@@ -4603,7 +4595,6 @@
 				66F16CED1E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
 				66C05AE01ED5470000F26AD2 /* BikesQuery.graphql in Resources */,
 				661EC20C1F0759D800E02C86 /* Icons.xcassets in Resources */,
-				6683CF2F1CD94EA20044727B /* TRERegion.kml in Resources */,
 				663207091D27D27100D8A46D /* AddressTypes.xcassets in Resources */,
 				66F16CE51E05EE7600D45613 /* StopsQuery.graphql in Resources */,
 				6632070D1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */,
@@ -4614,7 +4605,6 @@
 				663465E01ECE5160004B8AAF /* PatternFullFragment.graphql in Resources */,
 				66C05AE31ED5470000F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				660579721E11D49100F3559E /* RouteQuery.graphql in Resources */,
-				6683CF321CD94EA70044727B /* HSLRegion.kml in Resources */,
 				66C05AF21ED5558500F26AD2 /* Transport.xib in Resources */,
 				66EB0D561DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
 				66833D381CF0BC4D005D958C /* DepartureTableViewCell.xib in Resources */,
@@ -4638,8 +4628,6 @@
 				660579701E11D49100F3559E /* RouteQuery.graphql in Resources */,
 				6605797E1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66DAC7EC1A04000D0002BE16 /* stopIcon.png in Resources */,
-				6683CF301CD94EA50044727B /* HSLRegion.kml in Resources */,
-				6683CF2D1CD94EA00044727B /* TRERegion.kml in Resources */,
 				66DAC7EA1A03F4FB0002BE16 /* search-green-50.png in Resources */,
 				66C05ADB1ED546FE00F26AD2 /* AlertQueryFragment.graphql in Resources */,
 				66F16CFB1E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
