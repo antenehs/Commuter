@@ -10,6 +10,13 @@
 #import <CoreData/CoreData.h>
 #import "ReittiManagedObjectBase.h"
 
+extern NSString *kNotificationTypeRoutine;
+
+extern NSString *kRoutineNotificationFromName;
+extern NSString *kRoutineNotificationFromCoords;
+extern NSString *kRoutineNotificationToName;
+extern NSString *kRoutineNotificationToCoords;
+extern NSString *kRoutineNotificationUniqueName;
 
 @interface RoutineEntity : ReittiManagedObjectBase
 
@@ -25,5 +32,10 @@
 @property (nonatomic, retain) NSString * dayNames;
 @property (nonatomic, retain) NSArray * repeatDays;
 @property (nonatomic, retain) NSString * toneName;
+
+
+-(NSDictionary *)dictionaryRepresentation;
+-(NSString *)uniqueName;
+-(NSArray *)dailyUniqueNames;
 
 @end

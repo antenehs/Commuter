@@ -11,6 +11,7 @@
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 #import "WebViewController.h"
+#import "ReittiRemindersManager.h"
 
 NSInteger kHistoryCleaningDaysSelectionViewControllerTag = 1001;
 NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
@@ -172,7 +173,7 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         }else if (indexPath.row == toneSelectorRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"notificationToneCell"];
             UILabel *toneNameLabel = (UILabel *)[cell viewWithTag:1001];
-            if ([[settingsManager toneName] isEqualToString:UILocalNotificationDefaultSoundName]) {
+            if ([[settingsManager toneName] isEqualToString:UILocalNotificationDefaultSoundName] || [[settingsManager toneName] isEqualToString:KNotificationDefaultSoundName]) {
                 toneNameLabel.text = @"Default iOS sound";
             }else{
                 toneNameLabel.text = [settingsManager toneName];

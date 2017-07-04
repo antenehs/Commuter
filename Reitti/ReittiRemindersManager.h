@@ -14,33 +14,26 @@
 #import "Notifications.h"
 #import "Route.h"
 
-extern NSString *kNotificationTypeUserInfoKey;
-extern NSString *kNotificationTypeRoutine;
-extern NSString *kNotificationTypeDeparture;
-extern NSString *kNotificationTypeRoute;
-
-extern NSString *kRoutineNotificationFromName;
-extern NSString *kRoutineNotificationFromCoords;
-extern NSString *kRoutineNotificationToName;
-extern NSString *kRoutineNotificationToCoords;
-extern NSString *kRoutineNotificationUniqueName;
+typedef void (^NotifRegistrationBlock)(BOOL granted);
 
 @interface ReittiRemindersManager : NSObject
 
 +(id)sharedManger;
 
 -(void)setNotificationForDeparture:(StopDeparture *)departure inStop:(BusStop *)stop offset:(int)minute showNotifInController:(UIViewController *)controller;
--(NSArray *)getAllDepartureNotifications;
--(NSArray *)getDepartureNotificationsForStop:(BusStop *)stop;
+
+-(void)getAllDepartureNotificationsWithCompletion:(ActionBlock)completion;
+-(void)getDepartureNotificationsForStop:(BusStop *)stop withCompletion:(ActionBlock)completion;
 
 -(void)setNotificationForRoute:(Route *)route withMinOffset:(int)minute showNotifInController:(UIViewController *)controller;
--(NSArray *)getAllRouteNotifications;
--(NSArray *)getRouteNotificationsForRoute:(Route *)route;
 
--(void)cancelNotifications:(NSArray *)notification;
+-(void)getAllRouteNotificationsWithCompletion:(ActionBlock)completion;
+-(void)getRouteNotificationsForRoute:(Route *)route withCompletion:(ActionBlock)completion;
 
--(BOOL)isLocalNotificationEnabled;
--(void)registerNotification;
+-(void)cancelUserNotifications:(NSArray *)notifications;
+-(void)snoozeNotification:(UNNotificationRequest *)notifRequest;
+
+-(void)isUserNotificationEnabledWithCompletion:(NotifRegistrationBlock)completion;
 
 +(NSString *)displayStringForSeletedDays:(NSArray *)daysList;
 +(NSArray *)allDayNamesArray;

@@ -10,8 +10,6 @@
 #import "ReittiRemindersManager.h"
 
 @interface RemindersTableViewController : UITableViewController{
-    BOOL notificationIsAllowed;
-    
     NSInteger routinesSection, departureNotifSection, routeNotifSection;
 }
 

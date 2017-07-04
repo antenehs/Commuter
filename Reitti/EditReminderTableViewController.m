@@ -155,7 +155,7 @@
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"soundCell" forIndexPath:indexPath];
             
-            if ([self.toneName isEqualToString:UILocalNotificationDefaultSoundName]) {
+            if ([self.toneName isEqualToString:KNotificationDefaultSoundName]) {
                 cell.detailTextLabel.text = NSLocalizedString(@"Default iOS sound", @"Default iOS notification sound");
             }else{
                 cell.detailTextLabel.text = self.toneName;

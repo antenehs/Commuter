@@ -1158,14 +1158,16 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [alertController addAction:action15min];
     [alertController addAction:action30min];
     
+    /* This has to wait
     NSArray *existingNotifs = [[ReittiRemindersManager sharedManger] getRouteNotificationsForRoute:self.route];
     if (existingNotifs && existingNotifs.count > 0) {
         UIAlertAction *deleteExisting = [UIAlertAction actionWithTitle:@"Cancel Current Reminders" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            [[ReittiRemindersManager sharedManger] cancelNotifications:existingNotifs];
+            [[ReittiRemindersManager sharedManger] cancelUserNotifications:existingNotifs];
         }];
         
         [alertController addAction:deleteExisting];
     }
+    */
     
     [alertController addAction:cancelAction];
     

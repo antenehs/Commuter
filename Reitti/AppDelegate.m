@@ -47,13 +47,15 @@
     //Set region support before sending data to watch
     [[WatchCommunicationManager sharedManager] updateWatchLocalSearchSupported:YES];
     
-    if (launchOptions != nil) {
-        // Launched from push notification
-        UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-        if (locationNotification) {
-            [self handleLocalNotification:locationNotification];
-        }
-    }
+    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+    
+//    if (launchOptions != nil) {
+//        // Launched from push notification
+//        UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+//        if (locationNotification) {
+//            [self handleLocalNotification:locationNotification];
+//        }
+//    }
     
     if([UIApplicationShortcutItem class]){
         UIApplicationShortcutItem *shortcutItem = [launchOptions objectForKey:UIApplicationLaunchOptionsShortcutItemKey];
@@ -161,9 +163,6 @@
 }
 
 -(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-    if ([[ReittiRemindersManager sharedManger] isLocalNotificationEnabled]) {
-        [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserAllowedReminders value:@"true"];
-    }
 }
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -174,18 +173,21 @@
     
 }
 
+#pragma mark - Notifications
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    UIApplicationState applicationState = application.applicationState;
-    if (application.applicationState == UIApplicationStateInactive || applicationState == UIApplicationStateBackground) {
-        [self handleLocalNotification:notification];
-        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
-    }else if (application.applicationState == UIApplicationStateActive) {
-        MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
-        [ReittiNotificationHelper showSimpleMessageWithTitle:notification.alertTitle
-                                                  andContent:notification.alertBody
-                                                inController:tabBarController];
-    }
+//    UIApplicationState applicationState = application.applicationState;
+//    if (application.applicationState == UIApplicationStateInactive || applicationState == UIApplicationStateBackground) {
+////        [self handleLocalNotification:notification];
+//        [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
+//    }else if (application.applicationState == UIApplicationStateActive) {
+//        MainTabBarController *tabBarController = (MainTabBarController *)[UIApplication sharedApplication].delegate.window.rootViewController;
+//        [ReittiNotificationHelper showSimpleMessageWithTitle:notification.alertTitle
+//                                                  andContent:notification.alertBody
+//                                                inController:tabBarController];
+//    }
+    NSAssert(false, @"This should not be called");
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -209,17 +211,40 @@
     }
 }
 
--(void)handleLocalNotification:(UILocalNotification *)localNotification {
-    if (!localNotification.userInfo || !localNotification.userInfo[kNotificationTypeUserInfoKey]) return;
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    // Play a sound and alert.
+    completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
+}
+
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    [self handleLocalNotificationResponse:response];
     
-    if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeRoutine]) {
-        RouteSearchParameters *searchParams = [[RouteSearchParameters alloc] initWithToLocation:localNotification.userInfo[kRoutineNotificationToName] toCoords:localNotification.userInfo[kRoutineNotificationToCoords] fromLocation:localNotification.userInfo[kRoutineNotificationFromName] fromCoords:localNotification.userInfo[kRoutineNotificationFromCoords]];
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionLaunchAppFromNotification label:nil value:nil];
+}
+
+-(void)handleLocalNotificationResponse:(UNNotificationResponse *)notificationResponse {
+    if (!notificationResponse.notification.request.content.userInfo) return;
+    
+    NSDictionary *userInfo = notificationResponse.notification.request.content.userInfo;
+    
+    if ([notificationResponse.actionIdentifier isEqualToString:kNotificationActionSnooze]) {
+        [[ReittiRemindersManager sharedManger] snoozeNotification:notificationResponse.notification.request];
+        return;
+    }
+    
+    if ([notificationResponse.notification.request.content.categoryIdentifier isEqualToString:kNotificationTypeRoutine]) {
+        RouteSearchParameters *searchParams = [[RouteSearchParameters alloc] initWithToLocation:userInfo[kRoutineNotificationToName]
+                                                                                       toCoords:userInfo[kRoutineNotificationToCoords]
+                                                                                   fromLocation:userInfo[kRoutineNotificationFromName]
+                                                                                     fromCoords:userInfo[kRoutineNotificationFromCoords]];
         [self switchToRouteSearchViewWithRouteParameter:searchParams];
-    } else if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeDeparture]) {
-        NSString *stopCode = localNotification.userInfo[kNotificationStopCode];
+    } else if ([notificationResponse.notification.request.content.categoryIdentifier isEqualToString:kNotificationTypeDeparture]) {
+        NSString *stopCode = notificationResponse.notification.request.content.userInfo[kNotificationStopCode];
         if (stopCode)
             [self openStopDetailForStopWithCode:stopCode];
-    } else if ([localNotification.userInfo[kNotificationTypeUserInfoKey] isEqualToString:kNotificationTypeRoute]) {
+    } else if ([notificationResponse.notification.request.content.categoryIdentifier isEqualToString:kNotificationTypeRoute]) {
         [self switchToRouteSearchViewWithRouteParameter:nil];
     }
 }

@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ReittiStringFormatter.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@import UserNotifications;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

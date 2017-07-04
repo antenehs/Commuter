@@ -549,7 +549,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="R5m-79-gnG" kind="show" id="xJp-0o-qB6">
+                                    <segue destination="R5m-79-gnG" kind="show" identifier="selectTone" id="xJp-0o-qB6">
                                         <nil key="action"/>
                                     </segue>
                                 </connections>
@@ -639,7 +639,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0DT-4Y-cVP" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="vYO-yz-g2L">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="vYO-yz-g2L">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

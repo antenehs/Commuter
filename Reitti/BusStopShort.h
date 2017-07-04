@@ -53,6 +53,7 @@
 @property (nonatomic, retain) NSArray * lineCodes;
 @property (nonatomic, retain) NSArray * lineFullCodes;
 
+@property (nonatomic, strong, readonly) NSString *displayName;
 @property (nonatomic) StopType stopType;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 

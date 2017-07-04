@@ -11,18 +11,32 @@
 #import "BusStop.h"
 #import "Route.h"
 
+@import UserNotifications;
+
 extern NSString *kNotificationStopCode;
+
+extern NSString *KNotificationDefaultSoundName;
+
+extern NSString *kNotificationTypeUserInfoKey;
+extern NSString *kNotificationTypeDeparture;
+extern NSString *kNotificationTypeRoute;
+
+extern NSString *kNotificationActionSnooze;
+extern NSString *kNotificationActionSeeDepartures;
+extern NSString *kNotificationActionGetRoutesForRoutine;
+extern NSString *kNotificationActionSeeRoutes;
 
 @interface NotificationBase : NSObject
 
 -(NSDictionary *)dictionaryRepresentation;
 -(instancetype)initFromDictionary:(NSDictionary *)dict;
 
+@property (nonatomic, strong)NSString *type;
 @property (nonatomic, strong)NSDate *fireDate;
 @property (nonatomic, strong)NSString *title;
 @property (nonatomic, strong)NSString *body;
 @property (nonatomic, strong)NSString *toneName;
-@property (nonatomic, strong)UILocalNotification *relatedNotification;
+@property (nonatomic, strong)UNNotificationRequest *relatedNotification;
 
 @end
 
@@ -35,6 +49,8 @@ extern NSString *kNotificationStopCode;
 
 +(instancetype)notificationForDeparture:(StopDeparture *)departure stop:(BusStop *)stop offsetMin:(int)minute;
 +(NSString *)notificationStopNameForStop:(BusStop *)stop;
+
+-(UNNotificationRequest *)notificationRequest;
 
 @property (nonatomic, strong)NSString *stopName;
 @property (nonatomic, strong)NSString *stopCode;
@@ -52,6 +68,8 @@ extern NSString *kNotificationStopCode;
 -(instancetype)initFromDictionary:(NSDictionary *)dict;
 
 +(instancetype)notificationForRoute:(Route *)route offsetMn:(int)minute;
+
+-(UNNotificationRequest *)notificationRequest;
 
 @property (nonatomic, strong)NSString *routeUniqueIdentifier;
 @property (nonatomic, strong)NSString *routeFromLocation;

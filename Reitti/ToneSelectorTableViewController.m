@@ -12,6 +12,7 @@
 #import "ASA_Helpers.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "ReittiAnalyticsManager.h"
+#import "ReittiRemindersManager.h"
 
 @interface ToneSelectorTableViewController ()
 
@@ -27,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.dataToLoad = [[NSMutableArray alloc] initWithObjects:UILocalNotificationDefaultSoundName, nil];
+    self.dataToLoad = [[NSMutableArray alloc] initWithObjects:KNotificationDefaultSoundName, nil];
     [self.dataToLoad addObjectsFromArray:[AppManager toneNames]];
     
     checkedIndexPath = [self indexPathForTone:self.selectedTone];
@@ -77,7 +78,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"toneCell" forIndexPath:indexPath];
     
     NSString *toneName = [self.dataToLoad objectAtIndex:indexPath.row];
-    if ([toneName isEqualToString:UILocalNotificationDefaultSoundName]) {
+    if ([toneName isEqualToString:KNotificationDefaultSoundName]) {
         toneName = @"Default iOS sound";
     }
     
@@ -120,7 +121,7 @@
 - (void)playMp3AudioNamed:(NSString *)audioName{
     AudioServicesDisposeSystemSoundID(self.soundID);
     
-    if ([audioName isEqualToString:UILocalNotificationDefaultSoundName])
+    if ([audioName isEqualToString:KNotificationDefaultSoundName])
         return;
     
     if (audioName == nil)

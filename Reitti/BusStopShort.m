@@ -80,6 +80,10 @@
     return _address;
 }
 
+-(NSString *)displayName {
+    return [NSString stringWithFormat:@"%@ (%@)", self.name, self.codeShort];
+}
+
 #pragma mark - Init from other stops
 
 #ifndef APPLE_WATCH

@@ -14,8 +14,11 @@
 #import "ReittiDateHelper.h"
 #import "Notifications.h"
 #import "UITableView+Helper.h"
+#import "ASA_Helpers.h"
 
 @interface RemindersTableViewController ()
+
+@property (nonatomic) BOOL isNotificationsEnabled;
 
 @end
 
@@ -27,18 +30,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.isNotificationsEnabled = YES;
+    
     [self initManager];
 //    [self.remindersManager deleteAllSavedRoutines];
-    [self fetchSavedData];
-    
-    [self updateSectionNumber];
-    
+
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 65.0;
     
-    [self.tableView reloadData];
-    
     [self.tableView setBlurredBackgroundWithImageNamed:nil];
+    
+    
+    [self updateTableData];
     
     CGRect frame = CGRectMake(0, 0, 30, 30);
     UIImage *image1 = [UIImage imageNamed:@"add-button-white.png"];
@@ -51,21 +54,24 @@
     
     self.navigationItem.rightBarButtonItem = addBarButtonItem;
     
-    notificationIsAllowed = [self isNotificationsEnabled];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self fetchSavedData];
-    [self updateSectionNumber];
     [self.navigationItem setTitle:@"REMINDERS"];
     
-    notificationIsAllowed = [self isNotificationsEnabled];
-    [self.tableView reloadData];
+    [self updateTableData];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];
+}
+
+-(void)updateTableData {
+    [self updateNotifEnabledStatus];
+    
+    [self fetchSavedDataWithCompletion:^{
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)updateSectionNumber {
@@ -79,8 +85,7 @@
 }
 
 - (void)appWillEnterForeground:(NSNotification *)notification {
-    notificationIsAllowed = [self isNotificationsEnabled];
-    [self.tableView reloadData];
+    [self updateNotifEnabledStatus];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,21 +97,41 @@
     self.remindersManager = [ReittiRemindersManager sharedManger];
 }
 
--(void)fetchSavedData{
+-(void)fetchSavedDataWithCompletion:(ActionBlock)completion {
     self.savedRoutines = [[remindersManager fetchAllSavedRoutinesFromCoreData] mutableCopy];
     if (self.savedRoutines == nil) {
         self.savedRoutines = [@[] mutableCopy];
     }
     
-    self.departureNotifications = [[remindersManager getAllDepartureNotifications] mutableCopy];
-    if (!self.departureNotifications) {
-        self.departureNotifications = [@[] mutableCopy];
-    }
+    __block NSInteger requestCalls = 2;
+    [remindersManager getAllDepartureNotificationsWithCompletion:^(NSArray *notifs){
+        requestCalls--;
+        
+        self.departureNotifications = [notifs mutableCopy];
+        
+        if (requestCalls == 0)
+            completion();
+    }];
     
-    self.routeNotifications = [[remindersManager getAllRouteNotifications] mutableCopy];
-    if (!self.routeNotifications) {
-        self.routeNotifications = [@[] mutableCopy];
-    }
+//    self.departureNotifications = [[remindersManager getAllDepartureNotifications] mutableCopy];
+//    if (!self.departureNotifications) {
+//        self.departureNotifications = [@[] mutableCopy];
+//    }
+    
+//    self.routeNotifications = [[remindersManager getAllRouteNotifications] mutableCopy];
+//    if (!self.routeNotifications) {
+//        self.routeNotifications = [@[] mutableCopy];
+//    }
+//    requestCalls--;
+    
+    [remindersManager getAllRouteNotificationsWithCompletion:^(NSArray *notifs){
+        requestCalls--;
+        
+        self.routeNotifications = [notifs mutableCopy];
+        
+        if (requestCalls == 0)
+            completion();
+    }];
 }
 
 #pragma mark - view methods
@@ -251,7 +276,7 @@
                 [self.tableView reloadData];
             }
         } else if (indexPath.section == departureNotifSection) {
-            [remindersManager cancelNotifications:@[self.departureNotifications[indexPath.row]]];
+            [remindersManager cancelUserNotifications:@[self.departureNotifications[indexPath.row]]];
             [self.departureNotifications removeObjectAtIndex:indexPath.row];
             if (self.departureNotifications.count == 0) {
                 [tableView deleteSections:[NSIndexSet indexSetWithIndex:departureNotifSection] withRowAnimation:UITableViewRowAnimationFade];
@@ -259,7 +284,7 @@
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }
         } else {
-            [remindersManager cancelNotifications:@[self.routeNotifications[indexPath.row]]];
+            [remindersManager cancelUserNotifications:@[self.routeNotifications[indexPath.row]]];
             [self.routeNotifications removeObjectAtIndex:indexPath.row];
             if (self.routeNotifications.count == 0) {
                 [tableView deleteSections:[NSIndexSet indexSetWithIndex:routeNotifSection] withRowAnimation:UITableViewRowAnimationFade];
@@ -298,8 +323,11 @@
     [remindersManager saveRoutineToCoreData:routine];
 }
 
-- (BOOL)isNotificationsEnabled {
-    return [[ReittiRemindersManager sharedManger] isLocalNotificationEnabled];
+- (void)updateNotifEnabledStatus {
+    [[ReittiRemindersManager sharedManger] isUserNotificationEnabledWithCompletion:^(BOOL granted){
+        self.isNotificationsEnabled = granted;
+        [self.tableView reloadData];
+    }];
 }
 
 -(NSInteger)dataIndexRowForTableIndexPath:(NSIndexPath *)indexPath{

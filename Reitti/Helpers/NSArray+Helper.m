@@ -19,4 +19,15 @@
     return array;
 }
 
+-(NSArray *)asa_mapWith:(ArrayMappingBlock)mappingBlock {
+    
+    NSMutableArray *mappedArray = [@[] mutableCopy];
+    for (id element in self) {
+        id mapped = mappingBlock(element);
+        if (mapped) [mappedArray addObject:mapped];
+    }
+    
+    return [NSArray arrayWithArray:mappedArray];
+}
+
 @end

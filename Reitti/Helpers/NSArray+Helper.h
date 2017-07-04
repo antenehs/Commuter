@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef id(^ArrayMappingBlock)(id element);
+
 @interface NSArray (Helper)
 
 - (NSArray *)reversedArray;
+-(NSArray *)asa_mapWith:(ArrayMappingBlock)mappingBlock;
 
 @end
