@@ -22,6 +22,7 @@
 #import "MainTabBarController.h"
 #import "ReittiDateHelper.h"
 #import "CoreDataManagers.h"
+#import "AppFeatureManager.h"
 
 const NSInteger kTimerRefreshInterval = 60;
 
@@ -1001,7 +1002,8 @@ const NSInteger kTimerRefreshInterval = 60;
     lineName.textColor = [UIColor blackColor];
     
     NSDate *departureTime = departure.departureTime;
-    realtimeIndicatorImageView.hidden = !departure.isRealTime || ![AppManager isProVersion];
+    realtimeIndicatorImageView.hidden = !departure.isRealTime || ![AppFeatureManager proFeaturesAvailable];
+    realtimeIndicatorImageView.tintColor = [AppManagerBase systemGreenColor];
     
     NSString *formattedHour = [[ReittiDateHelper sharedFormatter] formatHourStringFromDate:departureTime];
     if (!formattedHour || formattedHour.length < 1 ) {

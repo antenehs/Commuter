@@ -10,6 +10,7 @@
 #import "DetailImageView.h"
 #import "AppManager.h"
 #import "ASA_Helpers.h"
+#import "AppFeatureManager.h"
 
 NSString *kImageKey = @"ImageKey";
 NSString *kTitleKey = @"TitleKey";
@@ -138,7 +139,7 @@ NSString *kDescKey = @"DescKey";
     NSDictionary *newStopFilter = @{kImageKey: @"newStopFilter", kTitleKey: @"Stops Filter", kDescKey: @"You feel the map view is a bit crouded with stops you are not interested in? Filter away!"};
     
     
-    if ([AppManager isProVersion]) {
+    if ([AppFeatureManager proFeaturesAvailable]) {
         self.featuresWithImage = @[appleWatchApp, realtimeDeparture, newWidgetsPro, newDisruptions, newReminders, newStopFilter, newContacts];
         self.featuresCompact = @[];
     } else {

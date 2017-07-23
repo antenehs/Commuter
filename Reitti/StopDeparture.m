@@ -7,7 +7,7 @@
 
 #import "StopDeparture.h"
 #import "AppManager.h"
-
+#import "AppFeatureManager.h"
 
 NSString *const kDeparturesCode = @"code";
 NSString *const kDeparturesDate = @"date";
@@ -124,7 +124,7 @@ NSString *const kIsRealTime = @"isRealTime";
 
 -(NSDate *)departureTime {
     if (!_departureTime) {
-        if ([AppManager isProVersion] && self.isRealTime && self.parsedRealtimeDate) {
+        if ([AppFeatureManager proFeaturesAvailable] && self.isRealTime && self.parsedRealtimeDate) {
             _departureTime = self.parsedRealtimeDate;
         } else {
             _departureTime = self.parsedScheduledDate;

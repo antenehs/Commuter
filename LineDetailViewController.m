@@ -21,6 +21,7 @@
 #import "ReittiMapkitHelper.h"
 #import "MappingExtensions.h"
 #import "MapViewManager.h"
+#import "AppFeatureManager.h"
 
 @interface LineDetailViewController ()
 
@@ -58,7 +59,7 @@
     [super viewDidAppear:animated];
     [self setUpViewForLine];
     
-    if ([AppManager isProVersion])
+    if ([AppFeatureManager proFeaturesAvailable])
         [self startFetchingLiveVehicles];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];

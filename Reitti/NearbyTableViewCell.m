@@ -10,6 +10,7 @@
 #import "AppManager.h"
 #import "ASA_Helpers.h"
 #import "SwiftHeaders.h"
+#import "AppFeatureManager.h"
 
 @interface NearbyTableViewCell ()
 
@@ -103,7 +104,7 @@
         label.text = timeString;
     }
     
-    if (departure.isRealTime && [AppManager isProVersion]) {
+    if (departure.isRealTime && [AppFeatureManager proFeaturesAvailable]) {
         if ([label isEqual:self.primaryValueLabel]) {
             RealtimeIndicatorView *indicatorView = [[RealtimeIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 14, 14)];
             indicatorView.color = [UIColor whiteColor];

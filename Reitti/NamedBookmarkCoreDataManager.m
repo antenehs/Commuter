@@ -15,6 +15,7 @@
 #import "RouteHistoryEntity.h"
 #import "ReittiRemindersManager.h"
 #import "RouteCoreDataManager.h"
+#import "AppFeatureManager.h"
 
 NSString *kNamedBookmarkEntityName = @"NamedBookmark";
 
@@ -194,7 +195,7 @@ NSString *kNamedBookmarkEntityName = @"NamedBookmark";
 }
 
 - (void)updateNamedBookmarksUserDefaultValue:(NSArray *)namedBookmarks {
-    if (![AppManager isProVersion]) return;
+    if (![AppFeatureManager proFeaturesAvailable]) return;
     
     NSMutableArray *namedBookmarkDictionaries = [@[] mutableCopy];
     

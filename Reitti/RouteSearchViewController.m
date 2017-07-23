@@ -23,6 +23,7 @@
 #import "WatchCommunicationManager.h"
 #import "CoreDataManagers.h"
 #import "ReittiLocationManager.h"
+#import "AppFeatureManager.h"
 
 typedef enum
 {
@@ -1018,7 +1019,7 @@ typedef enum
             
             //Disruptions
             UIButton *disruptionsButton = (UIButton *)[cell viewWithTag:3001];
-            if ([AppManager isProVersion]) {
+            if ([AppFeatureManager proFeaturesAvailable]) {
                 BOOL thereAreDisruptions = [self disruptionsForRoute:route] != nil;
                 disruptionsButton.hidden = !thereAreDisruptions;
                 if (thereAreDisruptions) {

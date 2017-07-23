@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="FeaturePreviewView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="135"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="school-100" translatesAutoresizingMaskIntoConstraints="NO" id="fgS-bX-4eL">
+                    <rect key="frame" x="162" y="5" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="D4l-Sq-Ous"/>
+                        <constraint firstAttribute="width" constant="50" id="nk1-iL-n3Y"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nearby Departures" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JdA-tj-hhj">
+                    <rect key="frame" x="16" y="65" width="343" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="aUQ-xr-laT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Redesigned nearby departures and Citybike stations list for instant access." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.90000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="2M7-1f-xxQ">
+                    <rect key="frame" x="16" y="93" width="343" height="41"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="41" id="QaQ-Hz-xPd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="JdA-tj-hhj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="EAg-5N-OTh"/>
+                <constraint firstItem="2M7-1f-xxQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="FOd-jZ-bCI"/>
+                <constraint firstItem="2M7-1f-xxQ" firstAttribute="top" secondItem="JdA-tj-hhj" secondAttribute="bottom" id="MWD-WA-Pj1"/>
+                <constraint firstItem="fgS-bX-4eL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="Ssz-dZ-mTc"/>
+                <constraint firstAttribute="trailing" secondItem="2M7-1f-xxQ" secondAttribute="trailing" constant="16" id="VN3-PH-Sut"/>
+                <constraint firstItem="JdA-tj-hhj" firstAttribute="top" secondItem="fgS-bX-4eL" secondAttribute="bottom" constant="10" id="VW4-KQ-8JX"/>
+                <constraint firstAttribute="trailing" secondItem="JdA-tj-hhj" secondAttribute="trailing" constant="16" id="WC2-te-eSU"/>
+                <constraint firstItem="fgS-bX-4eL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="auu-W2-JdI"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="detailDescLabel" destination="2M7-1f-xxQ" id="LDl-fH-Op2"/>
+                <outlet property="iconImageView" destination="fgS-bX-4eL" id="VMN-iR-qUK"/>
+                <outlet property="titleLabel" destination="JdA-tj-hhj" id="A7H-d1-Wec"/>
+            </connections>
+            <point key="canvasLocation" x="31.5" y="46"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="school-100" width="33" height="33"/>
+    </resources>
+</document>

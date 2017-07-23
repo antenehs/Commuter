@@ -40,6 +40,7 @@
 #import "JPSThumbnailAnnotationView.h"
 #import "ReittiLocationManager.h"
 #import "SwiftHeaders.h"
+#import "AppFeatureManager.h"
 
 @import Firebase;
 
@@ -132,7 +133,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
         
         [AppManager setCurrentAppVersion];
     } else {
-        if (![AppManager isProVersion])
+        if (![AppFeatureManager proFeaturesAvailable])
             [self showGoProNotification];
         
         [self performSelector:@selector(showRateAppNotification) withObject:nil afterDelay:10];
@@ -522,7 +523,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 #pragma mark - stop filter method
 -(void)updateFilter {
-    if ([AppManager isProVersion]) {
+    if ([AppFeatureManager proFeaturesAvailable]) {
         NSArray *optionsForRegion = [reittiDataManager annotationFilterOptions];
         
         for (AnnotationFilterOption *option in optionsForRegion) {
@@ -2342,7 +2343,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 #pragma mark - Bike station fetching
 //Bike stations needs to be updated constantly to get available bikes
 - (void)startFetchingBikeStations {
-    if (![AppManager isProVersion]) return;
+    if (![AppFeatureManager proFeaturesAvailable]) return;
     
     if (![self.annotationFilter isAnnotationTypeEnabled:BikeStationLocation]) return;
     
@@ -2429,15 +2430,12 @@ CGFloat  kDeparturesRefreshInterval = 10;
         case StandartMapMode:
             mapView.mapType = MKMapTypeStandard;
             break;
-            
         case HybridMapMode:
             mapView.mapType = MKMapTypeHybrid;
             break;
-            
         case SateliteMapMode:
             mapView.mapType = MKMapTypeSatellite;
             break;
-            
         default:
             break;
     }

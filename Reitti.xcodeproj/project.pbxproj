@@ -9,6 +9,22 @@
 /* Begin PBXBuildFile section */
 		6558589A0EC3F5E15B87AF4F /* libPods-Networking-Reitti.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 716C66DD8E742924F56C4810 /* libPods-Networking-Reitti.a */; };
 		65CDAAD4ECE7B7B6312C25C4 /* libPods-Networking-Reitti Pro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E822A0EB54FE158934160E6 /* libPods-Networking-Reitti Pro.a */; };
+		6601A9501F2174C40085DDE2 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A94F1F2174C40085DDE2 /* iCarousel.m */; };
+		6601A9511F2174C40085DDE2 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A94F1F2174C40085DDE2 /* iCarousel.m */; };
+		6601A9551F23EC310085DDE2 /* GoProCarouselTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9531F23EC310085DDE2 /* GoProCarouselTableViewCell.m */; };
+		6601A9561F23EC310085DDE2 /* GoProCarouselTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9531F23EC310085DDE2 /* GoProCarouselTableViewCell.m */; };
+		6601A9571F23EC310085DDE2 /* GoProCarouselTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6601A9541F23EC310085DDE2 /* GoProCarouselTableViewCell.xib */; };
+		6601A9581F23EC310085DDE2 /* GoProCarouselTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6601A9541F23EC310085DDE2 /* GoProCarouselTableViewCell.xib */; };
+		6601A95B1F23EF010085DDE2 /* RotatingCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A95A1F23EF010085DDE2 /* RotatingCarousel.m */; };
+		6601A95C1F23EF010085DDE2 /* RotatingCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A95A1F23EF010085DDE2 /* RotatingCarousel.m */; };
+		6601A95F1F23F50D0085DDE2 /* FeaturePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A95E1F23F50D0085DDE2 /* FeaturePreviewView.m */; };
+		6601A9601F23F50D0085DDE2 /* FeaturePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A95E1F23F50D0085DDE2 /* FeaturePreviewView.m */; };
+		6601A9621F23F51F0085DDE2 /* FeaturePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6601A9611F23F51F0085DDE2 /* FeaturePreviewView.xib */; };
+		6601A9631F23F51F0085DDE2 /* FeaturePreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6601A9611F23F51F0085DDE2 /* FeaturePreviewView.xib */; };
+		6601A9661F2404450085DDE2 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9651F2404450085DDE2 /* UIColor+Custom.m */; };
+		6601A9671F2404450085DDE2 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9651F2404450085DDE2 /* UIColor+Custom.m */; };
+		6601A9691F240F7D0085DDE2 /* Features.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6601A9681F240F7D0085DDE2 /* Features.xcassets */; };
+		6601A96A1F240F7D0085DDE2 /* Features.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6601A9681F240F7D0085DDE2 /* Features.xcassets */; };
 		6601AC931D29894000EB8972 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
 		6601AC941D29898700EB8972 /* EnumManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA3811B2F0A2B00166530 /* EnumManager.m */; };
 		6601AC951D298E0900EB8972 /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
@@ -1142,6 +1158,18 @@
 		66E6E5591CB90DA90086F611 /* MatkaStop.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E5571CB90DA90086F611 /* MatkaStop.m */; };
 		66E6E55C1CB9279F0086F611 /* MatkaName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaName.m */; };
 		66E6E55D1CB9279F0086F611 /* MatkaName.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E6E55B1CB9279F0086F611 /* MatkaName.m */; };
+		66E9DF431F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66E9DF441F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66E9DF451F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66E9DF461F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66E9DF471F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66E9DF481F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66E9DF4B1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
+		66E9DF4C1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
+		66E9DF4D1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
+		66E9DF4E1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
+		66E9DF4F1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
+		66E9DF501F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
 		66EB0D491DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */; };
 		66EB0D4A1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */; };
 		66EB0D4B1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */; };
@@ -1409,6 +1437,19 @@
 		32FC8F579D5ADDC4536A854F /* Pods-Networking-Reitti Pro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking-Reitti Pro.release.xcconfig"; path = "Pods/Target Support Files/Pods-Networking-Reitti Pro/Pods-Networking-Reitti Pro.release.xcconfig"; sourceTree = "<group>"; };
 		5281DDE2ED010CEFE42A76AA /* libPods-WatchRoutes Extension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WatchRoutes Extension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5849A4E9EFD19B2E494FD13E /* libPods-Networking-Commuter - Departures Pro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Networking-Commuter - Departures Pro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6601A94E1F2174C40085DDE2 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		6601A94F1F2174C40085DDE2 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		6601A9521F23EC310085DDE2 /* GoProCarouselTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoProCarouselTableViewCell.h; sourceTree = "<group>"; };
+		6601A9531F23EC310085DDE2 /* GoProCarouselTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoProCarouselTableViewCell.m; sourceTree = "<group>"; };
+		6601A9541F23EC310085DDE2 /* GoProCarouselTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoProCarouselTableViewCell.xib; sourceTree = "<group>"; };
+		6601A9591F23EF010085DDE2 /* RotatingCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatingCarousel.h; sourceTree = "<group>"; };
+		6601A95A1F23EF010085DDE2 /* RotatingCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatingCarousel.m; sourceTree = "<group>"; };
+		6601A95D1F23F50D0085DDE2 /* FeaturePreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturePreviewView.h; sourceTree = "<group>"; };
+		6601A95E1F23F50D0085DDE2 /* FeaturePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeaturePreviewView.m; sourceTree = "<group>"; };
+		6601A9611F23F51F0085DDE2 /* FeaturePreviewView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturePreviewView.xib; sourceTree = "<group>"; };
+		6601A9641F2404450085DDE2 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
+		6601A9651F2404450085DDE2 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
+		6601A9681F240F7D0085DDE2 /* Features.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Features.xcassets; sourceTree = "<group>"; };
 		66026D881D68E38D00219AC6 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
 		66026D891D68E38D00219AC6 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
 		66026D8C1D68E56800219AC6 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -2130,6 +2171,10 @@
 		66E6E5571CB90DA90086F611 /* MatkaStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaStop.m; sourceTree = "<group>"; };
 		66E6E55A1CB9279F0086F611 /* MatkaName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatkaName.h; sourceTree = "<group>"; };
 		66E6E55B1CB9279F0086F611 /* MatkaName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatkaName.m; sourceTree = "<group>"; };
+		66E9DF411F2157AF00C1260D /* AppFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppFeature.h; sourceTree = "<group>"; };
+		66E9DF421F2157AF00C1260D /* AppFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppFeature.m; sourceTree = "<group>"; };
+		66E9DF491F215FAE00C1260D /* AppFeatureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppFeatureManager.h; sourceTree = "<group>"; };
+		66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppFeatureManager.m; sourceTree = "<group>"; };
 		66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopsQueryFragment.graphql; sourceTree = "<group>"; };
 		66EB0D511DECE61300ADEC2D /* PlanQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PlanQuery.graphql; sourceTree = "<group>"; };
 		66EBBE4219A01B35006A2128 /* Transport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transport.m; sourceTree = "<group>"; };
@@ -2363,6 +2408,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6601A94D1F2174A10085DDE2 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				6601A94E1F2174C40085DDE2 /* iCarousel.h */,
+				6601A94F1F2174C40085DDE2 /* iCarousel.m */,
+				6601A9591F23EF010085DDE2 /* RotatingCarousel.h */,
+				6601A95A1F23EF010085DDE2 /* RotatingCarousel.m */,
+			);
+			name = iCarousel;
+			sourceTree = "<group>";
+		};
 		66026D8E1D68ED7100219AC6 /* Contact */ = {
 			isa = PBXGroup;
 			children = (
@@ -2765,6 +2821,7 @@
 				66056E7F1C497E1900C011FB /* Route */,
 				66034D041CE8E43500EC0769 /* DigiModels */,
 				66780D911C5409B900C838AA /* Service Points */,
+				66E9DF401F21575C00C1260D /* Feature */,
 				66F1F48E1EF0803D004174D0 /* CoreDataEntities */,
 				664E28781AD9521E00BE2457 /* ReittiManagedObjectBase.h */,
 				664E28791AD9521E00BE2457 /* ReittiManagedObjectBase.m */,
@@ -2993,6 +3050,12 @@
 				66D1011C1EFF326400CAC251 /* NearbyInfoTableViewCell.h */,
 				66D1011D1EFF326400CAC251 /* NearbyInfoTableViewCell.m */,
 				66D1011E1EFF326400CAC251 /* NearbyInfoTableViewCell.xib */,
+				6601A9521F23EC310085DDE2 /* GoProCarouselTableViewCell.h */,
+				6601A9531F23EC310085DDE2 /* GoProCarouselTableViewCell.m */,
+				6601A9541F23EC310085DDE2 /* GoProCarouselTableViewCell.xib */,
+				6601A95D1F23F50D0085DDE2 /* FeaturePreviewView.h */,
+				6601A95E1F23F50D0085DDE2 /* FeaturePreviewView.m */,
+				6601A9611F23F51F0085DDE2 /* FeaturePreviewView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3068,6 +3131,8 @@
 				663589C21ED128BC006721EA /* NSString+Score.m */,
 				660547D91EDE78CD00826F40 /* NSDictionary+Helper.h */,
 				660547DA1EDE78CD00826F40 /* NSDictionary+Helper.m */,
+				6601A9641F2404450085DDE2 /* UIColor+Custom.h */,
+				6601A9651F2404450085DDE2 /* UIColor+Custom.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3328,6 +3393,7 @@
 				6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */,
 				66B3919F1D206CE100C500CC /* OlderImages.xcassets */,
 				667860081F05C21100D3E3CB /* MiscImages.xcassets */,
+				6601A9681F240F7D0085DDE2 /* Features.xcassets */,
 			);
 			name = Pictures;
 			sourceTree = "<group>";
@@ -3543,6 +3609,8 @@
 				66115D701ECFF57B00C8CD05 /* MapViewManager.m */,
 				66D101021EF9E01800CAC251 /* ReittiLocationManager.h */,
 				66D101031EF9E01800CAC251 /* ReittiLocationManager.m */,
+				66E9DF491F215FAE00C1260D /* AppFeatureManager.h */,
+				66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -3561,6 +3629,7 @@
 		66CA02BB1C163CB200A38858 /* View Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				6601A94D1F2174A10085DDE2 /* iCarousel */,
 				66785FFF1F05BD0300D3E3CB /* OnboardingViewController */,
 				66F1F4901EF1E845004174D0 /* MapViewProtocols.h */,
 				665BA1AB1CAAE8F80091C180 /* Custom views */,
@@ -3773,6 +3842,15 @@
 				66BCA7081D78BA660092C5BB /* MatkaTransportType.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		66E9DF401F21575C00C1260D /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				66E9DF411F2157AF00C1260D /* AppFeature.h */,
+				66E9DF421F2157AF00C1260D /* AppFeature.m */,
+			);
+			name = Feature;
 			sourceTree = "<group>";
 		};
 		66EB0D3F1DECBA3300ADEC2D /* GraphQLQueries */ = {
@@ -4347,6 +4425,7 @@
 				663589BF1ED0E60F006721EA /* WebView.storyboard in Resources */,
 				66D1011A1EFF187B00CAC251 /* SilverSpring.gpx in Resources */,
 				6663A08B1B5EEE2900DC20D0 /* createCardJS.js in Resources */,
+				6601A9621F23F51F0085DDE2 /* FeaturePreviewView.xib in Resources */,
 				66F0998A1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon.png in Resources */,
 				66F16CF91E05EECA00D45613 /* PlanQueryFragment.graphql in Resources */,
 				66F3B1211AC5B59B0038BA78 /* LaunchScreen.xib in Resources */,
@@ -4424,6 +4503,7 @@
 				66FC547E1B23656F005B890D /* stops.json in Resources */,
 				666BC1D21B5C259700889DD2 /* Time to go 1.mp3 in Resources */,
 				66F099821AE8075D00F20D34 /* NotificationBackgroundError.png in Resources */,
+				6601A9691F240F7D0085DDE2 /* Features.xcassets in Resources */,
 				666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */,
 				66FD7F951CB94B4700C6C731 /* Lahti.gpx in Resources */,
 				66F0999C1AEC236B00F20D34 /* DetailImageView.xib in Resources */,
@@ -4434,6 +4514,7 @@
 				66947CC918830ED500642EE1 /* Main.storyboard in Resources */,
 				66F099881AE8075D00F20D34 /* NotificationBackgroundSuccess.png in Resources */,
 				66F099891AE8075D00F20D34 /* NotificationBackgroundSuccess@2x.png in Resources */,
+				6601A9571F23EC310085DDE2 /* GoProCarouselTableViewCell.xib in Resources */,
 				66026DA21D6B624100219AC6 /* AnnotationFilterView.xib in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
 				66F16CE91E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
@@ -4475,6 +4556,7 @@
 				66C735CD1C557127002544BC /* LaunchScreenPro.xib in Resources */,
 				6605797D1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */,
+				6601A9581F23EC310085DDE2 /* GoProCarouselTableViewCell.xib in Resources */,
 				66C733E01C556DA5002544BC /* Aspergit.otf in Resources */,
 				660579771E11D51700F3559E /* RouteQueryFullFragment.graphql in Resources */,
 				663589C01ED0E60F006721EA /* WebView.storyboard in Resources */,
@@ -4492,6 +4574,7 @@
 				66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */,
 				66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */,
 				66C7342E1C556DA5002544BC /* Mellow mood.mp3 in Resources */,
+				6601A9631F23F51F0085DDE2 /* FeaturePreviewView.xib in Resources */,
 				66C734391C556DA5002544BC /* Time to go 5.mp3 in Resources */,
 				66C734471C556DA5002544BC /* Tampere.gpx in Resources */,
 				66C7344A1C556DA5002544BC /* NotificationBackgroundMessage.png in Resources */,
@@ -4555,6 +4638,7 @@
 				66C734FE1C556DA5002544BC /* routes.json in Resources */,
 				66862FF11EF6FC400023F47B /* DefaultAnnotationCallout.xib in Resources */,
 				663E1EE71C9EF2C500C5543A /* NamedBookmarkTableViewCell.xib in Resources */,
+				6601A96A1F240F7D0085DDE2 /* Features.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5024,6 +5108,7 @@
 				6658BAB51ED752E9001F3C9C /* DigiRouteOptionManager.m in Sources */,
 				66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */,
 				66B391971D20129B00C500CC /* AppManagerBase.m in Sources */,
+				66E9DF481F2157AF00C1260D /* AppFeature.m in Sources */,
 				6658BABC1ED754CF001F3C9C /* LineStop.m in Sources */,
 				6658BAC01ED75865001F3C9C /* RouteSearchOptions.m in Sources */,
 				6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */,
@@ -5056,6 +5141,7 @@
 				6658BAA71ED74580001F3C9C /* DigiTransitCommunicator.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
 				6658BAB11ED751D6001F3C9C /* DigiStop.m in Sources */,
+				66E9DF501F215FAE00C1260D /* AppFeatureManager.m in Sources */,
 				66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */,
 				660711F91D8F18D1000BA8D1 /* SettingsManager.m in Sources */,
 				6658BAA91ED750A1001F3C9C /* DigiIntermediateStops.m in Sources */,
@@ -5114,6 +5200,7 @@
 				663E1EDD1C9EE7D100C5543A /* RouteTableViewCell.m in Sources */,
 				66C59DAC1999432D00E7AC7A /* ReittiShapeMaker.m in Sources */,
 				66B246611C4AABE600FED24D /* DisruptionLine.m in Sources */,
+				6601A9661F2404450085DDE2 /* UIColor+Custom.m in Sources */,
 				660A962C1D7DE53000A813A6 /* Notifications.m in Sources */,
 				66947CF21886F90200642EE1 /* SearchController.m in Sources */,
 				6603A8FD1CD29B6200991FBF /* ReittiObject.m in Sources */,
@@ -5148,6 +5235,7 @@
 				66E6E5531CB907A10086F611 /* MatkaCommunicator.m in Sources */,
 				665885BE1B11172E0044F514 /* StopLines.m in Sources */,
 				660E2F5E1B33630C00CE670E /* LineStop.m in Sources */,
+				6601A9551F23EC310085DDE2 /* GoProCarouselTableViewCell.m in Sources */,
 				66833D511CF8F427005D958C /* DigiGeometry.m in Sources */,
 				66DD9ACB1D8D5098009C59AB /* ReittiConfigManager.m in Sources */,
 				663589C31ED128BC006721EA /* NSString+Score.m in Sources */,
@@ -5166,11 +5254,14 @@
 				660716001B45CD2C00033049 /* TravelCard.m in Sources */,
 				660DED671EF4A54C00201445 /* LocationsAnnotationView.m in Sources */,
 				66CEE29419FED9810089A6F9 /* JPSThumbnailAnnotationView.m in Sources */,
+				66E9DF4B1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
 				66A7A9E218CF300300AC9E94 /* Line.m in Sources */,
 				66F0996A1AE6ECD700F20D34 /* TSMessage.m in Sources */,
 				664E28B31AE2FD4500BE2457 /* SettingsManager.m in Sources */,
+				6601A95F1F23F50D0085DDE2 /* FeaturePreviewView.m in Sources */,
 				660DED6B1EF4A68A00201445 /* LocationAnnotationThumbnail.m in Sources */,
 				666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */,
+				6601A95B1F23EF010085DDE2 /* RotatingCarousel.m in Sources */,
 				660547DB1EDE78CD00826F40 /* NSDictionary+Helper.m in Sources */,
 				660579841E11DF0200F3559E /* DigiRoute.m in Sources */,
 				667860041F05BD3500D3E3CB /* OnboardingContentViewController.m in Sources */,
@@ -5204,6 +5295,7 @@
 				66056E711C42AAFE00C011FB /* OperatorRef.m in Sources */,
 				661202D21B05085D00D93C2E /* Geometry.m in Sources */,
 				66CC941918E3452D00644281 /* MyFixedLayoutGuide.m in Sources */,
+				6601A9501F2174C40085DDE2 /* iCarousel.m in Sources */,
 				66F6CEDB1B511E6C00F934A2 /* RemindersTableViewController.m in Sources */,
 				66056E6B1C42AAFE00C011FB /* DevHslVehicle.m in Sources */,
 				66D100FC1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */,
@@ -5265,6 +5357,7 @@
 				66026D8A1D68E38D00219AC6 /* ContactsManager.m in Sources */,
 				66CC940518DF6DEC00644281 /* BookmarksViewController.m in Sources */,
 				66E6E55C1CB9279F0086F611 /* MatkaName.m in Sources */,
+				66E9DF431F2157AF00C1260D /* AppFeature.m in Sources */,
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
 				660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */,
@@ -5404,6 +5497,7 @@
 				66C732CC1C556DA5002544BC /* ReittiShapeMaker.m in Sources */,
 				66C732CD1C556DA5002544BC /* DisruptionLine.m in Sources */,
 				660A962D1D7DE53000A813A6 /* Notifications.m in Sources */,
+				6601A9671F2404450085DDE2 /* UIColor+Custom.m in Sources */,
 				66C732CE1C556DA5002544BC /* SearchController.m in Sources */,
 				6603A8FE1CD29B6300991FBF /* ReittiObject.m in Sources */,
 				66034D001CE8D91F00EC0769 /* GraphQLQuery.m in Sources */,
@@ -5438,6 +5532,7 @@
 				66C732E41C556DA5002544BC /* StopLines.m in Sources */,
 				66C732E51C556DA5002544BC /* LineStop.m in Sources */,
 				66833D521CF8F427005D958C /* DigiGeometry.m in Sources */,
+				6601A9561F23EC310085DDE2 /* GoProCarouselTableViewCell.m in Sources */,
 				66DD9ACC1D8D5098009C59AB /* ReittiConfigManager.m in Sources */,
 				66C732E61C556DA5002544BC /* SWUtilityButtonView.m in Sources */,
 				663589C41ED128BC006721EA /* NSString+Score.m in Sources */,
@@ -5456,11 +5551,14 @@
 				66C732EE1C556DA5002544BC /* TravelCard.m in Sources */,
 				660DED681EF4A54C00201445 /* LocationsAnnotationView.m in Sources */,
 				66C732F01C556DA5002544BC /* JPSThumbnailAnnotationView.m in Sources */,
+				66E9DF4C1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
 				66C732F11C556DA5002544BC /* Line.m in Sources */,
 				66C732F21C556DA5002544BC /* TSMessage.m in Sources */,
 				66C732F31C556DA5002544BC /* SettingsManager.m in Sources */,
+				6601A9601F23F50D0085DDE2 /* FeaturePreviewView.m in Sources */,
 				660DED6C1EF4A68A00201445 /* LocationAnnotationThumbnail.m in Sources */,
 				66C732F41C556DA5002544BC /* ToneSelectorTableViewController.m in Sources */,
+				6601A95C1F23EF010085DDE2 /* RotatingCarousel.m in Sources */,
 				660547DC1EDE78CD00826F40 /* NSDictionary+Helper.m in Sources */,
 				660579851E11DF0200F3559E /* DigiRoute.m in Sources */,
 				667860051F05BD3500D3E3CB /* OnboardingContentViewController.m in Sources */,
@@ -5494,6 +5592,7 @@
 				66C733071C556DA5002544BC /* OperatorRef.m in Sources */,
 				66C733081C556DA5002544BC /* Geometry.m in Sources */,
 				66C733091C556DA5002544BC /* MyFixedLayoutGuide.m in Sources */,
+				6601A9511F2174C40085DDE2 /* iCarousel.m in Sources */,
 				66C7330A1C556DA5002544BC /* RemindersTableViewController.m in Sources */,
 				66C7330B1C556DA5002544BC /* DevHslVehicle.m in Sources */,
 				66D100FD1EF96B1C00CAC251 /* GeoCode+MapView.m in Sources */,
@@ -5555,6 +5654,7 @@
 				66C733341C556DA5002544BC /* BookmarksViewController.m in Sources */,
 				66E6E55D1CB9279F0086F611 /* MatkaName.m in Sources */,
 				66C733351C556DA5002544BC /* AppManagerBase.m in Sources */,
+				66E9DF441F2157AF00C1260D /* AppFeature.m in Sources */,
 				66C733361C556DA5002544BC /* RouteCacheEntity.m in Sources */,
 				66C733371C556DA5002544BC /* ReittiAnalyticsManager.m in Sources */,
 				663E1EEF1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */,
@@ -5724,6 +5824,7 @@
 				6605796B1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66997AAE1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
+				66E9DF4E1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
 				66C05AD11ED53CD900F26AD2 /* RouteLegLocation.m in Sources */,
 				66C05ACE1ED53CC700F26AD2 /* RouteLeg.m in Sources */,
 				663465E71ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -5749,6 +5850,7 @@
 				660579871E11DF0200F3559E /* DigiRoute.m in Sources */,
 				660277F71EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				666E08D21CD3DF520058D5B0 /* MatkaRouteStop.m in Sources */,
+				66E9DF461F2157AF00C1260D /* AppFeature.m in Sources */,
 				66833D3E1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66C05AEF1ED54D3900F26AD2 /* ReittiManagedObjectBase.m in Sources */,
 				66C05AE91ED54CFB00F26AD2 /* NamedBookmark.m in Sources */,
@@ -5780,6 +5882,7 @@
 				6683CF281CD929110044727B /* MatkaName.m in Sources */,
 				66C7356A1C556FB5002544BC /* KBPopupBubbleView+Animations.m in Sources */,
 				6683CF261CD9290B0044727B /* MatkaRouteStop.m in Sources */,
+				66E9DF4F1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
 				66C7356B1C556FB5002544BC /* JTMaterialSpinner.m in Sources */,
 				6683CF2A1CD929170044727B /* MatkaGeoCode.m in Sources */,
 				660547DF1EDE78CD00826F40 /* NSDictionary+Helper.m in Sources */,
@@ -5789,6 +5892,7 @@
 				6658BAA51ED68D8A001F3C9C /* RouteViewManager.m in Sources */,
 				663465C41ECD4E8F004B8AAF /* BikeStation.m in Sources */,
 				663465BB1ECD1654004B8AAF /* MappingRelationShip.m in Sources */,
+				66E9DF471F2157AF00C1260D /* AppFeature.m in Sources */,
 				66833D1E1CEE45CE005D958C /* DigiStoptime.m in Sources */,
 				663465D01ECE29EF004B8AAF /* HSLLine.m in Sources */,
 				6683CF251CD929080044727B /* MatkaRouteLeg.m in Sources */,
@@ -5925,6 +6029,7 @@
 				6605796A1E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66997AAD1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
+				66E9DF4D1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
 				66C05AD01ED53CD800F26AD2 /* RouteLegLocation.m in Sources */,
 				66C05ACD1ED53CC600F26AD2 /* RouteLeg.m in Sources */,
 				663465E61ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -5950,6 +6055,7 @@
 				660579861E11DF0200F3559E /* DigiRoute.m in Sources */,
 				660277F61EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				666E08D11CD3DF510058D5B0 /* MatkaRouteStop.m in Sources */,
+				66E9DF451F2157AF00C1260D /* AppFeature.m in Sources */,
 				66833D3D1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
 				66C05AF01ED54D3A00F26AD2 /* ReittiManagedObjectBase.m in Sources */,
 				66C05AE81ED54CFA00F26AD2 /* NamedBookmark.m in Sources */,

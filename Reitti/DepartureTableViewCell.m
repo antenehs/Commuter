@@ -10,6 +10,7 @@
 #import "ReittiDateHelper.h"
 #import "ReittiStringFormatter.h"
 #import "AppManager.h"
+#import "AppFeatureManager.h"
 #import "ASA_Helpers.h"
 
 @interface DepartureTableViewCell ()
@@ -39,7 +40,7 @@
     
     NSDate *departureTime = departure.parsedScheduledDate;
     
-    if (departure.isRealTime && [AppManager isProVersion]) {
+    if (departure.isRealTime && [AppFeatureManager proFeaturesAvailable]) {
         self.timer = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                                       target: self
                                                     selector: @selector(changeRealtimeImage)

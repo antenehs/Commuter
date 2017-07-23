@@ -24,6 +24,7 @@
 #import "MapViewManager.h"
 #import "MappingExtensions.h"
 #import "ReittiLocationManager.h"
+#import "AppFeatureManager.h"
 
 typedef void (^AlertControllerAction)(UIAlertAction *alertAction);
 typedef AlertControllerAction (^ActionGenerator)(int minutes);
@@ -480,7 +481,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 - (BOOL)shouldShowGoProRow {
     BOOL canShow = NO;
-    if (![AppManager isProVersion] && [self thereAreLiveDepartures]) {
+    if (![AppFeatureManager proFeaturesAvailable] && [self thereAreLiveDepartures]) {
         NSInteger requestCount = [self showGoProRequestCount];
         NSInteger minInterval = [[ReittiConfigManager sharedManager] intervalBetweenGoProShowsInStopView];
         minInterval = minInterval == 0 ? 1 : minInterval;

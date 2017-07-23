@@ -14,6 +14,7 @@
 #import "SettingsManager.h"
 #import "RettiDataManager.h"
 #import "AppManager.h"
+#import "AppFeatureManager.h"
 #import "ASA_Helpers.h"
 
 @import UserNotifications;
@@ -49,8 +50,8 @@
     //Do some sanity check
     [self checkIfRoutineNotificationsAreValid:self.allRoutines];
     
-//    if ([AppManager isProVersion] && NO) // Diabled for this hot fix
-//        [self registerCategoriesAndActions];
+    if ([AppFeatureManager proFeaturesAvailable])
+        [self registerCategoriesAndActions];
     
     //TODO:
     [[UIApplication sharedApplication] registerForRemoteNotifications];

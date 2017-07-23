@@ -18,6 +18,8 @@
 #import "MainTabBarController.h"
 #import "ASA_Helpers.h"
 #import "SwiftHeaders.h"
+#import "AppFeatureManager.h"
+#import "GoProCarouselTableViewCell.h"
 
 @interface MoreTableViewController ()
 
@@ -43,6 +45,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
                                                  name:userlocationChangedNotificationName object:nil];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"GoProCarouselTableViewCell" bundle:nil] forCellReuseIdentifier:@"featurePreviewCell"];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -100,12 +104,14 @@
     
     numberOfSection = 0;
     
-    messageSection = ![AppManagerBase isProVersion] && self.remoteMessage ? numberOfSection++ : -1;
+    featurePreviewSection = ![AppFeatureManager proFeaturesAvailable] ? numberOfSection++ : -1;
+    
+    messageSection = ![AppFeatureManager proFeaturesAvailable] && self.remoteMessage ? numberOfSection++ : -1;
     
     numberOfMoreFeatures = 0;
-    routinesRow = numberOfMoreFeatures++;
-    ticketsSalesPointsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
-    icloudBookmarksRow = numberOfMoreFeatures++;
+    routinesRow = [AppFeatureManager proFeaturesAvailable] ? numberOfMoreFeatures++ : -1;
+    ticketsSalesPointsRow = [AppFeatureManager proFeaturesAvailable] && self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
+    icloudBookmarksRow = [AppFeatureManager proFeaturesAvailable] ? numberOfMoreFeatures++ : -1;
     disruptionsRow = self.settingsManager.userLocation == HSLRegion ? numberOfMoreFeatures++ : -1;
     
     moreFeaturesSection = numberOfMoreFeatures > 0 ? numberOfSection++ : -1;
@@ -118,7 +124,7 @@
     numberOfCommuterRows = 0;
     aboutCommuterRow = numberOfCommuterRows++;
     translateRow = appTranslateUrl ? numberOfCommuterRows++ : -1;
-    goProRow = ![AppManager isProVersion] ? numberOfCommuterRows++ : -1;
+    goProRow = ![AppFeatureManager proFeaturesAvailable] ? numberOfCommuterRows++ : -1;
     newInVersionRow = numberOfCommuterRows++;
     contactMeRow = numberOfCommuterRows++;
     rateInAppStoreRow = numberOfCommuterRows++;
@@ -139,7 +145,10 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == moreFeaturesSection) {
+    
+    if (section == featurePreviewSection) {
+        return 1;
+    }else if (section == moreFeaturesSection) {
         return numberOfMoreFeatures;
     }else if (section == settingsSection) {
         return numberOfSettingsRows;
@@ -157,18 +166,24 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     
-    if (indexPath.section == moreFeaturesSection) {
+    if (indexPath.section == featurePreviewSection) {
+        cell = (GoProCarouselTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"featurePreviewCell" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [(GoProCarouselTableViewCell *)cell setButtonAction:^(){
+            [self presentGoProView];
+        }];
+    }else if (indexPath.section == moreFeaturesSection) {
         if (indexPath.row == routinesRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"remindersCell" forIndexPath:indexPath];
-            if (![AppManager isProVersion])
+            if (![AppFeatureManager proFeaturesAvailable])
                 [self setFeatureCellAsProOnly:cell];
         }else if (indexPath.row == ticketsSalesPointsRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ticketSellPointCell" forIndexPath:indexPath];
-            if (![AppManager isProVersion])
+            if (![AppFeatureManager proFeaturesAvailable])
                 [self setFeatureCellAsProOnly:cell];
         }else if (indexPath.row == icloudBookmarksRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"iCloudBookmarksCell" forIndexPath:indexPath];
-            if (![AppManager isProVersion])
+            if (![AppFeatureManager proFeaturesAvailable])
                 [self setFeatureCellAsProOnly:cell];
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"disruptionsCell" forIndexPath:indexPath];
@@ -224,7 +239,9 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == messageSection) {
+    if (indexPath.section == featurePreviewSection) {
+        return 224.0;
+    } else if (indexPath.section == messageSection) {
         return self.remoteMessage.isActionable ? 110.0 : 80.0;
     } else {
         return 50.0;
@@ -239,8 +256,7 @@
         }
         
         if (indexPath.row == newInVersionRow) {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[NewInVersionViewController generateNewInVersionVc]];
-            [self presentViewController:navController animated:YES completion:nil];
+            [self presentNewInVersionView];
         }
     }
 }
@@ -274,6 +290,15 @@
 }
 
 #pragma mark - ibactions
+
+- (void)presentGoProView {
+    [self presentNewInVersionView];
+}
+
+- (void)presentNewInVersionView {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[NewInVersionViewController generateNewInVersionVc]];
+    [self presentViewController:navController animated:YES completion:nil];
+}
 
 - (IBAction)contactUsButtonPressed:(id)sender {
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Feel free to contact me for anything, even just to say hi!"
@@ -391,7 +416,7 @@
 -(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
     
-    if (indexPath && indexPath.section == moreFeaturesSection && ![AppManager isProVersion]) {
+    if (indexPath && indexPath.section == moreFeaturesSection && ![AppFeatureManager proFeaturesAvailable]) {
         if (indexPath.row == routinesRow || indexPath.row == ticketsSalesPointsRow || indexPath.row == icloudBookmarksRow) {
             return NO;
         }

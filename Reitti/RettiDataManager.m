@@ -16,6 +16,7 @@
 #import "MatkaTransportTypeManager.h"
 #import "ReittiModels.h"
 #import "SettingsManager.h"
+#import "AppFeatureManager.h"
 
 @interface RettiDataManager ()
 
@@ -570,7 +571,7 @@
 
 #pragma mark - Bike search methods
 -(void)startFetchingBikeStationsWithCompletionBlock:(ActionBlock)completionBlock {
-    if (![AppManager isProVersion]) return;
+    if (![AppFeatureManager proFeaturesAvailable]) return;
     
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
