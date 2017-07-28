@@ -8,3 +8,4 @@
 #import "OnboardingViewController.h"
 #import "OnboardingContentViewController.h"
 #import "UIImage+Helper.h"
+#import "AppFeatureManager.h"

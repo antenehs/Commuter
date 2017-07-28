@@ -7,7 +7,6 @@
 //
 
 #import "GoProCarouselTableViewCell.h"
-#import "RotatingCarousel.h"
 #import "FeaturePreviewView.h"
 #import "AppFeatureManager.h"
 
@@ -34,7 +33,7 @@
     
     self.rotatingCarousel.delegate = self;
     self.rotatingCarousel.dataSource = self;
-    self.rotatingCarousel.type = iCarouselTypeCylinder;
+    self.rotatingCarousel.type = iCarouselTypeLinear;
     self.rotatingCarousel.pagingEnabled = YES;
 }
 
@@ -57,13 +56,24 @@
     //create new view if no view is available for recycling
     if (view == nil) {
         view = (FeaturePreviewView *)[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([FeaturePreviewView class]) owner:self options:nil] firstObject];
-        view.frame = self.rotatingCarousel.bounds;
-        [view layoutIfNeeded];
+//        view.translatesAutoresizingMaskIntoConstraints = NO;
+        view.frame = carousel.bounds;
+        [carousel updateConstraints];
     }
     
     [view updateWithFeature:_proFeatures[index]];
+    [view setNeedsUpdateConstraints];
+    [view layoutIfNeeded];
     
     return view;
+}
+
+-(CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value {
+    if (option == iCarouselOptionWrap) {
+        return 1;
+    }
+    
+    return value;
 }
 
 #pragma mark - iCarousel Delegate

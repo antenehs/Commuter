@@ -29,7 +29,7 @@
 
 -(void)updateWithFeature:(AppFeature *)feature {
     
-    UIImage *iconImage = [[UIImage imageNamed:feature.iconName] asa_imageWithColor:[UIColor whiteColor]];
+    UIImage *iconImage = [feature.featureImage.iconImage asa_imageWithColor:[UIColor whiteColor]];
     UIImage *image = [iconImage asa_addCircleBackgroundWithColor:feature.themeColor andImageSize:self.iconImageView.frame.size andInset:CGPointMake(12, 12) andOffset:CGPointZero];
     
     self.iconImageView.image = image;

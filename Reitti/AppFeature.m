@@ -9,8 +9,25 @@
 #import "AppFeature.h"
 #import "UIColor+Custom.h"
 
+@implementation AppFeatureImage
+
++(instancetype)featureImageWithIconNamed:(NSString *)iconName
+                          mainImageNamed:(NSString *)mainImageName
+                        imageContentMode:(UIViewContentMode)contentMode {
+    AppFeatureImage *featureImage = [AppFeatureImage new];
+    
+    featureImage.iconImage = [UIImage imageNamed:iconName];
+    featureImage.mainImage = [UIImage imageNamed:mainImageName];
+    featureImage.imageContentMode = contentMode;
+    
+    return featureImage;
+}
+
+@end
+
 @interface AppFeature ()
 
+@property (nonatomic, strong)AppFeatureImage *featureImage;
 @property (nonatomic, strong)NSString *iconName;
 @property (nonatomic, strong)NSString *imageName;
 @property (nonatomic, strong)UIColor  *themeColor;
@@ -66,8 +83,8 @@
             case AppFeatureStopFilter:
                 _displayName = @"Stop Filter";
                 break;
-            case AppFeatureRemindersManager:
-                _displayName = @"Reminders Manager";
+            case AppFeatureRichReminders:
+                _displayName = @"Rich Reminders";
                 break;
             case AppFeatureTicketSales:
                 _displayName = @"Ticket Sales Points";
@@ -118,8 +135,8 @@
             case AppFeatureStopFilter:
                 _featureDescription = @"Filter away all the stops that doesn't interest you.";
                 break;
-            case AppFeatureRemindersManager:
-                _featureDescription = @"Easily configure recurring routes to get reminders and automatic route suggestion.";
+            case AppFeatureRichReminders:
+                _featureDescription = @"Easily configure recurring routes to get rich notifications and automatic route suggestion.";
                 break;
             case AppFeatureTicketSales:
                 _featureDescription = @"Find the nearest HSL ticket sales point and get walking route suggestion.";
@@ -136,47 +153,47 @@
     return _featureDescription;
 }
 
--(NSString *)iconName {
-    if (!_iconName) {
+-(AppFeatureImage *)featureImage {
+    if (!_featureImage) {
         switch (self.name) {
             case AppFeatureNearbyDepartures:
-                _iconName = @"departures-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"departures-feature" mainImageNamed:@"nearbyDepartures" imageContentMode:UIViewContentModeBottom];
                 break;
             case AppFeatureAppleWatchApp:
-                _iconName = @"apple-watch-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"apple-watch-feature" mainImageNamed:@"appleWatch" imageContentMode:UIViewContentModeCenter];
                 break;
             case AppFeatureRealtimeDepartures:
-                _iconName = @"realtime-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"realtime-feature" mainImageNamed:@"realtimeDeparture" imageContentMode:UIViewContentModeBottom];
                 break;
             case AppFeatureRoutesWidget:
-                _iconName = @"route-widget-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"route-widget-feature" mainImageNamed:@"widgetsPro" imageContentMode:UIViewContentModeTop];
                 break;
             case AppFeatureNearbyDepartureWidget:
-                _iconName = @"nearby-widget-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"nearby-widget-feature" mainImageNamed:@"" imageContentMode:UIViewContentModeBottom];
                 break;
             case AppFeatureCityBikes:
-                _iconName = @"bike-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"bike-feature" mainImageNamed:@"cityBikes" imageContentMode:UIViewContentModeBottom];
                 break;
             case AppFeatureLiveLines:
-                _iconName = @"realtime-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"realtime-feature" mainImageNamed:@"liveLines" imageContentMode:UIViewContentModeBottom];
                 break;
             case AppFeatureIcloudBookmarks:
-                _iconName = @"icloud-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"icloud-feature" mainImageNamed:@"iCloudSynchPic" imageContentMode:UIViewContentModeScaleAspectFit];
                 break;
             case AppFeatureRouteDisruptions:
-                _iconName = @"disruption-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"disruption-feature" mainImageNamed:@"" imageContentMode:UIViewContentModeBottom];
                 break;
             case AppFeatureStopFilter:
-                _iconName = @"stop-filter-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"stop-filter-feature" mainImageNamed:@"stopFilter" imageContentMode:UIViewContentModeBottom];
                 break;
-            case AppFeatureRemindersManager:
-                _iconName = @"reminder-feature";
+            case AppFeatureRichReminders:
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"reminder-feature" mainImageNamed:@"richReminders" imageContentMode:UIViewContentModeTop];
                 break;
             case AppFeatureTicketSales:
-                _iconName = @"ticket-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"ticket-feature" mainImageNamed:@"ticketSalesPoint" imageContentMode:UIViewContentModeTop];
                 break;
             case AppFeatureFavouriteLines:
-                _iconName = @"star-feature";
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"star-feature" mainImageNamed:@"" imageContentMode:UIViewContentModeBottom];
                 break;
                 
             default:
@@ -184,58 +201,7 @@
         }
     }
     
-    return _iconName;
-}
-
--(NSString *)imageName {
-    if (!_imageName) {
-        switch (self.name) {
-            case AppFeatureNearbyDepartures:
-                _imageName = @"Nearby Departures";
-                break;
-            case AppFeatureAppleWatchApp:
-                _imageName = @"Apple Watch App";
-                break;
-            case AppFeatureRealtimeDepartures:
-                _imageName = @"Real-time Departures";
-                break;
-            case AppFeatureRoutesWidget:
-                _imageName = @"Routes Widget";
-                break;
-            case AppFeatureNearbyDepartureWidget:
-                _imageName = @"Nearby Departures Widget";
-                break;
-            case AppFeatureCityBikes:
-                _imageName = @"Helsinki City Bikes";
-                break;
-            case AppFeatureLiveLines:
-                _imageName = @"Live Lines";
-                break;
-            case AppFeatureIcloudBookmarks:
-                _imageName = @"iCloud Bookmarks";
-                break;
-            case AppFeatureRouteDisruptions:
-                _imageName = @"Route Disruptions";
-                break;
-            case AppFeatureStopFilter:
-                _imageName = @"Stop Filter";
-                break;
-            case AppFeatureRemindersManager:
-                _imageName = @"Reminders Manager";
-                break;
-            case AppFeatureTicketSales:
-                _imageName = @"Ticket Sales Points";
-                break;
-            case AppFeatureFavouriteLines:
-                _imageName = @"Favorite Lines";
-                break;
-                
-            default:
-                break;
-        }
-    }
-    
-    return _imageName;
+    return _featureImage;
 }
 
 -(UIColor *)themeColor {
@@ -271,7 +237,7 @@
             case AppFeatureStopFilter:
                 _themeColor = [UIColor systemGreenColor];
                 break;
-            case AppFeatureRemindersManager:
+            case AppFeatureRichReminders:
                 _themeColor = [UIColor systemPurpleColor];
                 break;
             case AppFeatureTicketSales:

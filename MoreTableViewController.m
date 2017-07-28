@@ -20,6 +20,7 @@
 #import "SwiftHeaders.h"
 #import "AppFeatureManager.h"
 #import "GoProCarouselTableViewCell.h"
+#import "InAppPurchaseViewController.h"
 
 @interface MoreTableViewController ()
 
@@ -124,7 +125,7 @@
     numberOfCommuterRows = 0;
     aboutCommuterRow = numberOfCommuterRows++;
     translateRow = appTranslateUrl ? numberOfCommuterRows++ : -1;
-    goProRow = ![AppFeatureManager proFeaturesAvailable] ? numberOfCommuterRows++ : -1;
+    goProRow = -1;
     newInVersionRow = numberOfCommuterRows++;
     contactMeRow = numberOfCommuterRows++;
     rateInAppStoreRow = numberOfCommuterRows++;
@@ -249,6 +250,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == featurePreviewSection) {
+        [self presentGoProView];
+    }
+    
     if (indexPath.section == commuterSection) {
         if (indexPath.row == translateRow) {
             [[UIApplication sharedApplication] openURL:appTranslateUrl];
@@ -292,7 +297,9 @@
 #pragma mark - ibactions
 
 - (void)presentGoProView {
-    [self presentNewInVersionView];
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[InAppPurchaseViewController instantiate]]
+                       animated:YES
+                     completion:nil];
 }
 
 - (void)presentNewInVersionView {

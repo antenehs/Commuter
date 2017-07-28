@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bSp-42-Ya2">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--PRO FEATURES-->
+        <scene sceneID="7FL-2z-aSQ">
+            <objects>
+                <viewController storyboardIdentifier="InAppPurchaseController" title="PRO FEATURES" id="bSp-42-Ya2" customClass="InAppPurchaseViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CZb-dV-MW1"/>
+                        <viewControllerLayoutGuide type="bottom" id="VsM-Di-GBo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PyT-Vh-6OT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d9o-Nl-q3T">
+                                <rect key="frame" x="0.0" y="20" width="375" height="546"/>
+                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZR-Pj-m6F">
+                                <rect key="frame" x="57.5" y="576" width="260" height="45"/>
+                                <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="aR7-Ni-Lqv"/>
+                                    <constraint firstAttribute="width" constant="260" id="g5n-8K-7qn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <state key="normal" title="GO PRO ($1.99)">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-sp-Y7l">
+                                <rect key="frame" x="97.5" y="629" width="180" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="KtW-jt-SIe"/>
+                                </constraints>
+                                <state key="normal" title="Restore Purchase">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aZR-Pj-m6F" firstAttribute="centerX" secondItem="PyT-Vh-6OT" secondAttribute="centerX" id="2AL-6I-Lqi"/>
+                            <constraint firstAttribute="trailing" secondItem="d9o-Nl-q3T" secondAttribute="trailing" id="Zzn-KZ-Pr2"/>
+                            <constraint firstItem="d9o-Nl-q3T" firstAttribute="top" secondItem="CZb-dV-MW1" secondAttribute="bottom" id="jjh-yZ-SdT"/>
+                            <constraint firstItem="VsM-Di-GBo" firstAttribute="top" secondItem="Zio-sp-Y7l" secondAttribute="bottom" constant="8" id="o9J-zL-Eqa"/>
+                            <constraint firstItem="Zio-sp-Y7l" firstAttribute="top" secondItem="aZR-Pj-m6F" secondAttribute="bottom" constant="8" id="ocy-di-qxn"/>
+                            <constraint firstItem="Zio-sp-Y7l" firstAttribute="centerX" secondItem="PyT-Vh-6OT" secondAttribute="centerX" id="ohq-WY-hra"/>
+                            <constraint firstItem="aZR-Pj-m6F" firstAttribute="top" secondItem="d9o-Nl-q3T" secondAttribute="bottom" constant="10" id="sXI-WG-nfy"/>
+                            <constraint firstItem="d9o-Nl-q3T" firstAttribute="leading" secondItem="PyT-Vh-6OT" secondAttribute="leading" id="yOi-y6-us1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="PRO FEATURES" id="sTm-Ys-y0K"/>
+                    <connections>
+                        <outlet property="childContainer" destination="d9o-Nl-q3T" id="RWO-li-MSb"/>
+                        <outlet property="purchaseButton" destination="aZR-Pj-m6F" id="X10-lz-mAR"/>
+                        <outlet property="restoreButton" destination="Zio-sp-Y7l" id="iUK-Yh-8qi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kNS-z3-OkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="174.96251874062969"/>
+        </scene>
+    </scenes>
+</document>

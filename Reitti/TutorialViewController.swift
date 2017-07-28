@@ -8,6 +8,56 @@
 
 import UIKit
 
+class ProFeaturesViewController: TutorialViewController {
+    
+    class func main() -> ProFeaturesViewController {
+        return ProFeaturesViewController.generateProFeaturesVc()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    class func generateProFeaturesVc() -> ProFeaturesViewController {
+        let features: [AppFeature] = AppFeatureManager.shared().proOnlyFeatures as! [AppFeature]
+        
+        let controllers: [OnboardingContentViewController] = features.map { feature -> OnboardingContentViewController in
+            let vc = OnboardingContentViewController(title: feature.displayName.uppercased(), body: feature.featureDescription, image: feature.featureImage.mainImage, buttonText: nil, actionBlock: nil)
+            
+            vc.iconImageView.contentMode = feature.featureImage.imageContentMode
+            
+            return vc;
+        }
+        
+        ProFeaturesViewController.commonConfig(contentVCs: controllers, dimentions: dimentions)
+        
+        let viewController = ProFeaturesViewController(backgroundImage: nil , contents: controllers)!
+        
+        viewController.shouldMaskBackground = false
+        viewController.view.backgroundColor = .clear
+//        viewController.underPageControlPadding = 170;
+        
+        return viewController
+    }
+    
+    class var dimentions:  ViewDimentions {
+        let screenHeight = UIScreen.main.bounds.size.height
+        
+        if screenHeight < 500 { //iPhone 4s
+            return (imageWidth: 200, imageHeight: 250, topSpace: 15, bodyFontSize: 13)
+        } else if screenHeight < 600 { //iPhone 5
+            return (imageWidth: 200, imageHeight: 250, topSpace: 10, bodyFontSize: 13)
+        } else if screenHeight < 700 { //iPhone 7
+            return (imageWidth: 220, imageHeight: 300, topSpace: 30, bodyFontSize: 14)
+        } else if screenHeight < 900 { //iPhone 7 plus
+            return (imageWidth: 250, imageHeight: 350, topSpace: 50, bodyFontSize: 14)
+        } else { //All ipads
+            return (imageWidth: 400, imageHeight: 500, topSpace: 160, bodyFontSize: 18)
+        }
+    }
+    
+}
+
 class NewInVersionViewController: TutorialViewController {
     
     class func main() -> NewInVersionViewController {
@@ -16,8 +66,6 @@ class NewInVersionViewController: TutorialViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-//        AppManager.shownKeyboardInstruction()
     }
     
     class func generateNewInVersionVc() -> NewInVersionViewController {
@@ -109,7 +157,7 @@ class TutorialViewController: OnboardingViewController {
             let dimentions = dimentions ?? TutorialViewController.commonDimentions
             
             vc.topPadding = dimentions.topSpace
-            vc.underIconPadding = 50
+            vc.underIconPadding = 40
             vc.underTitlePadding = 14
             
             vc.titleLabel.font = UIFont.boldSystemFont(ofSize: 19)

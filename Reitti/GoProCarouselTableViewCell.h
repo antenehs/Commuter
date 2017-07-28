@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RotatingCarousel.h"
 
 typedef void(^ButtonAction)();
 

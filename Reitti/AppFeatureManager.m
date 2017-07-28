@@ -57,7 +57,7 @@
              [AppFeature featureWithName:AppFeatureIcloudBookmarks isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureRouteDisruptions isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureStopFilter isAvailable:proFeaturesAvailable],
-             [AppFeature featureWithName:AppFeatureRemindersManager isAvailable:proFeaturesAvailable],
+             [AppFeature featureWithName:AppFeatureRichReminders isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureTicketSales isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureFavouriteLines isAvailable:proFeaturesAvailable],];
     

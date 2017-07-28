@@ -41,6 +41,7 @@
 #import "ReittiLocationManager.h"
 #import "SwiftHeaders.h"
 #import "AppFeatureManager.h"
+#import "InAppPurchaseViewController.h"
 
 @import Firebase;
 

@@ -225,8 +225,8 @@
 		6632070B1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		6632070C1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
 		6632070D1D27D3D300D8A46D /* TransportTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */; };
-		6632070F1D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */; };
-		663207101D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */; };
+		6632070F1D27D49E00D8A46D /* NewInVersion.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersion.xcassets */; };
+		663207101D27D49E00D8A46D /* NewInVersion.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6632070E1D27D49E00D8A46D /* NewInVersion.xcassets */; };
 		663207121D27E1F300D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		663207171D27E2AE00D8A46D /* HomeAndWorkRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207161D27E2AE00D8A46D /* HomeAndWorkRowController.m */; };
 		6632071A1D27E36400D8A46D /* LocationRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 663207191D27E36400D8A46D /* LocationRowController.m */; };
@@ -478,6 +478,16 @@
 		666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		666E08E41CD3F1C80058D5B0 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
 		6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674089A1C1C59AE00C1E34A /* UIView+Helper.m */; };
+		667435F41F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */; };
+		667435F51F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */; };
+		667435F71F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */; };
+		667435F81F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */; };
+		667435FA1F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */; };
+		667435FB1F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */; };
+		667435FE1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */; };
+		667435FF1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */; };
+		667436011F2A884000DCBC15 /* ProFeatureScreenShots.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667436001F2A884000DCBC15 /* ProFeatureScreenShots.xcassets */; };
+		667436021F2A884000DCBC15 /* ProFeatureScreenShots.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667436001F2A884000DCBC15 /* ProFeatureScreenShots.xcassets */; };
 		66780D881C54088200C838AA /* ServicePointsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D871C54088100C838AA /* ServicePointsViewController.m */; };
 		66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66780D8A1C5408E300C838AA /* HSLServicePointManager.m */; };
 		66780D901C54097200C838AA /* HSLCardServicePoints.json in Resources */ = {isa = PBXBuildFile; fileRef = 66780D8F1C54097200C838AA /* HSLCardServicePoints.json */; };
@@ -1665,7 +1675,7 @@
 		662481A51D1FFBF700574319 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		663207041D27D25900D8A46D /* AddressTypes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AddressTypes.xcassets; sourceTree = "<group>"; };
 		6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TransportTypes.xcassets; sourceTree = "<group>"; };
-		6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewInVersionPictures.xcassets; sourceTree = "<group>"; };
+		6632070E1D27D49E00D8A46D /* NewInVersion.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewInVersion.xcassets; sourceTree = "<group>"; };
 		663207151D27E2AE00D8A46D /* HomeAndWorkRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeAndWorkRowController.h; sourceTree = "<group>"; };
 		663207161D27E2AE00D8A46D /* HomeAndWorkRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeAndWorkRowController.m; sourceTree = "<group>"; };
 		663207181D27E36400D8A46D /* LocationRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationRowController.h; sourceTree = "<group>"; };
@@ -1811,6 +1821,13 @@
 		666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 5.mp3"; path = "Sounds/Time to go 5.mp3"; sourceTree = "<group>"; };
 		667408991C1C59AE00C1E34A /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Helper.h"; path = "Helpers/UIView+Helper.h"; sourceTree = "<group>"; };
 		6674089A1C1C59AE00C1E34A /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "Helpers/UIView+Helper.m"; sourceTree = "<group>"; };
+		667435F21F2A60FB00DCBC15 /* InAppPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseViewController.h; sourceTree = "<group>"; };
+		667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseViewController.m; sourceTree = "<group>"; };
+		667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InAppPurchase.storyboard; sourceTree = "<group>"; };
+		667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintExtension.swift; sourceTree = "<group>"; };
+		667435FC1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Helper.h"; sourceTree = "<group>"; };
+		667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+Helper.m"; sourceTree = "<group>"; };
+		667436001F2A884000DCBC15 /* ProFeatureScreenShots.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ProFeatureScreenShots.xcassets; sourceTree = "<group>"; };
 		66780D861C54088100C838AA /* ServicePointsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointsViewController.h; sourceTree = "<group>"; };
 		66780D871C54088100C838AA /* ServicePointsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointsViewController.m; sourceTree = "<group>"; };
 		66780D891C5408E300C838AA /* HSLServicePointManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLServicePointManager.h; sourceTree = "<group>"; };
@@ -2794,6 +2811,8 @@
 				665BA1B11CAF05EB0091C180 /* MainTabBarController.m */,
 				66B7AE921ECA58C300B233E7 /* MigrationViewController.h */,
 				66B7AE931ECA58C300B233E7 /* MigrationViewController.m */,
+				667435F21F2A60FB00DCBC15 /* InAppPurchaseViewController.h */,
+				667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -3133,6 +3152,8 @@
 				660547DA1EDE78CD00826F40 /* NSDictionary+Helper.m */,
 				6601A9641F2404450085DDE2 /* UIColor+Custom.h */,
 				6601A9651F2404450085DDE2 /* UIColor+Custom.m */,
+				667435FC1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.h */,
+				667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3390,10 +3411,11 @@
 				663207041D27D25900D8A46D /* AddressTypes.xcassets */,
 				6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */,
 				661EC2051F07565800E02C86 /* Annotations.xcassets */,
-				6632070E1D27D49E00D8A46D /* NewInVersionPictures.xcassets */,
+				6632070E1D27D49E00D8A46D /* NewInVersion.xcassets */,
 				66B3919F1D206CE100C500CC /* OlderImages.xcassets */,
 				667860081F05C21100D3E3CB /* MiscImages.xcassets */,
 				6601A9681F240F7D0085DDE2 /* Features.xcassets */,
+				667436001F2A884000DCBC15 /* ProFeatureScreenShots.xcassets */,
 			);
 			name = Pictures;
 			sourceTree = "<group>";
@@ -3430,6 +3452,7 @@
 			isa = PBXGroup;
 			children = (
 				669FEA051EF616640038318B /* UIImageExtension.swift */,
+				667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */,
 			);
 			name = SwiftHelpers;
 			sourceTree = "<group>";
@@ -3501,6 +3524,7 @@
 				663589B81ED0DB77006721EA /* Lines.storyboard */,
 				663589BB1ED0E227006721EA /* ServicePoints.storyboard */,
 				663589BE1ED0E60F006721EA /* WebView.storyboard */,
+				667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -4449,6 +4473,7 @@
 				66EB0D491DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
 				6603A8F51CCFFF2100991FBF /* HSLRegion.kml in Resources */,
 				663589B61ED0D847006721EA /* Reminders.storyboard in Resources */,
+				667436011F2A884000DCBC15 /* ProFeatureScreenShots.xcassets in Resources */,
 				66D0BA5D18BF3A22002DDC7B /* Aspergit Light.otf in Resources */,
 				664FE8B21ECBB20D00C3C0B5 /* BikesQuery.graphql in Resources */,
 				666BC1D81B5C259700889DD2 /* Time to go 2.mp3 in Resources */,
@@ -4476,12 +4501,13 @@
 				66F0998D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png in Resources */,
 				663E1EDF1C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
 				664FE8C11ECBC81F00C3C0B5 /* AlertQuery.graphql in Resources */,
-				6632070F1D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */,
+				6632070F1D27D49E00D8A46D /* NewInVersion.xcassets in Resources */,
 				66F0998B1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
 				66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */,
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
 				66978A741C7664B200C45B96 /* Icons.xcassets in Resources */,
 				66FDC9E11D83566900F6288D /* Localizable.strings in Resources */,
+				667435F71F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */,
 				66F0998E1AE8075D00F20D34 /* NotificationBackgroundWarningIcon.png in Resources */,
 				6605797C1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66F099831AE8075D00F20D34 /* NotificationBackgroundError@2x.png in Resources */,
@@ -4540,6 +4566,7 @@
 				661EC2071F07565800E02C86 /* Annotations.xcassets in Resources */,
 				66C733A11C556DA5002544BC /* Time to go 4.mp3 in Resources */,
 				66EB0D531DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
+				667435F81F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */,
 				66C733AD1C556DA5002544BC /* changeToFullVersionJS.js in Resources */,
 				664FE8B51ECBB59100C3C0B5 /* BikesQueryFragment.graphql in Resources */,
 				66C733B51C556DA5002544BC /* NotificationButtonBackground@2x.png in Resources */,
@@ -4608,8 +4635,9 @@
 				66C734971C556DA5002544BC /* NotificationBackgroundErrorIcon.png in Resources */,
 				66C734A11C556DA5002544BC /* Wheels on the bus.mp3 in Resources */,
 				6603A8F61CCFFF2100991FBF /* HSLRegion.kml in Resources */,
+				667436021F2A884000DCBC15 /* ProFeatureScreenShots.xcassets in Resources */,
 				663E1EFD1CA9D98A00C5543A /* AddressTableViewCell.xib in Resources */,
-				663207101D27D49E00D8A46D /* NewInVersionPictures.xcassets in Resources */,
+				663207101D27D49E00D8A46D /* NewInVersion.xcassets in Resources */,
 				66C734B01C556DA5002544BC /* InfoPlist.strings in Resources */,
 				66C734B11C556DA5002544BC /* HSLCardServicePoints.json in Resources */,
 				66C734B31C556DA5002544BC /* Train.mp3 in Resources */,
@@ -5270,6 +5298,7 @@
 				66833D5B1CF8F427005D958C /* DigiPlan.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				66026D911D68ED8D00219AC6 /* ContactAddress.m in Sources */,
+				667435F41F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */,
 				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
 				663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */,
@@ -5346,10 +5375,12 @@
 				661090C71B36D037003F2688 /* LinesTableViewController.m in Sources */,
 				660DED5A1EF356A600201445 /* RouteLegLocation+MapView.m in Sources */,
 				664E287A1AD9521E00BE2457 /* ReittiManagedObjectBase.m in Sources */,
+				667435FE1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m in Sources */,
 				66D101041EF9E01800CAC251 /* ReittiLocationManager.m in Sources */,
 				66CA033A1C1778DD00A38858 /* KBPopupDrawableView.m in Sources */,
 				66833D601CF8F427005D958C /* DigiLegs.m in Sources */,
 				66BCA3831B2F0A2B00166530 /* EnumManager.m in Sources */,
+				667435FA1F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift in Sources */,
 				669EA1FA19C83794005A04B9 /* RouteHistoryEntity.m in Sources */,
 				664E28B01AE2FC8300BE2457 /* SettingsEntity.m in Sources */,
 				66B7AE941ECA58C300B233E7 /* MigrationViewController.m in Sources */,
@@ -5567,6 +5598,7 @@
 				66833D5C1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
 				66026D921D68ED8D00219AC6 /* ContactAddress.m in Sources */,
+				667435F51F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */,
 				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
 				663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */,
@@ -5643,10 +5675,12 @@
 				66C7332C1C556DA5002544BC /* LinesTableViewController.m in Sources */,
 				660DED5B1EF356A600201445 /* RouteLegLocation+MapView.m in Sources */,
 				66C7332D1C556DA5002544BC /* ReittiManagedObjectBase.m in Sources */,
+				667435FF1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m in Sources */,
 				66D101051EF9E01800CAC251 /* ReittiLocationManager.m in Sources */,
 				66C7332E1C556DA5002544BC /* KBPopupDrawableView.m in Sources */,
 				66833D611CF8F427005D958C /* DigiLegs.m in Sources */,
 				66C7332F1C556DA5002544BC /* EnumManager.m in Sources */,
+				667435FB1F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift in Sources */,
 				66C733301C556DA5002544BC /* RouteHistoryEntity.m in Sources */,
 				66C733311C556DA5002544BC /* SettingsEntity.m in Sources */,
 				66B7AE951ECA58C300B233E7 /* MigrationViewController.m in Sources */,
@@ -7361,7 +7395,7 @@
 				DEVELOPMENT_TEAM = FGEKQ9U6E7;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = DepartureNotification/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = "-DDEPARTURE_NOTIFICATION";
@@ -7384,7 +7418,7 @@
 				DEVELOPMENT_TEAM = FGEKQ9U6E7;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = DepartureNotification/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-DDEPARTURE_NOTIFICATION";
