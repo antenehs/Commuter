@@ -10,6 +10,8 @@
 #import "SwiftHeaders.h"
 #import "ASA_Helpers.h"
 #import "NSLayoutConstraint+Helper.h"
+#import "AppFeatureManager.h"
+
 
 @interface InAppPurchaseViewController ()
 
@@ -57,12 +59,6 @@
     self.navigationItem.rightBarButtonItem = closeItem;
 }
 
--(void)closeBarButtonTapped {
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 -(void)setupView {
     
     [self.view asa_SetBlurredBackgroundWithImageNamed:nil];
@@ -80,6 +76,28 @@
     
     _purchaseButton.layer.cornerRadius = 15.0;
 }
+
+#pragma mark - Actions
+-(void)closeBarButtonTapped {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)purchaseButtonTapped:(id)sender {
+    [[AppFeatureManager sharedManager] purchaseProFeaturesWithCompletionBlock:^(NSString *errorMessage) {
+        if (errorMessage) {
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Proccessing purchase failed." andContent:errorMessage inController:self];
+        }
+    }];
+}
+
+- (IBAction)restoreButtonTapped:(id)sender {
+    [[AppFeatureManager sharedManager] restorePurchasesWithCompletionBlock:^(NSString *errorMessage) {
+        if (errorMessage) {
+            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Restoring purchase failed." andContent:errorMessage inController:self];
+        }
+    }];
+}
+
 
 -(void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

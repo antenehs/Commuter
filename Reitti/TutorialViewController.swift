@@ -24,7 +24,7 @@ class ProFeaturesViewController: TutorialViewController {
         let controllers: [OnboardingContentViewController] = features.map { feature -> OnboardingContentViewController in
             let vc = OnboardingContentViewController(title: feature.displayName.uppercased(), body: feature.featureDescription, image: feature.featureImage.mainImage, buttonText: nil, actionBlock: nil)
             
-            vc.iconImageView.contentMode = feature.featureImage.imageContentMode
+            vc.iconImageView.contentMode = feature.featureImage.featureImageViewContentMode()
             
             return vc;
         }

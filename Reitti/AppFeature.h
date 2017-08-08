@@ -26,17 +26,24 @@ typedef enum {
     AppFeatureFavouriteLines
 } AppFeatureName;
 
+typedef enum {
+    FeatureImageContentModeCenter,
+    FeatureImageContentModeBottom,
+    FeatureImageContentModeTop,
+    FeatureImageContentModeScaleAspectFit
+} FeatureImageContentMode;
+
 
 //Feature Image
 @interface AppFeatureImage : NSObject
 
 +(instancetype)featureImageWithIconNamed:(NSString *)iconName
                           mainImageNamed:(NSString *)mainImageName
-                        imageContentMode:(UIViewContentMode)contentMode;
+                        imageContentMode:(FeatureImageContentMode)contentMode;
 
 @property(nonatomic, strong)UIImage *iconImage;
 @property(nonatomic, strong)UIImage *mainImage;
-@property(nonatomic)UIViewContentMode imageContentMode;
+@property(nonatomic)FeatureImageContentMode imageContentMode;
 
 @end
 

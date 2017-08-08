@@ -9,10 +9,21 @@
 #import "AppFeatureManager.h"
 #import "AppManagerBase.h"
 
+#if MAIN_APP
+#import "MKStoreKit.h"
+#endif
+
+NSString *kAllProFeaturesIAPProductId = @"reitti.aikatauluapp.unlockprofeatures";
+
+NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotification";
+
 @interface AppFeatureManager ()
 
 @property (nonatomic, strong)NSArray *proOnlyFeatures;
 @property (nonatomic)BOOL areProFeaturesAvailable;
+
+@property (nonatomic)PurchaseCompletionBlock purchaseCompletion;
+@property (nonatomic)PurchaseCompletionBlock restoreCompletion;
 
 @end
 
@@ -33,14 +44,118 @@
     self = [super init];
     
     if (self) {
-        
+#if MAIN_APP
+        [[MKStoreKit sharedKit] startProductRequest];
+        [self registerMKStoreNotifications];
+#endif
     }
     
     return self;
 }
 
+#if MAIN_APP
+-(void)registerMKStoreNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductsAvailableNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
+                                                  }];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      [self proFeaturePurchaseSuccessful];
+                                                      
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      [self proFeaturePurchaseFailedWithError:[note object]];
+                                                      
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      [self proFeatureRestoreSuccessful];
+                                                      
+                                                      NSLog(@"Restored Purchases");
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      
+                                                      [self proFeatureRestoreFailedWithError:[note object]];
+                                                      
+                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                  }];
+    
+}
+
+#pragma mark - 
+#pragma mark Purchase methods
+
+-(void)purchaseProFeaturesWithCompletionBlock:(PurchaseCompletionBlock)completion {
+    [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:kAllProFeaturesIAPProductId];
+    
+    self.purchaseCompletion = completion;
+}
+
+-(void)proFeaturePurchaseSuccessful {
+    
+    if (self.purchaseCompletion) self.purchaseCompletion(nil);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kProFeaturesPurchasedNotification object:nil];
+}
+
+-(void)proFeaturePurchaseFailedWithError:(NSError *)error {
+    if (self.purchaseCompletion) self.purchaseCompletion([error localizedDescription]);
+}
+
+#pragma mark -
+#pragma mark restore methods
+
+-(void)restorePurchasesWithCompletionBlock:(PurchaseCompletionBlock)completion {
+    [[MKStoreKit sharedKit] restorePurchases];
+    
+    self.restoreCompletion = completion;
+}
+
+-(void)proFeatureRestoreSuccessful {
+    
+    if (self.restoreCompletion) self.restoreCompletion(nil);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kProFeaturesPurchasedNotification object:nil];
+}
+
+-(void)proFeatureRestoreFailedWithError:(NSError *)error {
+    if (self.restoreCompletion) self.restoreCompletion([error localizedDescription]);
+}
+
+#endif
+
 +(BOOL)proFeaturesAvailable {
+#if MAIN_APP
+    return [AppManagerBase isProVersion] || [[MKStoreKit sharedKit] isProductPurchased:kAllProFeaturesIAPProductId];
+#else
+    //TODO: Read from NSUserDefaults for status of purchase.
     return [AppManagerBase isProVersion];
+#endif
 }
 
 -(NSArray *)proOnlyFeatures {

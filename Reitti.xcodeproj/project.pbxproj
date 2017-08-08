@@ -219,6 +219,10 @@
 		662481A21D1FFBF700574319 /* ComplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 662481A11D1FFBF700574319 /* ComplicationController.m */; };
 		662481A41D1FFBF700574319 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 662481A31D1FFBF700574319 /* Assets.xcassets */; };
 		662481A81D1FFBF700574319 /* WatchRoutes.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 662481841D1FFBF700574319 /* WatchRoutes.app */; };
+		662891991F2BCE8F00D983CC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662891981F2BCE8F00D983CC /* StoreKit.framework */; };
+		6628919E1F2BD00E00D983CC /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6628919C1F2BD00E00D983CC /* MKStoreKit.m */; };
+		6628919F1F2BD00E00D983CC /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6628919D1F2BD00E00D983CC /* MKStoreKitConfigs.plist */; };
+		662891A01F2BD1A400D983CC /* MKStoreKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6628919C1F2BD00E00D983CC /* MKStoreKit.m */; };
 		663207051D27D25900D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		663207061D27D26D00D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
 		663207091D27D27100D8A46D /* AddressTypes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 663207041D27D25900D8A46D /* AddressTypes.xcassets */; };
@@ -729,6 +733,14 @@
 		66BCA7181D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */; };
 		66BCA71B1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
 		66BCA71C1D7AF2D80092C5BB /* AnnotationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */; };
+		66BE5B9A1F32775D00929EF8 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9651F2404450085DDE2 /* UIColor+Custom.m */; };
+		66BE5B9B1F32775D00929EF8 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9651F2404450085DDE2 /* UIColor+Custom.m */; };
+		66BE5B9C1F32775E00929EF8 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9651F2404450085DDE2 /* UIColor+Custom.m */; };
+		66BE5B9E1F32776600929EF8 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6601A9651F2404450085DDE2 /* UIColor+Custom.m */; };
+		66BE5B9F1F3279B800929EF8 /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
+		66BE5BA01F327A0200929EF8 /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
+		66BE5BA31F327F9500929EF8 /* AppFeatureImage+ContentMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BE5BA21F327F9500929EF8 /* AppFeatureImage+ContentMode.m */; };
+		66BE5BA41F327F9500929EF8 /* AppFeatureImage+ContentMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BE5BA21F327F9500929EF8 /* AppFeatureImage+ContentMode.m */; };
 		66C05AA71ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
 		66C05AA81ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
 		66C05AA91ED3D42900F26AD2 /* StopTimeFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */; };
@@ -1173,13 +1185,11 @@
 		66E9DF451F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
 		66E9DF461F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
 		66E9DF471F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
-		66E9DF481F2157AF00C1260D /* AppFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF421F2157AF00C1260D /* AppFeature.m */; };
 		66E9DF4B1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
 		66E9DF4C1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
 		66E9DF4D1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
 		66E9DF4E1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
 		66E9DF4F1F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
-		66E9DF501F215FAE00C1260D /* AppFeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E9DF4A1F215FAE00C1260D /* AppFeatureManager.m */; };
 		66EB0D491DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */; };
 		66EB0D4A1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */; };
 		66EB0D4B1DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 66EB0D481DECBEB800ADEC2D /* StopsQueryFragment.graphql */; };
@@ -1673,6 +1683,10 @@
 		662481A11D1FFBF700574319 /* ComplicationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComplicationController.m; sourceTree = "<group>"; };
 		662481A31D1FFBF700574319 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		662481A51D1FFBF700574319 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		662891981F2BCE8F00D983CC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6628919B1F2BD00E00D983CC /* MKStoreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKit.h; sourceTree = "<group>"; };
+		6628919C1F2BD00E00D983CC /* MKStoreKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreKit.m; sourceTree = "<group>"; };
+		6628919D1F2BD00E00D983CC /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
 		663207041D27D25900D8A46D /* AddressTypes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AddressTypes.xcassets; sourceTree = "<group>"; };
 		6632070A1D27D3D300D8A46D /* TransportTypes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TransportTypes.xcassets; sourceTree = "<group>"; };
 		6632070E1D27D49E00D8A46D /* NewInVersion.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewInVersion.xcassets; sourceTree = "<group>"; };
@@ -2052,6 +2066,8 @@
 		66BCA7161D7AF15E0092C5BB /* AnnotationFilterOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilterOption.m; sourceTree = "<group>"; };
 		66BCA7191D7AF2D80092C5BB /* AnnotationFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationFilter.h; sourceTree = "<group>"; };
 		66BCA71A1D7AF2D80092C5BB /* AnnotationFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationFilter.m; sourceTree = "<group>"; };
+		66BE5BA11F327F9500929EF8 /* AppFeatureImage+ContentMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppFeatureImage+ContentMode.h"; sourceTree = "<group>"; };
+		66BE5BA21F327F9500929EF8 /* AppFeatureImage+ContentMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppFeatureImage+ContentMode.m"; sourceTree = "<group>"; };
 		66C05AA61ED3D42900F26AD2 /* StopTimeFragment.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StopTimeFragment.graphql; sourceTree = "<group>"; };
 		66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 2.xcdatamodel"; sourceTree = "<group>"; };
 		66C1254319CF5BD400099AFF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
@@ -2345,6 +2361,7 @@
 				661EC2041F06B8B900E02C86 /* UserNotifications.framework in Frameworks */,
 				66CF81A51A0EF4F90034C9AB /* Accelerate.framework in Frameworks */,
 				66CB961D18F16ACB00E95CE5 /* EventKit.framework in Frameworks */,
+				662891991F2BCE8F00D983CC /* StoreKit.framework in Frameworks */,
 				66CB961B18F08B8500E95CE5 /* MessageUI.framework in Frameworks */,
 				66947CFD188C56D400642EE1 /* QuartzCore.framework in Frameworks */,
 				66947CFB188C535300642EE1 /* MapKit.framework in Frameworks */,
@@ -2741,6 +2758,7 @@
 		661FAF21189BA57B00042074 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6628919A1F2BCF5300D983CC /* MKStoreKit */,
 				66EB0D501DECBFCE00ADEC2D /* GraphQL */,
 				6665D7481C0B52CA00ACCC3A /* Helpers */,
 				66CA02B21C16364200A38858 /* Environments */,
@@ -2926,6 +2944,16 @@
 				662481961D1FFBF700574319 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6628919A1F2BCF5300D983CC /* MKStoreKit */ = {
+			isa = PBXGroup;
+			children = (
+				6628919B1F2BD00E00D983CC /* MKStoreKit.h */,
+				6628919C1F2BD00E00D983CC /* MKStoreKit.m */,
+				6628919D1F2BD00E00D983CC /* MKStoreKitConfigs.plist */,
+			);
+			name = MKStoreKit;
 			sourceTree = "<group>";
 		};
 		663207141D27E28B00D8A46D /* Rows */ = {
@@ -3322,6 +3350,7 @@
 		66947CB418830ED500642EE1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				662891981F2BCE8F00D983CC /* StoreKit.framework */,
 				661EC2021F06B8AA00E02C86 /* UserNotifications.framework */,
 				66026D8C1D68E56800219AC6 /* AddressBook.framework */,
 				663E1EBB1C949EB200C5543A /* CloudKit.framework */,
@@ -3873,6 +3902,8 @@
 			children = (
 				66E9DF411F2157AF00C1260D /* AppFeature.h */,
 				66E9DF421F2157AF00C1260D /* AppFeature.m */,
+				66BE5BA11F327F9500929EF8 /* AppFeatureImage+ContentMode.h */,
+				66BE5BA21F327F9500929EF8 /* AppFeatureImage+ContentMode.m */,
 			);
 			name = Feature;
 			sourceTree = "<group>";
@@ -4300,6 +4331,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
@@ -4468,6 +4502,7 @@
 				66947CD118830ED500642EE1 /* Images.xcassets in Resources */,
 				66C59DA519993CC300E7AC7A /* Transport.xib in Resources */,
 				66D0BA5318BF2E1E002DDC7B /* trench100free.otf in Resources */,
+				6628919F1F2BD00E00D983CC /* MKStoreKitConfigs.plist in Resources */,
 				66FD7F931CB94B4700C6C731 /* Jyvaskula.gpx in Resources */,
 				66D0BA5A18BF3785002DDC7B /* Aspergit Bold.otf in Resources */,
 				66EB0D491DECBEB800ADEC2D /* StopsQueryFragment.graphql in Resources */,
@@ -5136,7 +5171,7 @@
 				6658BAB51ED752E9001F3C9C /* DigiRouteOptionManager.m in Sources */,
 				66B391C31D230ECD00C500CC /* ReittiStringFormatterE.m in Sources */,
 				66B391971D20129B00C500CC /* AppManagerBase.m in Sources */,
-				66E9DF481F2157AF00C1260D /* AppFeature.m in Sources */,
+				66BE5B9F1F3279B800929EF8 /* AppFeature.m in Sources */,
 				6658BABC1ED754CF001F3C9C /* LineStop.m in Sources */,
 				6658BAC01ED75865001F3C9C /* RouteSearchOptions.m in Sources */,
 				6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */,
@@ -5169,7 +5204,7 @@
 				6658BAA71ED74580001F3C9C /* DigiTransitCommunicator.m in Sources */,
 				669E6D031D393E14006C8580 /* RoutableLocation.m in Sources */,
 				6658BAB11ED751D6001F3C9C /* DigiStop.m in Sources */,
-				66E9DF501F215FAE00C1260D /* AppFeatureManager.m in Sources */,
+				66BE5BA01F327A0200929EF8 /* AppFeatureManager.m in Sources */,
 				66BCA6F11D72015A0092C5BB /* StopEntity.m in Sources */,
 				660711F91D8F18D1000BA8D1 /* SettingsManager.m in Sources */,
 				6658BAA91ED750A1001F3C9C /* DigiIntermediateStops.m in Sources */,
@@ -5336,6 +5371,7 @@
 				6684BEC61CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */,
 				660E2F861B349B5400CE670E /* EmptyBookmarkCell.m in Sources */,
 				66833D1A1CEE45CE005D958C /* DigiStoptime.m in Sources */,
+				6628919E1F2BD00E00D983CC /* MKStoreKit.m in Sources */,
 				660277F41EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				66056E821C497E4300C011FB /* GeoCodeDetail.m in Sources */,
 				661202D31B05085D00D93C2E /* Properties.m in Sources */,
@@ -5392,6 +5428,7 @@
 				66CA02D21C16FEB000A38858 /* AppManagerBase.m in Sources */,
 				66FC548D1B237F00005B890D /* RouteCacheEntity.m in Sources */,
 				660D311D1C317B1A0051DDAA /* ReittiAnalyticsManager.m in Sources */,
+				66BE5BA31F327F9500929EF8 /* AppFeatureImage+ContentMode.m in Sources */,
 				663E1EEE1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */,
 				66CEE28119FAE4000089A6F9 /* CustomBadge.m in Sources */,
 				6684BEC81CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */,
@@ -5636,6 +5673,7 @@
 				6684BEC71CB151C80053AAE1 /* TREFramedVehicleJourneyRef.m in Sources */,
 				66C7330F1C556DA5002544BC /* EmptyBookmarkCell.m in Sources */,
 				66833D1B1CEE45CE005D958C /* DigiStoptime.m in Sources */,
+				662891A01F2BD1A400D983CC /* MKStoreKit.m in Sources */,
 				660277F51EE5A1DA003CA3B7 /* Polyline.swift in Sources */,
 				66C733101C556DA5002544BC /* GeoCodeDetail.m in Sources */,
 				66C733111C556DA5002544BC /* Properties.m in Sources */,
@@ -5692,6 +5730,7 @@
 				66C733361C556DA5002544BC /* RouteCacheEntity.m in Sources */,
 				66C733371C556DA5002544BC /* ReittiAnalyticsManager.m in Sources */,
 				663E1EEF1CA6EB9900C5543A /* TRELiveTrafficManager.m in Sources */,
+				66BE5BA41F327F9500929EF8 /* AppFeatureImage+ContentMode.m in Sources */,
 				66C733381C556DA5002544BC /* CustomBadge.m in Sources */,
 				6684BEC91CB151C80053AAE1 /* TREMonitoredVehicleJourney.m in Sources */,
 				66C733391C556DA5002544BC /* MoreTableViewController.m in Sources */,
@@ -5859,6 +5898,7 @@
 				66BCA7131D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66997AAE1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				66E9DF4E1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
+				66BE5B9B1F32775D00929EF8 /* UIColor+Custom.m in Sources */,
 				66C05AD11ED53CD900F26AD2 /* RouteLegLocation.m in Sources */,
 				66C05ACE1ED53CC700F26AD2 /* RouteLeg.m in Sources */,
 				663465E71ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -5953,6 +5993,7 @@
 				666E08BA1CD3DC000058D5B0 /* ReittiStringFormatter.m in Sources */,
 				660A96291D7C640600A813A6 /* NSArray+Helper.m in Sources */,
 				6683CF211CD924F90044727B /* MatkaObjectMapping.m in Sources */,
+				66BE5B9C1F32775E00929EF8 /* UIColor+Custom.m in Sources */,
 				66BCA7141D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				660278001EE5A5C1003CA3B7 /* PolylineDecoder.m in Sources */,
 				66833D641CF8F427005D958C /* DigiLegs.m in Sources */,
@@ -6064,6 +6105,7 @@
 				66BCA7121D78C91E0092C5BB /* MatkaTransportTypeManager.m in Sources */,
 				66997AAD1ED2A9EE00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				66E9DF4D1F215FAE00C1260D /* AppFeatureManager.m in Sources */,
+				66BE5B9A1F32775D00929EF8 /* UIColor+Custom.m in Sources */,
 				66C05AD01ED53CD800F26AD2 /* RouteLegLocation.m in Sources */,
 				66C05ACD1ED53CC600F26AD2 /* RouteLeg.m in Sources */,
 				663465E61ECE5543004B8AAF /* DigiPatternShort.m in Sources */,
@@ -6116,6 +6158,7 @@
 				66CB27F51F0BF2CB00BB0D0B /* ReittiStringFormatter.m in Sources */,
 				6684DAE11F0BF7410098B1B5 /* AppManagerBase.m in Sources */,
 				66CB27F41F0BF07D00BB0D0B /* Notifications.m in Sources */,
+				66BE5B9E1F32776600929EF8 /* UIColor+Custom.m in Sources */,
 				66E0F01F1F0B1F2300FA1532 /* NotificationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

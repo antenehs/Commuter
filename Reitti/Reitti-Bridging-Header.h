@@ -9,3 +9,4 @@
 #import "OnboardingContentViewController.h"
 #import "UIImage+Helper.h"
 #import "AppFeatureManager.h"
+#import "AppFeatureImage+ContentMode.m"

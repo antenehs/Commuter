@@ -18,7 +18,6 @@ extension Polyline {
         let coordinates = self.toCoordinates(locs!)
         
         let reittiPolyline = ReittiPolyline(coordinates: coordinates, count: UInt(coordinates.count))
-//        let mkPolyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
         return reittiPolyline
     }
     

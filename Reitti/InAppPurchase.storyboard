@@ -35,6 +35,9 @@
                                 <state key="normal" title="GO PRO ($1.99)">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="purchaseButtonTapped:" destination="bSp-42-Ya2" eventType="touchUpInside" id="Ybc-Nr-2XK"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zio-sp-Y7l">
                                 <rect key="frame" x="97.5" y="629" width="180" height="30"/>
@@ -44,6 +47,9 @@
                                 <state key="normal" title="Restore Purchase">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="restoreButtonTapped:" destination="bSp-42-Ya2" eventType="touchUpInside" id="BGX-j7-jGs"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

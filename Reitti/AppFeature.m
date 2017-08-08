@@ -13,7 +13,7 @@
 
 +(instancetype)featureImageWithIconNamed:(NSString *)iconName
                           mainImageNamed:(NSString *)mainImageName
-                        imageContentMode:(UIViewContentMode)contentMode {
+                        imageContentMode:(FeatureImageContentMode)contentMode {
     AppFeatureImage *featureImage = [AppFeatureImage new];
     
     featureImage.iconImage = [UIImage imageNamed:iconName];
@@ -157,43 +157,43 @@
     if (!_featureImage) {
         switch (self.name) {
             case AppFeatureNearbyDepartures:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"departures-feature" mainImageNamed:@"nearbyDepartures" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"departures-feature" mainImageNamed:@"nearbyDepartures" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureAppleWatchApp:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"apple-watch-feature" mainImageNamed:@"appleWatch" imageContentMode:UIViewContentModeCenter];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"apple-watch-feature" mainImageNamed:@"appleWatch" imageContentMode:FeatureImageContentModeCenter];
                 break;
             case AppFeatureRealtimeDepartures:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"realtime-feature" mainImageNamed:@"realtimeDeparture" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"realtime-feature" mainImageNamed:@"realtimeDeparture" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureRoutesWidget:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"route-widget-feature" mainImageNamed:@"widgetsPro" imageContentMode:UIViewContentModeTop];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"route-widget-feature" mainImageNamed:@"widgetsPro" imageContentMode:FeatureImageContentModeTop];
                 break;
             case AppFeatureNearbyDepartureWidget:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"nearby-widget-feature" mainImageNamed:@"" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"nearby-widget-feature" mainImageNamed:@"" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureCityBikes:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"bike-feature" mainImageNamed:@"cityBikes" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"bike-feature" mainImageNamed:@"cityBikes" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureLiveLines:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"realtime-feature" mainImageNamed:@"liveLines" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"realtime-feature" mainImageNamed:@"liveLines" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureIcloudBookmarks:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"icloud-feature" mainImageNamed:@"iCloudSynchPic" imageContentMode:UIViewContentModeScaleAspectFit];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"icloud-feature" mainImageNamed:@"iCloudSynchPic" imageContentMode:FeatureImageContentModeScaleAspectFit];
                 break;
             case AppFeatureRouteDisruptions:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"disruption-feature" mainImageNamed:@"" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"disruption-feature" mainImageNamed:@"" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureStopFilter:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"stop-filter-feature" mainImageNamed:@"stopFilter" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"stop-filter-feature" mainImageNamed:@"stopFilter" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureRichReminders:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"reminder-feature" mainImageNamed:@"richReminders" imageContentMode:UIViewContentModeTop];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"reminder-feature" mainImageNamed:@"richReminders" imageContentMode:FeatureImageContentModeTop];
                 break;
             case AppFeatureTicketSales:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"ticket-feature" mainImageNamed:@"ticketSalesPoint" imageContentMode:UIViewContentModeTop];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"ticket-feature" mainImageNamed:@"ticketSalesPoint" imageContentMode:FeatureImageContentModeTop];
                 break;
             case AppFeatureFavouriteLines:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"star-feature" mainImageNamed:@"" imageContentMode:UIViewContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"star-feature" mainImageNamed:@"" imageContentMode:FeatureImageContentModeBottom];
                 break;
                 
             default:

@@ -23,6 +23,7 @@
 #import "WatchCommunicationManager.h"
 #import "ReittiConfigManager.h"
 #import "CoreDataManagers.h"
+#import "AppFeatureManager.h"
 
 @import Firebase;
 
@@ -37,6 +38,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //Init Singletons
+    [AppFeatureManager sharedManager];
     [StopCoreDataManager sharedManager];
     [ReittiAnalyticsManager sharedManager]; //Google Analytics
     [FIRApp configure];
