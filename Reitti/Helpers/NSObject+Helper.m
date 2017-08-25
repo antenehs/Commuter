@@ -32,4 +32,43 @@
     });
 }
 
+-(void)asa_ExecuteBlocks:(NSArray<GroupDispatchBlock> *)blocks withCompletion:(ActionBlock)completion {
+    dispatch_group_t processGroup = dispatch_group_create();
+    
+    for (GroupDispatchBlock block in blocks) {
+        dispatch_group_enter(processGroup);
+        block(^{
+            dispatch_group_leave(processGroup);
+        });
+    }
+    
+    dispatch_group_notify(processGroup, dispatch_get_main_queue(),^{
+        completion();
+    });
+}
+
+-(void)asa_ExecuteFetchObjectBlocksWithFetchers:(NSArray<ArrayFetchBlock> *)fetchers withCompletion:(FetchedArrayBlock)completion {
+    if (!fetchers || fetchers.count == 0) {
+        completion(@[]);
+        return;
+    };
+    
+    __block NSMutableArray *allResult = [@[] mutableCopy];
+    
+    NSMutableArray *dispatchBlocks = [@[] mutableCopy];
+    
+    for (ArrayFetchBlock fetchBlock in fetchers) {
+        [dispatchBlocks addObject:^(ActionBlock completed) {
+            fetchBlock(^(NSArray *fetched){
+                [allResult addObjectsFromArray:fetched ? fetched : @[]];
+                completed();
+            });
+        }];
+    }
+    
+    [self asa_ExecuteBlocks:dispatchBlocks withCompletion:^{
+        completion(allResult);
+    }];
+}
+
 @end

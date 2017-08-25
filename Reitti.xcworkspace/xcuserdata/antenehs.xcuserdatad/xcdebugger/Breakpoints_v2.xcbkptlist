@@ -2240,102 +2240,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/SettingsViewController.m"
-            timestampString = "520711653.450573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "472"
-            endingLineNumber = "472"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/SettingsViewController.m"
-            timestampString = "520711653.450573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/SettingsViewController.m"
-            timestampString = "520711653.450573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "466"
-            endingLineNumber = "466"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/SettingsViewController.m"
-            timestampString = "520711653.450573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/SettingsViewController.m"
-            timestampString = "520711653.450573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/SettingsViewController.m"
-            timestampString = "520711653.450573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "486"
-            endingLineNumber = "486"
-            landmarkName = "-prepareForSegue:sender:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -2356,11 +2260,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemindersTableViewController.m"
-            timestampString = "520743635.233751"
+            timestampString = "525395311.865846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "-fetchSavedDataWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2404,11 +2308,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemindersTableViewController.m"
-            timestampString = "520743635.233751"
+            timestampString = "525395311.865846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "-fetchSavedDataWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2516,7 +2420,7 @@
                   moduleName = "Reitti"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/ReittiRemindersManager.m"
-                  timestampString = "525307455.302256"
+                  timestampString = "525396032.991245"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "280"
@@ -2531,7 +2435,7 @@
                   moduleName = "Reitti"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/ReittiRemindersManager.m"
-                  timestampString = "525307455.30421"
+                  timestampString = "525396032.992917"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "281"
@@ -2548,11 +2452,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemindersTableViewController.m"
-            timestampString = "520743635.233751"
+            timestampString = "525395311.865846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "-updateNotifEnabledStatus"
             landmarkType = "7">
          </BreakpointContent>
@@ -2564,11 +2468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RemindersTableViewController.m"
-            timestampString = "520743635.233751"
+            timestampString = "525395311.865846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "-fetchSavedDataWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2660,7 +2564,7 @@
                   moduleName = "Reitti"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/AppDelegate.m"
-                  timestampString = "525307455.307924"
+                  timestampString = "525396032.996863"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "192"
@@ -2675,7 +2579,7 @@
                   moduleName = "Reitti"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/AppDelegate.m"
-                  timestampString = "525307455.309447"
+                  timestampString = "525396032.998559"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "192"
@@ -2941,7 +2845,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/AppFeatureManager.m"
@@ -3085,7 +2989,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/AppFeatureManager.m"
@@ -3104,13 +3008,77 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Reitti/SearchController.m"
-            timestampString = "525307451.118022"
+            filePath = "Reitti/RettiDataManager.m"
+            timestampString = "525395311.865846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2659"
-            endingLineNumber = "2659"
-            landmarkName = "-previewingContext:viewControllerForLocation:"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
+            landmarkName = "-searchAddressesForKey:withCompletionBlock:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/Helpers/NSObject+Helper.m"
+            timestampString = "525394499.366852"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "-asa_ExecuteFetchObjectBlocksWithFetchers:withCompletion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RemindersTableViewController.m"
+            timestampString = "525395283.364789"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "-fetchSavedDataWithCompletion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RemindersTableViewController.m"
+            timestampString = "525395285.19969"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-fetchSavedDataWithCompletion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RemindersTableViewController.m"
+            timestampString = "525395681.174873"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-fetchSavedDataWithCompletion:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

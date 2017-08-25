@@ -470,48 +470,25 @@
 }
 
 #pragma mark - Address fetch methods
--(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock{
-//    geoCodeRequestedFor = userLocationRegion;
-    
+-(void)searchAddressesForKey:(NSString *)key withCompletionBlock:(ActionBlock)completionBlock {
     id dataSourceManager = [self getDataSourceForCurrentRegion];
     
     if ([dataSourceManager conformsToProtocol:@protocol(GeocodeProtocol)]) {
-        __block NSInteger requestCalls = 2;
-        __block NSMutableArray *allResults = [@[] mutableCopy];
-        __block NSArray *poiResults = @[];
-        __block NSArray *reitiopasResults = @[];
+        ArrayFetchBlock reittiFetchBlock = ^(FetchedArrayBlock completed) {
+            [(NSObject<GeocodeProtocol> *)dataSourceManager searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
+                completed(response);
+            }];
+        };
         
-        [(NSObject<GeocodeProtocol> *)dataSourceManager searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
-            requestCalls--;
-            
-            if (!error) {
-                reitiopasResults = response;
-            }
-            
-            if (requestCalls == 0){
-                allResults = [@[] mutableCopy];
-                [allResults addObjectsFromArray:reitiopasResults];
-                [allResults addObjectsFromArray:poiResults];
-                completionBlock(allResults, key , error);
-            }
+        ArrayFetchBlock appleFetchBlock = ^(FetchedArrayBlock completed) {
+            [self searchAddressFromAppleForKey:key withCompletionBlock:^(NSArray *response, NSString *searchKey){
+                completed(response);
+            }];
+        };
+        
+        [self asa_ExecuteFetchObjectBlocksWithFetchers:@[reittiFetchBlock,appleFetchBlock] withCompletion:^(NSArray *result) {
+            completionBlock(result, key, nil);
         }];
-        
-        [self searchAddressFromAppleForKey:key withCompletionBlock:^(NSArray *response, NSString *searchKey){
-            requestCalls--;
-            
-            if (response && response.count > 0) {
-                poiResults = response;
-            }
-            
-            if (requestCalls == 0){
-                allResults = [@[] mutableCopy];
-                [allResults addObjectsFromArray:reitiopasResults];
-                [allResults addObjectsFromArray:poiResults];
-                completionBlock(allResults, searchKey, nil);
-            }
-        }];
-        
-        
     }else{
         [self.finlandDigitransitCommunicator searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {

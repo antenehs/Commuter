@@ -103,7 +103,28 @@
         self.savedRoutines = [@[] mutableCopy];
     }
     
+    GroupDispatchBlock departureNotifBlock = ^(ActionBlock completed) {
+        [remindersManager getAllDepartureNotificationsWithCompletion:^(NSArray *notifs){
+            self.departureNotifications = [notifs mutableCopy];
+            completed();
+        }];
+    };
+    
+    GroupDispatchBlock routeNotifBlock = ^(ActionBlock completed) {
+        [remindersManager getAllRouteNotificationsWithCompletion:^(NSArray *notifs){
+            self.routeNotifications = [notifs mutableCopy];
+            completed();
+        }];
+    };
+    
+    [self asa_ExecuteBlocks:@[departureNotifBlock, routeNotifBlock] withCompletion:^{
+        completion();
+    }];
+    
+    
+    /*
     __block NSInteger requestCalls = 2;
+    
     [remindersManager getAllDepartureNotificationsWithCompletion:^(NSArray *notifs){
         requestCalls--;
         
@@ -113,17 +134,6 @@
             completion();
     }];
     
-//    self.departureNotifications = [[remindersManager getAllDepartureNotifications] mutableCopy];
-//    if (!self.departureNotifications) {
-//        self.departureNotifications = [@[] mutableCopy];
-//    }
-    
-//    self.routeNotifications = [[remindersManager getAllRouteNotifications] mutableCopy];
-//    if (!self.routeNotifications) {
-//        self.routeNotifications = [@[] mutableCopy];
-//    }
-//    requestCalls--;
-    
     [remindersManager getAllRouteNotificationsWithCompletion:^(NSArray *notifs){
         requestCalls--;
         
@@ -132,6 +142,7 @@
         if (requestCalls == 0)
             completion();
     }];
+     */
 }
 
 #pragma mark - view methods
