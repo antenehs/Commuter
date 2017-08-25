@@ -510,6 +510,8 @@
                 completionBlock(allResults, searchKey, nil);
             }
         }];
+        
+        
     }else{
         [self.finlandDigitransitCommunicator searchGeocodeForSearchTerm:key withCompletionBlock:^(NSArray * response, NSString *error){
             if (!error) {

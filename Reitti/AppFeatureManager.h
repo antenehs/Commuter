@@ -18,6 +18,7 @@ typedef void(^PurchaseCompletionBlock)(NSString *errorMessage);
 +(instancetype)sharedManager;
 
 #if MAIN_APP
+-(NSString *)formattedProFeaturesPrice;
 -(void)purchaseProFeaturesWithCompletionBlock:(PurchaseCompletionBlock)completion;
 -(void)restorePurchasesWithCompletionBlock:(PurchaseCompletionBlock)completion;
 #endif

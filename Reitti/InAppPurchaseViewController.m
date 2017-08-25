@@ -74,6 +74,12 @@
     [_childContainer layoutIfNeeded];
     [_childContainer setClipsToBounds:YES];
     
+    NSString *priceString = [[AppFeatureManager sharedManager] formattedProFeaturesPrice];
+    NSString *buttonTitle = @"GO PRO";
+    if (priceString) buttonTitle = [NSString stringWithFormat:@"GO PRO (%@)", priceString];
+
+    [_purchaseButton setTitle:buttonTitle
+                     forState:UIControlStateNormal];
     _purchaseButton.layer.cornerRadius = 15.0;
 }
 

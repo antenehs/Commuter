@@ -11,6 +11,7 @@
 
 #if MAIN_APP
 #import "MKStoreKit.h"
+@import StoreKit;
 #endif
 
 NSString *kAllProFeaturesIAPProductId = @"reitti.aikatauluapp.unlockprofeatures";
@@ -21,6 +22,8 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
 
 @property (nonatomic, strong)NSArray *proOnlyFeatures;
 @property (nonatomic)BOOL areProFeaturesAvailable;
+
+@property (nonatomic, strong)NSNumberFormatter *priceFormatter;
 
 @property (nonatomic)PurchaseCompletionBlock purchaseCompletion;
 @property (nonatomic)PurchaseCompletionBlock restoreCompletion;
@@ -62,6 +65,7 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
                                                   usingBlock:^(NSNotification *note) {
                                                       
                                                       NSLog(@"Products available: %@", [[MKStoreKit sharedKit] availableProducts]);
+                                                      NSLog(@"Price is: %@", [self formattedProFeaturesPrice]);
                                                   }];
     
     
@@ -105,6 +109,30 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
                                                       NSLog(@"Failed restoring purchases with error: %@", [note object]);
                                                   }];
     
+}
+
+#pragma mark - 
+#pragma mark Product Properties
+
+-(NSString *)formattedProFeaturesPrice {
+    NSArray *products = [[MKStoreKit sharedKit] availableProducts];
+    
+    if (products && [products count] > 0) {
+        for (SKProduct *product in products) {
+            if (![product.productIdentifier isEqualToString:kAllProFeaturesIAPProductId]) continue;
+            
+
+            if (!_priceFormatter) {
+                _priceFormatter = [[NSNumberFormatter alloc] init];
+                [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+                [_priceFormatter setLocale:product.priceLocale];
+            }
+            
+            return [_priceFormatter stringFromNumber:product.price];
+        }
+    }
+    
+    return nil;
 }
 
 #pragma mark - 

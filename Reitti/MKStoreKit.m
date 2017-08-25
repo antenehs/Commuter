@@ -520,7 +520,7 @@ static NSDictionary *errorDictionary;
   NSLog(@"Transaction Failed with error: %@", transaction.error);
   [queue finishTransaction:transaction];
   [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitProductPurchaseFailedNotification
-                                                      object:transaction.payment.productIdentifier];
+                                                      object:transaction.error];
 }
 
 - (void)deferredTransaction:(SKPaymentTransaction *)transaction inQueue:(SKPaymentQueue *)queue {

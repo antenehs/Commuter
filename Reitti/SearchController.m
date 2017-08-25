@@ -2663,7 +2663,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
         
         BusStopShort *selected = cell && [cell isKindOfClass:NearbyTableViewCell.class] ? cell.groupedDepartures.stop : nil;
         if (cell && selected) {
-            CGRect convertedRect = [cell.superview convertRect:[nearbyStopsListsTable rectForSection:selectedRowIndexPath.section] toView:self.view];
+            CGRect convertedRect = [cell.superview convertRect:[nearbyStopsListsTable rectForRowAtIndexPath:selectedRowIndexPath] toView:self.view];
             previewingContext.sourceRect = convertedRect;
             StopViewController *stopViewController = (StopViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ASAStopViewController"];
             
