@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="u7F-Lg-WBH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="u7F-Lg-WBH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,8 +103,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="swq-vP-Juj"/>
                                                     <exclude reference="M0S-6H-ik0"/>
+                                                    <exclude reference="swq-vP-Juj"/>
                                                 </mask>
                                             </variation>
                                         </view>
@@ -116,8 +117,8 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="xpv-Tw-6FA"/>
                                             <exclude reference="4OU-V3-at0"/>
+                                            <exclude reference="xpv-Tw-6FA"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -168,14 +169,14 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
+                                    <exclude reference="Jfg-dt-RP1"/>
+                                    <exclude reference="KTj-8l-KvQ"/>
                                     <exclude reference="TK7-6V-5qx"/>
+                                    <exclude reference="ZcJ-U7-Fgc"/>
+                                    <exclude reference="b1g-35-HHk"/>
+                                    <exclude reference="llx-wC-vO5"/>
                                     <exclude reference="oZV-iY-0fb"/>
                                     <exclude reference="wtJ-DS-oVQ"/>
-                                    <exclude reference="b1g-35-HHk"/>
-                                    <exclude reference="KTj-8l-KvQ"/>
-                                    <exclude reference="Jfg-dt-RP1"/>
-                                    <exclude reference="llx-wC-vO5"/>
-                                    <exclude reference="ZcJ-U7-Fgc"/>
                                 </mask>
                             </variation>
                         </view>
@@ -261,21 +262,21 @@
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
-                                                                    <exclude reference="5NY-g6-VNR"/>
                                                                     <exclude reference="1ce-E3-UZI"/>
+                                                                    <exclude reference="5NY-g6-VNR"/>
                                                                     <exclude reference="9d0-NN-eE9"/>
-                                                                    <exclude reference="zbT-FD-oef"/>
                                                                     <exclude reference="DRN-jG-drJ"/>
                                                                     <exclude reference="hce-No-06d"/>
                                                                     <exclude reference="htu-Mt-akP"/>
+                                                                    <exclude reference="zbT-FD-oef"/>
                                                                 </mask>
                                                             </variation>
                                                         </label>
                                                         <view tag="2001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lax-lb-DPS" userLabel="previousLine" customClass="UIImageView">
-                                                            <rect key="frame" x="13" y="0.0" width="3" height="30.5"/>
+                                                            <rect key="frame" x="13" y="0.0" width="2" height="31"/>
                                                             <color key="backgroundColor" red="0.1203657687" green="0.62355530260000003" blue="0.4246336222" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="3" id="GZ7-mm-lJo"/>
+                                                                <constraint firstAttribute="width" constant="2" id="GZ7-mm-lJo"/>
                                                                 <constraint firstAttribute="width" constant="4" id="Pyl-Zn-v6U"/>
                                                                 <constraint firstAttribute="height" constant="35" id="T1g-MB-efu"/>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="3" id="Xu4-3j-n0e"/>
@@ -283,37 +284,37 @@
                                                             </constraints>
                                                             <variation key="default">
                                                                 <mask key="constraints">
-                                                                    <exclude reference="T1g-MB-efu"/>
-                                                                    <exclude reference="kU3-Z0-kuZ"/>
                                                                     <exclude reference="Pyl-Zn-v6U"/>
+                                                                    <exclude reference="T1g-MB-efu"/>
                                                                     <exclude reference="Xu4-3j-n0e"/>
+                                                                    <exclude reference="kU3-Z0-kuZ"/>
                                                                 </mask>
                                                             </variation>
                                                         </view>
                                                         <view tag="2003" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p3m-5x-xOK" userLabel="previousLine" customClass="UIImageView">
-                                                            <rect key="frame" x="13" y="31.5" width="3" height="28.5"/>
+                                                            <rect key="frame" x="13" y="32" width="2" height="28"/>
                                                             <color key="backgroundColor" red="0.1203657687" green="0.62355530260000003" blue="0.4246336222" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="4" id="3y3-c7-iYI"/>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="3" id="Ynt-ld-ofs"/>
                                                                 <constraint firstAttribute="height" constant="35" id="llq-Dw-9Od"/>
-                                                                <constraint firstAttribute="width" constant="3" id="nsI-2E-D4B"/>
+                                                                <constraint firstAttribute="width" constant="2" id="nsI-2E-D4B"/>
                                                             </constraints>
                                                             <variation key="default">
                                                                 <mask key="constraints">
-                                                                    <exclude reference="Ynt-ld-ofs"/>
                                                                     <exclude reference="3y3-c7-iYI"/>
+                                                                    <exclude reference="Ynt-ld-ofs"/>
                                                                     <exclude reference="llq-Dw-9Od"/>
                                                                 </mask>
                                                             </variation>
                                                         </view>
                                                         <view tag="2002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9w-5D-kTs">
-                                                            <rect key="frame" x="9" y="24.5" width="11" height="11"/>
+                                                            <rect key="frame" x="8" y="24.5" width="12" height="12"/>
                                                             <color key="backgroundColor" red="0.1203657687" green="0.62355530260000003" blue="0.4246336222" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="11" id="3eb-a9-YxP"/>
+                                                                <constraint firstAttribute="width" constant="12" id="3eb-a9-YxP"/>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="B4a-KT-upl"/>
-                                                                <constraint firstAttribute="height" constant="11" id="dOK-GX-3V5"/>
+                                                                <constraint firstAttribute="height" constant="12" id="dOK-GX-3V5"/>
                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="nTV-cy-SaC"/>
                                                             </constraints>
                                                             <variation key="default">
@@ -349,7 +350,7 @@
                                                         <constraint firstAttribute="trailingMargin" secondItem="xRF-J4-ui1" secondAttribute="trailing" constant="77" id="TnJ-OO-zzu"/>
                                                         <constraint firstAttribute="trailing" secondItem="mlO-Cs-OYu" secondAttribute="trailing" id="Vg6-AH-2OO"/>
                                                         <constraint firstItem="Lax-lb-DPS" firstAttribute="leading" secondItem="duk-H5-GHp" secondAttribute="leading" constant="10" id="W9L-Ww-zwK"/>
-                                                        <constraint firstItem="s9w-5D-kTs" firstAttribute="leading" secondItem="duk-H5-GHp" secondAttribute="leading" constant="9" id="WRf-IB-KMh"/>
+                                                        <constraint firstItem="s9w-5D-kTs" firstAttribute="leading" secondItem="duk-H5-GHp" secondAttribute="leading" constant="8" id="WRf-IB-KMh"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="xRF-J4-ui1" secondAttribute="trailing" constant="9" id="YPc-NA-Z7u"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="p3m-5x-xOK" secondAttribute="bottom" constant="-8.5" id="aIX-qU-vFQ"/>
                                                         <constraint firstItem="p3m-5x-xOK" firstAttribute="top" secondItem="Lax-lb-DPS" secondAttribute="bottom" id="bKp-pl-mzu"/>
@@ -370,13 +371,13 @@
                                                             <exclude reference="Hg7-iq-rzi"/>
                                                             <exclude reference="W9L-Ww-zwK"/>
                                                             <exclude reference="cro-yJ-fkr"/>
-                                                            <exclude reference="bKp-pl-mzu"/>
-                                                            <exclude reference="aIX-qU-vFQ"/>
                                                             <exclude reference="9kQ-RE-Tu8"/>
+                                                            <exclude reference="aIX-qU-vFQ"/>
+                                                            <exclude reference="bKp-pl-mzu"/>
                                                             <exclude reference="rR8-uF-uQC"/>
-                                                            <exclude reference="YPc-NA-Z7u"/>
-                                                            <exclude reference="Tkq-cc-UpP"/>
                                                             <exclude reference="LqU-ds-9xf"/>
+                                                            <exclude reference="Tkq-cc-UpP"/>
+                                                            <exclude reference="YPc-NA-Z7u"/>
                                                             <exclude reference="ttu-CA-tmD"/>
                                                             <exclude reference="I6d-1E-m4o"/>
                                                             <exclude reference="IZ4-7K-07f"/>
@@ -495,17 +496,16 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="Wcq-PE-Bon"/>
-                                <exclude reference="X9B-56-rki"/>
                                 <exclude reference="2Jm-hz-fY2"/>
                                 <exclude reference="Spb-ag-cDf"/>
+                                <exclude reference="Wcq-PE-Bon"/>
+                                <exclude reference="X9B-56-rki"/>
                                 <exclude reference="agM-Vc-81K"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="VdD-dY-Z3i" id="ca6-cd-dqb"/>
-                        <outlet property="mapView" destination="VhL-wY-CWT" id="LlI-Hb-oXV"/>
                         <outlet property="stopsListHeaderLabel" destination="qjg-fn-OGW" id="1Ru-nu-4GJ"/>
                         <outlet property="stopsTableView" destination="1g1-jG-kgi" id="nij-Py-mr6"/>
                         <outlet property="tableViewContainerView" destination="LfZ-da-KNd" id="TZU-t4-hom"/>

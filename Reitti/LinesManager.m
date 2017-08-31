@@ -161,7 +161,7 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
     }
 }
 
-#pragma mark - line fetching
+#pragma mark - Recent line fetching
 
 -(void)getLinesForRecentLineCodesWithCompletionBlock:(ActionBlock)completionBlock {
     NSArray *lineCodes = [self getRecentLineCodes];
@@ -197,6 +197,28 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
     
     return [NSMutableArray arrayWithArray:sortedArray];
 }
+
+#pragma mark -
+#pragma mark Favorite line fetching
+
+-(NSArray *)getFavoriteLines {
+    return [[LineCoreDataManager sharedManager] fetchAllSavedLines];
+}
+
+-(void)saveFavoriteLine:(Line *)line {
+    [[LineCoreDataManager sharedManager] saveLineToCoreData:line];
+}
+
+-(void)deleteFavoriteLine:(Line *)line {
+    [[LineCoreDataManager sharedManager] deleteLineEntityForLine:line];
+}
+
+-(BOOL)isLineFavorited:(Line *)line {
+    return [[[LineCoreDataManager sharedManager] allLineEntityCodes] containsObject:line.code];
+}
+
+#pragma mark -
+#pragma mark Lines from stops fetching
 
 -(void)getLinesFromSavedStopsWithCompletionBlock:(ActionBlock)completionBlock {
     NSDictionary *lineCodesAndPatterns = [self getLineCodesAndLinesFromSavedStops];

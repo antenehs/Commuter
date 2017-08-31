@@ -9,7 +9,6 @@
 #import "Line.h"
 #import "ReittiStringFormatter.h"
 #import <MapKit/MapKit.h>
-#import "LineStop.h"
 
 #ifndef APPLE_WATCH
 #import "MatkaStop.h"

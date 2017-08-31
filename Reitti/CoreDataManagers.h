@@ -9,3 +9,4 @@
 #import "NamedBookmarkCoreDataManager.h"
 #import "StopCoreDataManager.h"
 #import "RouteCoreDataManager.h"
+#import "LineCoreDataManager.h"

@@ -19,9 +19,17 @@ extern NSString *kStopLinesKey;
 +(id)sharedManager;
 -(id)init;
 
+//Recent Lines
 -(NSArray *)getRecentLineCodes;
 -(void)saveRecentLine:(Line *)line;
 
+//Favorite Lines
+-(NSArray *)getFavoriteLines;
+-(void)saveFavoriteLine:(Line *)line;
+-(void)deleteFavoriteLine:(Line *)line;
+-(BOOL)isLineFavorited:(Line *)line;
+
+//Fetching methods
 -(NSDictionary *)getLineCodesAndLinesFromSavedStops;
 
 -(void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock;

@@ -37,6 +37,7 @@
     IBOutlet NSLayoutConstraint *tableViewTopSpacingConstraint;
     
     BOOL viewApearForTheFirstTime;
+    bool lineBookmarked;
 }
 
 @property (strong, nonatomic) StaticRoute *staticRoute;

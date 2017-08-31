@@ -2111,7 +2111,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 #pragma - mark Scroll View delegates
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
+//    NSLog(@"Content offset: %f", scrollView.contentOffset.y);
     if (scrollView.contentOffset.y < -1) { /* drag the stop view down if table view is fully scrolled down */
         [self increamentNearByStopViewTopSpaceBy:-scrollView.contentOffset.y];
         stopViewDragedDown = YES;

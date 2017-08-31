@@ -248,6 +248,16 @@
 		6632072C1D293DBC00D8A46D /* ReittiDateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5676E1CC3B82C00ECA0F5 /* ReittiDateHelper.m */; };
 		6632072D1D293DCC00D8A46D /* ReittiStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D0BA5F18BF41A6002DDC7B /* ReittiStringFormatter.m */; };
 		663207301D29501E00D8A46D /* RouteLegRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6632072F1D29501E00D8A46D /* RouteLegRowController.m */; };
+		663361071F54BBEA003D0601 /* LineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361041F54BBEA003D0601 /* LineEntity.m */; };
+		663361081F54BBEA003D0601 /* LineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361041F54BBEA003D0601 /* LineEntity.m */; };
+		663361121F54BD84003D0601 /* LineCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361111F54BD84003D0601 /* LineCoreDataManager.m */; };
+		663361131F54BD84003D0601 /* LineCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361111F54BD84003D0601 /* LineCoreDataManager.m */; };
+		663361161F54BEDE003D0601 /* LineEntity+Transformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361151F54BEDE003D0601 /* LineEntity+Transformation.m */; };
+		663361171F54BEDE003D0601 /* LineEntity+Transformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361151F54BEDE003D0601 /* LineEntity+Transformation.m */; };
+		6633611A1F562984003D0601 /* DropDownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361191F562984003D0601 /* DropDownListView.m */; };
+		6633611B1F562984003D0601 /* DropDownListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 663361191F562984003D0601 /* DropDownListView.m */; };
+		6633611D1F5629A7003D0601 /* DropDownListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6633611C1F5629A7003D0601 /* DropDownListView.xib */; };
+		6633611E1F5629A7003D0601 /* DropDownListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6633611C1F5629A7003D0601 /* DropDownListView.xib */; };
 		663465AF1ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
 		663465B01ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
 		663465B11ECD08E0004B8AAF /* ReittiMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 663465AE1ECD08E0004B8AAF /* ReittiMapping.m */; };
@@ -1699,6 +1709,16 @@
 		663207211D282F3F00D8A46D /* RouteInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteInterfaceController.m; sourceTree = "<group>"; };
 		6632072E1D29501E00D8A46D /* RouteLegRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteLegRowController.h; sourceTree = "<group>"; };
 		6632072F1D29501E00D8A46D /* RouteLegRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RouteLegRowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		663361021F54B8EE003D0601 /* Reitti 19.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 19.xcdatamodel"; sourceTree = "<group>"; };
+		663361031F54BBEA003D0601 /* LineEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineEntity.h; path = ../LineEntity.h; sourceTree = "<group>"; };
+		663361041F54BBEA003D0601 /* LineEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineEntity.m; path = ../LineEntity.m; sourceTree = "<group>"; };
+		663361101F54BD84003D0601 /* LineCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineCoreDataManager.h; sourceTree = "<group>"; };
+		663361111F54BD84003D0601 /* LineCoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineCoreDataManager.m; sourceTree = "<group>"; };
+		663361141F54BEDE003D0601 /* LineEntity+Transformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LineEntity+Transformation.h"; sourceTree = "<group>"; };
+		663361151F54BEDE003D0601 /* LineEntity+Transformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LineEntity+Transformation.m"; sourceTree = "<group>"; };
+		663361181F562984003D0601 /* DropDownListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownListView.h; sourceTree = "<group>"; };
+		663361191F562984003D0601 /* DropDownListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownListView.m; sourceTree = "<group>"; };
+		6633611C1F5629A7003D0601 /* DropDownListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropDownListView.xib; sourceTree = "<group>"; };
 		663465AD1ECD08E0004B8AAF /* ReittiMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReittiMapping.h; sourceTree = "<group>"; };
 		663465AE1ECD08E0004B8AAF /* ReittiMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReittiMapping.m; sourceTree = "<group>"; };
 		663465B51ECD1654004B8AAF /* MappingRelationShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MappingRelationShip.h; sourceTree = "<group>"; };
@@ -2977,6 +2997,48 @@
 			name = Rows;
 			sourceTree = "<group>";
 		};
+		6633610B1F54BCE4003D0601 /* Stop */ = {
+			isa = PBXGroup;
+			children = (
+				66CC941118E22ECB00644281 /* StopEntity.h */,
+				66CC941218E22ECB00644281 /* StopEntity.m */,
+				66CC941418E2304600644281 /* HistoryEntity.h */,
+				66CC941518E2304600644281 /* HistoryEntity.m */,
+			);
+			name = Stop;
+			sourceTree = "<group>";
+		};
+		6633610C1F54BCEC003D0601 /* Route */ = {
+			isa = PBXGroup;
+			children = (
+				669EA1F519C83794005A04B9 /* RouteEntity.h */,
+				669EA1F619C83794005A04B9 /* RouteEntity.m */,
+				669EA1F819C83794005A04B9 /* RouteHistoryEntity.h */,
+				669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */,
+			);
+			name = Route;
+			sourceTree = "<group>";
+		};
+		6633610E1F54BCFC003D0601 /* NamedBookmark */ = {
+			isa = PBXGroup;
+			children = (
+				667B982F1AD5590D00C45ADF /* NamedBookmark.h */,
+				667B98301AD5590D00C45ADF /* NamedBookmark.m */,
+			);
+			name = NamedBookmark;
+			sourceTree = "<group>";
+		};
+		6633610F1F54BD09003D0601 /* Line */ = {
+			isa = PBXGroup;
+			children = (
+				663361031F54BBEA003D0601 /* LineEntity.h */,
+				663361041F54BBEA003D0601 /* LineEntity.m */,
+				663361141F54BEDE003D0601 /* LineEntity+Transformation.h */,
+				663361151F54BEDE003D0601 /* LineEntity+Transformation.m */,
+			);
+			name = Line;
+			sourceTree = "<group>";
+		};
 		663465BD1ECD2C5E004B8AAF /* Mapping */ = {
 			isa = PBXGroup;
 			children = (
@@ -3103,6 +3165,9 @@
 				6601A95D1F23F50D0085DDE2 /* FeaturePreviewView.h */,
 				6601A95E1F23F50D0085DDE2 /* FeaturePreviewView.m */,
 				6601A9611F23F51F0085DDE2 /* FeaturePreviewView.xib */,
+				663361181F562984003D0601 /* DropDownListView.h */,
+				663361191F562984003D0601 /* DropDownListView.m */,
+				6633611C1F5629A7003D0601 /* DropDownListView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -3533,6 +3598,8 @@
 				664884AD1EEF13A4006558A2 /* NamedBookmarkCoreDataManager.m */,
 				66F1F4891EF07D24004174D0 /* RouteCoreDataManager.h */,
 				66F1F48A1EF07D24004174D0 /* RouteCoreDataManager.m */,
+				663361101F54BD84003D0601 /* LineCoreDataManager.h */,
+				663361111F54BD84003D0601 /* LineCoreDataManager.m */,
 			);
 			name = "Core Data Managers";
 			sourceTree = "<group>";
@@ -3985,16 +4052,10 @@
 		66F1F48E1EF0803D004174D0 /* CoreDataEntities */ = {
 			isa = PBXGroup;
 			children = (
-				66CC941118E22ECB00644281 /* StopEntity.h */,
-				66CC941218E22ECB00644281 /* StopEntity.m */,
-				66CC941418E2304600644281 /* HistoryEntity.h */,
-				66CC941518E2304600644281 /* HistoryEntity.m */,
-				669EA1F519C83794005A04B9 /* RouteEntity.h */,
-				669EA1F619C83794005A04B9 /* RouteEntity.m */,
-				669EA1F819C83794005A04B9 /* RouteHistoryEntity.h */,
-				669EA1F919C83794005A04B9 /* RouteHistoryEntity.m */,
-				667B982F1AD5590D00C45ADF /* NamedBookmark.h */,
-				667B98301AD5590D00C45ADF /* NamedBookmark.m */,
+				6633610B1F54BCE4003D0601 /* Stop */,
+				6633610C1F54BCEC003D0601 /* Route */,
+				6633610E1F54BCFC003D0601 /* NamedBookmark */,
+				6633610F1F54BD09003D0601 /* Line */,
 				66CC941A18E34C6300644281 /* CookieEntity.h */,
 				66CC941B18E34C6300644281 /* CookieEntity.m */,
 				664E28AE1AE2FC8300BE2457 /* SettingsEntity.h */,
@@ -4536,6 +4597,7 @@
 				66F0998D1AE8075D00F20D34 /* NotificationBackgroundWarning@2x.png in Resources */,
 				663E1EDF1C9EE7D100C5543A /* RouteTableViewCell.xib in Resources */,
 				664FE8C11ECBC81F00C3C0B5 /* AlertQuery.graphql in Resources */,
+				6633611D1F5629A7003D0601 /* DropDownListView.xib in Resources */,
 				6632070F1D27D49E00D8A46D /* NewInVersion.xcassets in Resources */,
 				66F0998B1AE8075D00F20D34 /* NotificationBackgroundSuccessIcon@2x.png in Resources */,
 				66D0BA5518BF3327002DDC7B /* timeburner_regular.ttf in Resources */,
@@ -4616,6 +4678,7 @@
 				66C733C51C556DA5002544BC /* LaunchScreen.xib in Resources */,
 				66C733CB1C556DA5002544BC /* versionInfo.html in Resources */,
 				66C735CD1C557127002544BC /* LaunchScreenPro.xib in Resources */,
+				6633611E1F5629A7003D0601 /* DropDownListView.xib in Resources */,
 				6605797D1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66C733D51C556DA5002544BC /* deleteCardJS.js in Resources */,
 				6601A9581F23EC310085DDE2 /* GoProCarouselTableViewCell.xib in Resources */,
@@ -5250,6 +5313,7 @@
 				665BA1B61CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66862FEC1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */,
 				66780D961C5409F800C838AA /* ServicePoint.m in Sources */,
+				6633611A1F562984003D0601 /* DropDownListView.m in Sources */,
 				66EBBE4419A01B35006A2128 /* Transport.m in Sources */,
 				664FE8BB1ECBC30300C3C0B5 /* DigiAlert.m in Sources */,
 				66FD7FAA1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
@@ -5277,6 +5341,7 @@
 				66134BFA1B3EE8F50008C6D7 /* GCThumbnailAnnotation.m in Sources */,
 				66CC941C18E34C6300644281 /* CookieEntity.m in Sources */,
 				660E2F801B349AD200CE670E /* EmptyHomeAddressCell.m in Sources */,
+				663361161F54BEDE003D0601 /* LineEntity+Transformation.m in Sources */,
 				66822F611C2468A300511BD2 /* StopDeparture.m in Sources */,
 				665885C51B1121000044F514 /* NearByStop.m in Sources */,
 				660D312A1C3425F60051DDAA /* LinesManager.m in Sources */,
@@ -5309,6 +5374,7 @@
 				661FAF2C18A38B5B00042074 /* Reitti.xcdatamodeld in Sources */,
 				66997AA71ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				667B982D1AD33A4100C45ADF /* EditAddressTableViewController.m in Sources */,
+				663361071F54BBEA003D0601 /* LineEntity.m in Sources */,
 				66862FEA1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */,
 				66833D3B1CF1B89A005D958C /* RTStopSearchParam.m in Sources */,
 				66B7AE981ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
@@ -5402,6 +5468,7 @@
 				661202DB1B07DD4C00D93C2E /* LVThumbnail.m in Sources */,
 				66997AAB1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				660278051EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
+				663361121F54BD84003D0601 /* LineCoreDataManager.m in Sources */,
 				66CA03341C1778DD00A38858 /* KBPopupBubbleView.m in Sources */,
 				66780D8D1C5408E300C838AA /* HSLServicePointManager.m in Sources */,
 				6684BECA1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */,
@@ -5552,6 +5619,7 @@
 				665BA1B71CAF0C550091C180 /* RouteSearchParameters.m in Sources */,
 				66862FED1EF6FBB00023F47B /* DetailAnnotationView.m in Sources */,
 				66C732C21C556DA5002544BC /* ServicePoint.m in Sources */,
+				6633611B1F562984003D0601 /* DropDownListView.m in Sources */,
 				66C732C31C556DA5002544BC /* Transport.m in Sources */,
 				66FD7FAB1CBC294600C6C731 /* MatkaRouteLocation.m in Sources */,
 				66C732C51C556DA5002544BC /* ReittiStringFormatter.m in Sources */,
@@ -5579,6 +5647,7 @@
 				66C732D81C556DA5002544BC /* CookieEntity.m in Sources */,
 				66C732D91C556DA5002544BC /* EmptyHomeAddressCell.m in Sources */,
 				66C732DA1C556DA5002544BC /* StopDeparture.m in Sources */,
+				663361171F54BEDE003D0601 /* LineEntity+Transformation.m in Sources */,
 				66C732DB1C556DA5002544BC /* NearByStop.m in Sources */,
 				66C732DC1C556DA5002544BC /* LinesManager.m in Sources */,
 				66C732DD1C556DA5002544BC /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
@@ -5611,6 +5680,7 @@
 				66C732EB1C556DA5002544BC /* EditAddressTableViewController.m in Sources */,
 				66997AA81ED1702600B206D4 /* DigiVehicleActivityContainer.m in Sources */,
 				66833D3C1CF1B89B005D958C /* RTStopSearchParam.m in Sources */,
+				663361081F54BBEA003D0601 /* LineEntity.m in Sources */,
 				66862FEB1EF6FBB00023F47B /* DetailAnnotationSettings.m in Sources */,
 				66B7AE991ECA674C00B233E7 /* DynamicHeightTableView.m in Sources */,
 				664FE8BC1ECBC5A600C3C0B5 /* DigiAlert.m in Sources */,
@@ -5704,6 +5774,7 @@
 				66C733241C556DA5002544BC /* LVThumbnail.m in Sources */,
 				66997AAC1ED2958A00B206D4 /* DigiRouteOptionManager.m in Sources */,
 				660278061EE5B18F003CA3B7 /* DigiPolylineGeometry.m in Sources */,
+				663361131F54BD84003D0601 /* LineCoreDataManager.m in Sources */,
 				66C733261C556DA5002544BC /* KBPopupBubbleView.m in Sources */,
 				66C733281C556DA5002544BC /* HSLServicePointManager.m in Sources */,
 				6684BECB1CB151C80053AAE1 /* TREOnwardCalls.m in Sources */,
@@ -7570,6 +7641,7 @@
 		661FAF2A18A38B5B00042074 /* Reitti.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				663361021F54B8EE003D0601 /* Reitti 19.xcdatamodel */,
 				66F1F48D1EF07FBA004174D0 /* Reitti 18.xcdatamodel */,
 				66B7AE851EC78D6600B233E7 /* Reitti 17.xcdatamodel */,
 				66656D541D5F485C00BA291B /* Reitti 16.xcdatamodel */,
@@ -7589,7 +7661,7 @@
 				66C1253F19CF58F700099AFF /* Reitti 2.xcdatamodel */,
 				661FAF2B18A38B5B00042074 /* Reitti.xcdatamodel */,
 			);
-			currentVersion = 66F1F48D1EF07FBA004174D0 /* Reitti 18.xcdatamodel */;
+			currentVersion = 663361021F54B8EE003D0601 /* Reitti 19.xcdatamodel */;
 			path = Reitti.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

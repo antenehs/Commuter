@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DropDownListView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DB4-lQ-BpO">
+                    <rect key="frame" x="10" y="4" width="306" height="47"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevronDown" translatesAutoresizingMaskIntoConstraints="NO" id="gRZ-bS-GUP">
+                    <rect key="frame" x="334" y="15" width="25" height="25"/>
+                    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="YGg-f1-9eK"/>
+                        <constraint firstAttribute="width" constant="25" id="ZMD-Na-JlD"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="DB4-lQ-BpO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="0EE-VW-hAX"/>
+                <constraint firstItem="gRZ-bS-GUP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="1Df-jy-eQD"/>
+                <constraint firstItem="gRZ-bS-GUP" firstAttribute="leading" secondItem="DB4-lQ-BpO" secondAttribute="trailing" constant="18" id="4JU-p0-0ea"/>
+                <constraint firstItem="DB4-lQ-BpO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="bNe-MS-47Y"/>
+                <constraint firstAttribute="bottom" secondItem="DB4-lQ-BpO" secondAttribute="bottom" constant="4" id="o7l-Ro-l86"/>
+                <constraint firstAttribute="trailing" secondItem="gRZ-bS-GUP" secondAttribute="trailing" constant="16" id="rAB-GM-Stg"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="21" y="-233"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevronDown" width="34" height="34"/>
+    </resources>
+</document>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="BusStop" representedClassName="BusStop" syncable="YES">
+        <attribute name="accessibility" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="address_fi" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="address_sv" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city_fi" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city_sv" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="code" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="code_short" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coords" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="departures" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="fetchedFromApi" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lines" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="name_fi" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name_sv" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="omatlahdot_link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timetable_link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wgs_coords" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="CookieEntity" representedClassName="CookieEntity" syncable="YES">
+        <attribute name="appOpenCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastMapPosition" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="searchHistory" optional="YES" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="HistoryEntity" representedClassName="HistoryEntity" syncable="YES">
+        <attribute name="busStopCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopCode" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="busStopCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopShortCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopWgsCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="fetchedFrom" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isHistory" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="stopGtfsId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stopTypeNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="LineEntity" representedClassName="LineEntity" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="codeShort" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lineEnd" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineStart" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lineStops" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="lineType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="patternCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patternDirectionId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="shapeCoordinates" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="timetableUrl" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="NamedBookmark" representedClassName="NamedBookmark" syncable="YES">
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="iconPictureName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="monochromeIconName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="searchedName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="streetAddress" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="RouteCacheEntity" representedClassName="RouteCacheEntity" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeOperator" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="routeUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shortName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="RouteEntity" representedClassName="RouteEntity" syncable="YES">
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="fromLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromLocationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isHistory" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="routeUniqueName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="RouteHistoryEntity" representedClassName="RouteHistoryEntity" syncable="YES">
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="fromLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromLocationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isHistory" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="routeUniqueName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationCoordsString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="RoutineEntity" representedClassName="RoutineEntity" syncable="YES">
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dayNames" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromDisplayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromLocationCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fromLocationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="repeatDays" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="routeDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="toDisplayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toLocationName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="toneName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SettingsEntity" representedClassName="SettingsEntity" syncable="YES">
+        <attribute name="clearOldHistory" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="globalRouteOptions" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="mapMode" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="numberOfDaysToKeepHistory" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="settingsStartDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="showLiveVehicle" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="toneName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userLocation" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <entity name="StopEntity" representedClassName="StopEntity" syncable="YES">
+        <attribute name="busStopCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopCode" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="busStopCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopShortCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="busStopWgsCoords" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="fetchedFrom" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isHistory" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="objectLID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="stopGtfsId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stopLines" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="stopTypeNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BusStop" positionX="0" positionY="0" width="128" height="285"/>
+        <element name="CookieEntity" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="HistoryEntity" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="NamedBookmark" positionX="0" positionY="0" width="128" height="210"/>
+        <element name="RouteCacheEntity" positionX="0" positionY="117" width="128" height="135"/>
+        <element name="RouteEntity" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="RouteHistoryEntity" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="RoutineEntity" positionX="0" positionY="117" width="128" height="240"/>
+        <element name="SettingsEntity" positionX="0" positionY="117" width="128" height="165"/>
+        <element name="StopEntity" positionX="0" positionY="0" width="128" height="270"/>
+        <element name="LineEntity" positionX="0" positionY="153" width="128" height="240"/>
+    </elements>
+</model>

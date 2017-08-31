@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "EnumManager.h"
 #import "StopLine.h"
+#import "LineStop.h"
 
 #ifndef APPLE_WATCH
 #import "HSLLine.h"
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) NSString *dateFrom;
 @property (nonatomic, strong) NSString *dateTo;
 @property (nonatomic, strong) NSString *name;
+
 
 @property (nonatomic, strong) NSString *patternCode;
 @property (nonatomic, strong) NSNumber *patternDirectionId;

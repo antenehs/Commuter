@@ -22,12 +22,17 @@
 #import "MappingExtensions.h"
 #import "MapViewManager.h"
 #import "AppFeatureManager.h"
+#import "ASA_Helpers.h"
+#import "UIScrollView+APParallaxHeader.h"
+#import "DropDownListView.h"
 
 @interface LineDetailViewController ()
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) MapViewManager *mapViewManager;
 @property (strong, nonatomic) LineStop *selectedAnnotationStop;
+
+@property (strong, nonatomic) UIButton *bookmarkButton;
 
 @end
 
@@ -41,18 +46,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    mapView = [[MKMapView alloc] init];
+//    mapView.showsUserLocation = YES;
+    
     self.mapViewManager = [MapViewManager managerForMapView:mapView];
     
     [self initDataManagerIfNull];
     [self initBounds];
     
-    [self hideStopsListView:YES animated:NO];
+    [self hideStopsListView:NO animated:NO];
     
-    if (!self.line.lineStops || self.line.lineStops.count < 1) {
+//    if (!self.line.lineStops || self.line.lineStops.count < 1) {
         [self fetchDetailForLine];
-    }
+//    }
     
     viewApearForTheFirstTime = YES;
+    
+    lineBookmarked = [[LinesManager sharedManager] isLineFavorited:self.line];
+    [self setupBookmarkBarButtonItem];
+    [self setupMapView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -108,9 +120,7 @@
 -(void)setUpViewForLine{
     if (self.line) {
         [self setNavigationTitleView];
-        
-        [self.mapViewManager drawPolyline:self.line.mapPolyline andAdjustToFit:viewApearForTheFirstTime];
-        [self.mapViewManager plotAnnotations:[self lineStopAnnotations]];
+        [self setupMapView];
         
         if (viewApearForTheFirstTime){
             [self hideStopsListView:YES animated:NO];
@@ -130,6 +140,16 @@
     }
     
     viewApearForTheFirstTime = NO;
+}
+
+-(void)setupMapView {
+    
+    [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)];
+    [stopsTableView addParallaxWithView:mapView andHeight:300];
+    
+    [self.mapViewManager drawPolyline:self.line.mapPolyline andAdjustToFit:viewApearForTheFirstTime];
+    [self.mapViewManager plotAnnotations:[self lineStopAnnotations]];
+    
 }
 
 -(NSArray *)lineStopAnnotations {
@@ -172,6 +192,28 @@
     self.navigationItem.titleView = label;
 }
 
+-(void)setupBookmarkBarButtonItem {
+    self.bookmarkButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [self.bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
+    [self.bookmarkButton addTarget:self action:@selector(bookmarkBarButtonItemTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.bookmarkButton];
+    
+    self.navigationItem.rightBarButtonItem = bookmarkBarButtonItem;
+    
+    [self updateBookmarkButtonState];
+}
+
+-(void)updateBookmarkButtonState {
+    if (lineBookmarked) {
+        [self.bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
+    } else {
+        [self.bookmarkButton setImage:[UIImage imageNamed:@"star-line-white-100.png"] forState:UIControlStateNormal];
+    }
+    
+    [self.bookmarkButton asa_bounceAnimateViewByScale:0.2];
+}
+
 -(BOOL)isLandScapeOrientation{
     return self.view.frame.size.height < self.view.frame.size.width;
 }
@@ -184,6 +226,7 @@
 }
 
 -(void)hideStopsListView:(BOOL)hidden{
+    /*
     if (hidden) {
         tableViewTopSpacingConstraint.constant = self.view.frame.size.height - 44 - self.tabBarController.tabBar.frame.size.height;
         stopsListHeaderLabel.text = @"SHOW LINE STOPS";
@@ -193,6 +236,7 @@
     }
     
     [self.view layoutSubviews];
+     */
 }
 
 -(BOOL)isStopsListViewHidden{
@@ -241,7 +285,7 @@
     prevLine.backgroundColor = [AppManager systemGreenColor];
     nextLine.backgroundColor = [AppManager systemGreenColor];
     
-    dotView.layer.borderWidth = 3;
+    dotView.layer.borderWidth = 2;
     dotView.layer.borderColor = [AppManager systemGreenColor].CGColor;
     dotView.backgroundColor = [UIColor whiteColor];
     dotView.layer.cornerRadius = dotView.frame.size.width/2;
@@ -260,6 +304,19 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 55;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = (DropDownListView *)[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DropDownListView class]) owner:self options:nil] firstObject];
+    view.frame = CGRectMake(0, 0, tableView.frame.size.width, 55);
+    [view setNeedsUpdateConstraints];
+    [view layoutIfNeeded];
+    
+    return view;
 }
 
 #pragma mark - map view methods
@@ -336,6 +393,39 @@
 -(IBAction)showOrHideStopsViewButtonPressed:(id)sender {
     [self hideStopsListView:![self isStopsListViewHidden] animated:YES];
 }
+
+-(IBAction)bookmarkBarButtonItemTapped:(id)sender {
+    
+    if(lineBookmarked) {
+        
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to delete your bookmark?", @"Are you sure you want to delete your bookmark?")
+                                                                            message:nil
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel")
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * _Nonnull action) { }];
+        
+        [controller addAction:cancelAction];
+        
+        UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", @"Delete")
+                                                               style:UIAlertActionStyleDestructive
+                                                             handler:^(UIAlertAction * _Nonnull action) {
+                                                                 lineBookmarked = NO;
+                                                                 [self updateBookmarkButtonState];
+                                                                 [[LinesManager sharedManager] deleteFavoriteLine:self.line];
+                                                             }];
+        
+        [controller addAction:deleteAction];
+        [self presentViewController:controller animated:YES completion:nil];
+    } else {
+        [[LinesManager sharedManager] saveFavoriteLine:self.line];
+        lineBookmarked = YES;
+        [self updateBookmarkButtonState];
+    }
+    
+}
+
 
 #pragma mark - helper methods
 -(void)switchToRouteSearchViewWithRouteParameter:(RouteSearchParameters  *)searchParameters {
