@@ -409,6 +409,7 @@
 }
 
 #pragma mark - Line search methods
+//This method should return a short line without patterns
 -(void)fetchLinesForSearchTerm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
     [self fetchLinesForSearchTerm:searchTerm fetchFromApi:ReittiCurrentRegionApi withCompletionBlock:completionBlock];
 }

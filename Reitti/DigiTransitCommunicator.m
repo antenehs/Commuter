@@ -415,20 +415,20 @@ typedef enum : NSUInteger {
 
 #pragma mark - Line fetch methods
 - (void)fetchLinesForSearchterm:(NSString *)searchTerm withCompletionBlock:(ActionBlock)completionBlock {
-    [self fetchLinesWithArguments:@{@"name" : searchTerm} withCompletionBlock:completionBlock];
+    [self fetchLinesWithQueryString:[GraphQLQuery shortRouteQueryStringWithArguments:@{@"name" : searchTerm}] withCompletionBlock:completionBlock];
 }
 
 - (void)fetchLinesForCodes:(NSArray *)lineCodes withCompletionBlock:(ActionBlock)completionBlock {
-    [self fetchLinesWithArguments:@{@"ids" : lineCodes} withCompletionBlock:completionBlock];
+    [self fetchLinesWithQueryString:[GraphQLQuery routeQueryStringWithArguments:@{@"ids" : lineCodes}] withCompletionBlock:completionBlock];
 }
 
--(void)fetchLinesWithArguments:(NSDictionary *)arguments withCompletionBlock:(ActionBlock)completionBlock {
-    [super doGraphQlQuery:[GraphQLQuery routeQueryStringWithArguments:arguments] mappingDiscriptor:[DigiRoute mappingDescriptorForPath:@"data.routes"] andCompletionBlock:^(NSArray *routes, NSError *error){
+-(void)fetchLinesWithQueryString:(NSString *)queryString withCompletionBlock:(ActionBlock)completionBlock {
+    [super doGraphQlQuery:queryString mappingDiscriptor:[DigiRoute mappingDescriptorForPath:@"data.routes"] andCompletionBlock:^(NSArray *routes, NSError *error){
         //TODO: When lines not found returns empty. So filter them here. 
         if (!error) {
             NSMutableArray *allLines = [@[] mutableCopy];
             for (DigiRoute *digiRoute in routes) {
-                if (digiRoute.patterns) {
+                if (!digiRoute.patterns) {
                     for (DigiPattern *pattern in digiRoute.patterns) {
                         [allLines addObject:[digiRoute reittiLineForPattern:pattern]];
                     }

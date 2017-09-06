@@ -25,8 +25,9 @@
 #import "ASA_Helpers.h"
 #import "UIScrollView+APParallaxHeader.h"
 #import "DropDownListView.h"
+#import "LineIconView.h"
 
-@interface LineDetailViewController ()
+@interface LineDetailViewController () <DropDownListViewDelegate>
 
 @property (strong, nonatomic) RettiDataManager *reittiDataManager;
 @property (strong, nonatomic) MapViewManager *mapViewManager;
@@ -46,30 +47,32 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+//    lineHasDetails = NO;
+    
     mapView = [[MKMapView alloc] init];
 //    mapView.showsUserLocation = YES;
-    
     self.mapViewManager = [MapViewManager managerForMapView:mapView];
     
     [self initDataManagerIfNull];
-    [self initBounds];
+//    [self initBounds];
     
     [self hideStopsListView:NO animated:NO];
     
-//    if (!self.line.lineStops || self.line.lineStops.count < 1) {
+    if (!line.hasDetails) {
         [self fetchDetailForLine];
-//    }
+    }
     
     viewApearForTheFirstTime = YES;
     
     lineBookmarked = [[LinesManager sharedManager] isLineFavorited:self.line];
     [self setupBookmarkBarButtonItem];
-    [self setupMapView];
+//    [self setupMapView];
+    [self setUpViewForLine];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self setUpViewForLine];
+//    [self setUpViewForLine];
     
     if ([AppFeatureManager proFeaturesAvailable])
         [self startFetchingLiveVehicles];
@@ -88,15 +91,9 @@
     titleSeparatorView.frame = CGRectMake(0, stopsTableView.frame.origin.y - 0.5, self.view.frame.size.width, 0.5);
 }
 
--(void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - initializations
 -(void)initDataManagerIfNull {
     // Do any additional setup after loading the view.
-    
     self.settingsManager = [SettingsManager sharedManager];
     
     if (self.reittiDataManager == nil) {
@@ -104,21 +101,22 @@
     }
 }
 
--(void)initBounds{
-    CLLocationCoordinate2D _upper = {.latitude =  -90.0, .longitude =  0.0};
-    upperBound = _upper;
-    CLLocationCoordinate2D _lower = {.latitude =  90.0, .longitude =  0.0};
-    lowerBound = _lower;
-    CLLocationCoordinate2D _left = {.latitude =  0, .longitude =  180.0};
-    leftBound = _left;
-    CLLocationCoordinate2D _right = {.latitude =  0, .longitude =  -180.0};
-    rightBound = _right;
-}
+//-(void)initBounds{
+//    CLLocationCoordinate2D _upper = {.latitude =  -90.0, .longitude =  0.0};
+//    upperBound = _upper;
+//    CLLocationCoordinate2D _lower = {.latitude =  90.0, .longitude =  0.0};
+//    lowerBound = _lower;
+//    CLLocationCoordinate2D _left = {.latitude =  0, .longitude =  180.0};
+//    leftBound = _left;
+//    CLLocationCoordinate2D _right = {.latitude =  0, .longitude =  -180.0};
+//    rightBound = _right;
+//}
 
 #pragma mark - View methods
 
 -(void)setUpViewForLine{
     if (self.line) {
+//        lineHasDetails = self.line.patterns && self.line.patterns.count > 0;
         [self setNavigationTitleView];
         [self setupMapView];
         
@@ -128,6 +126,7 @@
         
         tableViewContainerView.layer.borderColor = [UIColor grayColor].CGColor;
         tableViewContainerView.layer.borderWidth = 0.5f;
+        stopsTableView.backgroundColor = [UIColor clearColor];
         
         titleSeparatorView.frame = CGRectMake(0, stopsTableView.frame.origin.y - 0.5, self.view.frame.size.width, 0.5);
         titleSeparatorView.backgroundColor = [UIColor lightGrayColor];
@@ -145,17 +144,21 @@
 -(void)setupMapView {
     
     [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)];
-    [stopsTableView addParallaxWithView:mapView andHeight:300];
     
-    [self.mapViewManager drawPolyline:self.line.mapPolyline andAdjustToFit:viewApearForTheFirstTime];
+    [self.mapViewManager removeAllAnotationsOfType:[LocationsAnnotation class]];
+    [self.mapViewManager removeAllOverlaysOfType:ReittiPolylineTypeLine];
+    
+    [self.mapViewManager drawPolyline:self.line.mapPolyline andAdjustToFit:YES];
     [self.mapViewManager plotAnnotations:[self lineStopAnnotations]];
+    
+    [stopsTableView addParallaxWithView:mapView andHeight:300];
     
 }
 
 -(NSArray *)lineStopAnnotations {
     NSMutableArray *stopAnnotations = [@[] mutableCopy];
     
-    if (!self.line || !self.line.lineStops) return stopAnnotations;
+    if (!self.line || !self.line.selectedPatternStops) return stopAnnotations;
     
     for (LocationsAnnotation *stopAnnot in self.line.lineStopAnnotations) {
         stopAnnot.primaryAccessoryAction = ^(MKAnnotationView *annotationView){
@@ -169,6 +172,7 @@
 }
 
 -(void)setNavigationTitleView{
+    /*
     UIView * titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, [self isLandScapeOrientation] ? 20 : 40)];
     titleView.clipsToBounds = YES;
     
@@ -190,6 +194,19 @@
     label.attributedText = lineCodeString;
     [label sizeToFit];
     self.navigationItem.titleView = label;
+    */
+    
+    LineIconView *view = (LineIconView *)[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([LineIconView class]) owner:self options:nil] firstObject];
+    
+    [view setupWithLine:self.line];
+//    CGRect frame = view.frame;
+//    frame.size = view.intrinsicContentSize;
+//    view.frame = frame;
+    self.navigationItem.titleView = view;
+}
+
+-(BOOL)isLandScapeOrientation{
+    return self.view.frame.size.height < self.view.frame.size.width;
 }
 
 -(void)setupBookmarkBarButtonItem {
@@ -212,10 +229,6 @@
     }
     
     [self.bookmarkButton asa_bounceAnimateViewByScale:0.2];
-}
-
--(BOOL)isLandScapeOrientation{
-    return self.view.frame.size.height < self.view.frame.size.width;
 }
 
 -(void)hideStopsListView:(BOOL)hidden animated:(BOOL)anim{
@@ -250,13 +263,13 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return line.lineStops ? line.lineStops.count : 0;
+    return line.hasDetails ? line.selectedPatternStops.count : 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [stopsTableView dequeueReusableCellWithIdentifier:@"lineStopCell"];
     
-    LineStop *lineStop = self.line.lineStops[indexPath.row];
+    LineStop *lineStop = self.line.selectedPatternStops[indexPath.row];
     
     UILabel *stopNameLabel = (UILabel *)[cell viewWithTag:1001];
     UILabel *stopDetailLabel = (UILabel *)[cell viewWithTag:1002];
@@ -282,18 +295,20 @@
     UIView *dotView = [cell viewWithTag:2002];
     UIView *nextLine = [cell viewWithTag:2003];
     
-    prevLine.backgroundColor = [AppManager systemGreenColor];
-    nextLine.backgroundColor = [AppManager systemGreenColor];
+    
+    
+    prevLine.backgroundColor = [AppManager colorForLineType:self.line.lineType];
+    nextLine.backgroundColor = [AppManager colorForLineType:self.line.lineType];
     
     dotView.layer.borderWidth = 2;
-    dotView.layer.borderColor = [AppManager systemGreenColor].CGColor;
+    dotView.layer.borderColor = [AppManager colorForLineType:self.line.lineType].CGColor;
     dotView.backgroundColor = [UIColor whiteColor];
     dotView.layer.cornerRadius = dotView.frame.size.width/2;
     
     if (indexPath.row == 0) {
         prevLine.hidden = YES;
         nextLine.hidden = NO;
-    }else if (indexPath.row == self.line.lineStops.count - 1){
+    }else if (indexPath.row == self.line.selectedPatternStops.count - 1){
         prevLine.hidden = NO;
         nextLine.hidden = YES;
     }else{
@@ -307,16 +322,41 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 55;
+    return line.hasDetails ? 50 : CGFLOAT_MIN;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = (DropDownListView *)[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DropDownListView class]) owner:self options:nil] firstObject];
-    view.frame = CGRectMake(0, 0, tableView.frame.size.width, 55);
+    
+    if (!line.hasDetails) return nil;
+    
+    DropDownListView *view = (DropDownListView *)[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DropDownListView class]) owner:self options:nil] firstObject];
+    NSArray *patternNames = [self.line.patterns asa_mapWith:^id(LinePattern *element) {
+        return element.name;
+    }];
+    
+    NSInteger preselectedIndex = [patternNames indexOfObject:self.line.defaultPattern.name];
+    
+    [view setupWithOptions:patternNames preSelectedIndex:preselectedIndex];
+    view.optionPresenterController = self;
+    view.delegate = self;
+    
+    view.frame = CGRectMake(0, 0, tableView.frame.size.width, 50);
     [view setNeedsUpdateConstraints];
     [view layoutIfNeeded];
     
+    UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1.5)];
+    topLineView.backgroundColor = [AppManager systemGreenColor];
+    
+    [view addSubview:topLineView];
+    
     return view;
+}
+
+-(void)dropDownList:(DropDownListView *)dropDownListView selectedObjectAtIndex:(NSInteger)index {
+    LinePattern *selectedPattern = self.line.patterns[index];
+    self.line.defaultPatternCode = selectedPattern.code;
+    
+    [self setUpViewForLine];
 }
 
 #pragma mark - map view methods
@@ -342,13 +382,11 @@
                 NSLog(@"EROOOOOOOOORRRRRRRR - MORE than one line returned");
             }
             Line *aline = lines[0];
-            if (!aline.lineStops || aline.lineStops.count == 0) {
+            if (!aline.selectedPatternStops || aline.selectedPatternStops.count == 0) {
                 [self lineSearchDidFail:@"Line fetching failed."];
             }
-            self.line.lineStops = aline.lineStops;
-            self.line.shapeCoordinates = aline.shapeCoordinates;
+            self.line = aline;
             
-            viewApearForTheFirstTime = YES;
             [self setUpViewForLine];
         }else{
             [self lineSearchDidFail:errorString];
@@ -450,7 +488,7 @@
             lineStop = self.selectedAnnotationStop;
         } else {
             NSIndexPath *selectedRowIndexPath = [stopsTableView indexPathForSelectedRow];
-            lineStop = self.line.lineStops[selectedRowIndexPath.row];
+            lineStop = self.line.selectedPatternStops[selectedRowIndexPath.row];
         }
         
         if (lineStop) {

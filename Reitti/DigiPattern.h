@@ -10,8 +10,11 @@
 #import "DigiStopShort.h"
 #import "DigiPatternShort.h"
 #import "Mapping.h"
+#import "LinePattern.h"
 
 @interface DigiPattern : DigiPatternShort <NSCoding, NSCopying, Mappable>
+
+-(LinePattern *)reittiLinePattern;
 
 @property (nonatomic, strong) NSArray *stops;
 @property (nonatomic, strong) NSArray *geometry;

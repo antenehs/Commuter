@@ -1308,6 +1308,10 @@
 		66F6CEDF1B513CED00F934A2 /* RoutineEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEDE1B513CED00F934A2 /* RoutineEntity.m */; };
 		66F6CEE51B51AD0400F934A2 /* EditReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE41B51AD0400F934A2 /* EditReminderTableViewController.m */; };
 		66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */; };
+		66F725F91F5A031A00F6C749 /* LineIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F725F81F5A031A00F6C749 /* LineIconView.m */; };
+		66F725FA1F5A031A00F6C749 /* LineIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F725F81F5A031A00F6C749 /* LineIconView.m */; };
+		66F725FC1F5A032E00F6C749 /* LineIconView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F725FB1F5A032E00F6C749 /* LineIconView.xib */; };
+		66F725FD1F5A032E00F6C749 /* LineIconView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66F725FB1F5A032E00F6C749 /* LineIconView.xib */; };
 		66F9383D1D342B68009C7227 /* MapInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F9383C1D342B68009C7227 /* MapInterfaceController.m */; };
 		66FC547D1B23656F005B890D /* routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547B1B23656F005B890D /* routes.json */; };
 		66FC547E1B23656F005B890D /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 66FC547C1B23656F005B890D /* stops.json */; };
@@ -2306,6 +2310,9 @@
 		66F6CEE81B52A86B00F934A2 /* MultiSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiSelectTableViewController.h; sourceTree = "<group>"; };
 		66F6CEE91B52A86B00F934A2 /* MultiSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiSelectTableViewController.m; sourceTree = "<group>"; };
 		66F6CEEB1B52CD3B00F934A2 /* Reitti 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Reitti 11.xcdatamodel"; sourceTree = "<group>"; };
+		66F725F71F5A031A00F6C749 /* LineIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineIconView.h; sourceTree = "<group>"; };
+		66F725F81F5A031A00F6C749 /* LineIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineIconView.m; sourceTree = "<group>"; };
+		66F725FB1F5A032E00F6C749 /* LineIconView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineIconView.xib; sourceTree = "<group>"; };
 		66F9383B1D342B68009C7227 /* MapInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapInterfaceController.h; sourceTree = "<group>"; };
 		66F9383C1D342B68009C7227 /* MapInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapInterfaceController.m; sourceTree = "<group>"; };
 		66FC547B1B23656F005B890D /* routes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = routes.json; sourceTree = "<group>"; };
@@ -3168,6 +3175,9 @@
 				663361181F562984003D0601 /* DropDownListView.h */,
 				663361191F562984003D0601 /* DropDownListView.m */,
 				6633611C1F5629A7003D0601 /* DropDownListView.xib */,
+				66F725F71F5A031A00F6C749 /* LineIconView.h */,
+				66F725F81F5A031A00F6C749 /* LineIconView.m */,
+				66F725FB1F5A032E00F6C749 /* LineIconView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -4641,6 +4651,7 @@
 				66026DA21D6B624100219AC6 /* AnnotationFilterView.xib in Resources */,
 				66F099871AE8075D00F20D34 /* NotificationBackgroundMessage@2x.png in Resources */,
 				66F16CE91E05EEB800D45613 /* StopsInAreaQuery.graphql in Resources */,
+				66F725FC1F5A032E00F6C749 /* LineIconView.xib in Resources */,
 				66FC547D1B23656F005B890D /* routes.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4697,6 +4708,7 @@
 				66C7340E1C556DA5002544BC /* Aspergit Bold.otf in Resources */,
 				6678600A1F05CC1700D3E3CB /* MiscImages.xcassets in Resources */,
 				66C7341B1C556DA5002544BC /* Aspergit Light.otf in Resources */,
+				66F725FD1F5A032E00F6C749 /* LineIconView.xib in Resources */,
 				66C734201C556DA5002544BC /* Time to go 2.mp3 in Resources */,
 				66C7342E1C556DA5002544BC /* Mellow mood.mp3 in Resources */,
 				6601A9631F23F51F0085DDE2 /* FeaturePreviewView.xib in Resources */,
@@ -5527,6 +5539,7 @@
 				661ABBF3199AABF900F93894 /* RouteLeg.m in Sources */,
 				660715FE1B45CD2C00033049 /* TicketNames.m in Sources */,
 				665BA1B21CAF05EB0091C180 /* MainTabBarController.m in Sources */,
+				66F725F91F5A031A00F6C749 /* LineIconView.m in Sources */,
 				660579681E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66F1F48B1EF07D24004174D0 /* RouteCoreDataManager.m in Sources */,
 				66CA03371C1778DD00A38858 /* KBPopupBubbleView+Animations.m in Sources */,
@@ -5833,6 +5846,7 @@
 				66C7334A1C556DA5002544BC /* RouteLeg.m in Sources */,
 				66C7334B1C556DA5002544BC /* TicketNames.m in Sources */,
 				665BA1B31CAF05EB0091C180 /* MainTabBarController.m in Sources */,
+				66F725FA1F5A031A00F6C749 /* LineIconView.m in Sources */,
 				660579691E11CBF900F3559E /* DigiStopShort.m in Sources */,
 				66F1F48C1EF07D24004174D0 /* RouteCoreDataManager.m in Sources */,
 				66C7334C1C556DA5002544BC /* KBPopupBubbleView+Animations.m in Sources */,

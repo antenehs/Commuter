@@ -21,12 +21,12 @@
 @synthesize lineType;
 @synthesize lineStart;
 @synthesize lineEnd;
-@synthesize lineStops;
 @synthesize timetableUrl;
 @synthesize dateFrom;
 @synthesize dateTo;
 @synthesize name;
-@synthesize shapeCoordinates;
+//@synthesize lineStops;
+//@synthesize shapeCoordinates;
 
 +(id)lineFromStopLine:(StopLine *)stopLine {
     Line *line = [[Line alloc] init];
@@ -37,12 +37,12 @@
         line.lineType = stopLine.lineType;
         line.lineStart = stopLine.lineStart;
         line.lineEnd = stopLine.lineEnd;
-        line.lineStops = @[];
+//        line.lineStops = @[];
         line.timetableUrl = nil;
         line.dateFrom = nil;
         line.dateTo = nil;
         line.name = stopLine.name;
-        line.shapeCoordinates = @[];
+//        line.shapeCoordinates = @[];
         
         return line;
     }
@@ -61,12 +61,12 @@
         line.lineStart = hslLine.lineStart;
         line.lineEnd = hslLine.lineEnd;
         //TODO: convert stops to Reitti stop
-        line.lineStops = hslLine.lineStops;
+//        line.lineStops = hslLine.lineStops;
         line.timetableUrl = hslLine.timetableUrl;
         line.dateFrom = hslLine.dateFrom;
         line.dateTo = hslLine.dateTo;
         line.name = hslLine.name;
-        line.shapeCoordinates = [Line parseCoordinatesFromHSLShapeString:hslLine.lineShape];
+//        line.shapeCoordinates = [Line parseCoordinatesFromHSLShapeString:hslLine.lineShape];
         
         return line;
     }
@@ -95,10 +95,10 @@
                 if (stop) [stops addObject:stop];
             }
             
-            line.lineStops = stops;
+//            line.lineStops = stops;
         }
     
-        line.shapeCoordinates = matkaLine.shapeCoordinates ? matkaLine.shapeCoordinates : @[];
+//        line.shapeCoordinates = matkaLine.shapeCoordinates ? matkaLine.shapeCoordinates : @[];
         
         return line;
     }
@@ -106,6 +106,42 @@
     return nil;
 }
 #endif
+
+#pragma mark -
+#pragma mark Computed values
+
+-(NSString *)defaultPatternCode {
+    if (!_defaultPatternCode) {
+        if (self.patterns && self.patterns.count > 0) {
+            _defaultPatternCode = [self.patterns.firstObject code];
+        }
+    }
+    
+    return _defaultPatternCode;
+}
+
+-(LinePattern *)defaultPattern {
+    if (self.defaultPatternCode && self.patterns) {
+        NSArray *filtered = [self.patterns filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(LinePattern * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return [evaluatedObject.code isEqualToString:self.defaultPatternCode];
+        }]];
+        
+        NSAssert(filtered.count == 1, @"Filtered should only be one");
+        return filtered.firstObject;
+    }
+    
+    return nil;
+}
+
+-(NSArray *)selectedPatternStops {
+    return [(LinePattern *)self.defaultPattern lineStops];
+}
+
+-(NSArray *)selectedPatternShapeCoordinates {
+    return [(LinePattern *)self.defaultPattern shapeCoordinates];
+}
+
+
 -(BOOL)isValidNow{
     if (self.parsedDateFrom && self.parsedDateTo) {
         NSDate *currentDate = [NSDate date];
@@ -115,6 +151,10 @@
     }
     
     return YES;
+}
+
+-(BOOL)hasDetails {
+    return self.selectedPatternStops && self.selectedPatternStops.count > 0;
 }
 
 #pragma mark - static helpers

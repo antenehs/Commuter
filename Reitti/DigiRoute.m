@@ -158,7 +158,30 @@ NSString *const kDigiRoutePatterns = @"patterns";
 
 #pragma mark - Conversion
 -(Line *)reittiLine {
-    return [self reittiLineForPattern:self.patterns.firstObject];
+//    return [self reittiLineForPattern:self.patterns.firstObject];
+    
+    Line *line = [Line new];
+    
+    line.code = self.gtfsId;
+    line.codeShort = self.shortName;
+    line.name = self.longName;
+    
+    line.lineType = self.lineType;
+    line.timetableUrl = self.url;
+    
+    line.dateFrom = nil;
+    line.dateTo = nil;
+    
+    line.lineStart = self.lineStart;
+    line.lineEnd = self.lineEnd;
+    
+    NSMutableArray *patterns = [@[] mutableCopy];
+    for (DigiPattern *digiPattern in self.patterns) {
+        [patterns addObject:digiPattern.reittiLinePattern];
+    }
+    line.patterns = patterns;
+    
+    return line;
 }
 
 -(Line *)reittiLineForPattern:(DigiPattern *)pattern {
@@ -177,6 +200,7 @@ NSString *const kDigiRoutePatterns = @"patterns";
     
     line.name = pattern ? pattern.name : self.longName;
     
+    /*
     if (pattern) {
         line.patternCode = pattern.code;
         line.patternDirectionId = pattern.directionId;
@@ -192,6 +216,7 @@ NSString *const kDigiRoutePatterns = @"patterns";
         
         line.shapeCoordinates = pattern.shapeCoordinates ? pattern.shapeCoordinates : @[];
     }
+     */
     
     return line;
 }

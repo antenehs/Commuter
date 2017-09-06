@@ -15,9 +15,15 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHh-qu-8YS">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
+                    <connections>
+                        <action selector="changeSelectionButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ifs-0m-wPn"/>
+                    </connections>
+                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DB4-lQ-BpO">
                     <rect key="frame" x="10" y="4" width="306" height="47"/>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevronDown" translatesAutoresizingMaskIntoConstraints="NO" id="gRZ-bS-GUP">
@@ -34,12 +40,21 @@
                 <constraint firstItem="DB4-lQ-BpO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="0EE-VW-hAX"/>
                 <constraint firstItem="gRZ-bS-GUP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="1Df-jy-eQD"/>
                 <constraint firstItem="gRZ-bS-GUP" firstAttribute="leading" secondItem="DB4-lQ-BpO" secondAttribute="trailing" constant="18" id="4JU-p0-0ea"/>
+                <constraint firstItem="PHh-qu-8YS" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="F63-Jj-HuD"/>
+                <constraint firstItem="PHh-qu-8YS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JTW-iL-Tvi"/>
                 <constraint firstItem="DB4-lQ-BpO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="bNe-MS-47Y"/>
+                <constraint firstItem="PHh-qu-8YS" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="lDk-nD-8QY"/>
                 <constraint firstAttribute="bottom" secondItem="DB4-lQ-BpO" secondAttribute="bottom" constant="4" id="o7l-Ro-l86"/>
+                <constraint firstItem="PHh-qu-8YS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="oIu-Xt-IpT"/>
                 <constraint firstAttribute="trailing" secondItem="gRZ-bS-GUP" secondAttribute="trailing" constant="16" id="rAB-GM-Stg"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="button" destination="PHh-qu-8YS" id="tQZ-Yh-Xus"/>
+                <outlet property="chevronImage" destination="gRZ-bS-GUP" id="Gi5-bw-0CA"/>
+                <outlet property="label" destination="DB4-lQ-BpO" id="RVL-G8-Rgd"/>
+            </connections>
             <point key="canvasLocation" x="21" y="-233"/>
         </view>
     </objects>

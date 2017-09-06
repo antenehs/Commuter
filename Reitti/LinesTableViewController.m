@@ -99,6 +99,8 @@
     [self setTitle:@"Lines"];
     
     [self setTableBackgroundView];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 55;
     
     [self setNavBarSize];
     
@@ -210,6 +212,7 @@
 
 -(void)fetchInitialData{
     linesForRecentLinesRequested = YES;
+    //TODO: Fetch these from core data so it will be instant
     [[LinesManager sharedManager] getLinesForRecentLineCodesWithCompletionBlock:^(NSArray *lines){
         self.recentLines = [lines mutableCopy];
         
@@ -225,6 +228,7 @@
         [self.tableView reloadData];
     }];
     
+    /* LOOKS UNNECESSARY
     linesFromNearByStopsRequested = YES;
     [[LinesManager sharedManager] getLinesFromNearByStopsWithCompletionBlock:^(NSArray *lines){
         self.linesFromNearStops = [lines mutableCopy];
@@ -232,6 +236,7 @@
         linesFromNearByStopsRequested = NO;
         [self.tableView reloadData];
     }];
+     */
 }
 
 #pragma mark - Table view data source
@@ -305,11 +310,13 @@
         UIImageView *imageView = [cell viewWithTag:1004];
         
         numberLabel.text = lineForCell.codeShort;
-        if (lineForCell.lineStart && lineForCell.lineEnd) {
-            nameLabel.text = [NSString stringWithFormat:@"%@ - %@", lineForCell.lineStart, lineForCell.lineEnd];
-        } else {
-            nameLabel.text = lineForCell.name;
-        }
+//        if (lineForCell.lineStart && lineForCell.lineEnd) {
+//            nameLabel.text = [NSString stringWithFormat:@"%@ - %@", lineForCell.lineStart, lineForCell.lineEnd];
+//        } else {
+//            nameLabel.text = lineForCell.name;
+//        }
+        
+        nameLabel.text = lineForCell.name;
         
         imageView.image = [AppManager lineIconForLineType:lineForCell.lineType];
         

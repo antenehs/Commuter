@@ -451,16 +451,16 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 #pragma mark - Table view delegate methods
 
-- (void)initRefreshControl{
-    
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = departuresTable;
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadButtonPressed:) forControlEvents:UIControlEventValueChanged];
-//    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh Departures"];
-    tableViewController.refreshControl = self.refreshControl;
-}
+//- (void)initRefreshControl{
+//    
+//    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+//    tableViewController.tableView = departuresTable;
+//    
+//    self.refreshControl = [[UIRefreshControl alloc] init];
+//    [self.refreshControl addTarget:self action:@selector(reloadButtonPressed:) forControlEvents:UIControlEventValueChanged];
+////    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh Departures"];
+//    tableViewController.refreshControl = self.refreshControl;
+//}
 
 - (BOOL)thereAreLiveDepartures {
     if (!self.departures || self.departures.count < 1) return NO;

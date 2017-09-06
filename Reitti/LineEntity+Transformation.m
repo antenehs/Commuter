@@ -21,15 +21,15 @@
     reittiLine.lineEnd = self.lineEnd;
     reittiLine.timetableUrl = self.timetableUrl;
     
-    reittiLine.patternCode = self.patternCode;
-    reittiLine.patternDirectionId = self.patternDirectionId;
+    reittiLine.defaultPatternCode = self.patternCode;
+//    reittiLine.defaultPatternDirectionId = self.patternDirectionId;
     
-    NSArray *lineStops = [self.lineStops asa_mapWith:^id(NSDictionary *lineStopDict) {
-        return [LineStop modelObjectWithDictionary:lineStopDict];
-    }];
+//    NSArray *lineStops = [self.lineStops asa_mapWith:^id(NSDictionary *lineStopDict) {
+//        return [LineStop modelObjectWithDictionary:lineStopDict];
+//    }];
     
-    reittiLine.lineStops = lineStops;
-    reittiLine.shapeCoordinates = self.shapeCoordinates;
+//    reittiLine.lineStops = lineStops;
+//    reittiLine.shapeCoordinates = self.shapeCoordinates;
     
     reittiLine.lineType = (LineType)[self.lineType intValue];
     
@@ -44,15 +44,15 @@
     self.lineEnd = reittiLine.lineEnd;
     self.timetableUrl = reittiLine.timetableUrl;
     
-    self.patternCode = reittiLine.patternCode;
-    self.patternDirectionId = reittiLine.patternDirectionId;
+    self.patternCode = reittiLine.defaultPatternCode;
+//    self.patternDirectionId = reittiLine.defaultPatternDirectionId;
     
-    NSArray *dictStops = [self.lineStops asa_mapWith:^id(LineStop *lineStop) {
-        return [lineStop dictionaryRepresentation];
-    }];
-    
-    self.lineStops = dictStops;
-    self.shapeCoordinates = reittiLine.shapeCoordinates;
+//    NSArray *dictStops = [self.lineStops asa_mapWith:^id(LineStop *lineStop) {
+//        return [lineStop dictionaryRepresentation];
+//    }];
+//    
+//    self.lineStops = dictStops;
+//    self.shapeCoordinates = reittiLine.shapeCoordinates;
     
     self.lineType = [NSNumber numberWithInt:reittiLine.lineType];
 }

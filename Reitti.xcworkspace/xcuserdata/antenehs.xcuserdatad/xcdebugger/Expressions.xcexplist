@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[DropDownListView selectedOptionString:]:DropDownListView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[DigiPattern name]:DigiPattern.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[Line selectedPatternStops]:Line.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LineDetailViewController tableView:numberOfRowsInSection:]:LineDetailViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LineDetailViewController setNavigationTitleView]:LineDetailViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "label">
+            </PersistentString>
+            <PersistentString
+               value = "vw">
+            </PersistentString>
+            <PersistentString
+               value = "lb">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

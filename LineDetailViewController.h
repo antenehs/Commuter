@@ -18,10 +18,10 @@
 
 @interface LineDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
     
-    CLLocationCoordinate2D upperBound;
-    CLLocationCoordinate2D lowerBound;
-    CLLocationCoordinate2D leftBound;
-    CLLocationCoordinate2D rightBound;
+//    CLLocationCoordinate2D upperBound;
+//    CLLocationCoordinate2D lowerBound;
+//    CLLocationCoordinate2D leftBound;
+//    CLLocationCoordinate2D rightBound;
     
     IBOutlet MKMapView *mapView;
     
@@ -37,7 +37,8 @@
     IBOutlet NSLayoutConstraint *tableViewTopSpacingConstraint;
     
     BOOL viewApearForTheFirstTime;
-    bool lineBookmarked;
+    BOOL lineBookmarked;
+//    BOOL lineHasDetails;
 }
 
 @property (strong, nonatomic) StaticRoute *staticRoute;

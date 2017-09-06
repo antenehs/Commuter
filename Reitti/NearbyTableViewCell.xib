@@ -86,7 +86,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bus-filled-light-100" translatesAutoresizingMaskIntoConstraints="NO" id="o0y-7Y-kEN">
-                        <rect key="frame" x="10" y="13" width="25" height="25"/>
+                        <rect key="frame" x="10" y="14" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="TGR-N3-tlD"/>
                             <constraint firstAttribute="width" constant="25" id="b4p-hk-uZS"/>
@@ -111,7 +111,7 @@
                 </subviews>
                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstItem="o0y-7Y-kEN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="15Z-GF-UKz"/>
+                    <constraint firstItem="o0y-7Y-kEN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="6" id="15Z-GF-UKz"/>
                     <constraint firstAttribute="trailingMargin" secondItem="5kH-bu-dgl" secondAttribute="trailing" constant="106" id="1tU-RI-c0q"/>
                     <constraint firstItem="kGc-GZ-5bD" firstAttribute="leading" secondItem="hW5-m1-wne" secondAttribute="trailing" constant="0.5" id="3BV-R4-jwU"/>
                     <constraint firstItem="w6x-41-JAI" firstAttribute="top" secondItem="N5f-Bw-aGT" secondAttribute="bottom" id="3i0-Fs-MC4"/>

@@ -15,7 +15,7 @@
 @implementation Line (MapView)
 
 -(ReittiPolyline *)mapPolyline {
-    ReittiPolyline *polyline = [Polyline reittiPolylineFromLocationArray:self.shapeCoordinates];
+    ReittiPolyline *polyline = [Polyline reittiPolylineFromLocationArray:self.selectedPatternShapeCoordinates];
     polyline.strokeColor = [AppManager colorForLineType:self.lineType];
     polyline.polylineType = ReittiPolylineTypeLine;
     polyline.uniqueIdentifier = self.code;
@@ -26,11 +26,11 @@
 -(NSArray *)lineStopAnnotations {
     NSMutableArray *stopAnnotations = [@[] mutableCopy];
     
-    if (!self.lineStops) return stopAnnotations;
+    if (!self.selectedPatternStops) return stopAnnotations;
     
     NSString *imageNameForStop = [AppManager stopAnnotationImageNameForStopType:[EnumManager stopTypeFromLegType:[EnumManager legTrasportTypeForLineType:self.lineType]]];
     
-    for (LineStop *stop in self.lineStops) {
+    for (LineStop *stop in self.selectedPatternStops) {
         LocationsAnnotation *stopAnnot = (LocationsAnnotation *)stop.mapAnnotation;
         stopAnnot.imageNameForView = imageNameForStop;
         stopAnnot.annotIdentifier = [NSString stringWithFormat:@"LineStop-%@", imageNameForStop];

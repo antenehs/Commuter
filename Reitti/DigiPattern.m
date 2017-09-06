@@ -148,7 +148,7 @@ NSString *const kDigiRouteStops = @"stops";
         return [NSString stringWithFormat:@"%@ - %@", self.lineStart, self.lineEnd];
     }
     
-    return self.name;
+    return super.name;
 }
 
 -(NSArray *)shapeCoordinates {
@@ -196,6 +196,25 @@ NSString *const kDigiRouteStops = @"stops";
     }
     
     return _lineStart;
+}
+
+#pragma mark - 
+#pragma mark Conversion
+-(LinePattern *)reittiLinePattern {
+    LinePattern *linePattern = [super reittiLinePattern];
+    
+    NSMutableArray *stops = [@[] mutableCopy];
+    for (DigiStopShort *digiStop in self.stops) {
+        [stops addObject:digiStop.reittiLineStop];
+    }
+    
+    linePattern.lineStops = stops;
+    linePattern.shapeCoordinates = self.shapeCoordinates ? self.shapeCoordinates : @[];
+    
+    linePattern.lineStart = self.lineStart;
+    linePattern.lineEnd = self.lineEnd;
+    
+    return linePattern;
 }
 
 #pragma mark - Mapping

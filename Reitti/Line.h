@@ -11,6 +11,7 @@
 #import "EnumManager.h"
 #import "StopLine.h"
 #import "LineStop.h"
+#import "LinePattern.h"
 
 #ifndef APPLE_WATCH
 #import "HSLLine.h"
@@ -28,18 +29,24 @@
 @property (nonatomic, strong) NSString *dateTo;
 @property (nonatomic, strong) NSString *name;
 
+@property (nonatomic, strong) NSArray<LinePattern *> *patterns;
 
-@property (nonatomic, strong) NSString *patternCode;
-@property (nonatomic, strong) NSNumber *patternDirectionId;
+@property (nonatomic, strong) NSString *defaultPatternCode;
+@property (nonatomic, strong) LinePattern *defaultPattern;
 
-@property (nonatomic, strong) NSArray *lineStops;
-@property (nonatomic, strong) NSArray *shapeCoordinates;
+//@property (nonatomic, strong) NSString *patternCode;
+//@property (nonatomic, strong) NSNumber *patternDirectionId;
+//
+@property (nonatomic, strong) NSArray *selectedPatternStops;
+@property (nonatomic, strong) NSArray *selectedPatternShapeCoordinates;
 
 @property (nonatomic) LineType lineType;
 
 @property (nonatomic, strong) NSDate *parsedDateFrom;
 @property (nonatomic, strong) NSDate *parsedDateTo;
 @property (nonatomic, readonly) BOOL isValidNow;
+
+@property (nonatomic) BOOL hasDetails;
 
 +(id)lineFromStopLine:(StopLine *)stopLine;
 

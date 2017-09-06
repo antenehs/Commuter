@@ -136,7 +136,7 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
 }
 
 -(void)saveRecentLinePatternCodesForLine:(Line *)line {
-    if (!line.patternCode) return;
+    if (!line.defaultPatternCode) return;
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -150,11 +150,11 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
         if (mutableLinePatterns.count > 3) {
             [mutableLinePatterns removeObjectsInRange:NSMakeRange(3, mutableLinePatterns.count - 3)];
         }
-        if ([mutableLinePatterns containsObject:line.patternCode]) {
-            [mutableLinePatterns removeObject:line.patternCode];
+        if ([mutableLinePatterns containsObject:line.defaultPatternCode]) {
+            [mutableLinePatterns removeObject:line.defaultPatternCode];
         }
         
-        [mutableLinePatterns insertObject:line.patternCode atIndex:0];
+        [mutableLinePatterns insertObject:line.defaultPatternCode atIndex:0];
         
         [standardUserDefaults setObject:mutableLinePatterns forKey:kRecentLinesPatternCodeKey];
         [standardUserDefaults synchronize];
@@ -163,11 +163,12 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
 
 #pragma mark - Recent line fetching
 
+//TODO: Fetch these from core data so it will be instant
 -(void)getLinesForRecentLineCodesWithCompletionBlock:(ActionBlock)completionBlock {
     NSArray *lineCodes = [self getRecentLineCodes];
     NSArray *linePatternCodes = [self getRecentLinePatternCodes];
     if (lineCodes && lineCodes > 0 && linePatternCodes.count > 0) {
-        [[LinesManager sharedManager] fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
+        [self fetchLinesForCodes:lineCodes withCompletionBlock:^(NSArray *lines){
             lines = [self filterLines:lines forPatternCodes:linePatternCodes];
             completionBlock([self sortRecentLines:lines]); //Order is not garantied so needs to be sorted.
         }];
@@ -276,7 +277,7 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
 -(NSArray *)filterLines:(NSArray *)lines forPatternCodes:(NSArray *)patternCodes {
     return [lines filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
         Line *line = (Line *)object;
-        return [patternCodes containsObject:line.patternCode];
+        return [patternCodes containsObject:line.defaultPatternCode];
     }]];
 }
 

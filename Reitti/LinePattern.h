@@ -15,4 +15,11 @@
 @property (nonatomic, strong) NSString *headsign;
 @property (nonatomic, strong) NSNumber *directionId;
 
+//More detail
+@property (nonatomic, strong) NSArray *lineStops;
+@property (nonatomic, strong) NSArray *shapeCoordinates;
+
+@property (nonatomic, strong) NSString *lineStart;
+@property (nonatomic, strong) NSString *lineEnd;
+
 @end
