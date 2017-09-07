@@ -79,6 +79,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     rightBound = _right;
     // Do any additional setup after loading the view.
     
+    [self setRightBarItemSize:CGSizeMake(24, 24)];
+    
+//    [self.navigationItem.rightBarButtonItem.customView.widthAnchor constraintEqualToConstant:24].active = YES;
+//    [self.navigationItem.rightBarButtonItem.customView.heightAnchor constraintEqualToConstant:24].active = YES;
+    
     UISwipeGestureRecognizer *recogRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeToRightDetected:)];
     recogRight.direction = UISwipeGestureRecognizerDirectionRight;
     

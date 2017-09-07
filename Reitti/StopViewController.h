@@ -20,6 +20,7 @@
 #import "SettingsManager.h"
 #import "JTMaterialSpinner.h"
 #import "RouteSearchParameters.h"
+#import "BaseViewController.h"
 
 typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParameter);
 
@@ -30,7 +31,7 @@ typedef void (^RouteSearchFromStopHandler)(RouteSearchParameters *searchParamete
 - (void)deletedSavedStop:(StopEntity *)busStop;
 @end
 
-@interface StopViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate>{
+@interface StopViewController : BaseViewController<UITableViewDataSource,UITableViewDelegate, SWTableViewCellDelegate, SWTableViewCellDelegate, ADBannerViewDelegate, MKMapViewDelegate>{
     
     IBOutlet AMBlurView *stopView;
     IBOutlet UIView *topBarView;

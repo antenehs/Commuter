@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "RettiDataManager.h"
 #import "JTMaterialSpinner.h"
+#import "BaseTableViewController.h"
 
-@interface LinesTableViewController : UITableViewController<UISearchBarDelegate, UIScrollViewDelegate>{
+@interface LinesTableViewController : BaseTableViewController<UISearchBarDelegate, UIScrollViewDelegate>{
     IBOutlet UISearchBar *addressSearchBar;
     
     IBOutlet UIView *searchBarContainerView;

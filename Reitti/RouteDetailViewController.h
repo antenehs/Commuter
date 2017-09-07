@@ -16,6 +16,7 @@
 #import "SettingsManager.h"
 #import "StopViewController.h"
 #import "MapViewManager.h"
+#import "BaseViewController.h"
 
 typedef enum{
     RouteListViewLoactionBottom = 1,
@@ -28,7 +29,7 @@ typedef enum{
     MapViewCenterLocationCenter = 2,
 } MapViewCenterLocation;
 
-@interface RouteDetailViewController : UIViewController<MapViewManagerDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
+@interface RouteDetailViewController : BaseViewController<MapViewManagerDelegate, CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate, UIViewControllerPreviewingDelegate>{
     
     IBOutlet MKMapView *routeMapView;
     IBOutlet AMBlurView *topBarView;

@@ -69,6 +69,9 @@
         wasShowingLineDetail = NO;
     }
     
+    CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
+    [self setTitleViewSize:CGSizeMake(navigationBarSize.width - 20, 30)];
+    
     [self.tableView reloadData];
     
     [[ReittiAnalyticsManager sharedManager] trackScreenViewForScreenName:NSStringFromClass([self class])];

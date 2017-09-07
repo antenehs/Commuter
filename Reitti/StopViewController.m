@@ -67,6 +67,8 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     [super viewDidLoad];
     [self initDataManagerIfNull];
     
+    [self setRightBarItemSize:CGSizeMake(25, 25)];
+    
     stopFetched = NO;
     stopFetchFailed = NO;
     stopDetailRequested = NO;
@@ -328,24 +330,15 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 -(void)initLocationUpdating {
     self.locationManager = [ReittiLocationManager sharedManager];
     self.locationManager.delegate = self;
+    
+    if (self.locationManager.currentUserLocation) {
+        [self fetchRouteInNotAlready];
+    }
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     //Search route
-    if (!fetchedRouteAlready) {
-        CLLocationCoordinate2D coord = self.locationManager.currentUserLocation.coordinate;
-        NSString *toCoordsString = [ReittiStringFormatter convert2DCoordToString:coord];
-
-        NSString *fromCoordsString = [ReittiStringFormatter convert2DCoordToString:stopCoords];
-        
-        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
-            if (!error && result && result.count > 0) {
-                [self drawWalkingPolylineForRoute:[result firstObject]];
-            }
-        }];
-        
-        fetchedRouteAlready = YES;
-    }
+    [self fetchRouteInNotAlready];
 }
 
 -(BOOL)centerMapRegionToCoordinate:(CLLocationCoordinate2D)coordinate{
@@ -384,7 +377,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     }
 }
 
-#pragma mark - reminder methods
 - (void)setStopBookmarkedState{
     [bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
     stopBookmarked = YES;
@@ -395,17 +387,12 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     stopBookmarked = NO;
 }
 
-- (IBAction)seeFullTimeTablePressed:(id)sender {
-    NSURL *url = [NSURL URLWithString:self._busStop.timetableLink];
-    
-    if (![[UIApplication sharedApplication] openURL:url])
-        
-        NSLog(@"%@%@",@"Failed to open url:",[url description]);
-}
-
 - (void)updateDepartures:(id)userData {
     [self requestStopInfoAsyncForCode:stopGtfsId andCoords:stopCoords];
 }
+
+#pragma mark -
+#pragma mark API fetching methods
 
 - (void)requestStopInfoAsyncForCode:(NSString *)code andCoords:(CLLocationCoordinate2D)coords{
     stopDetailRequested = YES;
@@ -435,6 +422,34 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
         if (!stopFetchSuccessfulOnce) [self stopFetchDidFail:error];
     }
     stopDetailRequested = NO;
+}
+
+- (void)fetchRouteInNotAlready {
+    if (!fetchedRouteAlready) {
+        CLLocationCoordinate2D coord = self.locationManager.currentUserLocation.coordinate;
+        NSString *toCoordsString = [ReittiStringFormatter convert2DCoordToString:coord];
+        
+        NSString *fromCoordsString = [ReittiStringFormatter convert2DCoordToString:stopCoords];
+        
+        [self.reittiDataManager getFirstRouteForFromCoords:fromCoordsString andToCoords:toCoordsString andCompletionBlock:^(NSArray *result, NSString *error, ReittiApi usedApi){
+            if (!error && result && result.count > 0) {
+                [self drawWalkingPolylineForRoute:[result firstObject]];
+            }
+        }];
+        
+        fetchedRouteAlready = YES;
+    }
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)seeFullTimeTablePressed:(id)sender {
+    NSURL *url = [NSURL URLWithString:self._busStop.timetableLink];
+    
+    if (![[UIApplication sharedApplication] openURL:url])
+        
+        NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 
 - (IBAction)reloadButtonPressed:(id)sender{

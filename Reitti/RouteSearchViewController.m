@@ -234,6 +234,16 @@ typedef enum
 
 -(void)setUpMainView{
     
+    //Navigation bar
+    [self setRightBarItemSize:CGSizeMake(25, 25)];
+    [self setLeftBarItemSize:CGSizeMake(30, 30)];
+    
+//    [self.navigationItem.rightBarButtonItem.customView.widthAnchor constraintEqualToConstant:24].active = YES;
+//    [self.navigationItem.rightBarButtonItem.customView.heightAnchor constraintEqualToConstant:24].active = YES;
+//
+//    [self.navigationItem.leftBarButtonItem.customView.widthAnchor constraintEqualToConstant:24].active = YES;
+//    [self.navigationItem.leftBarButtonItem.customView.heightAnchor constraintEqualToConstant:24].active = YES;
+    
     fromFieldBackView.layer.borderWidth = 0.5;
     fromFieldBackView.layer.borderColor = [[UIColor whiteColor] CGColor];
     fromFieldBackView.backgroundColor = [UIColor whiteColor];
@@ -309,7 +319,7 @@ typedef enum
     [self searchRouteIfPossible];
 }
 
--(void)setUpToolBar{
+-(void)setUpToolBar {
     UIImage *image1 = [UIImage imageNamed:@"previous-green-64.png"];
     CGRect frame = CGRectMake(0, 0, 40, 28);
     UIEdgeInsets insets = UIEdgeInsetsMake(5, 11, 5, 11);
@@ -321,6 +331,9 @@ typedef enum
     prevButton.imageEdgeInsets = insets;
     prevButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     prevButton.layer.cornerRadius = 4;
+    
+    [prevButton.widthAnchor constraintEqualToConstant:frame.size.width].active = YES;
+    [prevButton.heightAnchor constraintEqualToConstant:frame.size.height].active = YES;
     
     [prevButton addTarget:self action:@selector(previousRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -344,6 +357,9 @@ typedef enum
     nextButton.imageEdgeInsets = insets;
     nextButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     nextButton.layer.cornerRadius = 4;
+    
+    [nextButton.widthAnchor constraintEqualToConstant:frame.size.width].active = YES;
+    [nextButton.heightAnchor constraintEqualToConstant:frame.size.height].active = YES;
     
     [nextButton addTarget:self action:@selector(nextRoutesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     

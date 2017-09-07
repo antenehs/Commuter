@@ -14,6 +14,7 @@
 #import "ReittiNotificationHelper.h"
 #import "RouteSearchViewController.h"
 #import "RouteSearchParameters.h"
+#import "BaseTableViewController.h"
 
 typedef enum
 {
@@ -23,7 +24,7 @@ typedef enum
     ViewControllerModeViewGeoCode = 4
 } EditAddressViewControllerMode;
 
-@interface EditAddressTableViewController : UITableViewController<AddressSearchViewControllerDelegate, AddressTypeViewControllerDelegate,UITextFieldDelegate>{
+@interface EditAddressTableViewController : BaseTableViewController<AddressSearchViewControllerDelegate, AddressTypeViewControllerDelegate,UITextFieldDelegate>{
     
     IBOutlet UITextField *nameTextView;
     IBOutlet UILabel *nameLabel;

@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
 @protocol AddressTypeViewControllerDelegate <NSObject>
 - (void)selectedAddressType:(NSDictionary *)stopEntity;
 @end
 
-@interface AddressTypeTableViewController : UITableViewController
+@interface AddressTypeTableViewController : BaseTableViewController
 
 @property (nonatomic, weak) id <AddressTypeViewControllerDelegate> delegate;
 

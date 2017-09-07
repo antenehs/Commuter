@@ -143,7 +143,10 @@
 
 -(void)setupMapView {
     
-    [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)];
+    CGFloat screenHeight = UIScreen.mainScreen.bounds.size.height;
+    CGFloat mapViewHeight = screenHeight * 0.6;
+    
+    [mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, mapViewHeight)];
     
     [self.mapViewManager removeAllAnotationsOfType:[LocationsAnnotation class]];
     [self.mapViewManager removeAllOverlaysOfType:ReittiPolylineTypeLine];
@@ -151,7 +154,7 @@
     [self.mapViewManager drawPolyline:self.line.mapPolyline andAdjustToFit:YES];
     [self.mapViewManager plotAnnotations:[self lineStopAnnotations]];
     
-    [stopsTableView addParallaxWithView:mapView andHeight:300];
+    [stopsTableView addParallaxWithView:mapView andHeight:mapViewHeight];
     
 }
 
@@ -199,9 +202,6 @@
     LineIconView *view = (LineIconView *)[[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([LineIconView class]) owner:self options:nil] firstObject];
     
     [view setupWithLine:self.line];
-//    CGRect frame = view.frame;
-//    frame.size = view.intrinsicContentSize;
-//    view.frame = frame;
     self.navigationItem.titleView = view;
 }
 
@@ -213,6 +213,9 @@
     self.bookmarkButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     [self.bookmarkButton setImage:[UIImage imageNamed:@"star-filled-white-100.png"] forState:UIControlStateNormal];
     [self.bookmarkButton addTarget:self action:@selector(bookmarkBarButtonItemTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.bookmarkButton.widthAnchor constraintEqualToConstant:25].active = YES;
+    [self.bookmarkButton.heightAnchor constraintEqualToConstant:25].active = YES;
     
     UIBarButtonItem* bookmarkBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.bookmarkButton];
     
@@ -227,8 +230,6 @@
     } else {
         [self.bookmarkButton setImage:[UIImage imageNamed:@"star-line-white-100.png"] forState:UIControlStateNormal];
     }
-    
-    [self.bookmarkButton asa_bounceAnimateViewByScale:0.2];
 }
 
 -(void)hideStopsListView:(BOOL)hidden animated:(BOOL)anim{
@@ -461,6 +462,8 @@
         lineBookmarked = YES;
         [self updateBookmarkButtonState];
     }
+    
+    [self.bookmarkButton asa_bounceAnimateViewByScale:0.2];
     
 }
 

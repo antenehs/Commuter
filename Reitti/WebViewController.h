@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "AMBlurView.h"
 #import <iAd/iAd.h>
+#import "BaseViewController.h"
 
 typedef void (^ActionBlock)();
 
-@interface WebViewController : UIViewController<UIWebViewDelegate,ADBannerViewDelegate, UIScrollViewDelegate>{
+@interface WebViewController : BaseViewController<UIWebViewDelegate,ADBannerViewDelegate, UIScrollViewDelegate>{
     
     IBOutlet UILabel *titleLabel;
     IBOutlet UIView *topBarView;

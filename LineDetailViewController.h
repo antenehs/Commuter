@@ -15,8 +15,9 @@
 #import "AMBlurView.h"
 #import "JTMaterialSpinner.h"
 #import "MapViewManager.h"
+#import "BaseViewController.h"
 
-@interface LineDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
+@interface LineDetailViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>{
     
 //    CLLocationCoordinate2D upperBound;
 //    CLLocationCoordinate2D lowerBound;

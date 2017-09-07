@@ -446,6 +446,10 @@
 		6665D7851C0CFD5700ACCC3A /* UITableView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6665D7831C0CFD5700ACCC3A /* UITableView+Helper.m */; };
 		666602501AED831600E3E392 /* Features.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6666024F1AED831600E3E392 /* Features.xib */; };
 		666602591AED933A00E3E392 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 666602581AED933A00E3E392 /* AppManager.m */; };
+		666B07231F60B8E0002A2E20 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666B07221F60B8E0002A2E20 /* BaseViewController.m */; };
+		666B07241F60B8E0002A2E20 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666B07221F60B8E0002A2E20 /* BaseViewController.m */; };
+		666B07281F60B930002A2E20 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666B07271F60B930002A2E20 /* BaseTableViewController.m */; };
+		666B07291F60B930002A2E20 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666B07271F60B930002A2E20 /* BaseTableViewController.m */; };
 		666BC1C61B5C1E3700889DD2 /* ToneSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */; };
 		666BC1D21B5C259700889DD2 /* Time to go 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */; };
 		666BC1D31B5C259700889DD2 /* Horse whinny.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 666BC1C81B5C259700889DD2 /* Horse whinny.mp3 */; };
@@ -1844,6 +1848,10 @@
 		6666024F1AED831600E3E392 /* Features.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Features.xib; sourceTree = "<group>"; };
 		666602571AED933A00E3E392 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
 		666602581AED933A00E3E392 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
+		666B07211F60B8E0002A2E20 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		666B07221F60B8E0002A2E20 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		666B07261F60B930002A2E20 /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
+		666B07271F60B930002A2E20 /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
 		666BC1C41B5C1E3700889DD2 /* ToneSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToneSelectorTableViewController.h; sourceTree = "<group>"; };
 		666BC1C51B5C1E3700889DD2 /* ToneSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToneSelectorTableViewController.m; sourceTree = "<group>"; };
 		666BC1C71B5C259700889DD2 /* Time to go 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 1.mp3"; path = "Sounds/Time to go 1.mp3"; sourceTree = "<group>"; };
@@ -2799,6 +2807,7 @@
 		661FAF22189BA59F00042074 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				666B07251F60B919002A2E20 /* BaseControllers */,
 				66947CF01886F90200642EE1 /* SearchController.h */,
 				66947CF11886F90200642EE1 /* SearchController.m */,
 				664ADFE619925CC6000B4F18 /* AddressSearchViewController.h */,
@@ -3259,6 +3268,17 @@
 				667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		666B07251F60B919002A2E20 /* BaseControllers */ = {
+			isa = PBXGroup;
+			children = (
+				666B07211F60B8E0002A2E20 /* BaseViewController.h */,
+				666B07221F60B8E0002A2E20 /* BaseViewController.m */,
+				666B07261F60B930002A2E20 /* BaseTableViewController.h */,
+				666B07271F60B930002A2E20 /* BaseTableViewController.m */,
+			);
+			name = BaseControllers;
 			sourceTree = "<group>";
 		};
 		666E08E31CD3F0320058D5B0 /* HSLandTRE */ = {
@@ -5332,6 +5352,7 @@
 				66D0BA6018BF41A6002DDC7B /* ReittiStringFormatter.m in Sources */,
 				661202B01AFFC12900D93C2E /* RouteViewManager.m in Sources */,
 				66BCA7171D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */,
+				666B07281F60B930002A2E20 /* BaseTableViewController.m in Sources */,
 				664ADFE819925CC6000B4F18 /* AddressSearchViewController.m in Sources */,
 				66CB961318EEE46100E95CE5 /* SWTableViewCell.m in Sources */,
 				660DED5E1EF47CE800201445 /* BusStop+MapView.m in Sources */,
@@ -5368,6 +5389,7 @@
 				66822F771C29999E00511BD2 /* ReittiSearchManager.m in Sources */,
 				66F6CEEA1B52A86B00F934A2 /* MultiSelectTableViewController.m in Sources */,
 				66785FFD1F05BC2400D3E3CB /* TutorialViewController.swift in Sources */,
+				666B07231F60B8E0002A2E20 /* BaseViewController.m in Sources */,
 				66997AA31ED1676E00B206D4 /* DigiVehicle.m in Sources */,
 				664749DE1AE59CD70050137E /* VersionInfoViewController.m in Sources */,
 				661FAF25189BA5EB00042074 /* APIClient.m in Sources */,
@@ -5639,6 +5661,7 @@
 				66C732C61C556DA5002544BC /* RouteViewManager.m in Sources */,
 				66BCA7181D7AF15E0092C5BB /* AnnotationFilterOption.m in Sources */,
 				66C732C81C556DA5002544BC /* AddressSearchViewController.m in Sources */,
+				666B07291F60B930002A2E20 /* BaseTableViewController.m in Sources */,
 				66C732C91C556DA5002544BC /* SWTableViewCell.m in Sources */,
 				66C732CA1C556DA5002544BC /* DirectionRef.m in Sources */,
 				660DED5F1EF47CE800201445 /* BusStop+MapView.m in Sources */,
@@ -5675,6 +5698,7 @@
 				66C732E11C556DA5002544BC /* MultiSelectTableViewController.m in Sources */,
 				66C732E21C556DA5002544BC /* VersionInfoViewController.m in Sources */,
 				66785FFE1F05BC2400D3E3CB /* TutorialViewController.swift in Sources */,
+				666B07241F60B8E0002A2E20 /* BaseViewController.m in Sources */,
 				66997AA41ED1676E00B206D4 /* DigiVehicle.m in Sources */,
 				66C732E31C556DA5002544BC /* APIClient.m in Sources */,
 				663E1EC11C95B17A00C5543A /* ICloudBookmarksViewController.m in Sources */,

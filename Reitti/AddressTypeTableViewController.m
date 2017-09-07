@@ -22,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setLeftBarItemSize:CGSizeMake(30, 30)];
+    
     self.addressTypeList = [NamedBookmark getAddressTypeList];
     
     self.navigationController.toolbar.hidden = YES;

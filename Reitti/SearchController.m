@@ -608,7 +608,10 @@ CGFloat  kDeparturesRefreshInterval = 10;
     CGSize navigationBarSize = self.navigationController.navigationBar.frame.size;
     UIView *titleView = self.navigationItem.titleView;
     CGRect titleViewFrame = titleView.frame;
-    titleViewFrame.size.width = navigationBarSize.width;
+    titleViewFrame.size.width = navigationBarSize.width - 20;
+    
+    [self.navigationItem.titleView.widthAnchor constraintEqualToConstant:navigationBarSize.width - 20].active = YES;
+//    [self.navigationItem.titleView.heightAnchor constraintEqualToConstant:30].active = YES;
     self.navigationItem.titleView.frame = titleViewFrame;
     [self.view layoutIfNeeded];
 }

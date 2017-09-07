@@ -17,6 +17,7 @@
 #import "SettingsManager.h"
 #import "RouteOptionsTableViewController.h"
 #import "JTMaterialSpinner.h"
+#import "BaseViewController.h"
 
 @class RouteSearchViewController;
 
@@ -28,7 +29,7 @@
 - (void)routeSearchViewControllerDismissed;
 @end
 
-@interface RouteSearchViewController : UIViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate ,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate, RouteOptionSelectionDelegate, UIViewControllerPreviewingDelegate>{
+@interface RouteSearchViewController : BaseViewController<UISearchBarDelegate, UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate ,AddressSearchViewControllerDelegate,UIGestureRecognizerDelegate, RouteOptionSelectionDelegate, UIViewControllerPreviewingDelegate>{
     
     IBOutlet UISearchBar *fromSearchBar;
     IBOutlet UISearchBar *toSearchBar;

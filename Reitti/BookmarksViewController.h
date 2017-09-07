@@ -13,10 +13,11 @@
 #import "StopViewController.h"
 #import "RouteSearchViewController.h"
 #import "EditAddressTableViewController.h"
+#import "BaseTableViewController.h"
 
 @class BookmarksViewController;
 
-@interface BookmarksViewController : UITableViewController<StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
+@interface BookmarksViewController : BaseTableViewController<StopViewControllerDelegate, RouteSearchViewControllerDelegate,ADBannerViewDelegate, CLLocationManagerDelegate, UIViewControllerPreviewingDelegate, UICollectionViewDataSource, UICollectionViewDelegate>{
     IBOutlet UISegmentedControl *listSegmentControl;
     IBOutlet UIBarButtonItem *widgetSettingButton;
     

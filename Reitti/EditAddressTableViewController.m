@@ -30,6 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setLeftBarItemSize:CGSizeMake(30, 30)];
+    
     [self initDataManagerIfNull];
     
     self.iconName = @"location-75-red.png";

@@ -75,6 +75,8 @@ const NSInteger kTimerRefreshInterval = 60;
     trackedNumbersOnce = NO;
     swipedToDelete = NO;
     
+    [self setRightBarItemSize:CGSizeMake(30, 30)];
+    
     namedBookmarkSection = 0, savedStopsSection = 1, savedRouteSection = 2;
 
     if (settingsManager == nil) {

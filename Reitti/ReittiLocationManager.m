@@ -8,6 +8,7 @@
 
 #import "ReittiLocationManager.h"
 #import "ReittiNotificationHelper.h"
+#import "AppManager.h"
 
 @interface ReittiLocationManager () <CLLocationManagerDelegate> {
     BOOL skipUserLocation;
@@ -47,7 +48,7 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    if (!skipUserLocation) {
+    if (!skipUserLocation || [AppManagerBase isDebugMode]) {
         self.currentUserLocation = [locations lastObject];
         
         if (self.delegate) {

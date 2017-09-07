@@ -49,8 +49,11 @@
     [addbutton setBackgroundImage:image1 forState:UIControlStateNormal];
 
     [addbutton addTarget:self action:@selector(addReminderButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [addbutton.widthAnchor constraintEqualToConstant:30].active = YES;
+    [addbutton.heightAnchor constraintEqualToConstant:30].active = YES;
 
     UIBarButtonItem* addBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addbutton];
+    
     
     self.navigationItem.rightBarButtonItem = addBarButtonItem;
     

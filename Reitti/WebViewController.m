@@ -36,6 +36,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setLeftBarItemSize:CGSizeMake(30, 30)];
+    
     _webView.delegate = self;
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:_url];
     [_webView loadRequest:requestObj];

@@ -148,6 +148,8 @@
 }
 
 -(void)recreateAllNotificationsForRoutines:(NSArray *)routines {
+    //TODO: Cnacel all routine notification and not only the ones that hace a routine
+    
     [self registerNotificationWithCompletion:^(BOOL granted) {
         if (granted) {
             for (RoutineEntity *routine in routines) {
