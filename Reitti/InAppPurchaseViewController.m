@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIView *childContainer;
 @property (strong, nonatomic) IBOutlet UIButton *purchaseButton;
 @property (strong, nonatomic) IBOutlet UIButton *restoreButton;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -36,6 +37,7 @@
     // Do any additional setup after loading the view.
     
     [self setupNavigationBar];
+    [self indicateActivity:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -83,26 +85,45 @@
     _purchaseButton.layer.cornerRadius = 15.0;
 }
 
+-(void)indicateActivity:(BOOL)indicate {
+    indicate ? [self.activityIndicator startAnimating] : [self.activityIndicator stopAnimating];
+}
+
 #pragma mark - Actions
 -(void)closeBarButtonTapped {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)purchaseButtonTapped:(id)sender {
+    [self indicateActivity:YES];
     [[AppFeatureManager sharedManager] purchaseProFeaturesWithCompletionBlock:^(NSString *errorMessage) {
-        if (errorMessage) {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Proccessing purchase failed." andContent:errorMessage inController:self];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (errorMessage) {
+                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Proccessing purchase failed." andContent:errorMessage inController:self];
+            } else {
+                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Purchase Successful!" andContent:errorMessage inController:self];
+            }
+            
+            [self indicateActivity:NO];
+        });
     }];
 }
 
 - (IBAction)restoreButtonTapped:(id)sender {
+    [self indicateActivity:YES];
     [[AppFeatureManager sharedManager] restorePurchasesWithCompletionBlock:^(NSString *errorMessage) {
-        if (errorMessage) {
-            [ReittiNotificationHelper showSimpleMessageWithTitle:@"Restoring purchase failed." andContent:errorMessage inController:self];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (errorMessage) {
+                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Restoring purchase failed." andContent:errorMessage inController:self];
+            } else {
+                [ReittiNotificationHelper showSimpleMessageWithTitle:@"Restore Successful!" andContent:errorMessage inController:self];
+            }
+            
+            [self indicateActivity:NO];
+        });
     }];
 }
+
 
 
 -(void)didReceiveMemoryWarning {

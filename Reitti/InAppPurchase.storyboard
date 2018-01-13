@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bSp-42-Ya2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bSp-42-Ya2">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -51,9 +51,13 @@
                                     <action selector="restoreButtonTapped:" destination="bSp-42-Ya2" eventType="touchUpInside" id="BGX-j7-jGs"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="cez-1e-DyI">
+                                <rect key="frame" x="277.5" y="589" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="cez-1e-DyI" firstAttribute="centerY" secondItem="aZR-Pj-m6F" secondAttribute="centerY" id="1EY-Qd-pPd"/>
                             <constraint firstItem="aZR-Pj-m6F" firstAttribute="centerX" secondItem="PyT-Vh-6OT" secondAttribute="centerX" id="2AL-6I-Lqi"/>
                             <constraint firstAttribute="trailing" secondItem="d9o-Nl-q3T" secondAttribute="trailing" id="Zzn-KZ-Pr2"/>
                             <constraint firstItem="d9o-Nl-q3T" firstAttribute="top" secondItem="CZb-dV-MW1" secondAttribute="bottom" id="jjh-yZ-SdT"/>
@@ -61,11 +65,13 @@
                             <constraint firstItem="Zio-sp-Y7l" firstAttribute="top" secondItem="aZR-Pj-m6F" secondAttribute="bottom" constant="8" id="ocy-di-qxn"/>
                             <constraint firstItem="Zio-sp-Y7l" firstAttribute="centerX" secondItem="PyT-Vh-6OT" secondAttribute="centerX" id="ohq-WY-hra"/>
                             <constraint firstItem="aZR-Pj-m6F" firstAttribute="top" secondItem="d9o-Nl-q3T" secondAttribute="bottom" constant="10" id="sXI-WG-nfy"/>
+                            <constraint firstItem="cez-1e-DyI" firstAttribute="trailing" secondItem="aZR-Pj-m6F" secondAttribute="trailing" constant="-20" id="yEn-Ae-9Zf"/>
                             <constraint firstItem="d9o-Nl-q3T" firstAttribute="leading" secondItem="PyT-Vh-6OT" secondAttribute="leading" id="yOi-y6-us1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PRO FEATURES" id="sTm-Ys-y0K"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="cez-1e-DyI" id="b1n-up-IaK"/>
                         <outlet property="childContainer" destination="d9o-Nl-q3T" id="RWO-li-MSb"/>
                         <outlet property="purchaseButton" destination="aZR-Pj-m6F" id="X10-lz-mAR"/>
                         <outlet property="restoreButton" destination="Zio-sp-Y7l" id="iUK-Yh-8qi"/>

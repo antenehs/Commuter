@@ -16,6 +16,7 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
 @interface CoreDataManager ()
 
 @property(nonatomic, strong) CookieEntity *cookieEntity;
+@property (nonatomic) BOOL doneInitialTasks;
 
 @end
 
@@ -32,18 +33,32 @@ NSString * const kBookmarksWithAnnotationUpdated = @"namedBookmarksUpdated";
     dispatch_once(&onceToken, ^{
         sharedCoreDataManager = [[self alloc] init];
     });
+    
+    if (!sharedCoreDataManager.doneInitialTasks) {
+        sharedCoreDataManager.doneInitialTasks = YES;
+        
+        [sharedCoreDataManager doInitialTasks];
+    }
+    
     return sharedCoreDataManager;
 }
 
--(id)init{
+-(id)init {
+    self = [super init];
+    [self doInitialTasks];
+    self.doneInitialTasks = YES;
+    
+    return self;
+}
+
+//This should be done on the main thread
+-(void)doInitialTasks {
     AppDelegate *appDelegate = [[AppDelegate alloc] init];
     self.managedObjectContext = appDelegate.managedObjectContext;
     [self.managedObjectContext setMergePolicy:[[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType]];
     
     [self fetchSystemCookie];
     nextObjectLID = [self.cookieEntity.objectLID intValue];
-    
-    return self;
 }
 
 #pragma mark - Create methods

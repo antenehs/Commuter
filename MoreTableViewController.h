@@ -14,7 +14,7 @@
     NSURL *appTranslateUrl;
     
     NSInteger featurePreviewSection, messageSection, debugFeaturesSection, moreFeaturesSection, settingsSection, commuterSection;
-    NSInteger useDigiTransitRow;
+    NSInteger useDigiTransitRow, enableProFeaturesRow;
     NSInteger messageRow;
     NSInteger routinesRow, ticketsSalesPointsRow, icloudBookmarksRow, matkakorttiRow, disruptionsRow;
     NSInteger settingsRow;

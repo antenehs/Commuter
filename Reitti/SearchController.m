@@ -275,6 +275,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [self hideNearByStopsView:YES animated:YES];
     }
     
+    [self updateFilter];
+    
     [self initDeparturesRefreshTimer];
     
     viewApearForTheFirstTime = NO;
@@ -532,6 +534,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
         }
         
         self.annotationFilter = [AnnotationFilter initWithOptions:optionsForRegion];
+    } else {
+        self.annotationFilter = [AnnotationFilter initWithOptions:nil];
     }
     
     [self updateFilterView];
@@ -665,7 +669,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 -(void)setDetailStopForBusStopShort:(BusStopShort *)shortStop busStop:(BusStop *)stop{
-    if (stop) {
+    if (stop && shortStop.gtfsId) {
         [self.stopDetailMap setObject:stop forKey:shortStop.gtfsId];
     }
 }

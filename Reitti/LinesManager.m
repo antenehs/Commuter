@@ -13,6 +13,8 @@
 #import "SettingsManager.h"
 #import "CoreDataManagers.h"
 
+#define MaxNumberOfRecentLines 8
+
 NSString *kRecentLinesNsDefaultsKey = @"recentLinesNsDefaultsKey";
 NSString *kRecentLinesPatternCodeKey = @"recentLinesPatternCodeKey";
 NSString *kStopLineCodesKey = @"stopLineCodes";
@@ -121,8 +123,8 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
             recentLineCodes = @[];
         
         NSMutableArray *mutableLinesCopy = [recentLineCodes mutableCopy];
-        if (mutableLinesCopy.count > 3) {
-            [mutableLinesCopy removeObjectsInRange:NSMakeRange(3, mutableLinesCopy.count - 3)];
+        if (mutableLinesCopy.count > MaxNumberOfRecentLines) {
+            [mutableLinesCopy removeObjectsInRange:NSMakeRange(MaxNumberOfRecentLines, mutableLinesCopy.count - MaxNumberOfRecentLines)];
         }
         if ([mutableLinesCopy containsObject:line.code]) {
             [mutableLinesCopy removeObject:line.code];
@@ -147,8 +149,8 @@ NSString *kStopLinePatternCodesKey = @"stopLinePatternCodesKey";
             recentLinePatternCodes = @[];
         
         NSMutableArray *mutableLinePatterns = [recentLinePatternCodes mutableCopy];
-        if (mutableLinePatterns.count > 3) {
-            [mutableLinePatterns removeObjectsInRange:NSMakeRange(3, mutableLinePatterns.count - 3)];
+        if (mutableLinePatterns.count > MaxNumberOfRecentLines) {
+            [mutableLinePatterns removeObjectsInRange:NSMakeRange(MaxNumberOfRecentLines, mutableLinePatterns.count - MaxNumberOfRecentLines)];
         }
         if ([mutableLinePatterns containsObject:line.defaultPatternCode]) {
             [mutableLinePatterns removeObject:line.defaultPatternCode];

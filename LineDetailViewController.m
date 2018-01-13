@@ -65,7 +65,7 @@
     viewApearForTheFirstTime = YES;
     
     lineBookmarked = [[LinesManager sharedManager] isLineFavorited:self.line];
-    [self setupBookmarkBarButtonItem];
+//    [self setupBookmarkBarButtonItem];
 //    [self setupMapView];
     [self setUpViewForLine];
 }

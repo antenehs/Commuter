@@ -17,7 +17,7 @@ extern NSString * const kBookmarksWithAnnotationUpdated;
 }
 
 +(id)sharedManager;
--(id)init;
+//-(id)init;
 
 -(NSManagedObject *)createNewObjectForEntityNamed:(NSString *)entityName;
 

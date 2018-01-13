@@ -3,7 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>Consumables</key>
-	<dict/>
+	<dict>
+		<key>reitti.aikatauluapp.unlockprofeatures.test</key>
+		<dict>
+			<key>ConsumableCount</key>
+			<integer>1</integer>
+			<key>ConsumableId</key>
+			<string>profeaturesconsumable</string>
+		</dict>
+	</dict>
 	<key>Others</key>
 	<array>
 		<string>reitti.aikatauluapp.unlockprofeatures</string>

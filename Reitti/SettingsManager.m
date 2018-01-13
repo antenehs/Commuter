@@ -24,6 +24,7 @@ NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks
 NSString * const kAskedContactsPermission = @"AskedContactsPermission";
 NSString * const kSkippedContactsPermissionTrial = @"SkippedContactsPermissionTrial";
 NSString * const kUseDigiTransitApi = @"UseDigiTransitApi";
+NSString * const kEnableProFeatures = @"EnableProFeatures";
 NSString * const kMigratedRoutineNotification = @"MigratedRoutineNotification";
 NSString * const kStartingTabNsDefaultsKey = @"startingTabNsDefaultsKey";
 NSString * const kShowGoProInStopViewRequestCount = @"showGoProInStopViewRequestCount";
@@ -335,12 +336,22 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     [self saveIntegerForKey:kStartingTabNsDefaultsKey integerValue:index];
 }
 
+// Debug values
+
 +(BOOL)useDigiTransit {
     return [self readBoolForKey:kUseDigiTransitApi withDefault:YES];
 }
 
 +(void)setUseDigiTransit:(BOOL)use {
     [self saveBoolForKey:kUseDigiTransitApi boolVal:use];
+}
+
++(BOOL)proFeaturesEnabled {
+    return [self readBoolForKey:kEnableProFeatures withDefault:YES];
+}
+
++(void)setProFeaturesEnabled:(BOOL)enable {
+    [self saveBoolForKey:kEnableProFeatures boolVal:enable];
 }
 
 //From UINotification to UserNotification

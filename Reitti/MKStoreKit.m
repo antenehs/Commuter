@@ -508,8 +508,13 @@ static NSDictionary *errorDictionary;
         }
 
         [self savePurchaseRecord];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitProductPurchasedNotification
-                                                            object:transaction.payment.productIdentifier];
+          if (transaction.transactionState == SKPaymentTransactionStatePurchased) {
+              [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitProductPurchasedNotification
+                                                                  object:transaction.payment.productIdentifier];
+          } else {
+              [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitRestoredPurchasesNotification
+                                                                  object:transaction.payment.productIdentifier];
+          }
       }
         break;
     }

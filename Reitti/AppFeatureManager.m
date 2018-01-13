@@ -8,13 +8,15 @@
 
 #import "AppFeatureManager.h"
 #import "AppManagerBase.h"
+#import "SettingsManager.h"
 
 #if MAIN_APP
 #import "MKStoreKit.h"
 @import StoreKit;
 #endif
 
-NSString *kAllProFeaturesIAPProductId = @"reitti.aikatauluapp.unlockprofeatures";
+NSString *kAllProFeaturesIAPProductId = @"reitti.aikatauluapp.unlockprofeatures.test";
+//NSString *kAllProFeaturesIAPProductId = @"reitti.aikatauluapp.unlockprofeatures";
 
 NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotification";
 
@@ -179,7 +181,9 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
 
 +(BOOL)proFeaturesAvailable {
 #if MAIN_APP
-    return [AppManagerBase isProVersion] || [[MKStoreKit sharedKit] isProductPurchased:kAllProFeaturesIAPProductId];
+    return [AppManagerBase isProVersion] ||
+           [[MKStoreKit sharedKit] isProductPurchased:kAllProFeaturesIAPProductId] ||
+           [SettingsManager proFeaturesEnabled] ;
 #else
     //TODO: Read from NSUserDefaults for status of purchase.
     return [AppManagerBase isProVersion];
@@ -203,7 +207,7 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
              [AppFeature featureWithName:AppFeatureRichReminders isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureTicketSales isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureFavouriteLines isAvailable:proFeaturesAvailable],];
-    
+
 }
 
 -(BOOL)areProFeaturesAvailable {

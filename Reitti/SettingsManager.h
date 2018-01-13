@@ -73,6 +73,8 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 
 @property(nonatomic, class)BOOL useDigiTransit;
 
+@property(nonatomic, class)BOOL proFeaturesEnabled;
+
 @property(nonatomic, class)BOOL migratedRoutines;
 
 @property(nonatomic, readonly)BOOL isHSLRegion;

@@ -134,10 +134,11 @@
     commuterSection = numberOfSection++;
     
     debugFeaturesSection = -1;
-//    numberOfDebugRows = 0;
-//    useDigiTransitRow = numberOfDebugRows++;
+    numberOfDebugRows = 0;
+    useDigiTransitRow = numberOfDebugRows++;
+    enableProFeaturesRow = numberOfDebugRows++;
     
-//    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
+    debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -216,9 +217,15 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"shareCell" forIndexPath:indexPath];
         }
     } else if (indexPath.section == debugFeaturesSection) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"useDigiTransit" forIndexPath:indexPath];
-        UISwitch *useSwitch = [cell viewWithTag:1005];
-        useSwitch.on = [SettingsManager useDigiTransit];
+        if (indexPath.row == useDigiTransitRow) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"useDigiTransit" forIndexPath:indexPath];
+            UISwitch *useSwitch = [cell viewWithTag:1005];
+            useSwitch.on = [SettingsManager useDigiTransit];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"enableProFeatures" forIndexPath:indexPath];
+            UISwitch *useSwitch = [cell viewWithTag:1005];
+            useSwitch.on = [SettingsManager proFeaturesEnabled];
+        }
     } else if (indexPath.section == messageSection) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
         
@@ -266,7 +273,8 @@
     }
 }
 
--(void)setFeatureCellAsProOnly:(UITableViewCell *)cell {
+-(void)setFeatureCellAsProOnly:(UITableViewCell *)cell DEPRECATED_MSG_ATTRIBUTE("Not used anymore") {
+    /*
     if ([cell viewWithTag:1987]) [[cell viewWithTag:1987] removeFromSuperview];
     
     UIButton *overlayButton = [[UIButton alloc] initWithFrame:cell.contentView.frame];
@@ -284,6 +292,7 @@
     cell.accessoryView = imageView;
     
     [cell.contentView addSubview:overlayButton];
+     */
 }
 
 #pragma mark - helpers
@@ -375,6 +384,11 @@
     [SettingsManager setUseDigiTransit:sender.on];
 }
 
+- (IBAction)proFeaturesSettingChanged:(UISwitch *)sender {
+    [SettingsManager setProFeaturesEnabled:sender.on];
+    
+    [self.tableView reloadData];
+}
 
 - (IBAction)openMatkakorttiAppButtonPressed:(id)sender {
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"matkakorttimonitorapp://?"]]) {
