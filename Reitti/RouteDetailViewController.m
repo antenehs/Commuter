@@ -434,7 +434,11 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
     if (location == RouteListViewLoactionBottom) {
         [self hideNavigationBar:NO animated:YES];
-        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y + 15;
+        CGFloat bottomInset = 0.0;
+        if (@available(iOS 11.0, *)) {
+            bottomInset = MAX(self.view.safeAreaInsets.bottom - 10, 0);
+        }
+        routeLIstViewVerticalSpacing.constant = self.view.frame.size.height - routeListTableView.frame.origin.y - bottomInset + 15;
         [toggleListButton setTitle:@"List" forState:UIControlStateNormal];
         [toggleListArrowButton setImage:[UIImage imageNamed:@"expand-arrow-50.png"] forState:UIControlStateNormal];
     }else if (location == RouteListViewLoactionMiddle) {
@@ -461,8 +465,15 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 }
 
 -(void)hideNavigationBar:(BOOL)hidded animated:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:hidded animated:animated];
+    
     if (hidded) {
-        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, 20)];
+        CGFloat viewHeight = 20.0;
+        if (@available(iOS 11.0, *)) {
+            viewHeight = self.view.safeAreaInsets.top;
+        }
+        
+        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, viewHeight)];
         view.tag = 7654;
         view.backgroundColor=[AppManager systemGreenColor];
         [self.view addSubview:view];
@@ -476,8 +487,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
             view = nil;
         }
     }
-    
-    [self.navigationController setNavigationBarHidden:hidded animated:animated];
 }
 
 -(BOOL)isRouteListViewVisible{
@@ -789,136 +798,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
 
 }
 
-//-(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-//    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
-//        LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
-//        if (locAnnotation.locationType == DestinationLocation) {
-//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
-//            if (annotationView == nil) {
-//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
-//                annotationView.enabled = YES;
-//                
-//                annotationView.canShowCallout = YES;
-//                
-//            } else {
-//                annotationView.annotation = annotation;
-//            }
-//            
-//            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-//            [annotationView setFrame:CGRectMake(0, 0, 30, 30)];
-//            annotationView.centerOffset = CGPointMake(5,-15);
-//            
-//            return annotationView;
-//        }
-//        else
-//        if (locAnnotation.locationType == StartLocation){
-//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
-//            if (annotationView == nil) {
-//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
-//                annotationView.enabled = YES;
-//                
-//                annotationView.canShowCallout = YES;
-//                
-//            } else {
-//                annotationView.annotation = annotation;
-//            }
-//            
-//            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-//            [annotationView setFrame:CGRectMake(0, 0, 16, 16)];
-//            
-//            return annotationView;
-//        }else
-//        if (locAnnotation.locationType == StopLocation || locAnnotation.locationType == TransferStopLocation || locAnnotation.locationType == OtherStopLocation){
-//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
-//            if (annotationView == nil) {
-//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
-//                annotationView.enabled = YES;
-//                
-//                annotationView.canShowCallout = YES;
-//                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
-//                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-//                }
-//                
-//            } else {
-//                annotationView.annotation = annotation;
-//            }
-//            
-//            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-//            
-//            if (locAnnotation.locationType == StopLocation || locAnnotation.locationType == TransferStopLocation) {
-//                [annotationView setFrame:CGRectMake(0, 0, 28, 42)];
-//                annotationView.centerOffset = CGPointMake(0,-15);
-//            } else {
-//                [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
-//                annotationView.centerOffset = CGPointMake(0,-8);
-//            }
-//
-//            return annotationView;
-//        } else if (locAnnotation.locationType == BikeStationLocation){
-//            MKAnnotationView *annotationView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:locAnnotation.annotIdentifier];
-//            if (annotationView == nil) {
-//                annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:locAnnotation.annotIdentifier];
-//                annotationView.enabled = YES;
-//                
-//                annotationView.canShowCallout = YES;
-//                if (locAnnotation.code != nil && locAnnotation.code != (id)[NSNull null]) {
-//                    annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-//                }
-//                
-//            } else {
-//                annotationView.annotation = annotation;
-//            }
-//            
-//            annotationView.image = [UIImage imageNamed:locAnnotation.imageNameForView];
-//            [annotationView setFrame:CGRectMake(0, 0, 16, 25)];
-//            annotationView.centerOffset = CGPointMake(0,-8);
-//            
-//            return annotationView;
-//        }
-//    }
-    
-//    if ([annotation conformsToProtocol:@protocol(LVThumbnailAnnotationProtocol)]) {
-//        return [((NSObject<ReittiAnnotationProtocol> *)annotation) annotationViewInMap:routeMapView];
-//    }
-    
-//    return nil;
-//}
-
-//-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
-//{
-//    id <MKAnnotation> annotation = [view annotation];
-//    NSString *stopCode;
-//    NSString *stopShortCode, *stopName;
-//    CLLocationCoordinate2D stopCoords;
-////    if ([annotation isKindOfClass:[StopAnnotation class]])
-////    {
-////        StopAnnotation *stopAnnotation = (StopAnnotation *)annotation;
-////        stopCode = stopAnnotation.code;
-////        stopCoords = stopAnnotation.coordinate;
-////        stopShortCode = stopAnnotation.subtitle;
-////        stopName = stopAnnotation.title;
-////        
-////    }else
-//    if ([annotation isKindOfClass:[LocationsAnnotation class]]) {
-//        LocationsAnnotation *locAnnotation = (LocationsAnnotation *)annotation;
-//        stopCode = locAnnotation.code;
-//        stopCoords = locAnnotation.coordinate;
-//        stopShortCode = locAnnotation.subtitle;
-//        stopName = locAnnotation.title;
-//    }else{
-//        return;
-//    }
-//    
-//    if (stopCode != nil && stopCode != (id)[NSNull null]) {
-//        selectedAnnotionStopCode = stopCode;
-//        selectedAnnotationStopCoords = stopCoords;
-//        selectedAnnotionStopShortCode = stopShortCode;
-//        selectedAnnotionStopName = stopName;
-//        [self performSegueWithIdentifier:@"showStopFromRoute" sender:self];
-//    }
-//    
-//}
-
 -(void)calloutAccessoryControlTappedOnAnnotationView:(MKAnnotationView *)view {
     id <MKAnnotation> annotation = [view annotation];
     NSString *stopCode;
@@ -944,37 +823,7 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     }
 }
 
-//-(void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-//    previousRegion = mapView.visibleMapRect;
-//}
-
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    //Show detailed stop annotations when the zoom level is more than or equal to 14
-//    if ([self zoomLevelForMapRect:mapView.visibleMapRect withMapViewSizeInPixels:mapView.bounds.size] != [self zoomLevelForMapRect:previousRegion withMapViewSizeInPixels:mapView.bounds.size]) {
-//        [self removeAnnotationsExceptVehicles];
-//        [self plotLocationsAnnotation:self.route];
-//        
-//        [mapView removeOverlays:mapView.overlays];
-//        
-//        for (RouteLeg *leg in self.route.routeLegs) {
-//            [self drawLineForLeg:leg];
-//            [self plotTransferAnnotationsForLeg:leg];
-//        }
-//    }
-//    
-//    if ([self shouldShowOtherStopAnnotations]) {
-//        [self.reittiDataManager fetchStopsInAreaForRegion:routeMapView.region fetchFromApi:self.useApi withCompletionBlock:^(NSArray *stops, NSString *error){
-//            if (!error) {
-//                [self plotOtherStopAnnotationsForStops:stops];
-//            }
-//        }];
-//        
-//        if (self.allBikeStations && !isShowingBikeAnnotations)
-//            [self plotBikeStationAnnotations:self.allBikeStations];
-//    }else{
-//        isShowingBikeAnnotations = NO;
-//    }
-    
     [self.reittiDataManager fetchStopsInAreaForRegion:routeMapView.region fetchFromApi:self.useApi withCompletionBlock:^(NSArray *stops, NSString *error){
         if (!error) {
             [self plotOtherStopAnnotationsForStops:stops];
@@ -1010,16 +859,6 @@ typedef AlertControllerAction (^ActionGenerator)(int minutes);
     return NO;
 }
 
-//-(BOOL)shouldShowStopAnnotations {
-//    return [self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] >= 13;
-//}
-
-//-(BOOL)shouldShowOtherStopAnnotations{
-//    //15 is the level the current user location is displayed. Have to zoom more to view the other stops.
-////    return [self zoomLevelForMapRect:routeMapView.visibleMapRect withMapViewSizeInPixels:routeMapView.bounds.size] > 14 && currentRouteListViewLocation == RouteListViewLoactionBottom;
-//    
-//    return YES;
-//}
 //Stop locations are the stops in legs. Not transfer locations
 -(void)removeAllNonTransferStopLocationAnnotations {
     [self.mapViewManager removeAllReittiAnotationsOfType:StopLocation];

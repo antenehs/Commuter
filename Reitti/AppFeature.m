@@ -181,7 +181,7 @@
                 _featureImage = [AppFeatureImage featureImageWithIconNamed:@"icloud-feature" mainImageNamed:@"iCloudSynchPic" imageContentMode:FeatureImageContentModeScaleAspectFit];
                 break;
             case AppFeatureRouteDisruptions:
-                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"disruption-feature" mainImageNamed:@"" imageContentMode:FeatureImageContentModeBottom];
+                _featureImage = [AppFeatureImage featureImageWithIconNamed:@"disruption-feature" mainImageNamed:@"routeDisruptionPro" imageContentMode:FeatureImageContentModeBottom];
                 break;
             case AppFeatureStopFilter:
                 _featureImage = [AppFeatureImage featureImageWithIconNamed:@"stop-filter-feature" mainImageNamed:@"stopFilter" imageContentMode:FeatureImageContentModeBottom];

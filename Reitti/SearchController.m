@@ -135,8 +135,8 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [AppManager setCurrentAppVersion];
     } else {
         if (![AppFeatureManager proFeaturesAvailable])
-            [self showGoProNotification];
-        
+            [self performSelector:@selector(showProFeatures) withObject:nil afterDelay:5];
+    
         [self performSelector:@selector(showRateAppNotification) withObject:nil afterDelay:10];
     }
     
@@ -187,10 +187,15 @@ CGFloat  kDeparturesRefreshInterval = 10;
     }];
 }
 
--(void)showGoProNotification {
+-(void)showProFeatures {
     if ([AppManager getAndIncrimentAppOpenCountForGoingPro] < 8)
         return;
     
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[InAppPurchaseViewController instantiate]]
+                       animated:YES
+                     completion:nil];
+    
+    /*
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Go Pro"
                                                                    message:@"Go pro to get more cool features."
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -216,6 +221,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
     [alert addAction:appStoreAction];
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
+     */
 }
 
 -(void)appWillEnterForeground:(NSNotification *)notification {

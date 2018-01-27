@@ -38,6 +38,9 @@
     
     [self setupNavigationBar];
     [self indicateActivity:NO];
+    
+    //Removed for now.
+    self.restoreButton.hidden = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -95,6 +98,14 @@
 }
 
 - (IBAction)purchaseButtonTapped:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]
+                                       options:@{}
+                             completionHandler:^(BOOL success) {
+                                [self closeBarButtonTapped];
+                             }];
+    
+    /*
+     //Removed for now. No in app pirchase supported.
     [self indicateActivity:YES];
     [[AppFeatureManager sharedManager] purchaseProFeaturesWithCompletionBlock:^(NSString *errorMessage) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -107,6 +118,7 @@
             [self indicateActivity:NO];
         });
     }];
+     */
 }
 
 - (IBAction)restoreButtonTapped:(id)sender {

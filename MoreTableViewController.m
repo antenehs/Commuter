@@ -134,12 +134,15 @@
     commuterSection = numberOfSection++;
     
     debugFeaturesSection = -1;
+    /*
     numberOfDebugRows = 0;
     useDigiTransitRow = numberOfDebugRows++;
     enableProFeaturesRow = numberOfDebugRows++;
     
     debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
+     */
 }
+     
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     [self setSectionAndRowNumbers];

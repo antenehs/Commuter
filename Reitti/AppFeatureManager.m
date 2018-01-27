@@ -198,7 +198,7 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
              [AppFeature featureWithName:AppFeatureAppleWatchApp isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureRealtimeDepartures isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureRoutesWidget isAvailable:proFeaturesAvailable],
-             [AppFeature featureWithName:AppFeatureNearbyDepartureWidget isAvailable:proFeaturesAvailable],
+             /*[AppFeature featureWithName:AppFeatureNearbyDepartureWidget isAvailable:proFeaturesAvailable],*/
              [AppFeature featureWithName:AppFeatureCityBikes isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureLiveLines isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureIcloudBookmarks isAvailable:proFeaturesAvailable],
@@ -206,7 +206,7 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
              [AppFeature featureWithName:AppFeatureStopFilter isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureRichReminders isAvailable:proFeaturesAvailable],
              [AppFeature featureWithName:AppFeatureTicketSales isAvailable:proFeaturesAvailable],
-             [AppFeature featureWithName:AppFeatureFavouriteLines isAvailable:proFeaturesAvailable],];
+             /*[AppFeature featureWithName:AppFeatureFavouriteLines isAvailable:proFeaturesAvailable],*/];
 
 }
 
