@@ -140,10 +140,10 @@ NSString *kDescKey = @"DescKey";
     
     
     if ([AppFeatureManager proFeaturesAvailable]) {
-        self.featuresWithImage = @[appleWatchApp, realtimeDeparture, newWidgetsPro, newDisruptions, newReminders, newStopFilter, newContacts];
+        self.featuresWithImage = @[];
         self.featuresCompact = @[];
     } else {
-        self.featuresWithImage = @[newWholeFinland, newWidgetsFree, newContacts];
+        self.featuresWithImage = @[];
         self.featuresCompact = @[];
     }
 }

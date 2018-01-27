@@ -75,19 +75,7 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
     return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 }
 
-+(BOOL)isProVersion{
-//    static NSNumber *isProVersion;
-    
-//    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
-//    
-//    if (!infoPlist)
-//        return YES;
-//    
-//    NSNumber * isProVersion = infoPlist[@"IsProVersion"];
-//    if (isProVersion)
-//        return [isProVersion boolValue];
-//    
-//    return YES;
++(BOOL)isProBinary{
     
 #if PRO_MAIN_APP || DEPARTURES_PRO_WIDGET || ROUTES_WIDGET || APPLE_WATCH || DEPARTURE_NOTIFICATION
     return YES;
@@ -108,7 +96,7 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 }
 
 +(NSString *)nsUserDefaultsStopsWidgetSuitName{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return kUserDefaultsSuitNameForProDeparturesWidget;
     else
         return kUserDefaultsSuitNameForDeparturesWidget;
@@ -123,42 +111,42 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 }
 
 +(NSString *)appFullName{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return kProAppFullName;
     else
         return kAppFullName;
 }
 
 +(UIImage *)roundedAppLogoSmall{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return [UIImage imageNamed:@"app-pro-logo-rounded2-small.png"];
     else
         return [UIImage imageNamed:@"app-logo-rounded-small"];
 }
 
 +(UIImage *)roundedAppLogoLarge{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return [UIImage imageNamed:@"app-pro-logo-rounded2.png"];
     else
         return [UIImage imageNamed:@"app-logo-new-rounded"];
 }
 
 +(UIImage *)appVersionPicture{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return [UIImage imageNamed:@"versionNumber6"];
     else
         return [UIImage imageNamed:@"versionNumber5"];
 }
 
 +(NSString *)appAppstoreLink{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return kProAppAppstoreLink;
     else
         return kAppAppstoreLink;
 }
 
 +(NSString *)appAppstoreRateLink{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return kProAppRateAppStoreLink;
     else
         return kAppRateAppstoreLink;
@@ -169,7 +157,7 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
 }
 
 +(NSString *)mainAppUrl{
-    if ([self isProVersion])
+    if ([self isProBinary])
         return @"CommuterProMainApp://";
     else
         return @"CommuterMainApp://";

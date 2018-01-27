@@ -66,7 +66,7 @@
         }
     }
     
-    [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserPropertyIsProUser value:[AppManager isProVersion] ? @"true" : @"false"];
+    [[ReittiAnalyticsManager sharedManager] trackUserProperty:kUserPropertyIsProUser value:[AppFeatureManager proFeaturesAvailable] ? @"true" : @"false"];
     
     return YES;
 }

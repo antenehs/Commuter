@@ -181,12 +181,12 @@ NSString *kProFeaturesPurchasedNotification = @"kProFeaturesPurchasedNotificatio
 
 +(BOOL)proFeaturesAvailable {
 #if MAIN_APP
-    return [AppManagerBase isProVersion] ||
+    return [AppManagerBase isProBinary] ||
            [[MKStoreKit sharedKit] isProductPurchased:kAllProFeaturesIAPProductId] ||
            [SettingsManager proFeaturesEnabled] ;
 #else
     //TODO: Read from NSUserDefaults for status of purchase.
-    return [AppManagerBase isProVersion];
+    return [AppManagerBase isProBinary];
 #endif
 }
 

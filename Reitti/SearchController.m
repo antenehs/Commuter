@@ -822,19 +822,16 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 -(void)setupNearByPlacesListTableView {
-//    if (![self isNearByStopsListViewHidden]) {
-//        if (self.nearByStops.count > 4) {
-//            [self fetchStopsDetailsForBusStopShorts:[nearByStops objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 4)]]];
-//        }else{
-//            [self fetchStopsDetailsForBusStopShorts:nearByStops];
-//        }
-//    }
+    if (![AppFeatureManager proFeaturesAvailable]) {
+        [self hideNearByStopsView:YES animated:NO];
+        return;
+    }
     
     [self buildNearbyRowsList];
     
     self.searchResultListViewMode = RSearchResultViewModeNearByStops;
     [nearbyStopsListsTable reloadData];
-//    [nearbyStopsListsTable scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+
     //Adjust table size
     [self fitContentInNearbyList];
 }
@@ -953,51 +950,15 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 -(void)showStopFetchActivityIndicator:(NSNumber *)show{
     stopFetchActivityIndicator.hidden = YES;
-    /*
-    if ([self isNearByStopsListViewHidden]) {
-        hideSearchResultViewButton.hidden = NO;
-        [stopFetchActivityIndicator endRefreshing];
-        return;
-    }
-    
-    hideSearchResultViewButton.hidden = [show boolValue];
-    
-    if ([show boolValue]){
-        [stopFetchActivityIndicator beginRefreshing];
-    }else{
-        [stopFetchActivityIndicator endRefreshing];
-    }
-    */
 }
 
 #pragma mark - Table view datasource and delegate methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
-    
-//    if (self.nearByStopList.count == 0)
-//        return 1;
-//    
-//    return self.nearByStopList.count > 30 ? 30 : self.nearByStopList.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    if ([self isThereValidDetailForTableViewSection:section]) {
-//        BusStop *detailStop = [self getDetailStopForTableViewCell:section];
-//        if (detailStop && detailStop.departures) {
-//            if (detailStop.departures.count == 0) {
-//                return 1;
-//            }else if (detailStop.departures.count == 1) {
-//                return 2;
-//            }else if (detailStop.departures.count == 2){
-//                return 3;
-//            }else{
-//                return 4;
-//            }
-//        }
-//        return 1;
-//    }
-    
     BOOL showInfoRow = nearbyListInfoType == NearbyListInfoTypeError ||
                        nearbyListInfoType == NearbyListInfoTypeLoading;
     
@@ -1005,7 +966,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
     if (nearbyPlacesCount == 0 && showInfoRow)
         nearbyPlacesCount = 1;
     
-    return nearbyPlacesCount;
+    return [AppFeatureManager proFeaturesAvailable] ? nearbyPlacesCount : 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1015,79 +976,12 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [cell setupFromNearByRowObject:self.nearbyRows[indexPath.row]];
         
         return cell;
-        
-        
-        /*
-        BusStopShort *stop = [nearByStopList objectAtIndex:indexPath.section];
-        
-        if (indexPath.row == 0) {
-            UITableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"searchResultCell"];
-            
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:3001];
-            [imageView setImage:[AppManager stopIconForStopType:stop.stopType]];
-            
-            UILabel *codeLabel = (UILabel *)[cell viewWithTag:3004];
-            codeLabel.text = @"";
-            
-            NSString *linesString = stop.linesString;
-//            if ([self isThereValidDetailForTableViewSection:indexPath.section]) {
-//                BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
-//                linesString = detailStop.linesString;
-//            }
-            
-            NSString *shortCode = stop.codeShort != nil && ![stop.codeShort isEqualToString:@""] ? stop.codeShort : nil;
-            if(linesString && shortCode){
-                codeLabel.text = [NSString stringWithFormat:@"Code: %@ · %@",shortCode, linesString];
-            }else if(linesString && !shortCode){
-                codeLabel.text = [NSString stringWithFormat:@"Code: %@", linesString];
-            }else if (!linesString && shortCode){
-                codeLabel.text = [NSString stringWithFormat:@"Code: %@", shortCode];
-            }else{
-                codeLabel.text = @"";
-            }
-            
-            UILabel *nameLabel = (UILabel *)[cell viewWithTag:3002];
-            nameLabel.text = stop.name;
-            
-            UILabel *distanceLabel = (UILabel *)[cell viewWithTag:3003];
-            distanceLabel.text = [NSString stringWithFormat:@"%dm", [stop.distance intValue]];
-            
-            return cell;
-        } else {
-            DepartureTableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"departureCell"];
-            
-            CustomeTableViewCell __weak *weakCell = (CustomeTableViewCell *)cell;
-            
-            [cell setAppearanceWithBlock:^{
-                weakCell.delegate = self;
-                weakCell.containingTableView = tableView;
-            } force:NO];
-            
-            BusStop *detailStop = [self getDetailStopForBusStopShort:stop];
-            
-            StopDeparture *departure = [detailStop.departures objectAtIndex:(indexPath.row - 1)];
-            
-            @try {
-                [cell setupFromStopDeparture:departure compactMode:YES];
-                cell.separatorInset = UIEdgeInsetsMake(0, 2000, 0, 0);
-                [cell setCellHeight:35];
-                return cell;
-            }
-            @catch (NSException *exception) {}
-        }
-         */
     }else{
         NearbyInfoTableViewCell *cell = [nearbyStopsListsTable dequeueReusableCellWithIdentifier:@"nearByInfoCell"];
         [cell setupForInfoType:nearbyListInfoType specialErrorMessage:nearbyStopsFetchErrorMessage];
         
-//        UILabel *infoLabel = (UILabel *)[cell viewWithTag:2003];
-//        
-//        if (nearbyStopsFetchErrorMessage) {
-//            infoLabel.text = nearbyStopsFetchErrorMessage;
-//        }else{
-//            infoLabel.text = @"No Stops Nearby";
-//        }
         cell.separatorInset = UIEdgeInsetsMake(0, 2000, 0, 0);
+        
         return cell;
     }
 }
@@ -2264,7 +2158,9 @@ CGFloat  kDeparturesRefreshInterval = 10;
     }
     
     nearbyListInfoType = NearbyListInfoTypeNothingNearby;
+    
     [self setupNearByPlacesListTableView];
+    
     [self plotNearbyStopAnnotations:filteredStops];
     
     retryCount = 0;

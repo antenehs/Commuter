@@ -12,6 +12,7 @@
 #import "SettingsManager.h"
 
 #ifndef APPLE_WATCH
+#import "AppFeatureManager.h"
 #import "ReittiAnalyticsManager.h"
 #endif
 
@@ -167,11 +168,13 @@ NSString *kWatchEventLabelKey = @"kWatchEventLabelKey";
 //Userinfo will be queed until watch app is available
 -(void)transferUserInfo:(NSDictionary *)userInfo {
     if (!self.session.isPaired) return;
+    
     [self.session transferUserInfo:userInfo];
 }
 
 -(void)updateContext {
-    if (!self.session.isPaired) return;
+    //Only do this when pro version is enabled.
+    if (!self.session.isPaired || ![AppFeatureManager proFeaturesAvailable]) return;
     
     NSMutableDictionary *context = [@{} mutableCopy];
     if (self.watchLocalSearchSupported)

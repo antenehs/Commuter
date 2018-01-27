@@ -33,7 +33,7 @@ extern NSString *kProAppRateAppStoreLink;
 +(NSString *)currentAppVersion;
 
 +(BOOL)isPreDigiTransitVersion;
-+(BOOL)isProVersion;
++(BOOL)isProBinary;
 +(BOOL)isDebugMode;
 
 +(NSString *)nsUserDefaultsStopsWidgetSuitName;

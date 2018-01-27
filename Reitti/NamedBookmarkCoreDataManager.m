@@ -217,6 +217,7 @@ NSString *kNamedBookmarkEntityName = @"NamedBookmark";
 
 - (void)updateNamedBookmarksToWatch {
     NSArray *namedBookmarks = [self fetchAllSavedNamedBookmarks];
+    
     [self updateNamedBookmarksToWatch:namedBookmarks];
 }
 - (void)updateNamedBookmarksToWatch:(NSArray *)namedBookmarks {
