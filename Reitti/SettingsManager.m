@@ -12,12 +12,14 @@
 NSString * const kSettingsEntityName = @"SettingsEntity";
 
 NSString * const mapModeChangedNotificationName = @"SettingsManagerMapModeChangedNotification";
+NSString * const showWalkingRadiusChangedNotificationName = @"SettingsManagerShowWalkingRadiusChangedNotificationName";
 NSString * const userlocationChangedNotificationName = @"SettingsManagerUserLocationChangedNotification";
 NSString * const shouldShowVehiclesNotificationName = @"SettingsManagerShowVehiclesChangedNotification";
 NSString * const routeSearchOptionsChangedNotificationName = @"SettingsManagerRouteSearchOptionsChangedNotification";
 
 NSString * const kDeviceIdNsDefaultsKey = @"DeviceIdNsDefaultsKey";
 NSString * const kAnalyticsSettingsNsDefaultsKey = @"IsAnalyticsSettingEnabled";
+NSString * const kShowWalkingRadiusKey = @"ShowWalkingRadiusKey";
 NSString * const kShowRoutesFromBookmarksKey = @"ShowRoutesFromBookmarks";
 NSString * const kAnnotationTypesEnableStateKey = @"AnnotationTypesEnableStateKey";
 NSString * const kShowDeparturesFromBookmarksKey = @"ShowDeparturesFromBookmarks";
@@ -251,6 +253,15 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
     return uniqueId;
 }
 
++(BOOL)showWalkingRadius{
+    return [self readBoolForKey:kShowWalkingRadiusKey withDefault:YES];
+}
+
++(void)setShowWalkingRadius:(BOOL)show{
+    [self saveBoolForKey:kShowWalkingRadiusKey boolVal:show];
+    
+    [self postNotificationWithName:showWalkingRadiusChangedNotificationName];
+}
 
 +(BOOL)showBookmarkRoutes {
     return [self readBoolForKey:kShowRoutesFromBookmarksKey withDefault:NO];
@@ -427,6 +438,10 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
         [standardUserDefaults setObject:[NSNumber numberWithInteger:integerValue] forKey:defaultsKey];
         [standardUserDefaults synchronize];
     }
+}
+
++(void)postNotificationWithName:(NSString *)name{
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
 }
 
 -(void)postNotificationWithName:(NSString *)name{

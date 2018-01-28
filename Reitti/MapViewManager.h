@@ -45,6 +45,7 @@
 //Remove Overlays
 -(void)removeAllOverlaysOfType:(ReittiPolylineType)polylineType;
 -(void)removeAllOverlaysForUniqId:(NSString *)uniqueId andType:(ReittiPolylineType)polylineType;
+-(void)removeFiveMinWalkingCircle;
 
 //specialized plots
 -(void)plotVehicleAnnotations:(NSArray *)vehicleList;

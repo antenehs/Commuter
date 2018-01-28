@@ -352,9 +352,10 @@
         if (distance < 20) return;
     }
     
+    [self removeFiveMinWalkingCircle];
+    
     //Add circle overlay
     MKCircle *circle = [MKCircle circleWithCenterCoordinate:center.coordinate radius:400];
-    [self removeAllCircleOverlays];
     [self.mapView addOverlay:circle];
     
     //Add label annotation
@@ -366,7 +367,6 @@
     annot.imageNameForView = @"5minAnnot";
     annot.preferedSize = CGSizeMake(24, 30);
     
-    [self removeAllReittiAnotationsOfType:FiveMinMarkerAnnotationType];
     [self.mapView addAnnotation:annot];
     
     self.previousCircledLocation = center;
@@ -374,6 +374,13 @@
 
 
 #pragma mark - Polyline filtering
+-(void)removeFiveMinWalkingCircle {
+    [self removeAllCircleOverlays];
+    [self removeAllReittiAnotationsOfType:FiveMinMarkerAnnotationType];
+    
+    self.previousCircledLocation = nil;
+}
+
 -(void)removeAllOverlaysOfType:(ReittiPolylineType)polylineType {
     for (id<MKOverlay> overlay in self.mapView.overlays) {
         if ([overlay isKindOfClass:[ReittiPolyline class]] &&

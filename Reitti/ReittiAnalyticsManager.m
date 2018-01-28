@@ -89,6 +89,7 @@ NSString *kActionTappedTranslateCell = @"TappedTranslateCell";
 //8. Settings View Controller
 NSString *kActionChangedRouteSearchOption = @"ChangedRouteSearchOption";
 NSString *kActionChangedReminderTone = @"ChangedReminderTone";
+NSString *kActionChangedShowWalkingRadiusOption = @"ChangedShowWalkingRadiusOption";
 NSString *kActionChangedLiveVehicleOption = @"ChangedLiveVehicleOption";
 NSString *kActionOpenedDepartureSettingsFromSettings = @"OpenedDepartureSettingsFromSettings";
 NSString *kActionChangedUserLocation = @"ChangedUserLocation";

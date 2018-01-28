@@ -387,6 +387,10 @@ CGFloat  kDeparturesRefreshInterval = 10;
                                                  name:mapModeChangedNotificationName object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showWakingRadiusSettingsValueChanged:)
+                                                 name:showWalkingRadiusChangedNotificationName object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userLocationSettingsValueChanged:)
                                                  name:userlocationChangedNotificationName object:nil];
     
@@ -1103,7 +1107,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
         centerMap = NO;
     }
     
-    [self.mapViewManager drawFiveMinWalkingCircleAtCoordinate:self.currentUserLocation];
+    [self plot5MinWalkRadius];
     
     if (!firstRecievedLocation && !userLocationUpdated) {
         Region currentRegion = [[ReittiRegionManager sharedManager] identifyRegionOfCoordinate:self.currentUserLocation.coordinate];
@@ -1157,8 +1161,15 @@ CGFloat  kDeparturesRefreshInterval = 10;
 #endif
 }
 
+-(void)plot5MinWalkRadius {
+    if (SettingsManager.showWalkingRadius && self.currentUserLocation) {
+        [self.mapViewManager drawFiveMinWalkingCircleAtCoordinate:self.currentUserLocation];
+    } else {
+        [self.mapViewManager removeFiveMinWalkingCircle];
+    }
+}
+
 -(void)plotBookmarks {
-//    [self removeAllAnnotationsOfType:FavouriteType];
     [self.mapViewManager removeAllReittiAnotationsOfType:FavouriteType];
     
     NSArray *namedBookmarks = [[NamedBookmarkCoreDataManager sharedManager] fetchAllSavedNamedBookmarks];
@@ -1196,16 +1207,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
     //Selection wont work if existing one is not removed
     if (selectFirst) {
         BusStop *firstStop = savedStops[0];
-//        for (id<MKAnnotation> annotation in mapView.annotations) {
-//            if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
-//                DetailedAnnotation *sAnnotation = (DetailedAnnotation *)annotation;
-//                if (sAnnotation.annotationType == FavouriteType &&
-//                    [sAnnotation.code isEqualToString:firstStop.gtfsId]) {
-//                    [mapView removeAnnotation:annotation];
-//                }
-//            }
-//        }
-        
+
         [self.mapViewManager removeReittiAnnotationWithUniqueId:firstStop.gtfsId andType:FavouriteType];
     }
     
@@ -1310,36 +1312,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
 -(void)plotGeoCodeAnnotation:(GeoCode *)geoCode {
     if (!geoCode || ![geoCode isKindOfClass:[GeoCode class]]) { return; }
     
-//    [self.mapViewManager removeAllReittiAnotationsOfType:SearchedStopType];
-//    [self.mapViewManager removeAllReittiAnotationsOfType:GeoCodeType];
-    
-    
-//    NSString * name = @"";
-//    NSString * city = @"";
-//    
-//    if (geoCode.locationType == LocationTypePOI) {
-//        name = geoCode.name;
-//        city = geoCode.city;
-//    }else if (geoCode.locationType == LocationTypeContact) {
-//        name = geoCode.name;
-//        city = geoCode.fullAddressString;
-//    }else if (geoCode.locationType  == LocationTypeAddress){
-//        name = geoCode.getStreetAddressString;
-//        city = geoCode.city;
-//    }else{
-//        //[self plotStopAnnotation:<#(StopEntity *)#> forCoordinate:<#(NSString *)#>]
-//    }
-//    
-//    AnnotationThumbnail *geoAnT = [[AnnotationThumbnail alloc] init];
-//    geoAnT.image = geoCode.annotationImage;
-//    geoAnT.title = name;
-//    geoAnT.subtitle = city;
-//    geoAnT.coordinate = geoCode.coordinates;
-//    geoAnT.annotationType = GeoCodeType;
-//    geoAnT.reuseIdentifier = @"geoLocationAnnotation";
-    
-//    DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:geoAnT];
-    
     DetailedAnnotation *annot = (DetailedAnnotation *)geoCode.mapAnnotation;
     if (annot) {
         NSString *title = annot.thumbnail.title;
@@ -1357,38 +1329,7 @@ CGFloat  kDeparturesRefreshInterval = 10;
 }
 
 -(void)plotNamedBookmarkAnnotation:(NamedBookmark *)namedBookmark withSelect:(BOOL)select {
-//    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
-//            DetailedAnnotation *sAnnotation = (DetailedAnnotation *)annotation;
-//            
-//            if ([sAnnotation.thumbnail.shortCode isEqualToString:namedBookmark.getUniqueIdentifier] && sAnnotation.annotationType == FavouriteType) {
-//                [mapView removeAnnotation:sAnnotation];
-//            }
-//        }
-//    }
-    
-//    CLLocationCoordinate2D coordinate = [ReittiStringFormatter convertStringTo2DCoord:namedBookmark.coords];
-//    NSString * name = @"";
-//    NSString * subtitle = @"";
-//    
-//    name = namedBookmark.name;
-//    subtitle = namedBookmark.getFullAddress;
-//    
-//    
-//    AnnotationThumbnail *bookmrkAnT = [[AnnotationThumbnail alloc] init];
-//    bookmrkAnT.shortCode = namedBookmark.getUniqueIdentifier;
-//    bookmrkAnT.image = namedBookmark.annotationImage;
-//    bookmrkAnT.title = name;
-//    bookmrkAnT.subtitle = subtitle;
-//    bookmrkAnT.coordinate = namedBookmark.coordinates;
-//    bookmrkAnT.annotationType = FavouriteType;
-//    bookmrkAnT.reuseIdentifier = @"namedBookmarkAnnotation";
-//    
-//    FIRCrashLog(@"Named bookmark annotation coord: %@", namedBookmark.coords);
-//    
-//    DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:bookmrkAnT];
-    
-    
+
     DetailedAnnotation *annot = (DetailedAnnotation *)namedBookmark.mapAnnotation;
     if (annot) {
         __weak SearchController *weakSelf = self;
@@ -1433,21 +1374,10 @@ CGFloat  kDeparturesRefreshInterval = 10;
         }
         
         [self.mapViewManager plotAnnotations:allAnots];
-        
-//        isShowingBikeAnnotations = YES;
     }
 }
 
 -(void)dropAnnotation:(CLLocationCoordinate2D)coordinate {
-//    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
-//        return;
-    
-//    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[GCThumbnailAnnotation class]]) {
-////            GCThumbnailAnnotation *sAnnotation = (GCThumbnailAnnotation *)annotation;
-//            [mapView removeAnnotation:annotation];
-//        }
-//    }
     
     [self removeAllGeocodeAnnotation];
     
@@ -1490,65 +1420,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
         [self.mapViewManager drawPolylineForObject:route.routeLegs[0]];
     }
 }
-
-//-(void)plotStopAnnotation:(BusStopShort *)stop withSelect:(BOOL)select isBookmark:(bool)isBookmark{
-//    for (id<MKAnnotation> annotation in mapView.annotations) {
-//        if ([annotation isKindOfClass:[DetailedAnnotation class]]) {
-//            DetailedAnnotation *sAnnotation = (DetailedAnnotation *)annotation;
-//            if ([sAnnotation.code isEqualToString: stop.gtfsId]) {
-//                //If is bookmark, no need to draw again.
-//                if (isBookmark && !select) {
-//                    return;
-//                } else {
-//                    [mapView removeAnnotation:annotation];
-//                }
-//            }
-//            
-//            if (sAnnotation.annotationType == SearchedStopType) {
-//                [mapView removeAnnotation:annotation];
-//            }
-//        }
-//    }
-//    
-//    CLLocationCoordinate2D coordinate = stop.coordinate;
-//    
-//    NSString * name = stop.name;
-//    NSString * shortCode = stop.codeShort ? stop.codeShort : @"";
-//    NSString * stopCode = stop.gtfsId;
-//    
-//    AnnotationThumbnail *stopAnT = [[AnnotationThumbnail alloc] init];
-//    UIImage *stopImage = [AppManager stopAnnotationImageForStopType:stop.stopType];
-//    stopAnT.image = stopImage;
-//    stopAnT.code = stopCode;
-//    stopAnT.shortCode = shortCode;
-//    stopAnT.title = name;
-//    if (stop.linesString) {
-//        stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@ · %@", shortCode, stop.linesString];
-//    } else {
-//        stopAnT.subtitle = [NSString stringWithFormat:@"Code: %@", shortCode];
-//    }
-//    stopAnT.coordinate = coordinate;
-//    stopAnT.annotationType = isBookmark ? FavouriteType : SearchedStopType;
-//    stopAnT.reuseIdentifier = @"SearchedStopAnnotation";
-//    
-//    FIRCrashLog(@"Stop annotation name: %@ - %@ coord: %@", name, shortCode, stop.coords);
-//    
-//    DetailedAnnotation *annot = [DetailedAnnotation annotationWithThumbnail:stopAnT];
-//    
-//    __weak SearchController *weakSelf = self;
-//    annot.primaryAccessoryAction = ^(MKAnnotationView *annotationView){ [weakSelf openRouteForAnnotationWithTitle:name subtitle:shortCode andCoords:coordinate];};
-//    if (stopCode) {
-//        annot.secondaryButtonBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
-//        annot.disclosureBlock = ^(MKAnnotationView *annotationView){ [weakSelf openStopViewForCode:stopCode  shortCode:shortCode name:name  andCoords:coordinate];};
-//    }
-//    
-//    [mapView addAnnotation:annot];
-//    
-//    if (select) {
-//        [mapView selectAnnotation:annot animated:YES];
-//        [self centerMapRegionToCoordinate:stop.coordinate];
-//    }
-//}
 
 #pragma mark - Map view manager delegates
 
@@ -2353,6 +2224,10 @@ CGFloat  kDeparturesRefreshInterval = 10;
 
 -(void)mapModeSettingsValueChanged:(NSNotification *)notification{
     [self setMapModeForSettings];
+}
+
+-(void)showWakingRadiusSettingsValueChanged:(NSNotification *)notification{
+    [self plot5MinWalkRadius];
 }
 
 -(void)userLocationSettingsValueChanged:(NSNotification *)notification{

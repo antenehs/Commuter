@@ -424,8 +424,8 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="wQ9-zk-ZX5"/>
-                                <exclude reference="Ba5-gd-V0w"/>
                                 <exclude reference="qcH-kj-176"/>
+                                <exclude reference="Ba5-gd-V0w"/>
                                 <exclude reference="Jti-MW-Bpt"/>
                                 <exclude reference="Swn-Zg-nhO"/>
                                 <exclude reference="ZRa-LA-XfP"/>
@@ -730,17 +730,16 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveVehicleCell" id="gWd-fR-LeT">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="walkingRadiusCell" id="gWd-fR-LeT">
                                         <rect key="frame" x="0.0" y="105.33333333333334" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gWd-fR-LeT" id="SBJ-6t-PQU">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show live vehicles" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ca-Ky-ugR">
-                                                    <rect key="frame" x="17" y="17" width="184" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Walking radius on map" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ca-Ky-ugR">
+                                                    <rect key="frame" x="17" y="17" width="271" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="184" id="69V-dM-hsC"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Bax-Hu-Lo0"/>
                                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="MmX-hT-4Gi"/>
                                                         <constraint firstAttribute="height" constant="21" id="qsO-Sb-rlF"/>
@@ -759,7 +758,7 @@
                                                     <rect key="frame" x="305" y="12" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.12053614109754562" green="0.6242823600769043" blue="0.39499244093894958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <connections>
-                                                        <action selector="showLiveVehicleSwitchValueChanged:" destination="MbC-iB-tLX" eventType="valueChanged" id="xZQ-r3-SiK"/>
+                                                        <action selector="showWalkingRadiusSwitchValueChanged:" destination="MbC-iB-tLX" eventType="valueChanged" id="Knp-aq-FlV"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -768,11 +767,53 @@
                                                 <constraint firstItem="l8l-nh-zSo" firstAttribute="top" secondItem="SBJ-6t-PQU" secondAttribute="topMargin" constant="1" id="L1i-ma-eFo"/>
                                                 <constraint firstItem="3Ca-Ky-ugR" firstAttribute="leading" secondItem="SBJ-6t-PQU" secondAttribute="leadingMargin" constant="2" id="Nag-x3-FxA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="l8l-nh-zSo" secondAttribute="trailing" constant="6" id="PfF-9s-QUP"/>
+                                                <constraint firstItem="l8l-nh-zSo" firstAttribute="leading" secondItem="3Ca-Ky-ugR" secondAttribute="trailing" constant="17" id="TUg-ux-Kei"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveVehicleCell" id="DAY-DL-ye7">
+                                        <rect key="frame" x="0.0" y="155.33333333333334" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DAY-DL-ye7" id="Wd5-i8-g5Q">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show live vehicles" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLZ-A7-U5o">
+                                                    <rect key="frame" x="17" y="17" width="184" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="OfH-OE-cOs"/>
+                                                        <constraint firstAttribute="width" constant="184" id="Wtu-7y-euE"/>
+                                                        <constraint firstAttribute="height" constant="21" id="qMT-RF-Gd9"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="vPf-Mc-gBh"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="OfH-OE-cOs"/>
+                                                            <exclude reference="vPf-Mc-gBh"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <switch opaque="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W7l-io-ag5">
+                                                    <rect key="frame" x="305" y="12" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.12053614109999999" green="0.62428236010000004" blue="0.39499244090000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="showLiveVehicleSwitchValueChanged:" destination="MbC-iB-tLX" eventType="valueChanged" id="5se-bz-o32"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="W7l-io-ag5" secondAttribute="trailing" constant="6" id="VJJ-mA-SPt"/>
+                                                <constraint firstItem="QLZ-A7-U5o" firstAttribute="leading" secondItem="Wd5-i8-g5Q" secondAttribute="leadingMargin" constant="2" id="WBT-Ox-ldv"/>
+                                                <constraint firstItem="QLZ-A7-U5o" firstAttribute="top" secondItem="Wd5-i8-g5Q" secondAttribute="topMargin" constant="6" id="cMj-Kd-UlJ"/>
+                                                <constraint firstItem="W7l-io-ag5" firstAttribute="top" secondItem="Wd5-i8-g5Q" secondAttribute="topMargin" constant="1" id="i9x-Br-aIe"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="widgetSettingCell" id="Glm-JX-faD">
-                                        <rect key="frame" x="0.0" y="155.33333333333334" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="205.33333333333334" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Glm-JX-faD" id="dad-Da-lyS">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -796,7 +837,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="routeSearchOptionsCell" id="pUN-eK-Wnd">
-                                        <rect key="frame" x="0.0" y="205.33333333333334" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="255.33333333333334" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pUN-eK-Wnd" id="9Ib-dP-MRu">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -823,7 +864,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="notificationToneCell" id="9dT-Q9-zur">
-                                        <rect key="frame" x="0.0" y="255.33333333333334" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="305.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9dT-Q9-zur" id="jqs-eF-YuF">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -862,7 +903,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clearHistoryCell" id="wet-cl-7bD">
-                                        <rect key="frame" x="0.0" y="305.33333333333337" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="355.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wet-cl-7bD" id="scU-s3-a59">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
@@ -894,7 +935,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="clearHistoryDateCell" id="gHt-HX-wIZ">
-                                        <rect key="frame" x="0.0" y="355.33333333333337" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="405.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gHt-HX-wIZ" id="gaj-JY-zJN">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -945,7 +986,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="selectStartTab" rowHeight="50" id="sep-Zs-Rq1">
-                                        <rect key="frame" x="0.0" y="405.33333333333337" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="455.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sep-Zs-Rq1" id="c3b-aR-IzV">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
@@ -981,7 +1022,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="advancedSettingCell" id="5tP-cY-sMZ">
-                                        <rect key="frame" x="0.0" y="455.33333333333337" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="505.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5tP-cY-sMZ" id="Kw0-Az-Ebv">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -1008,7 +1049,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="trackingCell" id="p92-cU-y2F">
-                                        <rect key="frame" x="0.0" y="505.33333333333337" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="555.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p92-cU-y2F" id="sai-7h-Hrl">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
@@ -1042,7 +1083,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="locationCell" id="lZA-gR-0wW">
-                                        <rect key="frame" x="0.0" y="555.33333333333337" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="605.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lZA-gR-0wW" id="g1a-bT-cRF">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -1117,7 +1158,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zqh-8p-i1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5718" y="-2097"/>
+            <point key="canvasLocation" x="5717.6000000000004" y="-2097.0443349753696"/>
         </scene>
         <!--Bookmarks View Controller-->
         <scene sceneID="bXX-3w-3EA">
@@ -5797,7 +5838,7 @@ Helsinki, Finland</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flagIconColored" translatesAutoresizingMaskIntoConstraints="NO" id="DUi-0k-R6D">
-                                            <rect key="frame" x="16" y="14" width="28" height="28"/>
+                                            <rect key="frame" x="24" y="14" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="Cg1-7K-CU9"/>
                                                 <constraint firstAttribute="height" constant="28" id="R4f-2F-hkf"/>
@@ -5812,7 +5853,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use digiTransit" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxL-qF-t99">
-                                            <rect key="frame" x="60" y="17" width="212" height="21"/>
+                                            <rect key="frame" x="68" y="17" width="212" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="212" id="AWL-Dg-gBN"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Co6-Kc-Qzh"/>
@@ -5833,7 +5874,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </label>
                                         <switch opaque="NO" tag="1005" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TTM-zW-pwc">
-                                            <rect key="frame" x="310" y="12" width="51" height="26"/>
+                                            <rect key="frame" x="302" y="12" width="51" height="26"/>
                                             <connections>
                                                 <action selector="apiUseSettingChanged:" destination="Rnq-ES-eJ5" eventType="valueChanged" id="x1R-da-Jgj"/>
                                             </connections>
@@ -6389,11 +6430,11 @@ Helsinki, Finland</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="lf2-qG-jdZ"/>
-        <segue reference="uxq-Dp-zOu"/>
-        <segue reference="Gru-ad-IZy"/>
+        <segue reference="vNT-NN-oB9"/>
+        <segue reference="ACN-TL-M4P"/>
         <segue reference="CYY-Jj-YoI"/>
         <segue reference="lwh-ia-2sg"/>
-        <segue reference="jXj-NG-suc"/>
+        <segue reference="XlZ-XU-H5m"/>
         <segue reference="GbG-gG-Gmw"/>
         <segue reference="BRl-aW-Fwe"/>
         <segue reference="s2M-RA-2qU"/>

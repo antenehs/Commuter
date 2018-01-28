@@ -21,6 +21,7 @@ typedef enum
 } MapMode;
 
 extern NSString * const mapModeChangedNotificationName;
+extern NSString * const showWalkingRadiusChangedNotificationName;
 extern NSString * const userlocationChangedNotificationName;
 extern NSString * const shouldShowVehiclesNotificationName;
 extern NSString * const routeSearchOptionsChangedNotificationName;
@@ -60,6 +61,8 @@ extern NSString * const routeSearchOptionsChangedNotificationName;
 @property(nonatomic, class)BOOL isAnalyticsEnabled;
 
 @property(nonatomic, class)NSInteger startingIndexTab;
+
+@property(nonatomic, class)BOOL showWalkingRadius;
 
 @property(nonatomic, class)BOOL showBookmarkRoutes;
 

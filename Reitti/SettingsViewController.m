@@ -60,10 +60,10 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         //----------
         mapSectionNumberOfRows = 0;
         mapTypeRow = mapSectionNumberOfRows++;
+        walkingRadiusRow = mapSectionNumberOfRows++;
         liveVehiclesRow = mapSectionNumberOfRows++;
         
         mapSettingsSection = sectionNumber++;
-        
         //-----------
 //        wigetSectionNumberOfRows = 0;
 //        departuresWidgetRow = wigetSectionNumberOfRows++;
@@ -162,6 +162,10 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
             cell = [tableView dequeueReusableCellWithIdentifier:@"mapModeCell"];
             UISegmentedControl *segmentCtrl = (UISegmentedControl *)[cell viewWithTag:1001];
             segmentCtrl.selectedSegmentIndex = [self.settingsManager mapMode];
+        }else if(indexPath.row == walkingRadiusRow){
+            cell = [tableView dequeueReusableCellWithIdentifier:@"walkingRadiusCell"];
+            UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
+            uiSwitch.on = SettingsManager.showWalkingRadius;
         }else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"liveVehicleCell"];
             UISwitch *uiSwitch = (UISwitch *)[cell viewWithTag:1001];
@@ -327,6 +331,14 @@ NSInteger kUserLocationRegionSelectionViewControllerTag = 2001;
         
         [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedStartingTabOption label:[NSString stringWithFormat:@"%d", (int)segmentControl.selectedSegmentIndex] value:nil];
     }
+}
+
+- (IBAction)showWalkingRadiusSwitchValueChanged:(id)sender {
+    UISwitch *uiSwith = (UISwitch *)sender;
+    SettingsManager.showWalkingRadius = uiSwith.isOn;
+    [mainTableView reloadData];
+    
+    [[ReittiAnalyticsManager sharedManager] trackFeatureUseEventForAction:kActionChangedShowWalkingRadiusOption label:uiSwith.isOn ? @"On" : @"Off" value:nil];
 }
 
 - (IBAction)showLiveVehicleSwitchValueChanged:(id)sender {

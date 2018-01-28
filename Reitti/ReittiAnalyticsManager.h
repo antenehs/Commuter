@@ -86,6 +86,7 @@ extern NSString *kActionTappedTranslateCell;
 //8. Settings View Controller
 extern NSString *kActionChangedRouteSearchOption;
 extern NSString *kActionChangedReminderTone;
+extern NSString *kActionChangedShowWalkingRadiusOption;
 extern NSString *kActionChangedLiveVehicleOption;
 extern NSString *kActionOpenedDepartureSettingsFromSettings;
 extern NSString *kActionChangedUserLocation;
