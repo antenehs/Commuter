@@ -1,5 +1,5 @@
 //
-//  InAppPurchaseViewController.m
+//  FeaturePreviewViewController.m
 //  Reitti
 //
 //  Created by Anteneh Sahledengel on 7/27/17.
@@ -20,13 +20,19 @@
 @property (strong, nonatomic) IBOutlet UIButton *restoreButton;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+@property (nonatomic)FeaturePreviewMode viewMode;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *buttonAndChildVerticalSpacing;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *childViewTopSpacing;
+
 @end
 
 @implementation FeaturePreviewViewController
 
-+(instancetype)instantiate {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"InAppPurchase" bundle:nil];
++(instancetype)instantiateForMode:(FeaturePreviewMode)mode {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"FeaturePreview" bundle:nil];
     FeaturePreviewViewController *vc = [sb instantiateInitialViewController];
+    vc.viewMode = mode;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     return vc;
@@ -68,7 +74,13 @@
     
     [self.view asa_SetBlurredBackgroundWithImageNamed:nil];
     
-    ProFeaturesViewController *childController = [ProFeaturesViewController main];
+    UIViewController *childController = nil;
+    if (self.viewMode == FeaturePreviewModeProFeatures) {
+        childController = [ProFeaturesViewController main];
+    } else {
+        childController = [NewInVersionViewController main];
+    }
+
     [self addChildViewController:childController];
     //
     childController.view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -79,13 +91,26 @@
     [_childContainer layoutIfNeeded];
     [_childContainer setClipsToBounds:YES];
     
-    NSString *priceString = [[AppFeatureManager sharedManager] formattedProFeaturesPrice];
-    NSString *buttonTitle = @"GO PRO";
-    if (priceString) buttonTitle = [NSString stringWithFormat:@"GO PRO (%@)", priceString];
-
-    [_purchaseButton setTitle:buttonTitle
-                     forState:UIControlStateNormal];
-    _purchaseButton.layer.cornerRadius = 15.0;
+    if (self.viewMode == FeaturePreviewModeProFeatures) {
+        _purchaseButton.hidden = NO;
+        
+        NSString *priceString = [[AppFeatureManager sharedManager] formattedProFeaturesPrice];
+        NSString *buttonTitle = @"GO PRO";
+        if (priceString) buttonTitle = [NSString stringWithFormat:@"GO PRO (%@)", priceString];
+        
+        [_purchaseButton setTitle:buttonTitle
+                         forState:UIControlStateNormal];
+        _purchaseButton.layer.cornerRadius = 15.0;
+    } else {
+        _purchaseButton.hidden = YES;
+        _restoreButton.hidden = YES;
+    }
+    
+    self.buttonAndChildVerticalSpacing.active = self.viewMode == FeaturePreviewModeProFeatures;
+    self.childViewTopSpacing.constant = self.viewMode == FeaturePreviewModeProFeatures ? 0 : 50;
+    [self.view layoutIfNeeded];
+    
+    self.title = childController.title;
 }
 
 -(void)indicateActivity:(BOOL)indicate {
@@ -134,13 +159,6 @@
             [self indicateActivity:NO];
         });
     }];
-}
-
-
-
--(void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

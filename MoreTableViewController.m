@@ -20,7 +20,7 @@
 #import "SwiftHeaders.h"
 #import "AppFeatureManager.h"
 #import "GoProCarouselTableViewCell.h"
-#import "InAppPurchaseViewController.h"
+#import "FeaturePreviewViewController.h"
 
 @interface MoreTableViewController ()
 
@@ -133,14 +133,13 @@
     
     commuterSection = numberOfSection++;
     
-    debugFeaturesSection = -1;
-    /*
+    debugFeaturesSection = 0;
+    
     numberOfDebugRows = 0;
     useDigiTransitRow = numberOfDebugRows++;
     enableProFeaturesRow = numberOfDebugRows++;
     
     debugFeaturesSection = [AppManagerBase isDebugMode] ? numberOfSection++ : -1;
-     */
 }
      
 
@@ -224,7 +223,7 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"useDigiTransit" forIndexPath:indexPath];
             UISwitch *useSwitch = [cell viewWithTag:1005];
             useSwitch.on = [SettingsManager useDigiTransit];
-        } else {
+        } else if (indexPath.row == enableProFeaturesRow) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"enableProFeatures" forIndexPath:indexPath];
             UISwitch *useSwitch = [cell viewWithTag:1005];
             useSwitch.on = [SettingsManager proFeaturesEnabled];
@@ -309,13 +308,13 @@
 #pragma mark - ibactions
 
 - (void)presentGoProView {
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[InAppPurchaseViewController instantiate]]
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[FeaturePreviewViewController instantiateForMode:FeaturePreviewModeProFeatures]]
                        animated:YES
                      completion:nil];
 }
 
 - (void)presentNewInVersionView {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[NewInVersionViewController generateNewInVersionVc]];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[FeaturePreviewViewController instantiateForMode:FeaturePreviewModeNewInVersion]];
     [self presentViewController:navController animated:YES completion:nil];
 }
 

@@ -135,7 +135,7 @@ NSString *kProAppRateAppStoreLink = @"itms-apps://itunes.apple.com/app/id1023398
     if ([self isProBinary])
         return [UIImage imageNamed:@"versionNumber6"];
     else
-        return [UIImage imageNamed:@"versionNumber5"];
+        return [UIImage imageNamed:@"versionNumber6"];
 }
 
 +(NSString *)appAppstoreLink{

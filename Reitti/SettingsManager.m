@@ -358,7 +358,7 @@ NSString * const kWatchRegionSupportsLocalSearching = @"watchRegionSupportsLocal
 }
 
 +(BOOL)proFeaturesEnabled {
-    return [self readBoolForKey:kEnableProFeatures withDefault:YES];
+    return [self readBoolForKey:kEnableProFeatures withDefault:NO];
 }
 
 +(void)setProFeaturesEnabled:(BOOL)enable {

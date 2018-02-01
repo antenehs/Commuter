@@ -496,10 +496,10 @@
 		666E08D41CD3DF7A0058D5B0 /* ReittiMapkitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C5677F1CC3F07000ECA0F5 /* ReittiMapkitHelper.m */; };
 		666E08E41CD3F1C80058D5B0 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FAF24189BA5EB00042074 /* APIClient.m */; };
 		6674089B1C1C59AE00C1E34A /* UIView+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674089A1C1C59AE00C1E34A /* UIView+Helper.m */; };
-		667435F41F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */; };
-		667435F51F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */; };
-		667435F71F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */; };
-		667435F81F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */; };
+		667435F41F2A60FB00DCBC15 /* FeaturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435F31F2A60FB00DCBC15 /* FeaturePreviewViewController.m */; };
+		667435F51F2A60FB00DCBC15 /* FeaturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435F31F2A60FB00DCBC15 /* FeaturePreviewViewController.m */; };
+		667435F71F2A611700DCBC15 /* FeaturePreview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667435F61F2A611700DCBC15 /* FeaturePreview.storyboard */; };
+		667435F81F2A611700DCBC15 /* FeaturePreview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 667435F61F2A611700DCBC15 /* FeaturePreview.storyboard */; };
 		667435FA1F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */; };
 		667435FB1F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */; };
 		667435FE1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */; };
@@ -1867,9 +1867,9 @@
 		666BC1D11B5C259700889DD2 /* Time to go 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Time to go 5.mp3"; path = "Sounds/Time to go 5.mp3"; sourceTree = "<group>"; };
 		667408991C1C59AE00C1E34A /* UIView+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Helper.h"; path = "Helpers/UIView+Helper.h"; sourceTree = "<group>"; };
 		6674089A1C1C59AE00C1E34A /* UIView+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Helper.m"; path = "Helpers/UIView+Helper.m"; sourceTree = "<group>"; };
-		667435F21F2A60FB00DCBC15 /* InAppPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseViewController.h; sourceTree = "<group>"; };
-		667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseViewController.m; sourceTree = "<group>"; };
-		667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InAppPurchase.storyboard; sourceTree = "<group>"; };
+		667435F21F2A60FB00DCBC15 /* FeaturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturePreviewViewController.h; sourceTree = "<group>"; };
+		667435F31F2A60FB00DCBC15 /* FeaturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeaturePreviewViewController.m; sourceTree = "<group>"; };
+		667435F61F2A611700DCBC15 /* FeaturePreview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeaturePreview.storyboard; sourceTree = "<group>"; };
 		667435F91F2A670E00DCBC15 /* NSLayoutConstraintExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintExtension.swift; sourceTree = "<group>"; };
 		667435FC1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+Helper.h"; sourceTree = "<group>"; };
 		667435FD1F2A68DF00DCBC15 /* NSLayoutConstraint+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+Helper.m"; sourceTree = "<group>"; };
@@ -2865,8 +2865,8 @@
 				665BA1B11CAF05EB0091C180 /* MainTabBarController.m */,
 				66B7AE921ECA58C300B233E7 /* MigrationViewController.h */,
 				66B7AE931ECA58C300B233E7 /* MigrationViewController.m */,
-				667435F21F2A60FB00DCBC15 /* InAppPurchaseViewController.h */,
-				667435F31F2A60FB00DCBC15 /* InAppPurchaseViewController.m */,
+				667435F21F2A60FB00DCBC15 /* FeaturePreviewViewController.h */,
+				667435F31F2A60FB00DCBC15 /* FeaturePreviewViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -3650,7 +3650,7 @@
 				663589B81ED0DB77006721EA /* Lines.storyboard */,
 				663589BB1ED0E227006721EA /* ServicePoints.storyboard */,
 				663589BE1ED0E60F006721EA /* WebView.storyboard */,
-				667435F61F2A611700DCBC15 /* InAppPurchase.storyboard */,
+				667435F61F2A611700DCBC15 /* FeaturePreview.storyboard */,
 			);
 			name = StoryBoards;
 			sourceTree = "<group>";
@@ -4634,7 +4634,7 @@
 				66F0998C1AE8075D00F20D34 /* NotificationBackgroundWarning.png in Resources */,
 				66978A741C7664B200C45B96 /* Icons.xcassets in Resources */,
 				66FDC9E11D83566900F6288D /* Localizable.strings in Resources */,
-				667435F71F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */,
+				667435F71F2A611700DCBC15 /* FeaturePreview.storyboard in Resources */,
 				66F0998E1AE8075D00F20D34 /* NotificationBackgroundWarningIcon.png in Resources */,
 				6605797C1E11D51700F3559E /* RouteQueryShortFragment.graphql in Resources */,
 				66F099831AE8075D00F20D34 /* NotificationBackgroundError@2x.png in Resources */,
@@ -4694,7 +4694,7 @@
 				661EC2071F07565800E02C86 /* Annotations.xcassets in Resources */,
 				66C733A11C556DA5002544BC /* Time to go 4.mp3 in Resources */,
 				66EB0D531DECE61300ADEC2D /* PlanQuery.graphql in Resources */,
-				667435F81F2A611700DCBC15 /* InAppPurchase.storyboard in Resources */,
+				667435F81F2A611700DCBC15 /* FeaturePreview.storyboard in Resources */,
 				66C733AD1C556DA5002544BC /* changeToFullVersionJS.js in Resources */,
 				664FE8B51ECBB59100C3C0B5 /* BikesQueryFragment.graphql in Resources */,
 				66C733B51C556DA5002544BC /* NotificationButtonBackground@2x.png in Resources */,
@@ -5433,7 +5433,7 @@
 				66833D5B1CF8F427005D958C /* DigiPlan.m in Sources */,
 				667B98311AD5590D00C45ADF /* NamedBookmark.m in Sources */,
 				66026D911D68ED8D00219AC6 /* ContactAddress.m in Sources */,
-				667435F41F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */,
+				667435F41F2A60FB00DCBC15 /* FeaturePreviewViewController.m in Sources */,
 				665BA1AE1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				6665D74C1C0B532500ACCC3A /* NSArray+Helper.m in Sources */,
 				663E1EB91C949C5400C5543A /* ICloudManager.m in Sources */,
@@ -5742,7 +5742,7 @@
 				66833D5C1CF8F427005D958C /* DigiPlan.m in Sources */,
 				66C732F61C556DA5002544BC /* NamedBookmark.m in Sources */,
 				66026D921D68ED8D00219AC6 /* ContactAddress.m in Sources */,
-				667435F51F2A60FB00DCBC15 /* InAppPurchaseViewController.m in Sources */,
+				667435F51F2A60FB00DCBC15 /* FeaturePreviewViewController.m in Sources */,
 				665BA1AF1CAAE93A0091C180 /* SwitchToRouteViewSegue.m in Sources */,
 				66C732F71C556DA5002544BC /* NSArray+Helper.m in Sources */,
 				663E1EBA1C949C5400C5543A /* ICloudManager.m in Sources */,

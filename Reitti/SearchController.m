@@ -41,7 +41,7 @@
 #import "ReittiLocationManager.h"
 #import "SwiftHeaders.h"
 #import "AppFeatureManager.h"
-#import "InAppPurchaseViewController.h"
+#import "FeaturePreviewViewController.h"
 
 @import Firebase;
 
@@ -118,19 +118,17 @@ CGFloat  kDeparturesRefreshInterval = 10;
     [self initViewComponents];
     
     if ([AppManager isNewInstallOrNewVersion]) {
-        if (![AppManager isNewInstall]) {
-            if ([AppManager isPreDigiTransitVersion]) {
-                [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
-            } else {
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[NewInVersionViewController generateNewInVersionVc]];
-                [self presentViewController:navController animated:YES completion:nil];
-            }
-            
-            isShowingWelcomeView = YES;
+        if ([AppManager isNewInstall] && [AppManager isPreDigiTransitVersion]) {
+            [self presentViewController:[MigrationViewController instantiate] animated:NO completion:nil];
+        } else {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[FeaturePreviewViewController instantiateForMode:FeaturePreviewModeNewInVersion]];
+            [self presentViewController:navController animated:YES completion:nil];
             
             //Do this only once for this version. To clean change in device id
             [[ICloudManager sharedManager] deleteAllRecordsWithCompletion:^(NSString *error){}];
         }
+        
+        isShowingWelcomeView = YES;
         
         [AppManager setCurrentAppVersion];
     } else {
@@ -154,36 +152,6 @@ CGFloat  kDeparturesRefreshInterval = 10;
 -(void)showRateAppNotification {
     [self asa_ExecuteBlockInUIThread:^{
         [ReittiNotificationHelper showRateAppNotificationInController:self];
-        
-//        appOpenCount = [AppManager getAndIncrimentAppOpenCountForRating];
-//        
-//        if (appOpenCount < 5 || [AppManager isNewInstallOrNewVersion]) return;
-//        
-//        if ([SKStoreReviewController class]) {
-//            [SKStoreReviewController requestReview];
-//            [AppManager setAppOpenCountForRating:-8];
-//            return;
-//        }
-//        
-//        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Enjoy Using The App?"
-//                                                                       message:@"The gift of 5 little starts is satisfying for both of us more than you think."
-//                                                                preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Rate" style:UIAlertActionStyleDefault
-//                                                              handler:^(UIAlertAction * action) {
-//                                                                  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[AppManager appAppstoreRateLink]]];
-//                                                                  [AppManager setAppOpenCountForRating:-50];
-//                                                                  
-//                                                              }];
-//        
-//        UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
-//                                                            handler:^(UIAlertAction * action) {
-//                                                                [AppManager setAppOpenCountForRating:-8];
-//                                                            }];
-//        
-//        [alert addAction:laterAction];
-//        [alert addAction:defaultAction];
-//        [self presentViewController:alert animated:YES completion:nil];
     }];
 }
 
@@ -191,37 +159,11 @@ CGFloat  kDeparturesRefreshInterval = 10;
     if ([AppManager getAndIncrimentAppOpenCountForGoingPro] < 8)
         return;
     
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[InAppPurchaseViewController instantiate]]
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[FeaturePreviewViewController instantiateForMode:FeaturePreviewModeProFeatures]]
                        animated:YES
                      completion:nil];
     
-    /*
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Go Pro"
-                                                                   message:@"Go pro to get more cool features."
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Learn more" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              [AppManager setAppOpenCountForGoingPro:-20];
-                                                              [self performSegueWithIdentifier:@"showProFeatures" sender:self];
-                                                          }];
-    
-    UIAlertAction* appStoreAction = [UIAlertAction actionWithTitle:@"Go to AppStore" style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action) {
-                                                              [AppManager setAppOpenCountForGoingPro:-20];
-                                                              [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kProAppAppstoreLink]];
-                                                          }];
-    
-    UIAlertAction* laterAction = [UIAlertAction actionWithTitle:@"Maybe later" style:UIAlertActionStyleCancel
-                                                          handler:^(UIAlertAction * action) {
-                                                              [AppManager setAppOpenCountForGoingPro:-20];
-                                                          }];
-    
-    [alert addAction:laterAction];
-    [alert addAction:appStoreAction];
-    [alert addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
-     */
+    [AppManager setAppOpenCountForGoingPro:-10];
 }
 
 -(void)appWillEnterForeground:(NSNotification *)notification {
