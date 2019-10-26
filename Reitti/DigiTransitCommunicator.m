@@ -603,9 +603,9 @@ typedef enum : NSUInteger {
         BOOL hasName = [(DigiVehicle *)evaluatedObject vehicleName];
         BOOL hasCode = [(DigiVehicle *)evaluatedObject vehicleId] && [(DigiVehicle *)evaluatedObject lineId];
         BOOL isBus = [(DigiVehicle *)evaluatedObject vehicleType] == VehicleTypeBus;
-        BOOL busTypeAllowed = !allowBusses && isBus ? NO : YES;
+//        BOOL busTypeAllowed = !allowBusses && isBus ? NO : YES;
         //Add more
-        return isMonitored && hasName && hasCode && busTypeAllowed;
+        return isMonitored && hasName && hasCode;
     }]];
 }
 

@@ -98,7 +98,7 @@ class TutorialViewController: OnboardingViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.view.backgroundColor = .clear
         
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
         let closeItem = UIBarButtonItem(image: UIImage(named: "close-button-white")?.asa_resized(toSize: CGSize(width: 25, height: 25)), style: .plain, target: self, action: #selector(closeBarButtonTapped))
         closeItem.tintColor = UIColor.white
@@ -106,7 +106,7 @@ class TutorialViewController: OnboardingViewController {
         self.navigationItem.rightBarButtonItem = closeItem
     }
     
-    func closeBarButtonTapped()  {
+    @objc func closeBarButtonTapped()  {
         self.dismiss(animated: true, completion: nil)
     }
     

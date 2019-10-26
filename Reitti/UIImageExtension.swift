@@ -62,7 +62,7 @@ extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        let imageData = UIImagePNGRepresentation(newImage!)
+        let imageData = newImage!.pngData()
         guard let data = imageData else {return self}
         return UIImage(data: data)!
     }
@@ -90,7 +90,7 @@ extension UIImage {
         paragraph.lineBreakMode = NSLineBreakMode.byWordWrapping
         paragraph.alignment = .center // potentially this can be an input param too, but i guess in most use cases we want center align
         
-        let attributedString = NSAttributedString(string: text, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color, NSParagraphStyleAttributeName:paragraph])
+        let attributedString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.paragraphStyle:paragraph])
         
         let size = asa_sizeOfAttributeString(str: attributedString, maxWidth: maxWidth)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
@@ -139,7 +139,7 @@ extension UIImage {
     // http://stackoverflow.com/a/27775741/4166920
     public func asa_normalizedImage() -> UIImage {
         
-        if self.imageOrientation == UIImageOrientation.up {
+        if self.imageOrientation == UIImage.Orientation.up {
             return self
         }
         

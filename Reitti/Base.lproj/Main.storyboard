@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lQM-Fk-yNv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lQM-Fk-yNv">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue-Medium</string>
-        </array>
-        <array key="HelveticaNeueLights.ttc">
-            <string>HelveticaNeue-Light</string>
-            <string>HelveticaNeue-Thin</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Search Controller-->
         <scene sceneID="rZO-Yc-fVg">
@@ -47,8 +37,8 @@
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="658-LZ-zeV">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="658-LZ-zeV">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                                 <connections>
                                     <outlet property="delegate" destination="139-RC-VnC" id="oUE-EQ-iXy"/>
                                 </connections>
@@ -676,7 +666,7 @@
                                 <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="mapModeCell" id="x0R-t9-03l">
-                                        <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x0R-t9-03l" id="FOv-OH-rCP">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
@@ -837,7 +827,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="routeSearchOptionsCell" id="pUN-eK-Wnd">
-                                        <rect key="frame" x="0.0" y="255.33333333333334" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="255.33333333333337" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pUN-eK-Wnd" id="9Ib-dP-MRu">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="49.666666666666664"/>
@@ -2009,8 +1999,8 @@
                             <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-as-SV8" customClass="AMBlurView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="705"/>
                                 <subviews>
-                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-dS-zax">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                    <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-dS-zax">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="705"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="483" id="M07-Nw-XA1"/>
                                         </constraints>
@@ -2070,7 +2060,7 @@
                                                 <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="departureCell" rowHeight="50" id="cRn-7U-uAC" customClass="DepartureTableViewCell">
-                                                        <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="50"/>
+                                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="50"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cRn-7U-uAC" id="tJz-bd-Eb2">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="49.666666666666664"/>
@@ -2348,12 +2338,14 @@
                     <tabBarItem key="tabBarItem" title="Bookmarks" id="wj5-S2-c7f"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="gwk-VO-EKk">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.12037752568721771" green="0.62360554933547974" blue="0.42264068126678467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="din-aV-pCW">
+                        <rect key="frame" x="0.0" y="685" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.12053614109754562" green="0.6242823600769043" blue="0.39499244093894958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </toolbar>
@@ -2715,6 +2707,7 @@
                 <navigationController storyboardIdentifier="ASARouteSearchNavigationController" toolbarHidden="NO" id="5jX-TA-pDV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Route" id="BFf-cp-BQ8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="S98-li-irr">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.12156862745098039" green="0.62352941176470589" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2723,6 +2716,7 @@
                         </textAttributes>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="1I3-fW-sXp">
+                        <rect key="frame" x="0.0" y="685" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.32584697008132935" green="0.32583719491958618" blue="0.32584273815155029" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </toolbar>
@@ -3415,31 +3409,31 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view alpha="0.2000000014901161" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnG-fi-cwD">
-                                                            <rect key="frame" x="11" y="12" width="78" height="36.666666666666664"/>
+                                                            <rect key="frame" x="11" y="9" width="78" height="42.333333333333336"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="previous-gray-48.png" translatesAutoresizingMaskIntoConstraints="NO" id="cmh-7L-2Kx">
-                                                            <rect key="frame" x="35" y="18" width="30" height="24.666666666666671"/>
+                                                            <rect key="frame" x="35" y="14.999999999999998" width="30" height="30.333333333333329"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="E0b-kt-l54"/>
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next-grey-48.png" translatesAutoresizingMaskIntoConstraints="NO" id="u13-Zr-97M">
-                                                            <rect key="frame" x="305" y="18" width="30" height="24.666666666666671"/>
+                                                            <rect key="frame" x="305" y="14.999999999999998" width="30" height="30.333333333333329"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="hvE-VF-0yr"/>
                                                             </constraints>
                                                         </imageView>
                                                         <view alpha="0.2000000014901161" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QZR-5D-ISM">
-                                                            <rect key="frame" x="286" y="12" width="79" height="36.666666666666664"/>
+                                                            <rect key="frame" x="286" y="9" width="79" height="42.333333333333336"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <view alpha="0.2000000014901161" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ru7-o3-Fy1">
-                                                            <rect key="frame" x="93" y="12" width="189" height="36.666666666666664"/>
+                                                            <rect key="frame" x="93" y="9" width="189" height="42.333333333333336"/>
                                                             <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4HL-gW-fbJ">
-                                                            <rect key="frame" x="93" y="12" width="189" height="36.666666666666664"/>
+                                                            <rect key="frame" x="93" y="9" width="189" height="42.333333333333336"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
                                                             <state key="normal" title="Now">
                                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3450,7 +3444,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kfY-NP-0Pj">
-                                                            <rect key="frame" x="11" y="12" width="78" height="36.666666666666664"/>
+                                                            <rect key="frame" x="11" y="9" width="78" height="42.333333333333336"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                             <state key="normal">
                                                                 <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3461,7 +3455,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i0R-dW-i0n">
-                                                            <rect key="frame" x="286" y="12" width="79" height="36.666666666666664"/>
+                                                            <rect key="frame" x="286" y="9" width="79" height="42.333333333333336"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                                             <state key="normal">
                                                                 <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3603,7 +3597,7 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" width="24" style="plain" id="Ruy-HG-S9k">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rfa-Tb-URE">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rfa-Tb-URE">
                                 <rect key="frame" x="259" y="0.0" width="100" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -4285,7 +4279,7 @@
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="timePickerCell" rowHeight="248" id="w78-3C-UuQ">
-                                <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="248"/>
+                                <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="248.00000000000003"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w78-3C-UuQ" id="pVi-7r-ynz">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="247.66666666666666"/>
@@ -4880,6 +4874,7 @@ Helsinki, Finland</string>
                     <tabBarItem key="tabBarItem" title="Map" id="RF3-9H-puq"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Bao-eL-rsf">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.12037752568721771" green="0.62360554933547974" blue="0.42264068126678467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4986,7 +4981,7 @@ Helsinki, Finland</string>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="110" id="9fe-SQ-fXs">
-                                <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="110"/>
+                                <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="110"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9fe-SQ-fXs" id="SY0-h9-3DT">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="109.66666666666667"/>
@@ -5087,7 +5082,7 @@ Helsinki, Finland</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ticketSellPointCell" id="sB6-vj-4t6">
-                                <rect key="frame" x="0.0" y="215.33333333333334" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="215.33333333333334" width="375" height="50.000000000000028"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sB6-vj-4t6" id="aZf-bA-MK9">
                                     <rect key="frame" x="0.0" y="0.0" width="341" height="49.666666666666664"/>
@@ -5838,7 +5833,7 @@ Helsinki, Finland</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flagIconColored" translatesAutoresizingMaskIntoConstraints="NO" id="DUi-0k-R6D">
-                                            <rect key="frame" x="24" y="14" width="28" height="28"/>
+                                            <rect key="frame" x="16" y="11" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="Cg1-7K-CU9"/>
                                                 <constraint firstAttribute="height" constant="28" id="R4f-2F-hkf"/>
@@ -5853,7 +5848,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use digiTransit" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxL-qF-t99">
-                                            <rect key="frame" x="68" y="17" width="212" height="21"/>
+                                            <rect key="frame" x="60" y="14" width="212" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="212" id="AWL-Dg-gBN"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="Co6-Kc-Qzh"/>
@@ -5874,7 +5869,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </label>
                                         <switch opaque="NO" tag="1005" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TTM-zW-pwc">
-                                            <rect key="frame" x="302" y="12" width="51" height="26"/>
+                                            <rect key="frame" x="310" y="9.0000000000000018" width="51" height="31.666666666666671"/>
                                             <connections>
                                                 <action selector="apiUseSettingChanged:" destination="Rnq-ES-eJ5" eventType="valueChanged" id="x1R-da-Jgj"/>
                                             </connections>
@@ -5905,7 +5900,7 @@ Helsinki, Finland</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flagIconColored" translatesAutoresizingMaskIntoConstraints="NO" id="wBP-9H-5MR">
-                                            <rect key="frame" x="16" y="14" width="28" height="28"/>
+                                            <rect key="frame" x="16" y="11" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="28" id="HLX-b3-eDJ"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="U2l-rm-ns2"/>
@@ -5920,7 +5915,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Pro Features" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOu-W1-VrT">
-                                            <rect key="frame" x="60" y="17" width="212" height="21"/>
+                                            <rect key="frame" x="60" y="14" width="212" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="0wO-GY-caS"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="D5l-8M-GP2"/>
@@ -5941,7 +5936,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </label>
                                         <switch opaque="NO" tag="1005" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bDi-9g-hc0">
-                                            <rect key="frame" x="310" y="12" width="51" height="26"/>
+                                            <rect key="frame" x="310" y="9.0000000000000018" width="51" height="31.666666666666671"/>
                                             <connections>
                                                 <action selector="proFeaturesSettingChanged:" destination="Rnq-ES-eJ5" eventType="valueChanged" id="VvX-s3-K6i"/>
                                             </connections>
@@ -5972,7 +5967,7 @@ Helsinki, Finland</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starIconColored" translatesAutoresizingMaskIntoConstraints="NO" id="iv7-5U-rK8">
-                                            <rect key="frame" x="16" y="14" width="28" height="28"/>
+                                            <rect key="frame" x="16" y="11" width="28" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="3kR-pG-UIA"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="hkO-YE-1OP"/>
@@ -5987,7 +5982,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate in App Store" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Bk-qb-nne">
-                                            <rect key="frame" x="60" y="17" width="150" height="21"/>
+                                            <rect key="frame" x="60" y="14" width="150" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="2KI-mD-oso"/>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="3HV-nL-Uwa"/>
@@ -6008,7 +6003,7 @@ Helsinki, Finland</string>
                                             </variation>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8To-qN-IaP">
-                                            <rect key="frame" x="0.0" y="4" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="1" width="375" height="48.666666666666664"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
@@ -6193,6 +6188,7 @@ Helsinki, Finland</string>
                     <tabBarItem key="tabBarItem" title="Lines" id="FQ5-qi-s6H"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="PWx-Ll-c15">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.12037752568721771" green="0.62360554933547974" blue="0.42264068126678467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6216,6 +6212,7 @@ Helsinki, Finland</string>
                     <tabBarItem key="tabBarItem" systemItem="more" id="Glz-bb-DaU"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="6Ca-SF-VbB">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.12037752568721771" green="0.62360554933547974" blue="0.42264068126678467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6253,7 +6250,7 @@ Helsinki, Finland</string>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="checkmark" indentationWidth="30" reuseIdentifier="SingleValueCell" textLabel="eAn-69-mCD" imageView="1du-bJ-1th" rowHeight="50" style="IBUITableViewCellStyleDefault" id="5aT-tN-RTy">
-                                <rect key="frame" x="0.0" y="55.333333333333336" width="375" height="50"/>
+                                <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5aT-tN-RTy" id="wcL-cH-e7q">
                                     <rect key="frame" x="0.0" y="0.0" width="335" height="49.666666666666664"/>
