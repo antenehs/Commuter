@@ -75,6 +75,7 @@ Peek stops and routes through out the app by 3D touching
 
 ### iCloud sync
 Sync bookmarks acrros devices signed in to the same iCloud account.
+
 <img src="Reitti/Pictures/iCloudSynchPic.png" width="320px"/>
 
 ### Spotlight Search
@@ -87,6 +88,6 @@ All bookmarks are indexed and can be searched from iOS's spotlight.
 <img src="Reitti/Pictures/5.0 Screen shots/newServicePoints.png" width="250px"/>
 
 
-##License##
+## License
 
 All source code and resources in this repo can be freely used for any purpose, including redistributing in the App Store.
