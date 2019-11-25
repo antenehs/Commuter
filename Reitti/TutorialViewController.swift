@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ProFeaturesViewController: TutorialViewController {
+@objc class ProFeaturesViewController: TutorialViewController {
     
-    class func main() -> ProFeaturesViewController {
+    @objc class func main() -> ProFeaturesViewController {
         return ProFeaturesViewController.generateProFeaturesVc()
     }
     
@@ -40,7 +40,7 @@ class ProFeaturesViewController: TutorialViewController {
 
 class NewInVersionViewController: TutorialViewController {
     
-    class func main() -> NewInVersionViewController {
+    @objc class func main() -> NewInVersionViewController {
         return NewInVersionViewController.generateNewInVersionVc()
     }
     

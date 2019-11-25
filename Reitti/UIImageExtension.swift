@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImage {
-    public func asa_resized(withPercentage percentage: CGFloat) -> UIImage? {
+    @objc public func asa_resized(withPercentage percentage: CGFloat) -> UIImage? {
         let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
         UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
         defer { UIGraphicsEndImageContext() }
@@ -17,12 +17,12 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
     
-    public func asa_resized(toWidth width: CGFloat) -> UIImage? {
+    @objc public func asa_resized(toWidth width: CGFloat) -> UIImage? {
         let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
         return asa_resized(toSize: canvasSize)
     }
     
-    public func asa_resized(toSize size: CGSize) -> UIImage? {
+    @objc public func asa_resized(toSize size: CGSize) -> UIImage? {
         let canvasSize = size
         UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
         defer { UIGraphicsEndImageContext() }
@@ -30,7 +30,7 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
     
-    public func asa_addMargin(withInsets inset: UIEdgeInsets) -> UIImage? {
+    @objc public func asa_addMargin(withInsets inset: UIEdgeInsets) -> UIImage? {
         let finalSize = CGSize(width: size.width + inset.left + inset.right, height: size.height + inset.top + inset.bottom)
         let finalRect = CGRect(origin: CGPoint(x:0, y:0), size: finalSize)
         
@@ -51,11 +51,11 @@ extension UIImage {
         return finalImage
     }
     
-    public func asa_addMargin(withuniformInsetSize size: CGFloat) -> UIImage? {
+    @objc public func asa_addMargin(withuniformInsetSize size: CGFloat) -> UIImage? {
         return asa_addMargin(withInsets: UIEdgeInsets(top: size, left: size, bottom: size, right: size))
     }
     
-    public func asa_imageWithSize(size: CGSize) -> UIImage {
+    @objc public func asa_imageWithSize(size: CGSize) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         UIGraphicsBeginImageContext(size)
         draw(in: rect)
@@ -67,7 +67,7 @@ extension UIImage {
         return UIImage(data: data)!
     }
     
-    public func asa_imageWithImageOnTop(decalImage: UIImage) -> UIImage {
+    @objc public func asa_imageWithImageOnTop(decalImage: UIImage) -> UIImage {
         let fullSize = CGSize(width: fmax(size.width, decalImage.size.width), height: fmax(size.height, decalImage.size.height))
         UIGraphicsBeginImageContextWithOptions(fullSize, false, scale)
         
@@ -80,7 +80,7 @@ extension UIImage {
         return newImage
     }
     
-    public func asa_sizeOfAttributeString(str: NSAttributedString, maxWidth: CGFloat) -> CGSize {
+    @objc public func asa_sizeOfAttributeString(str: NSAttributedString, maxWidth: CGFloat) -> CGSize {
         let size = str.boundingRect(with: CGSize(width: maxWidth, height: 1000), options:(NSStringDrawingOptions.usesLineFragmentOrigin), context:nil).size
         return size
     }

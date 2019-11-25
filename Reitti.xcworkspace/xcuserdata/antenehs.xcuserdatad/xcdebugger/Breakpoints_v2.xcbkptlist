@@ -366,7 +366,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "80F5797E-6708-4B7B-A375-32923D36C86D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Reitti/DigiTransitCommunicator.m"
@@ -2108,40 +2108,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DE11B440-3548-4DCC-8FB9-FDF5FE8439E3"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/ReittiAnalyticsManager.m"
-            timestampString = "538868648.208402"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "-trackScreenViewWithGAForScreenName:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7C976D2F-FDB9-4AA6-B3C8-D8AE882A82BB"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reitti/ReittiAnalyticsManager.m"
-            timestampString = "538868648.208703"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "-trackEventWithGAForEventCategory:action:label:value:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "EBB50F52-BC40-40A0-848F-16CB7862D50C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -2436,7 +2402,6 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/ReittiRemindersManager.m"
-                  timestampString = "558210550.43056"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "282"
@@ -2452,7 +2417,6 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/ReittiRemindersManager.m"
-                  timestampString = "558210550.432402"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "283"
@@ -2589,12 +2553,11 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/AppDelegate.m"
-                  timestampString = "558210550.4379539"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "192"
                   endingLineNumber = "192"
-                  offsetFromSymbolStart = "80">
+                  offsetFromSymbolStart = "71">
                </Location>
                <Location
                   uuid = "118AE209-DF69-4653-BEEE-244A7352D3A1 - 421998f083e9ba8d"
@@ -2605,12 +2568,11 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/AppDelegate.m"
-                  timestampString = "558210550.43998"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "192"
                   endingLineNumber = "192"
-                  offsetFromSymbolStart = "310">
+                  offsetFromSymbolStart = "304">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3045,44 +3007,26 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/RettiDataManager.m"
-                  timestampString = "558210550.48183"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "490"
                   endingLineNumber = "490"
-                  offsetFromSymbolStart = "442">
+                  offsetFromSymbolStart = "441">
                </Location>
                <Location
-                  uuid = "58D4A739-8F6E-4B07-B547-C900167B8180 - d6bb082de6cfcae"
+                  uuid = "58D4A739-8F6E-4B07-B547-C900167B8180 - fc9bd8edf3f803f8"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__62-[RettiDataManager searchAddressesForKey:withCompletionBlock:]_block_invoke.305"
+                  symbolName = "__62-[RettiDataManager searchAddressesForKey:withCompletionBlock:]_block_invoke_3"
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/RettiDataManager.m"
-                  timestampString = "558210550.484302"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "490"
                   endingLineNumber = "490"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  uuid = "58D4A739-8F6E-4B07-B547-C900167B8180 - 120710b88e91fc92"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.307"
-                  moduleName = "Reitti Pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/RettiDataManager.m"
-                  timestampString = "558210550.486622"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "490"
-                  endingLineNumber = "490"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3571,12 +3515,11 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/LinesManager.m"
-                  timestampString = "558210550.515692"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "262"
                   endingLineNumber = "262"
-                  offsetFromSymbolStart = "133">
+                  offsetFromSymbolStart = "130">
                </Location>
                <Location
                   uuid = "44E007B1-61D4-425B-AD49-62FB8D46034F - dc5e66c972636e51"
@@ -3587,28 +3530,11 @@
                   moduleName = "Reitti Pro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/LinesManager.m"
-                  timestampString = "558210550.517562"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "262"
                   endingLineNumber = "262"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  uuid = "44E007B1-61D4-425B-AD49-62FB8D46034F - 74e6c1bb90f1ac1b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.165"
-                  moduleName = "Reitti Pro"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/antenehs/Documents/Apps/Reitti%20Commuter/Reitti/LinesManager.m"
-                  timestampString = "558210550.519392"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "262"
-                  endingLineNumber = "262"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3813,8 +3739,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "280"
             endingLineNumber = "280"
-            landmarkName = "MoreTableViewController"
-            landmarkType = "3">
+            landmarkName = "-setFeatureCellAsProOnly:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3888,17 +3814,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AC66D541-F4D6-47C2-BFCF-EE00CDDAAF15"
+            uuid = "33AC97EF-F051-4174-9FAC-241A1A4A7079"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Reitti/DigiTransitCommunicator.m"
-            timestampString = "558210549.7406729"
+            filePath = "Reitti/ReittiAnalyticsManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "602"
-            endingLineNumber = "602"
-            landmarkName = "-filterInvalidVehicles:allowBusses:"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "-trackScreenViewForScreenName:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F85574A4-C8B2-44E1-8DBE-A9977C192507"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/ReittiAnalyticsManager.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-trackEventForEventName:category:value:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "806D31C4-C5E1-44A1-AC11-7B88C8A6E14D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/ReittiAnalyticsManager.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "-trackScreenViewWithGAForScreenName:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C6BC46F1-A6AC-447B-95EB-33ACAA626988"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Reitti/ReittiAnalyticsManager.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "-trackEventWithGAForEventCategory:action:label:value:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

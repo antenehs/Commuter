@@ -12,7 +12,7 @@ extension Polyline {
     
     //Coordinate arrays are tricky in ObjC
     
-    class func reittiPolyline(fromLocationArray locs: [CLLocation]?) -> ReittiPolyline? {
+    @objc class func reittiPolyline(fromLocationArray locs: [CLLocation]?) -> ReittiPolyline? {
         guard locs != nil && locs!.count > 1 else { return nil }
         
         let coordinates = self.toCoordinates(locs!)

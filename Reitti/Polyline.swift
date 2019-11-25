@@ -41,17 +41,17 @@ import MapKit
 @objc open class Polyline: NSObject {
     
     /// The array of coordinates (nil if polyline cannot be decoded)
-    open let coordinates: [CLLocationCoordinate2D]?
+    @objc public let coordinates: [CLLocationCoordinate2D]?
     /// The encoded polyline
-    open let encodedPolyline: String
+    @objc public let encodedPolyline: String
     
     /// The array of levels (nil if cannot be decoded, or is not provided)
-    open let levels: [UInt32]?
+    @objc public let levels: [UInt32]?
     /// The encoded levels (nil if cannot be encoded, or is not provided)
-    open let encodedLevels: String?
+    @objc public  let encodedLevels: String?
     
     /// The array of location (computed from coordinates)
-    open var locations: [CLLocation]? {
+    @objc public var locations: [CLLocation]? {
         return self.coordinates.map(toLocations)
     }
     
@@ -87,7 +87,7 @@ import MapKit
     /// - parameter encodedPolyline: The polyline that you want to decode
     /// - parameter encodedLevels: The levels that you want to decode (default: `nil`)
     /// - parameter precision: The precision used for decoding (default: `1e5`)
-    public init(encodedPolyline: String, encodedLevels: String? = nil, precision: Double = 1e5) {
+    @objc public init(encodedPolyline: String, encodedLevels: String? = nil, precision: Double = 1e5) {
         
         self.encodedPolyline = encodedPolyline
         self.encodedLevels = encodedLevels

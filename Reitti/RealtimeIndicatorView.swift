@@ -8,14 +8,14 @@
 
 import UIKit
 
-class RealtimeIndicatorView: UIView {
+@objc class RealtimeIndicatorView: UIView {
     
     let realtimeImages = [UIImage(named:"realtime2"), UIImage(named:"realtime1")];
     var indicatorImageView = UIImageView()
     
     var timer = Timer()
     
-    var color: UIColor = UIColor.clear {
+    @objc var color: UIColor = UIColor.clear {
         didSet {
             self.indicatorImageView.tintColor = color
         }
